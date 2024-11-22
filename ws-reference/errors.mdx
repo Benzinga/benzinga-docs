@@ -1,0 +1,106 @@
+---
+title: "Errors"
+description: "How Benzinga API responds when errors occur."
+---
+
+Benzinga uses conventional HTTP response codes to indicate the success or failure of an API request.
+In general: Codes in the 2xx range indicate success.
+Codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter
+was omitted, a charge failed, etc.).
+Codes in the 5xx range indicate an error with Benzinga's servers.
+
+Some 4xx errors that could be handled programmatically include
+an error code that briefly explains the error reported.
+
+### Parameters
+
+<ResponseField name="type" type="string">
+    The type of error returned.
+
+    One of <code>invalid_request_error</code>, <code>not_found_error</code>, <code>creation_error</code>,
+    <code>update_error</code>, <code>deletion_error</code>, <code>forbidden_error</code>, or <code>authentication_error</code>.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+    A human-readable message providing more details about the error.
+</ResponseField>
+
+<ResponseField name="params" type="array">
+    If the error is parameter-specific, this will contain a list of the parameters that were invalid.
+</ResponseField>
+
+## Error Response
+
+- Unauthorized `401` - Invalid token, check the token provided.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ Could not connect to wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: Unexpected server response: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Handshake Details
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - Either invalid route or server error.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ Could not connect to wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: Unexpected server response: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Handshake Details
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

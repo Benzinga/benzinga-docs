@@ -1,0 +1,79 @@
+# Licensed Services Overview
+
+Here’s an overview of each service, including its type, API endpoint, and a brief description.
+
+<style>
+    .service-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    }
+
+    .service-table th, .service-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+    .service-table th {
+    background-color: #f3f4f6;
+    font-weight: bold;
+}
+
+    .service-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #6b7280;
+    color: #ffffff;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+    .api-endpoint {
+    font-family: monospace;
+    color: #0366d6;
+}
+
+    .extra-info {
+    font-size: 12px;
+    color: #6b7280;
+}
+</style>
+
+<table class="service-table">
+    <thead>
+    <tr>
+        <th>Service</th>
+        <th>Type</th>
+        <th>API Endpoint</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Newsfeed & Why is it Moving v2</td>
+        <td><span class="service-badge">News</span></td>
+        <td><span class="api-endpoint">/api/v2/newsfeed</span></td>
+        <td>Provides the latest news with insights on stock movements.<br/><span class="extra-info">Updated every 5 minutes</span></td>
+    </tr>
+    <tr>
+        <td>Calendar</td>
+        <td><span class="service-badge">Events</span></td>
+        <td><span class="api-endpoint">/api/v1/calendar</span></td>
+        <td>Shows upcoming earnings, IPOs, and other financial events.<br/><span class="extra-info">Data refreshed daily</span></td>
+    </tr>
+    <tr>
+        <td>Data Websocket</td>
+        <td><span class="service-badge">Streaming</span></td>
+        <td><span class="api-endpoint">/ws/data</span></td>
+        <td>Real-time data websocket for live market feeds.<br/><span class="extra-info">Available during market hours</span></td>
+    </tr>
+    <tr>
+        <td>Historical Bar Data</td>
+        <td><span class="service-badge">Data</span></td>
+        <td><span class="api-endpoint">/api/v1/historical</span></td>
+        <td>Access to historical bar data for stocks and indices.<br/><span class="extra-info">Data available up to 20 years</span></td>
+    </tr>
+    <!-- Add additional services below -->
+    </tbody>
+</table>

@@ -1,0 +1,219 @@
+---
+title: "[Calendar] Consensus Ratings Stream"
+description: "get consensus ratings stream."
+---
+
+## WebSocket `websocket/v1`:
+
+```txt
+wss://api.benzinga.com/api/v1/consensus=ratings/stream
+```
+
+#### Parameters
+
+| Name                | Location |  Type   | Required | Description                                                             |
+| :---------          | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
+| `token`             | query    | string  |      Yes | Benzinga websocket token (bz.production***).                            |
+| `tickers`           | query    | string  | Optional | List of tickers you want to subscribe for. Seperated by comma.          |
+| `isins`             | query    | string  | Optional | List of isins you want to filter by. Seperated by comma.                |
+| `simplify`          | query    | string  | Optional | Simplify the ratings to Buy, Hold, Sell.                                |
+| `aggregate_type`    | query    | string  | Optional | Aggregate by which is either number or percentage                       |
+
+### Stream Response
+When you subscribe to the stream, you'll receive updates about analyst insights in the following format:
+
+```json
+{
+    "id": "e9e75b31-604e-422c-a532-362725b2d59d",
+    "api_version": "websocket/v1",
+    "kind": "data/v2.1/calendar/ratings",
+    "data": {
+      "aggregate_ratings": {
+        "buy": 123,
+        "hold": 123,
+        "sell": 123,
+        "strong_buy": 123,
+        "strong_sell": 123
+      },
+      "aggregate_type": "number",
+      "consensus_price_target": 123,
+      "consensus_rating": "SELL",
+      "consensus_rating_val": 123,
+      "high_price_target": 123,
+      "low_price_target": 123,
+      "total_analyst_count": 123,
+      "unique_analyst_count": 123,
+      "updated_at": "2024-10-04T19:21:06.880730108Z"
+    }
+}
+```
+
+#### Responses
+
+- **200 OK**
+- **Description**: Success
+- **Content Type**: `application/json`
+- **Schema**: [RatingsWSResp](#ratingswsresp)
+
+## Data Structures
+
+### RatingsWSResp
+
+| Property       | Type   | Description                                                                                               |
+|----------------|--------|-----------------------------------------------------------------------------------------------------------|
+| `id`           | string | Unique UUID for the websocket response                                                                     |
+| `api_version`  | string | Websocket API version                                                                                     |
+| `kind`         | string | Websocket connection stream type                                                                           |
+| `data`         | object | Contains the ratings data. See below for properties.                                                     |
+
+### Data Properties
+
+| Property       | Type   | Description                                                                                               |
+|----------------|--------|-----------------------------------------------------------------------------------------------------------|
+| `action`       | string | Websocket data action i.e., created, updated, deleted                                                    |
+| `id`           | string | Data ID for the rating                                                                                   |
+| `content`      | object | Details about the ratings. See [ratings](#ratings) for more properties.                                   |
+| `timestamp`    | string | Timestamp of the data                                                                                     |
+
+
+### Aggregate_Ratings Properties
+
+| Property       | Type   | Description                                                                                               |
+|----------------|--------|-----------------------------------------------------------------------------------------------------------|
+| `strong_buy`   | int    | Total strong_buy count/percentage                                                                         |
+| `buy`          | int    | Total buy count/percentage                                                                                |
+| `hold`         | int    | Details about the ratings. See [ratings](#ratings) for more properties.                                   |
+| `sell`         | int    | Timestamp of the data                                                                                     |
+| `strong_sell`  | int    | Timestamp of the data                                                                                     |
+
+### Ratings
+
+| Property                | Type   | Description                                                                                             |
+|-------------------------|--------|---------------------------------------------------------------------------------------------------------|
+| `aggregate_ratings`     | object | Contains all the ratings categorized by SELL, HOLD, BUY                                                 |
+| `aggregate_type`        | string | Type of aggregation, Number or Percentage                                                               |
+| `consensus_price_target`| string | Average price target                                                                                    |
+| `consensus_rating`      | string | Scale value, SELL, HOLD, BUY                                                                            |
+| `consensus_rating_val`  | string | Value in float                                                                                          |
+| `high_price_target`     | string | Highest price target in the specific timeline                                                           |
+| `low_price_target`      | string | Lowest price target in the specific timeline                                                            |
+| `total_analyst_count`   | string | Total analyst ratings in the timeline                                                                   |
+| `unique_analyst_count`  | string | Unique analyst count in the timeline                                                                    |
+| `updated_at`            | string | Last updated timestamp in UTC                                                     |
+
+## Success Response
+
+- Success `101` - Websocket connection established successfully.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '700px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ✅ Connected to wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Handshake Details
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span><strong>Request URL:</strong> </span>
+        <p style={{ color: 'blue' }}>
+            "https://api.benzinga.com/api/v1/consensus-ratings/stream?token=bz"
+        </p>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
+    </div>
+</div>
+
+## Error Response
+
+- Unauthorized `401` - Invalid token, check the token provided.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ Could not connect to wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: Unexpected server response: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Handshake Details
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - Either invalid route or server error.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ Could not connect to wss://api.benzinga.com/api/vv1/consensus-ratings/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: Unexpected server response: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Handshake Details
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

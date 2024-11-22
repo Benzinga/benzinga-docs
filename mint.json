@@ -1,0 +1,316 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Benzinga",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#8924A6",
+    "light": "#ac6bd1",
+    "dark": "#0D9373",
+    "background": {
+      "light": "#ffffff",
+      "dark": "#0D1117"
+    },
+    "anchors": {
+      "from": "#f6f1fa",
+      "to": "#ac6bd1"
+    }
+  },
+  "feedback": {
+    "suggestEdit": true,
+    "raiseIssue": true,
+    "thumbsRating": true
+  },
+  "modeToggle": {
+    "isHidden": false,
+    "default": "light"
+  },
+  "analytics": {
+    "ga4": {
+      "measurementId": "G-S98KMZZZY1"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:licensing@benzinga.com"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Start for Free",
+    "url": "https://www.benzinga.com/apis/licensing/register"
+  },
+  "api": {
+    "auth": {
+      "method": "key"
+    },
+    "playground": {
+      "mode": "show"
+    }
+  },
+  "tabs": [
+    {
+      "name": "Components",
+      "url": "components"
+    },
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    },
+    {
+      "name": "WebSocket Reference",
+      "url": "ws-reference"
+    },
+    {
+      "name": "SDKs",
+      "url": "sdks"
+    },
+    {
+      "name": "Changelog",
+      "url": "changelog"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Introduction",
+      "pages": [
+        "introduction/welcome",
+        "introduction/introduction",
+        "introduction/architecture",
+        "introduction/faq"
+      ]
+    },
+    {
+      "group": "Services",
+      "pages": [
+        "services/overview"
+      ]
+    },
+    {
+      "group": "",
+      "pages": [
+        "changelog/overview",
+        "changelog/upcoming"
+      ]
+    },
+    {
+      "group": "",
+      "pages": ["sdks/overview"]
+    },
+    {
+      "group": "SDK's",
+      "pages": [
+        "sdks/languages/go",
+        "sdks/languages/python",
+        "sdks/languages/node",
+        "sdks/languages/java",
+        "sdks/languages/csharp",
+        "sdks/languages/ruby"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": [
+        "api-reference/introduction",
+        "api-reference/authentication",
+        "api-reference/errors",
+        {
+          "group": "Analyst Reports Raw Text",
+          "pages": [
+            "api-reference/analyst-reports-raw-text-api_api/analyst-reports-raw-text/get-analyst-reports-raw-text-data"
+          ]
+        },
+        {
+          "group": "Calendars",
+          "pages": [
+            "api-reference/calendar_api/removed/get-removed-v2",
+            "api-reference/calendar_api/conference_calls/get-conference-calls",
+            "api-reference/calendar_api/dividends/get-dividends",
+            "api-reference/calendar_api/earnings/get-earnings",
+            "api-reference/calendar_api/economics/get-economics",
+            "api-reference/calendar_api/events/get-events",
+            "api-reference/calendar_api/fda/get-fda",
+            "api-reference/calendar_api/guidance/get-guidance",
+            "api-reference/calendar_api/ipos/get-ipos",
+            "api-reference/calendar_api/ma/get-merger-and-acquisition",
+            "api-reference/calendar_api/offerings/get-offerings",
+            "api-reference/calendar_api/ratings/get-ratings",
+            "api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
+            "api-reference/calendar_api/ratings_firms/get-ratings-firms",
+            "api-reference/calendar_api/splits/get-splits",
+            "api-reference/calendar_api/consensus_ratings/get-consensus-ratings"
+          ]
+        },
+        {
+          "group": "Data API Proxy",
+          "pages": [
+            "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
+            "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2",
+            "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v21",
+            "api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
+            "api-reference/data-api-proxy_api/fundamentals/get-company-data-v21",
+            "api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
+            "api-reference/data-api-proxy_api/fundamentals/get-share-class-v21",
+            "api-reference/data-api-proxy_api/fundamentals/get-share-class-profile-v21",
+            "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v2",
+            "api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
+            "api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
+            "api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
+            "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
+            "api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
+            "api-reference/data-api-proxy_api/fundamentals/get-cash-flow-v3",
+            "api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
+            "api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3",
+            "api-reference/data-api-proxy_api/bars/get-bars-v2",
+            "api-reference/data-api-proxy_api/earningratios/get-earning-ratios-v21",
+            "api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21",
+            "api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-v21",
+            "api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-v3"
+          ]
+        },
+        {
+          "group": "Earnings Call Transcripts",
+          "pages": [
+            "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
+            "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
+          ]
+        },
+        {
+          "group": "Logos",
+          "pages": [
+            "api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
+            "api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
+          ]
+        },
+        {
+          "group": "NewsQuantified",
+          "pages": [
+            "api-reference/newsquantified-api_api/get-newsquantified-data"
+          ]
+        },
+        {
+          "group": "Ticker Trends",
+          "pages": [
+            "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
+            "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "WS Documentation",
+      "pages": [
+        "ws-reference/introduction",
+        "ws-reference/authentication",
+        "ws-reference/errors",
+        {
+          "group": "Data Websocket",
+          "pages": [
+            "ws-reference/data-websocket/get-analyst-insights-stream",
+            "ws-reference/data-websocket/get-bulls-bears-say-stream",
+            "ws-reference/data-websocket/get-calendar-earnings-stream",
+            "ws-reference/data-websocket/get-calendar-ratings-stream",
+            "ws-reference/data-websocket/get-consensus-ratings-stream"
+          ]
+        }
+      ]
+    }
+  ],
+  "footer": {
+    "socials": {
+      "twitter": "https://twitter.com/Benzinga",
+      "facebook": "https://www.facebook.com/Benzinga/",
+      "website": "https://www.benzinga.com/apis/",
+      "github": "https://github.com/benzinga",
+      "linkedin": "https://www.linkedin.com/company/benzinga/"
+    },
+    "links": [
+      {
+        "title": "POPULAR",
+        "links": [
+          { "label": "Benzinga", "url": "https://benzinga.com/" },
+          { "label": "Benzinga Pro", "url": "https://benzinga.com/pro" },
+          {
+            "label": "Events",
+            "url": "https://app.benzinga.com/share-secret"
+          },
+          { "label": "Pricing", "url": "https://benzinga.com/pricing" },
+          {
+            "label": "Blog",
+            "url": "https://benzinga.com/blog"
+          }
+        ]
+      },
+      {
+        "title": "USE CASES",
+        "links": [
+          {
+            "label": "Calendar",
+            "url": "https://benzinga.com/api-reference/calendar_api"
+          },
+          {
+            "label": "Logos",
+            "url": "https://benzinga.com/docs/integrations/platforms/kubernetes"
+          },
+          {
+            "label": "WIIMS",
+            "url": "https://benzinga.com/docs/documentation/platform/dynamic-secrets/overview"
+          },
+          {
+            "label": "Quotes",
+            "url": "https://benzinga.com/docs/integrations/frameworks/terraform"
+          },
+          {
+            "label": "Fundamentals",
+            "url": "https://benzinga.com/docs/integrations/platforms/ansible"
+          },
+          {
+            "label": "Ticker Trends",
+            "url": "https://benzinga.com/docs/integrations/cicd/jenkins"
+          },
+          {
+            "label": "SDK",
+            "url": "https://benzinga.com/docs/sdks/overview"
+          }
+        ]
+      },
+      {
+        "title": "QUICK LINKS",
+        "links": [
+          {
+            "label": "Changelog",
+            "url": "https://docs.benzinga.com/changelog/overview"
+          },
+          {
+            "label": "Feedback & Requests",
+            "url": "https://github.com/Benzinga/benzinga/issues"
+          },
+          {
+            "label": "FAQs",
+            "url": "https://docs.benzinga.com/introduction/faq"
+          }
+        ]
+      },
+      {
+        "title": "SUPPORT",
+        "links": [
+          {
+            "label": "Support",
+            "url": "https://benzinga.com/slack"
+          },
+          {
+            "label": "Terms of Service",
+            "url": "https://benzinga.com/terms"
+          },
+          {
+            "label": "Privacy Policy",
+            "url": "https://benzinga.com/privacy"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,253 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: This REST API provides endpoints to search for trending tickers and get ticker details.
+  termsOfService: http://swagger.io/terms/
+  title: TickerTrends API
+  version: 2.1.0
+paths:
+  /api/v1/trending-tickers:
+    get:
+      description: Get ticker trend data
+      parameters:
+        - description: Interval for the data
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: Comma separated list of tickers
+          in: query
+          name: tickers
+          required: true
+          schema:
+            type: string
+        - description: Source of the data
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: Timeframe for the data
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Get ticker trend data
+      tags:
+        - ticker-trends
+  /api/v1/trending-tickers/list:
+    get:
+      description: Get ticker trend list data
+      parameters:
+        - description: Interval for the data
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: Comma separated list of tickers
+          in: query
+          name: tickers
+          required: true
+          schema:
+            type: string
+        - description: Source of the data
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: Timeframe for the data
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.trendingTickersListAPIResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.trendingTickersListAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Get ticker trend list data
+      tags:
+        - ticker-trends
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
+      type: string
+      x-enum-varnames:
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.security:
+      properties:
+        exchange:
+          type: string
+        name:
+          type: string
+        ticker:
+          type: string
+      type: object
+    httpapi.tickerTrendAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendData"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.tickerTrendData:
+      properties:
+        exchange:
+          type: string
+        metrics:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendMetrics"
+          type: array
+        ticker:
+          type: string
+      type: object
+    httpapi.tickerTrendMetrics:
+      properties:
+        count:
+          type: integer
+        count_mavg:
+          type: number
+        market_count_average:
+          type: number
+        scaled_count:
+          type: number
+        scaled_count_mavg:
+          type: number
+        time_bucket:
+          type: string
+      type: object
+    httpapi.trendingTickersListAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/httpapi.trendingTickersListData"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.trendingTickersListData:
+      properties:
+        count:
+          type: integer
+        pct_chg:
+          type: integer
+        security:
+          $ref: "#/components/schemas/httpapi.security"
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: Default

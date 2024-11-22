@@ -1,0 +1,45 @@
+---
+title: "SDKs"
+sidebarTitle: "Introduction"
+---
+
+From local development to production, Benzinga SDKs provide the easiest way for your app to fetch back secrets from Benzinga on demand.
+
+-   Install and initialize a language-specific client SDK into your application
+-   Provision the client scoped-access to a project and environment in Benzinga
+-   Fetch secrets on demand
+
+<CardGroup cols={3}>
+    <Card href="/sdks/languages/node" title="Node" icon="node" color="#68a063">
+        Manage secrets for your Node application on demand
+    </Card>
+    <Card href="/sdks/languages/python" title="Python" icon="python" color="#4c8abe">
+        Manage secrets for your Python application on demand
+    </Card>
+    <Card href="/sdks/languages/java" title="Java" icon="java" color="#e41f23">
+        Manage secrets for your Java application on demand
+    </Card>
+    <Card href="/sdks/languages/go" title="Go" icon="golang" color="#367B99">
+        Manage secrets for your Go application on demand
+    </Card>
+    <Card href="/sdks/languages/csharp" title="C#" icon="bars" color="#368833">
+        Manage secrets for your C#/.NET application on demand
+    </Card>
+    <Card href="/sdks/languages/ruby" title="Ruby" icon="diamond" color="#367B99">
+        Manage secrets for your Ruby application on demand
+    </Card>
+</CardGroup>
+
+## FAQ
+
+<AccordionGroup>
+    <Accordion title="Is it efficient to make a request for data on every API call?">
+        The Benzinga API SDK is optimized for performance. It caches frequently accessed data and implements strategies to reduce redundant requests, ensuring your application runs efficiently. Details about caching can vary depending on the specific SDK implementation and language.
+    </Accordion>
+    <Accordion title="What happens if a request to the Benzinga API fails?">
+        The SDK includes error handling and retry mechanisms. If a request fails, the SDK attempts retries as configured or provides appropriate error messages, enabling your application to handle failures gracefully.
+    </Accordion>
+    <Accordion title="Can I customize the SDK configuration to suit my application's needs?">
+        Absolutely! The Benzinga API SDK allows customization through parameters such as API key configuration, timeout settings, and other options specific to your use case. Refer to the SDK documentation for your language to learn more about configurable parameters.
+    </Accordion>
+</AccordionGroup>

@@ -1,0 +1,77 @@
+---
+title: Architecture
+description: Scalable, real-time financial data infrastructure
+icon: database
+---
+
+Benzinga provides a robust, highly scalable API infrastructure tailored for delivering real-time financial data to applications and services around the world. With a focus on speed and availability, Benzinga’s architecture leverages a variety of modern technologies, including **Go (Golang)**, **Kafka**, **WebSockets**, **Elasticsearch**, and **microservices** to ensure that users receive reliable, low-latency data whenever they need it.
+
+## High-Performance Architecture with Go and Kafka
+
+Built using **Go (Golang)** for its concurrency and speed, Benzinga's infrastructure handles high volumes of financial data traffic efficiently. Data pipelines and real-time streaming are powered by **Kafka**, which enables rapid data ingestion, processing, and distribution with minimal latency. This architecture ensures scalability and robustness across global deployments, meeting the demands of real-time financial data delivery.
+
+<Frame caption="Click on the image to zoom in.">
+    <img
+        className="block dark:hidden"
+        src="/images/arch.png"
+        alt="AWS Architecture"
+    />
+</Frame>
+
+## Real-Time Data Access via WebSockets and REST APIs
+
+Benzinga’s APIs support both **WebSocket** and **REST** protocols, allowing clients to access real-time data as well as make on-demand requests. WebSocket connections are ideal for applications requiring continuous data feeds, such as live market quotes and trade data, while REST APIs serve a wide range of requests for historical data, company fundamentals, news, and analytics.
+
+### API Highlights
+- **Real-time Market Data**: Stream live quotes, trades, and other essential market data.
+- **Historical Data**: Access historical data, including bar data, quotes, and market performance over time.
+- **News & Insights**: Stay up-to-date with real-time news and market-moving insights.
+- **Company Fundamentals**: Retrieve essential financial metrics, such as revenue, earnings, and key ratios.
+
+## Data Storage and Search Efficiency with Elasticsearch
+
+For efficient data retrieval and storage, Benzinga uses **Elasticsearch** as a core component of its search and indexing system. Elasticsearch enables rapid access to both structured and unstructured data, ensuring users can quickly query large datasets, such as historical data and news archives, with millisecond-level response times. This setup also supports analytics, allowing clients to analyze and extract valuable insights from data.
+
+<Frame caption="Click on the image to zoom in.">
+    <img
+        className="block dark:hidden"
+        src="/images/elasticsearch-light.png"
+        alt="Elasticsearch architecture concept"
+    />
+    <img
+        className="hidden dark:block"
+        src="/images/elasticsearch-dark.png"
+        alt="Elasticsearch architecture concept"
+    />
+</Frame>
+
+## Microservices-Based Infrastructure for Scalability
+
+Benzinga’s architecture is grounded in a **microservices** approach, with each service handling a specific function—such as data ingestion, processing, storage, or distribution. This modular approach enhances scalability, allowing each component to scale independently based on demand. Furthermore, microservices communicate over lightweight protocols, ensuring low latency and resilience across the entire system.
+
+## CDN-Backed Delivery for Images and Static Content
+
+To ensure that images, logos, and other static assets are delivered quickly, Benzinga employs a **CDN** (Content Delivery Network). This setup reduces load times and minimizes latency by caching static resources close to users, ensuring that images and files load almost instantly, regardless of geographic location.
+
+## Key Benefits of Benzinga’s Architecture
+
+- **Scalability**: Designed to scale horizontally, supporting millions of requests per minute and large volumes of concurrent WebSocket connections.
+- **High Availability**: Redundant systems and geographically distributed components ensure uptime and data availability.
+- **Data Consistency**: Kafka and Elasticsearch together provide consistent data flow and retrieval, with reliable failover mechanisms.
+- **Low Latency**: Optimized to deliver data with minimal latency, leveraging Go’s performance, Kafka’s streaming, and WebSocket’s real-time capabilities.
+
+## Deployment Flexibility and Infrastructure Integration
+
+Benzinga’s architecture supports flexible deployment options to meet the diverse needs of its clients:
+- **Managed Cloud Service**: For clients seeking a seamless experience, Benzinga offers a fully managed cloud service, including automatic scaling and maintenance.
+- **Self-Hosted Option**: For those needing more control, Benzinga’s architecture can be adapted for on-premises deployment or private cloud environments, ensuring full data ownership and compliance with local regulations.
+
+### Global Reach with Edge Caching
+
+To further enhance performance, Benzinga employs **edge caching** to ensure that data, including real-time streams and static content, reaches users with minimal delay. By strategically positioning Points of Presence (PoPs) worldwide, Benzinga ensures high availability and low latency for clients across continents.
+
+This distributed architecture allows Benzinga to provide reliable, real-time data to clients regardless of their geographic location, meeting the needs of both local and global users.
+
+---
+
+This architecture combines modern, scalable technologies to deliver fast, reliable financial data and insights, supporting Benzinga’s commitment to quality and performance. For more technical details or to get started with our APIs, please contact the Benzinga support team or visit our documentation.

@@ -1,0 +1,63 @@
+---
+title: "Errors"
+description: "How Benzinga API responds when errors occur."
+---
+
+Benzinga uses conventional HTTP response codes to indicate the success or failure of an API request.
+In general: Codes in the 2xx range indicate success.
+Codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter
+was omitted, a charge failed, etc.).
+Codes in the 5xx range indicate an error with Benzinga's servers.
+
+Some 4xx errors that could be handled programmatically include
+an error code that briefly explains the error reported.
+
+### Parameters
+
+<ResponseField name="type" type="string">
+    The type of error returned.
+
+    One of <code>invalid_request_error</code>, <code>not_found_error</code>, <code>creation_error</code>,
+    <code>update_error</code>, <code>deletion_error</code>, <code>forbidden_error</code>, or <code>authentication_error</code>.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+    A human-readable message providing more details about the error.
+</ResponseField>
+
+<ResponseField name="params" type="array">
+    If the error is parameter-specific, this will contain a list of the parameters that were invalid.
+</ResponseField>
+
+## HTTP Status Code Summary
+
+Bellow is a summary of the HTTP status codes that Benzinga API uses.
+
+| HTTP Code          | Status | Description |
+| ------------------ | ------ | ----------- |
+| 200                | OK	| Everything worked as expected. |
+| 400                | Bad Request | The request was unacceptable, often due to missing a required parameter. |
+| 401                | Unauthorized | No valid API key provided. |
+| 402                | Request Failed | The parameters were valid but the request failed. |
+| 403                | Forbidden | The API key doesn't have permissions to perform the request. |
+| 404                | Not Found | The requested resource doesn't exist. |
+| 409                | Conflict | The request conflicts with another request (perhaps due to using the same idempotent key). |
+| 429                | Too Many Requests | Too many requests hit the API too quickly. We recommend an exponential backoff of your requests. |
+| 500, 502, 503, 504 | Server Errors | Something went wrong on Benzinga's end. (These are rare.) |
+
+<ResponseExample>
+    ```json Response Example
+    {
+        "error": {
+        "type": "invalid_request_error",
+        "params": [
+    {
+        "param": "name",
+        "message": "This field is required"
+    }
+        ],
+        "message": "Parameter error"
+    }
+    }
+    ```
+</ResponseExample>

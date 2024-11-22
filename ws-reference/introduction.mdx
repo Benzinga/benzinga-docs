@@ -1,0 +1,47 @@
+---
+title: 'Introduction'
+description: 'A brief introduction to real-time data streaming with Benzinga’s WebSocket API.'
+---
+
+Welcome to the Benzinga WebSocket API documentation. This guide will help you get started with accessing Benzinga's real-time data streams, enabling you to subscribe to continuous updates on financial data, including live market quotes, trades, news, and other key insights.
+
+## WebSocket Endpoint
+
+All WebSocket connections can be established using the following endpoint:
+
+```
+wss://api.benzinga.com
+```
+
+
+## Authentication
+
+The Benzinga WebSocket API requires bearer authentication. When initiating a WebSocket connection, include your API token in the connection URL as a query parameter in the following format:
+you must include your API token in the `token` query param in the format `token: <token>`.
+
+Refer to the [Authentication](./authentication) page for more information on obtaining and managing your API token.
+
+## Subscribing to Streams
+
+Once connected, you can subscribe to specific data streams based on your requirements, such as stock quotes, trade data, or news updates. Each subscription requires a unique identifier and specific parameters depending on the data type.
+
+### Example Subscription Message
+
+To subscribe to a live stock quote stream, send a JSON message formatted as follows:
+
+```json
+{
+  "action": "subscribe",
+  "symbol": "AAPL",
+  "type": "quote"
+}
+```
+
+## Rate Limiting
+
+Please note that the Benzinga API has rate limits to prevent abuse and ensure service stability. Only 1 connection per API token is allowed at a time. If you exceed the rate limit, you will receive an error response.
+
+---
+
+We hope this guide helps you get started with the Benzinga APIs. If you have any questions, please don't hesitate to reach
+out to our support team.
