@@ -5,7 +5,7 @@
 }
 
 .max-w-8xl {
-    /* background-color: #f5f5f5; */
+     /*background-color: #f5f5f5;*/
 }
 
 #sidebar {
@@ -70,7 +70,7 @@
 #content-area .mt-8 .block{
     border-radius: 0;
     border-width: 1px;
-    background-color: #f6f1fa;
+    /*background-color: #f6f1fa;*/
     border-color: #ebebeb;
 }
 
@@ -135,7 +135,7 @@
 } */
 
 #content-container {
-    /* background-color: #f5f5f5; */
+     /*background-color: #f5f5f5;*/
     margin-top: 2rem;
 }
 
@@ -156,5 +156,5 @@
 }
 
 .flex-1 .flex .items-center {
-    /* background-color: #f5f5f5; */
+     /*background-color: #f5f5f5;*/
 }
