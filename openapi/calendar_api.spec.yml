@@ -1,1414 +1,142 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API returns structured data for conference calls, dividends, earnings (and future earnings dates), economics, pharmaceutical announcements, guidance, IPOs, secondary offerings, ratings, M&A activity, and splits.
+  description: This REST API returns structured data for news articles and press releases.
   termsOfService: http://swagger.io/terms/
-  title: Calendar API
+  title: News API
   version: 2.1.0
 paths:
-  /calendar-removed/:
+  /api/v2/news:
     get:
-      description: Get Removed from v2 endpoint
-      operationId: get-removed
+      description: Get News
+      operationId: get-news
       parameters:
-        - description: Page number
+        - description: Tickers
           in: query
-          name: page
+          name: tickers
           schema:
-            type: integer
-        - description: Page size
+            type: string
+        - description: CUSIPs
+          in: query
+          name: cusips
+          schema:
+            type: string
+        - description: ISINs
+          in: query
+          name: isins
+          schema:
+            type: string
+        - description: Channels
+          in: query
+          name: channels
+          schema:
+            type: string
+        - description: Topics
+          in: query
+          name: topics
+          schema:
+            type: string
+        - description: Authors
+          in: query
+          name: authors
+          schema:
+            type: string
+        - description: Content Types
+          in: query
+          name: contentTypes
+          schema:
+            type: string
+        - description: Sort
+          in: query
+          name: sort
+          schema:
+            type: string
+        - description: Date
+          in: query
+          name: date
+          schema:
+            type: string
+            format: date
+        - description: Published Since
+          in: query
+          name: publishedSince
+          schema:
+            type: string
+        - description: Updated Since
+          in: query
+          name: updatedSince
+          schema:
+            type: string
+        - description: Date From
+          in: query
+          name: dateFrom
+          schema:
+            type: string
+        - description: Date To
+          in: query
+          name: dateTo
+          schema:
+            type: string
+        - description: Page Size
           in: query
           name: pageSize
           schema:
             type: integer
-        - description: Type
-          in: query
-          name: type
-          schema:
-            type: string
-            enum:
-              - '"ratings"'
-              - '"earnings"'
-              - '"dividends"'
-              - '"splits"'
-              - '"ipos"'
-              - '"offerings"'
-              - '"economics"'
-              - '"guidance"'
-              - '"ma"'
-              - '"conference calls"'
-        - description: Updated time in Unix format
-          in: query
-          name: updated
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "200":
-          description: Removed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.RmvdJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.RmvdJSON"
-        "500":
-          description: Internal Error
-          content:
-            application/json:
-              schema:
-                type: string
-            text/xml:
-              schema:
-                type: string
-      security:
-        - ApiKeyAuth: []
-      summary: Get Removed (v2)
-      tags:
-        - removed
-  /calendar/conference-calls:
-    get:
-      description: Returns Conference Calls data
-      operationId: get-conference-calls
-      parameters:
-        - description: Page number
+        - description: Page
           in: query
           name: page
           schema:
             type: integer
-        - description: Page size
+        - description: Last ID
           in: query
-          name: pagesize
+          name: lastID
           schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: Conference Calls
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.ConferenceJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.ConferenceJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Conference Calls
-      tags:
-        - conference_calls
-  /calendar/dividends:
-    get:
-      description: Returns a list of dividends
-      operationId: get-dividends-v22
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Date sort order
-          in: query
-          name: parameters[date_sort]
-          schema:
-            type: string
-            enum:
-              - '"announced"'
-              - '"ex"'
-              - '"payable"'
-              - '"record"'
-        - description: Dividend yield operation
-          in: query
-          name: parameters[dividend_yield_operation]
-          schema:
-            type: string
-        - description: Dividend yield
-          in: query
-          name: parameters[dividend_yield]
-          schema:
-            type: number
-        - description: Importance
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: Dividends
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.DividendJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.DividendJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Dividends
-      tags:
-        - Dividends
-  /calendar/earnings:
-    get:
-      description: Returns the earnings data
-      operationId: get-earnings
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Sort by date
-          in: query
-          name: parameters[date_sort]
-          schema:
-            type: string
-            enum:
-              - date
-        - description: Importance
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: Earnings
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.EarningJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.EarningJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Earnings
-      tags:
-        - earnings
-  /calendar/economics:
-    get:
-      description: Returns the economic calendar data
-      operationId: get-economics
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Importance
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: Country
-          in: query
-          name: country
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-        - description: Event category
-          in: query
-          name: event_category
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Economics
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.EconomicJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.EconomicJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Economics
-      tags:
-        - economics
-  /calendar/events:
-    get:
-      description: Get Events
-      operationId: get-events
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Importance
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: Events
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.EventsJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.EventsJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Events
-      tags:
-        - events
-  /calendar/fda:
-    get:
-      description: FDA approvals, clinical trials, and PDUFA dates
-      operationId: get-fda
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Date search field
-          in: query
-          name: parameters[date_search_field]
-          schema:
-            type: string
-            enum:
-              - announced
-              - target
-        - description: Date search strict
-          in: query
-          name: parameters[date_search_strict]
-          schema:
-            type: boolean
-        - description: Securities
-          in: query
-          name: parameters[securities]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: FDA
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.FDAJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.FDAJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get FDA
-      tags:
-        - fda
-  /calendar/guidance:
-    get:
-      description: Returns the guidance data
-      operationId: get-guidance
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Importance
-          in: query
-          name: parameters[importance]
-          schema:
-            type: string
-            enum:
-              - "0"
-              - "1"
-              - "2"
-              - "3"
-              - "4"
-              - "5"
-        - description: Is Primary
-          in: query
-          name: parameters[is_primary]
-          schema:
-            type: string
-            enum:
-              - '"Y"'
-              - '"N"'
-              - '"All"'
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: Guidance
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.GuidanceJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.GuidanceJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Guidance
-      tags:
-        - guidance
-  /calendar/ipos:
-    get:
-      description: Returns the IPOs data
-      operationId: get-ipos-v21
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: IPO type
-          in: query
-          name: parameters[ipo_type]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: IPOs
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.IPOJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.IPOJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get IPOs
-      tags:
-        - ipos
-  /calendar/ma:
-    get:
-      description: Returns merger and acquisition data
-      operationId: get-ma
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Importance
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-        - description: Sort by date
-          in: query
-          name: parameters[date_sort]
-          schema:
-            type: string
-            enum:
-              - expected
-              - completed
-              - announced
-      responses:
-        "200":
-          description: MA
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.AcquisitionJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.AcquisitionJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Merger and Acquisition
-      tags:
-        - ma
-  /calendar/offerings:
-    get:
-      description: Returns Secondary Offering data
-      operationId: get-offerings
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Importance
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: Offerings
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.OfferingJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.OfferingJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Offerings
-      tags:
-        - offerings
-  /calendar/ratings:
-    get:
-      description: Returns analyst ratings data
-      operationId: get-ratings
-      parameters:
-        - description: Fields
-          in: query
-          name: fields
-          schema:
-            type: string
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Importance
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-        - description: Analyst IDs
-          in: query
-          name: parameters[analyst_id]
-          schema:
-            type: string
-        - description: Firm IDs
-          in: query
-          name: parameters[firm_id]
-          schema:
-            type: string
-        - description: Action
-          in: query
-          name: parameters[action]
-          schema:
-            type: string
-            enum:
-              - '"Downgrades"'
-              - '"Upgrades"'
-              - '"Maintains"'
-              - '"Reinstates"'
-              - '"Reiterates"'
-              - '"Assumes"'
-              - '"Initiates Coverage On"'
-              - '"Terminates Coverage On"'
-              - '"Removes"'
-              - '"Suspends"'
-              - '"Firm Dissolved"'
-        - description: Firm
-          in: query
-          name: firm
-          schema:
-            type: string
-        - description: Analyst
-          in: query
-          name: analyst
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Ratings
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.RatingJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.RatingJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Ratings
-      tags:
-        - ratings
-  /calendar/ratings/analysts:
-    get:
-      description: Returns the full list of analyst that are providing ratings
-      operationId: get-ratings-analysts
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-        - description: Fields
-          in: query
-          name: fields
-          schema:
-            type: string
-        - description: Analyst
-          in: query
-          name: analyst
-          schema:
-            type: string
-        - description: Analyst name
-          in: query
-          name: analyst_name
-          schema:
-            type: string
-        - description: Firm
-          in: query
-          name: firm
-          schema:
-            type: string
-        - description: Firm name
-          in: query
-          name: firm_name
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: updated
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "200":
-          description: Ratings Analysts
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.RatingsAnalystJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.RatingsAnalystJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Ratings Analysts
-      tags:
-        - ratings_analysts
-  /calendar/ratings/firms:
-    get:
-      description: Returns the available firms providing analyst ratings
-      operationId: get-ratings-firms
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-        - description: Fields
-          in: query
-          name: fields
-          schema:
-            type: string
-        - description: Firm
-          in: query
-          name: firm
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: updated
-          schema:
-            type: integer
-            format: int64
-      responses:
-        "200":
-          description: Ratings Firms
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.RatingsFirmJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.RatingsFirmJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Ratings Firms
-      tags:
-        - ratings_firms
-  /calendar/splits:
-    get:
-      description: Returns splits calendar data
-      operationId: get-splits
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Date in YYYY-MM-DD format
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: Date search field
-          in: query
-          name: parameters[date_search_field]
-          schema:
-            type: string
-            enum:
-              - announced
-              - target
-        - description: Importance
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: Tickers
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: Updated time in Unix format
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: Splits
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/models.SplitJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/models.SplitJSON"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: Get Splits
-      tags:
-        - splits
-  /consensus_ratings:
-    get:
-      description: Get Consensus Ratings for a given symbol
-      operationId: get-consensus-ratings-v1
-      parameters:
-        - description: Page number
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Page size
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Start date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: End date in YYYY-MM-DD format
-          in: query
-          name: parameters[date_to]
-          schema:
             type: string
-            format: date
-        - description: Tickers
+        - description: Display Output
           in: query
-          name: parameters[tickers]
+          name: displayOutput
           schema:
             type: string
-        - description: Simplify the ratings to Buy, Hold, Sell
+        - description: Noise
           in: query
-          name: simplify
+          name: noise
           schema:
             type: string
-        - description: Aggregate type
+        - description: Format
           in: query
-          name: aggregate_type
+          name: format
           schema:
             type: string
-            enum:
-              - number
-              - percentage
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ConsensusRating"
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
+            text/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
         "400":
-          description: Bad Request
+          description: Invalid or Missing Query Parameters
           content:
             application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "499":
+          description: Request Context Cancelled
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
               schema:
                 type: string
         "500":
@@ -1417,11 +145,80 @@ paths:
             application/json:
               schema:
                 type: string
+            text/xml:
+              schema:
+                type: string
       security:
         - ApiKeyAuth: []
-      summary: Get Consensus Ratings
+      summary: Get News
       tags:
-        - consensus_ratings
+        - News
+  /api/v2/news/removed:
+    get:
+      description: Get Removed News
+      operationId: get-removed-news
+      parameters:
+        - description: Updated Since
+          in: query
+          name: updatedSince
+          schema:
+            type: string
+        - description: Page Size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Page
+          in: query
+          name: page
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsRemovedItem"
+                type: array
+            text/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsRemovedItem"
+                type: array
+        "400":
+          description: Invalid or Missing Query Parameters
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "499":
+          description: Request Context Cancelled
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "500":
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Removed News
+      tags:
+        - News
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -1429,181 +226,68 @@ components:
       name: token
       type: apiKey
   schemas:
-    api.AggregateRating:
+    api.ChannelTag:
       properties:
-        buy:
-          type: integer
-        hold:
-          type: integer
-        sell:
-          type: integer
-        strong_buy:
-          type: integer
-        strong_sell:
-          type: integer
-      type: object
-    api.ConsensusRating:
-      properties:
-        aggregate_ratings:
-          $ref: "#/components/schemas/api.AggregateRating"
-        aggregate_type:
-          type: string
-        consensus_price_target:
-          type: number
-        consensus_rating:
-          type: string
-        consensus_rating_val:
-          type: number
-        high_price_target:
-          type: number
-        low_price_target:
-          type: number
-        total_analyst_count:
-          type: integer
-        unique_analyst_count:
-          type: integer
-        updated_at:
+        name:
           type: string
       type: object
-    api.ErrorResponse:
+    api.Image:
       properties:
-        text:
+        size:
+          type: string
+        url:
           type: string
       type: object
-    models.AcquisitionJSON:
+    api.NewsItem:
       properties:
-        ma:
+        author:
+          type: string
+        body:
+          type: string
+        channels:
           items:
-            additionalProperties: true
-            type: object
+            $ref: "#/components/schemas/api.ChannelTag"
           type: array
-      type: object
-    models.ConferenceJSON:
-      properties:
-        conference:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.DividendJSON:
-      properties:
-        dividends:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.EarningJSON:
-      properties:
-        earnings:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.EconomicJSON:
-      properties:
-        economics:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.EventsJSON:
-      properties:
-        events:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.FDAJSON:
-      properties:
-        fda:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.GuidanceJSON:
-      properties:
-        guidance:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.IPOJSON:
-      properties:
-        ipos:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.OfferingJSON:
-      properties:
-        offerings:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.RatingJSON:
-      properties:
-        ratings:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.RatingsAnalystJSON:
-      properties:
-        analystRatingsAnalyst:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.RatingsFirmJSON:
-      properties:
-        analystRatingsFirm:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    models.Rmvd:
-      properties:
+        created:
+          type: string
         id:
+          type: integer
+        image:
+          items:
+            $ref: "#/components/schemas/api.Image"
+          type: array
+        original_id:
+          type: integer
+        stocks:
+          items:
+            $ref: "#/components/schemas/api.Stock"
+          type: array
+        tags:
+          items:
+            $ref: "#/components/schemas/api.ChannelTag"
+          type: array
+        teaser:
           type: string
-        type:
+        title:
           type: string
         updated:
+          type: string
+        url:
+          type: string
+      type: object
+    api.NewsRemovedItem:
+      properties:
+        id:
           type: integer
+        updated:
+          type: string
       type: object
-    models.RmvdJSON:
+    api.Stock:
       properties:
-        removed:
-          items:
-            $ref: "#/components/schemas/models.Rmvd"
-          type: array
+        cusip:
+          type: string
+        isin:
+          type: string
+        name:
+          type: string
       type: object
-    models.SplitJSON:
-      properties:
-        splits:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
-  - url: https://api.benzinga.com/api/v2.2
-    description: V2.2
