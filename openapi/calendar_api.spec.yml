@@ -2414,3 +2414,14 @@ components:
             type: object
           type: array
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: Default
+  - url: https://api.benzinga.com/api/v1
+    description: V1
+  - url: https://api.benzinga.com/api/v2
+    description: V2
+  - url: https://api.benzinga.com/api/v2.1
+    description: V2.1
+  - url: https://api.benzinga.com/api/v2.2
+    description: V2.2

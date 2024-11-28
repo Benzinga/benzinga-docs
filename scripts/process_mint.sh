@@ -7,6 +7,7 @@ api-reference/data-api-proxy_api=Data API Proxy|
 api-reference/earnings-call-transcripts-api_api=Earnings Call Transcripts|
 api-reference/logo-api_api=Logos|
 api-reference/newsquantified-api_api=NewsQuantified|
+api-reference/news-api_api=News|
 api-reference/ticker-trends-api_api=Ticker Trends"
 
 # Array to store JSON output
@@ -59,11 +60,11 @@ for file in ./openapi/*.yml; do
   cd ../../
 done
 
-## Serialize the JSON array to a string
-#json_array=$(printf '%s\n' "${output_array[@]}" | jq -s '.')
+# Serialize the JSON array to a string
+json_array=$(printf '%s\n' "${output_array[@]}" | jq -s '.')
 
 # Print the final JSON array
-#echo "$json_array"
+echo "$json_array"
 
 ## Serialize the JSON array to a string
 #json_array=$(echo "$json_array" | jq -c -r '.[] | @json' | paste -sd, -)
