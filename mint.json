@@ -65,6 +65,14 @@
       "url": "ws-reference"
     },
     {
+      "name": "Webhook Reference",
+      "url": "webhook-reference"
+    },
+    {
+      "name": "Widgets",
+      "url": "widgets"
+    },
+    {
       "name": "SDKs",
       "url": "sdks"
     },
@@ -116,6 +124,18 @@
         "sdks/languages/csharp",
         "sdks/languages/ruby"
       ]
+    },
+    {
+        "group": "",
+        "pages": [
+            "webhook-reference/overview"
+        ]
+    },
+    {
+        "group": "",
+        "pages": [
+            "widgets/overview"
+        ]
     },
     {
       "group": "API Documentation",
