@@ -37,6 +37,34 @@ To subscribe to a live stock quote stream, send a JSON message formatted as foll
 }
 ```
 
+## Heartbeat Mechanism
+
+To maintain a healthy connection and ensure that the client and server remain synchronized, the Benzinga WebSocket API includes a heartbeat mechanism.
+
+### Client-Side Heartbeat
+
+* If you send a ping message as a plain text frame (e.g., the string ping), the server will respond with a pong message as plain text (e.g., the string pong).
+
+* This can be used to verify that the connection is still active and responsive.
+
+#### Example
+
+* Client sends: `ping`
+
+* Server responds: `pong`
+
+### Server-Side Heartbeat
+
+* The server will automatically send a ping frame to the client every 10 seconds to ensure the connection remains active.
+
+* Clients are expected to respond to this ping frame (automatically handled by most WebSocket libraries).
+
+### Handling Heartbeats
+
+* Most WebSocket client libraries (e.g., those in JavaScript, Python, or Go) automatically handle incoming pings from the server and respond with a pong.
+
+* However, if you are implementing a custom WebSocket client, ensure that it properly responds to the server's ping frames to prevent the connection from being terminated.
+
 ## Rate Limiting
 
 Please note that the Benzinga API has rate limits to prevent abuse and ensure service stability. Only 1 connection per API token is allowed at a time. If you exceed the rate limit, you will receive an error response.
