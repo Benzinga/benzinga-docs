@@ -57,3 +57,19 @@ openapi: get /api/v1/trending-tickers
 }
 ```
 </ResponseExample>
+
+
+<ResponseExample>
+```json Response (401 Unauthorized)
+{
+    "ok": false,
+    "errors": [
+        {
+            "id": "hbiGJjhsSpnfhM8aBePyTB",
+            "code": "auth_failed",
+            "value": "authentication failed"
+        }
+    ]
+}
+```
+</ResponseExample>
