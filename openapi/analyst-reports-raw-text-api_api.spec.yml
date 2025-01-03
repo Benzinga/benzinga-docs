@@ -6,7 +6,7 @@ info:
   title: Analyst Reports Raw Text API
   version: 1.0.0
 paths:
-  /api/v1/analyst/reports/raw-text:
+  /analyst/reports/raw-text:
     get:
       description: Get Analyst Reports Raw Text Data
       operationId: get-analyst-reports-raw-text-data
@@ -75,6 +75,3 @@ components:
         ticker:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default
