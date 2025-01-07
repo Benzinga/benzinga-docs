@@ -179,8 +179,6 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
-        - unsupported_message_type
-        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -192,10 +190,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
       type: string
       x-enum-varnames:
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -207,6 +205,8 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:

@@ -39,6 +39,16 @@ paths:
           name: pagesize
           schema:
             type: integer
+        - description: Date to query from point in time.
+          in: query
+          name: date_from
+          schema:
+            type: integer
+        - description: Date to query from point in time.
+          in: query
+          name: date_to
+          schema:
+            type: integer
       responses:
         "200":
           description: OK
