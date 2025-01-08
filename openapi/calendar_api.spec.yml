@@ -24,6 +24,24 @@ paths:
           name: pageSize
           schema:
             type: integer
+        - description: Date in YYYY-MM-DD format
+          in: query
+          name: date
+          schema:
+            type: string
+            format: date
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: End date in YYYY-MM-DD format
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
         - description: Symbols
           in: query
           name: symbols
@@ -60,7 +78,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.AnalystInsightsJSON"
+                $ref: "#/components/schemas/calendarapi.AnalystInsightsJSON"
         "400":
           description: Bad Request
           content:
@@ -133,10 +151,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.IPOJSON"
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.IPOJSON"
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
         "400":
           description: Bad Request
           content:
@@ -242,10 +260,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.DividendJSON"
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.DividendJSON"
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
         "400":
           description: Bad Request
           content:
@@ -324,10 +342,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.IPOJSON"
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.IPOJSON"
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
         "400":
           description: Bad Request
           content:
@@ -367,7 +385,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.BullsSayBearsSayJSON"
+                $ref: "#/components/schemas/calendarapi.BullsSayBearsSayJSON"
         "400":
           description: Bad Request
           content:
@@ -428,10 +446,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.RmvdJSON"
+                $ref: "#/components/schemas/calendarapi.RemovedJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.RmvdJSON"
+                $ref: "#/components/schemas/calendarapi.RemovedJSON"
         "500":
           description: Internal Error
           content:
@@ -496,10 +514,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.ConferenceJSON"
+                $ref: "#/components/schemas/calendarapi.ConferenceJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.ConferenceJSON"
+                $ref: "#/components/schemas/calendarapi.ConferenceJSON"
         "400":
           description: Bad Request
           content:
@@ -611,10 +629,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.DividendJSON"
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.DividendJSON"
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
         "400":
           description: Bad Request
           content:
@@ -700,10 +718,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.EarningJSON"
+                $ref: "#/components/schemas/calendarapi.EarningJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.EarningJSON"
+                $ref: "#/components/schemas/calendarapi.EarningJSON"
         "400":
           description: Bad Request
           content:
@@ -794,10 +812,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.EconomicJSON"
+                $ref: "#/components/schemas/calendarapi.EconomicJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.EconomicJSON"
+                $ref: "#/components/schemas/calendarapi.EconomicJSON"
         "400":
           description: Bad Request
           content:
@@ -883,10 +901,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.EventsJSON"
+                $ref: "#/components/schemas/calendarapi.EventsJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.EventsJSON"
+                $ref: "#/components/schemas/calendarapi.EventsJSON"
         "400":
           description: Bad Request
           content:
@@ -973,10 +991,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.FDAJSON"
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.FDAJSON"
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
         "400":
           description: Bad Request
           content:
@@ -1071,10 +1089,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.GuidanceJSON"
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.GuidanceJSON"
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
         "400":
           description: Bad Request
           content:
@@ -1169,10 +1187,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.AcquisitionJSON"
+                $ref: "#/components/schemas/calendarapi.AcquisitionJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.AcquisitionJSON"
+                $ref: "#/components/schemas/calendarapi.AcquisitionJSON"
         "400":
           description: Bad Request
           content:
@@ -1258,10 +1276,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.OfferingJSON"
+                $ref: "#/components/schemas/calendarapi.OfferingJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.OfferingJSON"
+                $ref: "#/components/schemas/calendarapi.OfferingJSON"
         "400":
           description: Bad Request
           content:
@@ -1389,10 +1407,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.RatingJSON"
+                $ref: "#/components/schemas/calendarapi.RatingJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.RatingJSON"
+                $ref: "#/components/schemas/calendarapi.RatingJSON"
         "400":
           description: Bad Request
           content:
@@ -1468,10 +1486,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.RatingsAnalystJSON"
+                $ref: "#/components/schemas/calendarapi.RatingsAnalystJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.RatingsAnalystJSON"
+                $ref: "#/components/schemas/calendarapi.RatingsAnalystJSON"
         "400":
           description: Bad Request
           content:
@@ -1532,10 +1550,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.RatingsFirmJSON"
+                $ref: "#/components/schemas/calendarapi.RatingsFirmJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.RatingsFirmJSON"
+                $ref: "#/components/schemas/calendarapi.RatingsFirmJSON"
         "400":
           description: Bad Request
           content:
@@ -1629,10 +1647,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.SplitJSON"
+                $ref: "#/components/schemas/calendarapi.SplitJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/models.SplitJSON"
+                $ref: "#/components/schemas/calendarapi.SplitJSON"
         "400":
           description: Bad Request
           content:
@@ -1796,7 +1814,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.GovernmentTradeJSON"
+                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
         "400":
           description: Bad Request
           content:
@@ -1885,7 +1903,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.GovernmentTradeJSON"
+                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
         "400":
           description: Bad Request
           content:
@@ -1903,20 +1921,11 @@ paths:
       summary: Get Government Trades
       tags:
         - Government Trades
-  "/sec/insider_transactions/{{type}}":
+  /sec/insider_transactions/filings:
     get:
       description: Get Insider Transaction
       operationId: get-insider-transaction
       parameters:
-        - description: Transaction Type
-          in: path
-          name: type
-          required: true
-          schema:
-            type: string
-            enum:
-              - '"transactions"'
-              - '"filings"'
         - description: Page number
           in: query
           name: page
@@ -1997,7 +2006,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.InsiderTransactionFilingJSON"
+                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingDoc"
         "400":
           description: Bad Request
           content:
@@ -2100,7 +2109,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.InsiderTransactionFilingJSON"
+                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingJSON"
         "400":
           description: Bad Request
           content:
@@ -2180,7 +2189,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.OptionActivityJSON"
+                $ref: "#/components/schemas/calendarapi.OptionActivityJSON"
         "400":
           description: Bad Request
           content:
@@ -2246,7 +2255,7 @@ components:
         text:
           type: string
       type: object
-    models.AcquisitionJSON:
+    calendarapi.AcquisitionJSON:
       properties:
         ma:
           items:
@@ -2254,23 +2263,23 @@ components:
             type: object
           type: array
       type: object
-    models.AnalystInsightsJSON:
+    calendarapi.AnalystInsightsJSON:
       properties:
-        analystInsights:
+        analyst-insights:
           items:
             additionalProperties: true
             type: object
           type: array
       type: object
-    models.BullsSayBearsSayJSON:
+    calendarapi.BullsSayBearsSayJSON:
       properties:
-        bullsSayBearsSay:
+        bulls_say_bears_say:
           items:
             additionalProperties: true
             type: object
           type: array
       type: object
-    models.ConferenceJSON:
+    calendarapi.ConferenceJSON:
       properties:
         conference:
           items:
@@ -2278,7 +2287,7 @@ components:
             type: object
           type: array
       type: object
-    models.DividendJSON:
+    calendarapi.DividendJSON:
       properties:
         dividends:
           items:
@@ -2286,7 +2295,7 @@ components:
             type: object
           type: array
       type: object
-    models.EarningJSON:
+    calendarapi.EarningJSON:
       properties:
         earnings:
           items:
@@ -2294,7 +2303,7 @@ components:
             type: object
           type: array
       type: object
-    models.EconomicJSON:
+    calendarapi.EconomicJSON:
       properties:
         economics:
           items:
@@ -2302,7 +2311,7 @@ components:
             type: object
           type: array
       type: object
-    models.EventsJSON:
+    calendarapi.EventsJSON:
       properties:
         events:
           items:
@@ -2310,7 +2319,7 @@ components:
             type: object
           type: array
       type: object
-    models.FDAJSON:
+    calendarapi.FDAJSON:
       properties:
         fda:
           items:
@@ -2318,7 +2327,7 @@ components:
             type: object
           type: array
       type: object
-    models.GovernmentTradeJSON:
+    calendarapi.GovernmentTradeJSON:
       properties:
         data:
           items:
@@ -2326,7 +2335,7 @@ components:
             type: object
           type: array
       type: object
-    models.GuidanceJSON:
+    calendarapi.GuidanceJSON:
       properties:
         guidance:
           items:
@@ -2334,7 +2343,7 @@ components:
             type: object
           type: array
       type: object
-    models.IPOJSON:
+    calendarapi.IPOJSON:
       properties:
         ipos:
           items:
@@ -2342,7 +2351,53 @@ components:
             type: object
           type: array
       type: object
-    models.InsiderTransactionFilingJSON:
+    calendarapi.InsiderTransaction:
+      properties:
+        accession_number:
+          type: string
+        company_cik:
+          type: string
+        company_name:
+          type: string
+        company_symbol:
+          type: string
+        filing_date:
+          type: string
+        footnotes:
+          items:
+            $ref: "#/components/schemas/calendarapi.SECFootnotes"
+          type: array
+        form_type:
+          type: string
+        html_url:
+          type: string
+        id:
+          type: string
+        is_10b5:
+          type: boolean
+        owner:
+          $ref: "#/components/schemas/calendarapi.Owner"
+        remaining_shares:
+          type: string
+        remaining_underlying_shares:
+          type: string
+        traded_percentage:
+          type: string
+        transactions:
+          items:
+            $ref: "#/components/schemas/calendarapi.Transaction"
+          type: array
+        updated:
+          type: integer
+      type: object
+    calendarapi.InsiderTransactionFilingDoc:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/calendarapi.InsiderTransaction"
+          type: array
+      type: object
+    calendarapi.InsiderTransactionFilingJSON:
       properties:
         data:
           items:
@@ -2350,7 +2405,7 @@ components:
             type: object
           type: array
       type: object
-    models.OfferingJSON:
+    calendarapi.OfferingJSON:
       properties:
         offerings:
           items:
@@ -2358,15 +2413,32 @@ components:
             type: object
           type: array
       type: object
-    models.OptionActivityJSON:
+    calendarapi.OptionActivityJSON:
       properties:
-        optionActivity:
+        option_activity:
           items:
             additionalProperties: true
             type: object
           type: array
       type: object
-    models.RatingJSON:
+    calendarapi.Owner:
+      properties:
+        insider_cik:
+          type: string
+        insider_name:
+          type: string
+        insider_title:
+          type: string
+        is_director:
+          type: boolean
+        is_officer:
+          type: boolean
+        is_ten_percent_owner:
+          type: boolean
+        raw_signature:
+          type: string
+      type: object
+    calendarapi.RatingJSON:
       properties:
         ratings:
           items:
@@ -2374,23 +2446,23 @@ components:
             type: object
           type: array
       type: object
-    models.RatingsAnalystJSON:
+    calendarapi.RatingsAnalystJSON:
       properties:
-        analystRatingsAnalyst:
+        analyst_ratings_analyst:
           items:
             additionalProperties: true
             type: object
           type: array
       type: object
-    models.RatingsFirmJSON:
+    calendarapi.RatingsFirmJSON:
       properties:
-        analystRatingsFirm:
+        analyst_ratings_firm:
           items:
             additionalProperties: true
             type: object
           type: array
       type: object
-    models.Rmvd:
+    calendarapi.Removed:
       properties:
         id:
           type: string
@@ -2399,14 +2471,21 @@ components:
         updated:
           type: integer
       type: object
-    models.RmvdJSON:
+    calendarapi.RemovedJSON:
       properties:
         removed:
           items:
-            $ref: "#/components/schemas/models.Rmvd"
+            $ref: "#/components/schemas/calendarapi.Removed"
           type: array
       type: object
-    models.SplitJSON:
+    calendarapi.SECFootnotes:
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+      type: object
+    calendarapi.SplitJSON:
       properties:
         splits:
           items:
@@ -2414,14 +2493,42 @@ components:
             type: object
           type: array
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default
-  - url: https://api.benzinga.com/api/v1
-    description: V1
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
-  - url: https://api.benzinga.com/api/v2.2
-    description: V2.2
+    calendarapi.Transaction:
+      properties:
+        acquired_or_disposed:
+          type: string
+        conversion_exercise_price_derivative:
+          type: string
+        date_deemed_execution:
+          type: string
+        date_exercisable:
+          type: string
+        date_expiration:
+          type: string
+        date_transaction:
+          type: string
+        is_derivative:
+          type: boolean
+        ownership:
+          type: string
+        post_transaction_quantity:
+          type: string
+        price_per_share:
+          type: string
+        remaining_underlying_shares:
+          type: string
+        security_title:
+          type: string
+        shares:
+          type: string
+        transaction_code:
+          type: string
+        transaction_id:
+          type: string
+        underlying_security_title:
+          type: string
+        underlying_shares:
+          type: string
+        voluntarily_reported:
+          type: boolean
+      type: object
