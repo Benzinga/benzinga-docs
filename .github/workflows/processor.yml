@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - dev
+      - stage
   workflow_dispatch: # Allows the action to be triggered manually
 
 jobs:
