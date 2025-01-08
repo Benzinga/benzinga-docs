@@ -44,5 +44,5 @@ jobs:
           echo "No changes to commit"
         else
           git commit -m "Update mint.json with new OpenAPI data"
-          git push origin main
+          git push origin ${GITHUB_REF_NAME}
         fi
