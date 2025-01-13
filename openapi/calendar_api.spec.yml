@@ -1,7 +1,10 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API returns structured data for conference calls, dividends, earnings (and future earnings dates), economics, pharmaceutical announcements, guidance, IPOs, secondary offerings, ratings, M&A activity, and splits.
+  description: This REST API returns structured data for conference calls,
+    dividends, earnings (and future earnings dates), economics, pharmaceutical
+    announcements, guidance, IPOs, secondary offerings, ratings, M&A activity,
+    and splits.
   termsOfService: http://swagger.io/terms/
   title: Calendar API
   version: 2.1.0
@@ -1920,8 +1923,8 @@ paths:
         - Government Trades
   /sec/insider_transactions/filings:
     get:
-      description: Get Insider Transaction
-      operationId: get-insider-transaction
+      description: Get Insider Transaction Filing
+      operationId: get-insider-transaction-filing
       parameters:
         - description: Page number
           in: query
@@ -2018,7 +2021,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Get Insider Transaction
+      summary: Get Insider Transaction Filing
       tags:
         - Insider Transaction
   /sec/insider_transactions/owners:
@@ -2207,7 +2210,7 @@ paths:
 components:
   securitySchemes:
     ApiKeyAuth:
-      in: header
+      in: query
       name: token
       type: apiKey
   schemas:
@@ -2529,12 +2532,3 @@ components:
         voluntarily_reported:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
-  - url: https://api.benzinga.com/api/v2.2
-    description: V2.2
