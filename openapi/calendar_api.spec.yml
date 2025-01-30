@@ -1671,7 +1671,7 @@ paths:
       summary: Get Splits
       tags:
         - splits
-  /consensus_ratings:
+  /consensus-ratings:
     get:
       description: Get Consensus Ratings for a given symbol
       operationId: get-consensus-ratings-v1
