@@ -7,7 +7,7 @@
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#8924A6",
+    "primary": "#0D213F",
     "light": "#ac6bd1",
     "dark": "#0D9373",
     "background": {
@@ -52,10 +52,6 @@
     }
   },
   "tabs": [
-    {
-      "name": "Components",
-      "url": "components"
-    },
     {
       "name": "API Reference",
       "url": "api-reference"
