@@ -1,7 +1,10 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API returns structured data for conference calls, dividends, earnings (and future earnings dates), economics, pharmaceutical announcements, guidance, IPOs, secondary offerings, ratings, M&A activity, and splits.
+  description: This REST API returns structured data for conference calls,
+    dividends, earnings (and future earnings dates), economics, pharmaceutical
+    announcements, guidance, IPOs, secondary offerings, ratings, M&A activity,
+    and splits.
   termsOfService: http://swagger.io/terms/
   title: Calendar API
   version: 2.1.0
@@ -1727,7 +1730,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ConsensusRating"
+                $ref: "#/components/schemas/calendarapi.ConsensusRating"
         "400":
           description: Bad Request
           content:
@@ -2216,42 +2219,6 @@ components:
       name: token
       type: apiKey
   schemas:
-    api.AggregateRating:
-      properties:
-        buy:
-          type: integer
-        hold:
-          type: integer
-        sell:
-          type: integer
-        strong_buy:
-          type: integer
-        strong_sell:
-          type: integer
-      type: object
-    api.ConsensusRating:
-      properties:
-        aggregate_ratings:
-          $ref: "#/components/schemas/api.AggregateRating"
-        aggregate_type:
-          type: string
-        consensus_price_target:
-          type: number
-        consensus_rating:
-          type: string
-        consensus_rating_val:
-          type: number
-        high_price_target:
-          type: number
-        low_price_target:
-          type: number
-        total_analyst_count:
-          type: integer
-        unique_analyst_count:
-          type: integer
-        updated_at:
-          type: string
-      type: object
     api.ErrorResponse:
       properties:
         text:
@@ -2264,6 +2231,19 @@ components:
             additionalProperties: true
             type: object
           type: array
+      type: object
+    calendarapi.AggregateRating:
+      properties:
+        buy:
+          type: integer
+        hold:
+          type: integer
+        sell:
+          type: integer
+        strong_buy:
+          type: integer
+        strong_sell:
+          type: integer
       type: object
     calendarapi.AnalystInsightsJSON:
       properties:
@@ -2288,6 +2268,29 @@ components:
             additionalProperties: true
             type: object
           type: array
+      type: object
+    calendarapi.ConsensusRating:
+      properties:
+        aggregate_ratings:
+          $ref: "#/components/schemas/calendarapi.AggregateRating"
+        aggregate_type:
+          type: string
+        consensus_price_target:
+          type: number
+        consensus_rating:
+          type: string
+        consensus_rating_val:
+          type: number
+        high_price_target:
+          type: number
+        low_price_target:
+          type: number
+        total_analyst_count:
+          type: integer
+        unique_analyst_count:
+          type: integer
+        updated_at:
+          type: string
       type: object
     calendarapi.DividendJSON:
       properties:
@@ -2534,12 +2537,3 @@ components:
         voluntarily_reported:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
-  - url: https://api.benzinga.com/api/v2.2
-    description: V2.2
