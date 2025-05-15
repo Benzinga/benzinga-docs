@@ -226,7 +226,8 @@
       "pages": [
         "ws-reference/introduction",
         "ws-reference/authentication",
-        "ws-reference/errors"
+        "ws-reference/errors",
+        "ws-reference/actions"
       ]
     },
     {
