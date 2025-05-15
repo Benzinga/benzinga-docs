@@ -52,6 +52,33 @@ When you subscribe to the stream, you'll receive updates about analyst insights 
 }
 ```
 
+## Supported Actions
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>list</code></td>
+      <td>Replays up to the last 100 messages. The actual number may vary based on cache availability.</td>
+      <td><code>replay</code></td>
+    </tr>
+    <tr>
+      <td><code>ping</code></td>
+      <td>Keeps the WebSocket connection alive.</td>
+      <td><code>ping</code></td>
+    </tr>
+  </tbody>
+</table>
+
+> **Note:** You cannot specify the number of messages to replay. The number returned depends on how many are currently cached for the associated key.
+
+
 #### Responses
 
 - **200 OK**
