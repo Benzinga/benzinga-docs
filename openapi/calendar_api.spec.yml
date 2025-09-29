@@ -1,7 +1,10 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API returns structured data for conference calls, dividends, earnings (and future earnings dates), economics, pharmaceutical announcements, guidance, IPOs, secondary offerings, ratings, M&A activity, and splits.
+  description: This REST API returns structured data for conference calls,
+    dividends, earnings (and future earnings dates), economics, pharmaceutical
+    announcements, guidance, IPOs, secondary offerings, ratings, M&A activity,
+    and splits.
   termsOfService: http://swagger.io/terms/
   title: Calendar API
   version: 2.1.0
@@ -69,7 +72,8 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: "Field to sort by, format: field:order (e.g., date:asc). Defaults to desc."
+        - description: "Field to sort by, format: field:order (e.g., date:asc). Defaults
+            to desc."
           in: query
           name: sort
           schema:
@@ -1764,6 +1768,78 @@ paths:
       summary: Get Consensus Ratings
       tags:
         - consensus_ratings
+  /erx-gaps:
+    get:
+      description: Returns the ERx Gaps data
+      operationId: get-erx-gaps
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date in YYYY-MM-DD format
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: date
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: End date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: Updated time in Unix format
+          in: query
+          name: parameters[updated]
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: ERx Gaps
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Get ERx Gaps
+      tags:
+        - ERx Gaps
   /government_trade_reports:
     get:
       description: Get Government Trade Reports
@@ -2332,6 +2408,14 @@ components:
             type: object
           type: array
       type: object
+    calendarapi.ErxGapJSON:
+      properties:
+        erx_gap:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
     calendarapi.EventsJSON:
       properties:
         events:
@@ -2553,12 +2637,3 @@ components:
         voluntarily_reported:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
-  - url: https://api.benzinga.com/api/v2.2
-    description: V2.2
