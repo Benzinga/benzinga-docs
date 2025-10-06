@@ -1,7 +1,8 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API provides endpoints to search for trending tickers and get ticker details.
+  description: This REST API provides endpoints to search for trending tickers and
+    get ticker details.
   termsOfService: http://swagger.io/terms/
   title: TickerTrends API
   version: 2.1.0
@@ -272,6 +273,3 @@ components:
         security:
           $ref: "#/components/schemas/models.Security"
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default
