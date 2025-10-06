@@ -1,8 +1,7 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API provides endpoints to search for fundamentals and get
-    fundamental details.
+  description: This REST API provides endpoints to search for fundamentals and get fundamental details.
   termsOfService: http://swagger.io/terms/
   title: Data API Proxy
   version: 2.0.0
@@ -1147,3 +1146,6 @@ components:
         ok:
           type: boolean
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: Default
