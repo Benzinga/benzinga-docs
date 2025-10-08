@@ -1,7 +1,10 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API returns structured data for conference calls, dividends, earnings (and future earnings dates), economics, pharmaceutical announcements, guidance, IPOs, secondary offerings, ratings, M&A activity, and splits.
+  description: This REST API returns structured data for conference calls,
+    dividends, earnings (and future earnings dates), economics, pharmaceutical
+    announcements, guidance, IPOs, secondary offerings, ratings, M&A activity,
+    and splits.
   termsOfService: http://swagger.io/terms/
   title: Calendar API
   version: 2.1.0
@@ -69,7 +72,8 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: "Field to sort by, format: field:order (e.g., date:asc). Defaults to desc."
+        - description: "Field to sort by, format: field:order (e.g., date:asc). Defaults
+            to desc."
           in: query
           name: sort
           schema:
@@ -2220,6 +2224,130 @@ paths:
       summary: Get Insider Transaction Owner
       tags:
         - Insider Transaction
+  /signal/block_trade:
+    get:
+      description: Get BlockTrade V1
+      operationId: get-block-trade-v1
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: End date in YYYY-MM-DD format
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: Tickers
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: updated
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: Block Trade
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.BlockTradeJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Get BlockTrade V1
+      tags:
+        - Block Trade
+  /signal/halt_resume:
+    get:
+      description: Get HaltResume V1
+      operationId: get-halt-resume-v1
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: End date in YYYY-MM-DD format
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: Tickers
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: updated
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: Halt Resume
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.HaltResumeJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Get HaltResume V1
+      tags:
+        - Halt Resume
   /signal/option_activity:
     get:
       description: Get OptionActivity V1
@@ -2341,6 +2469,14 @@ components:
             type: object
           type: array
       type: object
+    calendarapi.BlockTradeJSON:
+      properties:
+        block_trade:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
     calendarapi.BullsSayBearsSayJSON:
       properties:
         bulls_say_bears_say:
@@ -2439,6 +2575,14 @@ components:
     calendarapi.GuidanceJSON:
       properties:
         guidance:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.HaltResumeJSON:
+      properties:
+        halt_resume:
           items:
             additionalProperties: true
             type: object
@@ -2633,12 +2777,3 @@ components:
         voluntarily_reported:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
-  - url: https://api.benzinga.com/api/v2.2
-    description: V2.2
