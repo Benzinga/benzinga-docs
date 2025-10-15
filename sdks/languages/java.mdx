@@ -3,3 +3,538 @@ title: "Benzinga Java SDK"
 sidebarTitle: "Java"
 icon: "java"
 ---
+
+# BZ-Java-Client
+
+Developer-friendly & type-safe Java SDK specifically catered to leverage *openapi* API.
+<div style={{ textAlign: "left" }}>
+    <a href="https://www.speakeasy.com/?utm_source=openapi&utm_campaign=java">
+        <img
+            src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454"
+            alt="Built By Speakeasy"
+        />
+    </a>
+    <a href="https://mit-license.org/">
+        <img
+            src="https://img.shields.io/badge/License-MIT-blue.svg"
+            alt="MIT License"
+            style={{ width: "100px", height: "28px" }}
+        />
+    </a>
+</div>
+
+
+## Summary
+
+Benzinga APIs: This REST API provides endpoints to all Benzinga APIs.
+
+## Table of Contents
+* [BZ-Java-Client](#bz-java-client)
+* [SDK Installation](#sdk-installation)
+* [SDK Example Usage](#sdk-example-usage)
+* [Authentication](#authentication)
+* [Available Resources and Operations](#available-resources-and-operations)
+* [Retries](#retries)
+* [Error Handling](#error-handling)
+* [Server Selection](#server-selection)
+* [Development](#development)
+* [Maturity](#maturity)
+* [Contributions](#contributions)
+
+
+## SDK Installation
+
+### Getting started
+
+JDK 11 or later is required.
+
+The samples below show how a published SDK artifact is used:
+
+Gradle:
+```groovy
+implementation 'org.benzinga:BZClient:0.2.7'
+```
+
+Maven:
+```xml
+<dependency>
+    <groupId>org.benzinga</groupId>
+    <artifactId>BZClient</artifactId>
+    <version>0.2.7</version>
+</dependency>
+```
+
+### How to build
+After cloning the git repository to your file system you can build the SDK artifact from source to the `build` directory by running `./gradlew build` on *nix systems or `gradlew.bat` on Windows systems.
+
+If you wish to build from source and publish the SDK artifact to your local Maven repository (on your filesystem) then use the following command (after cloning the git repo locally):
+
+On *nix:
+```bash
+./gradlew publishToMavenLocal -Pskip.signing
+```
+On Windows:
+```bash
+gradlew.bat publishToMavenLocal -Pskip.signing
+```
+
+## SDK Example Usage
+
+### Example
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+
+## Authentication
+
+### Per-Client Security Schemes
+
+This SDK supports the following security scheme globally:
+
+| Name         | Type   | Scheme  |
+| ------------ | ------ | ------- |
+| `apiKeyAuth` | apiKey | API key |
+
+To authenticate with the API the `apiKeyAuth` parameter must be set when initializing the SDK client instance. For example:
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+
+## Available Resources and Operations
+
+
+### [analystInsights()](/sdks/java/analystinsights/README)
+
+* [get](/sdks/java/analystinsights/README#get) - Get Analyst Insights V1
+
+### [analystReportsRawText()](/sdks/java/analystreportsrawtext/README)
+
+* [get](/sdks/java/analystreportsrawtext/README#get) - Get Analyst Reports Raw Text Data
+
+### [bars()](/sdks/java/bars/README)
+
+* [get](/sdks/java/bars/README#get) - Get Bars V2
+
+### [bullsBearsSayBearsSay()](/sdks/java/bullsbearssaybearssay/README)
+
+* [get](/sdks/java/bullsbearssaybearssay/README#get) - Get Bulls Say Bears Say V1
+
+### [conferenceCalls()](/sdks/java/conferencecalls/README)
+
+* [get](/sdks/java/conferencecalls/README#get) - Get Conference Calls
+
+### [consensusRatings()](/sdks/java/consensusratings/README)
+
+* [get](/sdks/java/consensusratings/README#get) - Get Consensus Ratings
+
+### [derivedFiguresAndRatios()](/sdks/java/derivedfiguresandratios/README)
+
+* [get](/sdks/java/derivedfiguresandratios/README#get) - Get derived figures and ratios V3
+
+### [dividends()](/sdks/java/dividends/README)
+
+* [getV22](/sdks/java/dividends/README#getv22) - Get Dividends V2.2
+* [get](/sdks/java/dividends/README#get) - Get Dividends V2 & V2.1
+
+### [earningRatios()](/sdks/java/earningratios/README)
+
+* [get](/sdks/java/earningratios/README#get) - Get earning ratios V2.1
+
+### [earnings()](/sdks/java/earnings/README)
+
+* [get](/sdks/java/earnings/README#get) - Get Earnings
+
+### [earningsCallTranscripts()](/sdks/java/earningscalltranscripts/README)
+
+* [get](/sdks/java/earningscalltranscripts/README#get) - Get Earnings Call Transcripts
+* [getAudio](/sdks/java/earningscalltranscripts/README#getaudio) - Get Earnings Call Transcript Audio Files
+
+### [economics()](/sdks/java/economics/README)
+
+* [get](/sdks/java/economics/README#get) - Get Economics
+
+### [events()](/sdks/java/events/README)
+
+* [get](/sdks/java/events/README#get) - Get Events
+
+### [fda()](/sdks/java/fda/README)
+
+* [get](/sdks/java/fda/README#get) - Get FDA
+
+### [fundamentals()](/sdks/java/fundamentals/README)
+
+* [getV21](/sdks/java/fundamentals/README#getv21) - Get Fundamentals V2.1
+* [getAlphaBeta](/sdks/java/fundamentals/README#getalphabeta) - Get Alpha Beta V2.1
+* [getCompanyV21](/sdks/java/fundamentals/README#getcompanyv21) - Get Company Data v2.1
+* [getCompanyProfileV21](/sdks/java/fundamentals/README#getcompanyprofilev21) - Get Company Profile v2.1
+* [getShareClass](/sdks/java/fundamentals/README#getshareclass) - Get Share Class V2.1
+* [getShareClassProfile](/sdks/java/fundamentals/README#getshareclassprofile) - Get Share Class Profile V2.1
+* [get](/sdks/java/fundamentals/README#get) - Get Fundamentals V2
+* [getAssetClassification](/sdks/java/fundamentals/README#getassetclassification) - Get Asset Classification V2.1
+* [getEarningsReports](/sdks/java/fundamentals/README#getearningsreports) - Get Earnings Reports V2.1
+* [getFinancialsV21](/sdks/java/fundamentals/README#getfinancialsv21) - Get Financials V2.1
+* [getV3](/sdks/java/fundamentals/README#getv3) - Get Fundamentals V3
+* [getBalanceSheetV3](/sdks/java/fundamentals/README#getbalancesheetv3) - Get Balance Sheet V3
+* [getCashFlowV3](/sdks/java/fundamentals/README#getcashflowv3) - Get Cash Flow V3
+* [getIncomeStatement](/sdks/java/fundamentals/README#getincomestatement) - Get Income Statement V3
+* [getSharePriceRatios](/sdks/java/fundamentals/README#getsharepriceratios) - Get Share Price Ratios V3
+
+### [governmentTradeReports()](/sdks/java/governmenttradereports/README)
+
+* [get](/sdks/java/governmenttradereports/README#get) - Get Government Trade Reports
+
+### [governmentTrades()](/sdks/java/governmenttrades/README)
+
+* [get](/sdks/java/governmenttrades/README#get) - Get Government Trades
+
+### [guidance()](/sdks/java/guidance/README)
+
+* [get](/sdks/java/guidance/README#get) - Get Guidance
+
+### [insiderTransaction()](/sdks/java/insidertransaction/README)
+
+* [get](/sdks/java/insidertransaction/README#get) - Get Insider Transaction
+
+### [insiderTransactions()](/sdks/java/insidertransactions/README)
+
+* [getOwner](/sdks/java/insidertransactions/README#getowner) - Get Insider Transaction Owner
+
+### [ipos()](/sdks/java/ipos/README)
+
+* [getV21](/sdks/java/ipos/README#getv21) - Get IPOs V2.1
+* [get](/sdks/java/ipos/README#get) - Get IPOs V2
+
+### [logos()](/sdks/java/logos/README)
+
+* [bulkSync](/sdks/java/logos/README#bulksync) - Get Logos for given search keys
+* [search](/sdks/java/logos/README#search) - Get Logos for given search keys
+
+### [ma()](/sdks/java/ma/README)
+
+* [get](/sdks/java/ma/README#get) - Get Merger and Acquisition
+
+### [news()](/sdks/java/news/README)
+
+* [get](/sdks/java/news/README#get) - Get News
+* [getRemoved](/sdks/java/news/README#getremoved) - Get Removed News
+
+### [newsquantified()](/sdks/java/newsquantified/README)
+
+* [get](/sdks/java/newsquantified/README#get) - Get Newsquantified Data
+
+### [offerings()](/sdks/java/offerings/README)
+
+* [get](/sdks/java/offerings/README#get) - Get Offerings
+
+### [operationRatios()](/sdks/java/operationratios/README)
+
+* [get](/sdks/java/operationratios/README#get) - Get operation ratios V2.1
+
+### [optionActivity()](/sdks/java/optionactivity/README)
+
+* [get](/sdks/java/optionactivity/README#get) - Get OptionActivity V1
+
+### [quotedelayed()](/sdks/java/quotedelayed/README)
+
+* [getV1](/sdks/java/quotedelayed/README#getv1) - Get delayed quotes V1
+
+### [quoteDelayed()](/sdks/java/bzclientquotedelayed/README)
+
+* [get](/sdks/java/bzclientquotedelayed/README#get) - Get delayed quotes V2
+
+### [ratings()](/sdks/java/ratings/README)
+
+* [get](/sdks/java/ratings/README#get) - Get Ratings
+
+### [ratingsAnalysts()](/sdks/java/ratingsanalysts/README)
+
+* [get](/sdks/java/ratingsanalysts/README#get) - Get Ratings Analysts
+
+### [ratingsFirms()](/sdks/java/ratingsfirms/README)
+
+* [get](/sdks/java/ratingsfirms/README#get) - Get Ratings Firms
+
+### [removed()](/sdks/java/removed/README)
+
+* [get](/sdks/java/removed/README#get) - Get Removed (v2)
+
+### [splits()](/sdks/java/splits/README)
+
+* [get](/sdks/java/splits/README#get) - Get Splits
+
+### [tickerTrends()](/sdks/java/tickertrends/README)
+
+* [get](/sdks/java/tickertrends/README#get) - Get ticker trend data
+* [getList](/sdks/java/tickertrends/README#getlist) - Get ticker trend list data
+
+### [valuationRatios()](/sdks/java/valuationratios/README)
+
+* [get](/sdks/java/valuationratios/README#get) - Get valuation ratios V2.1
+
+## Retries
+
+Some of the endpoints in this SDK support retries. If you use the SDK without any configuration, it will fall back to the default retry strategy provided by the API. However, the default retry strategy can be overridden on a per-operation basis, or across the entire SDK.
+
+To change the default retry strategy for a single API call, you can provide a `RetryConfig` object through the `retryConfig` builder method:
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.concurrent.TimeUnit;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+import org.benzinga.BZClient.utils.BackoffStrategy;
+import org.benzinga.BZClient.utils.RetryConfig;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .retryConfig(RetryConfig.builder()
+                    .backoff(BackoffStrategy.builder()
+                        .initialInterval(1L, TimeUnit.MILLISECONDS)
+                        .maxInterval(50L, TimeUnit.MILLISECONDS)
+                        .maxElapsedTime(1000L, TimeUnit.MILLISECONDS)
+                        .baseFactor(1.1)
+                        .jitterFactor(0.15)
+                        .retryConnectError(false)
+                        .build())
+                    .build())
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+
+If you'd like to override the default retry strategy for all operations that support retries, you can provide a configuration at SDK initialization:
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.concurrent.TimeUnit;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+import org.benzinga.BZClient.utils.BackoffStrategy;
+import org.benzinga.BZClient.utils.RetryConfig;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .retryConfig(RetryConfig.builder()
+                    .backoff(BackoffStrategy.builder()
+                        .initialInterval(1L, TimeUnit.MILLISECONDS)
+                        .maxInterval(50L, TimeUnit.MILLISECONDS)
+                        .maxElapsedTime(1000L, TimeUnit.MILLISECONDS)
+                        .baseFactor(1.1)
+                        .jitterFactor(0.15)
+                        .retryConnectError(false)
+                        .build())
+                    .build())
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+
+## Error Handling
+
+Handling errors in this SDK should largely match your expectations. All operations return a response object or raise an exception.
+
+By default, an API error will throw a `models/errors/APIException` exception. When custom error responses are specified for an operation, the SDK may also throw their associated exception. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `get` method throws the following exceptions:
+
+| Error Type                     | Status Code | Content Type     |
+| ------------------------------ | ----------- | ---------------- |
+| models/errors/ApiErrorResponse | 400, 500    | application/json |
+| models/errors/APIException     | 4XX, 5XX    | \*/\*            |
+
+### Example
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Request;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystInsightsV1Request req = GetAnalystInsightsV1Request.builder()
+                .build();
+
+        GetAnalystInsightsV1Response res = sdk.analystInsights().get()
+                .request(req)
+                .call();
+
+        if (res.modelsAnalystInsightsJSON().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+
+## Server Selection
+
+### Select Server by Index
+
+You can override the default server globally using the `.serverIndex(int serverIdx)` builder method when initializing the SDK client instance. The selected server will then be used as the default on the operations that use it. This table lists the indexes associated with the available servers:
+
+| #   | Server                              |
+| --- | ----------------------------------- |
+| 0   | `https://api.benzinga.com`          |
+| 1   | `https://api.benzinga.com/api/v1`   |
+| 2   | `https://api.benzinga.com/api/v2`   |
+| 3   | `https://api.benzinga.com/api/v2.1` |
+| 4   | `https://api.benzinga.com/api/v2.2` |
+
+#### Example
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .serverIndex(4)
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+
+### Override Server URL Per-Client
+
+The default server can also be overridden globally using the `.serverURL(String serverUrl)` builder method when initializing the SDK client instance. For example:
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .serverURL("https://api.benzinga.com")
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+
+
+# Development
+
+## Maturity
+
+This SDK is in beta, and there may be breaking changes between versions without a major version update. Therefore, we recommend pinning usage
+to a specific package version. This way, you can install the same version each time without breaking changes unless you are intentionally
+looking for the latest version.
+
+## Contributions
+
+While we value open-source contributions to this SDK, this library is generated programmatically. Any manual changes added to internal files will be overwritten on the next generation.
+We look forward to hearing your feedback. Feel free to open a PR or an issue with a proof of concept and we'll do our best to include it in a future release.
+
+### SDK Created by [Speakeasy](https://www.speakeasy.com/?utm_source=openapi&utm_campaign=java)
