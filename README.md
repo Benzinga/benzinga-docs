@@ -1,6 +1,6 @@
 # Benzinga Docs - Powered by Mintlify
 
-Live at --> https://benzinga-f1b3b178.mintlify.app
+Live at --> https://benzinga-2.mintlify.app
 
 Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
 
