@@ -1,7 +1,8 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API provides endpoints to search for earnings call transcripts and get earnings call transcript details.
+  description: This REST API provides endpoints to search for earnings call
+    transcripts and get earnings call transcript details.
   termsOfService: http://swagger.io/terms/
   title: Earnings Call Transcripts API
   version: 1.0.0
@@ -235,6 +236,3 @@ components:
         transcript:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default
