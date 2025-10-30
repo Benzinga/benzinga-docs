@@ -1,0 +1,193 @@
+---
+title: "Conference Call Transcripts Stream"
+description: "This WebSocket endpoint allows you to subscribe to real-time conference call transcripts."
+---
+
+## WebSocket `websocket/v1`:
+
+```txt
+wss://api.benzinga.com/api/v1/earnings-call-transcripts/stream
+```
+
+### Parameters:
+
+| Name       | Location |  Type   | Required | Description                                                             |
+| :--------- | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
+| `token`    | query    | string  |      Yes | Benzinga websocket token (bz.production***).                            |
+| `tickers`  | query    | string  | Optional | List of tickers you want to subscribe for. Seperated by comma.          |
+
+### Stream Response:
+When you subscribe to the stream, you'll receive updates about conference call transcripts in the following format:
+
+```json
+{
+   "api_version":"EarningsCallTranscripts/v1",
+   "kind":"stream_type",
+   "data":{
+      "type":"transcription_end",
+      "content":{
+         "call_id":"6757fbd6f0cc56000183c6a5",
+         "transcript_chunk":"We are extremely pleased with our fourth quarter and full fiscal year 2024 results.",
+         "security":{
+            "company_name":"Limoneira",
+            "ticker":"LMNR",
+            "cik":"1342423",
+            "isin":"US5327461043",
+            "exchange":"NAS"
+         },
+         "time":1735189664,
+         "index":0
+      }
+   }
+}
+```
+
+#### Responses
+
+- **200 OK**
+- **Description**: Success
+- **Content Type**: `application/json`
+- **Schema**: [EarningsCallTranscriptsWSResp](#earningscalltranscriptswsresp)
+
+### EarningsCallTranscriptsWSResp
+
+| Property      | Type   | Description                                                     |
+|---------------|--------|-----------------------------------------------------------------|
+| api_version   | string | Websocket API version: `EarningsCallTranscripts/v1`.            |
+| kind          | string | Websocket connection stream type.                              |
+| data          | object | Contains details about the websocket data.                    |
+| - type      | string | Type of message (e.g. transcript_chunk, transcription_end).      |
+| - content     | object | Reference to `EarningsCallTranscripts` schema.                         |
+
+### EarningsCallTranscripts
+
+| Property           | Type    | Description                                                     |
+|--------------------|---------|-----------------------------------------------------------------|
+| call_id             | string  | Unique call id.    |
+| transcript_chunk   | string  | Conference call transcripted chunk .                            |
+| security           | object  | Contains security details for which the insight is provided.  |
+| - cik              | string  | Central Index Key of the security.                            |
+| - exchange         | string  | Exchange where the security is listed.                        |
+| - isin             | string  | International Securities Identification Number.               |
+| - name             | string  | Name of the security.                                        |
+| - symbol           | string  | Ticker symbol of the security.                               |
+| time            | integer | Timestamp when a transcripts chunk is created (formatted as float64). |
+| index            | integer | Transcript chunk index (formatted as int). |
+
+
+## Success Response
+
+- Success `101` - Websocket connection established successfully.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '700px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ✅ Connected to wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Handshake Details
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span><strong>Request URL:</strong> </span>
+        <p style={{ color: 'blue' }}>
+            "https://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz"
+        </p>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
+    </div>
+</div>
+
+## Error Response
+
+- Unauthorized `401` - Invalid token, check the token provided.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ Could not connect to wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: Unexpected server response: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Handshake Details
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - Either invalid route or server error.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ Could not connect to wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: Unexpected server response: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Handshake Details
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

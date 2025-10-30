@@ -1,0 +1,298 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: This REST API returns structured data for news articles and press releases.
+  termsOfService: http://swagger.io/terms/
+  title: News API
+  version: 2.1.0
+paths:
+  /api/v2/news:
+    get:
+      description: Get News
+      operationId: get-news
+      parameters:
+        - description: Tickers
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: CUSIPs
+          in: query
+          name: cusips
+          schema:
+            type: string
+        - description: ISINs
+          in: query
+          name: isins
+          schema:
+            type: string
+        - description: Channels
+          in: query
+          name: channels
+          schema:
+            type: string
+        - description: Topics
+          in: query
+          name: topics
+          schema:
+            type: string
+        - description: Authors
+          in: query
+          name: authors
+          schema:
+            type: string
+        - description: Content Types
+          in: query
+          name: contentTypes
+          schema:
+            type: string
+        - description: Sort
+          in: query
+          name: sort
+          schema:
+            type: string
+        - description: Date
+          in: query
+          name: date
+          schema:
+            type: string
+            format: date
+        - description: Published Since
+          in: query
+          name: publishedSince
+          schema:
+            type: string
+        - description: Updated Since
+          in: query
+          name: updatedSince
+          schema:
+            type: string
+        - description: Date From
+          in: query
+          name: dateFrom
+          schema:
+            type: string
+        - description: Date To
+          in: query
+          name: dateTo
+          schema:
+            type: string
+        - description: Page Size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Page
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Last ID
+          in: query
+          name: lastID
+          schema:
+            type: string
+        - description: Display Output
+          in: query
+          name: displayOutput
+          schema:
+            type: string
+        - description: Noise
+          in: query
+          name: noise
+          schema:
+            type: string
+        - description: Format
+          in: query
+          name: format
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
+            text/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
+        "400":
+          description: Invalid or Missing Query Parameters
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "499":
+          description: Request Context Cancelled
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "500":
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get News
+      tags:
+        - News
+  /api/v2/news/removed:
+    get:
+      description: Get Removed News
+      operationId: get-removed-news
+      parameters:
+        - description: Updated Since
+          in: query
+          name: updatedSince
+          schema:
+            type: string
+        - description: Page Size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Page
+          in: query
+          name: page
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsRemovedItem"
+                type: array
+            text/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsRemovedItem"
+                type: array
+        "400":
+          description: Invalid or Missing Query Parameters
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "499":
+          description: Request Context Cancelled
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "500":
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Removed News
+      tags:
+        - News
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: token
+      type: apiKey
+  schemas:
+    api.ChannelTag:
+      properties:
+        name:
+          type: string
+      type: object
+    api.Image:
+      properties:
+        size:
+          type: string
+        url:
+          type: string
+      type: object
+    api.NewsItem:
+      properties:
+        author:
+          type: string
+        body:
+          type: string
+        channels:
+          items:
+            $ref: "#/components/schemas/api.ChannelTag"
+          type: array
+        created:
+          type: string
+        id:
+          type: integer
+        image:
+          items:
+            $ref: "#/components/schemas/api.Image"
+          type: array
+        original_id:
+          type: integer
+        stocks:
+          items:
+            $ref: "#/components/schemas/api.Stock"
+          type: array
+        tags:
+          items:
+            $ref: "#/components/schemas/api.ChannelTag"
+          type: array
+        teaser:
+          type: string
+        title:
+          type: string
+        updated:
+          type: string
+        url:
+          type: string
+      type: object
+    api.NewsRemovedItem:
+      properties:
+        id:
+          type: integer
+        updated:
+          type: string
+      type: object
+    api.Stock:
+      properties:
+        cusip:
+          type: string
+        isin:
+          type: string
+        name:
+          type: string
+      type: object
+servers:
+  - url: https://api.benzinga.com/api/v2
+    description: V2
+  - url: https://api.benzinga.com/api/v2.1
+    description: V2.1

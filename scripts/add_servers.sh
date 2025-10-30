@@ -26,6 +26,12 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
                   {"url": "https://api.benzinga.com/api/v2.1", "description": "V2.1"}
                 ]'
                 ;;
+            "news-api_api.spec.yml")
+                servers='[
+                  {"url": "https://api.benzinga.com/api/v2", "description": "V2"},
+                  {"url": "https://api.benzinga.com/api/v2.1", "description": "V2.1"}
+                ]'
+                ;;
             *)
                 # Default servers if filename doesn't match
                 servers='[
