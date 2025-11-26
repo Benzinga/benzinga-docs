@@ -168,6 +168,7 @@
     {
       "group": "Calendars",
       "pages": [
+        "api-reference/calendar_api/block-trade/get-blocktrade-v1",
         "api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
         "api-reference/calendar_api/dividends/get-dividends-v22",
         "api-reference/calendar_api/dividends/get-dividends-v2-&-v21",
