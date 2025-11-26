@@ -7,7 +7,7 @@
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#8924A6",
+    "primary": "#0D213F",
     "light": "#ac6bd1",
     "dark": "#0D9373",
     "background": {
@@ -53,16 +53,20 @@
   },
   "tabs": [
     {
-      "name": "Components",
-      "url": "components"
-    },
-    {
       "name": "API Reference",
       "url": "api-reference"
     },
     {
       "name": "WebSocket Reference",
       "url": "ws-reference"
+    },
+    {
+      "name": "Webhook Reference",
+      "url": "webhook-reference"
+    },
+    {
+      "name": "Widgets",
+      "url": "widgets"
     },
     {
       "name": "SDKs",
@@ -118,11 +122,29 @@
       ]
     },
     {
+        "group": "",
+        "pages": [
+            "webhook-reference/overview"
+        ]
+    },
+    {
+        "group": "",
+        "pages": [
+            "widgets/overview"
+        ]
+    },
+    {
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction",
         "api-reference/authentication",
         "api-reference/errors"
+      ]
+    },
+    {
+      "group": "Analyst Insights",
+      "pages": [
+        "api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
       ]
     },
     {
@@ -132,24 +154,38 @@
       ]
     },
     {
+      "group": "Bars",
+      "pages": [
+        "api-reference/data-api-proxy_api/bars/get-bars-v2"
+      ]
+    },
+    {
+      "group": "Bulls Say Bears Say",
+      "pages": [
+        "api-reference/calendar_api/bulls-say-bears-say/get-bulls-say-bears-say-v1"
+      ]
+    },
+    {
       "group": "Calendars",
       "pages": [
+        "api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
+        "api-reference/calendar_api/dividends/get-dividends-v22",
+        "api-reference/calendar_api/dividends/get-dividends-v2-&-v21",
         "api-reference/calendar_api/removed/get-removed-v2",
         "api-reference/calendar_api/conference_calls/get-conference-calls",
-        "api-reference/calendar_api/dividends/get-dividends",
         "api-reference/calendar_api/earnings/get-earnings",
         "api-reference/calendar_api/economics/get-economics",
         "api-reference/calendar_api/events/get-events",
         "api-reference/calendar_api/fda/get-fda",
         "api-reference/calendar_api/guidance/get-guidance",
-        "api-reference/calendar_api/ipos/get-ipos",
+        "api-reference/calendar_api/ipos/get-ipos-v21",
+        "api-reference/calendar_api/ipos/get-ipos-v2",
         "api-reference/calendar_api/ma/get-merger-and-acquisition",
+        "api-reference/calendar_api/option-activity/get-optionactivity-v1",
         "api-reference/calendar_api/offerings/get-offerings",
         "api-reference/calendar_api/ratings/get-ratings",
         "api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
-        "api-reference/calendar_api/ratings_firms/get-ratings-firms",
-        "api-reference/calendar_api/splits/get-splits",
-        "api-reference/calendar_api/consensus_ratings/get-consensus-ratings"
+        "api-reference/calendar_api/ratings_firms/get-ratings-firms"
       ]
     },
     {
@@ -157,6 +193,13 @@
       "pages": [
         "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
         "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
+      ]
+    },
+    {
+      "group": "Earnings Call Transcripts",
+      "pages": [
+        "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
+        "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
       ]
     },
     {
@@ -180,9 +223,37 @@
       ]
     },
     {
-      "group": "Bars",
+      "group": "Government Trades",
       "pages": [
-        "api-reference/data-api-proxy_api/bars/get-bars-v2"
+        "api-reference/calendar_api/government-trade-reports/get-government-trade-reports",
+        "api-reference/calendar_api/government-trades/get-government-trades"
+      ]
+    },
+    {
+      "group": "Insider Transactions",
+      "pages": [
+        "api-reference/calendar_api/insider-transaction/get-insider-transaction",
+        "api-reference/calendar_api/insider-transaction/get-insider-transaction-owner"
+      ]
+    },
+    {
+      "group": "Logos",
+      "pages": [
+        "api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
+        "api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
+      ]
+    },
+    {
+      "group": "News",
+      "pages": [
+        "api-reference/news-api_api/news/get-news",
+        "api-reference/news-api_api/news/get-removed-news"
+      ]
+    },
+    {
+      "group": "NewsQuantified",
+      "pages": [
+        "api-reference/newsquantified-api_api/get-newsquantified-data"
       ]
     },
     {
@@ -195,23 +266,9 @@
       ]
     },
     {
-      "group": "Earnings Call Transcripts",
+      "group": "Splits",
       "pages": [
-        "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
-        "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
-      ]
-    },
-    {
-      "group": "Logos",
-      "pages": [
-        "api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
-        "api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
-      ]
-    },
-    {
-      "group": "NewsQuantified",
-      "pages": [
-        "api-reference/newsquantified-api_api/get-newsquantified-data"
+        "api-reference/calendar_api/splits/get-splits"
       ]
     },
     {
