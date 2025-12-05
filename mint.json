@@ -124,7 +124,8 @@
     {
         "group": "",
         "pages": [
-            "webhook-reference/overview"
+            "webhook-reference/overview",
+            "webhook-reference/webhook-engine"
         ]
     },
     {

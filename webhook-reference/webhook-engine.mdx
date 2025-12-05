@@ -1,0 +1,587 @@
+---
+title: "Data Webhook Engine"
+description: "Deliver Benzinga calendar, signal, and sentiment data directly to your webhook endpoints in real time."
+icon: bolt
+---
+
+The webhook engine pushes calendar and signal updates directly to your HTTP endpoint with built-in retries, filtering, and transformation options. Use this guide to understand delivery mechanics, payload shape, and integration best practices.
+
+## Overview
+
+The Benzinga Data Webhook service delivers real-time calendar and signals data to your configured webhook endpoints. When calendar events (earnings, dividends, ratings, etc.) or signals (option activity, halts, etc.) are created, updated, or removed, the service automatically sends HTTP POST requests to your webhook URL with the data payload.
+
+Key capabilities:
+
+- Configurable scopes for calendar and signal coverage so you only receive the data you need
+- Idempotent deliveries with a unique `X-BZ-Delivery` header and payload `id` field for deduplication
+- Robust retry schedule that escalates from rapid exponential retries to long-tail hourly attempts
+- Optional content transformations to align payloads with downstream system expectations
+
+## Webhook Delivery
+
+### HTTP Request Details
+
+- **Method**: `POST`
+- **Content-Type**: `application/json`
+- **User-Agent**: `Benzinga-Dispatch/v1.0.0 {build-version}`
+- **Custom Header**: `X-BZ-Delivery` - A unique UUID for each delivery attempt (useful for deduplication)
+
+### Retry Policy
+
+The data webhook service implements a robust retry mechanism:
+
+- **Exponential Phase**: 15 retries within the first 5 minutes
+- **Additional Exponential Retries**: 11 more retries if needed
+- **Fixed Interval Phase**: 12 retries per hour × 24 hours/day × 7 days (for long-term retries)
+- **Max Wait Time**: 5 minutes between retries in exponential phase
+- **Request Timeout**: 30 seconds per request
+
+### Response Requirements
+
+Your webhook endpoint should return one of the following HTTP status codes:
+
+- **Success Codes** (200-202, 204): Indicates successful delivery. No retries will be attempted.
+- **Client Error Codes** (401-403): Indicates authentication/authorization failure. Retries will be **halted immediately** to prevent further failed attempts.
+- **Other Codes** (4xx, 5xx): Will trigger retries according to the retry policy above.
+
+**Important**: Your endpoint should respond quickly (ideally within 30 seconds) to avoid timeout. The engine will retry on timeouts.
+
+## Webhook Payload Structure
+
+Each webhook delivery contains a JSON payload with the following structure:
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b7",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b7",
+      "date": "2024-01-15",
+      "date_confirmed": 1,
+      "time": "08:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "period": "Q1",
+      "period_year": 2024,
+      "currency": "USD",
+      "eps": "2.18",
+      "eps_est": "2.10",
+      "revenue": "123900000000",
+      "revenue_est": "121000000000"
+    }
+  }
+}
+```
+
+### Payload Fields
+
+#### Top-Level Fields
+
+- **`id`** (string, UUID): Unique identifier for this webhook delivery. Use this for deduplication.
+- **`api_version`** (string): API version identifier. Currently `"webhook/v1"`.
+- **`kind`** (string): Data type path identifier. See [Supported Data Types](#supported-data-types) for all possible values.
+
+#### Data Object
+
+- **`action`** (string): Event action type. Possible values:
+  - `"Created"`: New data was created (default for new webhook keys)
+  - `"Updated"`: Existing data was updated
+  - `"Removed"`: Data was removed
+  - **Note**: Legacy webhook keys may receive lowercase values: `"created"`, `"updated"`, `"removed"`
+- **`id`** (string): Unique identifier for the calendar/signal record
+- **`timestamp`** (string, ISO 8601): Timestamp when the webhook was generated
+- **`content`** (object): The actual calendar or signal data. Structure varies by data type (see [Supported Data Types](#supported-data-types))
+
+## Supported Data Types
+
+The data webhook service supports the following calendar and signal types:
+
+### Calendar Data Types (v2.1)
+
+| Data Type | Kind Path | Description |
+|-----------|-----------|-------------|
+| Earnings | `data/v2.1/calendar/earnings` | Company earnings announcements |
+| Dividends | `data/v2.1/calendar/dividends` | Dividend declarations and payments |
+| Ratings | `data/v2.1/calendar/ratings` | Analyst ratings and price targets |
+| IPOs | `data/v2.1/calendar/ipos` | Initial public offerings |
+| Guidance | `data/v2.1/calendar/guidance` | Company guidance updates |
+| Conference | `data/v2.1/calendar/conference` | Conference calls and presentations |
+| Economics | `data/v2.1/calendar/economics` | Economic indicators and releases |
+| Offerings | `data/v2.1/calendar/offerings` | Secondary offerings |
+| Mergers & Acquisitions | `data/v2.1/calendar/ma` | M&A announcements |
+| Retail | `data/v2.1/calendar/retail` | Retail sales data |
+| Splits | `data/v2.1/calendar/splits` | Stock splits |
+| FDA | `data/v2.1/calendar/fda` | FDA approvals and announcements |
+
+### Signals Data Types (v1)
+
+| Data Type | Kind Path | Description |
+|-----------|-----------|-------------|
+| Option Activity | `data/v1/signal/option_activity` | Unusual option activity |
+| WIIMs | `data/v1/wiims` | Why Is It Moving (WIIMs) data |
+| SEC Insider Transactions | `data/v1/sec/insider_transactions/filings` | SEC insider trading filings |
+| Government Trades | `data/v1/gov/usa/congress` | Congressional trading data |
+
+### Additional Data Types (v1)
+
+| Data Type | Kind Path | Description |
+|-----------|-----------|-------------|
+| Bulls Say Bears Say | `data/v1/bulls_bears_say` | Market sentiment analysis |
+| Bulls Say Bears Say (Korean) | `data/v1/bulls_bears_say/korean` | Korean market sentiment |
+| Analyst Insights | `data/v1/analyst/insights` | Analyst insights and commentary |
+| Consensus Ratings | `data/v1/consensus-ratings` | Aggregated consensus ratings |
+
+## Content Structure Examples
+
+### Earnings Example
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b7",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b7",
+      "date": "2024-01-15",
+      "date_confirmed": 1,
+      "time": "08:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "period": "Q1",
+      "period_year": 2024,
+      "currency": "USD",
+      "eps": "2.18",
+      "eps_est": "2.10",
+      "eps_prior": "1.88",
+      "eps_surprise": "0.08",
+      "eps_surprise_percent": "3.81",
+      "eps_type": "GAAP",
+      "revenue": "123900000000",
+      "revenue_est": "121000000000",
+      "revenue_prior": "117154000000",
+      "revenue_surprise": "2900000000",
+      "revenue_surprise_percent": "2.40",
+      "importance": 0
+    }
+  }
+}
+```
+
+### Dividends Example
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440001",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/dividends",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b8",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b8",
+      "date": "2024-02-15",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "currency": "USD",
+      "frequency": 4,
+      "dividend": "0.24",
+      "dividend_prior": "0.23",
+      "dividend_type": "Regular",
+      "dividend_yield": "0.50",
+      "ex_dividend_date": "2024-02-09",
+      "payable_date": "2024-02-15",
+      "record_date": "2024-02-12",
+      "confirmed": true,
+      "importance": 0
+    }
+  }
+}
+```
+
+### Ratings Example
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440002",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/ratings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b9",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b9",
+      "date": "2024-01-15",
+      "time": "09:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "action_pt": "Maintains",
+      "action_company": "Maintains",
+      "currency": "USD",
+      "rating_current": "Buy",
+      "pt_current": "200.00",
+      "pt_prior": "195.00",
+      "adjusted_pt_current": "200.00",
+      "adjusted_pt_prior": "195.00",
+      "rating_prior": "Buy",
+      "url": "https://www.benzinga.com/...",
+      "importance": 0,
+      "firm": {
+        "name": "Goldman Sachs",
+        "id": "123"
+      },
+      "analyst": {
+        "name": "John Doe",
+        "id": "456"
+      }
+    }
+  }
+}
+```
+
+### Option Activity Example
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440003",
+  "api_version": "webhook/v1",
+  "kind": "data/v1/signal/option_activity",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4ba",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4ba",
+      "date": "2024-01-15",
+      "time": "10:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "option_symbol": "AAPL240119C00150000",
+      "strike": "150.00",
+      "expiration": "2024-01-19",
+      "type": "call",
+      "volume": 10000,
+      "open_interest": 50000,
+      "premium": "500000.00",
+      "importance": 0
+    }
+  }
+}
+```
+
+## Event Actions
+
+The data webhook service sends events for three types of actions:
+
+1. **Created**: Triggered when new calendar or signal data is published
+2. **Updated**: Triggered when existing data is modified
+3. **Removed**: Triggered when data is deleted
+
+**Note**: The action format depends on your webhook configuration:
+- **New webhook keys**: Receive capitalized actions (`"Created"`, `"Updated"`, `"Removed"`)
+- **Legacy webhook keys**: Receive lowercase actions (`"created"`, `"updated"`, `"removed"`)
+
+## Content Filtering
+
+Your webhook configuration can include filters to control which data you receive:
+
+### Filter Options
+
+- **Data Types**: Filter by specific calendar/signal types (e.g., only earnings, only ratings)
+- **Geographic Filters**: Control whether to receive:
+  - US market data (`AllowUSA`)
+  - Canadian market data (`AllowCanada`)
+  - Indian market data (`AllowIndia`) - for WIIMs data
+- **Date Filter**: Exclude historical data older than a specified date (`MaxHistoricalDate`)
+
+### Exchange Filtering
+
+The service automatically filters by exchange based on your geographic settings:
+- **US Exchanges**: NYSE, NASDAQ, AMEX, ARCA, OTC, OTCBB, PINX, PINK, BATS, IEX
+- **Canadian Exchanges**: TSX, TSXV, CSE, CNSX
+
+## Content Transformation
+
+The webhook engine supports content transformation for specific data types. Transformations are applied based on your webhook configuration and may include:
+
+- Field renaming
+- Data format conversion
+- Field filtering/removal
+
+## Best Practices
+
+### 1. Idempotency
+
+Use the `id` field (UUID) in the payload to implement idempotency. Store processed delivery IDs to avoid duplicate processing.
+
+### 2. Response Handling
+
+- Return `200 OK` or `204 No Content` immediately upon receiving the webhook
+- Process the data asynchronously if needed
+- Don't perform long-running operations before responding
+
+### 3. Error Handling
+
+- Return appropriate HTTP status codes
+- For authentication errors (401-403), ensure your endpoint is properly configured
+- For temporary failures, return 5xx status codes to trigger retries
+
+### 4. Security
+
+- Use HTTPS for your webhook endpoint
+- Implement authentication/authorization (API keys, tokens, etc.)
+- Validate the `X-BZ-Delivery` header for additional security
+
+### 5. Monitoring
+
+- Monitor your endpoint's response times
+- Set up alerts for repeated failures
+- Track the `X-BZ-Delivery` header to identify delivery attempts
+
+### 6. Data Type Handling
+
+- Check the `kind` field to determine the data type
+- Parse the `content` object based on the data type structure
+- Handle different action formats (capitalized vs lowercase) if supporting legacy keys
+
+## Example Webhook Handler
+
+### Python (Flask)
+
+```python
+from flask import Flask, request, jsonify
+import uuid
+
+app = Flask(__name__)
+processed_ids = set()
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    # Get delivery ID for deduplication
+    delivery_id = request.headers.get('X-BZ-Delivery')
+    
+    # Parse payload
+    payload = request.json
+    content_id = payload['id']
+    
+    # Check for duplicates
+    if content_id in processed_ids:
+        return jsonify({'status': 'duplicate'}), 200
+    
+    # Process data
+    action = payload['data']['action']
+    kind = payload['kind']
+    content = payload['data']['content']
+    
+    print(f"Received {action} event for {kind}")
+    print(f"Data ID: {content.get('id')}")
+    
+    # Handle different data types
+    if 'earnings' in kind:
+        print(f"Earnings: {content.get('ticker')} - {content.get('date')}")
+    elif 'ratings' in kind:
+        print(f"Rating: {content.get('ticker')} - {content.get('rating_current')}")
+    elif 'option_activity' in kind:
+        print(f"Option Activity: {content.get('ticker')} - {content.get('volume')}")
+    
+    # Mark as processed
+    processed_ids.add(content_id)
+    
+    # Return success immediately
+    return jsonify({'status': 'received'}), 200
+```
+
+### Node.js (Express)
+
+```javascript
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+const processedIds = new Set();
+
+app.post('/webhook', (req, res) => {
+  // Get delivery ID for deduplication
+  const deliveryId = req.headers['x-bz-delivery'];
+  
+  // Parse payload
+  const payload = req.body;
+  const contentId = payload.id;
+  
+  // Check for duplicates
+  if (processedIds.has(contentId)) {
+    return res.status(200).json({ status: 'duplicate' });
+  }
+  
+  // Process data
+  const { action, content } = payload.data;
+  const kind = payload.kind;
+  
+  console.log(`Received ${action} event for ${kind}`);
+  console.log(`Data ID: ${content.id}`);
+  
+  // Handle different data types
+  if (kind.includes('earnings')) {
+    console.log(`Earnings: ${content.ticker} - ${content.date}`);
+  } else if (kind.includes('ratings')) {
+    console.log(`Rating: ${content.ticker} - ${content.rating_current}`);
+  } else if (kind.includes('option_activity')) {
+    console.log(`Option Activity: ${content.ticker} - ${content.volume}`);
+  }
+  
+  // Mark as processed
+  processedIds.add(contentId);
+  
+  // Return success immediately
+  res.status(200).json({ status: 'received' });
+});
+
+app.listen(3000);
+```
+
+### Go
+
+```go
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "log"
+    "net/http"
+    "sync"
+)
+
+var (
+    processedIDs = make(map[string]bool)
+    mu           sync.RWMutex
+)
+
+type WebhookPayload struct {
+    ID         string `json:"id"`
+    APIVersion string `json:"api_version"`
+    Kind       string `json:"kind"`
+    Data       struct {
+        Action    string                 `json:"action"`
+        ID        string                 `json:"id"`
+        Timestamp string                 `json:"timestamp"`
+        Content   map[string]interface{} `json:"content"`
+    } `json:"data"`
+}
+
+func webhookHandler(w http.ResponseWriter, r *http.Request) {
+    // Get delivery ID
+    deliveryID := r.Header.Get("X-BZ-Delivery")
+    
+    // Parse payload
+    var payload WebhookPayload
+    if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    
+    // Check for duplicates
+    mu.RLock()
+    if processedIDs[payload.ID] {
+        mu.RUnlock()
+        w.WriteHeader(http.StatusOK)
+        json.NewEncoder(w).Encode(map[string]string{"status": "duplicate"})
+        return
+    }
+    mu.RUnlock()
+    
+    // Process data
+    fmt.Printf("Received %s event for %s\n", payload.Data.Action, payload.Kind)
+    fmt.Printf("Data ID: %s\n", payload.Data.ID)
+    
+    // Handle different data types
+    content := payload.Data.Content
+    if ticker, ok := content["ticker"].(string); ok {
+        fmt.Printf("Ticker: %s\n", ticker)
+    }
+    
+    // Mark as processed
+    mu.Lock()
+    processedIDs[payload.ID] = true
+    mu.Unlock()
+    
+    // Return success
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(map[string]string{"status": "received"})
+}
+
+func main() {
+    http.HandleFunc("/webhook", webhookHandler)
+    log.Fatal(http.ListenAndServe(":8080", nil))
+}
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **No webhooks received**
+   - Verify your webhook URL is correctly configured
+   - Check that your endpoint is publicly accessible
+   - Ensure your API key is valid and active
+   - Verify filters aren't excluding all data types
+   - Check that your geographic filters match the data you expect
+
+2. **Duplicate deliveries**
+   - Implement idempotency using the `id` field
+   - Check your endpoint's response times (slow responses may cause retries)
+
+3. **Authentication errors (401-403)**
+   - Verify your endpoint's authentication configuration
+   - Check API keys and tokens
+   - Note: Authentication errors halt retries immediately
+
+4. **Timeout errors**
+   - Ensure your endpoint responds within 30 seconds
+   - Process data asynchronously if needed
+   - Return success immediately and process later
+
+5. **Unexpected action format**
+   - Check if you're using a legacy webhook key (lowercase actions)
+   - Update to a new webhook key to receive capitalized actions
+   - Handle both formats if supporting multiple clients
+
+6. **Missing data types**
+   - Verify your webhook configuration includes the desired data types
+   - Check geographic filters (US/Canada/India settings)
+   - Ensure date filters aren't excluding recent data
+
+## Support
+
+For questions or issues with webhook delivery:
+
+- Check the [Benzinga API Documentation](https://docs.benzinga.io/)
+- Contact your Benzinga account representative
+- Review webhook configuration with your integration team
+
+## Version History
+
+- **v1.0.0**: Initial data webhook service release
+- **Current**: Enhanced filtering, transformation, and retry mechanisms

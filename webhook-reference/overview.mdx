@@ -1,7 +1,32 @@
 ---
 title: "Webhook Overview"
-description: "Overview of the Benzinga Webhook API."
+description: "Push Benzinga market data to your systems with resilient, filterable webhooks."
 ---
 
-Webhooks are a powerful way to receive real-time updates from the Benzinga API. When you create a webhook, Benzinga sends a POST request to a URL you specify whenever a specified event occurs. This way, you can receive updates without needing to poll the API.
+Benzinga webhooks eliminate polling by posting real-time market events directly to your HTTP endpoint. Deliveries are JSON `POST` requests that include a unique `X-BZ-Delivery` header for deduplication and use a tiered retry strategy to maximize reliability.
 
+## Available webhook services
+
+- **Data Webhook Engine**: Real-time calendar and signal data (earnings, dividends, ratings, option activity, WIIMs, and more) with configurable filters and optional payload transformations. Read the full guide in [Data Webhook Engine](./webhook-engine).
+- Additional webhook configurations can be scoped to your account. Contact your Benzinga representative to enable specific datasets or to register new webhook URLs.
+
+## Integration flow
+
+<Steps>
+  <Step title="Share your endpoint and filters">
+    Provide a publicly reachable HTTPS endpoint plus any data type or geography filters you need. Benzinga will provision the webhook with those settings.
+  </Step>
+  <Step title="Handle deliveries idempotently">
+    Parse the JSON payload, use the `id` and `X-BZ-Delivery` values to avoid duplicates, and respond quickly with a 2xx status to acknowledge receipt.
+  </Step>
+  <Step title="Monitor and iterate">
+    Track failures, timeouts, and retries in your logs. Adjust filters or payload transformations with your Benzinga contact if your downstream systems have new requirements.
+  </Step>
+</Steps>
+
+## Best practices
+
+- Use HTTPS and authentication on your webhook endpoint.
+- Process work asynchronously so responses return within 30 seconds.
+- Store processed delivery IDs to ensure idempotency across retries.
+- Test against non-production endpoints before switching to live delivery.
