@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Ensure jq and yq are installed
 if ! command -v jq &>/dev/null || ! command -v yq &>/dev/null; then

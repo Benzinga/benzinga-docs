@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Initialize a string for the mapping (key=value pairs separated by a delimiter)
 my_map="api-reference/analyst-reports-raw-text-api_api=Analyst Reports Raw Text|
@@ -69,22 +70,21 @@ echo "$json_array"
 ## Serialize the JSON array to a string
 #json_array=$(echo "$json_array" | jq -c -r '.[] | @json' | paste -sd, -)
 
-## Create the new mint.json file
+## Create the new docs.json file
 #echo "$json_array" > temp.json
-#sed "/{{REPLACE_HERE}}/r temp.json" mint.json.tpl > mint.json.new
-#sed -i '' -e 's/{{REPLACE_HERE}}//g' mint.json.new
+#sed "/{{REPLACE_HERE}}/r temp.json" docs.json.tpl > docs.json.new
+#sed -i '' -e 's/{{REPLACE_HERE}}//g' docs.json.new
 #
-##Delete the old mint.json if it exists
-#if [ -f "mint.json" ]; then
-#  rm -f mint.json
+##Delete the old docs.json if it exists
+#if [ -f "docs.json" ]; then
+#  rm -f docs.json
 #fi
 #
-#cat mint.json.new
+#cat docs.json.new
 #
-## Move the new mint.json to the correct location
-#jq . mint.json.new > mint.json
+## Move the new docs.json to the correct location
+#jq . docs.json.new > docs.json
 #
-## Clean up
-#rm mint.json.new
+# Clean up
+#rm docs.json.new
 #rm temp.json
-

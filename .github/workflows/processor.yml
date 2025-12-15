@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y jq nodejs npm
+        sudo apt-get install -y jq yq nodejs npm
 
     - name: Install Mintlify Scrape
       run: npm install @mintlify/scraping@latest -g

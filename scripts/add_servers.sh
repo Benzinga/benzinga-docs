@@ -1,4 +1,10 @@
 #!/bin/bash
+set -euo pipefail
+
+if ! command -v yq >/dev/null 2>&1; then
+  echo "yq is required but not installed or not on PATH" >&2
+  exit 1
+fi
 
 # Define the OpenAPI directory
 OPENAPI_DIR="./openapi"
