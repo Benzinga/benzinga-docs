@@ -228,7 +228,7 @@
         "tab": "Widgets",
         "groups": [
           {
-            "group": "",
+            "group": "Widgets",
             "pages": [
               "widgets/overview"
             ]
@@ -239,7 +239,7 @@
         "tab": "SDKs",
         "groups": [
           {
-            "group": "",
+            "group": "SDKs",
             "pages": [
               "sdks/overview"
             ]
@@ -261,7 +261,7 @@
         "tab": "Changelog",
         "groups": [
           {
-            "group": "",
+            "group": "Changelog",
             "pages": [
               "changelog/overview",
               "changelog/upcoming"
