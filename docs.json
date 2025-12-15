@@ -192,7 +192,7 @@
         "tab": "WebSocket Reference",
         "groups": [
           {
-            "group": "WS Documentation",
+            "group": "Websockets",
             "pages": [
               "ws-reference/introduction",
               "ws-reference/authentication",
@@ -216,7 +216,7 @@
         "tab": "Webhook Reference",
         "groups": [
           {
-            "group": "",
+            "group": "Webhooks",
             "pages": [
               "webhook-reference/overview",
               "webhook-reference/webhook-engine"
