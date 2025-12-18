@@ -148,7 +148,7 @@
             "pages": [
               "api-reference/logo-api_api/logos/overview",
               "api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
-              "api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
+              "api-reference/logo-api_api/logos/get-logos-in-bulk"
             ]
           },
           {
@@ -351,7 +351,7 @@
           },
           {
             "label": "Logos",
-            "href": "https://benzinga.com/docs/integrations/platforms/kubernetes"
+            "href": "https://benzinga.com/api-reference/logo-api_api/logos/overview"
           },
           {
             "label": "WIIMS",
