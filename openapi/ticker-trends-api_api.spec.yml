@@ -1,7 +1,8 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API provides endpoints to search for trending tickers and get ticker details.
+  description: This REST API provides endpoints to search for trending tickers and
+    get ticker details.
   termsOfService: http://swagger.io/terms/
   title: TickerTrends API
   version: 2.1.0
@@ -10,35 +11,37 @@ paths:
     get:
       description: Get ticker trend data
       parameters:
-        - description: Interval for the data
+        - description: "Time interval for aggregating trend data. Values: 10m (10
+            minutes), 1h (1 hour), 1d (1 day)"
           in: query
           name: interval
           required: true
           schema:
             type: string
-        - description: Comma separated list of tickers
+        - description: Comma-separated list of stock ticker symbols
           in: query
           name: tickers
           required: true
           schema:
             type: string
-        - description: Source of the data
+        - description: "Data source filter. Values: all, clickstream, logo"
           in: query
           name: source
           required: true
           schema:
             type: string
-        - description: Timeframe for the data
+        - description: Time window for trend analysis. Optional custom timeframe
+            specification.
           in: query
           name: timeframe
           schema:
             type: string
-        - description: Page number
+        - description: Page number for pagination. Zero-indexed.
           in: query
           name: page
           schema:
             type: integer
-        - description: Page size
+        - description: "Number of results per page. Default and Maximum: 1000"
           in: query
           name: pagesize
           schema:
@@ -118,12 +121,12 @@ paths:
           required: true
           schema:
             type: string
-        - description: Page number
+        - description: Page number for pagination.
           in: query
           name: page
           schema:
             type: integer
-        - description: Page size
+        - description: Number of results returned. Limit 1000
           in: query
           name: pagesize
           schema:
@@ -170,8 +173,6 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
-        - unsupported_message_type
-        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -183,10 +184,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
       type: string
       x-enum-varnames:
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -198,6 +199,8 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -272,6 +275,3 @@ components:
         security:
           $ref: "#/components/schemas/models.Security"
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default

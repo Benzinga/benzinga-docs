@@ -11,37 +11,40 @@ paths:
       description: Get Newsquantified Data
       operationId: get-newsquantified-data
       parameters:
-        - description: Page number
+        - description: Page number for pagination. Zero-indexed.
           in: query
           name: page
           schema:
             type: integer
-        - description: Number of results per page
+        - description: "Number of results per page. Maximum: 1000. Default: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Updated since
+        - description: Unix timestamp (UTC). Returns newsquantified data updated after
+            this timestamp.
           in: query
           name: updated_since
           schema:
             type: integer
-        - description: Symbols
+        - description: Comma-separated list of stock ticker symbols to filter results.
           in: query
           name: symbols
           schema:
             type: string
-        - description: Date
+        - description: Single date in YYYY-MM-DD format. Shorthand for date_from and
+            date_to when both are the same.
           in: query
           name: date
           schema:
             type: string
-        - description: Date From
+        - description: Start date in YYYY-MM-DD format. Returns data from this date forward.
           in: query
           name: date_from
           schema:
             type: string
-        - description: Date To
+        - description: End date in YYYY-MM-DD format. Returns data up to and including
+            this date.
           in: query
           name: date_to
           schema:
@@ -102,8 +105,6 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
-        - unsupported_message_type
-        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -115,10 +116,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
       type: string
       x-enum-varnames:
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -130,6 +131,8 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -337,6 +340,3 @@ components:
         prevDay%:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default

@@ -11,12 +11,12 @@ paths:
       description: Get Analyst Reports Raw Text Data
       operationId: get-analyst-reports-raw-text-data
       parameters:
-        - description: Page number
+        - description: Page number for pagination. Zero-indexed.
           in: query
           name: page
           schema:
             type: integer
-        - description: Page size
+        - description: "Number of results per page. Default: 100. Maximum: 100"
           in: query
           name: pagesize
           schema:
@@ -75,6 +75,3 @@ components:
         ticker:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default
