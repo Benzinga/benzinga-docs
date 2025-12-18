@@ -6,6 +6,25 @@ if ! command -v yq >/dev/null 2>&1; then
   exit 1
 fi
 
+# Detect yq version
+YQ_VERSION="unknown"
+if yq --version 2>&1 | grep -q "mikefarah"; then
+    YQ_VERSION="mikefarah"
+elif yq --help 2>&1 | grep -q "jq wrapper"; then
+    YQ_VERSION="kislyuk"
+else
+    # Fallback/Guess based on behavior or help
+    if yq --version 2>&1 | grep -q "yq [0-9]"; then
+       # Assume kislyuk or compatible if it looks like a standard version string not containing mikefarah
+       # But let's look for known flags in help if possible, or just default to one and warn.
+       # Using a simpler heuristic: mikefarah's yq says "yq (https://github.com/mikefarah/yq/)"
+       # Python yq usually says "yq <version>"
+       YQ_VERSION="kislyuk"
+    fi
+fi
+
+echo "Detected yq flavor: $YQ_VERSION"
+
 # Define the OpenAPI directory
 OPENAPI_DIR="./openapi"
 
@@ -48,7 +67,13 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
 
         # Add the servers section to the OpenAPI file
         if [[ "$file" == *.yaml || "$file" == *.yml ]]; then
-            yq eval -i ".servers = $servers" "$file"
+            if [ "$YQ_VERSION" == "mikefarah" ]; then
+                yq eval -i ".servers = $servers" "$file"
+            else
+                # Python yq (kislyuk)
+                # Pass servers json as arg to avoid quoting issues
+                yq -i -y --argjson s "$servers" '.servers = $s' "$file"
+            fi
         fi
     else
         echo "Skipping (servers array already exists): $file"
