@@ -1,7 +1,8 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API provides endpoints to search for earnings call transcripts and get earnings call transcript details.
+  description: This REST API provides endpoints to search for earnings call
+    transcripts and get earnings call transcript details.
   termsOfService: http://swagger.io/terms/
   title: Earnings Call Transcripts API
   version: 1.0.0
@@ -11,7 +12,8 @@ paths:
       description: Get Earnings Call Transcripts
       operationId: get-earnings-call-transcripts
       parameters:
-        - description: Tickers
+        - description: Comma-separated list of stock ticker symbols to filter earnings
+            call transcripts
           in: query
           name: tickers
           style: form
@@ -20,7 +22,7 @@ paths:
             type: array
             items:
               type: string
-        - description: Call ID
+        - description: Comma-separated list of specific call IDs to retrieve
           in: query
           name: call_id
           style: form
@@ -29,26 +31,28 @@ paths:
             type: array
             items:
               type: string
-        - description: Page
+        - description: Page number for pagination. Zero-indexed.
           in: query
           name: page
           schema:
             type: integer
-        - description: Page Size
+        - description: "Number of results per page. Default: 5. Maximum: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Date to query from point in time.
+        - description: Start date in YYYY-MM-DD format. Returns transcripts from this date
+            forward.
           in: query
           name: date_from
           schema:
-            type: integer
-        - description: Date to query from point in time.
+            type: string
+        - description: End date in YYYY-MM-DD format. Returns transcripts up to and
+            including this date.
           in: query
           name: date_to
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: OK
@@ -84,7 +88,7 @@ paths:
       description: Get Earnings Call Transcript Audio Files
       operationId: get-earnings-call-transcript-audio-files
       parameters:
-        - description: Tickers
+        - description: Comma-separated list of stock ticker symbols to filter audio files
           in: query
           name: tickers
           style: form
@@ -93,7 +97,7 @@ paths:
             type: array
             items:
               type: string
-        - description: Call ID
+        - description: Comma-separated list of specific call IDs to retrieve audio files for
           in: query
           name: call_id
           style: form
@@ -102,12 +106,12 @@ paths:
             type: array
             items:
               type: string
-        - description: Page
+        - description: Page number for pagination. Zero-indexed.
           in: query
           name: page
           schema:
             type: integer
-        - description: Page Size
+        - description: "Number of results per page. Default: 5. Maximum: 1000"
           in: query
           name: pagesize
           schema:
@@ -235,6 +239,3 @@ components:
         transcript:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default

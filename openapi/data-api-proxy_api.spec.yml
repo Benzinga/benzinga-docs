@@ -1,7 +1,8 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API provides endpoints to search for fundamentals and get fundamental details.
+  description: This REST API provides endpoints to search for fundamentals and get
+    fundamental details.
   termsOfService: http://swagger.io/terms/
   title: Data API Proxy
   version: 2.0.0
@@ -11,17 +12,20 @@ paths:
       description: Get delayed quotes for a list of symbols, ISINs, or CIKs
       operationId: get-quote-delayed-v1
       parameters:
-        - description: Comma separated list of symbols
+        - description: Comma-separated list of stock ticker symbols. At least one of
+            symbols, isin, or cik is required.
           in: query
           name: symbols
           schema:
             type: string
-        - description: ISIN of the security
+        - description: Comma-separated list of ISIN identifiers. Maximum 50. At least one
+            of symbols, isin, or cik is required.
           in: query
           name: isin
           schema:
             type: string
-        - description: CIK of the security
+        - description: Comma-separated list of CIK identifiers. At least one of symbols,
+            isin, or cik is required.
           in: query
           name: cik
           schema:
@@ -55,23 +59,26 @@ paths:
       description: Get Fundamentals V2.1
       operationId: get-fundamentals-v21
       parameters:
-        - description: Comma separated list of symbols
+        - description: Comma-separated list of stock ticker symbols
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal to this date in
+            YYYY-MM-DD format
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: "Time period filter. Values: Q1, Q2, Q3, Q4 (quarters), FY (fiscal
+            year), TTM (trailing twelve months)"
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: "Report type. Values: TTM (trailing twelve months), A (as
+            originally reported), R (restated), P (preliminary announcements)"
           in: query
           name: reportType
           schema:
@@ -111,17 +118,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -161,17 +170,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -211,17 +222,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -260,17 +273,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -309,17 +324,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -352,24 +369,28 @@ paths:
     get:
       description: Get Bars V2
       parameters:
-        - description: Symbols
+        - description: Comma-separated list of stock ticker symbols
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: From
+        - description: "Start date/time for bars. Formats: YYYY-MM-DD,
+            YYYY-MM-DDTHH:MM:SS, YTD (year-to-date), or relative like
+            1MONTH/1m/1M"
           in: query
           name: from
           required: true
           schema:
             type: string
-        - description: To
+        - description: "End date/time for bars. Format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS.
+            Defaults to current date/time if not specified."
           in: query
           name: to
           schema:
             type: string
-        - description: Interval
+        - description: "Time bucket interval for aggregating price bars. Values: 1m, 5m,
+            15m, 30m, 1h, 1d, 1w, 1M"
           in: query
           name: interval
           schema:
@@ -405,23 +426,26 @@ paths:
       description: Get Fundamentals V2
       operationId: get-fundamentals-v2
       parameters:
-        - description: Comma separated list of symbols
+        - description: Comma-separated list of stock ticker symbols
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal to this date in
+            YYYY-MM-DD format
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: "Time period filter. Values: Q1, Q2, Q3, Q4 (quarters), FY (fiscal
+            year), TTM (trailing twelve months)"
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: "Report type. Values: TTM (trailing twelve months), A (as
+            originally reported), R (restated), P (preliminary announcements)"
           in: query
           name: reportType
           schema:
@@ -459,17 +483,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -508,17 +534,19 @@ paths:
           name: symbols
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -558,17 +586,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -607,17 +637,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -659,17 +691,19 @@ paths:
           required: true
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -708,17 +742,19 @@ paths:
           name: symbols
           schema:
             type: string
-        - description: As of date
+        - description: Return results for dates greater than or equal date specified in
+            this parameter
           in: query
           name: asOf
           schema:
             type: string
-        - description: Period
+        - description: Specifies the time period of the returned results
           in: query
           name: period
           schema:
             type: string
-        - description: Report Type
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
           in: query
           name: reportType
           schema:
@@ -752,17 +788,20 @@ paths:
       description: Get delayed quotes for a list of symbols
       operationId: get-quote-delayed-v2
       parameters:
-        - description: Comma separated list of symbols
+        - description: Comma-separated list of stock ticker symbols. At least one of
+            symbols, isin, or cik is required.
           in: query
           name: symbols
           schema:
             type: string
-        - description: ISIN of the security
+        - description: Comma-separated list of ISIN identifiers. Maximum 50. At least one
+            of symbols, isin, or cik is required.
           in: query
           name: isin
           schema:
             type: string
-        - description: CIK of the security
+        - description: Comma-separated list of CIK identifiers. At least one of symbols,
+            isin, or cik is required.
           in: query
           name: cik
           schema:
@@ -796,23 +835,26 @@ paths:
       description: Get Fundamentals V3
       operationId: get-fundamentals-v3
       parameters:
-        - description: Comma separated list of symbols
+        - description: Comma-separated list of stock ticker symbols
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: From date
+        - description: "Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)"
           in: query
           name: from
           schema:
             type: string
-        - description: To date
+        - description: End date for query in YYYY-MM-DD format. Returns data up to and
+            including this date.
           in: query
           name: to
           schema:
             type: string
-        - description: Report Type
+        - description: "Report type filter. Values: TTM (trailing twelve months), A (as
+            reported), R (restated), P (preliminary)"
           in: query
           name: date
           schema:
@@ -846,23 +888,26 @@ paths:
       description: Get Balance Sheet V3
       operationId: get-balance-sheet-v3
       parameters:
-        - description: Symbols
+        - description: Comma-separated list of stock ticker symbols
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: From
+        - description: "Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)"
           in: query
           name: from
           schema:
             type: string
-        - description: To
+        - description: End date for query in YYYY-MM-DD format. Returns data up to and
+            including this date.
           in: query
           name: to
           schema:
             type: string
-        - description: Report Type
+        - description: "Report type filter. Values: TTM (trailing twelve months), A (as
+            reported), R (restated), P (preliminary)"
           in: query
           name: date
           schema:
@@ -897,17 +942,20 @@ paths:
           required: true
           schema:
             type: string
-        - description: From date
+        - description: "Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)"
           in: query
           name: from
           schema:
             type: string
-        - description: To date
+        - description: End date for query in YYYY-MM-DD format. Returns data up to and
+            including this date.
           in: query
           name: to
           schema:
             type: string
-        - description: Report Type
+        - description: "Report type filter. Values: TTM (trailing twelve months), A (as
+            reported), R (restated), P (preliminary)"
           in: query
           name: date
           schema:
@@ -947,17 +995,20 @@ paths:
           required: true
           schema:
             type: string
-        - description: From date
+        - description: "Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)"
           in: query
           name: from
           schema:
             type: string
-        - description: To date
+        - description: End date for query in YYYY-MM-DD format. Returns data up to and
+            including this date.
           in: query
           name: to
           schema:
             type: string
-        - description: Report Type
+        - description: "Report type filter. Values: TTM (trailing twelve months), A (as
+            reported), R (restated), P (preliminary)"
           in: query
           name: date
           schema:
@@ -997,17 +1048,20 @@ paths:
           required: true
           schema:
             type: string
-        - description: From date
+        - description: "Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)"
           in: query
           name: from
           schema:
             type: string
-        - description: To date
+        - description: End date for query in YYYY-MM-DD format. Returns data up to and
+            including this date.
           in: query
           name: to
           schema:
             type: string
-        - description: Report Type
+        - description: "Report type filter. Values: TTM (trailing twelve months), A (as
+            reported), R (restated), P (preliminary)"
           in: query
           name: date
           schema:
@@ -1041,23 +1095,26 @@ paths:
       description: Get Share Price Ratios
       operationId: get-share-price-ratios-v3
       parameters:
-        - description: Comma separated list of symbols
+        - description: Comma-separated list of stock ticker symbols
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: From date
+        - description: "Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)"
           in: query
           name: from
           schema:
             type: string
-        - description: To date
+        - description: End date for query in YYYY-MM-DD format. Returns data up to and
+            including this date.
           in: query
           name: to
           schema:
             type: string
-        - description: Report type
+        - description: "Report type filter. Values: TTM (trailing twelve months), A (as
+            reported), R (restated), P (preliminary)"
           in: query
           name: date
           schema:
@@ -1106,8 +1163,6 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
-        - unsupported_message_type
-        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -1119,10 +1174,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
       type: string
       x-enum-varnames:
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -1134,6 +1189,8 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -1146,6 +1203,3 @@ components:
         ok:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default
