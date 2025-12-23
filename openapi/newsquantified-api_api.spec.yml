@@ -16,7 +16,7 @@ paths:
           name: page
           schema:
             type: integer
-        - description: 'Number of results per page. Maximum: 1000. Default: 1000'
+        - description: "Number of results per page. Maximum: 1000. Default: 1000"
           in: query
           name: pagesize
           schema:
@@ -38,8 +38,7 @@ paths:
           name: date
           schema:
             type: string
-        - description: Start date in YYYY-MM-DD format. Returns data from this date
-            forward.
+        - description: Start date in YYYY-MM-DD format. Returns data from this date forward.
           in: query
           name: date_from
           schema:
@@ -51,15 +50,15 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/models.Newsquantified'
+                  $ref: "#/components/schemas/models.Newsquantified"
                 type: array
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -69,13 +68,13 @@ paths:
                     type: object
                   type: array
                 type: array
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '500':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -98,7 +97,7 @@ components:
     bzhttp.Error:
       properties:
         code:
-          $ref: '#/components/schemas/bzhttp.ErrorCode'
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
         id:
           type: string
         value:
@@ -106,6 +105,8 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
+        - unsupported_message_type
+        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -117,10 +118,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
-        - unsupported_message_type
-        - database_query_error
       type: string
       x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -132,8 +133,6 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -141,7 +140,7 @@ components:
           type: object
         errors:
           items:
-            $ref: '#/components/schemas/bzhttp.Error'
+            $ref: "#/components/schemas/bzhttp.Error"
           type: array
         ok:
           type: boolean
@@ -341,6 +340,3 @@ components:
         prevDay%:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Default
