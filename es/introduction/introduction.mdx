@@ -1,0 +1,47 @@
+---
+title: "Inicio rápido"
+description: "Empieza a trabajar con las API de Benzinga y accede a datos de mercado en tiempo real, noticias y más."
+icon: square-minus
+---
+
+## APIs de Benzinga
+
+Desde informes de resultados hasta actividad en opciones, Benzinga se centra en la información que mueve el mercado. Ofrecemos un conjunto de canales enfocados en noticias de última hora para que su firm pueda ser la primera en asegurar una operación. Ofrecemos dos formas de recibir nuestras noticias: a través de una REST API de tipo pull o mediante una conexión TCP de tipo push. Ambas ofrecen un acceso sin precedentes a los mercados.
+
+Uno de los pilares de Benzinga es "obsesionarnos con nuestros clientes, no con nuestra competencia".
+
+Las relaciones sólidas son la fuerza impulsora detrás de los negocios exitosos, y nuestro compromiso con ello siempre es lo primero.
+
+Para comenzar a usar las APIs de Benzinga, envíenos un correo electrónico directamente a licensing@benzinga.com o llámenos al 877-440-9464. Responderemos dentro de un día hábil.
+
+## Autenticación
+
+Incluye tu API key o token como el parámetro token en la cadena de consulta (query string) de la solicitud.
+
+## Mejores prácticas
+
+Recomendamos que los usuarios utilicen nuestros clientes proporcionados por Benzinga siempre que sea posible. Muchos endpoints están disponibles en nuestra [biblioteca de Python](/python-client). Proporcionamos implementaciones de referencia y bibliotecas cliente a través de nuestro [GitHub](https://github.com/benzinga) público.
+
+Por último, recomendamos encarecidamente emplear deltas al usar las API de Calendar, Signals y News, especialmente cuando se utilicen para la ingestión en tiempo real (en lugar de la ingestión de datos históricos). Esto se puede hacer empleando el parámetro de consulta `parameters[updated]` para las API de Calendar y Signals, y el parámetro de consulta `updatedSince` para la API de News. El uso de estos parámetros garantiza una latencia mínima.
+
+## Desplazamiento máximo
+
+La paginación para las API de News, Calendar y Signals no puede devolver conjuntos de resultados con más de 10.000 elementos. Es decir, si el tamaño de tu página es 1.000, no puedes solicitar la página 10.
+
+Para sortear esta limitación, debes ajustar el tamaño de la consulta. Por ejemplo, puedes restringirla a un rango de fechas específico o a un conjunto de tickers que incluya menos de 10.000 elementos. Después de hacerlo, puedes ajustar tu consulta para incluir otro rango de fechas o conjunto de tickers que incluya menos de 10.000 elementos, combinar los conjuntos y repetir hasta obtener el conjunto completo de resultados que buscas.
+
+## Formato de respuesta
+
+El formato predeterminado para las API de Benzinga se especifica en las especificaciones individuales de cada API, pero será `JSON` a menos que se indique lo contrario.
+
+Puedes solicitar `JSON` estableciendo el encabezado `Accept` en `application/json` o `XML` usando `application/xml` cuando este no esté obsoleto.
+
+**No se recomienda crear nuevas integraciones que utilicen el formato de salida `XML`.**
+
+### Ejemplo
+
+```JSON
+curl -X GET \
+'http://api.benzinga.com/api/v2/calendar/ratings?token=YOUR_TOKEN_HERE&ratings=Upgrades' \
+-H 'accept: application/json'
+```

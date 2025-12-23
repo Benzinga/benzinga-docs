@@ -2,16 +2,15 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Benzinga API Documentation",
+  "i18n": {
+  "defaultLocale": "en",
+  "locales": ["en", "es", "ko"],
+  "hideDefaultLocale": true
+},
   "colors": {
     "primary": "#093451",
     "light": "#5489C4",
     "dark": "#093451"
-  },
-  "defaultLocale": "en",
-  "locales": {
-    "en": { "label": "English" },
-    "ko": { "label": "한국어" },
-    "es": { "label": "Español" }
   },
   "favicon": "/favicon.png",
   "navigation": {
@@ -20,394 +19,17 @@
         "language": "en",
         "default": true,
         "tabs": [
-      {
-        "tab": "Documentation",
-        "groups": [
-          {
-            "group": "Introduction",
-            "pages": [
-              "home",
-              "introduction/welcome",
-              "introduction/introduction",
-              "introduction/architecture",
-              "introduction/faq"
-            ]
-          },
-          {
-            "group": "Services",
-            "pages": [
-              "services/overview"
-            ]
-          },
-          {
-            "group": "Components",
-            "pages": [
-              "components/overview"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction",
-              "api-reference/authentication",
-              "api-reference/errors"
-            ]
-          },
-          {
-            "group": "Analyst Insights",
-            "pages": [
-              "api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
-            ]
-          },
-          {
-            "group": "Analyst Reports Raw Text",
-            "pages": [
-              "api-reference/analyst-reports-raw-text-api_api/analyst-reports-raw-text/get-analyst-reports-raw-text-data"
-            ]
-          },
-          {
-            "group": "Bars",
-            "pages": [
-              "api-reference/data-api-proxy_api/bars/get-bars-v2"
-            ]
-          },
-          {
-            "group": "Bulls Say Bears Say",
-            "pages": [
-              "api-reference/calendar_api/bulls-say-bears-say/get-bulls-say-bears-say-v1"
-            ]
-          },
-          {
-            "group": "Calendars",
-            "pages": [
-              "api-reference/calendar_api/block-trade/get-blocktrade-v1",
-              "api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
-              "api-reference/calendar_api/dividends/get-dividends-v22",
-              "api-reference/calendar_api/dividends/get-dividends-v2-&-v21",
-              "api-reference/calendar_api/removed/get-removed-v2",
-              "api-reference/calendar_api/conference_calls/get-conference-calls",
-              "api-reference/calendar_api/earnings/get-earnings",
-              "api-reference/calendar_api/economics/get-economics",
-              "api-reference/calendar_api/events/get-events",
-              "api-reference/calendar_api/fda/get-fda",
-              "api-reference/calendar_api/guidance/get-guidance",
-              "api-reference/calendar_api/ipos/get-ipos-v21",
-              "api-reference/calendar_api/ipos/get-ipos-v2",
-              "api-reference/calendar_api/ma/get-merger-and-acquisition",
-              "api-reference/calendar_api/option-activity/get-optionactivity-v1",
-              "api-reference/calendar_api/offerings/get-offerings",
-              "api-reference/calendar_api/ratings/get-ratings",
-              "api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
-              "api-reference/calendar_api/ratings_firms/get-ratings-firms"
-            ]
-          },
-          {
-            "group": "Delayed Quotes",
-            "pages": [
-              "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
-              "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
-            ]
-          },
-          {
-            "group": "Earnings Call Transcripts",
-            "pages": [
-              "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
-              "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
-            ]
-          },
-          {
-            "group": "Fundamentals",
-            "pages": [
-              "api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
-              "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v2",
-              "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v21",
-              "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
-              "api-reference/data-api-proxy_api/fundamentals/get-company-data-v21",
-              "api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
-              "api-reference/data-api-proxy_api/fundamentals/get-share-class-v21",
-              "api-reference/data-api-proxy_api/fundamentals/get-share-class-profile-v21",
-              "api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
-              "api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
-              "api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
-              "api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
-              "api-reference/data-api-proxy_api/fundamentals/get-cash-flow-v3",
-              "api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
-              "api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3"
-            ]
-          },
-          {
-            "group": "Government Trades",
-            "pages": [
-              "api-reference/calendar_api/government-trade-reports/get-government-trade-reports",
-              "api-reference/calendar_api/government-trades/get-government-trades"
-            ]
-          },
-          {
-            "group": "Insider Transactions",
-            "pages": [
-              "api-reference/calendar_api/insider-transaction/get-insider-transaction",
-              "api-reference/calendar_api/insider-transaction/get-insider-transaction-owner"
-            ]
-          },
-          {
-            "group": "Logos",
-            "pages": [
-              "api-reference/logo-api_api/logos/overview",
-              "api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
-              "api-reference/logo-api_api/logos/get-logos-in-bulk"
-            ]
-          },
-          {
-            "group": "News",
-            "pages": [
-              "api-reference/news-api_api/news/get-news",
-              "api-reference/news-api_api/news/get-removed-news"
-            ]
-          },
-          {
-            "group": "NewsQuantified",
-            "pages": [
-              "api-reference/newsquantified-api_api/get-newsquantified-data"
-            ]
-          },
-          {
-            "group": "Ratios",
-            "pages": [
-              "api-reference/data-api-proxy_api/earningratios/get-earning-ratios-v21",
-              "api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21",
-              "api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-v21",
-              "api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-v3"
-            ]
-          },
-          {
-            "group": "Splits",
-            "pages": [
-              "api-reference/calendar_api/splits/get-splits"
-            ]
-          },
-          {
-            "group": "Ticker Trends",
-            "pages": [
-              "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
-              "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "WebSocket Reference",
-        "groups": [
-          {
-            "group": "Websockets",
-            "pages": [
-              "ws-reference/introduction",
-              "ws-reference/authentication",
-              "ws-reference/errors",
-              "ws-reference/actions"
-            ]
-          },
-          {
-            "group": "Data Websocket",
-            "pages": [
-              "ws-reference/data-websocket/get-analyst-insights-stream",
-              "ws-reference/data-websocket/get-bulls-bears-say-stream",
-              "ws-reference/data-websocket/get-calendar-earnings-stream",
-              "ws-reference/data-websocket/get-calendar-ratings-stream",
-              "ws-reference/data-websocket/get-consensus-ratings-stream"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Webhook Reference",
-        "groups": [
-          {
-            "group": "Webhooks",
-            "pages": [
-              "webhook-reference/overview",
-              "webhook-reference/webhook-engine"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Widgets",
-        "groups": [
-          {
-            "group": "Widgets",
-            "pages": [
-              "widgets/overview"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "SDKs",
-        "groups": [
-          {
-            "group": "SDKs",
-            "pages": [
-              "sdks/overview"
-            ]
-          },
-          {
-            "group": "SDK's",
-            "pages": [
-              "sdks/languages/go",
-              "sdks/languages/python",
-              "sdks/languages/node",
-              "sdks/languages/java",
-              "sdks/languages/csharp",
-              "sdks/languages/ruby"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Changelog",
-        "groups": [
-          {
-            "group": "Changelog",
-            "pages": [
-              "changelog/overview",
-              "changelog/upcoming"
-            ]
-          }
-        ]
-      }
-    ]
-      },
-      {
-        "language": "ko",
-        "tabs": [
           {
             "tab": "Documentation",
             "groups": [
               {
                 "group": "Introduction",
                 "pages": [
-                  "home.ko",
-                  "introduction/welcome.ko",
+                  "home",
+                  "introduction/welcome",
                   "introduction/introduction",
                   "introduction/architecture",
                   "introduction/faq"
-                ]
-              },
-              {
-                "group": "Services",
-                "pages": [
-                  "services/overview"
-                ]
-              },
-              {
-                "group": "Components",
-                "pages": [
-                  "components/overview"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "API Reference",
-            "groups": [
-              {
-                "group": "API Documentation",
-                "pages": [
-                  "api-reference/introduction",
-                  "api-reference/authentication",
-                  "api-reference/errors"
-                ]
-              },
-              {
-                "group": "Analyst Reports Raw Text",
-                "pages": [
-                  "api-reference/analyst-reports-raw-text-api_api/analyst-reports-raw-text/get-analyst-reports-raw-text-data.ko"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "WebSocket Reference",
-            "groups": [
-              {
-                "group": "Websockets",
-                "pages": [
-                  "ws-reference/introduction",
-                  "ws-reference/authentication",
-                  "ws-reference/errors",
-                  "ws-reference/actions"
-                ]
-              },
-              {
-                "group": "Data Websocket",
-                "pages": [
-                  "ws-reference/data-websocket/get-analyst-insights-stream",
-                  "ws-reference/data-websocket/get-bulls-bears-say-stream",
-                  "ws-reference/data-websocket/get-calendar-earnings-stream",
-                  "ws-reference/data-websocket/get-calendar-ratings-stream",
-                  "ws-reference/data-websocket/get-consensus-ratings-stream"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Webhook Reference",
-            "groups": [
-              {
-                "group": "Webhooks",
-                "pages": [
-                  "webhook-reference/overview",
-                  "webhook-reference/webhook-engine"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Widgets",
-            "groups": [
-              {
-                "group": "Widgets",
-                "pages": [
-                  "widgets/overview"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "SDKs",
-            "groups": [
-              {
-                "group": "SDKs",
-                "pages": [
-                  "sdks/overview"
-                ]
-              },
-              {
-                "group": "SDK's",
-                "pages": [
-                  "sdks/languages/go",
-                  "sdks/languages/python",
-                  "sdks/languages/node",
-                  "sdks/languages/java",
-                  "sdks/languages/csharp",
-                  "sdks/languages/ruby"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Changelog",
-            "groups": [
-              {
-                "group": "Changelog",
-                "pages": [
-                  "changelog/overview",
-                  "changelog/upcoming"
                 ]
               }
             ]
@@ -418,122 +40,36 @@
         "language": "es",
         "tabs": [
           {
-            "tab": "Documentation",
+            "tab": "Documentación",
             "groups": [
               {
-                "group": "Introduction",
+                "group": "Introducción",
                 "pages": [
-                  "home.es",
-                  "introduction/welcome.es",
-                  "introduction/introduction",
-                  "introduction/architecture",
-                  "introduction/faq"
-                ]
-              },
-              {
-                "group": "Services",
-                "pages": [
-                  "services/overview"
-                ]
-              },
-              {
-                "group": "Components",
-                "pages": [
-                  "components/overview"
+                  "es/home",
+                  "es/introduction/welcome",
+                  "es/introduction/introduction",
+                  "es/introduction/architecture",
+                  "es/introduction/faq"
                 ]
               }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "language": "ko",
+        "tabs": [
           {
-            "tab": "API Reference",
+            "tab": "문서",
             "groups": [
               {
-                "group": "API Documentation",
+                "group": "소개",
                 "pages": [
-                  "api-reference/introduction",
-                  "api-reference/authentication",
-                  "api-reference/errors"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "WebSocket Reference",
-            "groups": [
-              {
-                "group": "Websockets",
-                "pages": [
-                  "ws-reference/introduction",
-                  "ws-reference/authentication",
-                  "ws-reference/errors",
-                  "ws-reference/actions"
-                ]
-              },
-              {
-                "group": "Data Websocket",
-                "pages": [
-                  "ws-reference/data-websocket/get-analyst-insights-stream",
-                  "ws-reference/data-websocket/get-bulls-bears-say-stream",
-                  "ws-reference/data-websocket/get-calendar-earnings-stream",
-                  "ws-reference/data-websocket/get-calendar-ratings-stream",
-                  "ws-reference/data-websocket/get-consensus-ratings-stream"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Webhook Reference",
-            "groups": [
-              {
-                "group": "Webhooks",
-                "pages": [
-                  "webhook-reference/overview",
-                  "webhook-reference/webhook-engine"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Widgets",
-            "groups": [
-              {
-                "group": "Widgets",
-                "pages": [
-                  "widgets/overview"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "SDKs",
-            "groups": [
-              {
-                "group": "SDKs",
-                "pages": [
-                  "sdks/overview"
-                ]
-              },
-              {
-                "group": "SDK's",
-                "pages": [
-                  "sdks/languages/go",
-                  "sdks/languages/python",
-                  "sdks/languages/node",
-                  "sdks/languages/java",
-                  "sdks/languages/csharp",
-                  "sdks/languages/ruby"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "Changelog",
-            "groups": [
-              {
-                "group": "Changelog",
-                "pages": [
-                  "changelog/overview",
-                  "changelog/upcoming"
+                  "ko/home",
+                  "ko/introduction/welcome",
+                  "ko/introduction/introduction",
+                  "ko/introduction/architecture",
+                  "ko/introduction/faq"
                 ]
               }
             ]

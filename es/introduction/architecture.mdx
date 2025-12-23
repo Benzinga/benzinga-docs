@@ -1,0 +1,79 @@
+---
+title: Arquitectura
+description: Infraestructura de datos financieros escalable y en tiempo real
+icon: database
+---
+
+Benzinga proporciona una infraestructura de API robusta y altamente escalable, diseñada para ofrecer datos financieros en tiempo real a aplicaciones y servicios de todo el mundo. Con un enfoque en la velocidad y la disponibilidad, la arquitectura de Benzinga aprovecha una variedad de tecnologías modernas, entre ellas **Go (Golang)**, **Kafka**, **WebSockets**, **Elasticsearch** y **microservicios**, para garantizar que los usuarios reciban datos fiables y de baja latencia siempre que los necesiten.
+
+## Arquitectura de alto rendimiento con Go y Kafka
+
+Creada con **Go (Golang)** debido a su capacidad de concurrencia y velocidad, la infraestructura de Benzinga gestiona de forma eficiente altos volúmenes de tráfico de datos financieros. Los _pipelines_ de datos y el flujo de datos en tiempo real están impulsados por **Kafka**, lo que permite una ingesta, procesamiento y distribución de datos rápidos con una latencia mínima. Esta arquitectura garantiza escalabilidad y robustez en implementaciones globales, satisfaciendo las exigencias de la entrega de datos financieros en tiempo real.
+
+<Frame caption="Haz clic en la imagen para ampliarla.">
+    <img
+        className="block dark:hidden"
+        src="/images/arch.png"
+        alt="Arquitectura de AWS"
+    />
+</Frame>
+
+## Acceso a datos en tiempo real mediante WebSockets y API REST
+
+Las API de Benzinga admiten los protocolos **WebSocket** y **REST**, lo que permite a los clientes acceder a datos en tiempo real, así como realizar solicitudes bajo demanda. Las conexiones WebSocket son ideales para aplicaciones que requieren flujos de datos continuos, como cotizaciones de mercado en vivo y datos de operaciones, mientras que las API REST atienden una amplia gama de solicitudes de datos históricos, fundamentales de empresas, noticias y análisis.
+
+### Aspectos destacados de la API
+
+- **Datos de mercado en tiempo real**: Flujo de cotizaciones en vivo, operaciones y otros datos esenciales de mercado.
+- **Datos históricos**: Acceda a datos históricos, incluidos datos de barras, cotizaciones y desempeño del mercado a lo largo del tiempo.
+- **Noticias e información**: Manténgase actualizado con noticias en tiempo real e información que mueve el mercado.
+- **Fundamentales de la empresa**: Obtenga métricas financieras esenciales, como ingresos, beneficios y ratios clave.
+
+## Almacenamiento de datos y eficiencia de búsqueda con Elasticsearch
+
+Para una recuperación y almacenamiento de datos eficientes, Benzinga utiliza **Elasticsearch** como componente central de su sistema de búsqueda e indexación. Elasticsearch permite un acceso rápido tanto a datos estructurados como no estructurados, garantizando que los usuarios puedan consultar rápidamente grandes conjuntos de datos, como datos históricos y archivos de noticias, con tiempos de respuesta del orden de milisegundos. Esta arquitectura también admite análisis, lo que permite a los clientes analizar y extraer información valiosa de los datos.
+
+<Frame caption="Haz clic en la imagen para hacer zoom.">
+    <img
+        className="block dark:hidden"
+        src="/images/elasticsearch-light.png"
+        alt="Concepto de arquitectura de Elasticsearch"
+    />
+    <img
+        className="hidden dark:block"
+        src="/images/elasticsearch-dark.png"
+        alt="Concepto de arquitectura de Elasticsearch"
+    />
+</Frame>
+
+## Infraestructura basada en microservicios para escalabilidad
+
+La arquitectura de Benzinga se basa en un enfoque de **microservicios**, donde cada servicio gestiona una función específica, como la ingesta, el procesamiento, el almacenamiento o la distribución de datos. Este enfoque modular mejora la escalabilidad, permitiendo que cada componente se escale de forma independiente según la demanda. Además, los microservicios se comunican mediante protocolos ligeros, lo que garantiza baja latencia y resiliencia en todo el sistema.
+
+## Entrega mediante CDN para Imágenes y Contenido Estático
+
+Para garantizar que las imágenes, logotipos y otros recursos estáticos se entreguen rápidamente, Benzinga emplea una **CDN** (Content Delivery Network). Este enfoque reduce los tiempos de carga y minimiza la latencia al almacenar en caché los recursos estáticos cerca de los usuarios, lo que asegura que las imágenes y los archivos se carguen casi al instante, independientemente de la ubicación geográfica.
+
+## Beneficios clave de la arquitectura de Benzinga
+
+- **Escalabilidad**: Diseñada para escalar horizontalmente, admitiendo millones de solicitudes por minuto y grandes volúmenes de conexiones WebSocket concurrentes.
+- **Alta disponibilidad**: Sistemas redundantes y components distribuidos geográficamente garantizan el tiempo de actividad y la disponibilidad de los datos.
+- **Consistencia de los datos**: Kafka y Elasticsearch en conjunto proporcionan un flujo y recuperación de datos consistentes, con mecanismos de conmutación por error confiables.
+- **Baja latencia**: Optimizada para entregar datos con una latencia mínima, aprovechando el rendimiento de Go, el streaming de Kafka y las capacidades en tiempo real de WebSocket.
+
+## Flexibilidad de despliegue e integración con la infraestructura
+
+La arquitectura de Benzinga admite opciones de despliegue flexibles para satisfacer las diversas necesidades de sus clientes:
+
+- **Servicio en la nube gestionado**: Para los clientes que buscan una experiencia fluida, Benzinga ofrece un servicio en la nube totalmente gestionado, que incluye escalado automático y mantenimiento.
+- **Opción autogestionada**: Para quienes necesitan más control, la arquitectura de Benzinga se puede adaptar para su despliegue en entornos locales (on‑premises) o en nubes privadas, garantizando plena propiedad de los datos y cumplimiento de las normativas locales.
+
+### Alcance global con almacenamiento en caché perimetral
+
+Para mejorar aún más el rendimiento, Benzinga emplea **edge caching** para garantizar que los datos, incluidos los flujos en tiempo real y el contenido estático, lleguen a los usuarios con un retraso mínimo. Al ubicar estratégicamente puntos de presencia (PoP) en todo el mundo, Benzinga garantiza alta disponibilidad y baja latencia para clientes en todos los continentes.
+
+Esta arquitectura distribuida permite que Benzinga proporcione datos confiables y en tiempo real a los clientes, independientemente de su ubicación geográfica, satisfaciendo las necesidades de usuarios tanto locales como globales.
+
+---
+
+Esta arquitectura combina tecnologías modernas y escalables para ofrecer datos y perspectivas financieras rápidas y confiables, respaldando el compromiso de Benzinga con la calidad y el rendimiento. Para obtener más detalles técnicos o comenzar a utilizar nuestras API, comuníquese con el equipo de soporte de Benzinga o visite nuestra documentación.
