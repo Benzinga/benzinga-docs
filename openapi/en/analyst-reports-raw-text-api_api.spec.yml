@@ -51,6 +51,7 @@ paths:
       summary: Get Analyst Reports Raw Text Data
       tags:
         - Analyst Reports Raw Text
+      x-mintlify-slug: api-reference/analyst-reports-raw-text/get-analyst-reports-raw-text-data
 components:
   securitySchemes:
     ApiKeyAuth:

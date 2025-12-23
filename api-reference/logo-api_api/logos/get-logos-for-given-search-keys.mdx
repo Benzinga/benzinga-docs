@@ -1,0 +1,111 @@
+---
+openapi: openapi/en/logo-api_api.spec.yml get /logos/bulk-sync
+---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "ok": true,
+  "data": [
+    {
+      "fields": {
+        "logo_dark": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1225/logo_dark__fe4a5fc01881264700de033abe9fc151.png?x-bz-cred=...",
+        "logo_light": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1225/logo_light__3f6f778449138931036ca9c624143ff7.png?x-bz-cred=...",
+        "mark_vector_composite_light": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1225/mark_vector_composite_light__1684a8ad97472e1b9fb5b639995e8245.svg?x-bz-cred=..."
+      },
+      "updated": "2025-12-09T11:36:51.357671Z",
+      "created": "2025-12-09T11:36:51.357671Z",
+      "securities": [
+        {
+          "symbol": "QUMSU",
+          "name": "QUANTUMSPHERE ACQUISITION CO",
+          "cik": "2070900",
+          "exchange": "NASDAQ",
+          "mic_code": "XNAS",
+          "exchange_name": "NASDAQ Global Market Consolidated",
+          "cusip": "G7387B122",
+          "isin": "KYG7387B1225",
+          "country": "US",
+          "figi_share_class": "BBG01VBMFN66",
+          "figi": "BBG01VBMFLS6",
+          "security_type": "Unit"
+        }
+      ]
+    },
+    {
+      "fields": {
+        "logo_dark": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1068/logo_dark__fe4a5fc01881264700de033abe9fc151.png?x-bz-cred=...",
+        "logo_light": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1068/logo_light__3f6f778449138931036ca9c624143ff7.png?x-bz-cred=...",
+        "mark_vector_composite_light": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1068/mark_vector_composite_light__1684a8ad97472e1b9fb5b639995e8245.svg?x-bz-cred=..."
+      },
+      "updated": "2025-12-09T11:35:11.711467Z",
+      "created": "2025-12-09T11:35:11.711467Z",
+      "securities": [
+        {
+          "symbol": "QUMS",
+          "name": "QUANTUMSPHERE ACQUISITION CO",
+          "cik": "2070900",
+          "exchange": "NASDAQ",
+          "mic_code": "XNAS",
+          "exchange_name": "NASDAQ Global Market Consolidated",
+          "cusip": "G7387B106",
+          "isin": "KYG7387B1068",
+          "country": "US",
+          "figi_share_class": "BBG01WHBTBN4",
+          "figi": "BBG01WHBT9P7",
+          "security_type": "Common Stock"
+        }
+      ]
+    }
+  ]
+}
+```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "bad_request",
+      "id": "invalid_parameter",
+      "value": "Invalid search_keys_type parameter"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+```json Response (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No logos found for the specified search key"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>

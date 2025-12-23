@@ -1,0 +1,188 @@
+---
+openapi: openapi/ko/ticker-trends-api_api.spec.yml get /api/v1/trending-tickers/list
+---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+    "ok": true,
+    "data": [
+        {
+            "security": {
+                "ticker": "RBC",
+                "name": "RBC Bearings",
+                "exchange": "NYSE"
+            },
+            "count": 456,
+            "pct_chg": 825
+        },
+        {
+            "security": {
+                "ticker": "OC",
+                "name": "Owens-Corning",
+                "exchange": "NYSE"
+            },
+            "count": 469,
+            "pct_chg": 546
+        },
+        {
+            "security": {
+                "ticker": "PJT",
+                "name": "PJT Partners",
+                "exchange": "NYSE"
+            },
+            "count": 397,
+            "pct_chg": 1508
+        },
+        {
+            "security": {
+                "ticker": "POOL",
+                "name": "Pool",
+                "exchange": "NASDAQ"
+            },
+            "count": 403,
+            "pct_chg": 816
+        },
+        {
+            "security": {
+                "ticker": "WSO",
+                "name": "Watsco",
+                "exchange": "NYSE"
+            },
+            "count": 414,
+            "pct_chg": 671
+        },
+        {
+            "security": {
+                "ticker": "AVTR",
+                "name": "Avantor",
+                "exchange": "NYSE"
+            },
+            "count": 360,
+            "pct_chg": 504
+        },
+        {
+            "security": {
+                "ticker": "KMI",
+                "name": "Kinder Morgan",
+                "exchange": "NYSE"
+            },
+            "count": 344,
+            "pct_chg": 389
+        },
+        {
+            "security": {
+                "ticker": "IEMG",
+                "name": "",
+                "exchange": "ARCA"
+            },
+            "count": 254,
+            "pct_chg": 263
+        },
+        {
+            "security": {
+                "ticker": "QBTS",
+                "name": "D-Wave Quantum",
+                "exchange": "NYSE"
+            },
+            "count": 502,
+            "pct_chg": 196
+        },
+        {
+            "security": {
+                "ticker": "GWRE",
+                "name": "Guidewire Software",
+                "exchange": "NYSE"
+            },
+            "count": 486,
+            "pct_chg": 199
+        },
+        {
+            "security": {
+                "ticker": "ACN",
+                "name": "Accenture",
+                "exchange": "NYSE"
+            },
+            "count": 466,
+            "pct_chg": 205
+        },
+        {
+            "security": {
+                "ticker": "EQT",
+                "name": "EQT",
+                "exchange": "NYSE"
+            },
+            "count": 394,
+            "pct_chg": 245
+        },
+        {
+            "security": {
+                "ticker": "IBM",
+                "name": "IBM",
+                "exchange": "NYSE"
+            },
+            "count": 582,
+            "pct_chg": 136
+        },
+        {
+            "security": {
+                "ticker": "DTM",
+                "name": "DT Midstream",
+                "exchange": "NYSE"
+            },
+            "count": 93,
+            "pct_chg": 1038
+        },
+        {
+            "security": {
+                "ticker": "VOO",
+                "name": "",
+                "exchange": "ARCA"
+            },
+            "count": 1287,
+            "pct_chg": 113
+        },
+        {
+            "security": {
+                "ticker": "VWO",
+                "name": "",
+                "exchange": "ARCA"
+            },
+            "count": 243,
+            "pct_chg": 225
+        }
+    ]
+}
+```
+</ResponseExample>
+
+
+<ResponseExample>
+```json Response (400 Bad Request)
+{
+    "ok": false,
+    "errors": [
+        {
+            "id": "hbiGJjhsSpnfhM8aBePyTB",
+            "code": "400",
+            "value": "Bad Request"
+        }
+    ]
+}
+```
+</ResponseExample>
+
+<ResponseExample>
+```json Response (500 Internal Server Error)
+{
+    "ok": false,
+    "errors": [
+        {
+            "id": "hbiGJjhsSpnfhM8aBePyTB",
+            "code": "500",
+            "value": "Something went wrong"
+        }
+    ]
+}
+```
+</ResponseExample>
