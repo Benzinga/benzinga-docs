@@ -1,0 +1,80 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: 이 REST API는 애널리스트 리포트 상세 정보를 가져오기 위한 엔드포인트를 제공합니다.
+  termsOfService: http://swagger.io/terms/
+  title: Analyst Reports Raw Text API
+  version: 1.0.0
+paths:
+  /analyst/reports/raw-text:
+    get:
+      description: Analyst Reports Raw Text 데이터 가져오기
+      operationId: get-analyst-reports-raw-text-data
+      parameters:
+        - description: 페이지네이션을 위한 페이지 번호입니다(0부터 시작).
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: '페이지당 결과 수입니다. 기본값: 100, 최대값: 100'
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/models.AnalystReportRawText'
+                type: array
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        '500':
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      security:
+        - ApiKeyAuth: []
+      summary: Analyst Reports Raw Text 데이터 가져오기
+      tags:
+        - Analyst Reports Raw Text
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    models.AnalystReportRawText:
+      properties:
+        date:
+          type: string
+        exchange:
+          type: string
+        extracted_paragraphs:
+          items:
+            type: string
+          type: array
+        firm_id:
+          type: string
+        id:
+          type: string
+        ticker:
+          type: string
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: 기본
