@@ -1,0 +1,79 @@
+---
+title: "홈"
+description: "Benzinga API 개발자 문서에 오신 것을 환영합니다!"
+---
+
+[Benzinga Cloud](https://cloud.benzinga.com/) 개발자 문서 포털에서는 뉴스, 시장, 기업 데이터 API에 대한 문서를 확인하실 수 있습니다. 질문이 있으시면 언제든지 [이메일로 문의해 주세요](mailto:partners@benzinga.com). 기꺼이 도와드리겠습니다.
+
+## 이 문서에 대해
+
+이 문서는 REST API를 위해 OpenAPI 스펙을 기반으로 작성되었습니다. 이 문서 애플리케이션의 공개 저장소에서 원본 YAML 스펙을 [여기](https://github.com/Benzinga/doc-site-mintlify)에서 확인할 수 있습니다.
+
+각 OpenAPI 기반 페이지의 "플레이그라운드" 섹션에는 통합 REST 클라이언트가 내장되어 있습니다. API 키를 발급받은 후에는 문서 포털을 벗어나지 않고도 호출을 테스트할 수 있습니다. 또는 다른 GUI REST 클라이언트([Postman](https://www.getpostman.com/), [Insomnia](https://insomnia.rest/), [Paw](https://paw.cloud/))나 cUrl1 같은 CLI 도구를 사용해 호출을 테스트할 수도 있습니다.
+
+마지막으로, OpenAPI 스펙은 Swagger 생태계의 도구들과 호환되므로, [원하는 프로그래밍 언어용 클라이언트를 생성](http://swagger.io/swagger-codegen/)할 수도 있습니다.
+
+<Info>
+    이 문서는 AI 기능을 지원합니다. Ctrl + K(PC) 또는 Cmd + K(Mac)를 사용해 질문을 입력해 보세요.
+</Info>
+
+## 데이터에 접근하기
+
+<Steps>
+    <Step title="계정에 로그인">
+        계정을 생성하려면 "[Get Started](https://www.benzinga.com/apis/licensing/register)"를 클릭하세요.
+    </Step>
+    <Step title="API 키 복사하기">
+        사용자 대시보드에 로그인한 후 API 키를 복사하세요.
+    </Step>
+    <Step title="개발을 시작하세요!">
+        인증은 URL 쿼리 매개변수 "token"으로 설정된 API 키를 통해 이루어집니다.
+    </Step>
+</Steps>
+
+## 모범 사례
+
+가능한 경우 Benzinga에서 제공하는 클라이언트를 사용하실 것을 권장합니다. 많은 엔드포인트가 [Python 라이브러리](https://github.com/Benzinga/benzinga-python-client)에 포함되어 있습니다. 또한 공개 [GitHub](https://github.com/benzinga)를 통해 예제 구현과 클라이언트 라이브러리를 제공합니다.
+
+마지막으로, Calendar, Signals, News API를 사용할 때는 특히 실시간 데이터 수집(과거 데이터 수집이 아닌 경우)에 델타 방식을 활용할 것을 강력히 추천합니다. Calendar 및 Signals API에는 `parameters[updated]` 쿼리 파라미터를, News API에는 `updatedSince` 쿼리 파라미터를 사용하여 이를 구현할 수 있습니다. 이러한 파라미터를 사용하면 지연 시간을 최소화할 수 있습니다.
+
+## 추가 리소스
+
+<CardGroup cols={2}>
+    <Card title="API 상태" icon="signal-bars" href="https://benzinga1.statuspage.io">
+        Benzinga APIs Statuspage에서 Benzinga 서비스 중단 현황을 확인하세요.
+    </Card>
+    <Card title="Postman에서 실행" icon="signs-post" href="">
+        Postman 환경에서 Benzinga APIs를 실행해 보세요.
+    </Card>
+    <Card title="이벤트" icon="award" href="https://www.benzinga.com/events/fintech-awards?utm_source=bzapidocs&utm_medium=organic&utm_campaign=docs&utm_term=benzingaevents&utm_content=home">
+        Benzinga Events는 트레이더, 투자자, 기업을 새로운 기회와 성장으로 연결하는 것을 목표로 합니다.
+    </Card>
+    <Card title="Benzinga Research Terminal" icon="rectangle-pro" href="https://www.benzinga.com/pro/register?utm_source=bzapidocs&utm_medium=organic&utm_campaign=docs&utm_term=benzingapro&utm_content=home">
+        Benzinga Pro는 시장을 움직일 수 있는 수십 건의 속보 알림을 매일 제공합니다.
+    </Card>
+</CardGroup>
+
+----
+
+## 문의하기
+
+<Info>
+    ## 연락처
+    ### 지원
+
+    질문이나 궁금한 점이 있으시면 _언제든지 문의해 주세요_.
+
+    - 이메일: partners@benzinga.com
+
+    ### 라이선스 관련 문의
+
+    - 웹사이트: [Benzinga Cloud](https://cloud.benzinga.com/)
+    - 이메일: licensing@benzinga.com
+    - 전화: +1-877-440-ZING (9464)
+
+</Info>
+
+<Info>
+    그런데, [Benzinga에서 현재 채용 중](http://jobs.benzinga.com/)인 것 알고 계셨나요?
+</Info>

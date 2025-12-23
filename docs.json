@@ -7,15 +7,26 @@
     "light": "#5489C4",
     "dark": "#093451"
   },
+  "defaultLocale": "en",
+  "locales": {
+    "en": { "label": "English" },
+    "ko": { "label": "한국어" },
+    "es": { "label": "Español" }
+  },
   "favicon": "/favicon.png",
   "navigation": {
-    "tabs": [
+    "languages": [
+      {
+        "language": "en",
+        "default": true,
+        "tabs": [
       {
         "tab": "Documentation",
         "groups": [
           {
             "group": "Introduction",
             "pages": [
+              "home",
               "introduction/welcome",
               "introduction/introduction",
               "introduction/architecture",
@@ -265,6 +276,266 @@
             "pages": [
               "changelog/overview",
               "changelog/upcoming"
+            ]
+          }
+        ]
+      }
+    ]
+      },
+      {
+        "language": "ko",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Introduction",
+                "pages": [
+                  "home.ko",
+                  "introduction/welcome.ko",
+                  "introduction/introduction",
+                  "introduction/architecture",
+                  "introduction/faq"
+                ]
+              },
+              {
+                "group": "Services",
+                "pages": [
+                  "services/overview"
+                ]
+              },
+              {
+                "group": "Components",
+                "pages": [
+                  "components/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API Reference",
+            "groups": [
+              {
+                "group": "API Documentation",
+                "pages": [
+                  "api-reference/introduction",
+                  "api-reference/authentication",
+                  "api-reference/errors"
+                ]
+              },
+              {
+                "group": "Analyst Reports Raw Text",
+                "pages": [
+                  "api-reference/analyst-reports-raw-text-api_api/analyst-reports-raw-text/get-analyst-reports-raw-text-data.ko"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "WebSocket Reference",
+            "groups": [
+              {
+                "group": "Websockets",
+                "pages": [
+                  "ws-reference/introduction",
+                  "ws-reference/authentication",
+                  "ws-reference/errors",
+                  "ws-reference/actions"
+                ]
+              },
+              {
+                "group": "Data Websocket",
+                "pages": [
+                  "ws-reference/data-websocket/get-analyst-insights-stream",
+                  "ws-reference/data-websocket/get-bulls-bears-say-stream",
+                  "ws-reference/data-websocket/get-calendar-earnings-stream",
+                  "ws-reference/data-websocket/get-calendar-ratings-stream",
+                  "ws-reference/data-websocket/get-consensus-ratings-stream"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Webhook Reference",
+            "groups": [
+              {
+                "group": "Webhooks",
+                "pages": [
+                  "webhook-reference/overview",
+                  "webhook-reference/webhook-engine"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Widgets",
+            "groups": [
+              {
+                "group": "Widgets",
+                "pages": [
+                  "widgets/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "SDKs",
+            "groups": [
+              {
+                "group": "SDKs",
+                "pages": [
+                  "sdks/overview"
+                ]
+              },
+              {
+                "group": "SDK's",
+                "pages": [
+                  "sdks/languages/go",
+                  "sdks/languages/python",
+                  "sdks/languages/node",
+                  "sdks/languages/java",
+                  "sdks/languages/csharp",
+                  "sdks/languages/ruby"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "groups": [
+              {
+                "group": "Changelog",
+                "pages": [
+                  "changelog/overview",
+                  "changelog/upcoming"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "language": "es",
+        "tabs": [
+          {
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Introduction",
+                "pages": [
+                  "home.es",
+                  "introduction/welcome.es",
+                  "introduction/introduction",
+                  "introduction/architecture",
+                  "introduction/faq"
+                ]
+              },
+              {
+                "group": "Services",
+                "pages": [
+                  "services/overview"
+                ]
+              },
+              {
+                "group": "Components",
+                "pages": [
+                  "components/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API Reference",
+            "groups": [
+              {
+                "group": "API Documentation",
+                "pages": [
+                  "api-reference/introduction",
+                  "api-reference/authentication",
+                  "api-reference/errors"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "WebSocket Reference",
+            "groups": [
+              {
+                "group": "Websockets",
+                "pages": [
+                  "ws-reference/introduction",
+                  "ws-reference/authentication",
+                  "ws-reference/errors",
+                  "ws-reference/actions"
+                ]
+              },
+              {
+                "group": "Data Websocket",
+                "pages": [
+                  "ws-reference/data-websocket/get-analyst-insights-stream",
+                  "ws-reference/data-websocket/get-bulls-bears-say-stream",
+                  "ws-reference/data-websocket/get-calendar-earnings-stream",
+                  "ws-reference/data-websocket/get-calendar-ratings-stream",
+                  "ws-reference/data-websocket/get-consensus-ratings-stream"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Webhook Reference",
+            "groups": [
+              {
+                "group": "Webhooks",
+                "pages": [
+                  "webhook-reference/overview",
+                  "webhook-reference/webhook-engine"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Widgets",
+            "groups": [
+              {
+                "group": "Widgets",
+                "pages": [
+                  "widgets/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "SDKs",
+            "groups": [
+              {
+                "group": "SDKs",
+                "pages": [
+                  "sdks/overview"
+                ]
+              },
+              {
+                "group": "SDK's",
+                "pages": [
+                  "sdks/languages/go",
+                  "sdks/languages/python",
+                  "sdks/languages/node",
+                  "sdks/languages/java",
+                  "sdks/languages/csharp",
+                  "sdks/languages/ruby"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "groups": [
+              {
+                "group": "Changelog",
+                "pages": [
+                  "changelog/overview",
+                  "changelog/upcoming"
+                ]
+              }
             ]
           }
         ]

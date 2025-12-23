@@ -1,0 +1,79 @@
+---
+title: "Inicio"
+description: "Bienvenido a la documentación para desarrolladores de las API de Benzinga."
+---
+
+Aquí en el portal de documentación para desarrolladores de [Benzinga Cloud](https://cloud.benzinga.com/) encontrarás documentación sobre nuestras API de noticias, mercados y datos de empresas. Si tienes alguna pregunta, por favor [ponte en contacto con nosotros](mailto:partners@benzinga.com). Nos encanta ayudar.
+
+## Acerca de esta documentación
+
+Para nuestras APIs REST, esta documentación se basa en especificaciones de OpenAPI. Puedes ver la especificación YAML sin procesar consultando el repositorio público de esta aplicación de documentación, [aquí](https://github.com/Benzinga/doc-site-mintlify).
+
+Un cliente REST integrado está incluido directamente en la sección "Zona de pruebas" de cada página basada en OpenAPI. Una vez que hayas obtenido una clave de API, puedes probar llamadas sin salir del portal de documentación. También puedes probar llamadas con cualquier otro cliente REST con GUI ([Postman](https://www.getpostman.com/), [Insomnia](https://insomnia.rest/), [Paw](https://paw.cloud/)) o herramientas de CLI como cUrl1.
+
+Finalmente, las especificaciones de OpenAPI son compatibles con herramientas del ecosistema Swagger, por lo que incluso puedes [generar un cliente para el lenguaje de programación de tu elección](http://swagger.io/swagger-codegen/).
+
+<Info>
+    Nuestra documentación cuenta con IA. Prueba hacer una pregunta usando Ctrl + K (PC) o Cmd + K (Mac).
+</Info>
+
+## Acceder a los datos
+
+<Steps>
+    <Step title="Inicia sesión en tu cuenta">
+        Haz clic en "[Get Started](https://www.benzinga.com/apis/licensing/register)" para crear una cuenta.
+    </Step>
+    <Step title="Copia tu clave de API">
+        Una vez que hayas iniciado sesión en el panel de control, copia tu clave de API.
+    </Step>
+    <Step title="¡Empieza a desarrollar!">
+        La autenticación se realiza mediante una clave de API enviada como parámetro de consulta de la URL llamado «token».
+    </Step>
+</Steps>
+
+## Mejores prácticas
+
+Recomendamos a nuestros clientes que utilicen los clientes proporcionados por Benzinga siempre que sea posible. Muchos endpoints están disponibles en nuestra [biblioteca de Python](https://github.com/Benzinga/benzinga-python-client). Además, proporcionamos implementaciones de ejemplo y bibliotecas de cliente a través de nuestro [GitHub](https://github.com/benzinga) público.
+
+Por último, recomendamos encarecidamente emplear deltas al usar las APIs de Calendar, Signals y News, especialmente cuando se utilizan para la ingesta en tiempo real (en contraposición a la ingesta de datos históricos). Esto se puede hacer empleando el parámetro de consulta `parameters[updated]` para las APIs de Calendar y Signals, y el parámetro de consulta `updatedSince` para la API de News. El uso de estos parámetros garantiza una latencia mínima.
+
+## Recursos adicionales
+
+<CardGroup cols={2}>
+    <Card title="Estado de la API" icon="signal-bars" href="https://benzinga1.statuspage.io">
+        Consulta la Statuspage de las APIs de Benzinga para mantenerte informado sobre cualquier interrupción en los servicios de Benzinga.
+    </Card>
+    <Card title="Ejecutar en Postman" icon="signs-post" href="">
+        Ejecuta las APIs de Benzinga en tu entorno de Postman.
+    </Card>
+    <Card title="Eventos" icon="award" href="https://www.benzinga.com/events/fintech-awards?utm_source=bzapidocs&utm_medium=organic&utm_campaign=docs&utm_term=benzingaevents&utm_content=home">
+        Benzinga Events conecta a traders, inversores y empresas con oportunidades y crecimiento.
+    </Card>
+    <Card title="Benzinga Research Terminal" icon="rectangle-pro" href="https://www.benzinga.com/pro/register?utm_source=bzapidocs&utm_medium=organic&utm_campaign=docs&utm_term=benzingapro&utm_content=home">
+        Benzinga Pro ofrece decenas de alertas de noticias de última hora con potencial para mover el mercado todos los días.
+    </Card>
+</CardGroup>
+
+----
+
+## ¡Ponte en contacto!
+
+<Info>
+    ## Contáctanos
+    ### Soporte
+
+    Si tienes alguna pregunta o inquietud, _estamos para escucharte_.
+
+    - Correo electrónico: partners@benzinga.com
+
+    ### Licencias
+
+    - Sitio web: [Benzinga Cloud](https://cloud.benzinga.com/)
+    - Correo electrónico: licensing@benzinga.com
+    - Teléfono: +1-877-440-ZING (9464)
+
+</Info>
+
+<Info>
+    ¿Ya mencionamos que [Benzinga está contratando](http://jobs.benzinga.com/)?
+</Info>

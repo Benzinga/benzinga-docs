@@ -1,0 +1,25 @@
+{
+  "$schema": "https://assets.gtx.dev/config-schema.json",
+  "defaultLocale": "en",
+  "locales": [
+    "es",
+    "ko"
+  ],
+  "files": {
+    "mdx": {
+      "include": [
+        "home.mdx",
+        "introduction/*.mdx",
+        "openapi/analyst-reports-raw-text-api_api.spec.yml",
+        "openapi/calendar_api.spec.yml"
+      ],
+      "exclude": [
+        "api-reference/**/*.mdx",
+        "node_modules/**",
+        "snippets/**"
+      ],
+      "output": "**/*.[locale].mdx"
+    }
+  },
+  "stageTranslations": true
+}
