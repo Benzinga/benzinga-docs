@@ -1,0 +1,75 @@
+---
+openapi: get /api/v1/trending-tickers
+---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+    "ok": true,
+    "data": [
+        {
+            "ticker": "AAPL",
+            "exchange": "NASDAQ",
+            "metrics": [
+                {
+                    "time_bucket": "2024-12-19T06:40:00Z",
+                    "count": 5299,
+                    "count_mavg": 1159.2344970703125,
+                    "scaled_count": 0.025774590059732462,
+                    "scaled_count_mavg": 0.05668951382551679,
+                    "market_count_average": 32.0216782849036
+                },
+                {
+                    "time_bucket": "2024-12-19T06:50:00Z",
+                    "count": 4852,
+                    "count_mavg": 1172.0245361328125,
+                    "scaled_count": 0.01760736261666492,
+                    "scaled_count_mavg": 0.05731497578529216,
+                    "market_count_average": 20.84501838109711
+                },
+                {
+                    "time_bucket": "2024-12-19T07:10:00Z",
+                    "count": 4656,
+                    "count_mavg": 1076.3582763671875,
+                    "scaled_count": 0.45301449978292646,
+                    "scaled_count_mavg": 0.9416591784341588,
+                    "market_count_average": 27.871475645603905
+                },
+                {
+                    "time_bucket": "2024-12-19T07:20:00Z",
+                    "count": 4610,
+                    "count_mavg": 1063.6427001953125,
+                    "scaled_count": 0.47838978407870714,
+                    "scaled_count_mavg": 0.9305348582379941,
+                    "market_count_average": 28.67745488420226
+                },
+                {
+                    "time_bucket": "2024-12-19T07:30:00Z",
+                    "count": 4581,
+                    "count_mavg": 1083.396728515625,
+                    "scaled_count": 0.5292414635443238,
+                    "scaled_count_mavg": 0.9478168066688907,
+                    "market_count_average": 41.87917988308125
+                }
+            ]
+        }
+    ]
+}
+```
+</ResponseExample>
+
+
+<ResponseExample>
+```json Response (401 Unauthorized)
+{
+    "ok": false,
+    "errors": [
+        {
+            "id": "hbiGJjhsSpnfhM8aBePyTB",
+            "code": "auth_failed",
+            "value": "authentication failed"
+        }
+    ]
+}
+```
+</ResponseExample>

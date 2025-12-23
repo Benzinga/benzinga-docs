@@ -1,0 +1,80 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: This REST API provides endpoints to get analyst report details.
+  termsOfService: http://swagger.io/terms/
+  title: Analyst Reports Raw Text API
+  version: 1.0.0
+paths:
+  /analyst/reports/raw-text:
+    get:
+      description: Get Analyst Reports Raw Text Data
+      operationId: get-analyst-reports-raw-text-data
+      parameters:
+        - description: Page number for pagination. Zero-indexed.
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: 'Number of results per page. Default: 100. Maximum: 100'
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/models.AnalystReportRawText'
+                type: array
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      security:
+        - ApiKeyAuth: []
+      summary: Get Analyst Reports Raw Text Data
+      tags:
+        - Analyst Reports Raw Text
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    models.AnalystReportRawText:
+      properties:
+        date:
+          type: string
+        exchange:
+          type: string
+        extracted_paragraphs:
+          items:
+            type: string
+          type: array
+        firm_id:
+          type: string
+        id:
+          type: string
+        ticker:
+          type: string
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: Default

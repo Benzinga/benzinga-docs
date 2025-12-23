@@ -1,0 +1,1207 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: This REST API provides endpoints to search for fundamentals and get
+    fundamental details.
+  termsOfService: http://swagger.io/terms/
+  title: Data API Proxy
+  version: 2.0.0
+paths:
+  /api/v1/quoteDelayed:
+    get:
+      description: Get delayed quotes for a list of symbols, ISINs, or CIKs
+      operationId: get-quote-delayed-v1
+      parameters:
+        - description: Comma-separated list of stock ticker symbols. At least one
+            of symbols, isin, or cik is required.
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: Comma-separated list of ISIN identifiers. Maximum 50. At least
+            one of symbols, isin, or cik is required.
+          in: query
+          name: isin
+          schema:
+            type: string
+        - description: Comma-separated list of CIK identifiers. At least one of symbols,
+            isin, or cik is required.
+          in: query
+          name: cik
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON object with delayed quotes
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get delayed quotes V1
+      tags:
+        - QuoteDelayed
+  /api/v2.1/fundamentals:
+    get:
+      description: Get Fundamentals V2.1
+      operationId: get-fundamentals-v21
+      parameters:
+        - description: Comma-separated list of stock ticker symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal to this date
+            in YYYY-MM-DD format
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 'Time period filter. Values: Q1, Q2, Q3, Q4 (quarters), FY
+            (fiscal year), TTM (trailing twelve months)'
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: 'Report type. Values: TTM (trailing twelve months), A (as originally
+            reported), R (restated), P (preliminary announcements)'
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Fundamentals V2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/alphaBeta:
+    get:
+      description: Get Alpha Beta
+      operationId: get-alpha-beta-v21
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Alpha Beta V2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/company:
+    get:
+      description: Get Company Data
+      operationId: get-company-v21
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Company Data v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/companyProfile:
+    get:
+      description: Get Company Profile
+      operationId: get-company-profile-v21
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Company Profile v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/shareClass:
+    get:
+      description: Get Share Class
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Share Class V2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/shareClassProfile:
+    get:
+      description: Get Share Class Profile
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Share Class Profile V2.1
+      tags:
+        - Fundamentals
+  /api/v2/bars:
+    get:
+      description: Get Bars V2
+      parameters:
+        - description: Comma-separated list of stock ticker symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 'Start date/time for bars. Formats: YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS,
+            YTD (year-to-date), or relative like 1MONTH/1m/1M'
+          in: query
+          name: from
+          required: true
+          schema:
+            type: string
+        - description: 'End date/time for bars. Format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS.
+            Defaults to current date/time if not specified.'
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: 'Time bucket interval for aggregating price bars. Values: 1m,
+            5m, 15m, 30m, 1h, 1d, 1w, 1M'
+          in: query
+          name: interval
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+      security:
+        - ApiKeyAuth: []
+      summary: Get Bars V2
+      tags:
+        - Bars
+  /api/v2/fundamentals:
+    get:
+      description: Get Fundamentals V2
+      operationId: get-fundamentals-v2
+      parameters:
+        - description: Comma-separated list of stock ticker symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal to this date
+            in YYYY-MM-DD format
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 'Time period filter. Values: Q1, Q2, Q3, Q4 (quarters), FY
+            (fiscal year), TTM (trailing twelve months)'
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: 'Report type. Values: TTM (trailing twelve months), A (as originally
+            reported), R (restated), P (preliminary announcements)'
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      summary: Get Fundamentals V2
+      tags:
+        - Fundamentals
+  /api/v2/fundamentals/assetClassification:
+    get:
+      description: Get Asset Classification
+      operationId: get-asset-classification-v21
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Asset Classification V2.1
+      tags:
+        - Fundamentals
+  /api/v2/fundamentals/earningRatios:
+    get:
+      description: Get earning ratios for a list of symbols, ISINs, or CIKs
+      operationId: get-earning-ratios-v21
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON object with earning ratios
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get earning ratios V2.1
+      tags:
+        - EarningRatios
+  /api/v2/fundamentals/earningsReports:
+    get:
+      description: Get Earnings Reports
+      operationId: get-earnings-reports-v21
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Earnings Reports V2.1
+      tags:
+        - Fundamentals
+  /api/v2/fundamentals/financials:
+    get:
+      description: Get Financials V2.1
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+      security:
+        - ApiKeyAuth: []
+      summary: Get Financials V2.1
+      tags:
+        - Fundamentals
+  /api/v2/fundamentals/operationRatios:
+    get:
+      description: Get operation ratios for a list of symbols
+      operationId: get-operation-ratios-v21
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON object with operation ratios
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get operation ratios V2.1
+      tags:
+        - OperationRatios
+  /api/v2/fundamentals/valuationRatios:
+    get:
+      description: Get valuation ratios for a list of symbols, ISINs, or CIKs
+      operationId: get-valuation-ratios-v21
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: Return results for dates greater than or equal date specified
+            in this parameter
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: Specifies the time period of the returned results
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (as originally reported), R (restated). P (Preliminary
+            anouncements)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON object with valuation ratios
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get valuation ratios V2.1
+      tags:
+        - ValuationRatios
+  /api/v2/quoteDelayed:
+    get:
+      description: Get delayed quotes for a list of symbols
+      operationId: get-quote-delayed-v2
+      parameters:
+        - description: Comma-separated list of stock ticker symbols. At least one
+            of symbols, isin, or cik is required.
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: Comma-separated list of ISIN identifiers. Maximum 50. At least
+            one of symbols, isin, or cik is required.
+          in: query
+          name: isin
+          schema:
+            type: string
+        - description: Comma-separated list of CIK identifiers. At least one of symbols,
+            isin, or cik is required.
+          in: query
+          name: cik
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON object with delayed quotes
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get delayed quotes V2
+      tags:
+        - QuoteDelayed
+  /api/v3/fundamentals:
+    get:
+      description: Get Fundamentals V3
+      operationId: get-fundamentals-v3
+      parameters:
+        - description: Comma-separated list of stock ticker symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 'Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)'
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: End date for query in YYYY-MM-DD format. Returns data up to
+            and including this date.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: 'Report type filter. Values: TTM (trailing twelve months),
+            A (as reported), R (restated), P (preliminary)'
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Fundamentals V3
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/balance-sheet:
+    get:
+      description: Get Balance Sheet V3
+      operationId: get-balance-sheet-v3
+      parameters:
+        - description: Comma-separated list of stock ticker symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 'Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)'
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: End date for query in YYYY-MM-DD format. Returns data up to
+            and including this date.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: 'Report type filter. Values: TTM (trailing twelve months),
+            A (as reported), R (restated), P (preliminary)'
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+      security:
+        - ApiKeyAuth: []
+      summary: Get Balance Sheet V3
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/cash-flow:
+    get:
+      description: Get Cash Flow V3
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 'Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)'
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: End date for query in YYYY-MM-DD format. Returns data up to
+            and including this date.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: 'Report type filter. Values: TTM (trailing twelve months),
+            A (as reported), R (restated), P (preliminary)'
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+      summary: Get Cash Flow V3
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/derived:
+    get:
+      description: Get derived figures and ratios for a list of symbols
+      operationId: get-derived-figures-and-ratios-v3
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 'Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)'
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: End date for query in YYYY-MM-DD format. Returns data up to
+            and including this date.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: 'Report type filter. Values: TTM (trailing twelve months),
+            A (as reported), R (restated), P (preliminary)'
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a JSON object with derived figures and ratios
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get derived figures and ratios V3
+      tags:
+        - DerivedFiguresAndRatios
+  /api/v3/fundamentals/income-statement:
+    get:
+      description: Get Income Statement V3
+      operationId: get-income-statement-v3
+      parameters:
+        - description: Comma separated list of symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 'Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)'
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: End date for query in YYYY-MM-DD format. Returns data up to
+            and including this date.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: 'Report type filter. Values: TTM (trailing twelve months),
+            A (as reported), R (restated), P (preliminary)'
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Get Income Statement V3
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/share-price-ratios:
+    get:
+      description: Get Share Price Ratios
+      operationId: get-share-price-ratios-v3
+      parameters:
+        - description: Comma-separated list of stock ticker symbols
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 'Start date for query in YYYY-MM-DD format. Supports: YYYY-MM-DD,
+            YTD (year-to-date), 1MONTH/1m/1M (1 month ago)'
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: End date for query in YYYY-MM-DD format. Returns data up to
+            and including this date.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: 'Report type filter. Values: TTM (trailing twelve months),
+            A (as reported), R (restated), P (preliminary)'
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+      security:
+        - ApiKeyAuth: []
+      summary: Get Share Price Ratios V3
+      tags:
+        - Fundamentals
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: '#/components/schemas/bzhttp.ErrorCode'
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
+      type: string
+      x-enum-varnames:
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: '#/components/schemas/bzhttp.Error'
+          type: array
+        ok:
+          type: boolean
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: Default

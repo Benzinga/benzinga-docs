@@ -1,0 +1,305 @@
+---
+title: "Overview"
+description: "Comprehensive guide to searching and retrieving company, fund, and crypto logos using various identifiers"
+---
+
+## Introduction
+
+The Benzinga Logos API provides access to high-quality logos for companies, funds, and cryptocurrencies. You can search for logos using multiple identifier types including symbols, CIK numbers, ISIN codes, CUSIP, FIGI, and more.
+
+## Available Endpoints
+
+### `/logos/search`
+Search for logos using various identifiers. Returns logo URLs, security details, and metadata.
+
+### `/logos/sync`
+Bulk synchronization endpoint for retrieving multiple logos with pagination support.
+
+## Search Filters
+
+The API supports flexible searching through two main parameters:
+
+- `search_keys` - The identifier value you want to search for
+- `search_keys_type` - The type of identifier (optional; defaults to `symbol`)
+
+### 1. Filter by Symbol
+
+Search for logos using stock ticker symbols.
+
+**Parameters:**
+- `search_keys`: Symbol (e.g., `AAPL`, `TSLA`, `MSFT`)
+- `search_keys_type`: `symbol` (optional, this is the default)
+
+**Example:**
+```
+GET /api/v2/logos/search?search_keys=AAPL&search_keys_type=symbol&fields=logo_light,logo_dark
+```
+
+### 2. Filter by CIK
+
+Search using the SEC's Central Index Key. Supports both padded and unpadded values.
+
+**Parameters:**
+- `search_keys`: CIK number (e.g., `320193` or `0000320193`)
+- `search_keys_type`: `cik`
+
+**Example:**
+```
+GET /api/v2/logos/search?search_keys=320193&search_keys_type=cik&fields=logo_light,logo_dark
+```
+
+**Example with padded CIK:**
+```
+GET /api/v2/logos/search?search_keys=0000320193&search_keys_type=cik&fields=logo_light,logo_dark
+```
+
+### 3. Filter by ISIN
+
+Search using International Securities Identification Number.
+
+**Parameters:**
+- `search_keys`: ISIN code (e.g., `US0378331005`)
+- `search_keys_type`: `isin`
+
+**Example:**
+```
+GET /api/v2/logos/search?search_keys=US0378331005&search_keys_type=isin&fields=logo_light,logo_dark
+```
+
+### 4. Filter by FIGI Share Class
+
+Search using Bloomberg's Financial Instrument Global Identifier for share classes.
+
+**Parameters:**
+- `search_keys`: FIGI Share Class ID (e.g., `BBG001SQKGD7`)
+- `search_keys_type`: `figi_share_class`
+
+**Example:**
+```
+GET /api/v2/logos/search?search_keys=BBG001SQKGD7&search_keys_type=figi_share_class&fields=logo_light,logo_dark
+```
+
+### 5. Filter by CUSIP
+
+Search using Committee on Uniform Securities Identification Procedures number.
+
+**Parameters:**
+- `search_keys`: CUSIP number (e.g., `88160R101`)
+- `search_keys_type`: `cusip`
+
+**Example:**
+```
+GET /api/v2/logos/search?search_keys=88160R101&search_keys_type=cusip&fields=logo_light,logo_dark
+```
+
+### 6. Filter by Symbol with Currency & Country
+
+Qualify symbols with country or currency codes using colon (`:`) or period (`.`) as delimiter.
+
+**Parameters:**
+- `search_keys`: Symbol with qualifier (e.g., `AAPL:US`, `AAPL:USD`, `AAPL.US`)
+- `search_keys_type`: `symbol`
+
+**Examples:**
+```
+GET /api/v2/logos/search?search_keys=AAPL:US&search_keys_type=symbol&fields=logo_light,logo_dark
+GET /api/v2/logos/search?search_keys=AAPL:USD&search_keys_type=symbol&fields=logo_light,logo_dark
+GET /api/v2/logos/search?search_keys=AAPL.US&search_keys_type=symbol&fields=logo_light,logo_dark
+```
+
+### 7. Filter by Exchange and Symbol
+
+Search by combining exchange code with symbol. Supports both Bloomberg-style (legacy) and LSEG-style formats.
+
+**Bloomberg-style mapping (legacy):**
+- `search_keys`: Exchange and symbol (e.g., `NASDAQ:AAPL`)
+- `search_keys_type`: `symbol`
+
+**LSEG 3-character code (current):**
+- `search_keys`: Exchange code and symbol (e.g., `NSQ:AAPL`)
+- `search_keys_type`: `symbol`
+
+**Examples:**
+```
+GET /api/v2/logos/search?search_keys=NASDAQ:AAPL&search_keys_type=symbol&fields=logo_light,logo_dark
+GET /api/v2/logos/search?search_keys=NSQ:AAPL&search_keys_type=symbol&fields=logo_light,logo_dark
+```
+
+### 8. Filter by ISO MIC and Symbol
+
+Search using ISO Market Identifier Code combined with symbol.
+
+**Parameters:**
+- `search_keys`: MIC code and symbol (e.g., `XYNS:AAPL`)
+- `search_keys_type`: `symbol`
+
+**Example:**
+```
+GET /api/v2/logos/search?search_keys=XYNS:AAPL&search_keys_type=symbol&fields=logo_light,logo_dark
+```
+
+### 9. Crypto Logo Filters
+
+Search for cryptocurrency logos using various formats. The API automatically recognizes crypto formats even when `search_keys_type` is not specified.
+
+**Supported formats:**
+- `CRYPTO:BTC`
+- `CRYPTO/BTC`
+- `$BTC`
+- `BTC/USD`
+
+**Examples:**
+```
+GET /api/v2/logos/search?search_keys=CRYPTO:BTC&fields=logo_light,logo_dark
+GET /api/v2/logos/search?search_keys=CRYPTO/BTC&fields=logo_light,logo_dark
+GET /api/v2/logos/search?search_keys=$BTC&fields=logo_light,logo_dark
+GET /api/v2/logos/search?search_keys=BTC/USD&fields=logo_light,logo_dark
+```
+
+## Available Fields
+
+You can request specific logo types using the `fields` parameter. Available fields include:
+
+- `logo_light` - Light theme logo (PNG)
+- `logo_dark` - Dark theme logo (PNG)
+- `logo_vector_light` - Light theme vector logo (SVG)
+- `logo_vector_dark` - Dark theme vector logo (SVG)
+- `mark_light` - Light theme mark/icon (PNG)
+- `mark_dark` - Dark theme mark/icon (PNG)
+- `mark_vector_light` - Light theme vector mark (SVG)
+- `mark_vector_dark` - Dark theme vector mark (SVG)
+- `mark_composite_light` - Light theme composite mark (PNG)
+- `mark_composite_dark` - Dark theme composite mark (PNG)
+- `mark_vector_composite_light` - Light theme vector composite mark (SVG)
+- `mark_vector_composite_dark` - Dark theme vector composite mark (SVG)
+
+**Example requesting multiple fields:**
+```
+GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vector_composite_light
+```
+
+## Additional Parameters
+
+### Image Customization
+
+- `scale` - Scale the image (e.g., `100x100`, `300x300`)
+- `max_width` - Maximum width for the returned image
+- `composite_radius` - Border radius for composite images (integer, range `0-50`)
+- `composite_auto` - Automatically generate composite images (boolean)
+
+### Pagination (bulk-sync only)
+
+- `page` - Page number (integer)
+- `pagesize` - Number of results per page (integer)
+- `updated_since` - Filter by update timestamp (ISO 8601 format)
+
+### Security Details
+
+- `securities` - Include detailed security information in the response (boolean)
+
+## Response Examples
+
+### 200 Success Response
+
+```json
+{
+  "ok": true,
+  "data": [
+    {
+      "id": "efc3943a-ddac-4f59-a2cc-47a67583068b",
+      "search_key": "TSLA",
+      "securities": [
+        {
+          "symbol": "TSLA",
+          "name": "TESLA INC",
+          "cik": "1318605",
+          "exchange": "NASDAQ",
+          "mic_code": "XNAS",
+          "exchange_name": "NASDAQ Global Select Consolidated",
+          "cusip": "88160R101",
+          "isin": "US88160R1014",
+          "country": "US",
+          "figi_share_class": "BBG001SQKGD7",
+          "figi": "BBG000N9MNX3",
+          "security_type": "Common Stock"
+        }
+      ],
+      "files": {
+        "logo_dark": "https://image-util.benzinga.com/api/v2/logos/file/image/1318605/logo_dark__53646042d4c8b507c7eddb70110ee334.png?x-bz-cred=...",
+        "logo_light": "https://image-util.benzinga.com/api/v2/logos/file/image/1318605/logo_light__6895726d0ff148e46c238f91d033e72a.png?x-bz-cred=..."
+      },
+      "created_at": "2022-05-18T05:19:45.008547Z",
+      "updated_at": "2025-02-05T09:43:14.303261Z"
+    }
+  ]
+}
+```
+
+### 401 Unauthorized Response
+
+```json
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+
+### 404 Not Found Response
+
+```json
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No logos found for the specified search key"
+    }
+  ]
+}
+```
+
+### 500 Internal Server Error Response
+
+```json
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+
+## Authentication
+
+All Logos API endpoints require authentication via API key. Include your token as a query parameter:
+
+```
+?token=YOUR_API_KEY
+```
+
+## Best Practices
+
+1. **Specify search_keys_type** - While the API defaults to `symbol`, explicitly specifying the type improves clarity and performance
+2. **Request only needed fields** - Only request the logo types you need to minimize response size and improve performance
+3. **Use bulk-sync for large datasets** - When retrieving multiple logos, use the `/logos/bulk-sync` endpoint with pagination
+4. **Cache responses** - Logo URLs include expiration timestamps; cache appropriately to reduce API calls
+5. **Handle errors gracefully** - Always check the `ok` field in responses and handle error cases appropriately
+
+## Rate Limits
+
+Please refer to your API subscription plan for rate limit details. Contact support if you need higher rate limits for your application.
+
+## Support
+
+For additional help or questions about the Logos API, contact Benzinga API support or refer to the detailed endpoint documentation.
