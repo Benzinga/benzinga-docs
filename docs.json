@@ -532,6 +532,16 @@
               }
             ]
           }
+        ],
+        "openapi": [
+          "openapi/es/analyst-reports-raw-text-api_api.spec.yml",
+          "openapi/es/calendar_api.spec.yml",
+          "openapi/es/data-api-proxy_api.spec.yml",
+          "openapi/es/earnings-call-transcripts-api_api.spec.yml",
+          "openapi/es/logo-api_api.spec.yml",
+          "openapi/es/news-api_api.spec.yml",
+          "openapi/es/newsquantified-api_api.spec.yml",
+          "openapi/es/ticker-trends-api_api.spec.yml"
         ]
       },
       {
@@ -786,6 +796,16 @@
               }
             ]
           }
+        ],
+        "openapi": [
+          "openapi/ko/analyst-reports-raw-text-api_api.spec.yml",
+          "openapi/ko/calendar_api.spec.yml",
+          "openapi/ko/data-api-proxy_api.spec.yml",
+          "openapi/ko/earnings-call-transcripts-api_api.spec.yml",
+          "openapi/ko/logo-api_api.spec.yml",
+          "openapi/ko/news-api_api.spec.yml",
+          "openapi/ko/newsquantified-api_api.spec.yml",
+          "openapi/ko/ticker-trends-api_api.spec.yml"
         ]
       }
     ]
