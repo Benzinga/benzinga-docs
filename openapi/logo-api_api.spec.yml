@@ -58,30 +58,30 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '400':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '404':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '500':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
       summary: Get Logos for given search keys
@@ -130,32 +130,32 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/logoapi.Logos'
+                  $ref: "#/components/schemas/logoapi.Logos"
                 type: array
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '404':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '500':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
       summary: Get Logos for given search keys
@@ -171,7 +171,7 @@ components:
     bzhttp.Error:
       properties:
         code:
-          $ref: '#/components/schemas/bzhttp.ErrorCode'
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
         id:
           type: string
         value:
@@ -179,8 +179,6 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
-        - unsupported_message_type
-        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -192,10 +190,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
       type: string
       x-enum-varnames:
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -207,6 +205,8 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -214,7 +214,7 @@ components:
           type: object
         errors:
           items:
-            $ref: '#/components/schemas/bzhttp.Error'
+            $ref: "#/components/schemas/bzhttp.Error"
           type: array
         ok:
           type: boolean
@@ -256,7 +256,7 @@ components:
     logoapi.Logos:
       properties:
         colors:
-          $ref: '#/components/schemas/logoapi.LogoColors'
+          $ref: "#/components/schemas/logoapi.LogoColors"
         company_cik:
           type: string
         company_url:
@@ -268,7 +268,7 @@ components:
         figi_share_class:
           type: string
         files:
-          $ref: '#/components/schemas/logoapi.LogoRevisionFiles'
+          $ref: "#/components/schemas/logoapi.LogoRevisionFiles"
         id:
           type: string
         isin:
@@ -279,7 +279,7 @@ components:
           type: string
         securities:
           items:
-            $ref: '#/components/schemas/logoapi.Security'
+            $ref: "#/components/schemas/logoapi.Security"
           type: array
         symbol:
           type: string
@@ -319,8 +319,3 @@ components:
         symbol:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
