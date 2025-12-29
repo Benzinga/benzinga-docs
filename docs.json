@@ -54,12 +54,6 @@
             ]
           },
           {
-            "group": "Analyst Reports Raw Text",
-            "pages": [
-              "api-reference/analyst-reports-raw-text-api_api/analyst-reports-raw-text/get-analyst-reports-raw-text-data"
-            ]
-          },
-          {
             "group": "Bars",
             "pages": [
               "api-reference/data-api-proxy_api/bars/get-bars-v2"
@@ -148,7 +142,7 @@
             "pages": [
               "api-reference/logo-api_api/logos/overview",
               "api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
-              "api-reference/logo-api_api/logos/get-logos-in-bulk"
+              "api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
             ]
           },
           {
