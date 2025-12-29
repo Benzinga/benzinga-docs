@@ -1,115 +1,194 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API returns structured data for news articles and press releases.
-  termsOfService: http://swagger.io/terms/
-  title: News API
-  version: 2.1.0
+  description: Bearer token authentication
+  title: Newsfeed & Why is it Moving v2
+  version: 2.0.0
 paths:
+  /api/v2.1/news/channels:
+    get:
+      description: Returns a list of all available news channels that can be used to
+        filter news items. Channels can have sub-channels, but they will all be
+        listed as their own item.
+      operationId: get-channels
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+      summary: Get available news channels
+      tags:
+        - Channels
   /api/v2/news:
     get:
-      description: Get News
+      description: This REST API returns structured data for news. For optimal
+        performance, limit the scope of the query using parameters such as
+        tickers, date, and channels, or use updatedSince for deltas. Page
+        offsets are limited from 0 - 100000.
       operationId: get-news
       parameters:
-        - description: Tickers
-          in: query
-          name: tickers
+        - description: Specify return format
+          in: header
+          name: accept
+          required: true
           schema:
             type: string
-        - description: CUSIPs
-          in: query
-          name: cusips
-          schema:
-            type: string
-        - description: ISINs
-          in: query
-          name: isins
-          schema:
-            type: string
-        - description: Channels
-          in: query
-          name: channels
-          schema:
-            type: string
-        - description: Topics
-          in: query
-          name: topics
-          schema:
-            type: string
-        - description: Authors
-          in: query
-          name: authors
-          schema:
-            type: string
-        - description: Content Types
-          in: query
-          name: contentTypes
-          schema:
-            type: string
-        - description: Sort
-          in: query
-          name: sort
-          schema:
-            type: string
-        - description: Date
-          in: query
-          name: date
-          schema:
-            type: string
-            format: date
-        - description: Published Since
-          in: query
-          name: publishedSince
-          schema:
-            type: string
-        - description: Updated Since
-          in: query
-          name: updatedSince
-          schema:
-            type: string
-        - description: Date From
-          in: query
-          name: dateFrom
-          schema:
-            type: string
-        - description: Date To
-          in: query
-          name: dateTo
-          schema:
-            type: string
-        - description: Page Size
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-        - description: Page
+            enum:
+              - application/json
+              - application/xml
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date.
           in: query
           name: page
           schema:
             type: integer
-        - description: Last ID
+            default: 0
+        - description: Number of results returned. Maximum 100.
           in: query
-          name: lastID
+          name: pageSize
           schema:
-            type: string
-        - description: Display Output
+            type: integer
+            maximum: 100
+            default: 15
+        - description: Specify headline only (headline), headline + teaser (abstract), or
+            headline + full body (full) text
           in: query
           name: displayOutput
           schema:
             type: string
-        - description: Noise
+            enum:
+              - full
+              - abstract
+              - headline
+            default: headline
+        - description: "The date to query for news. Shorthand for dateFrom and dateTo if
+            they are the same. Format: yyyy-mm-dd"
           in: query
-          name: noise
+          name: date
           schema:
             type: string
-        - description: Format
+        - description: "Date to query from point in time. Sorted by published date.
+            Format: yyyy-mm-dd"
+          in: query
+          name: dateFrom
+          schema:
+            type: string
+        - description: "Date to query to point in time. Sorted by published date. Format:
+            yyyy-mm-dd"
+          in: query
+          name: dateTo
+          schema:
+            type: string
+        - description: The last updated Unix timestamp (UTC) to pull and sort by
+          in: query
+          name: updatedSince
+          schema:
+            type: integer
+        - description: The last published Unix timestamp (UTC) to pull and sort by
+          in: query
+          name: publishedSince
+          schema:
+            type: integer
+        - description: "Allows control of results sorting. Default is created, DESC.
+            Format: field:direction. Sort Fields: id, created, updated. Sort
+            Order: asc (ascending), desc (descending)"
+          in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - id:asc
+              - id:desc
+              - created:asc
+              - created:desc
+              - updated:asc
+              - updated:desc
+        - description: "One or more ISINs separated by a comma. Maximum 50. Format: csv"
+          in: query
+          name: isin
+          schema:
+            type: string
+        - description: "One or more CUSIPs separated by a comma. Maximum 50. License
+            agreement required. Format: csv"
+          in: query
+          name: cusips
+          schema:
+            type: string
+        - description: "One or more ticker symbols separated by a comma. Maximum 50.
+            Format: csv"
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: "One or more primary ticker symbols separated by a comma. Filters
+            by primary ticker association only. Format: csv"
+          in: query
+          name: primaryTickers
+          schema:
+            type: string
+        - description: "One or more channel names or IDs separated by a comma. Format: csv"
+          in: query
+          name: channels
+          schema:
+            type: string
+        - description: "One or more words/phrases separated by a comma; searches Title,
+            Tags, and Body in order of priority. Format: csv"
+          in: query
+          name: topics
+          schema:
+            type: string
+        - description: Logical operator for topics query. Use 'and' to require all topics,
+            'or' to require any topic
+          in: query
+          name: topic_group_by
+          schema:
+            type: string
+            enum:
+              - and
+              - or
+            default: or
+        - description: "One or more authors separated by a comma. Format: csv"
+          in: query
+          name: authors
+          schema:
+            type: string
+        - description: "One or more content types separated by a comma. Format: csv"
+          in: query
+          name: content_types
+          schema:
+            type: string
+        - description: Specify the desired format for the api response
           in: query
           name: format
           schema:
             type: string
+            enum:
+              - text
+        - description: Filter by importance level
+          in: query
+          name: importance
+          schema:
+            type: string
+        - description: Filter by region (e.g., 'ca' or 'canada' for Canadian content)
+          in: query
+          name: region
+          schema:
+            type: string
       responses:
         "200":
-          description: OK
+          description: success
           content:
             application/json:
               schema:
@@ -150,50 +229,60 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: Get News
+      summary: Get the news items
       tags:
         - News
-  /api/v2/news/removed:
+  /api/v2/news-removed:
     get:
-      description: Get Removed News
+      description: Returns the removed news data. Filters the results to only include
+        items that have been updated since the specified timestamp.
       operationId: get-removed-news
       parameters:
-        - description: Updated Since
-          in: query
-          name: updatedSince
+        - description: Specifies return format
+          in: header
+          name: accept
+          required: true
           schema:
             type: string
-        - description: Page Size
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-        - description: Page
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date.
           in: query
           name: page
           schema:
             type: integer
+            default: 0
+        - description: Number of results returned. Maximum 100.
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            maximum: 100
+            default: 15
+        - description: Filters the results to only include items that have been updated
+            since the specified Unix timestamp (UTC)
+          in: query
+          name: updatedSince
+          schema:
+            type: integer
       responses:
         "200":
-          description: OK
+          description: success
           content:
             application/json:
               schema:
-                items:
-                  $ref: "#/components/schemas/api.NewsRemovedItem"
-                type: array
-            text/xml:
-              schema:
-                items:
-                  $ref: "#/components/schemas/api.NewsRemovedItem"
-                type: array
+                additionalProperties:
+                  items:
+                    $ref: "#/components/schemas/api.NewsRemovedItem"
+                  type: array
+                type: object
         "400":
           description: Invalid or Missing Query Parameters
           content:
             application/json:
-              schema:
-                type: string
-            text/xml:
               schema:
                 type: string
         "499":
@@ -202,45 +291,49 @@ paths:
             application/json:
               schema:
                 type: string
-            text/xml:
-              schema:
-                type: string
         "500":
           description: Internal Error
           content:
             application/json:
               schema:
                 type: string
-            text/xml:
-              schema:
-                type: string
       security:
         - ApiKeyAuth: []
-      summary: Get Removed News
+      summary: Returns the removed news data
       tags:
         - News
+servers:
+  - url: //api.benzinga.com/api/v2
 components:
   securitySchemes:
     ApiKeyAuth:
-      in: header
+      description: API key authentication. Provide your API key as a query parameter.
+      in: query
       name: token
       type: apiKey
   schemas:
     api.ChannelTag:
+      description: Channel or tag name
       properties:
         name:
+          example: Technology
           type: string
       type: object
     api.Image:
+      description: Article image with size and URL
       properties:
         size:
+          example: large
           type: string
         url:
+          example: https://cdn.benzinga.com/files/images/story/2024/example.jpg
           type: string
       type: object
     api.NewsItem:
+      description: News article item with full metadata
       properties:
         author:
+          example: Benzinga Newsdesk
           type: string
         body:
           type: string
@@ -249,8 +342,10 @@ components:
             $ref: "#/components/schemas/api.ChannelTag"
           type: array
         created:
+          example: Wed, 17 May 2017 14:20:15 -0400
           type: string
         id:
+          example: 123456
           type: integer
         image:
           items:
@@ -269,30 +364,38 @@ components:
         teaser:
           type: string
         title:
+          example: Apple Announces New iPhone
           type: string
         updated:
+          example: Wed, 17 May 2017 14:20:15 -0400
           type: string
         url:
+          example: https://www.benzinga.com/news/123456
           type: string
       type: object
     api.NewsRemovedItem:
+      description: Removed news article with ID and update timestamp
       properties:
         id:
+          example: 123456
           type: integer
         updated:
+          example: Wed, 17 May 2017 14:20:15 -0400
           type: string
       type: object
     api.Stock:
+      description: Stock information with ticker symbol and identifiers
       properties:
         cusip:
+          example: "037833100"
+          type: string
+        exchange:
+          example: NASDAQ
           type: string
         isin:
+          example: US0378331005
           type: string
         name:
+          example: AAPL
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
