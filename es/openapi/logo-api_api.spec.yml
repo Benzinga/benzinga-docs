@@ -1,0 +1,317 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Esta API REST proporciona endpoints para buscar logotipos y obtener
+    sus detalles.
+  termsOfService: http://swagger.io/terms/
+  title: Logo API
+  version: 2.1.0
+paths:
+  /logos/search:
+    get:
+      description: Obtener logotipos para las claves de búsqueda especificadas
+      operationId: get-search-logos
+      parameters:
+        - description: Lista de identificadores de valores separada por comas. Máximo 100
+            identificadores. El tipo depende del parámetro search_keys_type.
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: "Tipo de identificador que se busca. Tipos admitidos: symbol
+            (predeterminado), cik, cusip, isin"
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: "Lista de campos de logotipo separados por comas que se devolverán.
+            Máximo 12 campos. Disponibles: logo_light, logo_dark,
+            logo_vector_light, logo_vector_dark, mark_light, mark_dark,
+            mark_vector_light, mark_vector_dark, mark_composite_light,
+            mark_composite_dark, mark_vector_composite_light,
+            mark_vector_composite_dark, colors"
+          in: query
+          name: fields
+          required: true
+          schema:
+            type: string
+        - description: Si es true y no existe ningún logotipo, genera una imagen compuesta
+            a partir del nombre de la empresa y los colores de la marca
+          in: query
+          name: composite_auto
+          schema:
+            type: boolean
+        - description: "Radio de las esquinas para imágenes compuestas, en porcentaje.
+            Rango de 0 a 50, donde 50 crea un círculo. Valor predeterminado: 0"
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+        - description: "Ajusta las dimensiones de la imagen en formato ANCHOxALTO (p. ej.,
+            300x300). Las imágenes solo se reducen, nunca se amplían. Valor
+            predeterminado: 300x300"
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: Límite máximo de ancho para imágenes escaladas, en píxeles
+          in: query
+          name: max_width
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/logoapi.LogoRevision"
+                type: array
+        "400":
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener logotipos para las claves de búsqueda indicadas
+      tags:
+        - logos
+  /logos/sync:
+    get:
+      description: Obtener logotipos en lote
+      operationId: logo-bulk-sync
+      parameters:
+        - description: Lista de identificadores de valores o códigos MIC de exchange
+            separados por comas (para los logotipos de exchange v2.1). El tipo
+            depende del parámetro search_keys_type.
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: "Tipo de identificador que se busca. Tipos compatibles: symbol
+            (predeterminado), cik, cusip, isin, exchange (solo v2.1)"
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: "Lista de campos de logotipo separados por comas que se devolverán.
+            Máximo 12 campos. Campos disponibles: logo_light, logo_dark,
+            logo_vector_light, logo_vector_dark, mark_light, mark_dark,
+            mark_vector_light, mark_vector_dark, mark_composite_light,
+            mark_composite_dark, mark_vector_composite_light,
+            mark_vector_composite_dark, colors"
+          in: query
+          name: fields
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Número de página para la paginación. Se utiliza junto con pagesize
+            para operaciones de sincronización en lote.
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "Número de resultados por página. Valor predeterminado: 100.
+            Máximo: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Marca de tiempo Unix (UTC). Devuelve los logotipos actualizados
+            después de esta marca de tiempo.
+          in: query
+          name: updated_since
+          schema:
+            type: string
+        - description: "Escala las dimensiones de la imagen en formato ANCHOxALTO (por
+            ejemplo, 300x300). Las imágenes solo se reducen, nunca se amplían.
+            Valor predeterminado: 300x300"
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: "Radio del borde para imágenes compuestas, en porcentaje. Rango de
+            0 a 50, donde 50 crea un círculo. Valor por defecto: 0"
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Aceptar
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "400":
+          description: Solicitud no válida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener logotipos de forma masiva
+      tags:
+        - logos
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
+      type: string
+      x-enum-varnames:
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    logoapi.LogoColors:
+      properties:
+        background_dark:
+          type: string
+        background_light:
+          type: string
+      type: object
+    logoapi.LogoRevision:
+      properties:
+        colors:
+          $ref: "#/components/schemas/logoapi.LogoColors"
+        company_cik:
+          type: string
+        company_url:
+          type: string
+        created_at:
+          type: string
+        deleted_at:
+          type: string
+        files:
+          $ref: "#/components/schemas/logoapi.LogoRevisionFiles"
+        id:
+          type: string
+        isin:
+          type: string
+        last_audited:
+          type: string
+        mic_code:
+          type: string
+        symbol:
+          type: string
+        type:
+          type: string
+        updated_at:
+          type: string
+        updated_by_user_id:
+          type: string
+      type: object
+    logoapi.LogoRevisionFiles:
+      properties:
+        logo_dark:
+          type: string
+        logo_light:
+          type: string
+        logo_vector_dark:
+          type: string
+        logo_vector_light:
+          type: string
+        mark_composite_dark:
+          type: string
+        mark_composite_light:
+          type: string
+        mark_dark:
+          type: string
+        mark_light:
+          type: string
+        mark_vector_composite_dark:
+          type: string
+        mark_vector_composite_light:
+          type: string
+        mark_vector_dark:
+          type: string
+        mark_vector_light:
+          type: string
+      type: object
+servers:
+  - url: https://api.benzinga.com/api/v2
+    description: V2
+  - url: https://api.benzinga.com/api/v2.1
+    description: V2.1
