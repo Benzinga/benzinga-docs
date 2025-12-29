@@ -1,3 +1,37 @@
 ---
 openapi: get /api/v2.2/calendar/dividends
 ---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "dividends": [
+    {
+      "confirmed": false,
+      "currency": "USD",
+      "cusip": "511795106",
+      "date": "2027-04-12",
+      "dividend": "0.0300",
+      "dividend_prior": "0.0300",
+      "dividend_type": "Cash",
+      "dividend_yield": "",
+      "end_regular_dividend": false,
+      "ex_dividend_date": "2026-01-20",
+      "exchange": "NASDAQ",
+      "frequency": 4,
+      "id": "679c78b7fe55fa0001ee13f1",
+      "importance": 1,
+      "isin": "US5117951062",
+      "name": "Lakeland Industries",
+      "notes": "",
+      "payable_date": "2026-01-26",
+      "period": "",
+      "record_date": "2026-01-20",
+      "ticker": "LAKE",
+      "updated": 1749999992,
+      "year": 0
+    }
+  ]
+}
+```
+</ResponseExample>

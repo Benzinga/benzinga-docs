@@ -57,6 +57,34 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
                   {"url": "https://api.benzinga.com/api/v2.1", "description": "V2.1"}
                 ]'
                 ;;
+            "newsquantified-api_api.spec.yml")
+                servers='[
+                  {"url": "https://api.benzinga.com/api/v2", "description": "V2"}
+                ]'
+                ;;
+            "ticker-trends-api_api.spec.yml")
+                servers='[
+                  {"url": "https://api.benzinga.com/api/v1", "description": "V1"}
+                ]'
+                ;;
+            "data-api-proxy_api.spec.yml")
+                servers='[
+                  {"url": "https://api.benzinga.com/api/v1", "description": "V1"},
+                  {"url": "https://api.benzinga.com/api/v2", "description": "V2"},
+                  {"url": "https://api.benzinga.com/api/v2.1", "description": "V2.1"},
+                  {"url": "https://api.benzinga.com/api/v3", "description": "V3"}
+                ]'
+                ;;
+            "earnings-call-transcripts-api_api.spec.yml")
+                servers='[
+                  {"url": "https://api.benzinga.com/api/v1", "description": "V1"}
+                ]'
+                ;;
+            "analyst-reports-raw-text-api_api.spec.yml")
+                servers='[
+                  {"url": "https://api.benzinga.com", "description": "Production"}
+                ]'
+                ;;
             *)
                 # Default servers if filename doesn't match
                 servers='[

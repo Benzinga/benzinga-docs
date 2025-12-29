@@ -30,12 +30,12 @@ jobs:
 
     - name: Run the OpenAPI script
       run: |
-        chmod +x ./scripts/process_mint.sh
-        ./scripts/process_mint.sh
+        chmod +x ./scripts/process_docs.sh
+        ./scripts/process_docs.sh
 
-    - name: Mint output
+    - name: Docs output
       run: |
-        echo "The JSON array output from the script is: $mint_output"
+        echo "The JSON array output from the script is: $docs_output"
 
     - name: Commit and push changes
       run: |
@@ -48,7 +48,7 @@ jobs:
           exit 0
         fi
     
-        git commit -m "Update mint.json with new OpenAPI data"
+        git commit -m "Update docs.json with new OpenAPI data"
     
         # Pull latest and rebase our commit on top
         git pull --rebase origin ${GITHUB_REF_NAME}

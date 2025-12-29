@@ -1,3 +1,49 @@
 ---
 openapi: get /api/v2/fundamentals/earningRatios
 ---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "result": [
+    {
+      "company": {
+        "primarySymbol": "AAPL",
+        "primaryExchange": "NAS",
+        "cik": "320193",
+        "isin": "CA03785Y1007",
+        "cusip": "03785Y100",
+        "standardName": "Apple",
+        "countryId": "USA",
+        "isReit": false,
+        "industryTemplateCode": "N",
+        "businessCountryId": "USA",
+        "isLimitedPartnership": false,
+        "yearofEstablishment": 1977,
+        "isLimitedLiabilityCompany": false
+      },
+      "earningRatios": [
+        {
+          "id": {
+            "shareClassId": "0P000000GY",
+            "asOf": "2025-09-30",
+            "reportType": "R",
+            "period": "3M",
+            "aorOrRestate": "RESTATE"
+          },
+          "fiscalYearEnd": 9,
+          "dilutedEpsGrowth": 0.907216,
+          "dilutedContEpsGrowth": 0.907216,
+          "dpsGrowth": 0.04,
+          "normalizedDilutedEpsGrowth": 0.907216,
+          "normalizedBasicEpsGrowth": 0.907216
+        }
+      ],
+      "symbol": "AAPL",
+      "idType": "SYMBOL",
+      "id": "AAPL"
+    }
+  ]
+}
+```
+</ResponseExample>
