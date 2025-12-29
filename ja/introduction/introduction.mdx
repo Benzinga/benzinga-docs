@@ -1,0 +1,59 @@
+---
+title: 'クイックスタート'
+description: 'Benzinga の API を使い始め、リアルタイムのマーケットデータやニュースなどにアクセスしましょう。'
+icon: square-minus
+---
+
+<div id="benzinga-apis">
+  ## Benzinga APIs
+</div>
+
+決算レポートからオプション取引の動向まで、Benzinga は市場を動かす情報にフォーカスしています。ブレイキングニュースに特化した複数のチャネルを提供しており、御社がいち早くトレードを実行できるよう支援します。ニュースは、プル型の REST API またはプッシュ型の TCP の 2 通りで受信できます。どちらも、これまでにないレベルで市場データへアクセスする手段を提供します。
+
+Benzinga の原則の一つは「競合ではなく、お客様に執着すること」です。
+
+質の高い関係性はビジネス成功の原動力であり、私たちは常にそれを最優先事項としています。
+
+Benzinga の API を使い始めるには、licensing@benzinga.com まで直接メールをお送りいただくか、877-440-9464 までお電話ください。1 営業日以内にご返信いたします。
+
+<div id="authentication">
+  ## 認証
+</div>
+
+リクエストのクエリ文字列で、`token` パラメータとして API キー／トークンを指定してください。
+
+<div id="best-practices">
+  ## ベストプラクティス
+</div>
+
+可能な場合は、Benzinga が提供するクライアントを使用することを推奨します。多くのエンドポイントは、Benzinga の [Python ライブラリ](/ja/python-client) から利用できます。公開されている [GitHub](https://github.com/benzinga) にて、リファレンス実装およびクライアントライブラリを提供しています。
+
+最後に、特にリアルタイムの取り込み（履歴データの取り込みとは対照的に）で使用する場合には、Calendar、Signals、および News API を使用する際に差分（デルタ）を活用することを強く推奨します。これは、Calendar と Signals API では `parameters[updated]` クエリパラメータを、News API では `updatedSince` クエリパラメータを使用することで実現できます。これらのパラメータを使用することで、レイテンシーを最小限に抑えることができます。
+
+<div id="max-offset">
+  ## 最大オフセット
+</div>
+
+News、calendar、および Signals API のページネーションでは、10,000 件を超える結果セットは取得できません。つまり、ページサイズが 1,000 の場合、ページ 10 をリクエストすることはできません。
+
+この制限を回避するには、クエリの範囲を調整してください。たとえば、10,000 件未満となる特定の日付範囲や ticker セットに絞り込みます。その後、別の日付範囲や 10,000 件未満となる別の ticker セットを対象とするようにクエリを変更し、それらのセットを結合して、目的の全結果セットを取得できるまで繰り返します。
+
+<div id="return-format">
+  ## 返却形式
+</div>
+
+Benzinga API のデフォルトの返却形式は各 API 仕様で個別に定義されていますが、特に指定がない限り `JSON` です。
+
+非推奨でない場合は、`Accept` ヘッダーを `application/json` に設定することで `JSON` を、`application/xml` を使用することで `XML` をリクエストできます。
+
+**`XML` 出力形式を利用した新規インテグレーションは推奨されません。**
+
+<div id="example">
+  ### 例
+</div>
+
+```JSON
+curl -X GET \
+'http://api.benzinga.com/api/v2/calendar/ratings?token=YOUR_TOKEN_HERE&ratings=Upgrades' \
+-H 'accept: application/json'
+```

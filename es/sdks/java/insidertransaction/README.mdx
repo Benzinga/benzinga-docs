@@ -1,0 +1,82 @@
+---
+title: "Transacción de iniciado"
+description: insiderTransaction()
+---
+
+[&lt; VOLVER](/es/sdks/languages/java#insidertransaction)
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+<div id="available-operations">
+  ### Operaciones disponibles
+</div>
+
+* [get](#get) - Obtener transacción de insider
+
+<div id="get">
+  ## get
+</div>
+
+Obtener transacción de insider
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetInsiderTransactionRequest;
+import org.benzinga.BZClient.models.operations.GetInsiderTransactionResponse;
+import org.benzinga.BZClient.models.operations.PathParamType;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetInsiderTransactionRequest req = GetInsiderTransactionRequest.builder()
+                .type(PathParamType.FILINGS)
+                .build();
+
+        GetInsiderTransactionResponse res = sdk.insiderTransaction().get()
+                .request(req)
+                .call();
+
+        if (res.modelsInsiderTransactionFilingJSON().isPresent()) {
+            // gestionar respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                                                               | Tipo                                                                                    | Obligatorio                                                                             | Descripción                                                                             |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `request`                                                                               | [GetInsiderTransactionRequest](../../models/operations/GetInsiderTransactionRequest.md) | :heavy&#95;check&#95;mark:                                                                      | El objeto de solicitud que se utilizará para la operación.                              |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[GetInsiderTransactionResponse](../../models/operations/GetInsiderTransactionResponse.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error                  | Código de estado               | Tipo de contenido              |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

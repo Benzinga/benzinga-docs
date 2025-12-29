@@ -1,0 +1,78 @@
+---
+title: "M&amp;A（Merger and Acquisition）"
+description: ma()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#ma)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - 合併・買収情報を取得
+
+<div id="get">
+  ## get
+</div>
+
+M&amp;A（合併・買収）データを返します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetMaRequest;
+import org.benzinga.BZClient.models.operations.GetMaResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetMaRequest req = GetMaRequest.builder()
+                .build();
+
+        GetMaResponse res = sdk.ma().get()
+                .request(req)
+                .call();
+
+        if (res.modelsAcquisitionJSON().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| Parameter                                               | Type                                                    | Required                                                | Description                                             |
+| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
+| `request`                                               | [GetMaRequest](../../models/operations/GetMaRequest.md) | :heavy&#95;check&#95;mark:                                      | このリクエストで使用するリクエストオブジェクト。        |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetMaResponse](../../models/operations/GetMaResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード          | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

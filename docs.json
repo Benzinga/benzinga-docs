@@ -453,6 +453,7 @@
                 "pages": [
                   "es/api-reference/data-api-proxy_api/earningratios/get-earning-ratios-v21",
                   "es/api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21",
+                  "es/api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-v21",
                   "es/api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-v3"
                 ]
               },

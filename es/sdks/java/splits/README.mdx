@@ -1,0 +1,78 @@
+---
+title: "Splits"
+description: splits()
+---
+
+[&lt; VOLVER](/es/sdks/languages/java#splits)
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+<div id="available-operations">
+  ### Operaciones disponibles
+</div>
+
+* [get](#get) - Obtener desdoblamientos de acciones
+
+<div id="get">
+  ## get
+</div>
+
+Devuelve datos sobre el calendar de splits
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetSplitsRequest;
+import org.benzinga.BZClient.models.operations.GetSplitsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetSplitsRequest req = GetSplitsRequest.builder()
+                .build();
+
+        GetSplitsResponse res = sdk.splits().get()
+                .request(req)
+                .call();
+
+        if (res.modelsSplitJSON().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                                       | Tipo                                                            | Obligatorio                                                     | Descripción                                                     |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| `request`                                                       | [GetSplitsRequest](../../models/operations/GetSplitsRequest.md) | :heavy&#95;check&#95;mark:                                              | Objeto de solicitud que se usará en la solicitud.               |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[GetSplitsResponse](../../models/operations/GetSplitsResponse.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error              | Código de estado           | Tipo de contenido          |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

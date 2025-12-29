@@ -1,0 +1,151 @@
+---
+title: "ロゴ"
+description: logos()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#logos)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [bulkSync](#bulksync) - 指定した検索キーのロゴを取得
+* [search](#search) - 指定した検索キーのロゴを取得
+
+<div id="bulksync">
+  ## bulkSync
+</div>
+
+指定した検索キーのロゴを取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.LogoBulkSyncRequest;
+import org.benzinga.BZClient.models.operations.LogoBulkSyncResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        LogoBulkSyncRequest req = LogoBulkSyncRequest.builder()
+                .searchKeys("<value>")
+                .fields(List.of(
+                    "<value>"))
+                .build();
+
+        LogoBulkSyncResponse res = sdk.logos().bulkSync()
+                .request(req)
+                .call();
+
+        if (res.bzhttpResp().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                                                             | 型                                                                    | 必須                                                                  | 説明                                                                  |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [LogoBulkSyncRequest](../../models/operations/LogoBulkSyncRequest.md) | :heavy&#95;check&#95;mark:                                                    | このリクエストで使用するリクエストオブジェクト。                      |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[LogoBulkSyncResponse](../../models/operations/LogoBulkSyncResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード          | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 404, 500              | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="search">
+  ## search
+</div>
+
+指定した検索キーに一致するロゴを取得します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetSearchLogosRequest;
+import org.benzinga.BZClient.models.operations.GetSearchLogosResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetSearchLogosRequest req = GetSearchLogosRequest.builder()
+                .searchKeys("<value>")
+                .fields("<value>")
+                .build();
+
+        GetSearchLogosResponse res = sdk.logos().search()
+                .request(req)
+                .call();
+
+        if (res.logoapiLogoRevisions().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                                                                 | 型                                                                         | 必須                                                                       | 説明                                                                       |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `request`                                                                 | [GetSearchLogosRequest](../../models/operations/GetSearchLogosRequest.md) | :heavy&#95;check&#95;mark:                                                        | リクエストで使用するリクエストオブジェクト。                              |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetSearchLogosResponse](../../models/operations/GetSearchLogosResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 404, 500              | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

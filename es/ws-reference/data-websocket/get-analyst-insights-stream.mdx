@@ -1,0 +1,258 @@
+---
+title: "Flujo de insights de analistas"
+description: "Este endpoint de WebSocket permite suscribirse a insights de analistas en tiempo real para símbolos de ticker específicos."
+---
+
+<div id="websocket-websocketv1">
+  ## WebSocket `websocket/v1`:
+</div>
+
+```txt
+wss://api.benzinga.com/api/v1/analyst/insights/stream
+```
+
+
+<div id="parameters">
+  ### Parámetros:
+</div>
+
+| Name       | Location |  Type   | Required | Description                                                             |
+| :--------- | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
+| `token`    | query    | string  |      Yes | Token de WebSocket de Benzinga (bz.production***).                      |
+| `tickers`  | query    | string  | Optional | Lista de símbolos bursátiles a los que quieres suscribirte. Separados por comas. |
+| `isins`    | query    | string  | Optional | Lista de códigos ISIN por los que quieres filtrar. Separados por comas. |
+
+<div id="stream-response">
+  ### Respuesta del stream:
+</div>
+
+Cuando te suscribas al stream, recibirás actualizaciones sobre la información de los analistas con el siguiente formato:
+
+```json
+{
+  "id": "unique-uuid-for-response",
+  "api_version": "websocket/v1",
+  "kind": "stream_type",
+  "data": {
+    "action": "created/updated/deleted",
+    "id": "insight-id",
+    "content": {
+      "action": "Upgrades",
+      "analyst_insights": "The analyst has upgraded the stock...",
+      "date": "2024-10-08",
+      "firm": "Goldman Sachs",
+      "firm_id": "firm-uuid",
+      "id": "insight-uuid",
+      "pt": "150.00",
+      "rating": "Buy",
+      "rating_id": "rating-uuid",
+      "security": {
+        "cik": "0000320193",
+        "exchange": "NASDAQ",
+        "isin": "US0378331005",
+        "name": "Apple Inc.",
+        "symbol": "AAPL"
+      },
+      "updated": 1696790400000
+    },
+    "timestamp": "2024-10-08T10:00:00Z"
+  }
+}
+```
+
+
+<div id="supported-actions">
+  ## Acciones admitidas
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Acción</th>
+      <th>Descripción</th>
+      <th>Ejemplo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>list</code></td>
+      <td>Reenvía hasta los últimos 100 mensajes. El número real puede variar según la disponibilidad de la caché.</td>
+      <td><code>replay</code></td>
+    </tr>
+    <tr>
+      <td><code>ping</code></td>
+      <td>Mantiene activa la conexión WebSocket.</td>
+      <td><code>ping</code></td>
+    </tr>
+  </tbody>
+</table>
+
+> **Nota:** No es posible especificar el número de mensajes a reenviar. El número devuelto depende de cuántos estén actualmente almacenados en caché para la clave asociada.
+
+<div id="responses">
+  #### Respuestas
+</div>
+
+- **200 OK**
+- **Descripción**: Éxito
+- **Tipo de contenido**: `application/json`
+- **Esquema**: [AnalystInsightsWSResp](#analystinsightwsresp)
+
+<div id="analystinsightwsresp">
+  ### AnalystInsightWSResp
+</div>
+
+| Property      | Type   | Description                                                     |
+|---------------|--------|-----------------------------------------------------------------|
+| id            | string | UUID único para la respuesta de WebSocket.                     |
+| api_version   | string | Versión de la API de WebSocket. Valor predeterminado: `websocket/v1`. |
+| kind          | string | Tipo de flujo de la conexión WebSocket.                        |
+| data          | object | Contiene detalles sobre los datos de WebSocket.                |
+| - action      | string | Acción de los datos de WebSocket (por ejemplo, created, updated, deleted). |
+| - id         | string | ID de los datos para el insight de analista.                    |
+| - content     | object | Referencia al esquema `AnalystInsight`.                        |
+| - timestamp   | string | Marca de tiempo de los datos.                                  |
+
+<div id="analystinsight">
+  ### AnalystInsight
+</div>
+
+| Property           | Type    | Description                                                     |
+|--------------------|---------|-----------------------------------------------------------------|
+| action             | string  | Acción del analista sobre la acción (por ejemplo, Mantiene, Mejora).    |
+| analyst_insights   | string  | Análisis detallado del analista.                            |
+| date               | string  | Fecha del análisis del analista (formateada como fecha).              |
+| firm               | string  | Nombre de la firma que proporciona el análisis.                        |
+| firm_id            | string  | Identificador único de la firma.                               |
+| id                 | string  | Identificador único del análisis del analista (formateado como UUID). |
+| pt                 | string  | PO (precio objetivo) asignado por el analista.                            |
+| rating             | string  | Calificación proporcionada por el analista.                               |
+| rating_id          | string  | Identificador único de la calificación.                             |
+| security           | object  | Contiene los detalles del valor para el cual se proporciona el análisis.  |
+| - cik              | string  | CIK (identificador de la empresa ante la SEC) del valor.                            |
+| - exchange         | string  | Bolsa donde el valor está listado.                        |
+| - isin             | string  | ISIN (International Securities Identification Number).               |
+| - name             | string  | Nombre del valor.                                        |
+| - symbol           | string  | Símbolo ticker del valor.                               |
+| updated            | integer | Marca de tiempo de la última actualización del análisis (formateada como int64). |
+
+<div id="success-response">
+  ## Respuesta de éxito
+</div>
+
+- Éxito `101` - Conexión WebSocket establecida con éxito.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '700px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ✅ Conectado a wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span><strong>URL de la solicitud:</strong> </span>
+        <p style={{ color: 'blue' }}>
+            "https://api.benzinga.com/api/v1/analyst/insights/stream?token=bz"
+        </p>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
+    </div>
+</div>
+
+<div id="error-response">
+  ## Respuesta de error
+</div>
+
+- No autorizado `401` - token no válido; compruebe el token proporcionado.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ No se pudo conectar a wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: Respuesta inesperada del servidor: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de la solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - Ruta no válida o error de servidor.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ No se pudo conectar a wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: Respuesta inesperada del servidor: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de la solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

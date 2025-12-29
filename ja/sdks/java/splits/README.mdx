@@ -1,0 +1,78 @@
+---
+title: "株式分割"
+description: splits()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#splits)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - 株式分割情報を取得
+
+<div id="get">
+  ## 取得
+</div>
+
+株式分割カレンダーのデータを返します。
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetSplitsRequest;
+import org.benzinga.BZClient.models.operations.GetSplitsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetSplitsRequest req = GetSplitsRequest.builder()
+                .build();
+
+        GetSplitsResponse res = sdk.splits().get()
+                .request(req)
+                .call();
+
+        if (res.modelsSplitJSON().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                                                      | 型                                                              | 必須                                                            | 説明                                                            |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| `request`                                                       | [GetSplitsRequest](../../models/operations/GetSplitsRequest.md) | :heavy&#95;check&#95;mark:                                              | このリクエストで使用するリクエストオブジェクト。                |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetSplitsResponse](../../models/operations/GetSplitsResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

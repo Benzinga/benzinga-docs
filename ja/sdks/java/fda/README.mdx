@@ -1,0 +1,78 @@
+---
+title: "Fda"
+description: fda()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#fda)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - FDA を取得
+
+<div id="get">
+  ## 取得
+</div>
+
+FDA承認、臨床試験、PDUFA日
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetFdaRequest;
+import org.benzinga.BZClient.models.operations.GetFdaResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetFdaRequest req = GetFdaRequest.builder()
+                .build();
+
+        GetFdaResponse res = sdk.fda().get()
+                .request(req)
+                .call();
+
+        if (res.modelsFDAJSON().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメーター
+</div>
+
+| パラメーター                                              | 型                                                        | 必須                                                      | 説明                                                      |
+| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
+| `request`                                                 | [GetFdaRequest](../../models/operations/GetFdaRequest.md) | :heavy&#95;check&#95;mark:                                        | リクエストに使用するリクエストオブジェクト。             |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetFdaResponse](../../models/operations/GetFdaResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

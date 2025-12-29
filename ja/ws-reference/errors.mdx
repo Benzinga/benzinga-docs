@@ -1,0 +1,109 @@
+---
+title: "エラー"
+description: "エラー発生時に Benzinga API がどのように応答するか。"
+---
+
+Benzinga は、API リクエストの成功または失敗を示すために一般的な HTTP レスポンスコードを使用します。
+一般的に、2xx の範囲のコードは成功を示します。
+4xx の範囲のコードは、提供された情報（必須パラメータの未指定、課金の失敗など）に起因するエラーを示します。
+5xx の範囲のコードは、Benzinga のサーバー側のエラーを示します。
+
+プログラムからハンドリングできる 4xx エラーの一部には、
+発生したエラーの内容を簡潔に説明するエラーコードが含まれます。
+
+<div id="parameters">
+  ### Parameters
+</div>
+
+<ResponseField name="type" type="string">
+    返されるエラーの種類。
+
+    <code>invalid_request_error</code>、<code>not_found_error</code>、<code>creation_error</code>、
+    <code>update_error</code>、<code>deletion_error</code>、<code>forbidden_error</code>、または <code>authentication_error</code> のいずれか。
+</ResponseField>
+
+<ResponseField name="message" type="string">
+    エラーの詳細を示す、人間が読める形式のメッセージ。
+</ResponseField>
+
+<ResponseField name="params" type="array">
+    エラーが特定のパラメータに関連する場合、ここに無効だったパラメータの一覧が含まれます。
+</ResponseField>
+
+<div id="error-response">
+  ## エラーレスポンス
+</div>
+
+- Unauthorized `401` - トークンが無効です。指定したトークンを確認してください。
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p*** に接続できませんでした
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        エラー: 予期しないサーバーからのレスポンス: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        ハンドシェイクの詳細
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - 無効なルートであるか、サーバーエラーが発生しています。
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p*** に接続できませんでした
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        エラー: 予期しないサーバーからのレスポンス: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        ハンドシェイクの詳細
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

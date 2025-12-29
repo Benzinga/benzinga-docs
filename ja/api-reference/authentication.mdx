@@ -1,0 +1,31 @@
+---
+title: "認証"
+description: "Benzinga API への認証方法"
+---
+
+Benzinga API は、API トークンを使用してリクエストを認証します。API トークンは
+[Console](https://www.api.benzinga.com/token)（コンソール）で表示および管理できます。
+
+API トークンには多くの権限が付与されているため、必ず安全に保管してください。GitHub やクライアントサイドコードなど、
+公開されている領域でトークンを共有しないでください。
+
+API への認証は、Bearer 認証（トークン認証とも呼ばれます）によって行われます。
+これは、ベアラートークンと呼ばれるセキュリティトークンを使用する HTTP 認証方式です。クライアントは、保護されたリソースに対してリクエストを送信する際、
+このトークンを Authorization ヘッダーで送信する必要があります。
+
+```bash
+Authorization: token <token>
+```
+
+HTTP Basic認証を使用して認証する必要がある場合は、
+`-H "Authorization: Bearer {{token}}"` の代わりに `-u {{token}}:` を使用してください。
+
+すべてのAPIリクエストはHTTPS経由で行う必要があります。暗号化されていないHTTPで行われた呼び出しは失敗します。認証なしのAPIリクエストも失敗します。
+
+<RequestExample>
+  ```bash cURL with Basic Auth
+  curl 'https://api.benzinga.com/api/v1/ratings' \
+  -u '<token>:'
+      # コロンを付けておくと、curlがパスワードの入力を求めません。
+  ```
+</RequestExample>

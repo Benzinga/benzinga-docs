@@ -1,0 +1,80 @@
+---
+title: "Earning Ratios（収益指標）"
+description: earningRatios()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#earningratios)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - Earning ratios V2.1 の取得
+
+<div id="get">
+  ## get
+</div>
+
+複数のシンボル、ISIN（国際証券識別番号）、または CIK を対象とした収益関連の比率指標を取得します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEarningRatiosV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEarningRatiosV21Response res = sdk.earningRatios().get()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parameters
+</div>
+
+| Parameter                       | Type                            | Required                        | Description                          |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------------ |
+| `symbols`                       | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | カンマ区切りのシンボル一覧           |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                               |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                             |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポート種別                         |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetEarningRatiosV21Response](../../models/operations/GetEarningRatiosV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード          | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

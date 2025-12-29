@@ -1,0 +1,63 @@
+---
+title: "¿Qué hay de nuevo?"
+---
+
+El siguiente registro de cambios recoge los nuevos desarrollos de producto y las actualizaciones mensuales.
+
+<div id="november-2024">
+  ## Noviembre 2024
+</div>
+
+- **Migración de claves de Licensing-Admin**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1076).
+- **Agregar anotaciones para webhook-engine, data-api-proxy (BZGO)**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1200).
+- **Agregar anotaciones para logo-api, newsquantified-api (BZGO)**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1201).
+- **Agregar anotaciones para movers, analyst-reports-raw-text-api (BZGO)**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1202).
+- **Agregar flujo de trabajo de GitLab a Bzgo, News-API, Calendar-API**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1204).
+- **Validación del flujo de trabajo de autoservicio para el nuevo Licensing-Admin**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1236).
+- **Consensus Ratings vía WebSocket**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1237).
+- **Obtener Earnings - Consulta por ISIN (lista de ISIN como parámetro de consulta) - REST y WS**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1242).
+- **Los elementos eliminados incluyen el payload completo o el valor**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1247).
+- **Nueva API para el flujo de trabajo de autoservicio (User Flow)**. Para más detalles, consulta [aquí](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1253).
+
+---
+
+<div id="october-2024">
+  ## Octubre de 2024
+</div>
+
+- **Se mejoró la Calendar Earnings API** para proporcionar desgloses detallados de transacciones.
+- **Se agregó la [integración con Slack](https://calendarapi.com/docs/integrations/slack)** para recordatorios de eventos y notificaciones de equipo.
+- **Se mejoró la estructura de mensajes de WebSocket**, incluyendo metadatos para un mejor procesamiento.
+- **Se lanzó la [Calendar Logo API](https://calendarapi.com/docs/logo-api)** para obtener logotipos personalizados para distintas categorías de eventos.
+- **Se lanzó el endpoint `PATCH /v1/events/:id`** para actualizaciones parciales de los detalles de eventos.
+- **Se agregó soporte para [importaciones de archivos ICS](https://calendarapi.com/docs/ics-import)**, lo que permite importaciones masivas de calendarios desde otras plataformas.
+- **Se actualizó el Terraform Provider** con soporte para rotación de claves de API y gestión de políticas.
+
+---
+
+<div id="september-2024">
+  ## Septiembre de 2024
+</div>
+
+- **Se lanzó la [Event Duplication API](https://calendarapi.com/docs/event-duplication)** para agilizar la clonación de eventos existentes en múltiples calendarios.
+- **Se lanzó la política de reintentos de webhooks** para mejorar la fiabilidad durante fallos de red.
+- **Se agregó el endpoint `DELETE /v1/calendars/:id`**, que permite la eliminación permanente de calendarios.
+- **Se mejoró la documentación de la API** con ejemplos ampliados y escenarios de uso para operaciones en lote.
+- **Se lanzaron los webhooks de Google Calendar ([Google Calendar Webhooks](https://calendarapi.com/docs/integrations/google-webhooks))** para mejorar la sincronización de eventos.
+- **Se introdujeron informes de uso diarios** a través del panel de control y la API para monitorear las tendencias de uso de la API.
+- **Se implementaron nodos perimetrales (Edge Nodes) de CalendarAPI** en Sudamérica para un mejor rendimiento regional.
+
+---
+
+<div id="august-2024">
+  ## Agosto de 2024
+</div>
+
+- **Mejorado el rendimiento de WebSocket** para actualizaciones del calendario en tiempo real, reduciendo la latencia en un 30%.
+- **Se lanzó la [integración con Outlook Calendar](https://calendarapi.com/docs/integrations/outlook)**, lo que permite una sincronización fluida de eventos.
+- **Se añadió compatibilidad con [Calendar Webhooks](https://calendarapi.com/docs/webhooks)**, lo que permite notificaciones instantáneas ante cambios en los eventos.
+- **Se mejoró la API `GET /v1/events`** para incluir métricas de popularidad de eventos y valoraciones.
+- **Se lanzó la [API de Custom Calendar Branding](https://calendarapi.com/docs/branding)**, que permite a los usuarios personalizar temas y logotipos del calendario.
+- **Se lanzó [CalendarAPI EU Region](https://eu.calendarapi.com)** para mejorar el cumplimiento normativo y reducir la latencia en Europa.
+- **Se incorporó compatibilidad con autenticación basada en token** en conexiones WebSocket.
+- **Se añadieron múltiples recursos al [CalendarAPI Terraform Provider](https://registry.terraform.io/providers/CalendarAPI/calendarapi/latest/docs)**, incluidas configuraciones de webhooks e integraciones de CDN.

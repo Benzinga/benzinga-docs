@@ -1,0 +1,141 @@
+---
+title: "配当金"
+description: dividends()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#dividends)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [getV22](#getv22) - Dividends V2.2 を取得
+* [get](#get) - Dividends V2 および V2.1 を取得
+
+<div id="getv22">
+  ## getV22
+</div>
+
+配当リストを返します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetDividendsV22Request;
+import org.benzinga.BZClient.models.operations.GetDividendsV22Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetDividendsV22Request req = GetDividendsV22Request.builder()
+                .build();
+
+        GetDividendsV22Response res = sdk.dividends().getV22()
+                .request(req)
+                .call();
+
+        if (res.modelsDividendJSON().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                                                                   | 型                                                                          | 必須                                                                        | 説明                                                                         |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `request`                                                                   | [GetDividendsV22Request](../../models/operations/GetDividendsV22Request.md) | :heavy&#95;check&#95;mark:                                                          | このリクエストで使用するリクエストオブジェクト。                            |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetDividendsV22Response](../../models/operations/GetDividendsV22Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="get">
+  ## 取得
+</div>
+
+配当のリストを返します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetDividendsRequest;
+import org.benzinga.BZClient.models.operations.GetDividendsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetDividendsRequest req = GetDividendsRequest.builder()
+                .build();
+
+        GetDividendsResponse res = sdk.dividends().get()
+                .request(req)
+                .call();
+
+        if (res.modelsDividendJSON().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                                                            | 型                                                                    | 必須                                                                   | 説明                                                                  |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [GetDividendsRequest](../../models/operations/GetDividendsRequest.md) | :heavy&#95;check&#95;mark:                                                    | このリクエストで使用するリクエストオブジェクト。                      |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetDividendsResponse](../../models/operations/GetDividendsResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

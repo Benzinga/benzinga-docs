@@ -1,0 +1,82 @@
+---
+title: "バー"
+description: bars()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#bars)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - Bars v2 を取得
+
+<div id="get">
+  ## get
+</div>
+
+Bars v2 を取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetBarsV2Response;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetBarsV2Response res = sdk.bars().get()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .interval("<value>")
+                .call();
+
+        if (res.responseBodies().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメーター
+</div>
+
+| Parameter           | Type                | Required            | Description                               |
+| ------------------- | ------------------- | ------------------- | -------------------                       |
+| `symbols`           | *String*            | :heavy&#95;check&#95;mark:  | シンボル（カンマ区切りのシンボル一覧）   |
+| `from`              | *String*            | :heavy&#95;check&#95;mark:  | 開始日                                    |
+| `to`                | *Optional&lt;String&gt;* | :heavy&#95;minus&#95;sign:  | 終了日                                    |
+| `interval`          | *Optional&lt;String&gt;* | :heavy&#95;minus&#95;sign:  | 間隔                                      |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetBarsV2Response](../../models/operations/GetBarsV2Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 500                   | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

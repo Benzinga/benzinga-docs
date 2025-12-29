@@ -1,0 +1,54 @@
+---
+title: "SDKs"
+sidebarTitle: "Introducción"
+---
+
+Desde el desarrollo local hasta producción, los SDK de Benzinga proporcionan la forma más sencilla de que tu aplicación recupere secretos de Benzinga bajo demanda.
+
+* Instala e inicializa un SDK de cliente específico para un lenguaje de programación en tu aplicación
+* Configura el acceso del cliente, limitado en alcance, a un proyecto y entorno en Benzinga
+* Recupera secretos bajo demanda
+
+<CardGroup cols={3}>
+  <Card href="/es/sdks/languages/node" title="Node" icon="node" color="#68a063">
+    Gestiona secretos para tu aplicación Node bajo demanda
+  </Card>
+
+  <Card href="/es/sdks/languages/python" title="Python" icon="python" color="#4c8abe">
+    Gestiona secretos para tu aplicación Python bajo demanda
+  </Card>
+
+  <Card href="/es/sdks/languages/java" title="Java" icon="java" color="#e41f23">
+    Gestiona secretos para tu aplicación Java bajo demanda
+  </Card>
+
+  <Card href="/es/sdks/languages/go" title="Go" icon="golang" color="#367B99">
+    Gestiona secretos para tu aplicación Go bajo demanda
+  </Card>
+
+  <Card href="/es/sdks/languages/csharp" title="C#" icon="bars" color="#368833">
+    Gestiona secretos para tu aplicación C#/.NET bajo demanda
+  </Card>
+
+  <Card href="/es/sdks/languages/ruby" title="Ruby" icon="diamond" color="#367B99">
+    Gestiona secretos para tu aplicación Ruby bajo demanda
+  </Card>
+</CardGroup>
+
+<div id="faq">
+  ## Preguntas frecuentes
+</div>
+
+<AccordionGroup>
+  <Accordion title="¿Es eficiente hacer una solicitud de datos en cada llamada a la API?">
+    El Kit de desarrollo de software (SDK) de la API de Benzinga está optimizado para el rendimiento. Almacena en caché los datos a los que se accede con frecuencia e implementa estrategias para reducir solicitudes redundantes, lo que garantiza que tu aplicación se ejecute de manera eficiente. Los detalles sobre el almacenamiento en caché pueden variar según la implementación específica del SDK y el lenguaje de programación.
+  </Accordion>
+
+  <Accordion title="¿Qué sucede si falla una solicitud a la API de Benzinga?">
+    El SDK incluye mecanismos de manejo de errores y reintentos. Si una solicitud falla, el SDK vuelve a intentarla según lo configurado o proporciona mensajes de error adecuados, lo que permite que tu aplicación gestione los errores de forma adecuada.
+  </Accordion>
+
+  <Accordion title="¿Puedo personalizar la configuración del SDK para adaptarla a las necesidades de mi aplicación?">
+    ¡Por supuesto! El SDK de la API de Benzinga permite la personalización mediante parámetros como la configuración de la clave de API, los ajustes de tiempo de espera y otras opciones específicas de tu caso de uso. Consulta la documentación del SDK para tu lenguaje de programación para obtener más información sobre los parámetros configurables.
+  </Accordion>
+</AccordionGroup>

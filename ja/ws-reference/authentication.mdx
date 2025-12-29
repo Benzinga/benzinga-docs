@@ -1,0 +1,24 @@
+---
+title: "認証"
+description: "Benzinga API へのリクエストを認証する方法。"
+---
+
+Benzinga API にアクセスするには、各リクエストを API トークンで認証する必要があります。API トークンは、[Benzinga Console](https://www.api.benzinga.com/token) から発行および管理できます。
+
+> **重要:** API トークンはあなたの Benzinga アカウントへのアクセス権を持つため、安全に取り扱ってください。パブリックリポジトリ、クライアントサイドコード、その他の安全でない場所で公開・共有しないでください。
+
+<div id="authenticating-requests">
+  ## リクエストの認証
+</div>
+
+Benzinga API は **Bearer 認証** を使用します。これは、各リクエストの `token` クエリパラメータにトークンを含める安全な認証方式です。このトークンが、Benzinga のリソースへのアクセス権限を付与するベアラートークンとして機能します。
+
+<div id="example-request-with-bearer-token">
+  ### Bearer トークンを使用したリクエストの例
+</div>
+
+リクエストの `Token` クエリパラメータに、次のようにトークンを含めてください:
+
+```bash
+Token: <token>
+```
