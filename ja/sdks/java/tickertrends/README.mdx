@@ -1,0 +1,155 @@
+---
+title: "ティッカー・トレンド"
+description: tickerTrends()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#tickertrends)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - ティッカー・トレンドデータを取得
+* [getList](#getlist) - ティッカー・トレンドリストデータを取得
+
+<div id="get">
+  ## get
+</div>
+
+ticker のトレンドデータを取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.errors.HttpapiTickerTrendAPIResponse;
+import org.benzinga.BZClient.models.operations.GetTickerTrendDataRequest;
+import org.benzinga.BZClient.models.operations.GetTickerTrendDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, HttpapiTickerTrendAPIResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetTickerTrendDataRequest req = GetTickerTrendDataRequest.builder()
+                .interval("<value>")
+                .tickers("<value>")
+                .source("<value>")
+                .build();
+
+        GetTickerTrendDataResponse res = sdk.tickerTrends().get()
+                .request(req)
+                .call();
+
+        if (res.httpapiTickerTrendAPIResponse().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                                                                        | 型                                                                                | 必須                                                                              | 説明                                                                              |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `request`                                                                         | [GetTickerTrendDataRequest](../../models/operations/GetTickerTrendDataRequest.md) | :heavy&#95;check&#95;mark:                                                                | このリクエストに使用するリクエストオブジェクト。                                  |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetTickerTrendDataResponse](../../models/operations/GetTickerTrendDataResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                                  | ステータスコード                            | コンテンツタイプ                            |
+| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| models/errors/BzhttpResp                    | 400                                         | application/json                            |
+| models/errors/HttpapiTickerTrendAPIResponse | 500                                         | application/json                            |
+| models/errors/APIException                  | 4XX, 5XX                                    | */*                                       |
+
+<div id="getlist">
+  ## getList
+</div>
+
+tickerトレンドリストのデータを取得します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.errors.HttpapiTrendingTickersListAPIResponse;
+import org.benzinga.BZClient.models.operations.GetTickerTrendListDataRequest;
+import org.benzinga.BZClient.models.operations.GetTickerTrendListDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, HttpapiTrendingTickersListAPIResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetTickerTrendListDataRequest req = GetTickerTrendListDataRequest.builder()
+                .interval("<value>")
+                .tickers("<value>")
+                .source("<value>")
+                .build();
+
+        GetTickerTrendListDataResponse res = sdk.tickerTrends().getList()
+                .request(req)
+                .call();
+
+        if (res.httpapiTrendingTickersListAPIResponse().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                                                                                 | 型                                                                                         | 必須                                                                                      | 説明                                                                                       |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `request`                                                                                 | [GetTickerTrendListDataRequest](../../models/operations/GetTickerTrendListDataRequest.md) | :heavy&#95;check&#95;mark:                                                                        | リクエストで使用するリクエストオブジェクト。                                               |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetTickerTrendListDataResponse](../../models/operations/GetTickerTrendListDataResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                                           | ステータスコード                                    | コンテンツタイプ                                    |
+| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
+| models/errors/BzhttpResp                            | 400                                                 | application/json                                    |
+| models/errors/HttpapiTrendingTickersListAPIResponse | 500                                                 | application/json                                    |
+| models/errors/APIException                          | 4XX, 5XX                                            | */*                                               |

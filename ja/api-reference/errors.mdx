@@ -1,0 +1,65 @@
+---
+title: "エラー"
+description: "エラー発生時の Benzinga API のレスポンス動作。"
+---
+
+Benzinga は、API リクエストの成功または失敗を示すために、一般的な HTTP ステータスコードを使用します。
+一般に、2xx の範囲のコードは成功を示します。
+4xx の範囲のコードは、指定された情報（必須パラメータの省略、決済失敗など）により処理できなかったエラーを示します。
+5xx の範囲のコードは、Benzinga のサーバー側で発生したエラーを示します。
+
+プログラムで対処可能な 4xx エラーの一部には、報告されたエラーの内容を簡潔に説明するエラーコードが含まれます。
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+<ResponseField name="type" type="string">
+    返されるエラーの種類。
+
+    <code>invalid_request_error</code>、<code>not_found_error</code>、<code>creation_error</code>、
+    <code>update_error</code>、<code>deletion_error</code>、<code>forbidden_error</code>、または <code>authentication_error</code> のいずれか。
+</ResponseField>
+
+<ResponseField name="message" type="string">
+    エラーの詳細を示す、人間が読めるメッセージ。
+</ResponseField>
+
+<ResponseField name="params" type="array">
+    エラーが特定のパラメータに起因する場合は、無効だったパラメータの一覧が含まれます。
+</ResponseField>
+
+<div id="http-status-code-summary">
+  ## HTTP ステータスコード概要
+</div>
+
+以下は、Benzinga API が使用する HTTP ステータスコードの一覧です。
+
+| HTTP Code          | Status | Description |
+| ------------------ | ------ | ----------- |
+| 200                | OK	| すべて正常に処理されました。 |
+| 400                | Bad Request | 必須パラメータの不足などにより、リクエストが不正です。 |
+| 401                | Unauthorized | 有効な API キーが提供されていません。 |
+| 402                | Request Failed | パラメータは有効ですが、リクエストは失敗しました。 |
+| 403                | Forbidden | API キーにこのリクエストを実行する権限がありません。 |
+| 404                | Not Found | 要求されたリソースが存在しません。 |
+| 409                | Conflict | 他のリクエストと競合しています（同じ冪等性キーを使用している可能性があります）。 |
+| 429                | Too Many Requests | 短時間に大量のリクエストが API に送信されました。リクエストには指数バックオフ方式を用いることを推奨します。 |
+| 500, 502, 503, 504 | Server Errors | Benzinga 側で問題が発生しました（これらはまれです）。 |
+
+<ResponseExample>
+    ```json Response Example
+    {
+        "error": {
+        "type": "invalid_request_error",
+        "params": [
+    {
+        "param": "name",
+        "message": "This field is required"
+    }
+        ],
+        "message": "Parameter error"
+    }
+    }
+    ```
+</ResponseExample>

@@ -1,0 +1,262 @@
+---
+title: "[Calendar] Flujo de resultados"
+description: "Obtener el flujo de resultados de calendar."
+---
+
+<div id="websocket-websocketv1">
+  ## WebSocket `websocket/v1`:
+</div>
+
+```txt
+wss://api.benzinga.com/api/v2.1/calendar/earnings/stream
+```
+
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Nombre     | Ubicación |  Tipo   | Obligatorio | Descripción                                                           |
+| :--------- | :-------: | :-----: | ----------: | --------------------------------------------------------------------: |
+| `token`    | query     | string  |        Yes  | token de WebSocket de Benzinga (bz.production***).                    |
+| `tickers`  | query     | string  |   Optional  | Lista de símbolos bursátiles a los que desea suscribirse, separados por comas. |
+| `isins`    | query     | string  |   Optional  | Lista de ISIN por los que desea filtrar, separados por comas.        |
+
+<div id="stream-response">
+  ### Respuesta del stream
+</div>
+
+Al suscribirte al stream, recibirás actualizaciones sobre perspectivas de analistas en el siguiente formato:
+
+```json
+{
+    "id": "839f1f45-fffe-4801-9284-11dae5c5dae4",
+    "api_version": "websocket/v1",
+    "kind": "data/v2.1/calendar/earnings",
+    "data": {
+        "action": "created",
+        "id": "66fffe978f3f630001a2ea56",
+        "content": {
+            "currency": "USD",
+            "cusip": "00401G109",
+            "date": "2024-10-04",
+            "date_confirmed": 0,
+            "eps": "",
+            "eps_est": "",
+            "eps_prior": "",
+            "eps_surprise": "",
+            "eps_surprise_percent": "",
+            "eps_type": "",
+            "exchange": "TSXV",
+            "id": "66fffe978f3f630001a2ea56",
+            "importance": 0,
+            "isin": "CA00401G1099",
+            "name": "ACADEMY METALS INC",
+            "notes": "",
+            "period": "Q3",
+            "period_year": 2023,
+            "revenue": "",
+            "revenue_est": "",
+            "revenue_prior": "",
+            "revenue_surprise": "",
+            "revenue_surprise_percent": "",
+            "revenue_type": "",
+            "ticker": "AM",
+            "time": "10:41:27",
+            "updated": 1728052946
+        },
+        "timestamp": "2024-10-04T14:42:27.167526889Z"
+    }
+}
+```
+
+
+<div id="responses">
+  #### Respuestas
+</div>
+
+- **200 OK**
+- **Descripción**: Éxito
+- **Tipo de contenido**: `application/json`
+- **Esquema**: [EarningsWSResp](#earningswsresp)
+
+<div id="data-structures">
+  ## Estructuras de datos
+</div>
+
+<div id="earningswsresp">
+  ### EarningsWSResp
+</div>
+
+La estructura principal de la respuesta para datos de resultados.
+
+| Parámetro      | Tipo   | Descripción                                               |
+|----------------|--------|-----------------------------------------------------------|
+| id             | string | UUID único para la respuesta de WebSocket                |
+| api_version    | string | Versión de la API de WebSocket                           |
+| kind           | string | Tipo de flujo de conexión WebSocket                      |
+| data           | object | Contiene la acción y los detalles de los datos de resultados |
+
+<div id="data-object-inside-earningswsresp">
+  ### Objeto de datos (dentro de EarningsWSResp)
+</div>
+
+| Parámetro      | Tipo   | Descripción                                               |
+|----------------|--------|-----------------------------------------------------------|
+| action         | string | Acción de datos del WebSocket (por ejemplo, created, updated, deleted)  |
+| id             | string | ID de los datos de resultados                            |
+| content        | object | Detalles de los resultados (ver más abajo)               |
+| timestamp      | string | Marca de tiempo de los datos                             |
+
+<div id="earnings-schema-inside-data-content">
+  ### Esquema de Earnings (dentro de data content)
+</div>
+
+| Parameter               | Type     | Description                                               |
+|-------------------------|----------|-----------------------------------------------------------|
+| id                      | string   | Identificador único de los earnings                      |
+| date                    | string   | Fecha anunciada en el calendario                         |
+| date_confirmed          | string   | Indica si la fecha del informe fue confirmada (1/0)      |
+| time                    | string   | Hora anunciada en el calendario (formato 24 h)           |
+| ticker                  | string   | Símbolo del ticker (F, MSFT, etc.)                       |
+| exchange                | string   | Exchange (NYSE, NASDAQ, etc.)                            |
+| name                    | string   | Nombre del valor                                         |
+| currency                | string   | Moneda en la que están denominados los datos             |
+| period                  | string   | Período de los earnings reales (Q1, Q2, Q3, Q4, FY, H1, H2) |
+| period_year             | integer  | Año del período de los earnings reales                   |
+| eps_type                | string   | Tipo de EPS (Adj, GAAP, FFO)                             |
+| eps                     | string   | Ganancias por acción comparables y ajustadas             |
+| eps_est                 | string   | Estimación agregada de consenso de EPS ajustado          |
+| eps_prior               | string   | EPS ajustado del período anterior                        |
+| eps_surprise            | string   | Desviación del EPS respecto a la estimación              |
+| eps_surprise_percent    | string   | Desviación respecto a la estimación en porcentaje        |
+| revenue_type            | string   | Tipo de ingresos (Adj, GAAP, FFO)                        |
+| revenue                 | string   | Ingresos                                                 |
+| revenue_est             | string   | Estimación de ingresos                                   |
+| revenue_prior           | string   | Valor de ingresos del período anterior                   |
+| revenue_surprise        | string   | Desviación de los ingresos respecto a la estimación      |
+| revenue_surprise_percent | string  | Desviación respecto a la estimación en porcentaje        |
+| importance              | integer  | Importancia del evento para el mercado (0-5)             |
+| notes                   | string   | Notas adicionales proporcionadas por la redacción de noticias de Benzinga |
+| updated                 | integer  | Marca de tiempo de la última actualización (UTC)         |
+
+<div id="success-response">
+  ## Respuesta de éxito
+</div>
+
+- Éxito `101` - Conexión WebSocket establecida correctamente.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '700px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ✅ Conectado a wss://api.benzinga.com/api/v2.1/calendar/earnings?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span><strong>URL de la solicitud:</strong> </span>
+        <p style={{ color: 'blue' }}>
+            "https://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=bz"
+        </p>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
+    </div>
+</div>
+
+<div id="error-response">
+  ## Respuesta de error
+</div>
+
+- No autorizado `401` - token no válido; comprueba el token proporcionado.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ No se pudo conectar a wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: respuesta inesperada del servidor: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - ruta no válida o error del servidor.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ No se pudo conectar a wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: respuesta inesperada del servidor: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

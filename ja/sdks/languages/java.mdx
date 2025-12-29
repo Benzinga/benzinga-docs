@@ -1,0 +1,652 @@
+---
+title: "Benzinga Java SDK"
+sidebarTitle: "Java"
+icon: "java"
+---
+
+<div id="bz-java-client">
+  # BZ-Java-Client
+</div>
+
+開発者フレンドリーで型安全な Java SDK であり、*openapi* API を活用するために特化して設計されています。
+
+<div style={{ textAlign: "left" }}>
+  <a href="https://www.speakeasy.com/?utm_source=openapi&utm_campaign=java">
+    <img src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454" alt="Speakeasy 製" />
+  </a>
+
+  <a href="https://mit-license.org/">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT ライセンス" style={{ width: "100px", height: "28px" }} />
+  </a>
+</div>
+
+<div id="summary">
+  ## 概要
+</div>
+
+Benzinga API 群：この REST API は、Benzinga のすべての API へのエンドポイントを提供します。
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+* [BZ-Java-Client](#bz-java-client)
+* [SDK のインストール](#sdk-installation)
+* [SDK 使用例](#sdk-example-usage)
+* [認証](#authentication)
+* [利用可能なリソースとオペレーション](#available-resources-and-operations)
+* [リトライ（再試行）](#retries)
+* [エラー処理](#error-handling)
+* [サーバー選択](#server-selection)
+* [開発](#development)
+* [成熟度](#maturity)
+* [コントリビューション](#contributions)
+
+<div id="sdk-installation">
+  ## SDKのインストール
+</div>
+
+<div id="getting-started">
+  ### はじめに
+</div>
+
+JDK 11 以降が必要です。
+
+以下のサンプルコードでは、公開済み SDK アーティファクトの利用方法を示します。
+
+Gradle:
+
+```groovy
+implementation 'org.benzinga:BZClient:0.2.7'
+```
+
+Maven：
+
+```xml
+<dependency>
+    <groupId>org.benzinga</groupId>
+    <artifactId>BZClient</artifactId>
+    <version>0.2.7</version>
+</dependency>
+```
+
+<div id="how-to-build">
+  ### ビルド方法
+</div>
+
+git リポジトリをファイルシステムにクローンした後、*nix システムでは `./gradlew build`、Windows システムでは `gradlew.bat` を実行することで、ソースコードから SDK アーティファクトを `build` ディレクトリにビルドできます。
+
+ソースコードからビルドし、SDK アーティファクトをローカルの Maven リポジトリ（ファイルシステム上）に公開したい場合は、（git リポジトリをローカルにクローンした後で）次のコマンドを使用します。
+
+*nix の場合:
+
+```bash
+./gradlew publishToMavenLocal -Pskip.signing
+```
+
+Windows の場合:
+
+```bash
+gradlew.bat publishToMavenLocal -Pskip.signing
+```
+
+<div id="sdk-example-usage">
+  ## SDK 使用例
+</div>
+
+### 例
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="authentication">
+  ## 認証
+</div>
+
+<div id="per-client-security-schemes">
+  ### クライアントごとのセキュリティスキーム
+</div>
+
+このSDKでは、グローバルに次のセキュリティスキームをサポートしています。
+
+| Name         | Type   | Scheme  |
+| ------------ | ------ | ------- |
+| `apiKeyAuth` | apiKey | API key |
+
+APIで認証を行うには、SDKクライアントインスタンスを初期化する際に `apiKeyAuth` パラメータを設定する必要があります。たとえば、次のように指定します。
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="available-resources-and-operations">
+  ## 利用可能なリソースと操作
+</div>
+
+<div id="analystinsights">
+  ### [analystInsights()](/ja/sdks/java/analystinsights/README)
+</div>
+
+* [get](/ja/sdks/java/analystinsights/README#get) - アナリストインサイト V1 の取得
+
+<div id="analystreportsrawtext">
+  ### [analystReportsRawText()](/ja/sdks/java/analystreportsrawtext/README)
+</div>
+
+* [get](/ja/sdks/java/analystreportsrawtext/README#get) - アナリストレポートの生テキストデータを取得する
+
+<div id="bars">
+  ### [bars()](/ja/sdks/java/bars/README)
+</div>
+
+* [get](/ja/sdks/java/bars/README#get) - Bars v2 を取得
+
+<div id="bullsbearssaybearssay">
+  ### [bullsBearsSayBearsSay()](/ja/sdks/java/bullsbearssaybearssay/README)
+</div>
+
+* [取得](/ja/sdks/java/bullsbearssaybearssay/README#get) - Bulls Say Bears Say V1 データを取得
+
+<div id="conferencecalls">
+  ### [conferenceCalls()](/ja/sdks/java/conferencecalls/README)
+</div>
+
+* [get](/ja/sdks/java/conferencecalls/README#get) - カンファレンスコールを取得
+
+<div id="consensusratings">
+  ### [consensusRatings()](/ja/sdks/java/consensusratings/README)
+</div>
+
+* [get](/ja/sdks/java/consensusratings/README#get) - コンセンサスレーティングを取得
+
+<div id="derivedfiguresandratios">
+  ### [derivedFiguresAndRatios()](/ja/sdks/java/derivedfiguresandratios/README)
+</div>
+
+* [get](/ja/sdks/java/derivedfiguresandratios/README#get) - 派生指標および比率 v3 を取得
+
+<div id="dividends">
+  ### [dividends()](/ja/sdks/java/dividends/README)
+</div>
+
+* [getV22](/ja/sdks/java/dividends/README#getv22) - 配当データ V2.2 を取得
+* [get](/ja/sdks/java/dividends/README#get) - 配当データ V2 および V2.1 を取得
+
+<div id="earningratios">
+  ### [earningRatios()](/ja/sdks/java/earningratios/README)
+</div>
+
+* [get](/ja/sdks/java/earningratios/README#get) - earning ratios v2.1 を取得
+
+<div id="earnings">
+  ### [earnings()](/ja/sdks/java/earnings/README)
+</div>
+
+* [get](/ja/sdks/java/earnings/README#get) - 決算情報を取得
+
+<div id="earningscalltranscripts">
+  ### [earningsCallTranscripts()](/ja/sdks/java/earningscalltranscripts/README)
+</div>
+
+* [get](/ja/sdks/java/earningscalltranscripts/README#get) - 決算説明会の書き起こしを取得
+* [getAudio](/ja/sdks/java/earningscalltranscripts/README#getaudio) - 決算説明会の書き起こし音声ファイルを取得
+
+<div id="economics">
+  ### [economics()](/ja/sdks/java/economics/README)
+</div>
+
+* [get](/ja/sdks/java/economics/README#get) - 経済データの取得
+
+<div id="events">
+  ### [events()](/ja/sdks/java/events/README)
+</div>
+
+* [get](/ja/sdks/java/events/README#get) - イベントの取得
+
+<div id="fda">
+  ### [fda()](/ja/sdks/java/fda/README)
+</div>
+
+* [get](/ja/sdks/java/fda/README#get) - FDA データを取得
+
+<div id="fundamentals">
+  ### [fundamentals()](/ja/sdks/java/fundamentals/README)
+</div>
+
+* [getV21](/ja/sdks/java/fundamentals/README#getv21) - ファンダメンタルズ V2.1 を取得
+* [getAlphaBeta](/ja/sdks/java/fundamentals/README#getalphabeta) - アルファ・ベータ V2.1 を取得
+* [getCompanyV21](/ja/sdks/java/fundamentals/README#getcompanyv21) - 企業データ v2.1 を取得
+* [getCompanyProfileV21](/ja/sdks/java/fundamentals/README#getcompanyprofilev21) - 企業プロフィール v2.1 を取得
+* [getShareClass](/ja/sdks/java/fundamentals/README#getshareclass) - 株式クラス V2.1 を取得
+* [getShareClassProfile](/ja/sdks/java/fundamentals/README#getshareclassprofile) - 株式クラス・プロフィール V2.1 を取得
+* [get](/ja/sdks/java/fundamentals/README#get) - ファンダメンタルズ V2 を取得
+* [getAssetClassification](/ja/sdks/java/fundamentals/README#getassetclassification) - 資産分類 V2.1 を取得
+* [getEarningsReports](/ja/sdks/java/fundamentals/README#getearningsreports) - 決算レポート V2.1 を取得
+* [getFinancialsV21](/ja/sdks/java/fundamentals/README#getfinancialsv21) - 財務データ V2.1 を取得
+* [getV3](/ja/sdks/java/fundamentals/README#getv3) - ファンダメンタルズ V3 を取得
+* [getBalanceSheetV3](/ja/sdks/java/fundamentals/README#getbalancesheetv3) - 貸借対照表 V3 を取得
+* [getCashFlowV3](/ja/sdks/java/fundamentals/README#getcashflowv3) - キャッシュフロー V3 を取得
+* [getIncomeStatement](/ja/sdks/java/fundamentals/README#getincomestatement) - 損益計算書 V3 を取得
+* [getSharePriceRatios](/ja/sdks/java/fundamentals/README#getsharepriceratios) - 株価比率 V3 を取得
+
+<div id="governmenttradereports">
+  ### [governmentTradeReports()](/ja/sdks/java/governmenttradereports/README)
+</div>
+
+* [get](/ja/sdks/java/governmenttradereports/README#get) - 政府取引レポートを取得
+
+<div id="governmenttrades">
+  ### [governmentTrades()](/ja/sdks/java/governmenttrades/README)
+</div>
+
+* [get](/ja/sdks/java/governmenttrades/README#get) - 政府取引データを取得
+
+<div id="guidance">
+  ### [guidance()](/ja/sdks/java/guidance/README)
+</div>
+
+* [get](/ja/sdks/java/guidance/README#get) - Guidance を取得
+
+<div id="insidertransaction">
+  ### [insiderTransaction()](/ja/sdks/java/insidertransaction/README)
+</div>
+
+* [get](/ja/sdks/java/insidertransaction/README#get) - インサイダー取引情報を取得
+
+<div id="insidertransactions">
+  ### [insiderTransactions()](/ja/sdks/java/insidertransactions/README)
+</div>
+
+* [getOwner](/ja/sdks/java/insidertransactions/README#getowner) - インサイダー取引のオーナー情報を取得
+
+<div id="ipos">
+  ### [ipos()](/ja/sdks/java/ipos/README)
+</div>
+
+* [getV21](/ja/sdks/java/ipos/README#getv21) - IPOs v2.1 データを取得
+* [get](/ja/sdks/java/ipos/README#get) - IPOs v2 データを取得
+
+<div id="logos">
+  ### [logos()](/ja/sdks/java/logos/README)
+</div>
+
+* [bulkSync](/ja/sdks/java/logos/README#bulksync) - 指定した検索キーのロゴを取得
+* [search](/ja/sdks/java/logos/README#search) - 指定した検索キーのロゴを取得
+
+<div id="ma">
+  ### [ma()](/ja/sdks/java/ma/README)
+</div>
+
+* [get](/ja/sdks/java/ma/README#get) - M&amp;A データを取得
+
+<div id="news">
+  ### [news()](/ja/sdks/java/news/README)
+</div>
+
+* [get](/ja/sdks/java/news/README#get) - ニュースを取得
+* [getRemoved](/ja/sdks/java/news/README#getremoved) - 削除されたニュースを取得
+
+<div id="newsquantified">
+  ### [newsquantified()](/ja/sdks/java/newsquantified/README)
+</div>
+
+* [取得](/ja/sdks/java/newsquantified/README#get) - Newsquantified データの取得
+
+<div id="offerings">
+  ### [offerings()](/ja/sdks/java/offerings/README)
+</div>
+
+* [get](/ja/sdks/java/offerings/README#get) - オファリングを取得
+
+<div id="operationratios">
+  ### [operationRatios()](/ja/sdks/java/operationratios/README)
+</div>
+
+* [get](/ja/sdks/java/operationratios/README#get) - operation ratios V2.1 を取得
+
+<div id="optionactivity">
+  ### [optionActivity()](/ja/sdks/java/optionactivity/README)
+</div>
+
+* [get](/ja/sdks/java/optionactivity/README#get) - OptionActivity V1 を取得
+
+### [quotedelayed()](/ja/sdks/java/quotedelayed/README)
+
+* [getV1](/ja/sdks/java/quotedelayed/README#getv1) - 遅延クォート V1 の取得
+
+<div id="quotedelayed">
+  ### [quoteDelayed()](/ja/sdks/java/bzclientquotedelayed/README)
+</div>
+
+* [get](/ja/sdks/java/bzclientquotedelayed/README#get) - 遅延クォート V2 を取得
+
+<div id="ratings">
+  ### [ratings()](/ja/sdks/java/ratings/README)
+</div>
+
+* [get](/ja/sdks/java/ratings/README#get) - 評価を取得
+
+<div id="ratingsanalysts">
+  ### [ratingsAnalysts()](/ja/sdks/java/ratingsanalysts/README)
+</div>
+
+* [get](/ja/sdks/java/ratingsanalysts/README#get) - レーティングアナリスト情報を取得
+
+<div id="ratingsfirms">
+  ### [ratingsFirms()](/ja/sdks/java/ratingsfirms/README)
+</div>
+
+* [get](/ja/sdks/java/ratingsfirms/README#get) - レーティング機関を取得
+
+<div id="removed">
+  ### [removed()](/ja/sdks/java/removed/README)
+</div>
+
+* [get](/ja/sdks/java/removed/README#get) - 削除された銘柄を取得 (v2)
+
+<div id="splits">
+  ### [splits()](/ja/sdks/java/splits/README)
+</div>
+
+* [get](/ja/sdks/java/splits/README#get) - Splits を取得
+
+<div id="tickertrends">
+  ### [tickerTrends()](/ja/sdks/java/tickertrends/README)
+</div>
+
+* [get](/ja/sdks/java/tickertrends/README#get) - ティッカーのトレンドデータを取得
+* [getList](/ja/sdks/java/tickertrends/README#getlist) - ティッカーのトレンドリストデータを取得
+
+<div id="valuationratios">
+  ### [valuationRatios()](/ja/sdks/java/valuationratios/README)
+</div>
+
+* [get](/ja/sdks/java/valuationratios/README#get) - バリュエーション指標を取得 V2.1
+
+<div id="retries">
+  ## リトライ
+</div>
+
+この SDK の一部のエンドポイントはリトライをサポートしています。SDK を特に設定せずに使用した場合は、API が提供するデフォルトのリトライ戦略が使用されます。ただし、このデフォルトのリトライ戦略は、各操作ごと、または SDK 全体に対して上書きできます。
+
+特定の API 呼び出しに対するデフォルトのリトライ戦略を変更するには、`retryConfig` ビルダーメソッドを通じて `RetryConfig` オブジェクトを指定します。
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.concurrent.TimeUnit;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+import org.benzinga.BZClient.utils.BackoffStrategy;
+import org.benzinga.BZClient.utils.RetryConfig;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .retryConfig(RetryConfig.builder()
+                    .backoff(BackoffStrategy.builder()
+                        .initialInterval(1L, TimeUnit.MILLISECONDS)
+                        .maxInterval(50L, TimeUnit.MILLISECONDS)
+                        .maxElapsedTime(1000L, TimeUnit.MILLISECONDS)
+                        .baseFactor(1.1)
+                        .jitterFactor(0.15)
+                        .retryConnectError(false)
+                        .build())
+                    .build())
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+リトライに対応しているすべての処理に対して既定のリトライ戦略を上書きする場合は、SDK の初期化時に構成を指定できます。
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.concurrent.TimeUnit;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+import org.benzinga.BZClient.utils.BackoffStrategy;
+import org.benzinga.BZClient.utils.RetryConfig;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .retryConfig(RetryConfig.builder()
+                    .backoff(BackoffStrategy.builder()
+                        .initialInterval(1L, TimeUnit.MILLISECONDS)
+                        .maxInterval(50L, TimeUnit.MILLISECONDS)
+                        .maxElapsedTime(1000L, TimeUnit.MILLISECONDS)
+                        .baseFactor(1.1)
+                        .jitterFactor(0.15)
+                        .retryConnectError(false)
+                        .build())
+                    .build())
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // レスポンスを処理
+        }
+    }
+}
+```
+
+<div id="error-handling">
+  ## エラー処理
+</div>
+
+この SDK におけるエラー処理は、概ね想定どおりのものです。すべての操作はレスポンスオブジェクトを返すか、例外をスローします。
+
+デフォルトでは、API エラーは `models/errors/APIException` 例外をスローします。操作に対してカスタムエラーレスポンスが指定されている場合、SDK はそれに対応する専用の例外をスローする場合もあります。各操作ごとの発生しうる例外タイプの詳細については、SDK ドキュメント内の該当する *エラー* テーブルを参照してください。たとえば、`get` メソッドは以下の例外をスローします。
+
+| エラータイプ                    | ステータスコード | Content-Type     |
+| ------------------------------ | ------------ | ---------------- |
+| models/errors/ApiErrorResponse | 400, 500     | application/json |
+| models/errors/APIException     | 4XX, 5XX     | */*            |
+
+### 例
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Request;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystInsightsV1Request req = GetAnalystInsightsV1Request.builder()
+                .build();
+
+        GetAnalystInsightsV1Response res = sdk.analystInsights().get()
+                .request(req)
+                .call();
+
+        if (res.modelsAnalystInsightsJSON().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="server-selection">
+  ## サーバーの選択
+</div>
+
+<div id="select-server-by-index">
+  ### インデックス指定でサーバーを選択
+</div>
+
+SDK クライアントインスタンスを初期化する際に、`.serverIndex(int serverIdx)` ビルダーメソッドを使用して、グローバルのデフォルトサーバー設定を上書きできます。選択したサーバーは、それを利用する各操作でデフォルトサーバーとして使用されます。次の表は、利用可能なサーバーに対応するインデックスを示しています。
+
+| #   | Server                              |
+| --- | ----------------------------------- |
+| 0   | `https://api.benzinga.com`          |
+| 1   | `https://api.benzinga.com/api/v1`   |
+| 2   | `https://api.benzinga.com/api/v2`   |
+| 3   | `https://api.benzinga.com/api/v2.1` |
+| 4   | `https://api.benzinga.com/api/v2.2` |
+
+<div id="example">
+  #### 例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .serverIndex(4)
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="override-server-url-per-client">
+  ### クライアントごとにサーバー URL を上書きする
+</div>
+
+デフォルトのサーバーは、SDK クライアントインスタンスを初期化する際に `.serverURL(String serverUrl)` ビルダーメソッドを使用して、グローバルに上書きすることもできます。例:
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .serverURL("https://api.benzinga.com")
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="development">
+  # 開発
+</div>
+
+<div id="maturity">
+  ## 安定性
+</div>
+
+このSDKはベータ版であり、メジャーバージョンの更新なしにバージョン間で破壊的な変更が行われる可能性があります。したがって、使用するパッケージのバージョンは特定のものに固定することを推奨します。そうすることで、意図的に最新バージョンへ更新しない限り、毎回同じバージョンを破壊的変更なしにインストールできます。
+
+<div id="contributions">
+  ## Contributions
+</div>
+
+この SDK へのオープンソースとしての貢献は歓迎しますが、このライブラリはプログラムによって自動生成されています。内部ファイルに手動で加えた変更は、次回の生成時に上書きされます。
+フィードバックをお待ちしています。Proof of Concept を添えた PR や issue を遠慮なく作成してください。今後のリリースに反映できるよう最善を尽くします。
+
+<div id="sdk-created-by-speakeasy">
+  ### [Speakeasy](https://www.speakeasy.com/?utm_source=openapi\&utm_campaign=java) によって生成された SDK
+</div>

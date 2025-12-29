@@ -1,0 +1,284 @@
+---
+title: "[Calendar] Flujo de ratings"
+description: "Obtener flujo de ratings de calendar."
+---
+
+<div id="websocket-websocketv1">
+  ## WebSocket `websocket/v1`:
+</div>
+
+```txt
+wss://api.benzinga.com/api/v2.1/calendar/ratings/stream
+```
+
+
+<div id="parameters">
+  #### Parámetros
+</div>
+
+| Name       | Location |  Type   | Required | Description                                                             |
+| :--------- | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
+| `token`    | query    | string  |      Yes | Token de WebSocket de Benzinga (bz.production***).                      |
+| `tickers`  | query    | string  | Optional | Lista de símbolos bursátiles a los que deseas suscribirte. Separados por comas. |
+| `isins`    | query    | string  | Optional | Lista de ISIN por los que deseas filtrar. Separados por comas.         |
+
+<div id="stream-response">
+  ### Respuesta del stream
+</div>
+
+Cuando te suscribas al stream, recibirás actualizaciones sobre las perspectivas de los analistas en el siguiente formato:
+
+```json
+{
+    "id": "e9e75b31-604e-422c-a532-362725b2d59d",
+    "api_version": "websocket/v1",
+    "kind": "data/v2.1/calendar/ratings",
+    "data": {
+        "action": "created",
+        "id": "66fffdc08f3f630001a2ea51",
+        "content": {
+            "action_company": "Maintains",
+            "action_pt": "",
+            "adjusted_pt_current": "",
+            "adjusted_pt_prior": "154.00",
+            "analyst": "RBC Capital",
+            "currency": "USD",
+            "cusip": "037833100",
+            "date": "2024-10-04",
+            "exchange": "NASDAQ",
+            "firm_id": "57f832ab6b87f600016fa383",
+            "id": "66fffdc08f3f630001a2ea51",
+            "importance": 0,
+            "isin": "US0378331005",
+            "name": "Apple",
+            "notes": "",
+            "pt_current": "",
+            "pt_prior": "154.00",
+            "rating_current": "Buy",
+            "rating_prior": "Outperform",
+            "ticker": "AAPL",
+            "time": "10:37:52",
+            "updated": 1728069650,
+            "url": "https://www.benzinga.com/quote/AAPL/analyst-ratings",
+            "url_calendar": "https://www.benzinga.com/quote/AAPL/analyst-ratings",
+            "url_news": "https://www.benzinga.com/stock-articles/AAPL/analyst-ratings"
+        },
+        "timestamp": "2024-10-04T19:21:06.880730108Z"
+    }
+}
+```
+
+
+<div id="responses">
+  #### Respuestas
+</div>
+
+- **200 OK**
+- **Descripción**: Éxito
+- **Tipo de contenido**: `application/json`
+- **Esquema**: [RatingsWSResp](#ratingswsresp)
+
+<div id="data-structures">
+  ## Estructuras de datos
+</div>
+
+<div id="ratingswsresp">
+  ### RatingsWSResp
+</div>
+
+| Property       | Type   | Description                                                                                               |
+|----------------|--------|-----------------------------------------------------------------------------------------------------------|
+| `id`           | string | UUID único para la respuesta WebSocket                                                                    |
+| `api_version`  | string | Versión de la API de WebSocket                                                                            |
+| `kind`         | string | Tipo de flujo de conexión WebSocket                                                                       |
+| `data`         | object | Contiene los datos de ratings. Ver a continuación las propiedades.                                       |
+
+<div id="data-properties">
+  ### Propiedades de datos
+</div>
+
+| Propiedad      | Tipo   | Descripción                                                                                               |
+|----------------|--------|-----------------------------------------------------------------------------------------------------------|
+| `action`       | string | Acción de datos de WebSocket; por ejemplo: created, updated, deleted                                     |
+| `id`           | string | ID de los datos de la calificación                                                                        |
+| `content`      | object | Detalles sobre las calificaciones. Consulte [ratings](#ratings) para más propiedades.                    |
+| `timestamp`    | string | Marca de tiempo de los datos                                                                             |
+
+<div id="ratings">
+  ### Calificaciones
+</div>
+
+| Propiedad             | Tipo   | Descripción                                                                                             |
+|-----------------------|--------|---------------------------------------------------------------------------------------------------------|
+| `id`                  | string | ID único de esta entrada                                                                                |
+| `date`                | string | Fecha de la calificación                                                                                |
+| `time`                | string | Hora de la calificación                                                                                 |
+| `ticker`              | string | Símbolo del ticker de la empresa que es objeto de la calificación                                      |
+| `exchange`            | string | Exchange o bolsa (NYSE, NASDAQ, etc.)                                                                   |
+| `name`                | string | Nombre de la empresa que es objeto de la calificación                                                  |
+| `currency`            | string | Moneda en la que están denominados los datos                                                            |
+| `action_pt`           | string | Descripción del cambio en el precio objetivo respecto al último precio objetivo de la firma            |
+| `action_company`      | string | Descripción del cambio en la calificación respecto a la última calificación de la firma                |
+| `rating_current`      | string | Calificación actual del analista para la empresa                                                        |
+| `pt_current`          | string | Precio objetivo actual del analista                                                                     |
+| `adjusted_pt_current` | string | Precio objetivo actual del analista, ajustado por splits de acciones y dividendos                      |
+| `rating_prior`        | string | Calificación previa del analista para la empresa                                                        |
+| `pt_prior`            | string | Precio objetivo previo del analista                                                                     |
+| `adjusted_pt_prior`   | string | Precio objetivo previo del analista, ajustado por splits de acciones y dividendos                      |
+| `url`                 | string | URL de la página de calificaciones de analistas para este ticker en Benzinga.com                       |
+| `url_calendar`        | string | URL de la página de calificaciones de analistas para este ticker en Benzinga.com                       |
+| `url_news`            | string | URL de los artículos de noticias de calificaciones de analistas para este ticker en Benzinga.com       |
+| `analyst`             | string | Nombre de la firma de análisis que publicó la calificación                                             |
+| `analyst_id`          | string | ID del analista                                                                                         |
+| `analyst_name`        | string | Nombre del analista (persona) que publicó la calificación                                              |
+| `ratings_accuracy`     | object | Métricas de precisión de las calificaciones. Consulte [ratings_accuracy](#ratings_accuracy) para más propiedades. |
+| `importance`          | string | Medida subjetiva de la importancia del evento para el mercado (5 = alta)                               |
+| `notes`               | string | Notas adicionales proporcionadas por Benzinga Newsdesk cuando corresponda.                             |
+| `updated`             | integer | Marca de tiempo de la última actualización en UTC                                                      |
+
+<div id="ratings-accuracy">
+  ### Precisión de las calificaciones
+</div>
+
+| Property                       | Type     | Description                                                                                                           |
+|--------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------|
+| `smart_score`                  | string   | Promedio ponderado de `total_ratings_percentile`, `overall_avg_return_percentile` y `overall_success_rate`           |
+| `overall_success_rate`         | string   | Porcentaje de calificaciones de ganancia/pérdida que resultaron en una ganancia global                               |
+| `overall_avg_return_percentile`| string   | Percentil del rendimiento promedio global por calificación de este analista en comparación con otros analistas      |
+| `total_ratings_percentile`     | string   | Percentil del número total de calificaciones de este analista en comparación con el número total de calificaciones publicadas |
+| `total_ratings`                | integer  | Número de recomendaciones realizadas por este analista                                                               |
+| `overall_gain_count`           | integer  | Número de calificaciones que han aumentado de valor desde la fecha de la recomendación                               |
+| `overall_loss_count`           | integer  | Número de calificaciones que han disminuido de valor desde la fecha de la recomendación                              |
+| `overall_average_return`       | string   | Diferencia porcentual promedio de precio por calificación desde la fecha de la recomendación                         |
+| `overall_stdev`                | string   | Desviación estándar de la diferencia porcentual de precio en las calificaciones del analista desde la fecha de la recomendación |
+| `1m_gain_count`                | string   | Número de calificaciones que han aumentado de valor durante el último mes                                            |
+| `1m_loss_count`                | string   | Número de calificaciones que han disminuido de valor durante el último mes                                           |
+| `1m_average_return`            | string   | Diferencia porcentual promedio de precio por calificación durante el último mes                                      |
+| `1m_stdev`                     | string   | Desviación estándar de la diferencia porcentual de precio en las calificaciones del analista durante el último mes  |
+| `3m_gain_count`                | string   | Número de calificaciones que han aumentado de valor durante los últimos tres meses                                   |
+| `3m_loss_count`                | string   | Número de calificaciones que han disminuido de valor durante los últimos tres meses                                  |
+| `3m_average_return`            | string   | Diferencia porcentual promedio de precio por calificación durante los últimos tres meses                             |
+| `3m_stdev`                     | string   | Desviación estándar de la diferencia porcentual de precio en las calificaciones del analista durante los últimos tres meses |
+| `9m_gain_count`                | string   | Número de calificaciones que han aumentado de valor durante los últimos nueve meses                                  |
+| `9m_loss_count`                | string   | Número de calificaciones que han disminuido de valor durante los últimos nueve meses                                 |
+
+<div id="success-response">
+  ## Respuesta exitosa
+</div>
+
+- Éxito `101` - Conexión WebSocket establecida con éxito.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '700px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ✅ Conectado a wss://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span><strong>URL de solicitud:</strong> </span>
+        <p style={{ color: 'blue' }}>
+            "https://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=bz"
+        </p>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
+    </div>
+</div>
+
+<div id="error-response">
+  ## Respuesta de error
+</div>
+
+- Unauthorized `401` - Token no válido, verifica el token proporcionado.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ No se pudo conectar a wss://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: respuesta inesperada del servidor: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de la solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - Ruta no válida o error de servidor.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ No se pudo conectar a wss://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: respuesta inesperada del servidor: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de la solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

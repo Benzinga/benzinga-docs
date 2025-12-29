@@ -1,0 +1,160 @@
+---
+title: "Benzinga ウィジェット"
+description: "金融インサイトでウェブサイトを強化"
+---
+
+Benzinga ウィジェットへようこそ。Benzinga ウィジェットは、リアルタイムの金融データ、インサイト、ビジュアル表示をユーザーに直接提供することで、ウェブサイトを強化できるよう設計されています。金融ブログ、投資プラットフォーム、あるいはアナリティクスダッシュボードを構築している場合でも、Benzinga ウィジェットは、信頼できるインタラクティブで最新のツールを利用者に提供できます。
+
+以下はいくつかのサンプルウィジェットです。
+
+----
+
+<div id="charting">
+  ## チャート表示:
+</div>
+
+***
+
+<iframe frameBorder="0" height="600" width="100%" src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF" />
+
+iframe:
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    class="w-full"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF"
+></iframe>
+```
+
+***
+
+
+<div id="sector-performance">
+  ## セクター別パフォーマンス:
+</div>
+
+***
+
+<div style={{ width: '100%', overflow: 'hidden' }}>
+  <div style={{ transform: 'scale(0.75)', transformOrigin: 'top left', width: 1200, height: 550 }}>
+    <iframe frameBorder="0" width="100%" height="700" src="https://widgets.benzinga.com/embed/sector-performance-heatmap" />
+  </div>
+</div>
+
+iframe:
+
+```html
+<iframe
+  frameBorder="0"
+  height="1550"
+  src="https://widgets.benzinga.com/embed/sector-performance-heatmap"
+  class="w-full"
+></iframe>
+```
+
+***
+
+
+<div id="sankey-chart">
+  ## サンキーチャート：
+</div>
+
+***
+
+<iframe frameBorder="0" height="600" src="https://widgets.benzinga.com/embed/sankey?symbol=AAPL" width="100%" />
+
+iframe（アイフレーム）：
+
+```html
+<iframe
+  frameBorder="0"
+  height="1550"
+  src="https://widgets.benzinga.com/embed/sankey?symbol=${ticker_name}"
+  class="w-full"
+></iframe>
+```
+
+***
+
+
+<div id="what-are-benzinga-widgets">
+  ### Benzinga Widgets とは？
+</div>
+
+Benzinga Widgets は、あらかじめ用意された埋め込み可能なコンポーネントであり、最小限のセットアップでウェブサイト上に金融チャート、株式情報、その他のマーケットデータを表示できます。これらは完全にカスタマイズ可能で、既存のコンテンツとシームレスに統合できるよう設計されています。
+
+<div id="features-of-benzinga-widgets">
+  ### Benzinga ウィジェットの特長
+</div>
+
+<div id="interactive-stock-charts">
+  #### 📈 インタラクティブな株価チャート
+</div>
+
+* **リアルタイムデータ**: 最新の株価を表示します。
+* **カスタマイズ可能な期間**: 1日、6か月、5年など、さまざまな期間でデータを閲覧できるようにします。
+* **動的なビジュアル**: チャートは最新の市場動向を自動的に反映して更新されます。
+
+```html
+<iframe frameBorder="0" height="500" width="500" src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF" title="Apple株価チャート" ></iframe>
+```
+
+
+<div id="additional-widgets">
+  #### 💡 追加ウィジェット
+</div>
+
+* **Stock Tickers**: スクロールするティッカー形式でリアルタイム株価を表示できます。
+* **News Feeds**: 最新の市場ニュースを配信して、ユーザーに常に最新情報を届けられます。
+* **Company Insights**: 特定企業に関する主要な統計情報や各種データを提供できます。
+
+<div id="why-use-benzinga-widgets">
+  ### なぜ Benzinga ウィジェットを使うのか？
+</div>
+
+1. **導入が容易**: シンプルな埋め込みコードをコピー＆ペーストするだけですぐに使い始められます。
+2. **デザインのカスタマイズ性**: ウィジェットの見た目を自社サイトのブランディングに合わせられます。
+3. **信頼できるデータソース**: 金融情報と分析のリーダーである Benzinga によって提供されています。
+4. **ユーザーエンゲージメント向上**: ユーザーがすぐにアクセスできる有益なインサイトを提供することで、継続利用や再訪問を促進できます。
+
+<div id="how-to-use-benzinga-widgets-on-your-website">
+  ### 自社サイトでの Benzinga ウィジェットの使い方
+</div>
+
+以下の簡単な手順に従って、Benzinga ウィジェットをサイトに埋め込むことができます。
+
+1. **ウィジェットを選択する**
+   ニーズに最も適したウィジェットを選びます。よく利用されるタイプには、株価チャート、ニュースフィード、リアルタイムティッカーなどがあります。
+
+2. **埋め込みコードをカスタマイズする**
+   提供された埋め込み用 URL を変更して、株式ティッカー（銘柄シンボル）、時間軸、カラースキームなど、要件に合わせて調整します。たとえば、次のようにします。
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    class="w-full"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF"
+></iframe>
+```
+
+3. **コードをウェブサイトに貼り付ける**
+   `iframe` コードを、HTML や CMS（例：WordPress、Wix）内の目的のセクションに挿入します。
+
+4. **連携をテストする**
+   ウェブサイトにアクセスして、ウィジェットが正しく読み込まれて表示されていることを確認します。必要に応じてサイズやスタイルを調整してください。
+
+
+<div id="start-using-benzinga-widgets-today">
+  ### 今すぐBenzingaウィジェットの利用を開始しましょう！
+</div>
+
+Benzingaウィジェットをウェブサイトに追加することで、コンテンツの価値を高め、ユーザーにさらなる付加価値を提供できます。導入の準備はできましたか？BenzingaのWidget Libraryで、利用可能なウィジェットの一覧とカスタマイズオプションをご確認ください。
+
+<div id="have-questions">
+  #### ご不明な点はありますか？
+</div>
+
+ウィジェットの導入やサイト向けカスタマイズについてサポートが必要な場合は、よくある質問をご確認いただくか、サポートチーム（licensing@benzinga.com）までお問い合わせください。

@@ -1,0 +1,78 @@
+---
+title: "遅延気配"
+description: quotedelayed()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#quotedelayed)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [getV1](#getv1) - 遅延気配値 V1 を取得
+
+<div id="getv1">
+  ## getV1
+</div>
+
+シンボル、ISIN（国際証券識別番号）、またはCIKのリストに対する遅延クォートを取得します。
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetQuoteDelayedV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetQuoteDelayedV1Response res = sdk.quotedelayed().getV1()
+                .symbols("<value>")
+                .isin("<value>")
+                .cik("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parameters
+</div>
+
+| Parameter                       | Type                            | Required                        | Description                                |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------------------ |
+| `symbols`                       | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | カンマ区切りのシンボル（銘柄コード）の一覧 |
+| `isin`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 証券のISIN（国際証券識別番号）             |
+| `cik`                           | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 証券のCIK（SEC企業識別子）                 |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetQuoteDelayedV1Response](../../models/operations/GetQuoteDelayedV1Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード                | コンテンツタイプ               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

@@ -1,0 +1,80 @@
+---
+title: "インサイダー取引"
+description: insiderTransactions()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#insidertransactions)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [getOwner](#getowner) - インサイダー取引の所有者を取得
+
+<div id="getowner">
+  ## getOwner
+</div>
+
+インサイダー取引のオーナー情報を取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetInsiderTransactionOwnerRequest;
+import org.benzinga.BZClient.models.operations.GetInsiderTransactionOwnerResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetInsiderTransactionOwnerRequest req = GetInsiderTransactionOwnerRequest.builder()
+                .build();
+
+        GetInsiderTransactionOwnerResponse res = sdk.insiderTransactions().getOwner()
+                .request(req)
+                .call();
+
+        if (res.modelsInsiderTransactionFilingJSON().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメーター
+</div>
+
+| パラメーター                                                                                      | 型                                                                                                | 必須                                                                                            | 説明                                                                                            |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `request`                                                                                         | [GetInsiderTransactionOwnerRequest](../../models/operations/GetInsiderTransactionOwnerRequest.md) | :heavy&#95;check&#95;mark:                                                                                | この取得処理に使用するリクエストオブジェクト。                                                  |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetInsiderTransactionOwnerResponse](../../models/operations/GetInsiderTransactionOwnerResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                      | ステータスコード               | Content-Type                   |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

@@ -1,0 +1,970 @@
+---
+title: "ファンダメンタルズ"
+description: fundamentals()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#fundamentals)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [getV21](#getv21) - ファンダメンタルズ V2.1 を取得
+* [getAlphaBeta](#getalphabeta) - アルファ・ベータ V2.1 を取得
+* [getCompanyV21](#getcompanyv21) - 企業データ v2.1 を取得
+* [getCompanyProfileV21](#getcompanyprofilev21) - 企業プロフィール v2.1 を取得
+* [getShareClass](#getshareclass) - 株式クラス V2.1 を取得
+* [getShareClassProfile](#getshareclassprofile) - 株式クラスのプロフィール V2.1 を取得
+* [get](#get) - ファンダメンタルズ V2 を取得
+* [getAssetClassification](#getassetclassification) - 資産分類 V2.1 を取得
+* [getEarningsReports](#getearningsreports) - 決算報告書 V2.1 を取得
+* [getFinancialsV21](#getfinancialsv21) - 財務諸表 V2.1 を取得
+* [getV3](#getv3) - ファンダメンタルズ V3 を取得
+* [getBalanceSheetV3](#getbalancesheetv3) - バランスシート V3 を取得
+* [getCashFlowV3](#getcashflowv3) - キャッシュフロー V3 を取得
+* [getIncomeStatement](#getincomestatement) - 損益計算書 V3 を取得
+* [getSharePriceRatios](#getsharepriceratios) - 株価比率 V3 を取得
+
+<div id="getv21">
+  ## getV21
+</div>
+
+ファンダメンタルズ v2.1 の取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetFundamentalsV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetFundamentalsV21Response res = sdk.fundamentals().getV21()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理
+        }
+    }
+}
+```
+
+### パラメータ
+
+| パラメータ                      | 型                              | 必須                             | 説明                                 |
+| ------------------------------- | ------------------------------- | -------------------------------- | ------------------------------------ |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | カンマ区切りのシンボル一覧           |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                               |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                             |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポート種別                         |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetFundamentalsV21Response](../../models/operations/GetFundamentalsV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード          | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getalphabeta">
+  ## getAlphaBeta
+</div>
+
+Alpha Beta の取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAlphaBetaV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAlphaBetaV21Response res = sdk.fundamentals().getAlphaBeta()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| パラメータ                      | 型                              | 必須                            | 説明                               |
+| ------------------------------- | ------------------------------- | ------------------------------- | ---------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | カンマ区切りのシンボル一覧         |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                             |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                           |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポートタイプ                     |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetAlphaBetaV21Response](../../models/operations/GetAlphaBetaV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード          | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getcompanyv21">
+  ## getCompanyV21
+</div>
+
+企業データの取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetCompanyV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetCompanyV21Response res = sdk.fundamentals().getCompanyV21()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメーター
+
+| Parameter                       | Type                            | Required                        | Description                                   |
+| ------------------------------- | ------------------------------- | ------------------------------- | --------------------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | シンボルのカンマ区切りリスト                  |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                                        |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                                      |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポート種別                                  |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetCompanyV21Response](../../models/operations/GetCompanyV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getcompanyprofilev21">
+  ## getCompanyProfileV21
+</div>
+
+企業プロフィールを取得します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetCompanyProfileV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetCompanyProfileV21Response res = sdk.fundamentals().getCompanyProfileV21()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| Parameter                       | Type                            | Required                        | Description                     |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | カンマ区切りのシンボル一覧      |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                          |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                        |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポート種別                    |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetCompanyProfileV21Response](../../models/operations/GetCompanyProfileV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード           | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getshareclass">
+  ## getShareClass
+</div>
+
+株式クラスを取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetShareClassV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetShareClassV21Response res = sdk.fundamentals().getShareClass()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| パラメータ                       | 型                             | 必須                             | 説明                              |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | シンボルのカンマ区切り一覧        |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                            |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                          |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポートタイプ                    |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetShareClassV21Response](../../models/operations/GetShareClassV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getshareclassprofile">
+  ## getShareClassProfile
+</div>
+
+株式クラスのプロファイルを取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetShareClassProfileV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetShareClassProfileV21Response res = sdk.fundamentals().getShareClassProfile()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| Parameter                       | Type                            | Required                        | Description                     |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | カンマ区切りのシンボルのリスト   |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                          |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                        |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポートタイプ                  |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetShareClassProfileV21Response](../../models/operations/GetShareClassProfileV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード              | Content-Type              |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="get">
+  ## get
+</div>
+
+Fundamentals v2 の取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetFundamentalsV2Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetFundamentalsV2Response res = sdk.fundamentals().get()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| Parameter                       | Type                            | Required                        | Description                                   |
+| ------------------------------- | ------------------------------- | ------------------------------- | --------------------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | カンマ区切りのシンボル一覧                    |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                                        |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                                      |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポートタイプ                                |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetFundamentalsV2Response](../../models/operations/GetFundamentalsV2Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getassetclassification">
+  ## getAssetClassification
+</div>
+
+資産分類の取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAssetClassificationV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAssetClassificationV21Response res = sdk.fundamentals().getAssetClassification()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメーター
+
+| パラメーター                   | 型                              | 必須                            | 説明                                     |
+| ------------------------------- | ------------------------------- | ------------------------------- | ---------------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | カンマ区切りのシンボル一覧               |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                                   |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                                 |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポート種別                             |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetAssetClassificationV21Response](../../models/operations/GetAssetClassificationV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getearningsreports">
+  ## getEarningsReports
+</div>
+
+決算レポートを取得します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEarningsReportsV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEarningsReportsV21Response res = sdk.fundamentals().getEarningsReports()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理
+        }
+    }
+}
+```
+
+### パラメータ
+
+| Parameter                       | Type                            | Required                        | Description                         |
+| ------------------------------- | ------------------------------- | ------------------------------- | ----------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | シンボルのカンマ区切り一覧          |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                             |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                           |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポートタイプ                     |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetEarningsReportsV21Response](../../models/operations/GetEarningsReportsV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード           | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getfinancialsv21">
+  ## getFinancialsV21
+</div>
+
+Financials v2.1 を取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetFinancialsV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetFinancialsV21Response res = sdk.fundamentals().getFinancialsV21()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.strings().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| Parameter                       | Type                            | Required                        | Description                                      |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------------------------ |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | カンマ区切りのシンボル一覧                        |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 基準日                                           |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 会計期間                                         |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポートタイプ                                   |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetFinancialsV21Response](../../models/operations/GetFinancialsV21Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 500                   | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getv3">
+  ## getV3
+</div>
+
+ファンダメンタルズ v3 を取得します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetFundamentalsV3Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetFundamentalsV3Response res = sdk.fundamentals().getV3()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .date("2024-10-27")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| パラメータ名                   | 型                              | 必須                            | 説明                                   |
+| ------------------------------- | ------------------------------- | ------------------------------- | -------------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | シンボルをカンマ区切りで指定           |
+| `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 開始日                                 |
+| `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 終了日                                 |
+| `date`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポート種別                           |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetFundamentalsV3Response](../../models/operations/GetFundamentalsV3Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード          | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getbalancesheetv3">
+  ## getBalanceSheetV3
+</div>
+
+貸借対照表 v3 を取得する
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetBalanceSheetV3Response;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetBalanceSheetV3Response res = sdk.fundamentals().getBalanceSheetV3()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .date("2023-12-25")
+                .call();
+
+        if (res.strings().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parameters
+</div>
+
+| Parameter           | Type                | Required            | Description                           |
+| ------------------- | ------------------- | ------------------- | ------------------------------------- |
+| `symbols`           | *String*            | :heavy&#95;check&#95;mark:  | シンボル（カンマ区切りのシンボル一覧） |
+| `from`              | *Optional&lt;String&gt;* | :heavy&#95;minus&#95;sign:  | 開始日                                |
+| `to`                | *Optional&lt;String&gt;* | :heavy&#95;minus&#95;sign:  | 終了日                                |
+| `date`              | *Optional&lt;String&gt;* | :heavy&#95;minus&#95;sign:  | レポート種別                          |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetBalanceSheetV3Response](../../models/operations/GetBalanceSheetV3Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                  | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400                        | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getcashflowv3">
+  ## getCashFlowV3
+</div>
+
+キャッシュフロー v3 を取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetCashFlowV3Response;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetCashFlowV3Response res = sdk.fundamentals().getCashFlowV3()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .date("2024-05-15")
+                .call();
+
+        if (res.strings().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| Parameter                       | Type                            | Required                        | Description                     |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | カンマ区切りのシンボルのリスト |
+| `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 開始日                          |
+| `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 終了日                          |
+| `date`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポート種別                    |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetCashFlowV3Response](../../models/operations/GetCashFlowV3Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード          | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 500                   | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getincomestatement">
+  ## getIncomeStatement
+</div>
+
+損益計算書 v3 の取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetIncomeStatementV3Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetIncomeStatementV3Response res = sdk.fundamentals().getIncomeStatement()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .date("2023-12-17")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| Parameter                       | Type                            | Required                        | Description                          |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------------ |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | カンマ区切りのシンボルの一覧         |
+| `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 開始日                               |
+| `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 終了日                               |
+| `date`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポートタイプ                       |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetIncomeStatementV3Response](../../models/operations/GetIncomeStatementV3Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getsharepriceratios">
+  ## getSharePriceRatios
+</div>
+
+株価指標を取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetSharePriceRatiosV3Response;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetSharePriceRatiosV3Response res = sdk.fundamentals().getSharePriceRatios()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .date("2024-06-28")
+                .call();
+
+        if (res.strings().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+### パラメータ
+
+| Parameter                       | Type                            | Required                        | Description                                   |
+| ------------------------------- | ------------------------------- | ------------------------------- | --------------------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | シンボルのカンマ区切りリスト                  |
+| `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 開始日                                        |
+| `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 終了日                                        |
+| `date`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポート種別                                  |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetSharePriceRatiosV3Response](../../models/operations/GetSharePriceRatiosV3Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 500                   | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

@@ -1,0 +1,54 @@
+---
+title: "SDKs"
+sidebarTitle: "概要"
+---
+
+ローカル環境から本番環境まで、Benzinga の SDK は、アプリケーションが Benzinga からオンデマンドでシークレットを取得するための最も簡単な方法を提供します。
+
+* アプリケーションに特定言語向けクライアント SDK をインストールして初期化する
+* Benzinga のプロジェクトおよび環境に対するクライアントのスコープ付きアクセス権を設定する
+* シークレットをオンデマンドで取得する
+
+<CardGroup cols={3}>
+  <Card href="/ja/sdks/languages/node" title="Node" icon="node" color="#68a063">
+    Node アプリケーションのシークレットをオンデマンドで管理します
+  </Card>
+
+  <Card href="/ja/sdks/languages/python" title="Python" icon="python" color="#4c8abe">
+    Python アプリケーションのシークレットをオンデマンドで管理します
+  </Card>
+
+  <Card href="/ja/sdks/languages/java" title="Java" icon="java" color="#e41f23">
+    Java アプリケーションのシークレットをオンデマンドで管理します
+  </Card>
+
+  <Card href="/ja/sdks/languages/go" title="Go" icon="golang" color="#367B99">
+    Go アプリケーションのシークレットをオンデマンドで管理します
+  </Card>
+
+  <Card href="/ja/sdks/languages/csharp" title="C#" icon="bars" color="#368833">
+    C#/.NET アプリケーションのシークレットをオンデマンドで管理します
+  </Card>
+
+  <Card href="/ja/sdks/languages/ruby" title="Ruby" icon="diamond" color="#367B99">
+    Ruby アプリケーションのシークレットをオンデマンドで管理します
+  </Card>
+</CardGroup>
+
+<div id="faq">
+  ## FAQ
+</div>
+
+<AccordionGroup>
+  <Accordion title="すべての API 呼び出しのたびにデータ取得のリクエストを行うのは効率的ですか？">
+    Benzinga API SDK はパフォーマンス重視で最適化されています。頻繁にアクセスされるデータをキャッシュし、冗長なリクエストを削減する仕組みを実装することで、アプリケーションが効率的に動作するようにしています。キャッシュの詳細は、利用している SDK の実装や言語によって異なる場合があります。
+  </Accordion>
+
+  <Accordion title="Benzinga API へのリクエストが失敗した場合はどうなりますか？">
+    SDK にはエラーハンドリングとリトライの仕組みが含まれています。リクエストが失敗した場合、SDK は設定に従って再試行を行うか、適切なエラーメッセージを返し、アプリケーション側で障害を適切に処理できるようにします。
+  </Accordion>
+
+  <Accordion title="自分のアプリケーションの要件に合わせて SDK の設定をカスタマイズできますか？">
+    可能です。Benzinga API SDK は、API キー設定、タイムアウト設定、その他ユースケース固有のオプションといったパラメータを通じてカスタマイズできます。利用している言語向けの SDK ドキュメントを参照し、設定可能なパラメータの詳細を確認してください。
+  </Accordion>
+</AccordionGroup>

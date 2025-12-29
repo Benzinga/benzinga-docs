@@ -1,0 +1,90 @@
+---
+title: "Benzinga へようこそ"
+description: "Benzinga API 開発者向けドキュメントへようこそ！"
+icon: hand-wave
+---
+
+[Benzinga Cloud](https://cloud.benzinga.com/) の開発者向けドキュメントポータルでは、ニュース、マーケット、企業データ向け API のドキュメントをご覧いただけます。ご不明な点がありましたら、[こちらからお問い合わせください](mailto:partners@benzinga.com)。喜んでサポートいたします。
+
+<div id="about-this-documentation">
+  ## このドキュメントについて
+</div>
+
+Benzinga の REST API に関する本ドキュメントは、OpenAPI 仕様に基づいて作成されています。生の YAML 仕様は、このドキュメントアプリケーションの公開リポジトリから参照できます。[こちら](https://github.com/Benzinga/doc-site-mintlify) をご覧ください。
+
+OpenAPI によって構成されている各ページには、「Playground」セクション内に統合 REST クライアントが直接埋め込まれています。API キーを取得すれば、ドキュメントポータルから離れることなくリクエストをテストできます。あるいは、他の GUI ベースの REST クライアント（[Postman](https://www.getpostman.com/)、[Insomnia](https://insomnia.rest/)、[Paw](https://paw.cloud/)）や cUrl1 のような CLI ツールを使ってテストすることもできます。
+
+最後に、OpenAPI 仕様は Swagger エコシステムのツールと互換性があるため、[任意のプログラミング言語向けのクライアントを生成](http://swagger.io/swagger-codegen/)することも可能です。
+
+<Info>
+    このドキュメントは AI 対応です。Ctrl + K（PC）または Cmd + K（Mac）で質問を入力してみてください。
+</Info>
+
+<div id="acessing-the-data">
+  ## データへのアクセス
+</div>
+
+<Steps>
+    <Step title="アカウントにログイン">
+        "[Get Started](https://www.benzinga.com/apis/licensing/register)" をクリックしてアカウントを作成します。
+    </Step>
+    <Step title="APIキーをコピー">
+        ユーザーダッシュボードにログインしたら、APIキーをコピーします。
+    </Step>
+    <Step title="構築を開始">
+        認証は、URLクエリパラメータ "token" として指定した APIキーで行います。
+    </Step>
+</Steps>
+
+<div id="best-practices">
+  ## ベストプラクティス
+</div>
+
+可能な場合は、Benzinga が提供するクライアントを使用することを推奨します。多くのエンドポイントは、当社の [Python ライブラリ](https://github.com/Benzinga/benzinga-python-client) で利用可能です。また、公開している [Github](https://github.com/benzinga) を通じて、実装例やクライアントライブラリも提供しています。
+
+最後に、特にリアルタイムでの取り込み（過去データの取り込みではなく）においては、Calendar、Signals、News API を使用する際にデータの差分（デルタ）を活用することを強く推奨します。これは、Calendar および Signals API では `parameters[updated]` クエリパラメータを、News API では `updatedSince` クエリパラメータを使用することで実現できます。これらのパラメータを使用することで、レイテンシを最小限に抑えることができます。
+
+<div id="additional-resources">
+  ## 追加リソース
+</div>
+
+<CardGroup cols={2}>
+    <Card title="API ステータス" icon="signal-bars" href="https://benzinga1.statuspage.io">
+        Benzinga API の Statuspage を確認して、Benzinga サービスの障害情報を常に把握してください。
+    </Card>
+    <Card title="Postman で実行" icon="signs-post" href="">
+        自分の Postman 環境で Benzinga API を実行できます。
+    </Card>
+    <Card title="イベント" icon="award" href="https://www.benzinga.com/events/fintech-awards?utm_source=bzapidocs&utm_medium=organic&utm_campaign=docs&utm_term=benzingaevents&utm_content=home">
+        Benzinga Events では、トレーダー、投資家、企業をビジネスチャンスと成長の機会につなげることを目指しています。
+    </Card>
+    <Card title="Benzinga Research Terminal" icon="rectangle-pro" href="https://www.benzinga.com/pro/register?utm_source=bzapidocs&utm_medium=organic&utm_campaign=docs&utm_term=benzingapro&utm_content=home">
+        Benzinga Pro は、市場を動かす可能性のある速報ニュースアラートを毎日多数配信します。
+    </Card>
+</CardGroup>
+
+----
+
+<div id="get-in-touch">
+  ## ご連絡ください
+</div>
+
+<Info>
+    ## お問い合わせ
+    ### サポート
+
+    ご質問やご不明な点がありましたら、_ぜひお聞かせください_。
+
+    - Email: partners@benzinga.com
+
+    ### ライセンス
+
+    - Website: [Benzinga Cloud](https://cloud.benzinga.com/)
+    - Email: licensing@benzinga.com
+    - Call: +1-877-440-ZING (9464)
+
+</Info>
+
+<Info>
+    ちなみに、[Benzinga では採用も行っています](http://jobs.benzinga.com/)。
+</Info>

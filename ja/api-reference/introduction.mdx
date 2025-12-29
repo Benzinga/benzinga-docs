@@ -1,0 +1,41 @@
+---
+title: "はじめに"
+description: "Benzinga API の簡単な紹介。"
+---
+
+Benzinga API ドキュメントへようこそ。このガイドでは、HTTP リクエストを使用して Benzinga API と連携し、Benzinga のリソースを作成、取得、更新、削除する方法を理解するのに役立ちます。
+
+<div id="base-url">
+  ## ベースURL
+</div>
+
+ドキュメントで参照されるすべてのURLのベースは、次のとおりです。
+
+```
+https://api.benzinga.com
+```
+
+
+<div id="authentication">
+  ## 認証
+</div>
+
+Benzinga API はベアラー認証を使用します。リクエストを送信する際は、`token` クエリパラメータに `token: &lt;token&gt;` の形式で API トークンを指定する必要があります。詳細については、[認証](./authentication) ページを参照してください。
+
+<div id="errors">
+  ## エラー
+</div>
+
+エラーが発生した場合、Benzinga API は標準的な HTTP ステータスコードと、エラーの詳細情報を含む JSON オブジェクトを返します。詳細については、[エラー](./errors) ページを参照してください。
+
+<div id="rate-limiting">
+  ## レート制限
+</div>
+
+Benzinga API には、不正利用を防ぎサービスの安定性を確保するためのレート制限があることにご注意ください。これらの制限を超えた場合、
+リクエストは制限され、`429 Too Many Requests` レスポンスが返されます。
+
+---
+
+このガイドが Benzinga API の利用開始に役立てば幸いです。ご不明な点があれば、遠慮なく
+サポートチームまでお問い合わせください。

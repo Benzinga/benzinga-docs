@@ -1,0 +1,80 @@
+---
+title: "政府関係者取引"
+description: governmentTrades()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#governmenttrades)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - 政府取引情報を取得
+
+<div id="get">
+  ## get
+</div>
+
+政府取引の取得
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetGovernmentTradesRequest;
+import org.benzinga.BZClient.models.operations.GetGovernmentTradesResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetGovernmentTradesRequest req = GetGovernmentTradesRequest.builder()
+                .build();
+
+        GetGovernmentTradesResponse res = sdk.governmentTrades().get()
+                .request(req)
+                .call();
+
+        if (res.modelsGovernmentTradeJSON().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                                                                          | 型                                                                                  | 必須                                                                                | 説明                                                                                |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `request`                                                                           | [GetGovernmentTradesRequest](../../models/operations/GetGovernmentTradesRequest.md) | :heavy&#95;check&#95;mark:                                                                  | このリクエストで使用するリクエストオブジェクト。                                     |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetGovernmentTradesResponse](../../models/operations/GetGovernmentTradesResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                     | ステータスコード              | コンテンツタイプ               |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

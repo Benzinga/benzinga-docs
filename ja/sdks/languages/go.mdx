@@ -1,0 +1,28 @@
+---
+title: "Benzinga Go SDK"
+sidebarTitle: "Go"
+icon: "golang"
+---
+
+Go言語を使用している場合、公式の[Benzinga Go SDK](https://github.com/benzinga)パッケージを利用するのが、アプリケーションでシークレット情報を取得・管理する最も簡単な方法です。
+
+* [パッケージ](https://pkg.go.dev/github.com/benzinga/go-sdk)
+* [GitHub リポジトリ](https://github.com/benzinga/go-sdk)
+
+<div id="basic-usage">
+  # 基本的な使い方
+</div>
+
+この例では、シンプルな Go アプリケーションで Benzinga Go SDK を使用する方法を示します。アプリケーションは、`YOUR_PROJECT_ID` プロジェクトの `dev` 環境から、`API_KEY` という名前のシークレットを取得します。
+
+<Warning>
+  [API Tokens](/ja/platform/identities/overview) をハードコードすることは推奨しません。環境変数として設定することをお勧めします。
+</Warning>
+
+<div id="installation">
+  # インストール
+</div>
+
+```console
+$ go get github.com/benzinga/go-sdk
+```

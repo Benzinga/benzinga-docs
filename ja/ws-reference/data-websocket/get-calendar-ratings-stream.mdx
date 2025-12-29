@@ -1,0 +1,284 @@
+---
+title: "[Calendar] Ratings ストリーム"
+description: "calendar レーティングのストリームを取得します。"
+---
+
+<div id="websocket-websocketv1">
+  ## ウェブソケット `websocket/v1`:
+</div>
+
+```txt
+wss://api.benzinga.com/api/v2.1/calendar/ratings/stream
+```
+
+
+<div id="parameters">
+  #### Parameters
+</div>
+
+| Name       | Location |  Type   | Required | Description                                                             |
+| :--------- | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
+| `token`    | query    | string  |      Yes | Benzinga ウェブソケット用トークン (bz.production***)。                  |
+| `tickers`  | query    | string  | Optional | 購読対象とするティッカーの一覧。カンマ区切り。                          |
+| `isins`    | query    | string  | Optional | 絞り込みに使用する ISIN（国際証券識別番号）の一覧。カンマ区切り。       |
+
+<div id="stream-response">
+  ### ストリームレスポンス
+</div>
+
+ストリームを購読すると、アナリストインサイトの更新が次の形式で送信されます。
+
+```json
+{
+    "id": "e9e75b31-604e-422c-a532-362725b2d59d",
+    "api_version": "websocket/v1",
+    "kind": "data/v2.1/calendar/ratings",
+    "data": {
+        "action": "created",
+        "id": "66fffdc08f3f630001a2ea51",
+        "content": {
+            "action_company": "Maintains",
+            "action_pt": "",
+            "adjusted_pt_current": "",
+            "adjusted_pt_prior": "154.00",
+            "analyst": "RBC Capital",
+            "currency": "USD",
+            "cusip": "037833100",
+            "date": "2024-10-04",
+            "exchange": "NASDAQ",
+            "firm_id": "57f832ab6b87f600016fa383",
+            "id": "66fffdc08f3f630001a2ea51",
+            "importance": 0,
+            "isin": "US0378331005",
+            "name": "Apple",
+            "notes": "",
+            "pt_current": "",
+            "pt_prior": "154.00",
+            "rating_current": "Buy",
+            "rating_prior": "Outperform",
+            "ticker": "AAPL",
+            "time": "10:37:52",
+            "updated": 1728069650,
+            "url": "https://www.benzinga.com/quote/AAPL/analyst-ratings",
+            "url_calendar": "https://www.benzinga.com/quote/AAPL/analyst-ratings",
+            "url_news": "https://www.benzinga.com/stock-articles/AAPL/analyst-ratings"
+        },
+        "timestamp": "2024-10-04T19:21:06.880730108Z"
+    }
+}
+```
+
+
+<div id="responses">
+  #### レスポンス
+</div>
+
+- **200 OK**
+- **概要**: 成功
+- **Content Type**: `application/json`
+- **スキーマ**: [RatingsWSResp](#ratingswsresp)
+
+<div id="data-structures">
+  ## データ構造
+</div>
+
+<div id="ratingswsresp">
+  ### RatingsWSResp
+</div>
+
+| Property       | Type   | Description                                                                                               |
+|----------------|--------|-----------------------------------------------------------------------------------------------------------|
+| `id`           | string | ウェブソケットレスポンスの一意な UUID                                                                       |
+| `api_version`  | string | ウェブソケット API のバージョン                                                                            |
+| `kind`         | string | ウェブソケット接続ストリームの種別                                                                         |
+| `data`         | object | レーティングデータを含みます。プロパティについては以下を参照してください。                                  |
+
+<div id="data-properties">
+  ### データプロパティ
+</div>
+
+| Property       | Type   | Description                                                                                               |
+|----------------|--------|-----------------------------------------------------------------------------------------------------------|
+| `action`       | string | ウェブソケットデータのアクション種別（created、updated、deleted など）                                   |
+| `id`           | string | レーティングのデータID                                                                                   |
+| `content`      | object | レーティングに関する詳細。[ratings](#ratings) を参照して、追加のプロパティを確認してください。          |
+| `timestamp`    | string | データのタイムスタンプ                                                                                   |
+
+<div id="ratings">
+  ### レーティング
+</div>
+
+| Property              | Type   | Description                                                                                             |
+|-----------------------|--------|---------------------------------------------------------------------------------------------------------|
+| `id`                  | string | このエントリの一意のID                                                                                |
+| `date`                | string | レーティングの日付                                                                                     |
+| `time`                | string | レーティングの時刻                                                                                     |
+| `ticker`              | string | レーティング対象となる企業のティッカーシンボル                                                          |
+| `exchange`            | string | 上場市場（NYSE、NASDAQ など）                                                                          |
+| `name`                | string | レーティング対象となる企業名                                                                           |
+| `currency`            | string | データの通貨単位                                                                                       |
+| `action_pt`           | string | 当該アナリスト会社による前回の目標株価からの変更内容の説明                                              |
+| `action_company`      | string | 当該アナリスト会社による前回のレーティングからの変更内容の説明                                          |
+| `rating_current`      | string | 当該企業に対するアナリストの現在のレーティング                                                          |
+| `pt_current`          | string | アナリストの現在の目標株価                                                                             |
+| `adjusted_pt_current` | string | 株式分割および配当を考慮して調整された、アナリストの現在の目標株価                                       |
+| `rating_prior`        | string | 当該企業に対するアナリストの前回のレーティング                                                          |
+| `pt_prior`            | string | アナリストの前回の目標株価                                                                             |
+| `adjusted_pt_prior`   | string | 株式分割および配当を考慮して調整された、アナリストの前回の目標株価                                       |
+| `url`                 | string | このtickerの Benzinga.com 上のアナリスト・レーティングページの URL                                      |
+| `url_calendar`        | string | このtickerの Benzinga.com 上のアナリスト・レーティングページの URL                                      |
+| `url_news`            | string | このtickerの Benzinga.com 上のアナリスト・レーティング関連ニュース記事の URL                            |
+| `analyst`             | string | レーティングを公開したアナリスト会社名                                                                  |
+| `analyst_id`          | string | アナリストのID                                                                                        |
+| `analyst_name`        | string | レーティングを公開したアナリスト（個人）の名前                                                          |
+| `ratings_accuracy`     | object | レーティングの精度指標。[ratings_accuracy](#ratings_accuracy) を参照してください。                     |
+| `importance`          | string | 当該イベントが市場にとってどれだけ重要かの主観的な指標（5 = 高）                                      |
+| `notes`               | string | 該当する場合、Benzinga Newsdeskによって付与された追加の注記。                                           |
+| `updated`             | integer | UTC での最終更新タイムスタンプ                                                                          |
+
+<div id="ratings-accuracy">
+  ### レーティング精度
+</div>
+
+| Property                       | Type     | Description                                                                                                           |
+|--------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------|
+| `smart_score`                  | string   | `total_ratings_percentile`、`overall_avg_return_percentile`、`overall_success_rate` の加重平均値                        |
+| `overall_success_rate`         | string   | 上昇／下落を予測するレーティングのうち、最終的に利益となったレーティングの割合                                             |
+| `overall_avg_return_percentile`| string   | このアナリストのレーティングごとの全体平均リターンが、他のアナリストと比較してどのパーセンタイルに位置するか            |
+| `total_ratings_percentile`     | string   | このアナリストのレーティング件数が、公開されている全レーティング件数と比較してどのパーセンタイルに位置するか            |
+| `total_ratings`                | integer  | このアナリストによる推奨レーティングの総数                                                                             |
+| `overall_gain_count`           | integer  | 推奨日以降に価値が上昇したレーティングの件数                                                                            |
+| `overall_loss_count`           | integer  | 推奨日以降に価値が下落したレーティングの件数                                                                            |
+| `overall_average_return`       | string   | 推奨日以降の、レーティングごとの平均株価変化率（％）                                                                    |
+| `overall_stdev`                | string   | 推奨日以降における、このアナリストのレーティング全体の株価変化率（％）の標準偏差                                          |
+| `1m_gain_count`                | string   | 直近1か月で価値が上昇したレーティングの件数                                                                             |
+| `1m_loss_count`                | string   | 直近1か月で価値が下落したレーティングの件数                                                                             |
+| `1m_average_return`            | string   | 直近1か月における、レーティングごとの平均株価変化率（％）                                                                 |
+| `1m_stdev`                     | string   | 直近1か月における、このアナリストのレーティング全体の株価変化率（％）の標準偏差                                            |
+| `3m_gain_count`                | string   | 直近3か月で価値が上昇したレーティングの件数                                                                             |
+| `3m_loss_count`                | string   | 直近3か月で価値が下落したレーティングの件数                                                                             |
+| `3m_average_return`            | string   | 直近3か月における、レーティングごとの平均株価変化率（％）                                                                 |
+| `3m_stdev`                     | string   | 直近3か月における、このアナリストのレーティング全体の株価変化率（％）の標準偏差                                            |
+| `9m_gain_count`                | string   | 直近9か月で価値が上昇したレーティングの件数                                                                             |
+| `9m_loss_count`                | string   | 直近9か月で価値が下落したレーティングの件数                                                                             |
+
+<div id="success-response">
+  ## 成功レスポンス
+</div>
+
+- ステータス `101` - ウェブソケット接続が正常に確立されました。
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '700px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ✅ wss://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=bz.p*** への接続に成功しました
+        </div>
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        ハンドシェイクの詳細
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span><strong>リクエストURL:</strong> </span>
+        <p style={{ color: 'blue' }}>
+            "https://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=bz"
+        </p>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>リクエストメソッド:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>ステータスコード:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
+    </div>
+</div>
+
+<div id="error-response">
+  ## エラーレスポンス
+</div>
+
+- Unauthorized `401` - 無効なトークンです。提供されたトークンを確認してください。
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ wss://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=bz.p*** に接続できませんでした
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        エラー: 予期しないサーバーレスポンス: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        ハンドシェイクの詳細
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - 不正なルートか、サーバーエラーの可能性があります。
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ wss://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=bz.p*** に接続できませんでした
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        エラー: 予期しないサーバーレスポンス: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        ハンドシェイクの詳細
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

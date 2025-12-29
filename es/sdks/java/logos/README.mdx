@@ -1,0 +1,151 @@
+---
+title: "Logos"
+description: logos()
+---
+
+[&lt; VOLVER](/es/sdks/languages/java#logos)
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+<div id="available-operations">
+  ### Operaciones disponibles
+</div>
+
+* [bulkSync](#bulksync) - Obtener logotipos para las claves de búsqueda proporcionadas
+* [search](#search) - Obtener logotipos para las claves de búsqueda proporcionadas
+
+<div id="bulksync">
+  ## bulkSync
+</div>
+
+Obtener Logos para las claves de búsqueda especificadas
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.LogoBulkSyncRequest;
+import org.benzinga.BZClient.models.operations.LogoBulkSyncResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        LogoBulkSyncRequest req = LogoBulkSyncRequest.builder()
+                .searchKeys("<value>")
+                .fields(List.of(
+                    "<value>"))
+                .build();
+
+        LogoBulkSyncResponse res = sdk.logos().bulkSync()
+                .request(req)
+                .call();
+
+        if (res.bzhttpResp().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                                             | Tipo                                                                  | Obligatorio                                                           | Descripción                                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [LogoBulkSyncRequest](../../models/operations/LogoBulkSyncRequest.md) | :heavy&#95;check&#95;mark:                                                    | El objeto de solicitud que se utilizará.                              |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[LogoBulkSyncResponse](../../models/operations/LogoBulkSyncResponse.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error              | Código de estado           | Tipo de contenido          |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 404, 500              | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="search">
+  ## búsqueda
+</div>
+
+Obtener logotipos para las claves de búsqueda proporcionadas
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetSearchLogosRequest;
+import org.benzinga.BZClient.models.operations.GetSearchLogosResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetSearchLogosRequest req = GetSearchLogosRequest.builder()
+                .searchKeys("<value>")
+                .fields("<value>")
+                .build();
+
+        GetSearchLogosResponse res = sdk.logos().search()
+                .request(req)
+                .call();
+
+        if (res.logoapiLogoRevisions().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                                                 | Tipo                                                                       | Obligatorio                                                               | Descripción                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `request`                                                                 | [GetSearchLogosRequest](../../models/operations/GetSearchLogosRequest.md) | :heavy&#95;check&#95;mark:                                                        | El objeto de solicitud que se utilizará para la petición.                 |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[GetSearchLogosResponse](../../models/operations/GetSearchLogosResponse.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error              | Código de estado           | Tipo de contenido          |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 404, 500              | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

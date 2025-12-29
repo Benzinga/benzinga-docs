@@ -1,0 +1,63 @@
+---
+title: "最新情報"
+---
+
+以下の変更履歴では、製品の新機能およびアップデートを月ごとにまとめています。
+
+<div id="november-2024">
+  ## 2024年11月
+</div>
+
+- **Licensing-Admin キーのマイグレーション**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1076)を参照してください。
+- **webhook-engine、data-api-proxy (BZGO) 向けのアノテーション追加**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1200)を参照してください。
+- **logo-api、newsquantified-api (BZGO) 向けのアノテーション追加**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1201)を参照してください。
+- **movers、analyst-reports-raw-text-api (BZGO) 向けのアノテーション追加**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1202)を参照してください。
+- **Bzgo、News-API、Calendar-API への GitLab ワークフロー追加**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1204)を参照してください。
+- **新しい Licensing Admin 向けセルフサービスワークフローのバリデーション**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1236)を参照してください。
+- **WebSocket 経由での Consensus Ratings**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1237)を参照してください。
+- **Get Earnings - ISIN でのクエリ（クエリパラメータとしての ISIN のリスト）- REST および WS**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1242)を参照してください。
+- **Removed items に完全なペイロードまたはセキュリティ情報を含める**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1247)を参照してください。
+- **セルフサービスワークフロー（ユーザーフロー）向けの新しい API**。詳細は[こちら](https://gitlab.benzinga.io/benzinga/bzgo/-/issues/1253)を参照してください。
+
+---
+
+<div id="october-2024">
+  ## 2024年10月
+</div>
+
+- **Calendar Earnings API を強化**し、詳細なトランザクション内訳を提供。
+- イベントリマインダーとチーム通知用の **[Slack 連携](https://calendarapi.com/docs/integrations/slack)** を追加。
+- **ウェブソケットメッセージ構造を改善**し、解析しやすいようメタデータを追加。
+- **[Calendar Logo API](https://calendarapi.com/docs/logo-api) をリリース**し、さまざまなイベントカテゴリ向けにカスタマイズされたロゴを取得可能に。
+- イベント詳細の一部更新のための **`PATCH /v1/events/:id` エンドポイントを追加**。
+- 他プラットフォームからの一括カレンダーインポートを可能にする **[ICS File Imports](https://calendarapi.com/docs/ics-import)** をサポート。
+- APIキーのローテーションとポリシー管理をサポートするよう、**Terraform Provider を更新**。
+
+---
+
+<div id="september-2024">
+  ## 2024年9月
+</div>
+
+- 複数のカレンダー間で既存イベントのクローン作成を効率化するために、**[Event Duplication API](https://calendarapi.com/docs/event-duplication) をリリースしました**。
+- ネットワーク障害時の信頼性向上のために、**Webhook リトライポリシーを導入しました**。
+- **カレンダーを恒久的に削除できる `DELETE /v1/calendars/:id` エンドポイントを追加しました**。
+- 一括操作向けのサンプルとユースケースシナリオを拡充し、**API ドキュメントを改善しました**。
+- 強化されたイベント同期のために、**[Google Calendar Webhooks](https://calendarapi.com/docs/integrations/google-webhooks) をリリースしました**。
+- API 利用傾向をモニタリングできるよう、ダッシュボードおよび API 経由で**日次利用レポートを提供開始しました**。
+- 地域でのパフォーマンス向上のため、**南米に CalendarAPI エッジノードをデプロイしました**。
+
+---
+
+<div id="august-2024">
+  ## 2024年8月
+</div>
+
+- リアルタイムなカレンダー更新向けに**ウェブソケットのパフォーマンスを改善**し、レイテンシを30%削減しました。
+- **[Outlook Calendar Integration](https://calendarapi.com/docs/integrations/outlook) をリリース**し、シームレスなイベント同期を可能にしました。
+- **[Calendar Webhooks](https://calendarapi.com/docs/webhooks) のサポートを追加**し、イベント変更の即時通知を可能にしました。
+- イベントの人気度メトリクスおよびレーティングを含めるように、**`GET /v1/events` API を拡張**しました。
+- ユーザーがカレンダーのテーマやロゴをカスタマイズできるように、**[Custom Calendar Branding API](https://calendarapi.com/docs/branding) をリリース**しました。
+- ヨーロッパでのコンプライアンス向上とレイテンシ削減のために、**[CalendarAPI EU Region](https://eu.calendarapi.com) の提供を開始**しました。
+- ウェブソケット接続での**トークンベース認証のサポートを導入**しました。
+- Webhook 設定や CDN 連携を含む複数のリソースを **[CalendarAPI Terraform Provider](https://registry.terraform.io/providers/CalendarAPI/calendarapi/latest/docs)** に追加しました。

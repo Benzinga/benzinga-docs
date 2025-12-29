@@ -1,0 +1,78 @@
+---
+title: "Economía"
+description: economics()
+---
+
+[&lt; ATRÁS](/es/sdks/languages/java#economics)
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+<div id="available-operations">
+  ### Operaciones disponibles
+</div>
+
+* [get](#get) - Obtener datos económicos
+
+<div id="get">
+  ## get
+</div>
+
+Devuelve los datos del calendario económico.
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEconomicsRequest;
+import org.benzinga.BZClient.models.operations.GetEconomicsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEconomicsRequest req = GetEconomicsRequest.builder()
+                .build();
+
+        GetEconomicsResponse res = sdk.economics().get()
+                .request(req)
+                .call();
+
+        if (res.modelsEconomicJSON().isPresent()) {
+            // gestionar respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                                             | Tipo                                                                  | Obligatorio                                                           | Descripción                                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [GetEconomicsRequest](../../models/operations/GetEconomicsRequest.md) | :heavy&#95;check&#95;mark:                                                    | Objeto de solicitud que se utilizará para la petición.                |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[GetEconomicsResponse](../../models/operations/GetEconomicsResponse.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error              | Código de estado           | Tipo de contenido          |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
