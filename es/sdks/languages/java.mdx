@@ -1,0 +1,652 @@
+---
+title: "SDK de Java de Benzinga"
+sidebarTitle: "Java"
+icon: "java"
+---
+
+<div id="bz-java-client">
+  # BZ-Java-Client
+</div>
+
+SDK de Java fácil de usar para desarrolladores y con tipado seguro, diseñado específicamente para aprovechar la API *openapi*.
+
+<div style={{ textAlign: "left" }}>
+  <a href="https://www.speakeasy.com/?utm_source=openapi&utm_campaign=java">
+    <img src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454" alt="Built By Speakeasy" />
+  </a>
+
+  <a href="https://mit-license.org/">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" style={{ width: "100px", height: "28px" }} />
+  </a>
+</div>
+
+<div id="summary">
+  ## Resumen
+</div>
+
+APIs de Benzinga: Esta API REST ofrece endpoints para todas las APIs de Benzinga.
+
+<div id="table-of-contents">
+  ## Tabla de contenido
+</div>
+
+* [BZ-Java-Client](#bz-java-client)
+* [Instalación del SDK](#sdk-installation)
+* [Ejemplo de uso del SDK](#sdk-example-usage)
+* [Autenticación](#authentication)
+* [Recursos y operaciones disponibles](#available-resources-and-operations)
+* [Reintentos](#retries)
+* [Manejo de errores](#error-handling)
+* [Selección de servidor](#server-selection)
+* [Desarrollo](#development)
+* [Madurez](#maturity)
+* [Contribuciones](#contributions)
+
+<div id="sdk-installation">
+  ## Instalación del SDK
+</div>
+
+<div id="getting-started">
+  ### Introducción
+</div>
+
+Se requiere JDK 11 o posterior.
+
+Los siguientes ejemplos muestran cómo se utiliza un artefacto del SDK publicado:
+
+Gradle:
+
+```groovy
+implementation 'org.benzinga:BZClient:0.2.7'
+```
+
+Maven:
+
+```xml
+<dependency>
+    <groupId>org.benzinga</groupId>
+    <artifactId>BZClient</artifactId>
+    <version>0.2.7</version>
+</dependency>
+```
+
+<div id="how-to-build">
+  ### Cómo compilar
+</div>
+
+Después de clonar el repositorio de Git en tu sistema de archivos, puedes compilar el artefacto del SDK a partir del código fuente en el directorio `build` ejecutando `./gradlew build` en sistemas *nix o `gradlew.bat` en sistemas Windows.
+
+Si deseas compilar desde el código fuente y publicar el artefacto del SDK en tu repositorio local de Maven (en tu sistema de archivos), usa el siguiente comando (después de clonar el repositorio de Git localmente):
+
+En *nix:
+
+```bash
+./gradlew publishToMavenLocal -Pskip.signing
+```
+
+En Windows:
+
+```bash
+gradlew.bat publishToMavenLocal -Pskip.signing
+```
+
+<div id="sdk-example-usage">
+  ## Ejemplo de uso del SDK
+</div>
+
+### Ejemplo
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="authentication">
+  ## Autenticación
+</div>
+
+<div id="per-client-security-schemes">
+  ### Esquemas de seguridad por cliente
+</div>
+
+Este SDK admite el siguiente esquema de seguridad a nivel global:
+
+| Name         | Type   | Scheme  |
+| ------------ | ------ | ------- |
+| `apiKeyAuth` | apiKey | API key |
+
+Para autenticarse con la API, el parámetro `apiKeyAuth` debe configurarse al inicializar la instancia del cliente del SDK. Por ejemplo:
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="available-resources-and-operations">
+  ## Recursos y operaciones disponibles
+</div>
+
+<div id="analystinsights">
+  ### [analystInsights()](/es/sdks/java/analystinsights/README)
+</div>
+
+* [get](/es/sdks/java/analystinsights/README#get) - Obtener opiniones de analistas V1
+
+<div id="analystreportsrawtext">
+  ### [analystReportsRawText()](/es/sdks/java/analystreportsrawtext/README)
+</div>
+
+* [Obtener](/es/sdks/java/analystreportsrawtext/README#get) - Obtener datos de texto sin procesar de informes de analistas
+
+<div id="bars">
+  ### [bars()](/es/sdks/java/bars/README)
+</div>
+
+* [get](/es/sdks/java/bars/README#get) - Obtener Barras V2
+
+<div id="bullsbearssaybearssay">
+  ### [bullsBearsSayBearsSay()](/es/sdks/java/bullsbearssaybearssay/README)
+</div>
+
+* [Obtener](/es/sdks/java/bullsbearssaybearssay/README#get) - Obtener Bulls Say Bears Say V1
+
+<div id="conferencecalls">
+  ### [conferenceCalls()](/es/sdks/java/conferencecalls/README)
+</div>
+
+* [get](/es/sdks/java/conferencecalls/README#get) - Obtener llamadas de resultados
+
+<div id="consensusratings">
+  ### [consensusRatings()](/es/sdks/java/consensusratings/README)
+</div>
+
+* [get](/es/sdks/java/consensusratings/README#get) - Obtener Calificaciones de Consenso
+
+<div id="derivedfiguresandratios">
+  ### [derivedFiguresAndRatios()](/es/sdks/java/derivedfiguresandratios/README)
+</div>
+
+* [get](/es/sdks/java/derivedfiguresandratios/README#get) - Obtener figuras y ratios derivados v3
+
+<div id="dividends">
+  ### [dividends()](/es/sdks/java/dividends/README)
+</div>
+
+* [getV22](/es/sdks/java/dividends/README#getv22) - Obtener dividendos V2.2
+* [get](/es/sdks/java/dividends/README#get) - Obtener dividendos V2 y V2.1
+
+<div id="earningratios">
+  ### [earningRatios()](/es/sdks/java/earningratios/README)
+</div>
+
+* [get](/es/sdks/java/earningratios/README#get) - Obtener ratios de beneficios v2.1
+
+<div id="earnings">
+  ### [earnings()](/es/sdks/java/earnings/README)
+</div>
+
+* [get](/es/sdks/java/earnings/README#get) - Obtener resultados financieros
+
+<div id="earningscalltranscripts">
+  ### [earningsCallTranscripts()](/es/sdks/java/earningscalltranscripts/README)
+</div>
+
+* [get](/es/sdks/java/earningscalltranscripts/README#get) - Obtener transcripciones de llamadas de resultados
+* [getAudio](/es/sdks/java/earningscalltranscripts/README#getaudio) - Obtener archivos de audio de transcripciones de llamadas de resultados
+
+<div id="economics">
+  ### [economics()](/es/sdks/java/economics/README)
+</div>
+
+* [get](/es/sdks/java/economics/README#get) - Obtener datos económicos
+
+<div id="events">
+  ### [events()](/es/sdks/java/events/README)
+</div>
+
+* [get](/es/sdks/java/events/README#get) - Obtener eventos
+
+<div id="fda">
+  ### [fda()](/es/sdks/java/fda/README)
+</div>
+
+* [Obtener](/es/sdks/java/fda/README#get) - Obtener FDA
+
+<div id="fundamentals">
+  ### [fundamentals()](/es/sdks/java/fundamentals/README)
+</div>
+
+* [getV21](/es/sdks/java/fundamentals/README#getv21) - Obtener fundamentos V2.1
+* [getAlphaBeta](/es/sdks/java/fundamentals/README#getalphabeta) - Obtener Alfa/Beta V2.1
+* [getCompanyV21](/es/sdks/java/fundamentals/README#getcompanyv21) - Obtener datos de la compañía V2.1
+* [getCompanyProfileV21](/es/sdks/java/fundamentals/README#getcompanyprofilev21) - Obtener perfil de la compañía V2.1
+* [getShareClass](/es/sdks/java/fundamentals/README#getshareclass) - Obtener clase de acciones V2.1
+* [getShareClassProfile](/es/sdks/java/fundamentals/README#getshareclassprofile) - Obtener perfil de la clase de acciones V2.1
+* [get](/es/sdks/java/fundamentals/README#get) - Obtener fundamentos V2
+* [getAssetClassification](/es/sdks/java/fundamentals/README#getassetclassification) - Obtener clasificación de activos V2.1
+* [getEarningsReports](/es/sdks/java/fundamentals/README#getearningsreports) - Obtener informes de resultados V2.1
+* [getFinancialsV21](/es/sdks/java/fundamentals/README#getfinancialsv21) - Obtener estados financieros V2.1
+* [getV3](/es/sdks/java/fundamentals/README#getv3) - Obtener fundamentos V3
+* [getBalanceSheetV3](/es/sdks/java/fundamentals/README#getbalancesheetv3) - Obtener balance general V3
+* [getCashFlowV3](/es/sdks/java/fundamentals/README#getcashflowv3) - Obtener flujo de caja V3
+* [getIncomeStatement](/es/sdks/java/fundamentals/README#getincomestatement) - Obtener estado de resultados V3
+* [getSharePriceRatios](/es/sdks/java/fundamentals/README#getsharepriceratios) - Obtener ratios de precio de la acción V3
+
+<div id="governmenttradereports">
+  ### [governmentTradeReports()](/es/sdks/java/governmenttradereports/README)
+</div>
+
+* [get](/es/sdks/java/governmenttradereports/README#get) - Obtener informes de operaciones gubernamentales
+
+<div id="governmenttrades">
+  ### [governmentTrades()](/es/sdks/java/governmenttrades/README)
+</div>
+
+* [get](/es/sdks/java/governmenttrades/README#get) - Obtener operaciones del gobierno
+
+<div id="guidance">
+  ### [guidance()](/es/sdks/java/guidance/README)
+</div>
+
+* [get](/es/sdks/java/guidance/README#get) - Obtener Guidance
+
+<div id="insidertransaction">
+  ### [insiderTransaction()](/es/sdks/java/insidertransaction/README)
+</div>
+
+* [Obtener](/es/sdks/java/insidertransaction/README#get) - Obtener transacción de insider
+
+<div id="insidertransactions">
+  ### [insiderTransactions()](/es/sdks/java/insidertransactions/README)
+</div>
+
+* [getOwner](/es/sdks/java/insidertransactions/README#getowner) - Obtener titular de transacción de insider
+
+<div id="ipos">
+  ### [ipos()](/es/sdks/java/ipos/README)
+</div>
+
+* [getV21](/es/sdks/java/ipos/README#getv21) - Obtener IPOs V2.1
+* [get](/es/sdks/java/ipos/README#get) - Obtener IPOs V2
+
+<div id="logos">
+  ### [logos()](/es/sdks/java/logos/README)
+</div>
+
+* [bulkSync](/es/sdks/java/logos/README#bulksync) - Obtener logotipos para las claves de búsqueda especificadas
+* [search](/es/sdks/java/logos/README#search) - Obtener logotipos para las claves de búsqueda especificadas
+
+<div id="ma">
+  ### [ma()](/es/sdks/java/ma/README)
+</div>
+
+* [get](/es/sdks/java/ma/README#get) - Obtener fusiones y adquisiciones
+
+<div id="news">
+  ### [news()](/es/sdks/java/news/README)
+</div>
+
+* [get](/es/sdks/java/news/README#get) - Obtener noticias
+* [getRemoved](/es/sdks/java/news/README#getremoved) - Obtener noticias eliminadas
+
+<div id="newsquantified">
+  ### [newsquantified()](/es/sdks/java/newsquantified/README)
+</div>
+
+* [get](/es/sdks/java/newsquantified/README#get) - Obtener datos de Newsquantified
+
+<div id="offerings">
+  ### [offerings()](/es/sdks/java/offerings/README)
+</div>
+
+* [get](/es/sdks/java/offerings/README#get) - Obtener ofertas
+
+<div id="operationratios">
+  ### [operationRatios()](/es/sdks/java/operationratios/README)
+</div>
+
+* [get](/es/sdks/java/operationratios/README#get) - Obtener ratios operativos v2.1
+
+<div id="optionactivity">
+  ### [optionActivity()](/es/sdks/java/optionactivity/README)
+</div>
+
+* [get](/es/sdks/java/optionactivity/README#get) - Obtener OptionActivity V1
+
+### [quotedelayed()](/es/sdks/java/quotedelayed/README)
+
+* [getV1](/es/sdks/java/quotedelayed/README#getv1) - Obtener cotizaciones en diferido V1
+
+<div id="quotedelayed">
+  ### [quoteDelayed()](/es/sdks/java/bzclientquotedelayed/README)
+</div>
+
+* [get](/es/sdks/java/bzclientquotedelayed/README#get) - Obtener cotizaciones diferidas V2
+
+<div id="ratings">
+  ### [ratings()](/es/sdks/java/ratings/README)
+</div>
+
+* [get](/es/sdks/java/ratings/README#get) - Obtener ratings
+
+<div id="ratingsanalysts">
+  ### [ratingsAnalysts()](/es/sdks/java/ratingsanalysts/README)
+</div>
+
+* [get](/es/sdks/java/ratingsanalysts/README#get) - Obtener analistas de calificaciones
+
+<div id="ratingsfirms">
+  ### [ratingsFirms()](/es/sdks/java/ratingsfirms/README)
+</div>
+
+* [get](/es/sdks/java/ratingsfirms/README#get) - Obtener firmas de análisis y calificación
+
+<div id="removed">
+  ### [removed()](/es/sdks/java/removed/README)
+</div>
+
+* [get](/es/sdks/java/removed/README#get) - Obtener eliminados (v2)
+
+<div id="splits">
+  ### [splits()](/es/sdks/java/splits/README)
+</div>
+
+* [get](/es/sdks/java/splits/README#get) - Obtener splits
+
+<div id="tickertrends">
+  ### [tickerTrends()](/es/sdks/java/tickertrends/README)
+</div>
+
+* [get](/es/sdks/java/tickertrends/README#get) - Obtener datos de tendencias de tickers
+* [getList](/es/sdks/java/tickertrends/README#getlist) - Obtener datos de la lista de tendencias de tickers
+
+<div id="valuationratios">
+  ### [valuationRatios()](/es/sdks/java/valuationratios/README)
+</div>
+
+* [get](/es/sdks/java/valuationratios/README#get) - Obtener ratios de valoración v2.1
+
+<div id="retries">
+  ## Reintentos
+</div>
+
+Algunos de los endpoints de este SDK admiten reintentos. Si utilizas el SDK sin ninguna configuración, recurrirá a la estrategia de reintentos predeterminada proporcionada por la API. Sin embargo, la estrategia de reintentos predeterminada se puede modificar para cada operación o para todo el SDK.
+
+Para cambiar la estrategia de reintentos predeterminada para una única llamada a la API, puedes proporcionar un objeto `RetryConfig` mediante el método builder `retryConfig`:
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.concurrent.TimeUnit;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+import org.benzinga.BZClient.utils.BackoffStrategy;
+import org.benzinga.BZClient.utils.RetryConfig;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .retryConfig(RetryConfig.builder()
+                    .backoff(BackoffStrategy.builder()
+                        .initialInterval(1L, TimeUnit.MILLISECONDS)
+                        .maxInterval(50L, TimeUnit.MILLISECONDS)
+                        .maxElapsedTime(1000L, TimeUnit.MILLISECONDS)
+                        .baseFactor(1.1)
+                        .jitterFactor(0.15)
+                        .retryConnectError(false)
+                        .build())
+                    .build())
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // gestionar respuesta
+        }
+    }
+}
+```
+
+Si quieres reemplazar la estrategia de reintentos predeterminada para todas las operaciones que admiten reintentos, puedes proporcionar una configuración durante la inicialización del SDK:
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.concurrent.TimeUnit;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+import org.benzinga.BZClient.utils.BackoffStrategy;
+import org.benzinga.BZClient.utils.RetryConfig;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .retryConfig(RetryConfig.builder()
+                    .backoff(BackoffStrategy.builder()
+                        .initialInterval(1L, TimeUnit.MILLISECONDS)
+                        .maxInterval(50L, TimeUnit.MILLISECONDS)
+                        .maxElapsedTime(1000L, TimeUnit.MILLISECONDS)
+                        .baseFactor(1.1)
+                        .jitterFactor(0.15)
+                        .retryConnectError(false)
+                        .build())
+                    .build())
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="error-handling">
+  ## Manejo de errores
+</div>
+
+El manejo de errores en este SDK debería corresponderse en gran medida con tus expectativas. Todas las operaciones devuelven un objeto de respuesta o lanzan una excepción.
+
+De forma predeterminada, un error de la API lanzará una excepción `models/errors/APIException`. Cuando se especifican respuestas de error personalizadas para una operación, el SDK también puede lanzar la excepción asociada. Puedes consultar las tablas de *Errores* correspondientes en la documentación del SDK para obtener más detalles sobre los posibles tipos de excepción para cada operación. Por ejemplo, el método `get` lanza las siguientes excepciones:
+
+| Tipo de error                  | Código de estado | Tipo de contenido |
+| ------------------------------ | ---------------- | ----------------- |
+| models/errors/ApiErrorResponse | 400, 500         | application/json  |
+| models/errors/APIException     | 4XX, 5XX         | */*             |
+
+### Ejemplo
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Request;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystInsightsV1Request req = GetAnalystInsightsV1Request.builder()
+                .build();
+
+        GetAnalystInsightsV1Response res = sdk.analystInsights().get()
+                .request(req)
+                .call();
+
+        if (res.modelsAnalystInsightsJSON().isPresent()) {
+            // gestionar respuesta
+        }
+    }
+}
+```
+
+<div id="server-selection">
+  ## Selección del servidor
+</div>
+
+<div id="select-server-by-index">
+  ### Seleccionar servidor por índice
+</div>
+
+Puedes sobrescribir el servidor predeterminado a nivel global usando el método del *builder* `.serverIndex(int serverIdx)` al inicializar la instancia del cliente del SDK. El servidor seleccionado se usará luego como predeterminado en las operaciones que lo utilicen. En esta tabla se enumeran los índices asociados con los servidores disponibles:
+
+| #   | Servidor                            |
+| --- | ----------------------------------- |
+| 0   | `https://api.benzinga.com`          |
+| 1   | `https://api.benzinga.com/api/v1`   |
+| 2   | `https://api.benzinga.com/api/v2`   |
+| 3   | `https://api.benzinga.com/api/v2.1` |
+| 4   | `https://api.benzinga.com/api/v2.2` |
+
+<div id="example">
+  #### Ejemplo
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .serverIndex(4)
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="override-server-url-per-client">
+  ### Sobrescribir la URL del servidor por cliente
+</div>
+
+El servidor predeterminado también se puede sobrescribir globalmente mediante el método del builder `.serverURL(String serverUrl)` al inicializar la instancia de cliente del SDK. Por ejemplo:
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .serverURL("https://api.benzinga.com")
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="development">
+  # Desarrollo
+</div>
+
+<div id="maturity">
+  ## Madurez
+</div>
+
+Este SDK está en fase beta y puede haber cambios incompatibles entre versiones sin una actualización de versión mayor. Por lo tanto, recomendamos fijar la dependencia a una versión específica del paquete. De este modo, puedes instalar la misma versión cada vez sin sufrir cambios incompatibles, a menos que estés buscando intencionalmente la versión más reciente.
+
+<div id="contributions">
+  ## Contribuciones
+</div>
+
+Si bien valoramos las contribuciones de código abierto a este SDK, esta biblioteca se genera de forma programática. Cualquier cambio manual realizado en archivos internos se sobrescribirá la próxima vez que se genere.
+Esperamos recibir sus comentarios. No dude en abrir un PR o un issue con una prueba de concepto y haremos todo lo posible por incluirlo en una versión futura.
+
+<div id="sdk-created-by-speakeasy">
+  ### SDK creado por [Speakeasy](https://www.speakeasy.com/?utm_source=openapi\&utm_campaign=java)
+</div>

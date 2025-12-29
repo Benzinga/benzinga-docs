@@ -1,0 +1,71 @@
+---
+openapi: get /calendar/earnings
+---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "earnings": [ {
+      "currency": "USD",
+      "cusip": "293602108",
+      "date": "2023-03-30",
+      "date_confirmed": 1,
+      "eps": "-18.240",
+      "eps_est": "-28.920",
+      "eps_prior": "-108.000",
+      "eps_surprise": "10.6800",
+      "eps_surprise_percent": "0.3693",
+      "eps_type": "GAAP",
+      "exchange": "NASDAQ",
+      "id": "624551b41578d80001a43e5e",
+      "importance": 0,
+      "isin": "US2936024056",
+      "name": "Ensysce Biosciences",
+      "notes": "EPS ajustado por split",
+      "period": "Q4",
+      "period_year": 2022,
+      "revenue": "1433000.000",
+      "revenue_est": "1540000.000",
+      "revenue_prior": "1635000.000",
+      "revenue_surprise": "-107000.0000",
+      "revenue_surprise_percent": "-0.0695",
+      "revenue_type": "GAAP",
+      "ticker": "ENSC",
+      "time": "17:37:00",
+      "updated": 1733235926
+    },
+    {
+      "currency": "USD",
+      "cusip": "70261F103",
+      "date": "2023-03-30",
+      "date_confirmed": 1,
+      "eps": "-3.800",
+      "eps_est": "",
+      "eps_prior": "2.400",
+      "eps_surprise": "",
+      "eps_surprise_percent": "",
+      "eps_type": "GAAP",
+      "exchange": "NASDAQ",
+      "id": "6246a359a191230001ed2da2",
+      "importance": 0,
+      "isin": "US70261F2020",
+      "name": "Pasithea Therapeutics",
+      "notes": "EPS e ingresos calculados deduciendo el resultado de nueve meses del resultado de doce meses; EPS ajustado por split",
+      "period": "Q4",
+      "period_year": 2022,
+      "revenue": "240712.000",
+      "revenue_est": "",
+      "revenue_prior": "15062000.000",
+      "revenue_surprise": "",
+      "revenue_surprise_percent": "",
+      "revenue_type": "GAAP",
+      "ticker": "KTTA",
+      "time": "04:00:00",
+      "updated": 1733229841
+    }]
+}
+```
+```json (400)
+Parámetros de consulta no válidos o faltantes
+```
+</ResponseExample>

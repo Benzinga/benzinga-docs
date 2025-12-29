@@ -1,0 +1,66 @@
+---
+title: "Errores"
+description: "Cómo responde la API de Benzinga cuando se producen errores."
+---
+
+Benzinga utiliza códigos de respuesta HTTP convencionales para indicar el éxito o el fallo de una solicitud a la API.
+En general: los códigos en el rango 2xx indican éxito.
+Los códigos en el rango 4xx indican un error debido a la información proporcionada (por ejemplo, se omitió un parámetro obligatorio, un cargo falló, etc.).
+Los códigos en el rango 5xx indican un error en los servidores de Benzinga.
+
+Algunos errores 4xx que pueden manejarse de forma programática incluyen
+un código de error que explica brevemente el error informado.
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+<ResponseField name="type" type="string">
+    El tipo de error devuelto.
+
+    Uno de <code>invalid_request_error</code>, <code>not_found_error</code>, <code>creation_error</code>,
+    <code>update_error</code>, <code>deletion_error</code>, <code>forbidden_error</code> o <code>authentication_error</code>.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+    Un mensaje legible por personas que proporciona más detalles sobre el error.
+</ResponseField>
+
+<ResponseField name="params" type="array">
+    Si el error es específico de un parámetro, contendrá una lista de los parámetros inválidos.
+</ResponseField>
+
+<div id="http-status-code-summary">
+  ## Resumen de códigos de estado HTTP
+</div>
+
+A continuación se muestra un resumen de los códigos de estado HTTP que utiliza la API de Benzinga.
+
+| Código HTTP        | Estado | Descripción |
+| ------------------ | ------ | ----------- |
+| 200                | OK	| Todo funcionó como se esperaba. |
+| 400                | Bad Request | La solicitud no fue aceptable, a menudo debido a que falta un parámetro obligatorio. |
+| 401                | Unauthorized | No se proporcionó una clave de API válida. |
+| 402                | Request Failed | Los parámetros eran válidos, pero la solicitud falló. |
+| 403                | Forbidden | La clave de API no tiene permisos para realizar la solicitud. |
+| 404                | Not Found | El recurso solicitado no existe. |
+| 409                | Conflict | La solicitud entra en conflicto con otra solicitud (quizás debido al uso de la misma clave idempotente). |
+| 429                | Too Many Requests | Demasiadas solicitudes llegan a la API demasiado rápido. Recomendamos aplicar un backoff exponencial en tus solicitudes. |
+| 500, 502, 503, 504 | Server Errors | Algo salió mal en los servidores de Benzinga. (Estos casos son poco frecuentes). |
+
+<ResponseExample>
+    ```json Response Example
+    {
+        "error": {
+        "type": "invalid_request_error",
+        "params": [
+    {
+        "param": "name",
+        "message": "This field is required"
+    }
+        ],
+        "message": "Parameter error"
+    }
+    }
+    ```
+</ResponseExample>

@@ -277,215 +277,215 @@
       {
         "tabs": [
           {
-            "tab": "Documentation",
+            "tab": "Documentación",
             "groups": [
               {
-                "group": "Introduction",
+                "group": "Introducción",
                 "pages": [
-                  "introduction/welcome",
-                  "introduction/introduction",
-                  "introduction/architecture",
-                  "introduction/faq"
+                  "es/introduction/welcome",
+                  "es/introduction/introduction",
+                  "es/introduction/architecture",
+                  "es/introduction/faq"
                 ]
               },
               {
-                "group": "Services",
+                "group": "Servicios",
                 "pages": [
-                  "services/overview"
+                  "es/services/overview"
                 ]
               },
               {
-                "group": "Components",
+                "group": "Componentes",
                 "pages": [
-                  "components/overview"
+                  "es/components/overview"
                 ]
               }
             ]
           },
           {
-            "tab": "API Reference",
+            "tab": "Referencia de la API",
             "groups": [
               {
-                "group": "API Documentation",
+                "group": "Documentación de la API",
                 "pages": [
-                  "api-reference/introduction",
-                  "api-reference/authentication",
-                  "api-reference/errors"
+                  "es/api-reference/introduction",
+                  "es/api-reference/authentication",
+                  "es/api-reference/errors"
                 ]
               },
               {
-                "group": "Analyst Insights",
+                "group": "Opiniones de analistas",
                 "pages": [
-                  "api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
+                  "es/api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
                 ]
               },
               {
-                "group": "Analyst Reports Raw Text",
+                "group": "Texto bruto de informes de analistas",
                 "pages": [
-                  "api-reference/analyst-reports-raw-text-api_api/analyst-reports-raw-text/get-analyst-reports-raw-text-data"
+                  "es/api-reference/analyst-reports-raw-text-api_api/analyst-reports-raw-text/get-analyst-reports-raw-text-data"
                 ]
               },
               {
-                "group": "Bars",
+                "group": "Barras",
                 "pages": [
-                  "api-reference/data-api-proxy_api/bars/get-bars-v2"
+                  "es/api-reference/data-api-proxy_api/bars/get-bars-v2"
                 ]
               },
               {
-                "group": "Bulls Say Bears Say",
+                "group": "Lo que dicen los alcistas Lo que dicen los bajistas",
                 "pages": [
-                  "api-reference/calendar_api/bulls-say-bears-say/get-bulls-say-bears-say-v1"
+                  "es/api-reference/calendar_api/bulls-say-bears-say/get-bulls-say-bears-say-v1"
                 ]
               },
               {
                 "group": "Calendars",
                 "pages": [
-                  "api-reference/calendar_api/block-trade/get-blocktrade-v1",
-                  "api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
-                  "api-reference/calendar_api/dividends/get-dividends-v22",
-                  "api-reference/calendar_api/dividends/get-dividends-v2-&-v21",
-                  "api-reference/calendar_api/removed/get-removed-v2",
-                  "api-reference/calendar_api/conference_calls/get-conference-calls",
-                  "api-reference/calendar_api/earnings/get-earnings",
-                  "api-reference/calendar_api/economics/get-economics",
-                  "api-reference/calendar_api/events/get-events",
-                  "api-reference/calendar_api/fda/get-fda",
-                  "api-reference/calendar_api/guidance/get-guidance",
-                  "api-reference/calendar_api/ipos/get-ipos-v21",
-                  "api-reference/calendar_api/ipos/get-ipos-v2",
-                  "api-reference/calendar_api/ma/get-merger-and-acquisition",
-                  "api-reference/calendar_api/option-activity/get-optionactivity-v1",
-                  "api-reference/calendar_api/offerings/get-offerings",
-                  "api-reference/calendar_api/ratings/get-ratings",
-                  "api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
-                  "api-reference/calendar_api/ratings_firms/get-ratings-firms"
+                  "es/api-reference/calendar_api/block-trade/get-blocktrade-v1",
+                  "es/api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
+                  "es/api-reference/calendar_api/dividends/get-dividends-v22",
+                  "es/api-reference/calendar_api/dividends/get-dividends-v2-&-v21",
+                  "es/api-reference/calendar_api/removed/get-removed-v2",
+                  "es/api-reference/calendar_api/conference_calls/get-conference-calls",
+                  "es/api-reference/calendar_api/earnings/get-earnings",
+                  "es/api-reference/calendar_api/economics/get-economics",
+                  "es/api-reference/calendar_api/events/get-events",
+                  "es/api-reference/calendar_api/fda/get-fda",
+                  "es/api-reference/calendar_api/guidance/get-guidance",
+                  "es/api-reference/calendar_api/ipos/get-ipos-v21",
+                  "es/api-reference/calendar_api/ipos/get-ipos-v2",
+                  "es/api-reference/calendar_api/ma/get-merger-and-acquisition",
+                  "es/api-reference/calendar_api/option-activity/get-optionactivity-v1",
+                  "es/api-reference/calendar_api/offerings/get-offerings",
+                  "es/api-reference/calendar_api/ratings/get-ratings",
+                  "es/api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
+                  "es/api-reference/calendar_api/ratings_firms/get-ratings-firms"
                 ]
               },
               {
-                "group": "Delayed Quotes",
+                "group": "Cotizaciones diferidas",
                 "pages": [
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
+                  "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
+                  "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
                 ]
               },
               {
-                "group": "Earnings Call Transcripts",
+                "group": "Transcripciones de llamadas de resultados",
                 "pages": [
-                  "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
-                  "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
+                  "es/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
+                  "es/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
                 ]
               },
               {
-                "group": "Fundamentals",
+                "group": "Fundamentos",
                 "pages": [
-                  "api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v2",
-                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-company-data-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-share-class-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-share-class-profile-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-cash-flow-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3"
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v2",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v21",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-company-data-v21",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-share-class-v21",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-share-class-profile-v21",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-cash-flow-v3",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
+                  "es/api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3"
                 ]
               },
               {
-                "group": "Government Trades",
+                "group": "Operaciones del Gobierno",
                 "pages": [
-                  "api-reference/calendar_api/government-trade-reports/get-government-trade-reports",
-                  "api-reference/calendar_api/government-trades/get-government-trades"
+                  "es/api-reference/calendar_api/government-trade-reports/get-government-trade-reports",
+                  "es/api-reference/calendar_api/government-trades/get-government-trades"
                 ]
               },
               {
-                "group": "Insider Transactions",
+                "group": "Operaciones de personas con información privilegiada",
                 "pages": [
-                  "api-reference/calendar_api/insider-transaction/get-insider-transaction",
-                  "api-reference/calendar_api/insider-transaction/get-insider-transaction-owner"
+                  "es/api-reference/calendar_api/insider-transaction/get-insider-transaction",
+                  "es/api-reference/calendar_api/insider-transaction/get-insider-transaction-owner"
                 ]
               },
               {
-                "group": "Logos",
+                "group": "Logotipos",
                 "pages": [
-                  "api-reference/logo-api_api/logos/overview",
-                  "api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
-                  "api-reference/logo-api_api/logos/get-logos-in-bulk"
+                  "es/api-reference/logo-api_api/logos/overview",
+                  "es/api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
+                  "es/api-reference/logo-api_api/logos/get-logos-in-bulk"
                 ]
               },
               {
-                "group": "News",
+                "group": "Noticias",
                 "pages": [
-                  "api-reference/news-api_api/news/get-news",
-                  "api-reference/news-api_api/news/get-removed-news"
+                  "es/api-reference/news-api_api/news/get-news",
+                  "es/api-reference/news-api_api/news/get-removed-news"
                 ]
               },
               {
                 "group": "NewsQuantified",
                 "pages": [
-                  "api-reference/newsquantified-api_api/get-newsquantified-data"
+                  "es/api-reference/newsquantified-api_api/get-newsquantified-data"
                 ]
               },
               {
                 "group": "Ratios",
                 "pages": [
-                  "api-reference/data-api-proxy_api/earningratios/get-earning-ratios-v21",
-                  "api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21",
-                  "api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-v21",
-                  "api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-v3"
+                  "es/api-reference/data-api-proxy_api/earningratios/get-earning-ratios-v21",
+                  "es/api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21",
+                  "es/api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-v21",
+                  "es/api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-v3"
                 ]
               },
               {
-                "group": "Splits",
+                "group": "Desdoblamientos de acciones",
                 "pages": [
-                  "api-reference/calendar_api/splits/get-splits"
+                  "es/api-reference/calendar_api/splits/get-splits"
                 ]
               },
               {
-                "group": "Ticker Trends",
+                "group": "Tendencias de tickers",
                 "pages": [
-                  "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
-                  "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
+                  "es/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
+                  "es/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
                 ]
               }
             ]
           },
           {
-            "tab": "WebSocket Reference",
+            "tab": "Referencia de WebSocket",
             "groups": [
               {
-                "group": "Websockets",
+                "group": "WebSocket",
                 "pages": [
-                  "ws-reference/introduction",
-                  "ws-reference/authentication",
-                  "ws-reference/errors",
-                  "ws-reference/actions"
+                  "es/ws-reference/introduction",
+                  "es/ws-reference/authentication",
+                  "es/ws-reference/errors",
+                  "es/ws-reference/actions"
                 ]
               },
               {
-                "group": "Data Websocket",
+                "group": "WebSocket de datos",
                 "pages": [
-                  "ws-reference/data-websocket/get-analyst-insights-stream",
-                  "ws-reference/data-websocket/get-bulls-bears-say-stream",
-                  "ws-reference/data-websocket/get-calendar-earnings-stream",
-                  "ws-reference/data-websocket/get-calendar-ratings-stream",
-                  "ws-reference/data-websocket/get-consensus-ratings-stream"
+                  "es/ws-reference/data-websocket/get-analyst-insights-stream",
+                  "es/ws-reference/data-websocket/get-bulls-bears-say-stream",
+                  "es/ws-reference/data-websocket/get-calendar-earnings-stream",
+                  "es/ws-reference/data-websocket/get-calendar-ratings-stream",
+                  "es/ws-reference/data-websocket/get-consensus-ratings-stream"
                 ]
               }
             ]
           },
           {
-            "tab": "Webhook Reference",
+            "tab": "Referencia de webhooks",
             "groups": [
               {
                 "group": "Webhooks",
                 "pages": [
-                  "webhook-reference/overview",
-                  "webhook-reference/webhook-engine"
+                  "es/webhook-reference/overview",
+                  "es/webhook-reference/webhook-engine"
                 ]
               }
             ]
@@ -496,7 +496,7 @@
               {
                 "group": "Widgets",
                 "pages": [
-                  "widgets/overview"
+                  "es/widgets/overview"
                 ]
               }
             ]
@@ -507,30 +507,30 @@
               {
                 "group": "SDKs",
                 "pages": [
-                  "sdks/overview"
+                  "es/sdks/overview"
                 ]
               },
               {
-                "group": "SDK's",
+                "group": "SDKs",
                 "pages": [
-                  "sdks/languages/go",
-                  "sdks/languages/python",
-                  "sdks/languages/node",
-                  "sdks/languages/java",
-                  "sdks/languages/csharp",
-                  "sdks/languages/ruby"
+                  "es/sdks/languages/go",
+                  "es/sdks/languages/python",
+                  "es/sdks/languages/node",
+                  "es/sdks/languages/java",
+                  "es/sdks/languages/csharp",
+                  "es/sdks/languages/ruby"
                 ]
               }
             ]
           },
           {
-            "tab": "Changelog",
+            "tab": "Registro de cambios",
             "groups": [
               {
-                "group": "Changelog",
+                "group": "Registro de cambios",
                 "pages": [
-                  "changelog/overview",
-                  "changelog/upcoming"
+                  "es/changelog/overview",
+                  "es/changelog/upcoming"
                 ]
               }
             ]
@@ -541,260 +541,260 @@
       {
         "tabs": [
           {
-            "tab": "Documentation",
+            "tab": "ドキュメント",
             "groups": [
               {
-                "group": "Introduction",
+                "group": "概要",
                 "pages": [
-                  "introduction/welcome",
-                  "introduction/introduction",
-                  "introduction/architecture",
-                  "introduction/faq"
+                  "ja/introduction/welcome",
+                  "ja/introduction/introduction",
+                  "ja/introduction/architecture",
+                  "ja/introduction/faq"
                 ]
               },
               {
-                "group": "Services",
+                "group": "サービス",
                 "pages": [
-                  "services/overview"
+                  "ja/services/overview"
                 ]
               },
               {
-                "group": "Components",
+                "group": "コンポーネント",
                 "pages": [
-                  "components/overview"
+                  "ja/components/overview"
                 ]
               }
             ]
           },
           {
-            "tab": "API Reference",
+            "tab": "API リファレンス",
             "groups": [
               {
-                "group": "API Documentation",
+                "group": "APIドキュメント",
                 "pages": [
-                  "api-reference/introduction",
-                  "api-reference/authentication",
-                  "api-reference/errors"
+                  "ja/api-reference/introduction",
+                  "ja/api-reference/authentication",
+                  "ja/api-reference/errors"
                 ]
               },
               {
-                "group": "Analyst Insights",
+                "group": "アナリスト・インサイト",
                 "pages": [
-                  "api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
+                  "ja/api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
                 ]
               },
               {
-                "group": "Analyst Reports Raw Text",
+                "group": "アナリストレポートの生テキスト",
                 "pages": [
-                  "api-reference/analyst-reports-raw-text-api_api/analyst-reports-raw-text/get-analyst-reports-raw-text-data"
+                  "ja/api-reference/analyst-reports-raw-text-api_api/analyst-reports-raw-text/get-analyst-reports-raw-text-data"
                 ]
               },
               {
-                "group": "Bars",
+                "group": "バー",
                 "pages": [
-                  "api-reference/data-api-proxy_api/bars/get-bars-v2"
+                  "ja/api-reference/data-api-proxy_api/bars/get-bars-v2"
                 ]
               },
               {
-                "group": "Bulls Say Bears Say",
+                "group": "強気派の主張 弱気派の主張",
                 "pages": [
-                  "api-reference/calendar_api/bulls-say-bears-say/get-bulls-say-bears-say-v1"
+                  "ja/api-reference/calendar_api/bulls-say-bears-say/get-bulls-say-bears-say-v1"
                 ]
               },
               {
-                "group": "Calendars",
+                "group": "カレンダー",
                 "pages": [
-                  "api-reference/calendar_api/block-trade/get-blocktrade-v1",
-                  "api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
-                  "api-reference/calendar_api/dividends/get-dividends-v22",
-                  "api-reference/calendar_api/dividends/get-dividends-v2-&-v21",
-                  "api-reference/calendar_api/removed/get-removed-v2",
-                  "api-reference/calendar_api/conference_calls/get-conference-calls",
-                  "api-reference/calendar_api/earnings/get-earnings",
-                  "api-reference/calendar_api/economics/get-economics",
-                  "api-reference/calendar_api/events/get-events",
-                  "api-reference/calendar_api/fda/get-fda",
-                  "api-reference/calendar_api/guidance/get-guidance",
-                  "api-reference/calendar_api/ipos/get-ipos-v21",
-                  "api-reference/calendar_api/ipos/get-ipos-v2",
-                  "api-reference/calendar_api/ma/get-merger-and-acquisition",
-                  "api-reference/calendar_api/option-activity/get-optionactivity-v1",
-                  "api-reference/calendar_api/offerings/get-offerings",
-                  "api-reference/calendar_api/ratings/get-ratings",
-                  "api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
-                  "api-reference/calendar_api/ratings_firms/get-ratings-firms"
+                  "ja/api-reference/calendar_api/block-trade/get-blocktrade-v1",
+                  "ja/api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
+                  "ja/api-reference/calendar_api/dividends/get-dividends-v22",
+                  "ja/api-reference/calendar_api/dividends/get-dividends-v2-&-v21",
+                  "ja/api-reference/calendar_api/removed/get-removed-v2",
+                  "ja/api-reference/calendar_api/conference_calls/get-conference-calls",
+                  "ja/api-reference/calendar_api/earnings/get-earnings",
+                  "ja/api-reference/calendar_api/economics/get-economics",
+                  "ja/api-reference/calendar_api/events/get-events",
+                  "ja/api-reference/calendar_api/fda/get-fda",
+                  "ja/api-reference/calendar_api/guidance/get-guidance",
+                  "ja/api-reference/calendar_api/ipos/get-ipos-v21",
+                  "ja/api-reference/calendar_api/ipos/get-ipos-v2",
+                  "ja/api-reference/calendar_api/ma/get-merger-and-acquisition",
+                  "ja/api-reference/calendar_api/option-activity/get-optionactivity-v1",
+                  "ja/api-reference/calendar_api/offerings/get-offerings",
+                  "ja/api-reference/calendar_api/ratings/get-ratings",
+                  "ja/api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
+                  "ja/api-reference/calendar_api/ratings_firms/get-ratings-firms"
                 ]
               },
               {
-                "group": "Delayed Quotes",
+                "group": "遅延気配値",
                 "pages": [
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
+                  "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
+                  "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
                 ]
               },
               {
-                "group": "Earnings Call Transcripts",
+                "group": "決算説明会の文字起こし",
                 "pages": [
-                  "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
-                  "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
+                  "ja/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
+                  "ja/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
                 ]
               },
               {
-                "group": "Fundamentals",
+                "group": "ファンダメンタルズ",
                 "pages": [
-                  "api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v2",
-                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-company-data-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-share-class-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-share-class-profile-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-cash-flow-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3"
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v2",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v21",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-company-data-v21",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-share-class-v21",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-share-class-profile-v21",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-cash-flow-v3",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
+                  "ja/api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3"
                 ]
               },
               {
-                "group": "Government Trades",
+                "group": "政府関係者による取引",
                 "pages": [
-                  "api-reference/calendar_api/government-trade-reports/get-government-trade-reports",
-                  "api-reference/calendar_api/government-trades/get-government-trades"
+                  "ja/api-reference/calendar_api/government-trade-reports/get-government-trade-reports",
+                  "ja/api-reference/calendar_api/government-trades/get-government-trades"
                 ]
               },
               {
-                "group": "Insider Transactions",
+                "group": "インサイダー取引",
                 "pages": [
-                  "api-reference/calendar_api/insider-transaction/get-insider-transaction",
-                  "api-reference/calendar_api/insider-transaction/get-insider-transaction-owner"
+                  "ja/api-reference/calendar_api/insider-transaction/get-insider-transaction",
+                  "ja/api-reference/calendar_api/insider-transaction/get-insider-transaction-owner"
                 ]
               },
               {
-                "group": "Logos",
+                "group": "ロゴ",
                 "pages": [
-                  "api-reference/logo-api_api/logos/overview",
-                  "api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
-                  "api-reference/logo-api_api/logos/get-logos-in-bulk"
+                  "ja/api-reference/logo-api_api/logos/overview",
+                  "ja/api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
+                  "ja/api-reference/logo-api_api/logos/get-logos-in-bulk"
                 ]
               },
               {
-                "group": "News",
+                "group": "ニュース",
                 "pages": [
-                  "api-reference/news-api_api/news/get-news",
-                  "api-reference/news-api_api/news/get-removed-news"
+                  "ja/api-reference/news-api_api/news/get-news",
+                  "ja/api-reference/news-api_api/news/get-removed-news"
                 ]
               },
               {
                 "group": "NewsQuantified",
                 "pages": [
-                  "api-reference/newsquantified-api_api/get-newsquantified-data"
+                  "ja/api-reference/newsquantified-api_api/get-newsquantified-data"
                 ]
               },
               {
-                "group": "Ratios",
+                "group": "比率",
                 "pages": [
-                  "api-reference/data-api-proxy_api/earningratios/get-earning-ratios-v21",
-                  "api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21",
-                  "api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-v21",
-                  "api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-v3"
+                  "ja/api-reference/data-api-proxy_api/earningratios/get-earning-ratios-v21",
+                  "ja/api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21",
+                  "ja/api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-v21",
+                  "ja/api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-v3"
                 ]
               },
               {
-                "group": "Splits",
+                "group": "株式分割",
                 "pages": [
-                  "api-reference/calendar_api/splits/get-splits"
+                  "ja/api-reference/calendar_api/splits/get-splits"
                 ]
               },
               {
-                "group": "Ticker Trends",
+                "group": "ticker動向",
                 "pages": [
-                  "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
-                  "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
+                  "ja/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
+                  "ja/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
                 ]
               }
             ]
           },
           {
-            "tab": "WebSocket Reference",
+            "tab": "ウェブソケット リファレンス",
             "groups": [
               {
-                "group": "Websockets",
+                "group": "ウェブソケット",
                 "pages": [
-                  "ws-reference/introduction",
-                  "ws-reference/authentication",
-                  "ws-reference/errors",
-                  "ws-reference/actions"
+                  "ja/ws-reference/introduction",
+                  "ja/ws-reference/authentication",
+                  "ja/ws-reference/errors",
+                  "ja/ws-reference/actions"
                 ]
               },
               {
-                "group": "Data Websocket",
+                "group": "データウェブソケット",
                 "pages": [
-                  "ws-reference/data-websocket/get-analyst-insights-stream",
-                  "ws-reference/data-websocket/get-bulls-bears-say-stream",
-                  "ws-reference/data-websocket/get-calendar-earnings-stream",
-                  "ws-reference/data-websocket/get-calendar-ratings-stream",
-                  "ws-reference/data-websocket/get-consensus-ratings-stream"
+                  "ja/ws-reference/data-websocket/get-analyst-insights-stream",
+                  "ja/ws-reference/data-websocket/get-bulls-bears-say-stream",
+                  "ja/ws-reference/data-websocket/get-calendar-earnings-stream",
+                  "ja/ws-reference/data-websocket/get-calendar-ratings-stream",
+                  "ja/ws-reference/data-websocket/get-consensus-ratings-stream"
                 ]
               }
             ]
           },
           {
-            "tab": "Webhook Reference",
+            "tab": "Webhook リファレンス",
             "groups": [
               {
-                "group": "Webhooks",
+                "group": "Webhook",
                 "pages": [
-                  "webhook-reference/overview",
-                  "webhook-reference/webhook-engine"
+                  "ja/webhook-reference/overview",
+                  "ja/webhook-reference/webhook-engine"
                 ]
               }
             ]
           },
           {
-            "tab": "Widgets",
+            "tab": "ウィジェット",
             "groups": [
               {
-                "group": "Widgets",
+                "group": "ウィジェット",
                 "pages": [
-                  "widgets/overview"
+                  "ja/widgets/overview"
                 ]
               }
             ]
           },
           {
-            "tab": "SDKs",
+            "tab": "SDK",
             "groups": [
               {
-                "group": "SDKs",
+                "group": "SDK",
                 "pages": [
-                  "sdks/overview"
+                  "ja/sdks/overview"
                 ]
               },
               {
-                "group": "SDK's",
+                "group": "SDK の",
                 "pages": [
-                  "sdks/languages/go",
-                  "sdks/languages/python",
-                  "sdks/languages/node",
-                  "sdks/languages/java",
-                  "sdks/languages/csharp",
-                  "sdks/languages/ruby"
+                  "ja/sdks/languages/go",
+                  "ja/sdks/languages/python",
+                  "ja/sdks/languages/node",
+                  "ja/sdks/languages/java",
+                  "ja/sdks/languages/csharp",
+                  "ja/sdks/languages/ruby"
                 ]
               }
             ]
           },
           {
-            "tab": "Changelog",
+            "tab": "変更履歴",
             "groups": [
               {
-                "group": "Changelog",
+                "group": "変更履歴",
                 "pages": [
-                  "changelog/overview",
-                  "changelog/upcoming"
+                  "ja/changelog/overview",
+                  "ja/changelog/upcoming"
                 ]
               }
             ]

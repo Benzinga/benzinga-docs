@@ -1,0 +1,211 @@
+---
+title: "カンファレンスコール書き起こしストリーム"
+description: "このウェブソケットエンドポイントでは、カンファレンスコール書き起こしのリアルタイム配信を購読できます。"
+---
+
+<div id="websocket-websocketv1">
+  ## ウェブソケット `websocket/v1`:
+</div>
+
+```txt
+wss://api.benzinga.com/api/v1/earnings-call-transcripts/stream
+```
+
+
+<div id="parameters">
+  ### パラメータ:
+</div>
+
+| Name       | Location |  Type   | Required | Description                                                             |
+| :--------- | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
+| `token`    | query    | string  |      Yes | Benzinga のウェブソケット用トークン (bz.production***)。                 |
+| `tickers`  | query    | string  | Optional | 購読するティッカーのリスト。カンマ区切りで指定します。                   |
+
+<div id="stream-response">
+  ### ストリームレスポンス:
+</div>
+
+ストリームにサブスクライブすると、カンファレンスコールのトランスクリプトに関する更新が、次の形式で配信されます。
+
+```json
+{
+   "api_version":"EarningsCallTranscripts/v1",
+   "kind":"stream_type",
+   "data":{
+      "type":"transcription_end",
+      "content":{
+         "call_id":"6757fbd6f0cc56000183c6a5",
+         "transcript_chunk":"当社の第4四半期および2024年度通期の業績に非常に満足しています。",
+         "security":{
+            "company_name":"Limoneira",
+            "ticker":"LMNR",
+            "cik":"1342423",
+            "isin":"US5327461043",
+            "exchange":"NAS"
+         },
+         "time":1735189664,
+         "index":0
+      }
+   }
+}
+```
+
+
+<div id="responses">
+  #### レスポンス
+</div>
+
+- **200 OK**
+- **説明**: 成功
+- **Content Type**: `application/json`
+- **スキーマ**: [EarningsCallTranscriptsWSResp](#earningscalltranscriptswsresp)
+
+<div id="earningscalltranscriptswsresp">
+  ### EarningsCallTranscriptsWSResp
+</div>
+
+| Property      | Type   | Description                                                     |
+|---------------|--------|-----------------------------------------------------------------|
+| api_version   | string | ウェブソケット API のバージョン: `EarningsCallTranscripts/v1`。            |
+| kind          | string | ウェブソケット接続ストリームの種別。                              |
+| data          | object | ウェブソケットデータの詳細を含むオブジェクト。                    |
+| - type      | string | メッセージ種別（例: transcript_chunk、transcription_end）。      |
+| - content     | object | `EarningsCallTranscripts` スキーマへの参照。                         |
+
+<div id="earningscalltranscripts">
+  ### EarningsCallTranscripts
+</div>
+
+| Property           | Type    | Description                                                     |
+|--------------------|---------|-----------------------------------------------------------------|
+| call_id             | string  | 一意のコールID。    |
+| transcript_chunk   | string  | カンファレンスコールの書き起こしチャンク。                            |
+| security           | object  | インサイトが提供される銘柄（security）の詳細を含みます。  |
+| - cik              | string  | 銘柄の CIK（Central Index Key）。                            |
+| - exchange         | string  | 銘柄が上場している取引所。                        |
+| - isin             | string  | ISIN（国際証券識別番号）。               |
+| - name             | string  | 銘柄の名称。                                        |
+| - symbol           | string  | 銘柄のティッカーシンボル。                               |
+| time            | integer | トランスクリプトチャンクが作成された時刻のタイムスタンプ（float64形式）。 |
+| index            | integer | トランスクリプトチャンクのインデックス（int形式）。 |
+
+<div id="success-response">
+  ## 成功レスポンス
+</div>
+
+- 成功 `101` - ウェブソケット接続が正常に確立されました。
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '700px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ✅ wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p*** に接続しました
+        </div>
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        ハンドシェイクの詳細
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span><strong>Request URL:</strong> </span>
+        <p style={{ color: 'blue' }}>
+            "https://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz"
+        </p>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
+    </div>
+</div>
+
+<div id="error-response">
+  ## エラーレスポンス
+</div>
+
+- Unauthorized `401` - 無効なトークンです。指定されたトークンを確認してください。
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p*** に接続できませんでした
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        エラー: 予期しないサーバーレスポンス: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        ハンドシェイク詳細
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - 無効なルート、またはサーバーエラーです。
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p*** に接続できませんでした
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        エラー: 予期しないサーバーレスポンス: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        ハンドシェイク詳細
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

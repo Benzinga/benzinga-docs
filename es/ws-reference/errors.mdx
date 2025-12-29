@@ -1,0 +1,110 @@
+---
+title: "Errores"
+description: "Cómo responde la API de Benzinga cuando se producen errores."
+---
+
+Benzinga utiliza códigos de respuesta HTTP convencionales para indicar el éxito o el fallo de una solicitud de API.
+En general: los códigos en el rango 2xx indican éxito.
+Los códigos en el rango 4xx indican que la solicitud no pudo procesarse con la información proporcionada (por ejemplo, se omitió un parámetro requerido,
+falló un cargo, etc.).
+Los códigos en el rango 5xx indican un error en los servidores de Benzinga.
+
+Algunos errores 4xx que se pueden manejar mediante programación incluyen
+un código de error que explica brevemente el problema detectado.
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+<ResponseField name="type" type="string">
+    El tipo de error devuelto.
+
+    Uno de los siguientes valores: <code>invalid_request_error</code>, <code>not_found_error</code>, <code>creation_error</code>,
+    <code>update_error</code>, <code>deletion_error</code>, <code>forbidden_error</code> o <code>authentication_error</code>.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+    Un mensaje legible para personas que proporciona más detalles sobre el error.
+</ResponseField>
+
+<ResponseField name="params" type="array">
+    Si el error es específico de un parámetro, contendrá una lista de los parámetros que no eran válidos.
+</ResponseField>
+
+<div id="error-response">
+  ## Respuesta de error
+</div>
+
+- No autorizado `401` - Token no válido; verifica el token proporcionado.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ No se pudo conectar a wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: respuesta inesperada del servidor: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Puerta de enlace no válida `502` - ruta no válida o error del servidor.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ No se pudo conectar a wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        Error: respuesta inesperada del servidor: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        Detalles del handshake
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

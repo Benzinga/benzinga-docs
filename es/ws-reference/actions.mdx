@@ -1,0 +1,58 @@
+---
+title: "Acciones admitidas"
+description: "Detalles sobre las acciones disponibles para mantener y reproducir sesiones de WebSocket."
+---
+
+Esta página enumera las acciones admitidas que puedes usar para interactuar con la API de WebSocket de Benzinga. Estas acciones ayudan a mantener el estado de la sesión y acceder al historial reciente de mensajes.
+
+> **Nota:** No puedes controlar la cantidad de mensajes devueltos por la acción `list`. El número real depende de la cantidad de mensajes que estén actualmente almacenados en caché para una clave determinada.
+
+<div id="available-actions">
+  ## Acciones disponibles
+</div>
+
+|  Acción  | Descripción | Ejemplo |
+|----------|-------------|---------|
+| `replay` | Vuelve a reproducir hasta los últimos 100 mensajes. El número de mensajes devueltos puede variar según la disponibilidad de caché para la clave. | `replay` |
+| `ping`   | Mantiene activa la sesión de WebSocket enviando una señal de latido (heartbeat). | `ping` |
+
+<div id="example-usage">
+  ## Ejemplo de uso
+</div>
+
+**Envía una acción mediante tu cliente WebSocket con el siguiente formato:**
+Ejemplo de uso de ping:
+
+```bash
+ping
+```
+
+Respuesta:
+
+```bash
+pong
+```
+
+Ejemplo de uso de replay:
+
+```bash
+replay
+```
+
+Respuesta:
+
+```json
+{
+  "id": "unique-uuid-for-response",
+  "api_version": "websocket/v1",
+  "kind": "stream_type",
+  "data": {
+    "action": "created/updated/deleted",
+    "id": "insight-id",
+    "content": {
+      ...  
+    },
+    "timestamp": "2024-10-08T10:00:00Z"
+  }
+}
+```

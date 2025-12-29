@@ -1,0 +1,31 @@
+---
+title: "Autenticación"
+description: "Cómo autenticarse en la API de Benzinga"
+---
+
+La API de Benzinga utiliza tokens de API para autenticar las solicitudes. Puedes ver y administrar tu token de API en
+tu [Console](https://www.api.benzinga.com/token).
+
+Tus tokens de API tienen muchos privilegios, así que asegúrate de mantenerlos seguros. No compartas tus tokens en
+áreas de acceso público como GitHub, código del lado del cliente, etcétera.
+
+La autenticación en la API se realiza mediante autenticación de tipo Bearer (también llamada autenticación por token).
+Es un esquema de autenticación HTTP que utiliza tokens de seguridad denominados bearer tokens. El cliente debe enviar este token
+en la cabecera Authorization al hacer solicitudes a recursos protegidos:
+
+```bash
+Authorization: token <token>
+```
+
+Si necesitas autenticarte mediante autenticación básica HTTP (HTTP Basic Auth),
+usa `-u {{token}}:` en lugar de `-H "Authorization: Bearer {{token}}"`.
+
+Todas las solicitudes a la API deben realizarse mediante HTTPS. Las llamadas realizadas sobre HTTP sin cifrar fallarán. Las solicitudes a la API sin autenticación también fallarán.
+
+<RequestExample>
+  ```bash cURL with Basic Auth
+  curl 'https://api.benzinga.com/api/v1/ratings' \
+  -u '<token>:'
+      # El signo de dos puntos evita que curl solicite una contraseña.
+  ```
+</RequestExample>

@@ -1,0 +1,80 @@
+---
+title: "派生指標と比率"
+description: derivedFiguresAndRatios()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#derivedfiguresandratios)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - 派生指標および比率の取得 v3
+
+<div id="get">
+  ## get
+</div>
+
+シンボルのリストに対して派生指標および各種比率を取得します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetDerivedFiguresAndRatiosV3Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetDerivedFiguresAndRatiosV3Response res = sdk.derivedFiguresAndRatios().get()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .date("2024-08-12")
+                .call();
+
+        if (res.string().isPresent()) {
+            // レスポンスを処理
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                      | 型                              | 必須                            | 説明                             |
+| ------------------------------- | ------------------------------- | ------------------------------- | -------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | シンボルのカンマ区切りリスト     |
+| `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 開始日                           |
+| `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 終了日                           |
+| `date`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | レポート種別                     |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetDerivedFiguresAndRatiosV3Response](../../models/operations/GetDerivedFiguresAndRatiosV3Response.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード           | Content-Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

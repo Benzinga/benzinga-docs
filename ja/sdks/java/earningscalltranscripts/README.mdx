@@ -1,0 +1,151 @@
+---
+title: "決算説明会の書き起こし"
+description: earningsCallTranscripts()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#earningscalltranscripts)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - 決算説明会の書き起こしを取得
+* [getAudio](#getaudio) - 決算説明会の書き起こし音声ファイルを取得
+
+<div id="get">
+  ## get
+</div>
+
+決算説明会の文字起こしを取得する
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEarningsCallTranscriptsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEarningsCallTranscriptsResponse res = sdk.earningsCallTranscripts().get()
+                .tickers(List.of(
+                    "<value>"))
+                .callId(List.of(
+                    "<id>"))
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsTranscriptSummaries().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ         | 型                 | 必須               | 説明               |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `tickers`          | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | ティッカー         |
+| `callId`           | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | コールID           |
+| `page`             | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | ページ             |
+| `pagesize`         | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | ページサイズ       |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetEarningsCallTranscriptsResponse](../../models/operations/GetEarningsCallTranscriptsResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getaudio">
+  ## getAudio
+</div>
+
+Earnings Call Transcript の音声ファイルを取得します
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEarningsCallTranscriptAudioFilesResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEarningsCallTranscriptAudioFilesResponse res = sdk.earningsCallTranscripts().getAudio()
+                .tickers(List.of(
+                    "<value>"))
+                .callId(List.of(
+                    "<id>"))
+                .page(942138L)
+                .pagesize(879999L)
+                .call();
+
+        if (res.modelsTranscriptSummaryAudios().isPresent()) {
+            // レスポンスを処理
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ         | 型                 | 必須               | 説明               |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `tickers`          | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | ティッカー         |
+| `callId`           | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | コールID           |
+| `page`             | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | ページ             |
+| `pagesize`         | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | ページサイズ       |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetEarningsCallTranscriptAudioFilesResponse](../../models/operations/GetEarningsCallTranscriptAudioFilesResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラー種別                 | ステータスコード           | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

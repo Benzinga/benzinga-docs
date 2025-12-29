@@ -1,0 +1,673 @@
+---
+title: "Data Webhook Engine"
+description: "Benzinga の calendar データ、シグナルデータ、およびセンチメントデータをリアルタイムで Webhook エンドポイントに直接配信します。"
+icon: bolt
+---
+
+Webhook エンジンは、calendar とシグナルの更新を、リトライ、フィルタリング、変換オプションを備えた状態で HTTP エンドポイントへ直接プッシュ配信します。このガイドでは、配信の仕組み、ペイロード形式、および統合時のベストプラクティスについて説明します。
+
+<div id="overview">
+  ## 概要
+</div>
+
+Benzinga Data Webhook サービスは、設定済みの webhook エンドポイントに対してリアルタイムの calendar およびシグナルデータを配信します。calendar イベント（決算、配当、レーティングなど）やシグナル（オプション取引、売買停止など）が作成・更新・削除されると、サービスはデータペイロードを含む HTTP POST リクエストを webhook URL に自動送信します。
+
+主な機能:
+
+- calendar およびシグナルのカバレッジをスコープとして設定でき、必要なデータのみを受信可能
+- 重複排除のための一意な `X-BZ-Delivery` ヘッダーおよびペイロードの `id` フィールドによる冪等な配信
+- 高頻度の指数バックオフから、長時間にわたる毎時の再試行まで段階的に拡張される堅牢な再試行スケジュール
+- 下流システムの要件にペイロード形式を合わせるためのオプションの content 変換
+
+<div id="webhook-delivery">
+  ## Webhook の配信
+</div>
+
+<div id="http-request-details">
+  ### HTTP リクエストの詳細
+</div>
+
+- **Method**: `POST`
+- **Content-Type**: `application/json`
+- **User-Agent**: `Benzinga-Dispatch/v1.0.0 {build-version}`
+- **Custom Header**: `X-BZ-Delivery` - 各配信試行ごとに固有の UUID（重複排除に利用可能）
+
+<div id="retry-policy">
+  ### 再試行ポリシー
+</div>
+
+データ Webhook サービスは堅牢な再試行メカニズムを実装しています：
+
+- **指数フェーズ**：最初の5分間で15回再試行
+- **追加の指数再試行**：必要に応じて追加で11回再試行
+- **固定間隔フェーズ**：長期的な再試行として、1時間あたり12回 × 24時間/日 × 7日間の再試行
+- **最大待機時間**：指数フェーズにおける再試行間隔の最大値は5分
+- **リクエストのタイムアウト**：1リクエストあたり30秒
+
+<div id="response-requirements">
+  ### レスポンス要件
+</div>
+
+Webhook エンドポイントは、以下のいずれかの HTTP ステータスコードを返す必要があります:
+
+- **成功コード** (200-202, 204): 配信が成功したことを示します。再試行は行われません。
+- **クライアントエラーコード** (401-403): 認証/認可の失敗を示します。これ以上失敗を重ねないよう、再試行は**即座に停止**されます。
+- **その他のコード** (4xx, 5xx): 上記の再試行ポリシーに従って再試行が行われます。
+
+**重要**: タイムアウトを避けるため、エンドポイントは迅速にレスポンスを返す必要があります (理想的には 30 秒以内)。エンジンはタイムアウト時に再試行を行います。
+
+<div id="webhook-payload-structure">
+  ## Webhook ペイロード構造
+</div>
+
+各 webhook の通知には、以下の構造の JSON ペイロードが含まれます。
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b7",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b7",
+      "date": "2024-01-15",
+      "date_confirmed": 1,
+      "time": "08:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "period": "Q1",
+      "period_year": 2024,
+      "currency": "USD",
+      "eps": "2.18",
+      "eps_est": "2.10",
+      "revenue": "123900000000",
+      "revenue_est": "121000000000"
+    }
+  }
+}
+```
+
+
+<div id="payload-fields">
+  ### ペイロードのフィールド
+</div>
+
+<div id="top-level-fields">
+  #### トップレベルのフィールド
+</div>
+
+- **`id`** (string, UUID): この webhook 配信の一意の識別子です。重複排除に使用します。
+- **`api_version`** (string): API のバージョン識別子です。現在は `"webhook/v1"` です。
+- **`kind`** (string): データ種別のパス識別子です。取り得るすべての値については [Supported Data Types](#supported-data-types) を参照してください。
+
+<div id="data-object">
+  #### データオブジェクト
+</div>
+
+- **`action`** (string): イベントアクションの種別。取りうる値は次のとおりです:
+  - `"Created"`: 新しいデータが作成された（新しい webhook キーのデフォルト）
+  - `"Updated"`: 既存のデータが更新された
+  - `"Removed"`: データが削除された
+  - **注意**: レガシー webhook キーでは、小文字の `"created"`, `"updated"`, `"removed"` が返される場合があります
+- **`id`** (string): calendar/signal レコードの一意の識別子
+- **`timestamp`** (string, ISO 8601): webhook が生成された時刻のタイムスタンプ
+- **`content`** (object): 実際の calendar または signal データ。構造はデータ種別によって異なります（[Supported Data Types](#supported-data-types) を参照）
+
+<div id="supported-data-types">
+  ## サポートされているデータタイプ
+</div>
+
+データ Webhook サービスでは、以下の calendar およびシグナルの type をサポートしています。
+
+<div id="calendar-data-types-v21">
+  ### カレンダーのデータタイプ (v2.1)
+</div>
+
+| データタイプ | kind パス | 説明 |
+|-----------|-----------|-------------|
+| Earnings | `data/v2.1/calendar/earnings` | 企業の決算発表 |
+| Dividends | `data/v2.1/calendar/dividends` | 配当の発表および支払い |
+| Ratings | `data/v2.1/calendar/ratings` | アナリストのレーティングおよび目標株価 |
+| IPOs | `data/v2.1/calendar/ipos` | 新規株式公開（IPO） |
+| Guidance | `data/v2.1/calendar/guidance` | 企業ガイダンスの更新 |
+| Conference | `data/v2.1/calendar/conference` | カンファレンスコールおよびプレゼンテーション |
+| Economics | `data/v2.1/calendar/economics` | 経済指標および関連リリース |
+| Offerings | `data/v2.1/calendar/offerings` | セカンダリーオファリング |
+| Mergers & Acquisitions | `data/v2.1/calendar/ma` | M&Aの発表 |
+| Retail | `data/v2.1/calendar/retail` | 小売売上高データ |
+| Splits | `data/v2.1/calendar/splits` | 株式分割 |
+| FDA | `data/v2.1/calendar/fda` | FDAによる承認および発表 |
+
+<div id="signals-data-types-v1">
+  ### シグナルデータタイプ (v1)
+</div>
+
+| データタイプ | kind パス | 説明 |
+|-----------|-----------|-------------|
+| オプションアクティビティ | `data/v1/signal/option_activity` | 異常なオプション取引 |
+| WIIMs | `data/v1/wiims` | Why Is It Moving (WIIMs) データ |
+| SEC インサイダー取引 | `data/v1/sec/insider_transactions/filings` | SEC インサイダー取引に関する提出書類 |
+| 政府関連取引 | `data/v1/gov/usa/congress` | 米国連邦議会議員の取引データ |
+
+<div id="additional-data-types-v1">
+  ### 追加データタイプ (v1)
+</div>
+
+| データタイプ | Kind Path | 説明 |
+|-----------|-----------|-------------|
+| Bulls Say Bears Say | `data/v1/bulls_bears_say` | 市場センチメント分析 |
+| Bulls Say Bears Say (Korean) | `data/v1/bulls_bears_say/korean` | 韓国市場のセンチメント分析 |
+| Analyst Insights | `data/v1/analyst/insights` | アナリストの見解とコメント |
+| Consensus Ratings | `data/v1/consensus-ratings` | 集計されたコンセンサス・レーティング |
+
+<div id="content-structure-examples">
+  ## content の構造例
+</div>
+
+<div id="earnings-example">
+  ### 決算の例
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b7",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b7",
+      "date": "2024-01-15",
+      "date_confirmed": 1,
+      "time": "08:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "period": "Q1",
+      "period_year": 2024,
+      "currency": "USD",
+      "eps": "2.18",
+      "eps_est": "2.10",
+      "eps_prior": "1.88",
+      "eps_surprise": "0.08",
+      "eps_surprise_percent": "3.81",
+      "eps_type": "GAAP",
+      "revenue": "123900000000",
+      "revenue_est": "121000000000",
+      "revenue_prior": "117154000000",
+      "revenue_surprise": "2900000000",
+      "revenue_surprise_percent": "2.40",
+      "importance": 0
+    }
+  }
+}
+```
+
+
+<div id="dividends-example">
+  ### 配当の例
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440001",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/dividends",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b8",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b8",
+      "date": "2024-02-15",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "currency": "USD",
+      "frequency": 4,
+      "dividend": "0.24",
+      "dividend_prior": "0.23",
+      "dividend_type": "Regular",
+      "dividend_yield": "0.50",
+      "ex_dividend_date": "2024-02-09",
+      "payable_date": "2024-02-15",
+      "record_date": "2024-02-12",
+      "confirmed": true,
+      "importance": 0
+    }
+  }
+}
+```
+
+
+<div id="ratings-example">
+  ### レーティングの例
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440002",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/ratings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b9",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b9",
+      "date": "2024-01-15",
+      "time": "09:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "action_pt": "Maintains",
+      "action_company": "Maintains",
+      "currency": "USD",
+      "rating_current": "Buy",
+      "pt_current": "200.00",
+      "pt_prior": "195.00",
+      "adjusted_pt_current": "200.00",
+      "adjusted_pt_prior": "195.00",
+      "rating_prior": "Buy",
+      "url": "https://www.benzinga.com/...",
+      "importance": 0,
+      "firm": {
+        "name": "Goldman Sachs",
+        "id": "123"
+      },
+      "analyst": {
+        "name": "John Doe",
+        "id": "456"
+      }
+    }
+  }
+}
+```
+
+
+<div id="option-activity-example">
+  ### オプション取引アクティビティの例
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440003",
+  "api_version": "webhook/v1",
+  "kind": "data/v1/signal/option_activity",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4ba",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4ba",
+      "date": "2024-01-15",
+      "time": "10:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "option_symbol": "AAPL240119C00150000",
+      "strike": "150.00",
+      "expiration": "2024-01-19",
+      "type": "call",
+      "volume": 10000,
+      "open_interest": 50000,
+      "premium": "500000.00",
+      "importance": 0
+    }
+  }
+}
+```
+
+
+<div id="event-actions">
+  ## イベントアクション
+</div>
+
+データ webhook サービスでは、次の 3 種類のアクションに対応するイベントを送信します。
+
+1. **Created**: 新しい calendar またはシグナルデータが公開されたときにトリガーされます
+2. **Updated**: 既存データが更新されたときにトリガーされます
+3. **Removed**: データが削除されたときにトリガーされます
+
+**注記**: アクションの形式は webhook の設定によって異なります:
+
+- **新しい webhook キー**: 先頭が大文字のアクション（`"Created"`, `"Updated"`, `"Removed"`）を受信します
+- **レガシー webhook キー**: 小文字のアクション（`"created"`, `"updated"`, `"removed"`）を受信します
+
+<div id="content-filtering">
+  ## コンテンツ フィルタリング
+</div>
+
+Webhook 設定では、受信するデータを制御するためのフィルターを設定できます。
+
+<div id="filter-options">
+  ### フィルターオプション
+</div>
+
+- **データ種別**: 特定の calendar/シグナル種別でフィルタリング（例: 決算のみ、レーティングのみ）
+- **地域フィルター**: 次のデータの受信有無を制御:
+  - 米国市場データ (`AllowUSA`)
+  - カナダ市場データ (`AllowCanada`)
+  - インド市場データ (`AllowIndia`) - WIIMs データ向け
+- **日付フィルター**: 指定した日付より古い履歴データを除外（`MaxHistoricalDate`）
+
+<div id="exchange-filtering">
+  ### exchange によるフィルタリング
+</div>
+
+このサービスは、地理的設定に基づいて自動的に exchange でフィルタリングします：
+
+- **米国の取引所**: NYSE, NASDAQ, AMEX, ARCA, OTC, OTCBB, PINX, PINK, BATS, IEX
+- **カナダの取引所**: TSX, TSXV, CSE, CNSX
+
+<div id="content-transformation">
+  ## コンテンツ変換
+</div>
+
+webhook エンジンは、特定のデータ型に対するコンテンツ変換をサポートします。変換は webhook の設定に基づいて適用され、次のような処理が含まれる場合があります。
+
+- フィールド名の変更
+- データ形式の変換
+- フィールドのフィルタリング／削除
+
+<div id="best-practices">
+  ## ベストプラクティス
+</div>
+
+<div id="1-idempotency">
+  ### 1. 冪等性
+</div>
+
+ペイロードの `id` フィールド（UUID）を使用して冪等性を実装します。重複処理を避けるために、処理済みの配信 ID を保存してください。
+
+<div id="2-response-handling">
+  ### 2. レスポンス処理
+</div>
+
+- Webhook を受信したら、すぐに `200 OK` または `204 No Content` を返す
+- 必要に応じて、データは非同期で処理する
+- レスポンスを返す前に時間のかかる処理を行わない
+
+<div id="3-error-handling">
+  ### 3. エラー処理
+</div>
+
+- 適切な HTTP ステータスコードを返す
+- 認証エラー（401～403）の場合は、エンドポイントが正しく構成されていることを確認する
+- 一時的な障害が発生した場合は、リトライをトリガーするために 5xx ステータスコードを返す
+
+<div id="4-security">
+  ### 4. セキュリティ
+</div>
+
+- Webhook エンドポイントには HTTPS を使用する
+- 認証・認可（API キーやトークンなど）を実装する
+- セキュリティを強化するために `X-BZ-Delivery` ヘッダーを検証する
+
+<div id="5-monitoring">
+  ### 5. 監視
+</div>
+
+- エンドポイントのレスポンス時間を監視する
+- 繰り返し発生する失敗に対するアラートを設定する
+- 配信試行を特定するために `X-BZ-Delivery` ヘッダーを追跡する
+
+<div id="6-data-type-handling">
+  ### 6. データ型の処理
+</div>
+
+- データ型を判別するために `kind` フィールドを確認する
+- データ型の構造に基づいて `content` オブジェクトを解析する
+- レガシーキーをサポートする場合は、アクション形式の違い（先頭大文字 vs 小文字のみ）を考慮して処理する
+
+<div id="example-webhook-handler">
+  ## Webhook ハンドラの例
+</div>
+
+<div id="python-flask">
+  ### Python (Flask)
+</div>
+
+```python
+from flask import Flask, request, jsonify
+import uuid
+
+app = Flask(__name__)
+processed_ids = set()
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    # 重複排除のための配信IDを取得
+    delivery_id = request.headers.get('X-BZ-Delivery')
+    
+    # Parse payload
+    payload = request.json
+    content_id = payload['id']
+    
+    # Check for duplicates
+    if content_id in processed_ids:
+        return jsonify({'status': 'duplicate'}), 200
+    
+    # Process data
+    action = payload['data']['action']
+    kind = payload['kind']
+    content = payload['data']['content']
+    
+    print(f"Received {action} event for {kind}")
+    print(f"Data ID: {content.get('id')}")
+    
+    # Handle different data types
+    if 'earnings' in kind:
+        print(f"Earnings: {content.get('ticker')} - {content.get('date')}")
+    elif 'ratings' in kind:
+        print(f"Rating: {content.get('ticker')} - {content.get('rating_current')}")
+    elif 'option_activity' in kind:
+        print(f"Option Activity: {content.get('ticker')} - {content.get('volume')}")
+    
+    # Mark as processed
+    processed_ids.add(content_id)
+    
+    # Return success immediately
+    return jsonify({'status': 'received'}), 200
+```
+
+
+<div id="nodejs-express">
+  ### Node.js (Express)
+</div>
+
+```javascript
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+const processedIds = new Set();
+
+app.post('/webhook', (req, res) => {
+  // 重複排除のための配信IDを取得
+  const deliveryId = req.headers['x-bz-delivery'];
+  
+  // ペイロードを解析
+  const payload = req.body;
+  const contentId = payload.id;
+  
+  // 重複をチェック
+  if (processedIds.has(contentId)) {
+    return res.status(200).json({ status: 'duplicate' });
+  }
+  
+  // データを処理
+  const { action, content } = payload.data;
+  const kind = payload.kind;
+  
+  console.log(`Received ${action} event for ${kind}`);
+  console.log(`Data ID: ${content.id}`);
+  
+  // 各データタイプを処理
+  if (kind.includes('earnings')) {
+    console.log(`Earnings: ${content.ticker} - ${content.date}`);
+  } else if (kind.includes('ratings')) {
+    console.log(`Rating: ${content.ticker} - ${content.rating_current}`);
+  } else if (kind.includes('option_activity')) {
+    console.log(`Option Activity: ${content.ticker} - ${content.volume}`);
+  }
+  
+  // 処理済みとしてマーク
+  processedIds.add(contentId);
+  
+  // 即座に成功レスポンスを返す
+  res.status(200).json({ status: 'received' });
+});
+
+app.listen(3000);
+```
+
+
+<div id="go">
+  ### Go
+</div>
+
+```go
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "log"
+    "net/http"
+    "sync"
+)
+
+var (
+    processedIDs = make(map[string]bool)
+    mu           sync.RWMutex
+)
+
+type WebhookPayload struct {
+    ID         string `json:"id"`
+    APIVersion string `json:"api_version"`
+    Kind       string `json:"kind"`
+    Data       struct {
+        Action    string                 `json:"action"`
+        ID        string                 `json:"id"`
+        Timestamp string                 `json:"timestamp"`
+        Content   map[string]interface{} `json:"content"`
+    } `json:"data"`
+}
+
+func webhookHandler(w http.ResponseWriter, r *http.Request) {
+    // 配信IDを取得
+    deliveryID := r.Header.Get("X-BZ-Delivery")
+    
+    // ペイロードを解析
+    var payload WebhookPayload
+    if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    
+    // 重複チェック
+    mu.RLock()
+    if processedIDs[payload.ID] {
+        mu.RUnlock()
+        w.WriteHeader(http.StatusOK)
+        json.NewEncoder(w).Encode(map[string]string{"status": "duplicate"})
+        return
+    }
+    mu.RUnlock()
+    
+    // データを処理
+    fmt.Printf("Received %s event for %s\n", payload.Data.Action, payload.Kind)
+    fmt.Printf("Data ID: %s\n", payload.Data.ID)
+    
+    // 異なるデータタイプを処理
+    content := payload.Data.Content
+    if ticker, ok := content["ticker"].(string); ok {
+        fmt.Printf("Ticker: %s\n", ticker)
+    }
+    
+    // 処理済みとしてマーク
+    mu.Lock()
+    processedIDs[payload.ID] = true
+    mu.Unlock()
+    
+    // 成功レスポンスを返す
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(map[string]string{"status": "received"})
+}
+
+func main() {
+    http.HandleFunc("/webhook", webhookHandler)
+    log.Fatal(http.ListenAndServe(":8080", nil))
+}
+```
+
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+<div id="common-issues">
+  ### よくある問題
+</div>
+
+1. **Webhook が届かない**
+   - Webhook の URL が正しく設定されているか確認する
+   - エンドポイントが外部からアクセス可能か確認する
+   - API キーが有効でアクティブであることを確認する
+   - フィルター設定によってすべてのデータタイプが除外されていないか確認する
+   - 地理的フィルターが期待するデータの地域設定と一致しているか確認する
+
+2. **配信が重複する**
+   - `id` フィールドを使って冪等性を実装する
+   - エンドポイントのレスポンス時間を確認する（レスポンスが遅いと再試行が発生する場合があります）
+
+3. **認証エラー (401-403)**
+   - エンドポイントの認証設定を確認する
+   - API キーとトークンを確認する
+   - 注意：認証エラーが発生すると再試行は即座に停止します
+
+4. **タイムアウトエラー**
+   - エンドポイントが 30 秒以内にレスポンスを返すことを確認する
+   - 必要に応じてデータを非同期で処理する
+   - 成功ステータスを即座に返し、その後で処理を行う
+
+5. **予期しないアクション形式**
+   - レガシーな Webhook キー（アクションが小文字）を使用していないか確認する
+   - アクションを大文字で受信するには新しい Webhook キーへ更新する
+   - 複数クライアントをサポートする場合は両方の形式に対応する
+
+6. **データタイプが欠落している**
+   - Webhook 設定に必要なデータタイプが含まれているか確認する
+   - 地理的フィルター（US/Canada/India の設定）を確認する
+   - 日付フィルターによって最新データが除外されていないか確認する
+
+<div id="support">
+  ## サポート
+</div>
+
+Webhook 配信に関するご質問や問題がある場合は、以下を確認してください:
+
+- [Benzinga API ドキュメント](https://docs.benzinga.io/) を確認する
+- Benzinga のアカウント担当者に連絡する
+- 連携チームと webhook の設定を見直す
+
+<div id="version-history">
+  ## バージョン履歴
+</div>
+
+- **v1.0.0**: データ Webhook サービスの初回リリース
+- **最新**: フィルタリング、変換、リトライ機構の強化

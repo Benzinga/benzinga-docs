@@ -1,0 +1,80 @@
+---
+title: "Newsquantified"
+description: newsquantified()
+---
+
+[&lt; 戻る](/ja/sdks/languages/java#newsquantified)
+
+<div id="overview">
+  ## 概要
+</div>
+
+<div id="available-operations">
+  ### 利用可能な操作
+</div>
+
+* [get](#get) - Newsquantified データを取得する
+
+<div id="get">
+  ## get
+</div>
+
+Newsquantified データを取得する
+
+<div id="example-usage">
+  ### 使用例
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetNewsquantifiedDataRequest;
+import org.benzinga.BZClient.models.operations.GetNewsquantifiedDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetNewsquantifiedDataRequest req = GetNewsquantifiedDataRequest.builder()
+                .build();
+
+        GetNewsquantifiedDataResponse res = sdk.newsquantified().get()
+                .request(req)
+                .call();
+
+        if (res.modelsNewsquantifieds().isPresent()) {
+            // レスポンスを処理する
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### パラメータ
+</div>
+
+| パラメータ                                                                              | 型                                                                                      | 必須                                                                                    | 説明                                                                                   |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `request`                                                                               | [GetNewsquantifiedDataRequest](../../models/operations/GetNewsquantifiedDataRequest.md) | :heavy&#95;check&#95;mark:                                                                      | このリクエストで使用するリクエストオブジェクト。                                       |
+
+<div id="response">
+  ### レスポンス
+</div>
+
+**[GetNewsquantifiedDataResponse](../../models/operations/GetNewsquantifiedDataResponse.md)**
+
+<div id="errors">
+  ### エラー
+</div>
+
+| エラータイプ               | ステータスコード          | コンテンツタイプ           |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 404                        | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
