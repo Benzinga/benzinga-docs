@@ -1,0 +1,251 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Esta API REST proporciona endpoints para buscar transcripciones de
+    conferencias de resultados y obtener detalles de las transcripciones de
+    conferencias de resultados.
+  termsOfService: http://swagger.io/terms/
+  title: Earnings Call Transcripts API
+  version: 1.0.0
+paths:
+  /api/v1/earnings-call-transcripts:
+    get:
+      description: Obtener transcripciones de llamadas de resultados
+      operationId: get-earnings-call-transcripts
+      parameters:
+        - description: Lista de símbolos de ticker bursátiles separados por comas para
+            filtrar transcripciones de llamadas de resultados
+          in: query
+          name: tickers
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Lista de IDs de llamadas específicas, separadas por comas, que se
+            deben recuperar
+          in: query
+          name: call_id
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Número de página para la paginación. Indexado desde cero.
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "Número de resultados por página. Valor predeterminado: 5. Máximo:
+            1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Fecha de inicio en formato AAAA-MM-DD. Devuelve transcripciones a
+            partir de esta fecha.
+          in: query
+          name: date_from
+          schema:
+            type: string
+        - description: Fecha de finalización en formato AAAA-MM-DD. Devuelve
+            transcripciones hasta esta fecha incluida.
+          in: query
+          name: date_to
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/models.TranscriptSummary"
+                type: array
+        "400":
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener transcripciones de llamadas de resultados
+      tags:
+        - Earnings Call Transcripts
+  /api/v1/earnings-call-transcripts/audio:
+    get:
+      description: Obtener archivos de audio de las transcripciones de conferencias de
+        resultados
+      operationId: get-earnings-call-transcript-audio-files
+      parameters:
+        - description: Lista de símbolos de ticker de acciones, separados por comas, para
+            filtrar archivos de audio
+          in: query
+          name: tickers
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Lista de identificadores de llamadas específicos, separados por
+            comas, para recuperar archivos de audio
+          in: query
+          name: call_id
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Número de página para la paginación. Indexado a partir de cero.
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "Número de resultados por página. Valor predeterminado: 5. Máximo:
+            1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/models.TranscriptSummaryAudio"
+                type: array
+        "400":
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener archivos de audio de llamadas de resultados
+      tags:
+        - Earnings Call Transcripts
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    models.Security:
+      properties:
+        cik:
+          type: string
+        company_name:
+          type: string
+        exchange:
+          type: string
+        isin:
+          type: string
+        ticker:
+          type: string
+      type: object
+    models.Summary:
+      properties:
+        summary:
+          type: string
+        time:
+          type: number
+      type: object
+    models.TranscriptAudioFile:
+      properties:
+        file_url:
+          type: string
+      type: object
+    models.TranscriptSummary:
+      properties:
+        call_id:
+          type: string
+        created:
+          type: integer
+        date:
+          type: string
+        id:
+          type: string
+        reviewed:
+          type: boolean
+        security:
+          $ref: "#/components/schemas/models.Security"
+        start_time:
+          type: string
+        summaries:
+          items:
+            $ref: "#/components/schemas/models.Summary"
+          type: array
+        summary_full:
+          type: string
+        title:
+          type: string
+        transcript_full:
+          type: string
+        transcript_timestamped:
+          items:
+            $ref: "#/components/schemas/models.TranscriptTimestamp"
+          type: array
+        updated:
+          type: integer
+        user_id:
+          type: integer
+      type: object
+    models.TranscriptSummaryAudio:
+      properties:
+        audio_file:
+          $ref: "#/components/schemas/models.TranscriptAudioFile"
+        call_id:
+          type: string
+        created:
+          type: integer
+        date:
+          type: string
+        id:
+          type: string
+        security:
+          $ref: "#/components/schemas/models.Security"
+        start_time:
+          type: string
+        updated:
+          type: integer
+      type: object
+    models.TranscriptTimestamp:
+      properties:
+        time:
+          type: number
+        transcript:
+          type: string
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: Predeterminado
