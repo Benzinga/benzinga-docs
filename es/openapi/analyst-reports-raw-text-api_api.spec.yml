@@ -79,4 +79,4 @@ components:
       type: object
 servers:
   - url: https://api.benzinga.com
-    description: Predeterminado
+    description: Producción

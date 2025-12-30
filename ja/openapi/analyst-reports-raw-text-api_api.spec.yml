@@ -77,4 +77,4 @@ components:
       type: object
 servers:
   - url: https://api.benzinga.com
-    description: デフォルト
+    description: 本番環境
