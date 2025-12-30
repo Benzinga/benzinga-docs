@@ -1,0 +1,326 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: この REST API は、ロゴ検索およびロゴの詳細取得用のエンドポイントを提供します。
+  termsOfService: http://swagger.io/terms/
+  title: Logo API
+  version: 2.1.0
+paths:
+  /logos/bulk-sync:
+    get:
+      description: 指定した検索キーに対応するロゴを取得
+      operationId: logo-bulk-sync
+      parameters:
+        - description: 検索キー
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: 検索キーのタイプ
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: フィールド
+          in: query
+          name: fields
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: ページ
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: ページあたりの件数
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: 更新日時（開始）
+          in: query
+          name: updated_since
+          schema:
+            type: string
+        - description: スケール
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: 合成半径
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
+          description: 見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 指定した検索キーに対応するロゴを取得します
+      tags:
+        - logos
+  /logos/search:
+    get:
+      description: 指定した検索キーに対応するロゴを取得
+      operationId: get-search-logos
+      parameters:
+        - description: 検索キー
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: 検索キーの種類
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: フィールド
+          in: query
+          name: fields
+          required: true
+          schema:
+            type: string
+        - description: 自動合成
+          in: query
+          name: composite_auto
+          schema:
+            type: boolean
+        - description: 合成画像のボーダー角丸半径
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+        - description: サイズ
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: 最大幅
+          in: query
+          name: max_width
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/logoapi.Logos"
+                type: array
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
+          description: 見つかりませんでした
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 指定した検索キーのロゴを取得
+      tags:
+        - logos
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - unsupported_message_type
+        - database_query_error
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+      type: string
+      x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    logoapi.LogoColors:
+      properties:
+        background_dark:
+          type: string
+        background_light:
+          type: string
+      type: object
+    logoapi.LogoRevisionFiles:
+      properties:
+        logo_dark:
+          type: string
+        logo_light:
+          type: string
+        logo_vector_dark:
+          type: string
+        logo_vector_light:
+          type: string
+        mark_composite_dark:
+          type: string
+        mark_composite_light:
+          type: string
+        mark_dark:
+          type: string
+        mark_light:
+          type: string
+        mark_vector_composite_dark:
+          type: string
+        mark_vector_composite_light:
+          type: string
+        mark_vector_dark:
+          type: string
+        mark_vector_light:
+          type: string
+      type: object
+    logoapi.Logos:
+      properties:
+        colors:
+          $ref: "#/components/schemas/logoapi.LogoColors"
+        company_cik:
+          type: string
+        company_url:
+          type: string
+        created_at:
+          type: string
+        deleted_at:
+          type: string
+        figi_share_class:
+          type: string
+        files:
+          $ref: "#/components/schemas/logoapi.LogoRevisionFiles"
+        id:
+          type: string
+        isin:
+          type: string
+        last_audited:
+          type: string
+        mic_code:
+          type: string
+        securities:
+          items:
+            $ref: "#/components/schemas/logoapi.Security"
+          type: array
+        symbol:
+          type: string
+        type:
+          type: string
+        updated_at:
+          type: string
+        updated_by_user_id:
+          type: string
+      type: object
+    logoapi.Security:
+      properties:
+        cik:
+          type: string
+        country:
+          type: string
+        cusip:
+          type: string
+        exchange:
+          type: string
+        exchange_name:
+          type: string
+        figi:
+          type: string
+        figi_share_class:
+          type: string
+        isin:
+          type: string
+        mic_code:
+          type: string
+        name:
+          type: string
+        name_short:
+          type: string
+        security_type:
+          type: string
+        symbol:
+          type: string
+      type: object
+servers:
+  - url: https://api.benzinga.com/api/v2
+    description: V2
+  - url: https://api.benzinga.com/api/v2.1
+    description: v2.1
