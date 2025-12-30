@@ -1,3 +1,15 @@
 ---
-openapi: get /api/v3/fundamentals/share-price-ratios
+openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
+  /api/v3/fundamentals/share-price-ratios
 ---
+
+<ResponseExample>
+```json レスポンス (200 OK)
+{
+  "ok": "true",
+  "errors": [
+    "from と 終了日 (to) の両方、または date パラメータのいずれか一方を指定してください | 最新データを取得するには date=latest を指定してください"
+  ]
+}
+```
+</ResponseExample>

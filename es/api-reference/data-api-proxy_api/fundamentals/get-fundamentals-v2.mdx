@@ -1,3 +1,51 @@
 ---
-openapi: get /api/v2/fundamentals
+openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v2/fundamentals
 ---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "result": [
+    {
+      "company": {
+        "primarySymbol": "AAPL",
+        "primaryExchange": "NAS",
+        "cik": "320193",
+        "isin": "CA03785Y1007",
+        "cusip": "03785Y100",
+        "standardName": "Apple"
+      },
+      "companyProfile": {
+        "companyStatus": "U",
+        "countryId": "USA",
+        "fiscalYearEnd": "9",
+        "shortName": "Apple",
+        "standardName": "Apple Inc",
+        "totalEmployees": 166000,
+        "legalName": "Apple Inc",
+        "longDescription": "Apple es una de las mayores empresas del mundo, con una amplia cartera de productos de hardware y software dirigidos a consumidores y empresas. El iPhone de Apple representa la mayor parte de las ventas de la compañía, y otros productos de Apple como Mac, iPad y Watch están diseñados en torno al iPhone, que actúa como punto central de un amplio ecosistema de software. Apple ha trabajado de forma progresiva para añadir nuevas aplicaciones, como vídeo en streaming, paquetes de suscripción y realidad aumentada. La empresa diseña su propio software y sus propios semiconductores, mientras colabora con subcontratistas como Foxconn y TSMC para fabricar sus productos y chips. Algo menos de la mitad de las ventas de Apple procede directamente de sus tiendas insignia, mientras que la mayoría de las ventas llega de forma indirecta a través de socios y canales de distribución."
+      },
+      "shareClass": {
+        "shareClassId": "0P000000GY",
+        "currency": "USD",
+        "ipoDate": {
+          "iLocalMillis": 259200000,
+          "iChronology": {
+            "iBase": {
+              "iMinDaysInFirstWeek": 4
+            }
+          }
+        },
+        "isDepositaryReceipt": false,
+        "isPrimary": true,
+        "securityType": "STOCK",
+        "enterpriseValue": 4083814910200,
+        "marketCap": 4039854910200,
+        "exchangeId": "NAS"
+      }
+    }
+  ],
+  "processingTimeMillis": 0
+}
+```
+</ResponseExample>

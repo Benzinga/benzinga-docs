@@ -1,3 +1,36 @@
 ---
-openapi: get /api/v1/quoteDelayed
+openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v1/quoteDelayed
 ---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "quotes": [
+    {
+      "security": {
+        "symbol": "AAPL",
+        "cik": "320193",
+        "isin": "US0378331005",
+        "cusip": "037833100",
+        "name": "Apple Inc. - Common Stock"
+      },
+      "quote": {
+        "date": "2025-12-29T12:22:08.923-05:00",
+        "open": 272.69,
+        "high": 274.36,
+        "low": 272.35,
+        "previousClose": 273.4,
+        "change": -0.23,
+        "changePercent": -0.08,
+        "fiftyTwoWeekHigh": 288.62,
+        "fiftyTwoWeekLow": 169.2101,
+        "currency": "USD",
+        "last": 273.17,
+        "volume": 7959176,
+        "previousCloseDate": "2025-12-26T16:00:00.000-05:00"
+      }
+    }
+  ]
+}
+```
+</ResponseExample>

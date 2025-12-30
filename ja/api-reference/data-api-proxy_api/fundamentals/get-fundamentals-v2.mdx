@@ -1,3 +1,51 @@
 ---
-openapi: get /api/v2/fundamentals
+openapi: /ja/openapi/data-api-proxy_api.spec.yml GET /api/v2/fundamentals
 ---
+
+<ResponseExample>
+```json レスポンス (200 OK)
+{
+  "result": [
+    {
+      "company": {
+        "primarySymbol": "AAPL",
+        "primaryExchange": "NAS",
+        "cik": "320193",
+        "isin": "CA03785Y1007",
+        "cusip": "03785Y100",
+        "standardName": "Apple"
+      },
+      "companyProfile": {
+        "companyStatus": "U",
+        "countryId": "USA",
+        "fiscalYearEnd": "9",
+        "shortName": "Apple",
+        "standardName": "Apple Inc",
+        "totalEmployees": 166000,
+        "legalName": "Apple Inc",
+        "longDescription": "Appleは世界最大級の企業の1つであり、消費者および企業を対象とした幅広いハードウェアおよびソフトウェア製品のポートフォリオを保有しています。AppleのiPhoneは同社売上高の大部分を占めており、Mac、iPad、Watchなどのその他のApple製品は、広範なソフトウェア・エコシステムの中心となるiPhoneを軸に設計されています。Appleはストリーミング動画、サブスクリプション・バンドル、拡張現実など、新しいサービスやアプリケーションを継続的に追加してきました。同社はソフトウェアや半導体を自社で設計しつつ、FoxconnやTSMCのような下請け企業と協業して自社製品やチップを製造しています。Appleの売上の約半分弱は旗艦店からの直接販売によるものであり、売上の大部分はパートナーシップや流通チャネルを通じた間接販売からもたらされています。"
+      },
+      "shareClass": {
+        "shareClassId": "0P000000GY",
+        "currency": "USD",
+        "ipoDate": {
+          "iLocalMillis": 259200000,
+          "iChronology": {
+            "iBase": {
+              "iMinDaysInFirstWeek": 4
+            }
+          }
+        },
+        "isDepositaryReceipt": false,
+        "isPrimary": true,
+        "securityType": "STOCK",
+        "enterpriseValue": 4083814910200,
+        "marketCap": 4039854910200,
+        "exchangeId": "NAS"
+      }
+    }
+  ],
+  "processingTimeMillis": 0
+}
+```
+</ResponseExample>
