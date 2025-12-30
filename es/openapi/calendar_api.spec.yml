@@ -12,7 +12,9 @@ info:
 paths:
   /analyst/insights:
     get:
-      description: Obtener insights de analistas V1
+      description: Devuelve insights de analistas y perspectivas de investigación
+        sobre valores, incluidos análisis detallados y recomendaciones de
+        analistas financieros
       operationId: get-analyst-insights-v1
       parameters:
         - description: Número de página
@@ -102,12 +104,14 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener opiniones de analistas V1
+      summary: Opiniones de analistas V1
       tags:
         - Analyst Insights
   /api/v2.1/calendar/ipos:
     get:
-      description: Devuelve los datos de las salidas a bolsa
+      description: Devuelve los datos de las salidas a bolsa, incluida la información
+        sobre precios, las entidades colocadoras, el estado de la operación y
+        los detalles de la oferta.
       operationId: get-ipos-v21
       parameters:
         - description: Número de página
@@ -184,7 +188,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener IPOs V2.1
+      summary: IPOs V2.1
       tags:
         - ipos
   /api/v2.2/calendar/dividends:
@@ -511,13 +515,13 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener los casos alcistas y bajistas más recientes para un ticker
-        determinado
+      summary: Los casos alcistas y bajistas más recientes para un ticker determinado
       tags:
         - Bulls Say Bears Say
   /calendar-removed/:
     get:
-      description: Obtener Removed desde el endpoint v2
+      description: Devuelve los eventos de calendario que se han eliminado o cancelado
+        de los tipos de evento especificados
       operationId: get-removed
       parameters:
         - description: Número de página
@@ -573,7 +577,7 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: Obtener eliminados (v2)
+      summary: Eliminados (v2)
       tags:
         - removed
   /calendar/conference-calls:
@@ -1057,7 +1061,8 @@ paths:
         - economics
   /calendar/events:
     get:
-      description: Obtener eventos
+      description: Devuelve eventos corporativos, incluidos encuentros con inversores,
+        conferencias y anuncios especiales
       operationId: get-events
       parameters:
         - description: Número de página
@@ -1153,7 +1158,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener eventos
+      summary: Eventos
       tags:
         - events
   /calendar/fda:
@@ -1895,7 +1900,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener calificaciones de analistas
+      summary: Calificaciones de analistas
       tags:
         - ratings_analysts
   /calendar/ratings/firms:
@@ -1959,7 +1964,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener agencias de calificación
+      summary: Agencias de calificación
       tags:
         - ratings_firms
   /calendar/splits:
@@ -2175,7 +2180,8 @@ paths:
         - consensus_ratings
   /erx-gaps:
     get:
-      description: Devuelve los datos de ERx Gaps
+      description: Devuelve los datos de ERx Gaps, que rastrean brechas significativas
+        de precio posteriores a anuncios de resultados
       operationId: get-erx-gaps
       parameters:
         - description: Número de página
@@ -2242,12 +2248,14 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener gaps de ERx
+      summary: Gaps de ERx
       tags:
         - ERx Gaps
   /government_trade_reports:
     get:
-      description: Obtener informes sobre operaciones del gobierno
+      description: Devuelve informes detallados sobre operaciones del gobierno,
+        incluidos los informes periódicos de transacciones presentados por
+        miembros del Congreso
       operationId: get-government-trade-reports
       parameters:
         - description: Número de página
@@ -2331,12 +2339,13 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener informes de operaciones del gobierno
+      summary: Informes de operaciones del gobierno
       tags:
         - Government Trade Reports
   /government_trades:
     get:
-      description: Obtener operaciones del gobierno
+      description: Devuelve operaciones del gobierno, incluidas las realizadas por
+        miembros de la Cámara de Representantes y del Senado de EE. UU.
       operationId: get-government-trades
       parameters:
         - description: Número de página
@@ -2420,12 +2429,14 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener transacciones del gobierno
+      summary: Transacciones del gobierno
       tags:
         - Government Trades
   /sec/insider_transactions/filings:
     get:
-      description: Obtener presentación de operaciones de iniciados
+      description: Devuelve presentaciones de operaciones de iniciados del Formulario
+        4 de la SEC, incluidas compras y ventas de acciones y ejercicios de
+        opciones por parte de iniciados de la empresa
       operationId: get-insider-transaction-filing
       parameters:
         - description: Número de página
@@ -2523,12 +2534,13 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener declaración de operaciones de insiders
+      summary: Declaración de operaciones de insiders
       tags:
         - Insider Transaction
   /sec/insider_transactions/owners:
     get:
-      description: Obtener titular de transacción de insider
+      description: Devuelve información sobre los titulares de transacción de insider,
+        incluidos ejecutivos de la empresa, directores y beneficiarios reales
       operationId: get-insider-transaction-owner
       parameters:
         - description: Número de página
@@ -2626,12 +2638,14 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener propietario de transacción de insider
+      summary: Propietario de transacción de insider
       tags:
         - Insider Transaction
   /signal/block_trade:
     get:
-      description: Obtener BlockTrade V1
+      description: Devuelve datos de operaciones en bloque, incluidas operaciones
+        inusualmente grandes que pueden indicar actividad de negociación
+        institucional
       operationId: get-block-trade-v1
       parameters:
         - description: Número de página
@@ -2688,12 +2702,14 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener BlockTrade V1
+      summary: BlockTrade V1
       tags:
         - Block Trade
   /signal/halt_resume:
     get:
-      description: Obtener HaltResume V1
+      description: Devuelve información sobre suspensiones y reanudaciones de
+        negociación de valores, incluidos los motivos de la suspensión y los
+        horarios previstos de reanudación
       operationId: get-halt-resume-v1
       parameters:
         - description: Número de página
@@ -2750,12 +2766,14 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener HaltResume V1
+      summary: HaltResume V1
       tags:
         - Halt Resume
   /signal/option_activity:
     get:
-      description: Obtener OptionActivity V1
+      description: Devuelve datos de actividad inusual en opciones, incluyendo
+        operaciones de opciones de gran tamaño o inusuales que pueden indicar
+        negociación informada
       operationId: get-option-activity-v1
       parameters:
         - description: Número de página
@@ -2830,7 +2848,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Obtener OptionActivity V1
+      summary: OptionActivity V1
       tags:
         - Option Activity
 components:
