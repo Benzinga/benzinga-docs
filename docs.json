@@ -73,7 +73,6 @@
                   "api-reference/calendar_api/block-trade/get-blocktrade-v1",
                   "api-reference/calendar_api/conference_calls/get-conference-calls",
                   "api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
-                  "api-reference/calendar_api/dividends/get-dividends",
                   "api-reference/calendar_api/dividends/get-dividends-v22",
                   "api-reference/calendar_api/earnings/get-earnings",
                   "api-reference/calendar_api/economics/get-economics",
@@ -82,7 +81,6 @@
                   "api-reference/calendar_api/fda/get-fda",
                   "api-reference/calendar_api/guidance/get-guidance",
                   "api-reference/calendar_api/halt-resume/get-haltresume-v1",
-                  "api-reference/calendar_api/ipos/get-ipos-v2",
                   "api-reference/calendar_api/ipos/get-ipos-v21",
                   "api-reference/calendar_api/ma/get-merger-and-acquisition",
                   "api-reference/calendar_api/offerings/get-offerings",
@@ -102,7 +100,6 @@
               {
                 "group": "Delayed Quotes",
                 "pages": [
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
                   "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
                 ]
               },
@@ -130,8 +127,6 @@
                   "api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
                   "api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
                   "api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v2",
-                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v21",
                   "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
                   "api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
                   "api-reference/data-api-proxy_api/fundamentals/get-share-class",
@@ -157,7 +152,6 @@
                 "group": "Logos",
                 "pages": [
                   "api-reference/logo-api_api/logos/overview",
-                  "api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
                   "api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
                 ]
               },
@@ -355,7 +349,6 @@
                   "es/api-reference/calendar_api/block-trade/get-blocktrade-v1",
                   "es/api-reference/calendar_api/conference_calls/get-conference-calls",
                   "es/api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
-                  "es/api-reference/calendar_api/dividends/get-dividends",
                   "es/api-reference/calendar_api/dividends/get-dividends-v22",
                   "es/api-reference/calendar_api/earnings/get-earnings",
                   "es/api-reference/calendar_api/economics/get-economics",
@@ -364,7 +357,6 @@
                   "es/api-reference/calendar_api/fda/get-fda",
                   "es/api-reference/calendar_api/guidance/get-guidance",
                   "es/api-reference/calendar_api/halt-resume/get-haltresume-v1",
-                  "es/api-reference/calendar_api/ipos/get-ipos-v2",
                   "es/api-reference/calendar_api/ipos/get-ipos-v21",
                   "es/api-reference/calendar_api/ma/get-merger-and-acquisition",
                   "es/api-reference/calendar_api/offerings/get-offerings",
@@ -384,7 +376,6 @@
               {
                 "group": "Cotizaciones diferidas",
                 "pages": [
-                  "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
                   "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
                 ]
               },
@@ -412,8 +403,6 @@
                   "es/api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
                   "es/api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
                   "es/api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
-                  "es/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v2",
-                  "es/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v21",
                   "es/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
                   "es/api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
                   "es/api-reference/data-api-proxy_api/fundamentals/get-share-class",
@@ -439,7 +428,6 @@
                 "group": "Logotipos",
                 "pages": [
                   "es/api-reference/logo-api_api/logos/overview",
-                  "es/api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
                   "es/api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
                 ]
               },
@@ -637,7 +625,6 @@
                   "ja/api-reference/calendar_api/block-trade/get-blocktrade-v1",
                   "ja/api-reference/calendar_api/conference_calls/get-conference-calls",
                   "ja/api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
-                  "ja/api-reference/calendar_api/dividends/get-dividends",
                   "ja/api-reference/calendar_api/dividends/get-dividends-v22",
                   "ja/api-reference/calendar_api/earnings/get-earnings",
                   "ja/api-reference/calendar_api/economics/get-economics",
@@ -646,7 +633,6 @@
                   "ja/api-reference/calendar_api/fda/get-fda",
                   "ja/api-reference/calendar_api/guidance/get-guidance",
                   "ja/api-reference/calendar_api/halt-resume/get-haltresume-v1",
-                  "ja/api-reference/calendar_api/ipos/get-ipos-v2",
                   "ja/api-reference/calendar_api/ipos/get-ipos-v21",
                   "ja/api-reference/calendar_api/ma/get-merger-and-acquisition",
                   "ja/api-reference/calendar_api/offerings/get-offerings",
@@ -666,7 +652,6 @@
               {
                 "group": "遅延気配",
                 "pages": [
-                  "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v1",
                   "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
                 ]
               },
@@ -694,8 +679,6 @@
                   "ja/api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
                   "ja/api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
                   "ja/api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
-                  "ja/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v2",
-                  "ja/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v21",
                   "ja/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
                   "ja/api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
                   "ja/api-reference/data-api-proxy_api/fundamentals/get-share-class",
@@ -721,7 +704,6 @@
                 "group": "ロゴ",
                 "pages": [
                   "ja/api-reference/logo-api_api/logos/overview",
-                  "ja/api-reference/logo-api_api/logos/get-logos-for-given-search-keys",
                   "ja/api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
                 ]
               },
