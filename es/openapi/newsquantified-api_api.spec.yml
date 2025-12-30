@@ -1,0 +1,346 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Esta API REST ofrece endpoints para buscar logotipos y obtener sus detalles.
+  termsOfService: http://swagger.io/terms/
+  title: NewsQuantified API
+  version: 2.0.0
+paths:
+  /api/v2/newsquantified:
+    get:
+      description: Obtener datos de NewsQuantified
+      operationId: get-newsquantified-data
+      parameters:
+        - description: Número de página para la paginación. Comienza en 0.
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "Número de resultados por página. Máximo: 1000. Valor
+            predeterminado: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Marca de tiempo Unix (UTC). Devuelve datos de noticias
+            cuantificados que se hayan actualizado después de esta marca de
+            tiempo.
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+        - description: Lista de símbolos de ticker de acciones, separados por comas, para
+            filtrar los resultados.
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: Fecha única en formato AAAA-MM-DD. Forma abreviada de date_from y
+            date_to cuando ambos son iguales.
+          in: query
+          name: date
+          schema:
+            type: string
+        - description: Fecha de inicio en formato AAAA-MM-DD. Devuelve datos a partir de
+            esta fecha.
+          in: query
+          name: date_from
+          schema:
+            type: string
+        - description: Fecha de finalización en formato AAAA-MM-DD. Devuelve los datos
+            hasta esta fecha inclusive.
+          in: query
+          name: date_to
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/models.Newsquantified"
+                type: array
+        "400":
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                items:
+                  items:
+                    type: object
+                  type: array
+                type: array
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                items:
+                  items:
+                    type: object
+                  type: array
+                type: array
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener datos de NewsQuantified
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: Authorization
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - unsupported_message_type
+        - database_query_error
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+      type: string
+      x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    models.Newsquantified:
+      properties:
+        _id:
+          type: string
+        1_Minute%:
+          type: string
+        5_Minutes%:
+          type: string
+        10_Minutes%:
+          type: string
+        30_Minutes%:
+          type: string
+        30_Seconds%:
+          type: string
+        60_Minutes%:
+          type: string
+        90_Minutes%:
+          type: string
+        120_Minutes%:
+          type: string
+        ATR_Ratio:
+          type: string
+        ATR14:
+          type: string
+        AllTicks:
+          type: string
+        AllVWAP:
+          type: string
+        AnalystAction:
+          type: string
+        AnalystActionFrom:
+          type: string
+        AnalystActionTo:
+          type: string
+        AnalystFirm:
+          type: string
+        Close_Vol:
+          type: string
+        Comments:
+          type: string
+        Curr_Vol:
+          type: string
+        Date:
+          type: string
+        DayOpen:
+          type: string
+        DividendYield%:
+          type: string
+        EODClose:
+          type: string
+        EODHigh:
+          type: string
+        EODLow:
+          type: string
+        EODVWAP:
+          type: string
+        EPSAction:
+          type: string
+        EPSActual:
+          type: string
+        Ex:
+          type: string
+        Headlines:
+          type: string
+        HighExcStdDev:
+          type: string
+        L1:
+          type: string
+        L2:
+          type: string
+        L3:
+          type: string
+        L4:
+          type: string
+        L5:
+          type: string
+        L10:
+          type: string
+        L20:
+          type: string
+        L75:
+          type: string
+        LS:
+          type: string
+        LowExcStdDev:
+          type: string
+        MainVWAP:
+          type: string
+        MaxDnAmt:
+          type: string
+        MaxUpAmt:
+          type: string
+        MktCap(1000):
+          type: string
+        Mov_Vol:
+          type: string
+        NewsSess:
+          type: string
+        Open_Vol:
+          type: string
+        OpenGap%:
+          type: string
+        P1:
+          type: string
+        P2:
+          type: string
+        P3:
+          type: string
+        P4:
+          type: string
+        P5:
+          type: string
+        P10:
+          type: string
+        P20:
+          type: string
+        P75:
+          type: string
+        PERatio:
+          type: string
+        PID:
+          type: string
+        PUBt:
+          type: string
+        PostVWAP:
+          type: string
+        PreVWAP:
+          type: string
+        Prev_Vol:
+          type: string
+        PrevClose:
+          type: string
+        Provider:
+          type: string
+        RECt:
+          type: string
+        Range%:
+          type: string
+        RangeAmt:
+          type: string
+        RangeStdDev:
+          type: string
+        ReportSess:
+          type: string
+        ResourceID:
+          type: string
+        Result%:
+          type: string
+        Result_Vs_Index%:
+          type: string
+        S1:
+          type: string
+        S2:
+          type: string
+        S3:
+          type: string
+        S4:
+          type: string
+        S5:
+          type: string
+        S10:
+          type: string
+        S20:
+          type: string
+        S75:
+          type: string
+        SPYLast:
+          type: string
+        SPYclose:
+          type: string
+        ShortInterest%:
+          type: string
+        Symb:
+          type: string
+        TONHigh:
+          type: string
+        TONLast:
+          type: string
+        TONLow:
+          type: string
+        Topics:
+          type: string
+        Vol_Ratio:
+          type: string
+        VolumeStdDev:
+          type: string
+        created:
+          type: integer
+        maxDown%:
+          type: string
+        maxUp%:
+          type: string
+        prevDay%:
+          type: string
+      type: object
