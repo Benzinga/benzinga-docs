@@ -5,8 +5,31 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /calendar/ma
 <ResponseExample>
 ```json レスポンス (200 OK)
 {
-  "message": "no Route matched with those values",
-  "request_id": "5844b378587cd25297a84a5f19f00559"
+  "ma": [
+    {
+      "acquirer_cusip": "48251W104",
+      "acquirer_exchange": "NYSE",
+      "acquirer_isin": "US48251W1045",
+      "acquirer_name": "KKR",
+      "acquirer_ticker": "KKR",
+      "currency": "USD",
+      "date": "2025-12-29",
+      "date_completed": "2025-12-29",
+      "date_expected": "",
+      "deal_payment_type": "",
+      "deal_size": "",
+      "deal_status": "Completed",
+      "deal_terms_extra": "取引条件は開示されていません。",
+      "deal_type": "Acquisition",
+      "id": "69537d6382b9250001d09653",
+      "importance": 5,
+      "notes": "",
+      "target_exchange": "",
+      "target_name": "Cheongna Logistics Center",
+      "target_ticker": "",
+      "updated": 1767079306
+    }
+  ]
 }
 ```
 </ResponseExample>

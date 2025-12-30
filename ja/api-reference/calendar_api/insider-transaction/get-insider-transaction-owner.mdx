@@ -5,8 +5,12 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /sec/insider_transactions/owners
 <ResponseExample>
 ```json レスポンス (200 OK)
 {
-  "message": "no Route matched with those values",
-  "request_id": "8465ca1cb13e482f4437350df5b8085c"
+  "data": [
+    {
+      "cik": "0001462356",
+      "name": "Katherine L Adams"
+    }
+  ]
 }
 ```
 </ResponseExample>

@@ -5,8 +5,13 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /calendar-removed/
 <ResponseExample>
 ```json レスポンス (200 OK)
 {
-  "message": "これらの値に一致するルートはありません",
-  "request_id": "6ef2f0413cbedf304e1c675cd0f50300"
+  "removed": [
+    {
+      "id": "5b5d22b5be523300016fd411",
+      "type": "dividends",
+      "updated": 0
+    }
+  ]
 }
 ```
 </ResponseExample>

@@ -1,3 +1,34 @@
 ---
 openapi: /ja/openapi/calendar_api.spec.yml GET /calendar/dividends
 ---
+
+<ResponseExample>
+```json レスポンス (200 OK)
+{
+  "dividends": [
+    {
+      "currency": "USD",
+      "cusip": "901109108",
+      "date": "2026-05-17",
+      "dividend": "",
+      "dividend_prior": "",
+      "dividend_type": "Cash",
+      "dividend_yield": "",
+      "end_regular_dividend": false,
+      "ex_dividend_date": "",
+      "exchange": "NYSE",
+      "frequency": 4,
+      "id": "691c5609ba6d110001cf791b",
+      "importance": 3,
+      "isin": "US9011091082",
+      "name": "Tutor Perini",
+      "notes": "",
+      "payable_date": "",
+      "record_date": "",
+      "ticker": "TPC",
+      "updated": 1763464861
+    }
+  ]
+}
+```
+</ResponseExample>

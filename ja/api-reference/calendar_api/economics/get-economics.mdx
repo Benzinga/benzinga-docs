@@ -3,10 +3,30 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /calendar/economics
 ---
 
 <ResponseExample>
-```json レスポンス (200 OK)
+```json Response (200 OK)
 {
-  "message": "指定された値に一致するルートが見つかりません",
-  "request_id": "6129850679dc7b3150c8f32047978d64"
+  "economics": [
+    {
+      "actual": "",
+      "actual_t": "%",
+      "consensus": "",
+      "consensus_t": "",
+      "country": "USA",
+      "date": "2026-03-08",
+      "description": "「Challenger Job Cuts (YoY)」レポートは、雇用主が報告したレイオフ件数について、ある月と前年同月を比較した際の変化率（％）を追跡します。このレポートは、投資家やアナリストが労働市場の強さを把握し、投資判断を行う際に利用されます。また、このレポートのデータは米ドルの価値にも影響し、予想より高い数値はネガティブに、予想より低い数値はポジティブに受け止められる傾向があります。",
+      "event_category": "Employment",
+      "event_name": "Challenger Job Cuts (YoY)",
+      "event_period": "",
+      "id": "6745790147f2830001365a27",
+      "importance": 1,
+      "notes": "",
+      "period_year": 2026,
+      "prior": "",
+      "prior_t": "%",
+      "time": "02:30:09",
+      "updated": 1736341667
+    }
+  ]
 }
 ```
 </ResponseExample>
