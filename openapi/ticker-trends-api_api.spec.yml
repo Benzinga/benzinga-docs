@@ -11,8 +11,8 @@ paths:
     get:
       description: Get ticker trend data
       parameters:
-        - description: "Time interval for aggregating trend data. Values: 10m (10
-            minutes), 1h (1 hour), 1d (1 day)"
+        - description: 'Time interval for aggregating trend data. Values: 10m (10
+            minutes), 1h (1 hour), 1d (1 day)'
           in: query
           name: interval
           required: true
@@ -24,14 +24,13 @@ paths:
           required: true
           schema:
             type: string
-        - description: "Data source filter. Values: all, clickstream, logo"
+        - description: 'Data source filter. Values: all, clickstream, logo'
           in: query
           name: source
           required: true
           schema:
             type: string
-        - description: Time window for trend analysis. Optional custom timeframe
-            specification.
+        - description: Time window for trend analysis. Optional custom timeframe specification.
           in: query
           name: timeframe
           schema:
@@ -41,30 +40,30 @@ paths:
           name: page
           schema:
             type: integer
-        - description: "Number of results per page. Default and Maximum: 1000"
+        - description: 'Number of results per page. Default and Maximum: 1000'
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
-        "400":
+                $ref: '#/components/schemas/httpapi.tickerTrendAPIResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
+                $ref: '#/components/schemas/bzhttp.Resp'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+                $ref: '#/components/schemas/httpapi.tickerTrendAPIResponse'
       security:
         - ApiKeyAuth: []
       summary: Get ticker trend data
@@ -132,24 +131,24 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
-        "400":
+                $ref: '#/components/schemas/models.TrendingTickersListAPIResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
+                $ref: '#/components/schemas/bzhttp.Resp'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
+                $ref: '#/components/schemas/models.TrendingTickersListAPIResponse'
       security:
         - ApiKeyAuth: []
       summary: Get ticker trend list data
@@ -165,7 +164,7 @@ components:
     bzhttp.Error:
       properties:
         code:
-          $ref: "#/components/schemas/bzhttp.ErrorCode"
+          $ref: '#/components/schemas/bzhttp.ErrorCode'
         id:
           type: string
         value:
@@ -208,7 +207,7 @@ components:
           type: object
         errors:
           items:
-            $ref: "#/components/schemas/bzhttp.Error"
+            $ref: '#/components/schemas/bzhttp.Error'
           type: array
         ok:
           type: boolean
@@ -217,7 +216,7 @@ components:
       properties:
         data:
           items:
-            $ref: "#/components/schemas/httpapi.tickerTrendData"
+            $ref: '#/components/schemas/httpapi.tickerTrendData'
           type: array
         ok:
           type: boolean
@@ -228,7 +227,7 @@ components:
           type: string
         metrics:
           items:
-            $ref: "#/components/schemas/httpapi.tickerTrendMetrics"
+            $ref: '#/components/schemas/httpapi.tickerTrendMetrics'
           type: array
         ticker:
           type: string
@@ -261,7 +260,7 @@ components:
       properties:
         data:
           items:
-            $ref: "#/components/schemas/models.TrendingTickersListData"
+            $ref: '#/components/schemas/models.TrendingTickersListData'
           type: array
         ok:
           type: boolean
@@ -273,5 +272,8 @@ components:
         pct_chg:
           type: integer
         security:
-          $ref: "#/components/schemas/models.Security"
+          $ref: '#/components/schemas/models.Security'
       type: object
+servers:
+  - url: https://api.benzinga.com/api/v1
+    description: V1
