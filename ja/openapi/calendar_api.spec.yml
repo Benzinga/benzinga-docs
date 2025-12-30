@@ -9,7 +9,7 @@ info:
 paths:
   /analyst/insights:
     get:
-      description: アナリスト・インサイト取得 V1
+      description: 証券に関するアナリスト・インサイトおよびリサーチ見解を返します。金融アナリストによる詳細な分析および推奨を含みます。
       operationId: get-analyst-insights-v1
       parameters:
         - description: ページ番号
@@ -98,12 +98,12 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: アナリストインサイトの取得 V1
+      summary: アナリストインサイト V1
       tags:
         - Analyst Insights
   /api/v2.1/calendar/ipos:
     get:
-      description: IPOのデータを返します
+      description: 価格情報、引受会社、案件ステータス、およびオファリングの詳細を含むIPOのデータを返します
       operationId: get-ipos-v21
       parameters:
         - description: ページ番号
@@ -180,7 +180,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: IPO v2.1 を取得
+      summary: IPO v2.1
       tags:
         - ipos
   /api/v2.2/calendar/dividends:
@@ -481,12 +481,12 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: 指定したtickerシンボルの最新の強気・弱気ケースを取得します
+      summary: 指定したtickerシンボルの最新の強気・弱気ケース
       tags:
         - Bulls Say Bears Say
   /calendar-removed/:
     get:
-      description: v2 エンドポイントで削除済みデータを取得
+      description: 指定したイベント種別から削除またはキャンセルされたカレンダーイベントを返します
       operationId: get-removed
       parameters:
         - description: ページ番号
@@ -542,7 +542,7 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: 削除済みデータの取得 (v2)
+      summary: 削除済みデータ (v2)
       tags:
         - removed
   /calendar/conference-calls:
@@ -986,7 +986,7 @@ paths:
         - economics
   /calendar/events:
     get:
-      description: イベントの取得
+      description: 投資家向けミーティングやカンファレンス、特別な発表などを含む企業イベントを返します
       operationId: get-events
       parameters:
         - description: ページ番号
@@ -1082,7 +1082,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: イベントの取得
+      summary: イベント
       tags:
         - events
   /calendar/fda:
@@ -1758,7 +1758,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: アナリスト・レーティングを取得
+      summary: アナリスト・レーティング
       tags:
         - ratings_analysts
   /calendar/ratings/firms:
@@ -1822,7 +1822,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: 格付け機関を取得
+      summary: 格付け機関
       tags:
         - ratings_firms
   /calendar/splits:
@@ -2020,7 +2020,7 @@ paths:
         - consensus_ratings
   /erx-gaps:
     get:
-      description: ERx Gaps データを返します
+      description: 決算発表後の大きな価格ギャップを追跡する ERx Gaps データを返します
       operationId: get-erx-gaps
       parameters:
         - description: ページ番号
@@ -2087,12 +2087,12 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: ERx Gaps を取得
+      summary: ERx Gaps
       tags:
         - ERx Gaps
   /government_trade_reports:
     get:
-      description: 政府取引レポートを取得
+      description: 国会議員が提出した定期取引報告書を含む、詳細な政府取引レポートを返します
       operationId: get-government-trade-reports
       parameters:
         - description: ページ番号
@@ -2176,12 +2176,12 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: 政府取引レポートの取得
+      summary: 政府取引レポート
       tags:
         - Government Trade Reports
   /government_trades:
     get:
-      description: 政府取引の取得
+      description: 米国下院および上院議員による取引を含む政府取引を返します
       operationId: get-government-trades
       parameters:
         - description: ページ番号
@@ -2265,12 +2265,12 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: 政府取引データを取得
+      summary: 政府取引データ
       tags:
         - Government Trades
   /sec/insider_transactions/filings:
     get:
-      description: インサイダー取引の報告書を取得
+      description: SEC Form 4 に基づく、会社インサイダーによる株式の購入・売却およびオプション行使を含むインサイダー取引の報告書を返します
       operationId: get-insider-transaction-filing
       parameters:
         - description: ページ番号
@@ -2368,12 +2368,12 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: インサイダー取引届出書を取得
+      summary: インサイダー取引届出書
       tags:
         - Insider Transaction
   /sec/insider_transactions/owners:
     get:
-      description: インサイダー取引の所有者を取得
+      description: 企業役員、取締役、実質的所有者を含むインサイダー取引の所有者の情報を返します
       operationId: get-insider-transaction-owner
       parameters:
         - description: ページ番号
@@ -2471,12 +2471,12 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: インサイダー取引の所有者を取得
+      summary: インサイダー取引の所有者
       tags:
         - Insider Transaction
   /signal/block_trade:
     get:
-      description: BlockTrade V1 の取得
+      description: 機関投資家による取引活動を示唆する可能性のある、通常より大口の取引を含むブロックトレードデータを返します
       operationId: get-block-trade-v1
       parameters:
         - description: ページ番号
@@ -2533,12 +2533,12 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: BlockTrade V1 を取得
+      summary: BlockTrade V1
       tags:
         - Block Trade
   /signal/halt_resume:
     get:
-      description: HaltResume V1 の取得
+      description: 証券の取引停止および再開に関する情報を返します。停止理由や再開予定時刻を含みます。
       operationId: get-halt-resume-v1
       parameters:
         - description: ページ番号
@@ -2595,12 +2595,12 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: HaltResume V1 の取得
+      summary: HaltResume V1
       tags:
         - Halt Resume
   /signal/option_activity:
     get:
-      description: OptionActivity V1 取得
+      description: インフォームドトレーディングを示唆する可能性のある大口または異例のオプション取引を含む、異常オプション取引データを返します
       operationId: get-option-activity-v1
       parameters:
         - description: ページ番号
@@ -2675,7 +2675,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: OptionActivity V1 の取得
+      summary: OptionActivity V1
       tags:
         - Option Activity
 components:
@@ -3027,12 +3027,3 @@ components:
         voluntarily_reported:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
-  - url: https://api.benzinga.com/api/v2.2
-    description: V2.2
