@@ -36,7 +36,47 @@
     "experimentalLocalizeStaticUrls": true,
     "docsHideDefaultLocaleImport": true,
     "experimentalHideDefaultLocale": true,
-    "experimentalAddHeaderAnchorIds": "mintlify"
+    "experimentalAddHeaderAnchorIds": "mintlify",
+    "mintlify": {
+      "openapi": {
+        "files": [
+          "./openapi/analyst-reports-raw-text-api_api.spec.yml",
+          "./openapi/calendar_api.spec.yml",
+          "./openapi/data-api-proxy_api.spec.yml",
+          "./openapi/earnings-call-transcripts-api_api.spec.yml",
+          "./openapi/logo-api_api.spec.yml",
+          "./openapi/news-api_api.spec.yml",
+          "./openapi/newsquantified-api_api.spec.yml",
+          "./openapi/ticker-trends-api_api.spec.yml"
+        ]
+      }
+    },
+    "yamlSchema": {
+      "./openapi/analyst-reports-raw-text-api_api.spec.yml": {
+        "preset": "openapi"
+      },
+      "./openapi/calendar_api.spec.yml": {
+        "preset": "openapi"
+      },
+      "./openapi/data-api-proxy_api.spec.yml": {
+        "preset": "openapi"
+      },
+      "./openapi/earnings-call-transcripts-api_api.spec.yml": {
+        "preset": "openapi"
+      },
+      "./openapi/logo-api_api.spec.yml": {
+        "preset": "openapi"
+      },
+      "./openapi/news-api_api.spec.yml": {
+        "preset": "openapi"
+      },
+      "./openapi/newsquantified-api_api.spec.yml": {
+        "preset": "openapi"
+      },
+      "./openapi/ticker-trends-api_api.spec.yml": {
+        "preset": "openapi"
+      }
+    }
   },
   "locales": [
     "en",
@@ -62,6 +102,52 @@
       "exclude": [
         "./[locales]/**/*.mdx",
         "./snippets/[locales]/**/*.mdx"
+      ]
+    },
+    "yaml": {
+      "include": [
+        "./openapi/analyst-reports-raw-text-api_api.spec.yml",
+        "./openapi/calendar_api.spec.yml",
+        "./openapi/data-api-proxy_api.spec.yml",
+        "./openapi/earnings-call-transcripts-api_api.spec.yml",
+        "./openapi/logo-api_api.spec.yml",
+        "./openapi/news-api_api.spec.yml",
+        "./openapi/newsquantified-api_api.spec.yml",
+        "./openapi/ticker-trends-api_api.spec.yml"
+      ],
+      "transform": [
+        {
+          "match": "^openapi/analyst-reports-raw-text-api_api.spec.yml$",
+          "replace": "{locale}/openapi/analyst-reports-raw-text-api_api.spec.yml"
+        },
+        {
+          "match": "^openapi/calendar_api.spec.yml$",
+          "replace": "{locale}/openapi/calendar_api.spec.yml"
+        },
+        {
+          "match": "^openapi/data-api-proxy_api.spec.yml$",
+          "replace": "{locale}/openapi/data-api-proxy_api.spec.yml"
+        },
+        {
+          "match": "^openapi/earnings-call-transcripts-api_api.spec.yml$",
+          "replace": "{locale}/openapi/earnings-call-transcripts-api_api.spec.yml"
+        },
+        {
+          "match": "^openapi/logo-api_api.spec.yml$",
+          "replace": "{locale}/openapi/logo-api_api.spec.yml"
+        },
+        {
+          "match": "^openapi/news-api_api.spec.yml$",
+          "replace": "{locale}/openapi/news-api_api.spec.yml"
+        },
+        {
+          "match": "^openapi/newsquantified-api_api.spec.yml$",
+          "replace": "{locale}/openapi/newsquantified-api_api.spec.yml"
+        },
+        {
+          "match": "^openapi/ticker-trends-api_api.spec.yml$",
+          "replace": "{locale}/openapi/ticker-trends-api_api.spec.yml"
+        }
       ]
     }
   }
