@@ -2,3 +2,107 @@
 openapi: /openapi/data-api-proxy_api.spec.yml GET
   /api/v3/fundamentals/share-price-ratios
 ---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "ok": "true",
+  "data": [
+    {
+      "share_price_ratios": {
+        "type": "common",
+        "data": [
+          {
+            "id": 17790258,
+            "symbol": "AAPL",
+            "date": "Jan 2, 2024",
+            "open": 187.15,
+            "high": 188.44,
+            "low": 183.88,
+            "close": 185.64,
+            "adj_close": 185.4,
+            "volume": 82488674,
+            "dividend": 0.0,
+            "shares_outstanding": 15744200000.0,
+            "market_cap": 2922760000000.0,
+            "price_to_earnings_ratio_quarterly": 126.149,
+            "price_to_earnings_ratio_ttm": 30.1331,
+            "price_to_sales_ratio_quarterly": 32.3569,
+            "price_to_sales_ratio_ttm": 7.62555,
+            "price_to_book_value": 47.0305,
+            "price_to_free_cash_flow_quarterly": 113.827,
+            "price_to_free_cash_flow_ttm": 23.3774,
+            "enterprise_value": 2972290000000.0,
+            "ev_ebitda": 23.6234,
+            "ev_sales": 7.75478,
+            "ev_fcf": 23.7736,
+            "book_to_market_value": 0.02126,
+            "operating_income_ev": 0.03846,
+            "altman_z_score": 8.18809,
+            "dividend_yield": 0.00514
+          },
+          {
+            "id": 17790259,
+            "symbol": "AAPL",
+            "date": "Jan 3, 2024",
+            "open": 184.22,
+            "high": 185.88,
+            "low": 183.43,
+            "close": 184.25,
+            "adj_close": 184.02,
+            "volume": 58414460,
+            "dividend": 0.0,
+            "shares_outstanding": 15744200000.0,
+            "market_cap": 2900870000000.0,
+            "price_to_earnings_ratio_quarterly": 125.205,
+            "price_to_earnings_ratio_ttm": 29.9075,
+            "price_to_sales_ratio_quarterly": 32.1146,
+            "price_to_sales_ratio_ttm": 7.56845,
+            "price_to_book_value": 46.6784,
+            "price_to_free_cash_flow_quarterly": 112.975,
+            "price_to_free_cash_flow_ttm": 23.2024,
+            "enterprise_value": 2950410000000.0,
+            "ev_ebitda": 23.4494,
+            "ev_sales": 7.69769,
+            "ev_fcf": 23.5985,
+            "book_to_market_value": 0.02142,
+            "operating_income_ev": 0.03874,
+            "altman_z_score": 8.14288,
+            "dividend_yield": 0.00518
+          },
+          {
+            "id": 17790260,
+            "symbol": "AAPL",
+            "date": "Jan 4, 2024",
+            "open": 182.15,
+            "high": 183.09,
+            "low": 180.88,
+            "close": 181.91,
+            "adj_close": 181.68,
+            "volume": 71983570,
+            "dividend": 0.0,
+            "shares_outstanding": 15744200000.0,
+            "market_cap": 2864030000000.0,
+            "price_to_earnings_ratio_quarterly": 123.614,
+            "price_to_earnings_ratio_ttm": 29.5276,
+            "price_to_sales_ratio_quarterly": 31.7068,
+            "price_to_sales_ratio_ttm": 7.47233,
+            "price_to_book_value": 46.0856,
+            "price_to_free_cash_flow_quarterly": 111.54,
+            "price_to_free_cash_flow_ttm": 22.9077,
+            "enterprise_value": 2913570000000.0,
+            "ev_ebitda": 23.1566,
+            "ev_sales": 7.60157,
+            "ev_fcf": 23.3039,
+            "book_to_market_value": 0.0217,
+            "operating_income_ev": 0.03923,
+            "altman_z_score": 8.06677,
+            "dividend_yield": 0.00525
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+</ResponseExample>

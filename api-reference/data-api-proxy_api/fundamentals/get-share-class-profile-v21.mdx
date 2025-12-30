@@ -2,3 +2,38 @@
 openapi: /openapi/data-api-proxy_api.spec.yml GET
   /api/v2.1/fundamentals/shareClassProfile
 ---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "result": [
+    {
+      "company": {
+        "primarySymbol": "AAPL",
+        "primaryExchange": "NAS",
+        "cik": "320193",
+        "isin": "CA03785Y1007",
+        "cusip": "03785Y100",
+        "standardName": "Apple",
+        "countryId": "USA",
+        "isReit": false,
+        "industryTemplateCode": "N",
+        "businessCountryId": "USA",
+        "isLimitedPartnership": false,
+        "yearofEstablishment": 1977,
+        "isLimitedLiabilityCompany": false
+      },
+      "shareClassProfile": {
+        "asOf": "2025-11-30",
+        "marketCap": 4045174397280,
+        "enterpriseValue": 4089134397280,
+        "sharesOutstanding": 14776353000
+      },
+      "symbol": "AAPL",
+      "idType": "SYMBOL",
+      "id": "AAPL"
+    }
+  ]
+}
+```
+</ResponseExample>
