@@ -6,53 +6,125 @@ info:
   title: Logo API
   version: 2.1.0
 paths:
-  /logos/search:
+  /logos/bulk-sync:
     get:
       description: Get Logos for given search keys
-      operationId: get-search-logos
+      operationId: logo-bulk-sync
       parameters:
-        - description: Comma-separated list of security identifiers. Maximum 100 identifiers.
-            Type depends on search_keys_type parameter.
+        - description: Search Keys
           in: query
           name: search_keys
           required: true
           schema:
             type: string
-        - description: 'Type of identifier being searched. Supported types: symbol
-            (default), cik, cusip, isin'
+        - description: Search Keys Type
           in: query
           name: search_keys_type
           schema:
             type: string
-        - description: 'Comma-separated list of logo fields to return. Maximum 12
-            fields. Available: logo_light, logo_dark, logo_vector_light, logo_vector_dark,
-            mark_light, mark_dark, mark_vector_light, mark_vector_dark, mark_composite_light,
-            mark_composite_dark, mark_vector_composite_light, mark_vector_composite_dark,
-            colors'
+        - description: Fields
+          in: query
+          name: fields
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Page
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page Size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Updated At From
+          in: query
+          name: updated_since
+          schema:
+            type: string
+        - description: Scale
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: Composite Radius
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bzhttp.Resp'
+      security:
+        - ApiKeyAuth: []
+      summary: Get Logos for given search keys
+      tags:
+        - logos
+  /logos/search:
+    get:
+      description: Get Logos for given search keys
+      operationId: get-search-logos
+      parameters:
+        - description: Search Keys
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: Search Keys Type
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: Fields
           in: query
           name: fields
           required: true
           schema:
             type: string
-        - description: If true and no logo exists, generates a composite image based
-            on company name and brand colors
+        - description: Composite Auto
           in: query
           name: composite_auto
           schema:
             type: boolean
-        - description: 'Border radius for composite images in percentage. Range 0-50
-            where 50 creates a circle. Default: 0'
+        - description: Composite Radius
           in: query
           name: composite_radius
           schema:
             type: integer
-        - description: 'Scale image dimensions in WIDTHxHEIGHT format (e.g., 300x300).
-            Images scale down only, never up. Default: 300x300'
+        - description: Scale
           in: query
           name: scale
           schema:
             type: string
-        - description: Maximum width constraint for scaled images in pixels
+        - description: Max Width
           in: query
           name: max_width
           schema:
@@ -64,7 +136,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/logoapi.LogoRevision'
+                  $ref: '#/components/schemas/logoapi.Logos'
                 type: array
         '400':
           description: Bad Request
@@ -89,96 +161,6 @@ paths:
       summary: Get Logos for given search keys
       tags:
         - logos
-  /logos/sync:
-    get:
-      description: Get Logos in bulk
-      operationId: logo-bulk-sync
-      parameters:
-        - description: Comma-separated list of security identifiers or exchange MIC
-            codes (for v2.1 exchange logos). Type depends on search_keys_type parameter.
-          in: query
-          name: search_keys
-          required: true
-          schema:
-            type: string
-        - description: 'Type of identifier being searched. Supported types: symbol
-            (default), cik, cusip, isin, exchange (v2.1 only)'
-          in: query
-          name: search_keys_type
-          schema:
-            type: string
-        - description: 'Comma-separated list of logo fields to return. Maximum 12
-            fields. Available: logo_light, logo_dark, logo_vector_light, logo_vector_dark,
-            mark_light, mark_dark, mark_vector_light, mark_vector_dark, mark_composite_light,
-            mark_composite_dark, mark_vector_composite_light, mark_vector_composite_dark,
-            colors'
-          in: query
-          name: fields
-          required: true
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - description: Page number for pagination. Used with pagesize for bulk sync
-            operations.
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: 'Number of results per page. Default: 100. Maximum: 1000'
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Unix timestamp (UTC). Returns logos updated after this timestamp.
-          in: query
-          name: updated_since
-          schema:
-            type: string
-        - description: 'Scale image dimensions in WIDTHxHEIGHT format (e.g., 300x300).
-            Images scale down only, never up. Default: 300x300'
-          in: query
-          name: scale
-          schema:
-            type: string
-        - description: 'Border radius for composite images in percentage. Range 0-50
-            where 50 creates a circle. Default: 0'
-          in: query
-          name: composite_radius
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-      security:
-        - ApiKeyAuth: []
-      summary: Get Logos in bulk
-      tags:
-        - logos
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -197,6 +179,8 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
+        - unsupported_message_type
+        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -208,10 +192,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
-        - unsupported_message_type
-        - database_query_error
       type: string
       x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -223,8 +207,6 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -242,37 +224,6 @@ components:
         background_dark:
           type: string
         background_light:
-          type: string
-      type: object
-    logoapi.LogoRevision:
-      properties:
-        colors:
-          $ref: '#/components/schemas/logoapi.LogoColors'
-        company_cik:
-          type: string
-        company_url:
-          type: string
-        created_at:
-          type: string
-        deleted_at:
-          type: string
-        files:
-          $ref: '#/components/schemas/logoapi.LogoRevisionFiles'
-        id:
-          type: string
-        isin:
-          type: string
-        last_audited:
-          type: string
-        mic_code:
-          type: string
-        symbol:
-          type: string
-        type:
-          type: string
-        updated_at:
-          type: string
-        updated_by_user_id:
           type: string
       type: object
     logoapi.LogoRevisionFiles:
@@ -300,6 +251,72 @@ components:
         mark_vector_dark:
           type: string
         mark_vector_light:
+          type: string
+      type: object
+    logoapi.Logos:
+      properties:
+        colors:
+          $ref: '#/components/schemas/logoapi.LogoColors'
+        company_cik:
+          type: string
+        company_url:
+          type: string
+        created_at:
+          type: string
+        deleted_at:
+          type: string
+        figi_share_class:
+          type: string
+        files:
+          $ref: '#/components/schemas/logoapi.LogoRevisionFiles'
+        id:
+          type: string
+        isin:
+          type: string
+        last_audited:
+          type: string
+        mic_code:
+          type: string
+        securities:
+          items:
+            $ref: '#/components/schemas/logoapi.Security'
+          type: array
+        symbol:
+          type: string
+        type:
+          type: string
+        updated_at:
+          type: string
+        updated_by_user_id:
+          type: string
+      type: object
+    logoapi.Security:
+      properties:
+        cik:
+          type: string
+        country:
+          type: string
+        cusip:
+          type: string
+        exchange:
+          type: string
+        exchange_name:
+          type: string
+        figi:
+          type: string
+        figi_share_class:
+          type: string
+        isin:
+          type: string
+        mic_code:
+          type: string
+        name:
+          type: string
+        name_short:
+          type: string
+        security_type:
+          type: string
+        symbol:
           type: string
       type: object
 servers:
