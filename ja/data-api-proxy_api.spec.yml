@@ -1,0 +1,1161 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: このREST APIは、ファンダメンタルズを検索し、その詳細を取得するためのエンドポイントを提供します。
+  termsOfService: http://swagger.io/terms/
+  title: Data API Proxy
+  version: 2.0.0
+paths:
+  /api/v1/quoteDelayed:
+    get:
+      description: シンボル、ISIN（国際証券識別番号）、または CIK のリストについて遅延気配値を取得します
+      operationId: get-quote-delayed-v1
+      parameters:
+        - description: 株式のtickerシンボルをカンマ区切りで指定するリスト。symbols、isin、cikのいずれかは、少なくとも1つ指定が必須です。
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: ISIN（国際証券識別番号）の値をカンマ区切りで並べたリストです。最大50個まで指定できます。symbols、isin、cik
+            のうち少なくとも1つは指定が必須です。
+          in: query
+          name: isin
+          schema:
+            type: string
+        - description: カンマ区切りの CIK 識別子のリストです。symbols、isin、cik のうち少なくとも 1 つは必須です。
+          in: query
+          name: cik
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 遅延クォートを含む JSON オブジェクトを返します
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 遅延クォートの取得 V1
+      tags:
+        - QuoteDelayed
+  /api/v2.1/fundamentals:
+    get:
+      description: ファンダメンタルズ v2.1 の取得
+      operationId: get-fundamentals-v21
+      parameters:
+        - description: 株式のtickerシンボルをカンマ区切りにしたリスト
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: YYYY-MM-DD 形式のこの日付以降（当日を含む）の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 会計期間のフィルター。値：Q1, Q2, Q3, Q4（四半期）、FY（会計年度）、TTM（直近12カ月）
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "レポート種別。値: TTM（直近12か月）、A（当初報告値）、R（修正報告値）、P（暫定値）"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: ファンダメンタルズ v2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/alphaBeta:
+    get:
+      description: Alpha Beta の取得
+      operationId: get-alpha-beta-v21
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の期間を指定します
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（当初報告値）、R（修正再表示）。P（暫定発表）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Alpha Beta v2.1 を取得
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/company:
+    get:
+      description: 企業データの取得
+      operationId: get-company-v21
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以降（指定日を含む）の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返却される結果の会計期間を指定します
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（当初報告値）、R（再表示値）、P（速報値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 企業データ取得 v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/companyProfile:
+    get:
+      description: 企業プロフィールの取得
+      operationId: get-company-profile-v21
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の会計期間を指定します。
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（当初報告値）、R（改定値）、P（速報値）。
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 問題ありません
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 企業プロフィール v2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/shareClass:
+    get:
+      description: 株式クラスの取得
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付（当日を含む）以降の日付の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の期間を指定します
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（原報告値）、R（修正値）。P（暫定発表値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 株式クラス v2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/shareClassProfile:
+    get:
+      description: 株式クラス・プロファイルを取得
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の会計期間を指定します。
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（当初公表値）、R（修正値）。P（暫定値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: サーバ内部エラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Share Class Profile v2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2/bars:
+    get:
+      description: Bars v2 の取得
+      parameters:
+        - description: 株式のtickerシンボルをカンマで区切ったリスト
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "バーの開始日時。形式:
+            YYYY-MM-DD、YYYY-MM-DDTHH:MM:SS、YTD（year-to-date／年初来）、または
+            1MONTH/1m/1M などの相対指定"
+          in: query
+          name: from
+          required: true
+          schema:
+            type: string
+        - description: バーの終了日時。形式：YYYY-MM-DD または YYYY-MM-DDTHH:MM:SS。指定がない場合は、現在日時が使用されます。
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "価格バーを集計するための時間バケットの間隔。有効な値: 1m, 5m, 15m, 30m, 1h, 1d, 1w, 1M"
+          in: query
+          name: interval
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: Bars v2 の取得
+      tags:
+        - Bars
+  /api/v2/fundamentals:
+    get:
+      description: ファンダメンタルズv2の取得
+      operationId: get-fundamentals-v2
+      parameters:
+        - description: カンマ区切りの株式tickerシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: YYYY-MM-DD 形式で指定したこの日付以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "会計期間フィルター。値: Q1, Q2, Q3, Q4（四半期）、FY（通期）、TTM（直近12か月間）"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: レポート種別。値：TTM（直近12か月）、A（当初報告値）、R（修正報告値）、P（速報値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      summary: ファンダメンタルズ v2 の取得
+      tags:
+        - Fundamentals
+  /api/v2/fundamentals/assetClassification:
+    get:
+      description: 資産分類の取得
+      operationId: get-asset-classification-v21
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の期間を指定します
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（当初公表値）、R（修正値）。P（速報値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 資産分類 v2.1 を取得
+      tags:
+        - Fundamentals
+  /api/v2/fundamentals/earningRatios:
+    get:
+      description: シンボル、ISIN（国際証券識別番号）、またはCIKのリストについて収益比率を取得します
+      operationId: get-earning-ratios-v21
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の対象となる会計期間を指定します
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（当初報告値）、R（修正後）、P（速報値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 決算指標を含むJSONオブジェクトを返します
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 収益指標 v2.1 を取得
+      tags:
+        - EarningRatios
+  /api/v2/fundamentals/earningsReports:
+    get:
+      description: 決算レポートを取得する
+      operationId: get-earnings-reports-v21
+      parameters:
+        - description: カンマ区切りのシンボルの一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の会計期間を指定します
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM, A (当初公表値), R (修正再表示). P (暫定値)
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 決算レポート v2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2/fundamentals/financials:
+    get:
+      description: 財務情報 v2.1 の取得
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以上（指定日を含む）の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返されるデータの会計期間を指定します
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（当初報告値）、R（修正後報告値）、P（暫定発表値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 財務データ v2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2/fundamentals/operationRatios:
+    get:
+      description: シンボルのリストについて経営比率を取得します
+      operationId: get-operation-ratios-v21
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付（当日を含む）以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の会計期間を指定します。
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（当初報告値）、R（修正報告値）、P（速報・暫定値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 営業比率を含む JSON オブジェクトを返します
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: サーバ内部エラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: オペレーション比率を取得 v2.1
+      tags:
+        - OperationRatios
+  /api/v2/fundamentals/valuationRatios:
+    get:
+      description: シンボル、ISIN（国際証券識別番号）、または CIK のリストに対するバリュエーション比率を取得します
+      operationId: get-valuation-ratios-v21
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の会計期間を指定します。
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: TTM、A（原報告値）、R（修正後値）、P（速報値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: バリュエーション指標を含む JSON オブジェクトを返します
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: バリュエーション比率 v2.1 の取得
+      tags:
+        - ValuationRatios
+  /api/v2/quoteDelayed:
+    get:
+      description: シンボル一覧の遅延気配値を取得します
+      operationId: get-quote-delayed-v2
+      parameters:
+        - description: カンマ区切りの株式tickerシンボルのリストです。symbols、isin、cik のうち少なくとも1つは必須です。
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: ISIN（国際証券識別番号）のカンマ区切りリスト。最大50件まで指定可能です。symbols、isin、cik
+            のいずれか1つ以上の指定が必須です。
+          in: query
+          name: isin
+          schema:
+            type: string
+        - description: CIK 識別子のカンマ区切りリストです。symbols、isin、cik のうち少なくとも 1 つの指定が必須です。
+          in: query
+          name: cik
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 遅延気配値の JSON オブジェクトを返します
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 遅延気配 v2 の取得
+      tags:
+        - QuoteDelayed
+  /api/v3/fundamentals:
+    get:
+      description: ファンダメンタルズ v3 の取得
+      operationId: get-fundamentals-v3
+      parameters:
+        - description: 株式のtickerシンボルをカンマ区切りにしたリスト
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "クエリの開始日を YYYY-MM-DD 形式で指定します。サポートされる形式:
+            YYYY-MM-DD、YTD（年初来）、1MONTH/1m/1M（1か月前）"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: クエリの終了日を YYYY-MM-DD 形式で指定します。この日付を含め、それ以前のデータが返されます。
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: レポート種別のフィルター。値：TTM（直近12か月）、A（報告値）、R（修正値）、P（速報値）
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: ファンダメンタルズ v3 の取得
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/balance-sheet:
+    get:
+      description: 貸借対照表 v3 の取得
+      operationId: get-balance-sheet-v3
+      parameters:
+        - description: 株式tickerのカンマ区切りリスト
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "クエリの開始日を YYYY-MM-DD 形式で指定します。サポートされている形式:
+            YYYY-MM-DD、YTD（年初来）、1MONTH/1m/1M（1か月前）"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: クエリの終了日を YYYY-MM-DD 形式で指定します。この日付までのデータ（当日分を含む）を返します。
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "レポート種別フィルター。値: TTM（直近12か月）、A（公表値ベース）、R（修正後）、P（速報値）"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 貸借対照表 v3 を取得
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/cash-flow:
+    get:
+      description: キャッシュフロー v3 の取得
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "クエリの開始日を YYYY-MM-DD 形式で指定します。サポートされる指定方法:
+            YYYY-MM-DD、YTD（年初来）、1MONTH/1m/1M（1か月前）"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: クエリの終了日をYYYY-MM-DD形式で指定します。この日付を含め、それ以前のデータが返されます。
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "レポート種別のフィルター。値: TTM（直近12か月）、A（報告値）、R（修正値）、P（速報値）"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      summary: キャッシュフロー v3 の取得
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/derived:
+    get:
+      description: シンボルのリストに対する派生指標および比率を取得します
+      operationId: get-derived-figures-and-ratios-v3
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: クエリの開始日を YYYY-MM-DD
+            形式で指定します。指定可能な値：YYYY-MM-DD、YTD（年初来）、1MONTH/1m/1M（1か月前）
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: クエリの終了日を YYYY-MM-DD 形式で指定します。この日付を含むまでのデータを返します。
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: レポート種別フィルター。値：TTM（直近12か月）、A（報告値）、R（修正報告値）、P（速報値）
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 算出された指標および各種比率を含む JSON オブジェクトを返します
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 派生指標および比率の取得 v3
+      tags:
+        - DerivedFiguresAndRatios
+  /api/v3/fundamentals/income-statement:
+    get:
+      description: 損益計算書 v3 の取得
+      operationId: get-income-statement-v3
+      parameters:
+        - description: カンマ区切りのシンボル一覧
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "クエリの開始日を YYYY-MM-DD 形式で指定します。サポートされる指定方法:
+            YYYY-MM-DD、YTD（年初来）、1MONTH/1m/1M（1か月前）"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: クエリの終了日を YYYY-MM-DD 形式で指定します。この日付を含め、この日までのデータが返されます。
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "レポートタイプフィルター。値: TTM（直近12か月）、A（公表値）、R（再表示値）、P（暫定値）"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 損益計算書 V3 を取得
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/share-price-ratios:
+    get:
+      description: 株価比率の取得
+      operationId: get-share-price-ratios-v3
+      parameters:
+        - description: 株式のtickerシンボルをカンマ区切りにしたリスト
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "クエリの開始日を YYYY-MM-DD 形式で指定します。対応形式: YYYY-MM-DD, YTD（年初来）,
+            1MONTH/1m/1M（1か月前）"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: クエリの終了日をYYYY-MM-DD形式で指定します。この日付を含むそれ以前のデータを返します。
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "レポート種別フィルター。値: TTM（直近12か月）、A（公表値）、R（修正後値）、P（速報値）"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 株価比率 v3 の取得
+      tags:
+        - Fundamentals
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
+      type: string
+      x-enum-varnames:
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: デフォルト

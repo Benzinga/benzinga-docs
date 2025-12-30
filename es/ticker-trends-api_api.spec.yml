@@ -1,0 +1,281 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Esta API REST ofrece endpoints para buscar símbolos bursátiles en
+    tendencia y obtener detalles del ticker.
+  termsOfService: http://swagger.io/terms/
+  title: TickerTrends API
+  version: 2.1.0
+paths:
+  /api/v1/trending-tickers:
+    get:
+      description: Obtener datos de tendencias del ticker
+      parameters:
+        - description: "Intervalo de tiempo para agrupar los datos de tendencia. Valores:
+            10m (10 minutos), 1h (1 hora), 1d (1 día)"
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: Lista separada por comas de símbolos de ticker de acciones
+          in: query
+          name: tickers
+          required: true
+          schema:
+            type: string
+        - description: "Filtro de origen de datos. Valores: all, clickstream, logo"
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: Ventana temporal para el análisis de tendencias. Especificación
+            opcional de un período personalizado.
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: Número de página para la paginación (indexado desde cero).
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "Número de resultados por página. Valor predeterminado y máximo:
+            1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+        "400":
+          description: Solicitud no válida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener datos de la tendencia del ticker
+      tags:
+        - ticker-trends
+  /api/v1/trending-tickers/list:
+    get:
+      description: Obtener datos de la lista de tendencias de tickers
+      parameters:
+        - description: Intervalo de los datos
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: Lista de símbolos bursátiles separados por comas
+          in: query
+          name: tickers
+          required: true
+          schema:
+            type: string
+        - description: Origen de los datos
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: Período de los datos
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: Hora de inicio en formato de 24 horas (p. ej., 09:15)
+          in: query
+          name: time_from
+          required: true
+          schema:
+            type: string
+        - description: Hora de finalización en formato de 24 horas (p. ej., 22:30)
+          in: query
+          name: time_to
+          required: true
+          schema:
+            type: string
+        - description: Fecha de inicio en formato ISO 8601 (por ejemplo, 2024-12-30)
+          in: query
+          name: date_from
+          required: true
+          schema:
+            type: string
+        - description: Fecha de fin en formato ISO 8601 (por ejemplo, 2024-12-30)
+          in: query
+          name: date_to
+          required: true
+          schema:
+            type: string
+        - description: Número de página para paginación.
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "Número de resultados devueltos. Límite: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Aceptar
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
+        "400":
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener datos de la lista de tendencias de tickers
+      tags:
+        - ticker-trends
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - unsupported_message_type
+        - database_query_error
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+      type: string
+      x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.tickerTrendAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendData"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.tickerTrendData:
+      properties:
+        exchange:
+          type: string
+        metrics:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendMetrics"
+          type: array
+        ticker:
+          type: string
+      type: object
+    httpapi.tickerTrendMetrics:
+      properties:
+        count:
+          type: integer
+        count_mavg:
+          type: number
+        market_count_average:
+          type: number
+        scaled_count:
+          type: number
+        scaled_count_mavg:
+          type: number
+        time_bucket:
+          type: string
+      type: object
+    models.Security:
+      properties:
+        exchange:
+          type: string
+        name:
+          type: string
+        ticker:
+          type: string
+      type: object
+    models.TrendingTickersListAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/models.TrendingTickersListData"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    models.TrendingTickersListData:
+      properties:
+        count:
+          type: integer
+        pct_chg:
+          type: integer
+        security:
+          $ref: "#/components/schemas/models.Security"
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: Predeterminado

@@ -1,0 +1,298 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: この REST API は、ニュース記事とプレスリリースの構造化データを返します。
+  termsOfService: http://swagger.io/terms/
+  title: News API
+  version: 2.1.0
+paths:
+  /api/v2/news:
+    get:
+      description: ニュースを取得
+      operationId: get-news
+      parameters:
+        - description: ティッカー
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: CUSIPコード
+          in: query
+          name: cusips
+          schema:
+            type: string
+        - description: ISIN（国際証券識別番号）
+          in: query
+          name: isins
+          schema:
+            type: string
+        - description: チャネル
+          in: query
+          name: channels
+          schema:
+            type: string
+        - description: トピック
+          in: query
+          name: topics
+          schema:
+            type: string
+        - description: 著者
+          in: query
+          name: authors
+          schema:
+            type: string
+        - description: コンテンツタイプ
+          in: query
+          name: contentTypes
+          schema:
+            type: string
+        - description: 並べ替え
+          in: query
+          name: sort
+          schema:
+            type: string
+        - description: 日付
+          in: query
+          name: date
+          schema:
+            type: string
+            format: date
+        - description: 公開日以降
+          in: query
+          name: publishedSince
+          schema:
+            type: string
+        - description: 更新日時（以降）
+          in: query
+          name: updatedSince
+          schema:
+            type: string
+        - description: 開始日
+          in: query
+          name: dateFrom
+          schema:
+            type: string
+        - description: 終了日
+          in: query
+          name: dateTo
+          schema:
+            type: string
+        - description: ページサイズ
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: ページ
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: 最終ID
+          in: query
+          name: lastID
+          schema:
+            type: string
+        - description: 出力表示
+          in: query
+          name: displayOutput
+          schema:
+            type: string
+        - description: ノイズ
+          in: query
+          name: noise
+          schema:
+            type: string
+        - description: 形式
+          in: query
+          name: format
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
+            text/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
+        "400":
+          description: 無効または不足しているクエリパラメータ
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "499":
+          description: リクエストコンテキストが取り消されました
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "500":
+          description: 内部エラー
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: ニュースの取得
+      tags:
+        - News
+  /api/v2/news/removed:
+    get:
+      description: 削除済みニュースの取得
+      operationId: get-removed-news
+      parameters:
+        - description: 更新日時（以降）
+          in: query
+          name: updatedSince
+          schema:
+            type: string
+        - description: ページサイズ
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: ページ
+          in: query
+          name: page
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsRemovedItem"
+                type: array
+            text/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsRemovedItem"
+                type: array
+        "400":
+          description: 無効または欠落しているクエリパラメーター
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "499":
+          description: リクエストコンテキストのキャンセル
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "500":
+          description: 内部エラー
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 削除済みニュースの取得
+      tags:
+        - News
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: token
+      type: apiKey
+  schemas:
+    api.ChannelTag:
+      properties:
+        name:
+          type: string
+      type: object
+    api.Image:
+      properties:
+        size:
+          type: string
+        url:
+          type: string
+      type: object
+    api.NewsItem:
+      properties:
+        author:
+          type: string
+        body:
+          type: string
+        channels:
+          items:
+            $ref: "#/components/schemas/api.ChannelTag"
+          type: array
+        created:
+          type: string
+        id:
+          type: integer
+        image:
+          items:
+            $ref: "#/components/schemas/api.Image"
+          type: array
+        original_id:
+          type: integer
+        stocks:
+          items:
+            $ref: "#/components/schemas/api.Stock"
+          type: array
+        tags:
+          items:
+            $ref: "#/components/schemas/api.ChannelTag"
+          type: array
+        teaser:
+          type: string
+        title:
+          type: string
+        updated:
+          type: string
+        url:
+          type: string
+      type: object
+    api.NewsRemovedItem:
+      properties:
+        id:
+          type: integer
+        updated:
+          type: string
+      type: object
+    api.Stock:
+      properties:
+        cusip:
+          type: string
+        isin:
+          type: string
+        name:
+          type: string
+      type: object
+servers:
+  - url: https://api.benzinga.com/api/v2
+    description: V2
+  - url: https://api.benzinga.com/api/v2.1
+    description: V2.1

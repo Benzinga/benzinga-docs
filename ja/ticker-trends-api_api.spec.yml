@@ -1,0 +1,277 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: この REST API は、トレンドのティッカーを検索し、各ティッカーの詳細を取得するためのエンドポイントを提供します。
+  termsOfService: http://swagger.io/terms/
+  title: TickerTrends API
+  version: 2.1.0
+paths:
+  /api/v1/trending-tickers:
+    get:
+      description: tickerトレンドデータを取得
+      parameters:
+        - description: "トレンドデータを集約するための時間間隔です。指定可能な値: 10m（10分）、1h（1時間）、1d（1日）"
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: 株式tickerシンボルをカンマ区切りにしたリスト
+          in: query
+          name: tickers
+          required: true
+          schema:
+            type: string
+        - description: "データソースのフィルター。指定可能な値: all、clickstream、logo"
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: トレンド分析の対象期間。任意で指定できるカスタム期間です。
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: ページネーション用のページ番号。0始まり（ゼロインデックス）です。
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "1ページあたりの結果数。デフォルト値および最大値: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: ticker トレンドデータを取得
+      tags:
+        - ticker-trends
+  /api/v1/trending-tickers/list:
+    get:
+      description: tickerトレンド一覧データの取得
+      parameters:
+        - description: データの間隔
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: カンマ区切りのティッカー一覧
+          in: query
+          name: tickers
+          required: true
+          schema:
+            type: string
+        - description: データソース
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: データの期間
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: 開始時刻（24時間形式、例：09:15）
+          in: query
+          name: time_from
+          required: true
+          schema:
+            type: string
+        - description: 終了時刻（24時間形式、例：22:30）
+          in: query
+          name: time_to
+          required: true
+          schema:
+            type: string
+        - description: "開始日（ISO 8601 形式、例: 2024-12-30）"
+          in: query
+          name: date_from
+          required: true
+          schema:
+            type: string
+        - description: 終了日（ISO 8601 形式、例：2024-12-30）
+          in: query
+          name: date_to
+          required: true
+          schema:
+            type: string
+        - description: ページング用のページ番号。
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: 返される結果件数。最大1000件まで。
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: tickerトレンドリストデータを取得
+      tags:
+        - ticker-trends
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - unsupported_message_type
+        - database_query_error
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+      type: string
+      x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.tickerTrendAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendData"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.tickerTrendData:
+      properties:
+        exchange:
+          type: string
+        metrics:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendMetrics"
+          type: array
+        ticker:
+          type: string
+      type: object
+    httpapi.tickerTrendMetrics:
+      properties:
+        count:
+          type: integer
+        count_mavg:
+          type: number
+        market_count_average:
+          type: number
+        scaled_count:
+          type: number
+        scaled_count_mavg:
+          type: number
+        time_bucket:
+          type: string
+      type: object
+    models.Security:
+      properties:
+        exchange:
+          type: string
+        name:
+          type: string
+        ticker:
+          type: string
+      type: object
+    models.TrendingTickersListAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/models.TrendingTickersListData"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    models.TrendingTickersListData:
+      properties:
+        count:
+          type: integer
+        pct_chg:
+          type: integer
+        security:
+          $ref: "#/components/schemas/models.Security"
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: デフォルト
