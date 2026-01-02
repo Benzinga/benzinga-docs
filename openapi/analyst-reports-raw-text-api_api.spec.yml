@@ -8,38 +8,44 @@ info:
 paths:
   /analyst/reports/raw-text:
     get:
-      description: Get Analyst Reports Raw Text Data
+      description: Retrieves raw text content from professional analyst research
+        reports. Returns full-text analyst reports, research notes, and
+        investment recommendations from financial institutions. Includes report
+        metadata, rating changes, price targets, and detailed analysis.
+        Essential for accessing institutional research and analyst sentiment.
       operationId: get-analyst-reports-raw-text-data
       parameters:
-        - description: Page number for pagination. Zero-indexed.
+        - description: "Page number for pagination. Zero-indexed (0 = first page, 1 =
+            second page, etc.). Default: 0"
           in: query
           name: page
           schema:
             type: integer
-        - description: 'Number of results per page. Default: 100. Maximum: 100'
+        - description: "Number of results per page. Default: 100. Maximum: 100. Returns
+            most recent reports first."
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
-        '200':
-          description: OK
+        "200":
+          description: Array of analyst reports with full text content and metadata
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/models.AnalystReportRawText'
+                  $ref: "#/components/schemas/models.AnalystReportRawText"
                 type: array
-        '400':
-          description: Bad Request
+        "400":
+          description: Bad request - invalid parameters
           content:
             application/json:
               schema:
                 items:
                   type: string
                 type: array
-        '500':
-          description: Internal Server Error
+        "500":
+          description: Internal server error
           content:
             application/json:
               schema:
@@ -48,9 +54,9 @@ paths:
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: Get Analyst Reports Raw Text Data
+      summary: Analyst Research Reports
       tags:
-        - Analyst Reports Raw Text
+        - Analyst Reports
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -75,6 +81,3 @@ components:
         ticker:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Production

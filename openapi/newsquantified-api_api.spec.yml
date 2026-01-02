@@ -8,86 +8,95 @@ info:
 paths:
   /api/v2/newsquantified:
     get:
-      description: Get Newsquantified Data
+      description: Retrieves quantified news analytics data with sentiment scores,
+        relevance metrics, and market impact indicators. Returns structured data
+        analyzing the quantitative aspects of news coverage including sentiment
+        polarity, article counts, trending scores, and ticker-specific metrics.
+        Use this endpoint to access machine-readable news analytics for
+        algorithmic trading and quantitative research.
       operationId: get-newsquantified-data
       parameters:
-        - description: Page number for pagination. Zero-indexed.
+        - description: "Page number for pagination. Zero-indexed (0 = first page, 1 =
+            second page, etc.). Default: 0"
           in: query
           name: page
           schema:
             type: integer
-        - description: 'Number of results per page. Maximum: 1000. Default: 1000'
+        - description: "Number of results per page. Default: 1000. Maximum: 1000. Returns
+            most recent data first."
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Unix timestamp (UTC). Returns newsquantified data updated after
-            this timestamp.
+        - description: Unix timestamp in seconds (UTC). Returns newsquantified data
+            updated after this timestamp. Use for incremental updates.
           in: query
           name: updated_since
           schema:
             type: integer
-        - description: Comma-separated list of stock ticker symbols to filter results.
+        - description: Comma-separated list of stock ticker symbols to filter results
+            (e.g., AAPL,MSFT,TSLA). Returns analytics for specified securities
+            only.
           in: query
           name: symbols
           schema:
             type: string
-        - description: Single date in YYYY-MM-DD format. Shorthand for date_from and
-            date_to when both are the same.
+        - description: Single date in YYYY-MM-DD format (e.g., 2024-12-30). Shorthand for
+            filtering when date_from and date_to are the same. Returns data for
+            this specific date.
           in: query
           name: date
           schema:
             type: string
-        - description: Start date in YYYY-MM-DD format. Returns data from this date
-            forward.
+        - description: Start date in YYYY-MM-DD format (e.g., 2024-01-01). Returns data
+            from this date forward. Use with date_to for date range queries.
           in: query
           name: date_from
           schema:
             type: string
-        - description: End date in YYYY-MM-DD format. Returns data up to and including
-            this date.
+        - description: End date in YYYY-MM-DD format (e.g., 2024-12-31). Returns data up
+            to and including this date. Use with date_from for date range
+            queries.
           in: query
           name: date_to
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        "200":
+          description: Array of quantified news analytics with sentiment scores and metrics
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/models.Newsquantified'
+                  $ref: "#/components/schemas/models.Newsquantified"
                 type: array
-        '400':
-          description: Bad Request
+        "400":
+          description: Bad request - invalid date format or parameters
           content:
             application/json:
               schema:
                 items:
-                  items:
-                    type: object
-                  type: array
+                  type: object
                 type: array
-        '404':
-          description: Not Found
+        "404":
+          description: Not found - no data available for specified parameters
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '500':
-          description: Internal Server Error
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: Internal server error
           content:
             application/json:
               schema:
                 items:
-                  items:
-                    type: object
-                  type: array
+                  type: object
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: Get Newsquantified Data
+      summary: Quantitative News Analytics
+      tags:
+        - News Analytics
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -98,7 +107,7 @@ components:
     bzhttp.Error:
       properties:
         code:
-          $ref: '#/components/schemas/bzhttp.ErrorCode'
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
         id:
           type: string
         value:
@@ -141,7 +150,7 @@ components:
           type: object
         errors:
           items:
-            $ref: '#/components/schemas/bzhttp.Error'
+            $ref: "#/components/schemas/bzhttp.Error"
           type: array
         ok:
           type: boolean
@@ -341,6 +350,3 @@ components:
         prevDay%:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v2
-    description: V2
