@@ -1,4 +1,34 @@
 ---
-title: "Delayed Quotes For A List Of Symbols ISINs Or CIKs"
+title: "シンボル、ISIN、CIK のリストに対する遅延株価"
 openapi: /ja/openapi/data-api-proxy_api.spec.yml GET /api/v1/quoteDelayed
 ---
+
+<ResponseExample>
+```json レスポンス (200 OK)
+{
+  "quotes": [
+    {
+      "security": {
+        "symbol": "AAPL",
+        "cik": "320193",
+        "isin": "US0378331005",
+        "cusip": "037833100",
+        "name": "Apple Inc. - Common Stock"
+      },
+      "quote": {
+        "date": "2025-12-30T06:39:25.848-05:00",
+        "previousClose": 273.76,
+        "change": -0.88,
+        "changePercent": -0.32,
+        "fiftyTwoWeekHigh": 288.62,
+        "fiftyTwoWeekLow": 169.2101,
+        "currency": "USD",
+        "last": 272.88,
+        "volume": 27899,
+        "previousCloseDate": "2025-12-29T16:00:00.000-05:00"
+      }
+    }
+  ]
+}
+```
+</ResponseExample>

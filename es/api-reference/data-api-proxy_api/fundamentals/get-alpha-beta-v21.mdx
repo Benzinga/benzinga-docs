@@ -1,4 +1,46 @@
 ---
-title: "Alpha Beta"
+title: "Alfa Beta"
 openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals/alphaBeta
 ---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "result": [
+    {
+      "company": {
+        "primarySymbol": "AAPL",
+        "primaryExchange": "NAS",
+        "cik": "320193",
+        "isin": "CA03785Y1007",
+        "cusip": "03785Y100",
+        "standardName": "Apple",
+        "countryId": "USA",
+        "isReit": false,
+        "industryTemplateCode": "N",
+        "businessCountryId": "USA",
+        "isLimitedPartnership": false,
+        "yearofEstablishment": 1977,
+        "isLimitedLiabilityCompany": false
+      },
+      "alphaBeta": [
+        {
+          "id": {
+            "shareClassId": "0P000000GY",
+            "asOf": "2019-07-31",
+            "period": "60M"
+          },
+          "alpha": 0.007715,
+          "beta": 1.249643,
+          "nonDivAlpha": -0.24129,
+          "nonDivBeta": 1.247545
+        }
+      ],
+      "symbol": "AAPL",
+      "idType": "SYMBOL",
+      "id": "AAPL"
+    }
+  ]
+}
+```
+</ResponseExample>

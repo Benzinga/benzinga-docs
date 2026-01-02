@@ -1,16 +1,42 @@
 ---
-title: "Earnings"
+title: "Ganancias"
 openapi: /es/openapi/calendar_api.spec.yml GET /calendar/earnings
 ---
 
 <ResponseExample>
 ```json Respuesta (200 OK)
 {
-  "message": "ninguna ruta coincide con esos valores",
-  "request_id": "cb6cc9649b50ab7aa6df40070cf2bb0b"
+  "earnings": [
+    {
+      "currency": "USD",
+      "cusip": "144229789",
+      "date": "2027-10-10",
+      "date_confirmed": 0,
+      "eps": "",
+      "eps_est": "",
+      "eps_prior": "",
+      "eps_surprise": "",
+      "eps_surprise_percent": "",
+      "eps_type": "",
+      "exchange": "NASDAQ",
+      "id": "6911e7d7487eb80001355ad6",
+      "importance": 1,
+      "isin": "CH1442297896",
+      "name": "NewcelX",
+      "notes": "",
+      "period": "H1",
+      "period_year": 2027,
+      "revenue": "",
+      "revenue_est": "",
+      "revenue_prior": "",
+      "revenue_surprise": "",
+      "revenue_surprise_percent": "",
+      "revenue_type": "",
+      "ticker": "NCEL",
+      "time": "08:25:43",
+      "updated": 1762781216
+    }
+  ]
 }
-```
-```json (400)
-Parámetros de consulta no válidos o faltantes
 ```
 </ResponseExample>

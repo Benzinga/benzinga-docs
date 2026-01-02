@@ -1,13 +1,33 @@
 ---
-title: "Economics"
+title: "Economía"
 openapi: /es/openapi/calendar_api.spec.yml GET /calendar/economics
 ---
 
 <ResponseExample>
 ```json Response (200 OK)
 {
-  "message": "no Route matched with those values",
-  "request_id": "6129850679dc7b3150c8f32047978d64"
+  "economics": [
+    {
+      "actual": "",
+      "actual_t": "%",
+      "consensus": "",
+      "consensus_t": "",
+      "country": "USA",
+      "date": "2026-03-08",
+      "description": "El informe Challenger Job Cuts (YoY) mide el cambio porcentual en los despidos reportados por los empleadores durante un mes determinado en comparación con el mismo mes del año anterior. Los inversores y analistas utilizan este informe para evaluar la fortaleza del mercado laboral y tomar decisiones informadas sobre sus inversiones. Los datos de este informe también pueden afectar el valor del dólar estadounidense, ya que cifras superiores a las esperadas se consideran negativas y cifras inferiores a las esperadas se consideran positivas.",
+      "event_category": "Employment",
+      "event_name": "Challenger Job Cuts (YoY)",
+      "event_period": "",
+      "id": "6745790147f2830001365a27",
+      "importance": 1,
+      "notes": "",
+      "period_year": 2026,
+      "prior": "",
+      "prior_t": "%",
+      "time": "02:30:09",
+      "updated": 1736341667
+    }
+  ]
 }
 ```
 </ResponseExample>

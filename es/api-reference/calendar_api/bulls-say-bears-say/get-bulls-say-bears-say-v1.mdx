@@ -1,13 +1,29 @@
 ---
-title: "Bulls Say Bears Say"
+title: "Lo que dicen los alcistas y los bajistas"
 openapi: /es/openapi/calendar_api.spec.yml GET /bulls_bears_say
 ---
 
 <ResponseExample>
 ```json Respuesta (200 OK)
 {
-  "message": "no Route matched with those values",
-  "request_id": "47753b56aeabda3987ce3c2cbaf1d011"
+  "bulls_say_bears_say": [
+    {
+      "bear_case": "El análisis destaca una disminución interanual del 3,6 % en las ventas provenientes de China, lo que genera preocupación sobre el desempeño del mercado en una región clave. Además, aunque los márgenes brutos se mantienen estables en aproximadamente un 47 % interanual, el aumento de los gastos operativos supone un riesgo para la rentabilidad. Asimismo, un posible crecimiento lento de las ventas de iPhone y la posibilidad de un deterioro en la reputación de Apple podrían ejercer presión a la baja sobre la valoración de la compañía, generando inquietud entre los inversores.",
+      "bull_case": "Las ventas del cuarto trimestre de Apple aumentaron un 8 % a 102,5 mil millones de dólares, en línea con las estimaciones y respaldando un crecimiento total de ventas proyectado de entre un 10 % y un 12 % en el próximo trimestre, impulsado principalmente por un sólido desempeño en las ventas de iPhone. La compañía también reportó un ingreso operativo de 32,4 mil millones de dólares, lo que refleja un aumento interanual del 10 %, y un crecimiento de los ingresos por servicios del 15 %, contribuyendo positivamente a la dinámica del margen bruto. Además, con el crecimiento previsto en la región de China y las inversiones estratégicas en IA y desarrollo de productos, Apple está bien posicionada para un crecimiento sostenible a largo plazo a pesar del aumento de los gastos operativos.",
+      "id": "6951d73e304f6ecd69d00189",
+      "securities": [
+        {
+          "cik": "0000320193",
+          "exchange": "NASDAQ Global Select Consolidated",
+          "isin": "US0378331005",
+          "name": "APPLE INC",
+          "symbol": "AAPL"
+        }
+      ],
+      "ticker": "AAPL",
+      "updated": 1766971198
+    }
+  ]
 }
 ```
 </ResponseExample>

@@ -8,10 +8,12 @@ info:
 paths:
   /api/v1/earnings-call-transcripts:
     get:
-      description: 決算説明会の書き起こしを取得
+      description: 指定した企業またはコールIDの決算説明会の書き起こしを取得します。四半期および通期の決算説明会について、質疑応答セッション、話者の識別情報、タイムスタンプを含む全文書き起こしを返します。日付フィルターを使用して特定の会計期間の書き起こしを取得するか、ticker
+        シンボル（カンマ区切りのシンボル一覧）でフィルタリングして、特定企業の決算説明会に関するコールのみを取得します。
       operationId: get-earnings-call-transcripts
       parameters:
-        - description: 決算説明会トランスクリプトを絞り込むための株式tickerシンボルのカンマ区切りリスト
+        - description: "決算説明会トランスクリプトを絞り込むための株式tickerシンボルのカンマ区切りリスト（例:
+            AAPL,MSFT,GOOGL）。これらの企業のすべての決算説明会トランスクリプトを返します。"
           in: query
           name: tickers
           style: form
@@ -20,7 +22,8 @@ paths:
             type: array
             items:
               type: string
-        - description: 取得する特定のコールIDのカンマ区切りリスト
+        - description: 取得する特定のコールIDのカンマ区切りリスト。既知の決算説明会コールIDに対応するトランスクリプトを取得するために使用します。ticker
+            ベースのフィルタリングよりも優先されます。
           in: query
           name: call_id
           style: form
@@ -29,29 +32,31 @@ paths:
             type: array
             items:
               type: string
-        - description: ページネーション用のページ番号。0始まり（ゼロ基準）です。
+        - description: ページネーション用のページ番号。0始まり（ゼロ基準）です（0 = 1ページ目、1 = 2ページ目、など）。デフォルト：0
           in: query
           name: page
           schema:
             type: integer
-        - description: "1ページあたりの結果数。デフォルト値: 5、最大値: 1000"
+        - description: "1ページあたりの結果数。デフォルト値: 5、最大値: 1000。大量データを取得する場合は、より大きなページサイズを使用してください。"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: YYYY-MM-DD 形式の開始日。この日付以降のトランスクリプトを返します。
+        - description: "YYYY-MM-DD 形式の開始日フィルター（例:
+            2024-01-01）。この日付以降の決算発表電話会議のトランスクリプトを返します。"
           in: query
           name: date_from
           schema:
             type: string
-        - description: 終了日を YYYY-MM-DD 形式で指定します。この日付を含むそれ以前のトランスクリプトを返します。
+        - description: "終了日フィルターを YYYY-MM-DD 形式（例:
+            2024-12-31）で指定します。この日付を含むそれ以前の決算説明会のトランスクリプトを返します。"
           in: query
           name: date_to
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: 決算説明会の書き起こし要約（全文テキストおよびメタデータ付き）の配列
           content:
             application/json:
               schema:
@@ -59,7 +64,7 @@ paths:
                   $ref: "#/components/schemas/models.TranscriptSummary"
                 type: array
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - パラメータが無効です
           content:
             application/json:
               schema:
@@ -76,15 +81,16 @@ paths:
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: 決算説明会の書き起こしを取得
+      summary: 決算説明会の書き起こし
       tags:
         - Earnings Call Transcripts
   /api/v1/earnings-call-transcripts/audio:
     get:
-      description: 決算説明会トランスクリプトの音声ファイルを取得する
+      description: 決算説明会音声のダウンロード用URLを取得します。四半期および通期の決算説明会の完全な音声録音にアクセスするための署名付きURLを返します。音声ファイルには、決算プレゼンテーション全体とQ&Aセッションが含まれます。URLには有効期限があり、認可されたアクセスのみが可能となるよう署名されています。
       operationId: get-earnings-call-transcript-audio-files
       parameters:
-        - description: 音声ファイルを絞り込むための株式tickerシンボルのカンマ区切りリスト
+        - description: "音声ファイルを絞り込むための株式tickerシンボルのカンマ区切りリスト（例:
+            AAPL,MSFT,GOOGL）。これらの企業のすべての決算説明会の音声ファイルを返します。"
           in: query
           name: tickers
           style: form
@@ -93,7 +99,7 @@ paths:
             type: array
             items:
               type: string
-        - description: 音声ファイルを取得する対象の特定のコールIDをカンマ区切りで指定したリスト
+        - description: 音声ファイルを取得する対象の特定のコールIDをカンマ区切りで指定したリスト。既知の決算説明会コールの識別子に対する音声を取得するために使用します。
           in: query
           name: call_id
           style: form
@@ -102,7 +108,8 @@ paths:
             type: array
             items:
               type: string
-        - description: ページネーションのページ番号。0始まり（ゼロインデックス）です。
+        - description: "ページネーションのページ番号。0始まり（ゼロインデックス）です。0 が 1 ページ目、1 が 2
+            ページ目というように指定します。デフォルト値: 0"
           in: query
           name: page
           schema:
@@ -114,7 +121,7 @@ paths:
             type: integer
       responses:
         "200":
-          description: OK
+          description: 署名付きダウンロードURLを含む決算説明会音声ファイルメタデータの配列
           content:
             application/json:
               schema:
@@ -122,7 +129,7 @@ paths:
                   $ref: "#/components/schemas/models.TranscriptSummaryAudio"
                 type: array
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - 無効なパラメータ
           content:
             application/json:
               schema:
@@ -139,7 +146,7 @@ paths:
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: 決算説明会の書き起こし音声ファイルを取得
+      summary: 決算説明会の書き起こし音声ファイル
       tags:
         - Earnings Call Transcripts
 components:

@@ -53,52 +53,54 @@ paths:
         - QuoteDelayed
   /api/v2.1/fundamentals:
     get:
-      description: ファンダメンタルズ v2.1 の取得
+      description: 指定した証券の拡張された財務ファンダメンタルズデータを取得します。これは、追加のデータフィールドとパフォーマンス向上を備えた v2
+        エンドポイントの改良版です。最新のデータソースから、包括的な財務指標、各種比率、および企業情報を返します。
       operationId: get-fundamentals-v21
       parameters:
-        - description: 株式tickerシンボルをカンマ区切りで並べたリスト
+        - description: "株式tickerシンボルをカンマ区切りで並べたリスト（例: AAPL, MSFT, GOOGL）。必須。"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: この日付（YYYY-MM-DD 形式）以降（当日を含む）の結果を返します
+        - description: "この日付以降（当日を含む）の結果をフィルターします。形式: YYYY-MM-DD（例: 2024-01-01）"
           in: query
           name: asOf
           schema:
             type: string
-        - description: "会計期間フィルター。値: Q1, Q2, Q3, Q4（四半期）、FY（会計年度）、TTM（直近12か月間）"
+        - description: "財務報告の会計期間フィルター。サポートされる値:
+            Q1（第1四半期）、Q2（第2四半期）、Q3（第3四半期）、Q4（第4四半期）、FY（会計年度）、TTM（直近12か月間）"
           in: query
           name: period
           schema:
             type: string
-        - description: "レポート種別。値: TTM（直近12か月）、A（原報告値）、R（修正後報告値）、P（暫定値）"
+        - description: "取得する財務レポートの種別。サポートされる値: TTM（直近12か月）、A（原報告値）、R（修正後報告値）、P（暫定値）"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: 追加の指標・比率を含む拡張ファンダメンタルズデータ
           content:
             application/json:
               schema:
-                type: string
+                type: object
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - symbols パラメータが不足しているか無効です
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: 内部サーバーエラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: ファンダメンタルズ v2.1 の取得
+      summary: 企業ファンダメンタルズ v2.1
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/alphaBeta:
@@ -153,102 +155,104 @@ paths:
         - Fundamentals
   /api/v2.1/fundamentals/company:
     get:
-      description: 企業データを取得する
+      description: 企業固有の詳細な財務データを取得します。主要指標、オペレーション統計、過去の財務実績などを含み、基本的なファンダメンタルズ情報を超えて企業の財務状況を包括的に把握できます。
       operationId: get-company-v21
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: "カンマ区切りの株式のtickerシンボル一覧（例: AAPL,MSFT,GOOGL）。必須。"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: このパラメータで指定した日付以降の結果を返します
+        - description: このパラメータで指定した日付以降の結果のみを返すようにフィルタします。形式：YYYY-MM-DD（例：2024-01-01）
           in: query
           name: asOf
           schema:
             type: string
-        - description: 返される結果の対象期間を指定します
+        - description: "財務報告データの会計期間フィルター。指定可能な値: Q1, Q2, Q3, Q4（四半期）, FY（会計年度）,
+            TTM（直近12か月）"
           in: query
           name: period
           schema:
             type: string
-        - description: TTM、A（当初公表値）、R（修正公表値）。P（速報値）
+        - description: "財務報告の種類。サポートされる値: TTM（直近12か月）、A（当初公表値）、R（修正公表値）。P（速報値）"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: 経営指標を含む企業の財務データ
           content:
             application/json:
               schema:
-                type: string
+                type: object
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - シンボルパラメータが指定されていないか無効です
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: 内部サーバーエラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 企業データ v2.1 を取得
+      summary: 企業財務データ
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/companyProfile:
     get:
-      description: 企業プロフィールを取得
+      description: 企業の事業内容、業種分類、セクター情報、本社所在地、主要経営陣、その他の企業メタデータなど、包括的な企業プロフィール情報を取得します。企業の背景や組織構造を理解するうえで不可欠です。
       operationId: get-company-profile-v21
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: カンマ区切りのシンボル一覧（例：AAPL,MSFT,GOOGL）。必須。
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: このパラメータで指定した日付以降の結果を返します
+        - description: "このパラメータで指定した日付以降の結果にフィルタを適用します。形式: YYYY-MM-DD（例: 2024-01-01）"
           in: query
           name: asOf
           schema:
             type: string
-        - description: 返される結果の時間範囲を指定します
+        - description: "財務報告の会計期間向けの時間範囲フィルターです。指定可能な値: Q1, Q2, Q3,
+            Q4（四半期）、FY（通期）、TTM（直近12か月）"
           in: query
           name: period
           schema:
             type: string
-        - description: TTM、A（当初報告値）、R（訂正後数値）、P（暫定値）
+        - description: 財務報告の種類。サポートされる値：TTM（直近12か月）、A（当初報告値）、R（訂正後数値）、P（暫定値）
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: 事業内容および企業情報を含む企業概要データ
           content:
             application/json:
               schema:
-                type: string
+                type: object
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - symbols パラメータが欠落しているか無効です
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: サーバ内部エラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 企業プロフィール（v2.1）の取得
+      summary: 企業プロフィールの情報
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/shareClass:
@@ -351,16 +355,19 @@ paths:
         - Fundamentals
   /api/v2/bars:
     get:
-      description: Bars v2 の取得
+      description: 指定した証券の過去の OHLCV（始値・高値・安値・終値・出来高）の価格バー
+        データを取得します。指定したインターバルに基づいて集計された価格データを返します。複数の ticker
+        シンボルおよび相対日付を含むさまざまな期間指定をサポートします。
+      operationId: get-bars-v2
       parameters:
-        - description: 株式のtickerシンボルのカンマ区切りリスト
+        - description: "株式のtickerシンボルのカンマ区切りリスト（例: AAPL,MSFT,TSLA）。必須。"
           in: query
           name: symbols
           required: true
           schema:
             type: string
         - description: "バーの開始日時。形式: YYYY-MM-DD、YYYY-MM-DDTHH:MM:SS、YTD（年初来）、または
-            1MONTH/1m/1M などの相対指定。"
+            1MONTH/1m/1M、1WEEK/1w/1W、1DAY/1d/1D などの相対指定。必須。"
           in: query
           name: from
           required: true
@@ -372,22 +379,31 @@ paths:
           name: to
           schema:
             type: string
-        - description: "価格バーを集計する際の時間バケット間隔。指定可能な値: 1m, 5m, 15m, 30m, 1h, 1d, 1w, 1M"
+        - description: "価格バーを集計する際の時間バケット間隔。サポートされる値:
+            1m（1分）、5m（5分）、15m（15分）、30m（30分）、1h（1時間）、1d（1日）、1w（1週間）、1M（1か月）。デフォル\
+            ト値: 1d"
           in: query
           name: interval
           schema:
             type: string
+        - description: "取引セッションのフィルター。指定可能な値:
+            ANY（すべてのセッション）、PRE_MARKET（プレマーケット取引）、REGULAR（通常の取引時間）、AFTER_MARKET（\
+            アフターマーケット取引）。既定値: ANY"
+          in: query
+          name: session
+          schema:
+            type: string
       responses:
         "200":
-          description: OK
+          description: 各シンボルごとのOHLCVバーを含むチャートデータ配列
           content:
             application/json:
               schema:
                 items:
-                  type: object
+                  $ref: "#/components/schemas/httpapi.Chart"
                 type: array
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - 必須パラメータが不足しているか無効です
           content:
             application/json:
               schema:
@@ -400,55 +416,59 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: Bars v2 の取得
+      summary: ヒストリカル価格バー
       tags:
-        - Bars
+        - Market Data
   /api/v2/fundamentals:
     get:
-      description: ファンダメンタルズ V2 の取得
+      description: 指定した証券について、包括的な財務ファンダメンタルズデータを取得します。主要な財務指標、各種比率、および Morningstar
+        のデータソースに基づく企業情報を返します。損益計算書、貸借対照表、キャッシュフロー計算書のデータにアクセスする際にこのエンドポイントを使用してください。
       operationId: get-fundamentals-v2
       parameters:
-        - description: 株式tickerシンボルのカンマ区切り一覧
+        - description: "株式tickerシンボルのカンマ区切り一覧（例: AAPL,MSFT,GOOGL）。必須。"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: YYYY-MM-DD 形式で指定したこの日付以降の結果を返します
+        - description: "この日付以降の結果をフィルタします。YYYY-MM-DD 形式で指定します（例: 2024-01-01）"
           in: query
           name: asOf
           schema:
             type: string
-        - description: "会計期間フィルター。値: Q1, Q2, Q3, Q4（四半期）、FY（通期）、TTM（直近12か月間）"
+        - description: "財務報告の会計期間を指定する会計期間フィルター。サポートされる値:
+            Q1（第1四半期）、Q2（第2四半期）、Q3（第3四半期）、Q4（第4四半期）、FY（通期）、TTM（直近12か月間）"
           in: query
           name: period
           schema:
             type: string
-        - description: "レポート種別。値: TTM（直近12か月）、A（当初報告）、R（修正報告）、P（速報値）"
+        - description: "取得する財務レポートの種別。サポートされる値: TTM（直近12か月）、A（当初報告）、R（修正報告）、P（速報値）"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: 財務諸表および各種指標を含むファンダメンタルズデータ
           content:
             application/json:
               schema:
-                type: string
+                type: object
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - シンボルパラメーターが不足しているか無効です
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: 内部サーバーエラー
           content:
             application/json:
               schema:
-                type: string
-      summary: ファンダメンタルズ v2 を取得
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 企業のファンダメンタルズ
       tags:
         - Fundamentals
   /api/v2/fundamentals/assetClassification:
@@ -552,52 +572,54 @@ paths:
         - EarningRatios
   /api/v2/fundamentals/earningsReports:
     get:
-      description: 決算レポートを取得
+      description: 指定した有価証券について、四半期および通期レポートから、売上高、1株当たり利益（Earnings Per Share,
+        EPS）、EBITDA、純利益などの主要な財務実績を含む詳細な決算レポートを取得します。企業の財務パフォーマンスおよび利益動向を時系列で分析するうえで不可欠なデータです。
       operationId: get-earnings-reports-v21
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: "カンマ区切りの株式のtickerシンボル一覧（例: AAPL,MSFT,GOOGL）。必須。"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: このパラメータで指定した日付以降の結果を返します
+        - description: "このパラメータで指定した日付以降の結果をフィルタリングします。形式: YYYY-MM-DD（例: 2024-01-01）"
           in: query
           name: asOf
           schema:
             type: string
-        - description: 返される結果の対象となる会計期間を指定します
+        - description: "返される結果の対象となる財務報告の会計期間を絞り込むためのフィルターです。利用可能な値: Q1, Q2, Q3,
+            Q4（四半期）、FY（会計年度）、TTM（直近12か月）"
           in: query
           name: period
           schema:
             type: string
-        - description: TTM、A（当初公表値）、R（修正後値）、P（速報値）
+        - description: 財務レポートの種類。サポートされる値：TTM（過去12か月）、A（当初公表値）、R（修正後値）、P（速報値）
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: 売上高、1株当たり利益（Earnings Per Share）および収益性指標を含む決算報告データ
           content:
             application/json:
               schema:
-                type: string
+                type: object
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - シンボルパラメータが指定されていないか無効です
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: 内部サーバーエラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 決算レポート v2.1 の取得
+      summary: 四半期・通期決算レポート
       tags:
         - Fundamentals
   /api/v2/fundamentals/financials:
@@ -750,6 +772,65 @@ paths:
       summary: バリュエーション指標 v2.1 を取得
       tags:
         - ValuationRatios
+  /api/v2/movers:
+    get:
+      description: 指定したフィルターに基づいてマーケットムーバーのデータを取得します。指定したセッションおよび時間範囲内で大きく値動きした銘柄を返します。高度なフィルタリング用に、カスタムスクリーナーおよびマーケットムーバーのクエリをサポートします。
+      operationId: get-movers
+      parameters:
+        - description: 返却する結果の最大件数。レスポンスのサイズを制御します。
+          in: query
+          name: maxResults
+          schema:
+            type: integer
+        - description: movers データの開始日時。形式：YYYY-MM-DD または YYYY-MM-DDTHH:MM:SS
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: movers データの終了日時。形式：YYYY-MM-DD または YYYY-MM-DDTHH:MM:SS のいずれか
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "値動き銘柄をフィルタリングするための取引セッション。例: PRE_MARKET, REGULAR, AFTER_MARKET"
+          in: query
+          name: session
+          schema:
+            type: string
+        - description: 特定の条件に基づき証券を抽出するカスタムスクリーナー用クエリ文字列
+          in: query
+          name: screenerQuery
+          schema:
+            type: string
+        - description: 特定の値動きパターンや閾値を定義するためのカスタム movers クエリ文字列
+          in: query
+          name: moversQuery
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 値動きの大きい銘柄データ
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: 不正なリクエスト - 無効なパラメーター
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: 値動きの大きい銘柄
+      tags:
+        - Market Data
   /api/v2/quoteDelayed:
     get:
       description: シンボル一覧の遅延クォートを取得
@@ -794,55 +875,119 @@ paths:
       summary: 遅延クォートの取得 V2
       tags:
         - QuoteDelayed
-  /api/v3/fundamentals:
+  /api/v2/short-interest:
     get:
-      description: ファンダメンタルズ v3 の取得
-      operationId: get-fundamentals-v3
+      description: 指定した証券の空売り残高データを取得します。空売り株数、買い戻しに必要な日数（days to
+        cover）、空売り比率に関する情報を含みます。オプションとして FINRA レポートデータおよび日付範囲によるフィルタリングをサポートします。
+      operationId: get-short-interest
       parameters:
-        - description: 株式のtickerシンボルのカンマ区切りリスト
+        - description: "株式のtickerシンボルをカンマ区切りにしたリスト（例: AAPL,MSFT,TSLA）。必須。"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "クエリの開始日を YYYY-MM-DD 形式で指定します。指定可能な値:
-            YYYY-MM-DD、YTD（年初来）、1MONTH/1m/1M（1か月前）"
+        - description: "FINRAの空売り残高レポートデータを含めるかどうか。デフォルト: false"
+          in: query
+          name: finraReport
+          schema:
+            type: boolean
+        - description: ページネーション用のページ番号。pageSize パラメータと組み合わせて使用します。
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: 1ページあたりの結果数。デフォルト値はエンドポイントごとの設定によって異なります。
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: 空売り残高データの開始日。形式：YYYY-MM-DD
           in: query
           name: from
           schema:
             type: string
-        - description: クエリの終了日をYYYY-MM-DD形式で指定します。この日付を含むそれまでのデータを返します。
+        - description: "空売り残高データの終了日。形式: YYYY-MM-DD"
           in: query
           name: to
           schema:
             type: string
-        - description: "レポート種別フィルター。値: TTM（直近12か月）、A（公表値）、R（修正値）、P（暫定値）"
+      responses:
+        "200":
+          description: リクエストしたシンボルの空売り残高データ
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: 不正なリクエスト - symbols（シンボル）パラメータが指定されていないか無効です
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: 空売り残高データ
+      tags:
+        - Market Data
+  /api/v3/fundamentals:
+    get:
+      description: Benzinga
+        の拡張データパイプラインによって生成された最新世代の財務ファンダメンタルズデータを取得します。高品質で網羅的な財務諸表、各種指標および比率を提供し、データ品質とカバレッジが向上しています。柔軟な日付範囲クエリおよび相対日付指定をサポートします。
+      operationId: get-fundamentals-v3
+      parameters:
+        - description: "株式のtickerシンボルのカンマ区切りリスト（例: AAPL,MSFT,GOOGL のようにカンマ区切りで指定）。必須。"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "クエリの開始日を指定します。指定可能な値: YYYY-MM-DD（例:
+            2024-01-01）、YTD（年初来、1月1日から現在まで）、1MONTH/1m/1M（1か月前）、1WEEK/1w/1W（1週間前\
+            ）、1DAY/1d/1D（1日前）などの相対日付"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: "クエリの終了日をYYYY-MM-DD形式で指定します。この日付を含むそれまでのデータを返します。例:
+            2024-12-31。指定しない場合は現在の日付がデフォルトになります。"
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "財務諸表のレポート種別フィルター。対応する値: TTM（直近12か月）、A（当初公表値）、R（修正値）、P（暫定発表）"
           in: query
           name: date
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: カバレッジ拡大と高品質の最新ファンダメンタルズデータ
           content:
             application/json:
               schema:
-                type: string
+                type: object
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - シンボルパラメータが指定されていないか、無効です
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: 内部サーバーエラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: ファンダメンタルズ V3 の取得
+      summary: 企業ファンダメンタルズ V3
       tags:
         - Fundamentals
   /api/v3/fundamentals/balance-sheet:
@@ -996,53 +1141,52 @@ paths:
         - DerivedFiguresAndRatios
   /api/v3/fundamentals/income-statement:
     get:
-      description: 損益計算書 v3 の取得
+      description: 指定した証券の包括的な損益計算書データを取得します。売上高、売上原価、営業費用、営業利益、利息費用、税金、当期純利益、1株当たり利益（EPS）などを含みます。企業の収益性および事業パフォーマンスを経時的に分析するために不可欠なデータです。
       operationId: get-income-statement-v3
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: "カンマ区切りのシンボル一覧（株式のtickerシンボル。例: AAPL,MSFT,GOOGL）。必須。"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: クエリの開始日を YYYY-MM-DD
-            形式で指定します。サポートされる形式：YYYY-MM-DD、YTD（年初来）、1MONTH/1m/1M（1か月前）
+        - description: クエリの開始日です。サポートされる形式：YYYY-MM-DD（例：2024-01-01）、YTD（1月1日からの年初来）、1MONTH/1m/1M（1か月前）などの相対日付
           in: query
           name: from
           schema:
             type: string
-        - description: クエリの終了日をYYYY-MM-DD形式で指定します。この日付まで（この日付を含めて）のデータを返します。
+        - description: "クエリの終了日です。形式: YYYY-MM-DD（例: 2024-12-31）。この日付まで（この日付を含めて）のデータを返します。"
           in: query
           name: to
           schema:
             type: string
-        - description: "報告種別フィルタ。値: TTM（直近12か月）、A（発表値）、R（修正後）、P（速報値）"
+        - description: "財務諸表の報告種別フィルタ。サポートされる値: TTM（直近12か月）、A（当初発表値）、R（修正後値）、P（速報値）"
           in: query
           name: date
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: 売上高、費用、収益性指標を含む損益計算書データ
           content:
             application/json:
               schema:
-                type: string
+                type: object
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - シンボルパラメータが指定されていないか無効です
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: サーバ内部エラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 損益計算書 v3 の取得
+      summary: 損益計算書データ
       tags:
         - Fundamentals
   /api/v3/fundamentals/share-price-ratios:
@@ -1116,6 +1260,8 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
+        - unsupported_message_type
+        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -1127,10 +1273,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
-        - unsupported_message_type
-        - database_query_error
       type: string
       x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -1142,8 +1288,6 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -1155,6 +1299,32 @@ components:
           type: array
         ok:
           type: boolean
+      type: object
+    httpapi.Chart:
+      properties:
+        candles:
+          items:
+            properties:
+              close:
+                type: number
+              dateTime:
+                type: string
+              high:
+                type: number
+              low:
+                type: number
+              open:
+                type: number
+              time:
+                type: string
+              volume:
+                type: string
+            type: object
+          type: array
+        interval:
+          type: integer
+        symbol:
+          type: string
       type: object
 servers:
   - url: https://api.benzinga.com/api/v1
