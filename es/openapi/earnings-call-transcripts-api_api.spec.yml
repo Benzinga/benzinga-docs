@@ -10,11 +10,20 @@ info:
 paths:
   /api/v1/earnings-call-transcripts:
     get:
-      description: Obtener transcripciones de llamadas de resultados
+      description: Recupera transcripciones de llamadas de resultados para las
+        empresas o ID de llamada especificados. Devuelve transcripciones de
+        texto completo de las llamadas de resultados trimestrales y anuales,
+        incluidas las sesiones de preguntas y respuestas, la identificación de
+        los oradores y las marcas de tiempo. Usa filtros de fecha para recuperar
+        transcripciones de períodos de informes específicos o filtra por
+        símbolos de ticker para obtener debates de resultados específicos de
+        cada empresa.
       operationId: get-earnings-call-transcripts
       parameters:
         - description: Lista de símbolos de ticker bursátiles separados por comas para
-            filtrar transcripciones de llamadas de resultados
+            filtrar transcripciones de llamadas de resultados (por ejemplo,
+            AAPL, MSFT, GOOGL). Devuelve todas las transcripciones de estas
+            compañías.
           in: query
           name: tickers
           style: form
@@ -24,7 +33,9 @@ paths:
             items:
               type: string
         - description: Lista de IDs de llamadas específicas, separadas por comas, que se
-            deben recuperar
+            deben recuperar. Utilice esto para obtener transcripciones de
+            llamadas de resultados con identificadores conocidos. Tiene
+            prioridad sobre el filtrado por ticker.
           in: query
           name: call_id
           style: form
@@ -33,32 +44,37 @@ paths:
             type: array
             items:
               type: string
-        - description: Número de página para la paginación. Indexado desde cero.
+        - description: "Número de página para la paginación. Indexado desde cero (0 =
+            primera página, 1 = segunda página, etc.). Predeterminado: 0"
           in: query
           name: page
           schema:
             type: integer
         - description: "Número de resultados por página. Valor predeterminado: 5. Máximo:
-            1000"
+            1000. Use tamaños de página más grandes para obtener grandes
+            volúmenes de datos."
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Fecha de inicio en formato AAAA-MM-DD. Devuelve transcripciones a
-            partir de esta fecha.
+        - description: Filtro de fecha de inicio en formato AAAA-MM-DD (por ejemplo,
+            2024-01-01). Devuelve transcripciones de conferencias de resultados
+            a partir de esta fecha.
           in: query
           name: date_from
           schema:
             type: string
-        - description: Fecha de finalización en formato AAAA-MM-DD. Devuelve
-            transcripciones hasta esta fecha incluida.
+        - description: Filtro de fecha de finalización en formato AAAA-MM-DD (p. ej.,
+            2024-12-31). Devuelve transcripciones de llamadas de resultados
+            hasta esta fecha incluida.
           in: query
           name: date_to
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: Array de resúmenes de las transcripciones de las llamadas de
+            resultados con texto completo y metadatos
           content:
             application/json:
               schema:
@@ -66,7 +82,7 @@ paths:
                   $ref: "#/components/schemas/models.TranscriptSummary"
                 type: array
         "400":
-          description: Solicitud incorrecta
+          description: Solicitud incorrecta - parámetros no válidos
           content:
             application/json:
               schema:
@@ -83,17 +99,24 @@ paths:
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: Obtener transcripciones de llamadas de resultados
+      summary: Transcripciones de llamadas de resultados
       tags:
         - Earnings Call Transcripts
   /api/v1/earnings-call-transcripts/audio:
     get:
-      description: Obtener archivos de audio de las transcripciones de conferencias de
-        resultados
+      description: Obtiene URLs de archivos de audio descargables de grabaciones de
+        conferencias de resultados. Devuelve URLs firmadas para acceder a las
+        grabaciones de audio completas de las conferencias de resultados
+        trimestrales y anuales. Los archivos de audio incluyen las
+        presentaciones completas de resultados y las sesiones de preguntas y
+        respuestas. Las URLs son de duración limitada y están firmadas de forma
+        segura para el acceso autorizado.
       operationId: get-earnings-call-transcript-audio-files
       parameters:
         - description: Lista de símbolos de ticker de acciones, separados por comas, para
-            filtrar archivos de audio
+            filtrar archivos de audio (por ejemplo, AAPL,MSFT,GOOGL). Devuelve
+            archivos de audio de todas las llamadas de resultados de estas
+            empresas.
           in: query
           name: tickers
           style: form
@@ -103,7 +126,8 @@ paths:
             items:
               type: string
         - description: Lista de identificadores de llamadas específicos, separados por
-            comas, para recuperar archivos de audio
+            comas, para recuperar archivos de audio. Utilice esto para obtener
+            el audio de identificadores de llamadas de resultados conocidos.
           in: query
           name: call_id
           style: form
@@ -112,7 +136,9 @@ paths:
             type: array
             items:
               type: string
-        - description: Número de página para la paginación. Indexado a partir de cero.
+        - description: "Número de página para la paginación. Indexado a partir de cero (0
+            = primera página, 1 = segunda página, etc.). Valor predeterminado:
+            0"
           in: query
           name: page
           schema:
@@ -125,7 +151,8 @@ paths:
             type: integer
       responses:
         "200":
-          description: OK
+          description: Array de metadatos de archivos de audio de conferencias de
+            resultados con URL de descarga firmadas
           content:
             application/json:
               schema:
@@ -133,7 +160,7 @@ paths:
                   $ref: "#/components/schemas/models.TranscriptSummaryAudio"
                 type: array
         "400":
-          description: Solicitud incorrecta
+          description: Solicitud incorrecta - parámetros no válidos
           content:
             application/json:
               schema:
@@ -150,7 +177,7 @@ paths:
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: Obtener archivos de audio de llamadas de resultados
+      summary: Archivos de audio de llamadas de resultados
       tags:
         - Earnings Call Transcripts
 components:
@@ -246,6 +273,3 @@ components:
         transcript:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1

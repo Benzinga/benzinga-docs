@@ -1,13 +1,40 @@
 ---
-title: "Events"
+title: "Eventos"
 openapi: /es/openapi/calendar_api.spec.yml GET /calendar/events
 ---
 
 <ResponseExample>
 ```json Respuesta (200 OK)
 {
-  "message": "no se encontró ninguna ruta que coincidiera con esos valores",
-  "request_id": "1c127f6da7cb474fd0741074fc15ec55"
+  "events": [
+    {
+      "date_end": "2026-01-06",
+      "date_start": "2026-01-06",
+      "event_name": "Junta General Anual de Accionistas",
+      "event_type": "Reunión de accionistas",
+      "id": "69539a4482b9250001d0971c",
+      "importance": 2,
+      "international_number": "",
+      "location": "",
+      "phone_number": "",
+      "securities": [
+        {
+          "country": "ISR",
+          "cusip": "001216563",
+          "exchange": "NASDAQ",
+          "isin": "IL0012165630",
+          "symbol": "NEXN"
+        }
+      ],
+      "source_link": "https://investors.nexxen.com/events-presentations",
+      "start_time": "08:30:00",
+      "tags": [
+        "Reuniones de accionistas"
+      ],
+      "updated": 1767086889,
+      "webcast_link": ""
+    }
+  ]
 }
 ```
 </ResponseExample>
