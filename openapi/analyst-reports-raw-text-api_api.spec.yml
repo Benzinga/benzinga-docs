@@ -16,21 +16,21 @@ paths:
           name: page
           schema:
             type: integer
-        - description: "Number of results per page. Default: 100. Maximum: 100"
+        - description: 'Number of results per page. Default: 100. Maximum: 100'
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 items:
-                  $ref: "#/components/schemas/models.AnalystReportRawText"
+                  $ref: '#/components/schemas/models.AnalystReportRawText'
                 type: array
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -38,7 +38,7 @@ paths:
                 items:
                   type: string
                 type: array
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -75,3 +75,6 @@ components:
         ticker:
           type: string
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: Production
