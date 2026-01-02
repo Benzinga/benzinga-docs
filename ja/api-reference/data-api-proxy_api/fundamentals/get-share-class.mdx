@@ -1,4 +1,57 @@
 ---
-title: "Share Class"
+title: "株式クラス"
 openapi: /ja/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals/shareClass
 ---
+
+<ResponseExample>
+```json レスポンス (200 OK)
+{
+  "result": [
+    {
+      "company": {
+        "primarySymbol": "AAPL",
+        "primaryExchange": "NAS",
+        "cik": "320193",
+        "isin": "CA03785Y1007",
+        "cusip": "03785Y100",
+        "standardName": "Apple",
+        "countryId": "USA",
+        "isReit": false,
+        "industryTemplateCode": "N",
+        "businessCountryId": "USA",
+        "isLimitedPartnership": false,
+        "yearofEstablishment": 1977,
+        "isLimitedLiabilityCompany": false
+      },
+      "shareClass": {
+        "shareClassId": "0P000000GY",
+        "companyId": "0C00000ADA",
+        "symbol": "AAPL",
+        "exchangeId": "NAS",
+        "currencyId": "USD",
+        "ipoDate": "1980-12-12",
+        "isDepositaryReceipt": false,
+        "securityType": "ST00000001",
+        "shareClassStatus": "A",
+        "isPrimaryShare": true,
+        "isDividendReinvest": false,
+        "isDirectInvest": false,
+        "investmentId": "E0USA002US",
+        "ipoOfferPrice": 28.75,
+        "mic": "XNAS",
+        "exchangeSubMarketGlobalId": "EX$$$$XNGS",
+        "conversionRatio": 1.0,
+        "parValue": 1e-05,
+        "suspensionStatus": false,
+        "marketDataId": "126.1.AAPL",
+        "isPrimaryShare1031": true,
+        "investmentPrimaryIssuer": true
+      },
+      "symbol": "AAPL",
+      "idType": "SYMBOL",
+      "id": "AAPL"
+    }
+  ]
+}
+```
+</ResponseExample>
