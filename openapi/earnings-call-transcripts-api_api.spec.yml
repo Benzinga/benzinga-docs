@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API provides endpoints to search for earnings call transcripts
-    and get earnings call transcript details.
+  description: This REST API provides endpoints to search for earnings call
+    transcripts and get earnings call transcript details.
   termsOfService: http://swagger.io/terms/
   title: Earnings Call Transcripts API
   version: 1.0.0
@@ -36,13 +36,13 @@ paths:
           name: page
           schema:
             type: integer
-        - description: 'Number of results per page. Default: 5. Maximum: 1000'
+        - description: "Number of results per page. Default: 5. Maximum: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Start date in YYYY-MM-DD format. Returns transcripts from this
-            date forward.
+        - description: Start date in YYYY-MM-DD format. Returns transcripts from this date
+            forward.
           in: query
           name: date_from
           schema:
@@ -54,15 +54,15 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/models.TranscriptSummary'
+                  $ref: "#/components/schemas/models.TranscriptSummary"
                 type: array
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -70,7 +70,7 @@ paths:
                 items:
                   type: string
                 type: array
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -88,8 +88,7 @@ paths:
       description: Get Earnings Call Transcript Audio Files
       operationId: get-earnings-call-transcript-audio-files
       parameters:
-        - description: Comma-separated list of stock ticker symbols to filter audio
-            files
+        - description: Comma-separated list of stock ticker symbols to filter audio files
           in: query
           name: tickers
           style: form
@@ -98,8 +97,7 @@ paths:
             type: array
             items:
               type: string
-        - description: Comma-separated list of specific call IDs to retrieve audio
-            files for
+        - description: Comma-separated list of specific call IDs to retrieve audio files for
           in: query
           name: call_id
           style: form
@@ -113,21 +111,21 @@ paths:
           name: page
           schema:
             type: integer
-        - description: 'Number of results per page. Default: 5. Maximum: 1000'
+        - description: "Number of results per page. Default: 5. Maximum: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/models.TranscriptSummaryAudio'
+                  $ref: "#/components/schemas/models.TranscriptSummaryAudio"
                 type: array
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -135,7 +133,7 @@ paths:
                 items:
                   type: string
                 type: array
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -193,12 +191,12 @@ components:
         reviewed:
           type: boolean
         security:
-          $ref: '#/components/schemas/models.Security'
+          $ref: "#/components/schemas/models.Security"
         start_time:
           type: string
         summaries:
           items:
-            $ref: '#/components/schemas/models.Summary'
+            $ref: "#/components/schemas/models.Summary"
           type: array
         summary_full:
           type: string
@@ -208,7 +206,7 @@ components:
           type: string
         transcript_timestamped:
           items:
-            $ref: '#/components/schemas/models.TranscriptTimestamp'
+            $ref: "#/components/schemas/models.TranscriptTimestamp"
           type: array
         updated:
           type: integer
@@ -218,7 +216,7 @@ components:
     models.TranscriptSummaryAudio:
       properties:
         audio_file:
-          $ref: '#/components/schemas/models.TranscriptAudioFile'
+          $ref: "#/components/schemas/models.TranscriptAudioFile"
         call_id:
           type: string
         created:
@@ -228,7 +226,7 @@ components:
         id:
           type: string
         security:
-          $ref: '#/components/schemas/models.Security'
+          $ref: "#/components/schemas/models.Security"
         start_time:
           type: string
         updated:
@@ -241,6 +239,3 @@ components:
         transcript:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1
