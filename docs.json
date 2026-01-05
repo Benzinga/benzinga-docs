@@ -92,6 +92,31 @@
                 ]
               },
               {
+                "group": "Company Fundamentals",
+                "pages": [
+                  "api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
+                  "api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
+                  "api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
+                  "api-reference/data-api-proxy_api/fundamentals/get-cash-flow-v3",
+                  "api-reference/data-api-proxy_api/fundamentals/get-company",
+                  "api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
+                  "api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
+                  "api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
+                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
+                  "api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
+                  "api-reference/data-api-proxy_api/fundamentals/get-share-class",
+                  "api-reference/data-api-proxy_api/fundamentals/get-share-class-profile-v21",
+                  "api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3"
+                ]
+              },
+              {
+                "group": "Corporate Logos",
+                "pages": [
+                  "api-reference/logo-api_api/logos/overview",
+                  "api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
+                ]
+              },
+              {
                 "group": "Derived Figures and Ratios",
                 "pages": [
                   "api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-for-a-list-of-symbols"
@@ -117,24 +142,6 @@
                 ]
               },
               {
-                "group": "Fundamentals",
-                "pages": [
-                  "api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-cash-flow-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-company",
-                  "api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
-                  "api-reference/data-api-proxy_api/fundamentals/get-share-class",
-                  "api-reference/data-api-proxy_api/fundamentals/get-share-class-profile-v21",
-                  "api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3"
-                ]
-              },
-              {
                 "group": "Government Trades",
                 "pages": [
                   "api-reference/calendar_api/government-trade-reports/government-trade-reports",
@@ -149,30 +156,17 @@
                 ]
               },
               {
-                "group": "Logos",
+                "group": "Newsfeed & Why is it Moving(WIIMs)",
                 "pages": [
-                  "api-reference/logo-api_api/logos/overview",
-                  "api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
-                ]
-              },
-              {
-                "group": "News",
-                "pages": [
-                  "api-reference/news-api_api/news/get-news",
-                  "api-reference/news-api_api/news/get-removed-news"
+                  "api-reference/news-api_api/news/get-the-news-items",
+                  "api-reference/news-api_api/news/returns-the-removed-news-data",
+                  "api-reference/news-api_api/channels/get-available-news-channels"
                 ]
               },
               {
                 "group": "NewsQuantified",
                 "pages": [
                   "api-reference/newsquantified-api_api/get-newsquantified-data"
-                ]
-              },
-              {
-                "group": "Quote Delayed",
-                "pages": [
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols",
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols-isins-or-ciks"
                 ]
               },
               {
@@ -185,6 +179,13 @@
                 "group": "Splits",
                 "pages": [
                   "api-reference/calendar_api/splits/returns-the-splits-calendar-data"
+                ]
+              },
+              {
+                "group": "Quotes Delayed",
+                "pages": [
+                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols",
+                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols-isins-or-ciks"
                 ]
               },
               {
