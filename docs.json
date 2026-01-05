@@ -52,24 +52,28 @@
               {
                 "group": "Analyst Insights",
                 "pages": [
+                  "api-reference/calendar_api/analyst-insights/overview",
                   "api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
                 ]
               },
               {
                 "group": "Bars",
                 "pages": [
+                  "api-reference/data-api-proxy_api/bars/overview",
                   "api-reference/data-api-proxy_api/bars/get-bars-v2"
                 ]
               },
               {
                 "group": "Bulls Say Bears Say",
                 "pages": [
+                  "api-reference/calendar_api/bulls-say-bears-say/overview",
                   "api-reference/calendar_api/bulls-say-bears-say/latest-bull-and-bear-cases-for-a-given-ticker-symbol"
                 ]
               },
               {
                 "group": "Calendars",
                 "pages": [
+                  "api-reference/calendar_api/overview",
                   "api-reference/calendar_api/block-trade/get-blocktrade-v1",
                   "api-reference/calendar_api/conference_calls/returns-conference-call-data",
                   "api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data",
@@ -94,6 +98,7 @@
               {
                 "group": "Company Fundamentals",
                 "pages": [
+                  "api-reference/data-api-proxy_api/fundamentals/overview",
                   "api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
                   "api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
                   "api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
@@ -119,24 +124,28 @@
               {
                 "group": "Derived Figures and Ratios",
                 "pages": [
+                  "api-reference/data-api-proxy_api/derivedfiguresandratios/overview",
                   "api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-for-a-list-of-symbols"
                 ]
               },
               {
                 "group": "Delayed Quotes",
                 "pages": [
+                  "api-reference/data-api-proxy_api/quotedelayed/overview_v2",
                   "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
                 ]
               },
               {
                 "group": "Earning Ratios",
                 "pages": [
+                  "api-reference/data-api-proxy_api/earningratios/overview",
                   "api-reference/data-api-proxy_api/earningratios/get-earning-ratios-for-a-list-of-symbols-isins-or-ciks"
                 ]
               },
               {
                 "group": "Earnings Call Transcripts",
                 "pages": [
+                  "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/overview",
                   "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
                   "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
                 ]
@@ -144,6 +153,7 @@
               {
                 "group": "Government Trades",
                 "pages": [
+                  "api-reference/calendar_api/government-trades/overview",
                   "api-reference/calendar_api/government-trade-reports/government-trade-reports",
                   "api-reference/calendar_api/government-trades/government-trades"
                 ]
@@ -151,6 +161,7 @@
               {
                 "group": "Insider Transactions",
                 "pages": [
+                  "api-reference/calendar_api/insider-transaction/overview",
                   "api-reference/calendar_api/insider-transaction/insider-transaction-filing",
                   "api-reference/calendar_api/insider-transaction/insider-transaction-owner"
                 ]
@@ -158,6 +169,7 @@
               {
                 "group": "Newsfeed & Why is it Moving(WIIMs)",
                 "pages": [
+                  "api-reference/news-api_api/news/overview",
                   "api-reference/news-api_api/news/get-the-news-items",
                   "api-reference/news-api_api/news/returns-the-removed-news-data",
                   "api-reference/news-api_api/channels/get-available-news-channels"
@@ -166,24 +178,28 @@
               {
                 "group": "NewsQuantified",
                 "pages": [
+                  "api-reference/newsquantified-api_api/overview",
                   "api-reference/newsquantified-api_api/get-newsquantified-data"
                 ]
               },
               {
                 "group": "Operation Ratios",
                 "pages": [
+                  "api-reference/data-api-proxy_api/operationratios/overview",
                   "api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21"
                 ]
               },
               {
                 "group": "Splits",
                 "pages": [
+                  "api-reference/calendar_api/splits/overview",
                   "api-reference/calendar_api/splits/returns-the-splits-calendar-data"
                 ]
               },
               {
                 "group": "Quotes Delayed",
                 "pages": [
+                  "api-reference/data-api-proxy_api/quotedelayed/overview",
                   "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols",
                   "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols-isins-or-ciks"
                 ]
@@ -191,6 +207,7 @@
               {
                 "group": "Ticker Trends",
                 "pages": [
+                  "api-reference/ticker-trends-api_api/ticker-trends/overview",
                   "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
                   "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
                 ]
@@ -198,6 +215,7 @@
               {
                 "group": "Valuation Ratios",
                 "pages": [
+                  "api-reference/data-api-proxy_api/valuationratios/overview",
                   "api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-for-a-list-of-symbols-isins-or-ciks"
                 ]
               }
