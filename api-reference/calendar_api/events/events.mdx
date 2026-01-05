@@ -4,37 +4,38 @@ openapi: /openapi/calendar_api.spec.yml GET /api/v2/calendar/events
 ---
 
 <ResponseExample>
-    ```json Response (200 OK)
+```json Response (200 OK)
+{
+  "events": [
     {
-        "events": [
-    {
-        "date_end": "2026-01-06",
-        "date_start": "2026-01-06",
-        "event_name": "Annual General Meeting of Shareholders",
-        "event_type": "Shareholders meeting",
-        "id": "69539a4482b9250001d0971c",
-        "importance": 2,
-        "international_number": "",
-        "location": "",
-        "phone_number": "",
-        "securities": [
-    {
-        "country": "ISR",
-        "cusip": "001216563",
-        "exchange": "NASDAQ",
-        "isin": "IL0012165630",
-        "symbol": "NEXN"
+      "date_end": "2026-01-13",
+      "date_start": "2026-01-13",
+      "event_name": "28th Annual Needham Growth Conference",
+      "event_type": "Corporate conference presentation",
+      "id": "695b762f1bd4be000196669c",
+      "importance": 3,
+      "international_number": "",
+      "location": "New York",
+      "phone_number": "",
+      "securities": [
+        {
+          "country": "USA",
+          "cusip": "346375108",
+          "exchange": "NASDAQ",
+          "isin": "US3463751087",
+          "symbol": "FORM"
+        }
+      ],
+      "source_link": "https://www.formfactor.com/events/",
+      "start_time": "15:00:00",
+      "tags": [
+        "Needham Growth Conference"
+      ],
+      "updated": 1767602218,
+      "webcast_link": ""
     }
-        ],
-        "source_link": "https://investors.nexxen.com/events-presentations",
-        "start_time": "08:30:00",
-        "tags": [
-        "Shareholders meetings"
-        ],
-        "updated": 1767086889,
-        "webcast_link": ""
-    }
-        ]
-    }
-    ```
+  ]
+}
+
+```
 </ResponseExample>

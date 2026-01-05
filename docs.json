@@ -64,31 +64,31 @@
               {
                 "group": "Bulls Say Bears Say",
                 "pages": [
-                  "api-reference/calendar_api/bulls-say-bears-say/get-bulls-say-bears-say-v1"
+                  "api-reference/calendar_api/bulls-say-bears-say/latest-bull-and-bear-cases-for-a-given-ticker-symbol"
                 ]
               },
               {
                 "group": "Calendars",
                 "pages": [
                   "api-reference/calendar_api/block-trade/get-blocktrade-v1",
-                  "api-reference/calendar_api/conference_calls/get-conference-calls",
-                  "api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
-                  "api-reference/calendar_api/dividends/get-dividends-v22",
-                  "api-reference/calendar_api/earnings/get-earnings",
-                  "api-reference/calendar_api/economics/get-economics",
-                  "api-reference/calendar_api/erx-gaps/get-erx-gaps",
-                  "api-reference/calendar_api/events/get-events",
-                  "api-reference/calendar_api/fda/get-fda",
-                  "api-reference/calendar_api/guidance/get-guidance",
-                  "api-reference/calendar_api/halt-resume/get-haltresume-v1",
-                  "api-reference/calendar_api/ipos/get-ipos-v21",
-                  "api-reference/calendar_api/ma/get-merger-and-acquisition",
-                  "api-reference/calendar_api/offerings/get-offerings",
-                  "api-reference/calendar_api/option-activity/get-optionactivity-v1",
-                  "api-reference/calendar_api/ratings/get-ratings",
-                  "api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
-                  "api-reference/calendar_api/ratings_firms/get-ratings-firms",
-                  "api-reference/calendar_api/removed/get-removed-v2"
+                  "api-reference/calendar_api/conference_calls/returns-conference-call-data",
+                  "api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data",
+                  "api-reference/calendar_api/dividends/dividends-events-v22",
+                  "api-reference/calendar_api/earnings/returns-the-earnings-data",
+                  "api-reference/calendar_api/economics/returns-the-economic-calendar-data",
+                  "api-reference/calendar_api/erx-gaps/erx-gaps",
+                  "api-reference/calendar_api/events/events",
+                  "api-reference/calendar_api/fda/fda-approvals-clinical-trials-and-pdufa-dates",
+                  "api-reference/calendar_api/guidance/returns-guidance-data",
+                  "api-reference/calendar_api/halt-resume/haltresume-v1",
+                  "api-reference/calendar_api/ipos/ipos-v21",
+                  "api-reference/calendar_api/ma/returns-the-mergers-and-acquisitions-data",
+                  "api-reference/calendar_api/offerings/returns-secondary-offering-data",
+                  "api-reference/calendar_api/option-activity/optionactivity-v1",
+                  "api-reference/calendar_api/ratings/returns-analyst-ratings-data",
+                  "api-reference/calendar_api/ratings_analysts/ratings-analysts",
+                  "api-reference/calendar_api/ratings_firms/ratings-firms",
+                  "api-reference/calendar_api/removed/removed-v2"
                 ]
               },
               {
@@ -137,15 +137,15 @@
               {
                 "group": "Government Trades",
                 "pages": [
-                  "api-reference/calendar_api/government-trade-reports/get-government-trade-reports",
-                  "api-reference/calendar_api/government-trades/get-government-trades"
+                  "api-reference/calendar_api/government-trade-reports/government-trade-reports",
+                  "api-reference/calendar_api/government-trades/government-trades"
                 ]
               },
               {
                 "group": "Insider Transactions",
                 "pages": [
-                  "api-reference/calendar_api/insider-transaction/get-insider-transaction",
-                  "api-reference/calendar_api/insider-transaction/get-insider-transaction-owner"
+                  "api-reference/calendar_api/insider-transaction/insider-transaction-filing",
+                  "api-reference/calendar_api/insider-transaction/insider-transaction-owner"
                 ]
               },
               {
@@ -184,7 +184,7 @@
               {
                 "group": "Splits",
                 "pages": [
-                  "api-reference/calendar_api/splits/get-splits"
+                  "api-reference/calendar_api/splits/returns-the-splits-calendar-data"
                 ]
               },
               {
