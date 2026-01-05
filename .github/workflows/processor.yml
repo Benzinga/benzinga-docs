@@ -25,6 +25,9 @@ jobs:
     - name: Install Mintlify Scrape
       run: npm install @mintlify/scraping@latest -g
 
+    - name: Add servers if required
+      run: bash ./scripts/add_servers.sh
+
     - name: Run the OpenAPI script
       run: |
         chmod +x ./scripts/process_docs.sh
