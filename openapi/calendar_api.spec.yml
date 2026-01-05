@@ -1,223 +1,876 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: Bearer token authentication
-  title: Newsfeed & Why is it Moving v2
-  version: 2.0.0
+  description: This REST API returns structured data for conference calls,
+    dividends, earnings (and future earnings dates), economics, pharmaceutical
+    announcements, guidance, IPOs, secondary offerings, ratings, M&A activity,
+    and splits.
+  termsOfService: http://swagger.io/terms/
+  title: Calendar API
+  version: 2.1.0
 paths:
-  /api/v2.1/news/channels:
+  /api/v1//analyst/insights:
     get:
-      description: Returns a list of all available news channels that can be used to
-        filter news items. Channels can have sub-channels, but they will all be
-        listed as their own item.
-      operationId: get-channels
-      responses:
-        "200":
-          description: success
-          content:
-            application/json:
-              schema:
-                additionalProperties: true
-                type: object
-        "500":
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                additionalProperties: true
-                type: object
-      summary: Get available news channels
-      tags:
-        - Channels
-  /api/v2/news:
-    get:
-      description: This REST API returns structured data for news. For optimal
-        performance, limit the scope of the query using parameters such as
-        tickers, date, and channels, or use updatedSince for deltas. Page
-        offsets are limited from 0 - 100000.
-      operationId: get-news
+      description: Returns analyst insights and research perspectives on securities,
+        including detailed analysis and recommendations from financial analysts
+      operationId: get-analyst-insights-v1
       parameters:
-        - description: Specify return format
-          in: header
-          name: accept
-          required: true
-          schema:
-            type: string
-            enum:
-              - application/json
-              - application/xml
-            default: application/json
-        - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date.
+        - description: Page number
           in: query
           name: page
           schema:
             type: integer
-            default: 0
-        - description: Number of results returned. Maximum 100.
+        - description: Page size
           in: query
           name: pageSize
           schema:
             type: integer
-            maximum: 100
-            default: 15
-        - description: Specify headline only (headline), headline + teaser (abstract), or
-            headline + full body (full) text
-          in: query
-          name: displayOutput
-          schema:
-            type: string
-            enum:
-              - full
-              - abstract
-              - headline
-            default: headline
-        - description: "The date to query for news. Shorthand for dateFrom and dateTo if
-            they are the same. Format: yyyy-mm-dd"
+        - description: Date in YYYY-MM-DD format
           in: query
           name: date
           schema:
             type: string
-        - description: "Date to query from point in time. Sorted by published date.
-            Format: yyyy-mm-dd"
+            format: date
+        - description: Start date in YYYY-MM-DD format
           in: query
-          name: dateFrom
+          name: date_from
           schema:
             type: string
-        - description: "Date to query to point in time. Sorted by published date. Format:
-            yyyy-mm-dd"
+            format: date
+        - description: End date in YYYY-MM-DD format
           in: query
-          name: dateTo
+          name: date_to
           schema:
             type: string
-        - description: The last updated Unix timestamp (UTC) to pull and sort by
+            format: date
+        - description: Symbols
           in: query
-          name: updatedSince
+          name: symbols
           schema:
-            type: integer
-        - description: The last published Unix timestamp (UTC) to pull and sort by
+            type: string
+        - description: Analyst
           in: query
-          name: publishedSince
+          name: analyst
           schema:
-            type: integer
-        - description: "Allows control of results sorting. Default is created, DESC.
-            Format: field:direction. Sort Fields: id, created, updated. Sort
-            Order: asc (ascending), desc (descending)"
+            type: string
+        - description: Rating ID
+          in: query
+          name: rating_id
+          schema:
+            type: string
+        - description: Firm
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"firm_id"'
+              - '"firm"'
+              - '"analyst_id"'
+              - '"analyst_name"'
+        - description: Firm name
+          in: query
+          name: search_keys
+          schema:
+            type: string
+        - description: "Field to sort by, format: field:order (e.g., date:asc). Defaults
+            to desc."
           in: query
           name: sort
           schema:
             type: string
             enum:
-              - id:asc
-              - id:desc
-              - created:asc
-              - created:desc
-              - updated:asc
-              - updated:desc
-        - description: "One or more ISINs separated by a comma. Maximum 50. Format: csv"
+              - '"date"'
+      responses:
+        "200":
+          description: Analyst Insights
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.AnalystInsightsJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Analyst Insights V1
+      tags:
+        - Analyst Insights
+  /api/v1//signal/block_trade:
+    get:
+      description: Returns block trade data, which includes unusually large trades
+        that may indicate institutional trading activity
+      operationId: get-block-trade-v1
+      parameters:
+        - description: Page number
           in: query
-          name: isin
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: date_from
           schema:
             type: string
-        - description: "One or more CUSIPs separated by a comma. Maximum 50. License
-            agreement required. Format: csv"
+            format: date
+        - description: End date in YYYY-MM-DD format
           in: query
-          name: cusips
+          name: date_to
           schema:
             type: string
-        - description: "One or more ticker symbols separated by a comma. Maximum 50.
-            Format: csv"
+            format: date
+        - description: Tickers
           in: query
           name: tickers
           schema:
             type: string
-        - description: "One or more primary ticker symbols separated by a comma. Filters
-            by primary ticker association only. Format: csv"
+        - description: Updated time in Unix format
           in: query
-          name: primaryTickers
+          name: updated
           schema:
             type: string
-        - description: "One or more channel names or IDs separated by a comma. Format: csv"
+            format: int64
+      responses:
+        "200":
+          description: Block Trade
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.BlockTradeJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: BlockTrade V1
+      tags:
+        - Block Trade
+  /api/v1/bulls_bears_say:
+    get:
+      description: Returns the latest bullish and bearish investment cases for a given
+        stock ticker symbol. Bull cases present positive arguments for buying a
+        stock, while bear cases present negative arguments against it.
+      operationId: get-bulls-say-bears-say-v1
+      parameters:
+        - description: Stock ticker symbol to query for bull/bear cases
           in: query
-          name: channels
+          name: symbols
+          required: true
           schema:
             type: string
-        - description: "One or more words/phrases separated by a comma; searches Title,
-            Tags, and Body in order of priority. Format: csv"
+        - description: Page offset number
           in: query
-          name: topics
+          name: page
           schema:
-            type: string
-        - description: Logical operator for topics query. Use 'and' to require all topics,
-            'or' to require any topic
+            type: integer
+            default: 0
+        - description: Number of results to be returned. Limit 200
           in: query
-          name: topic_group_by
+          name: pagesize
+          schema:
+            type: integer
+            maximum: 200
+            default: 100
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: An array of bull and bear cases for the requested ticker symbol
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.BullsSayBearsSayJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "401":
+          description: Authentication information is missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "404":
+          description: A bull/bear case for the provided ticker symbol was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Latest bull and bear cases for a given ticker symbol
+      tags:
+        - Bulls Say Bears Say
+  /api/v1/consensus-ratings:
+    get:
+      description: Returns aggregated consensus analyst ratings data for a given
+        ticker symbol. This endpoint provides consensus price targets, aggregate
+        ratings distribution, and analyst counts based on recent analyst
+        ratings.
+      operationId: get-consensus-ratings-v1
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
           schema:
             type: string
             enum:
-              - and
-              - or
-            default: or
-        - description: "One or more authors separated by a comma. Format: csv"
+              - application/json
+            default: application/json
+        - description: Number of results returned. Limit 1000
           in: query
-          name: authors
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
           schema:
             type: string
-        - description: "One or more content types separated by a comma. Format: csv"
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
           in: query
-          name: content_types
+          name: parameters[date_to]
           schema:
             type: string
-        - description: Specify the desired format for the api response
+            format: YYYY-MM-DD
+        - description: One ticker symbol to query the aggregate for. Maximum 1 ticker
           in: query
-          name: format
+          name: parameters[tickers]
+          schema:
+            type: string
+        - description: To simplify the aggregate ratings to only BUY, SELL, HOLD, default
+            will return all ratings (STRONG_BUY, BUY, HOLD, SELL, STRONG_SELL)
+          in: query
+          name: simplify
+          schema:
+            type: boolean
+            default: false
+        - description: To aggregate the ratings by either number or percentage
+          in: query
+          name: aggregate_type
           schema:
             type: string
             enum:
-              - text
-        - description: Filter by importance level
-          in: query
-          name: importance
-          schema:
-            type: string
-        - description: Filter by region (e.g., 'ca' or 'canada' for Canadian content)
-          in: query
-          name: region
-          schema:
-            type: string
+              - number
+              - percentage
+            default: number
       responses:
         "200":
           description: success
           content:
             application/json:
               schema:
-                items:
-                  $ref: "#/components/schemas/api.NewsItem"
-                type: array
-            text/xml:
+                $ref: "#/components/schemas/calendarapi.ConsensusRating"
+        "204":
+          description: No Content
+          content:
+            application/json:
               schema:
-                items:
-                  $ref: "#/components/schemas/api.NewsItem"
-                type: array
+                type: string
         "400":
-          description: Invalid or Missing Query Parameters
+          description: Bad Request
           content:
             application/json:
               schema:
                 type: string
-            text/xml:
-              schema:
-                type: string
-        "499":
-          description: Request Context Cancelled
+        "500":
+          description: Internal Error
           content:
             application/json:
               schema:
                 type: string
+      security:
+        - ApiKeyAuth: []
+      summary: Returns analyst ratings consensus data
+      tags:
+        - consensus_ratings
+  /api/v1/erx-gaps:
+    get:
+      description: Returns earnings reaction gap data, which tracks significant price
+        gaps following earnings announcements
+      operationId: get-erx-gaps
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date in YYYY-MM-DD format
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: date
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: End date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: Updated time in Unix format
+          in: query
+          name: parameters[updated]
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: ERx Gaps
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
             text/xml:
               schema:
-                type: string
+                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: ERx Gaps
+      tags:
+        - ERx Gaps
+  /api/v1/government_trade_reports:
+    get:
+      description: Returns detailed government trade disclosure reports including
+        periodic transaction reports filed by congressional members
+      operationId: get-government-trade-reports
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Date from
+          in: query
+          name: date_from
+          schema:
+            type: integer
+            format: int64
+        - description: Date to
+          in: query
+          name: date_to
+          schema:
+            type: integer
+            format: int64
+        - description: Updated since
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+            format: int64
+        - description: Date
+          in: query
+          name: date
+          schema:
+            type: integer
+            format: int64
+        - description: Chamber
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - '"House"'
+              - '"Senate"'
+        - description: Fields
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: Search keys type
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"report_id"'
+              - '"ticker"'
+        - description: Search keys
+          in: query
+          name: search_keys
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Government Trade Reports
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Government Trade Reports
+      tags:
+        - Government Trade Reports
+  /api/v1/government_trades:
+    get:
+      description: Returns government official trades including transactions by
+        members of the US House and Senate
+      operationId: get-government-trades
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Date from
+          in: query
+          name: date_from
+          schema:
+            type: integer
+            format: int64
+        - description: Date to
+          in: query
+          name: date_to
+          schema:
+            type: integer
+            format: int64
+        - description: Updated since
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+            format: int64
+        - description: Date
+          in: query
+          name: date
+          schema:
+            type: integer
+            format: int64
+        - description: Chamber
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - '"House"'
+              - '"Senate"'
+        - description: Fields
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: Search keys type
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"report_id"'
+              - '"ticker"'
+        - description: Search keys
+          in: query
+          name: search_keys
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Government Trades
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Government Trades
+      tags:
+        - Government Trades
+  /api/v1/sec/insider_transactions/filings:
+    get:
+      description: Returns insider transaction filings from SEC Form 4, including
+        stock purchases, sales, and option exercises by company insiders
+      operationId: get-insider-transaction-filing
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Date from
+          in: query
+          name: date_from
+          schema:
+            type: integer
+            format: int64
+        - description: Date to
+          in: query
+          name: date_to
+          schema:
+            type: integer
+            format: int64
+        - description: Updated since
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+            format: int64
+        - description: Date
+          in: query
+          name: date
+          schema:
+            type: integer
+            format: int64
+        - description: Chamber
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - '"House"'
+              - '"Senate"'
+        - description: Fields
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: Search keys type
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"report_id"'
+              - '"ticker"'
+        - description: Search keys
+          in: query
+          name: search_keys
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: updated
+          schema:
+            type: integer
+            format: int64
+        - description: Display
+          in: query
+          name: display
+          schema:
+            type: string
+            enum:
+              - '"flat"'
+              - '"nested"'
+      responses:
+        "200":
+          description: Insider Transaction
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingDoc"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Insider Transaction Filing
+      tags:
+        - Insider Transaction
+  /api/v1/signal/halt_resume:
+    get:
+      description: Returns trading halt and resume information for securities,
+        including halt reasons and expected resumption times
+      operationId: get-halt-resume-v1
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: End date in YYYY-MM-DD format
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: Tickers
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: updated
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: Halt Resume
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.HaltResumeJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: HaltResume V1
+      tags:
+        - Halt Resume
+  /api/v1/signal/option_activity:
+    get:
+      description: Returns unusual options activity data, including large or unusual
+        options trades that may signal informed trading
+      operationId: get-option-activity-v1
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date in YYYY-MM-DD format
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: date
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: End date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: Sort by date
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - date
+        - description: Tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+        - description: ID
+          in: query
+          name: parameters[id]
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: parameters[updated]
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: Option Activity
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.OptionActivityJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: OptionActivity V1
+      tags:
+        - Option Activity
+  /api/v2.1/calendar-removed/:
+    get:
+      description: Returns calendar events that have been removed or cancelled from
+        the specified event types
+      operationId: get-removed
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Type
+          in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - '"ratings"'
+              - '"earnings"'
+              - '"dividends"'
+              - '"splits"'
+              - '"ipos"'
+              - '"offerings"'
+              - '"economics"'
+              - '"guidance"'
+              - '"ma"'
+              - '"conference calls"'
+        - description: Updated time in Unix format
+          in: query
+          name: updated
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Removed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RemovedJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RemovedJSON"
         "500":
           description: Internal Error
           content:
@@ -229,16 +882,19 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: Get the news items
+      summary: Removed (v2)
       tags:
-        - News
-  /api/v2/news-removed:
+        - removed
+  /api/v2.1/calendar/conference-calls:
     get:
-      description: Returns the removed news data. Filters the results to only include
-        items that have been updated since the specified timestamp.
-      operationId: get-removed-news
+      description: Returns Conference call data for a selected period and/or security.
+        Conference calls are scheduled calls where company management discusses
+        quarterly or annual financial results, business updates, and answers
+        questions from analysts and investors.
+      operationId: get-conference-calls
       parameters:
-        - description: Specifies return format
+        - description: Specifies return format. Query parameters work the same for both
+            formats
           in: header
           name: accept
           required: true
@@ -249,23 +905,46 @@ paths:
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
             page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date.
+            other parameters such as date
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: Number of results returned. Maximum 100.
+        - description: Number of results returned. Limit 1000
           in: query
-          name: pageSize
+          name: pagesize
           schema:
             type: integer
-            maximum: 100
-            default: 15
-        - description: Filters the results to only include items that have been updated
-            since the specified Unix timestamp (UTC)
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
           in: query
-          name: updatedSince
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
           schema:
             type: integer
       responses:
@@ -274,128 +953,2168 @@ paths:
           content:
             application/json:
               schema:
-                additionalProperties:
-                  items:
-                    $ref: "#/components/schemas/api.NewsRemovedItem"
-                  type: array
-                type: object
+                $ref: "#/components/schemas/calendarapi.ConferenceJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.ConferenceJSON"
         "400":
-          description: Invalid or Missing Query Parameters
+          description: Bad Request
           content:
             application/json:
               schema:
-                type: string
-        "499":
-          description: Request Context Cancelled
-          content:
-            application/json:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
               schema:
-                type: string
+                $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: Internal Error
+          description: Internal Server Error
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Returns the removed news data
+      summary: Returns Conference call data
       tags:
-        - News
-servers:
-  - url: //api.benzinga.com/api/v2
+        - conference_calls
+  /api/v2.1/calendar/dividends:
+    get:
+      description: Returns dividends data for a selected period and/or security.
+        Includes dividend amounts, ex-dividend dates, payment dates, dividend
+        yields, and other relevant dividend information for stocks.
+      operationId: get-dividends
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Dividend date field to sort on (newest to oldest)
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - announced
+              - ex
+              - payable
+              - record
+        - description: Specifies how to filter using dividend yield. gt = Greater Than,
+            gte = Greater Than Equal, eq = Equal, lt = Less Than, lte = Less
+            Than Equal
+          in: query
+          name: parameters[dividend_yield_operation]
+          schema:
+            type: string
+            enum:
+              - gt
+              - gte
+              - eq
+              - lte
+              - lt
+        - description: The dividend yield amount to filter by. Defaults to using Equal To
+            the amount indicated. 1 = 100%
+          in: query
+          name: parameters[dividend_yield]
+          schema:
+            type: number
+        - description: The importance level to filter by. Uses Greater Than or Equal To
+            the importance indicated
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Dividends Events
+      tags:
+        - Dividends
+  /api/v2.1/calendar/earnings:
+    get:
+      description: Returns earnings data for a selected period and/or security.
+        Includes actual EPS and revenue figures, estimates, surprises, and
+        historical comparisons. Earnings data is crucial for investors to assess
+        company performance.
+      operationId: get-earnings
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Field sort option for earnings calendar. Apply `:desc`, `:asc` for
+            sort order
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - date
+        - description: The importance level to filter by. Uses Greater Than or Equal To
+            the importance indicated
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EarningJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EarningJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Returns the earnings data
+      tags:
+        - earnings
+  /api/v2.1/calendar/economics:
+    get:
+      description: Returns economic calendar data including economic indicators,
+        releases, and reports from various countries. Includes actual values,
+        consensus estimates, and prior values for economic events such as GDP,
+        employment data, inflation metrics, and more.
+      operationId: get-economics
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+            maximum: 1000
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: The importance level to filter by. Uses Greater Than or Equal To
+            the importance indicated
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 1
+              - 2
+              - 3
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+        - description: 3-Digit Country Code (e.g., USA, CAN, GBR)
+          in: query
+          name: country
+          schema:
+            type: string
+            format: A-Z:3
+        - description: One or more categories separated by a comma
+          in: query
+          name: event_category
+          schema:
+            type: string
+            format: csv
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EconomicJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EconomicJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Returns the economic calendar data
+      tags:
+        - economics
+  /api/v2.1/calendar/fda:
+    get:
+      description: Returns FDA approvals, clinical trials, and PDUFA (Prescription
+        Drug User Fee Act) dates for pharmaceutical and biotech companies.
+        Includes information about drug development stages, trial results,
+        approval outcomes, and regulatory milestones.
+      operationId: get-fda
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to filter and sort calendar by. Default is `announced`
+          in: query
+          name: parameters[date_search_field]
+          schema:
+            type: string
+            enum:
+              - announced
+              - target
+            default: announced
+        - description: Some date fields (such as the FDA calendar target date) include
+            fuzzy dates such as 2021-Q1. When filtering, you may choose to allow
+            fuzzy date matching, or strict date matching that searches for ONLY
+            dates that have an exact match within the given date period. Default
+            `TRUE`
+          in: query
+          name: parameters[date_search_strict]
+          schema:
+            type: boolean
+            default: true
+        - description: One or more security identifiers separated by a comma. Maximum 50
+            securities. Security identifiers must be in the format of ticker
+            symbols, only for US-listed equities
+          in: query
+          name: parameters[securities]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: FDA approvals, clinical trials, and PDUFA dates
+      tags:
+        - fda
+  /api/v2.1/calendar/guidance:
+    get:
+      description: Returns company guidance data including forward-looking earnings
+        and revenue projections provided by company management. Includes EPS
+        guidance ranges (min/max), revenue guidance ranges, and comparisons to
+        prior guidance. Guidance is crucial for understanding management's
+        expectations for future performance.
+      operationId: get-guidance
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: The importance level to filter by. Uses Greater Than or Equal To
+            the importance indicated
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: Determines if guidance returned is primary, secondary or all.
+            Default set to Y
+          in: query
+          name: parameters[is_primary]
+          schema:
+            type: string
+            enum:
+              - Y
+              - N
+              - All
+            default: Y
+        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Returns guidance data
+      tags:
+        - guidance
+  /api/v2.1/calendar/ipos:
+    get:
+      description: Returns Initial Public Offering (IPO) data including pricing
+        information, underwriters, deal status, and offering details
+      operationId: get-ipos-v21
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date in YYYY-MM-DD format
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: date
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: End date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: Tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+        - description: IPO type
+          in: query
+          name: parameters[ipo_type]
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: parameters[updated]
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: IPOs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: IPOs V2.1
+      tags:
+        - ipos
+  /api/v2.1/calendar/ma:
+    get:
+      description: Returns mergers and acquisitions (M&A) data including deal
+        announcements, completions, and details about acquiring and target
+        companies. Includes deal size, payment type, deal status, and
+        expected/completed dates for corporate consolidation activities.
+      operationId: get-ma
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: The importance level to filter by. Uses Greater Than or Equal To
+            the importance indicated
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+        - description: M&A date field to sort on (newest to oldest for expected and
+            completed; oldest to newest for announced)
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - expected
+              - completed
+              - announced
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.AcquisitionJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.AcquisitionJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Returns the mergers and acquisitions data
+      tags:
+        - ma
+  /api/v2.1/calendar/offerings:
+    get:
+      description: Returns secondary offering data for public companies issuing
+        additional shares after their IPO. Includes offering price, proceeds,
+        number of shares, shelf offerings, and whether securities are sold in
+        portions over time or at the initial offering date.
+      operationId: get-offerings
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: The importance level to filter by. Uses Greater Than or Equal To
+            the importance indicated
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.OfferingJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.OfferingJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Returns Secondary Offering data
+      tags:
+        - offerings
+  /api/v2.1/calendar/ratings:
+    get:
+      description: Returns analyst ratings data including upgrades, downgrades,
+        initiations, and price target changes from Wall Street analysts.
+        Includes current and prior ratings, price targets, analyst information,
+        and ratings accuracy metrics when available.
+      operationId: get-ratings
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: "Comma-separated list of fields to return. Available fields: id,
+            date, time, ticker, exchange, name, currency, action_pt,
+            action_company, rating_current, pt_current, rating_prior, pt_prior,
+            pt_pct_change, url, url_calendar, url_news, analyst, analyst_id,
+            analyst_name, ratings_accuracy, importance, notes, updated. Use *
+            for all fields including ratings_accuracy"
+          in: query
+          name: fields
+          schema:
+            type: string
+            format: csv
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: The importance level to filter by. Uses Greater Than or Equal To
+            the importance indicated
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+        - description: One or more analyst ids (analyst_id) separated by a comma
+          in: query
+          name: parameters[analyst_id]
+          schema:
+            type: string
+            format: csv
+        - description: One or more firm ids (firm_id) separated by a comma
+          in: query
+          name: parameters[firm_id]
+          schema:
+            type: string
+            format: csv
+        - description: Filter by a specific action_company (action for rating). Note that
+            all of these terms are precisely defined
+          in: query
+          name: parameters[action]
+          schema:
+            type: string
+            enum:
+              - Downgrades
+              - Maintains
+              - Reinstates
+              - Reiterates
+              - Upgrades
+              - Assumes
+              - Initiates Coverage On
+              - Terminates Coverage On
+              - Removes
+              - Suspends
+              - Firm Dissolved
+        - description: A comma separated list of analyst (person) ID's to bring back.
+            Omitting will bring back all available analysts
+          in: query
+          name: analyst
+          schema:
+            type: string
+            format: csv
+        - description: A comma separated list of analyst firm ID's to bring back. Omitting
+            will bring back all available firms
+          in: query
+          name: firm
+          schema:
+            type: string
+            format: csv
+        - description: Simplify the ratings to standardized categories
+          in: query
+          name: simplify
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Returns analyst ratings data
+      tags:
+        - ratings
+  /api/v2.1/calendar/ratings/analysts:
+    get:
+      description: Returns the full list of analysts that are providing ratings
+      operationId: get-ratings-analysts
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Fields
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: Analyst
+          in: query
+          name: analyst
+          schema:
+            type: string
+        - description: Analyst name
+          in: query
+          name: analyst_name
+          schema:
+            type: string
+        - description: Firm
+          in: query
+          name: firm
+          schema:
+            type: string
+        - description: Firm name
+          in: query
+          name: firm_name
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: updated
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Ratings Analysts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingsAnalystJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingsAnalystJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Ratings Analysts
+      tags:
+        - ratings_analysts
+  /api/v2.1/calendar/ratings/firms:
+    get:
+      description: Returns the available firms providing analyst ratings
+      operationId: get-ratings-firms
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Fields
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: Firm
+          in: query
+          name: firm
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: updated
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Ratings Firms
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingsFirmJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingsFirmJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Ratings Firms
+      tags:
+        - ratings_firms
+  /api/v2.1/calendar/splits:
+    get:
+      description: Returns stock split data including split ratios, announcement
+        dates, ex-dates, and distribution dates. Stock splits occur when a
+        company increases or decreases the number of outstanding shares to
+        adjust the stock price. Includes information about whether the stock is
+        optionable.
+      operationId: get-splits
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to filter and sort calendar by. Default is `announced`
+          in: query
+          name: parameters[date_search_field]
+          schema:
+            type: string
+            enum:
+              - announced
+              - ex
+            default: announced
+        - description: The importance level to filter by. Uses Greater Than or Equal To
+            the importance indicated
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.SplitJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.SplitJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Returns the splits calendar data
+      tags:
+        - splits
+  /api/v2.2/calendar/dividends:
+    get:
+      description: "Returns dividends data for a selected period and/or security,
+        including both confirmed and unconfirmed dividend dates. V2.2 includes
+        additional fields: confirmed, period, and year. This version provides
+        more detailed information about dividend confirmation status and
+        periodicity."
+      operationId: get-dividends-v22
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Dividend date field to sort on (newest to oldest)
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - announced
+              - ex
+              - payable
+              - record
+        - description: Specifies how to filter using dividend yield. gt = Greater Than,
+            gte = Greater Than Equal, eq = Equal, lt = Less Than, lte = Less
+            Than Equal
+          in: query
+          name: parameters[dividend_yield_operation]
+          schema:
+            type: string
+            enum:
+              - gt
+              - gte
+              - eq
+              - lte
+              - lt
+        - description: The dividend yield amount to filter by. Defaults to using Equal To
+            the amount indicated. 1 = 100%
+          in: query
+          name: parameters[dividend_yield]
+          schema:
+            type: number
+        - description: The importance level to filter by. Uses Greater Than or Equal To
+            the importance indicated
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Dividends Events V2.2
+      tags:
+        - Dividends
+  /api/v2/calendar/events:
+    get:
+      description: Returns corporate events including investor meetings, conferences,
+        and special announcements
+      operationId: get-events
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date in YYYY-MM-DD format
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: date
+        - description: Start date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: End date in YYYY-MM-DD format
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: Importance
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: Tickers
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: parameters[updated]
+          schema:
+            type: string
+            format: int64
+        - description: Search keys type
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"event_type"'
+        - description: Search keys
+          in: query
+          name: search_keys
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Events
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EventsJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EventsJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Events
+      tags:
+        - events
+  /api/v2/calendar/ipos:
+    get:
+      description: Returns Initial Public Offering (IPO) data including pricing
+        information, underwriters, deal status, and offering details. IPOs
+        represent when a private company first offers shares to the public. Note
+        that for the IPOs endpoint, new tickers may not return results right
+        away as they are not automatically linked to the underlying company's
+        data. To obtain the most recent rows, send queries without the tickers
+        parameter specified.
+      operationId: get-ipos-v2
+      parameters:
+        - description: Specifies return format. Query parameters work the same for both
+            formats
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: Number of results returned. Limit 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Date to query for calendar data. Shorthand for date_from and
+            date_to if they are the same. Defaults for latest
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query from point in time
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: Date to query to point in time
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers. Note that new tickers may not return results right away
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: "One or more IPO types separated by a comma. Example: Ordinary
+            Shares,SPAC"
+          in: query
+          name: parameters[ipo_type]
+          schema:
+            type: string
+            format: csv
+        - description: Records last Updated Unix timestamp (UTC). This will force the sort
+            order to be Greater Than or Equal to the timestamp indicated
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Returns ipo data
+      tags:
+        - ipos
+  /sec/insider_transactions/owners:
+    get:
+      description: Returns information about insider transaction owners, including
+        company officers, directors, and beneficial owners
+      operationId: get-insider-transaction-owner
+      parameters:
+        - description: Page number
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: Page size
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: Date from
+          in: query
+          name: date_from
+          schema:
+            type: integer
+            format: int64
+        - description: Date to
+          in: query
+          name: date_to
+          schema:
+            type: integer
+            format: int64
+        - description: Updated since
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+            format: int64
+        - description: Date
+          in: query
+          name: date
+          schema:
+            type: integer
+            format: int64
+        - description: Chamber
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - '"House"'
+              - '"Senate"'
+        - description: Fields
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: Search keys type
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"report_id"'
+              - '"ticker"'
+        - description: Search keys
+          in: query
+          name: search_keys
+          schema:
+            type: string
+        - description: Updated time in Unix format
+          in: query
+          name: updated
+          schema:
+            type: integer
+            format: int64
+        - description: Display
+          in: query
+          name: display
+          schema:
+            type: string
+            enum:
+              - '"flat"'
+              - '"nested"'
+      responses:
+        "200":
+          description: Insider Transaction Owner
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingJSON"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Insider Transaction Owner
+      tags:
+        - Insider Transaction
 components:
   securitySchemes:
     ApiKeyAuth:
-      description: API key authentication. Provide your API key as a query parameter.
       in: query
       name: token
       type: apiKey
   schemas:
-    api.ChannelTag:
-      description: Channel or tag name
+    api.ErrorResponse:
       properties:
-        name:
-          example: Technology
+        text:
           type: string
       type: object
-    api.Image:
-      description: Article image with size and URL
+    calendarapi.AcquisitionJSON:
       properties:
-        size:
-          example: large
-          type: string
-        url:
-          example: https://cdn.benzinga.com/files/images/story/2024/example.jpg
-          type: string
-      type: object
-    api.NewsItem:
-      description: News article item with full metadata
-      properties:
-        author:
-          example: Benzinga Newsdesk
-          type: string
-        body:
-          type: string
-        channels:
+        ma:
           items:
-            $ref: "#/components/schemas/api.ChannelTag"
+            additionalProperties: true
+            type: object
           type: array
-        created:
-          example: Wed, 17 May 2017 14:20:15 -0400
+      type: object
+    calendarapi.AggregateRating:
+      properties:
+        buy:
+          type: integer
+        hold:
+          type: integer
+        sell:
+          type: integer
+        strong_buy:
+          type: integer
+        strong_sell:
+          type: integer
+      type: object
+    calendarapi.AnalystInsightsJSON:
+      properties:
+        analyst-insights:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.BlockTradeJSON:
+      properties:
+        block_trade:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.BullsSayBearsSayJSON:
+      properties:
+        bulls_say_bears_say:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.ConferenceJSON:
+      properties:
+        conference:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.ConsensusRating:
+      properties:
+        aggregate_ratings:
+          $ref: "#/components/schemas/calendarapi.AggregateRating"
+        aggregate_type:
+          type: string
+        consensus_price_target:
+          type: number
+        consensus_rating:
+          type: string
+        consensus_rating_val:
+          type: number
+        high_price_target:
+          type: number
+        low_price_target:
+          type: number
+        total_analyst_count:
+          type: integer
+        unique_analyst_count:
+          type: integer
+        updated_at:
+          type: string
+      type: object
+    calendarapi.DividendJSON:
+      properties:
+        dividends:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.EarningJSON:
+      properties:
+        earnings:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.EconomicJSON:
+      properties:
+        economics:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.ErxGapJSON:
+      properties:
+        erx_gap:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.EventsJSON:
+      properties:
+        events:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.FDAJSON:
+      properties:
+        fda:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.GovernmentTradeJSON:
+      properties:
+        data:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.GuidanceJSON:
+      properties:
+        guidance:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.HaltResumeJSON:
+      properties:
+        halt_resume:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.IPOJSON:
+      properties:
+        ipos:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.InsiderTransaction:
+      properties:
+        accession_number:
+          type: string
+        company_cik:
+          type: string
+        company_name:
+          type: string
+        company_symbol:
+          type: string
+        filing_date:
+          type: string
+        footnotes:
+          items:
+            $ref: "#/components/schemas/calendarapi.SECFootnotes"
+          type: array
+        form_type:
+          type: string
+        html_url:
           type: string
         id:
-          example: 123456
-          type: integer
-        image:
-          items:
-            $ref: "#/components/schemas/api.Image"
-          type: array
-        original_id:
-          type: integer
-        stocks:
-          items:
-            $ref: "#/components/schemas/api.Stock"
-          type: array
-        tags:
-          items:
-            $ref: "#/components/schemas/api.ChannelTag"
-          type: array
-        teaser:
           type: string
-        title:
-          example: Apple Announces New iPhone
+        is_10b5:
+          type: boolean
+        owner:
+          $ref: "#/components/schemas/calendarapi.Owner"
+        remaining_shares:
           type: string
+        remaining_underlying_shares:
+          type: string
+        traded_percentage:
+          type: string
+        transactions:
+          items:
+            $ref: "#/components/schemas/calendarapi.Transaction"
+          type: array
         updated:
-          example: Wed, 17 May 2017 14:20:15 -0400
+          type: integer
+      type: object
+    calendarapi.InsiderTransactionFilingDoc:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/calendarapi.InsiderTransaction"
+          type: array
+      type: object
+    calendarapi.InsiderTransactionFilingJSON:
+      properties:
+        data:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.OfferingJSON:
+      properties:
+        offerings:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.OptionActivityJSON:
+      properties:
+        option_activity:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.Owner:
+      properties:
+        insider_cik:
           type: string
-        url:
-          example: https://www.benzinga.com/news/123456
+        insider_name:
+          type: string
+        insider_title:
+          type: string
+        is_director:
+          type: boolean
+        is_officer:
+          type: boolean
+        is_ten_percent_owner:
+          type: boolean
+        raw_signature:
           type: string
       type: object
-    api.NewsRemovedItem:
-      description: Removed news article with ID and update timestamp
+    calendarapi.RatingJSON:
+      properties:
+        ratings:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.RatingsAnalystJSON:
+      properties:
+        analyst_ratings_analyst:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.RatingsFirmJSON:
+      properties:
+        analyst_ratings_firm:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.Removed:
       properties:
         id:
-          example: 123456
-          type: integer
+          type: string
+        type:
+          type: string
         updated:
-          example: Wed, 17 May 2017 14:20:15 -0400
+          type: integer
+      type: object
+    calendarapi.RemovedJSON:
+      properties:
+        removed:
+          items:
+            $ref: "#/components/schemas/calendarapi.Removed"
+          type: array
+      type: object
+    calendarapi.SECFootnotes:
+      properties:
+        id:
+          type: string
+        text:
           type: string
       type: object
-    api.Stock:
-      description: Stock information with ticker symbol and identifiers
+    calendarapi.SplitJSON:
       properties:
-        cusip:
-          example: "037833100"
+        splits:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.Transaction:
+      properties:
+        acquired_or_disposed:
           type: string
-        exchange:
-          example: NASDAQ
+        conversion_exercise_price_derivative:
           type: string
-        isin:
-          example: US0378331005
+        date_deemed_execution:
           type: string
-        name:
-          example: AAPL
+        date_exercisable:
           type: string
+        date_expiration:
+          type: string
+        date_transaction:
+          type: string
+        is_derivative:
+          type: boolean
+        ownership:
+          type: string
+        post_transaction_quantity:
+          type: string
+        price_per_share:
+          type: string
+        remaining_underlying_shares:
+          type: string
+        security_title:
+          type: string
+        shares:
+          type: string
+        transaction_code:
+          type: string
+        transaction_id:
+          type: string
+        underlying_security_title:
+          type: string
+        underlying_shares:
+          type: string
+        voluntarily_reported:
+          type: boolean
       type: object
