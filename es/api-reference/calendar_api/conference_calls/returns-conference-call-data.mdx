@@ -1,4 +1,51 @@
 ---
-title: "Returns Conference Call Data"
-openapi: /es/openapi/calendar_api.spec.yml GET /calendar/conference-calls
+title: "Conferencias telefónicas"
+openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/conference-calls
 ---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "conference": [
+    {
+      "access_code": "",
+      "cusip": "74965L101",
+      "date": "2026-02-27",
+      "exchange": "NYSE",
+      "id": "69455ad26f0e8300014905ae",
+      "importance": 2,
+      "international_num": "(201) 493-6780",
+      "isin": "US74965L1017",
+      "name": "RLJ Lodging",
+      "notes": "",
+      "phone_num": "(877) 407-3982",
+      "reservation_num": "",
+      "start_time": "10:00:00",
+      "ticker": "RLJ",
+      "time": "09:01:54",
+      "updated": 1766389198,
+      "webcast_url": "https://edge.media-server.com/mmc/p/vrgtwapr/"
+    },
+    {
+      "access_code": "",
+      "cusip": "252784301",
+      "date": "2026-02-27",
+      "exchange": "NYSE",
+      "id": "6942b5867dcc070001584a3e",
+      "importance": 2,
+      "international_num": "",
+      "isin": "US2527843013",
+      "name": "Diamondrock Hospitality",
+      "notes": "",
+      "phone_num": "",
+      "reservation_num": "",
+      "start_time": "09:00:00",
+      "ticker": "DRH",
+      "time": "08:52:06",
+      "updated": 1766046383,
+      "webcast_url": "https://edge.media-server.com/mmc/p/zqijedgm/"
+    }
+  ]
+}
+```
+</ResponseExample>

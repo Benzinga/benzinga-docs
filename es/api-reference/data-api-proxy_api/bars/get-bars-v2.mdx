@@ -1,5 +1,5 @@
 ---
-title: "Bars"
+title: "Barras históricas"
 openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v2/bars
 ---
 
@@ -8,7 +8,63 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v2/bars
 [
   {
     "symbol": "AAPL",
-    "interval": 300
+    "interval": 7200,
+    "candles": [
+      {
+        "time": "1765202400000",
+        "open": 278.11,
+        "high": 279.6693,
+        "low": 277.05,
+        "close": 277.335,
+        "volume": "9174901",
+        "dateTime": "2025-12-08T09:00:00.000-05:00"
+      },
+      {
+        "time": "1765209600000",
+        "open": 277.335,
+        "high": 277.88,
+        "low": 276.7,
+        "close": 277.33,
+        "volume": "6501561",
+        "dateTime": "2025-12-08T11:00:00.000-05:00"
+      },
+      {
+        "time": "1765987200000",
+        "open": 274.6,
+        "high": 275.07,
+        "low": 272.28,
+        "close": 273.38,
+        "volume": "7179965",
+        "dateTime": "2025-12-17T11:00:00.000-05:00"
+      },
+      {
+        "time": "1766073600000",
+        "open": 272,
+        "high": 273.164,
+        "low": 269.94,
+        "close": 272.4,
+        "volume": "8374648",
+        "dateTime": "2025-12-18T11:00:00.000-05:00"
+      },
+      {
+        "time": "1766080800000",
+        "open": 272.37,
+        "high": 272.96,
+        "low": 270.5,
+        "close": 270.865,
+        "volume": "6415588",
+        "dateTime": "2025-12-18T13:00:00.000-05:00"
+      },
+      {
+        "time": "1767636000000",
+        "open": 267.57,
+        "high": 267.89,
+        "low": 266.14,
+        "close": 266.61,
+        "volume": "5846734",
+        "dateTime": "2026-01-05T13:00:00.000-05:00"
+      }
+    ]
   }
 ]
 ```

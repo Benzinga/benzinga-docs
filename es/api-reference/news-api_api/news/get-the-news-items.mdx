@@ -1,4 +1,77 @@
 ---
-title: "The News Items"
+title: "Noticias (WIIMS)"
 openapi: /es/openapi/news-api_api.spec.yml GET /api/v2/news
 ---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+[
+  {
+    "id": 36444586,
+    "author": "Benzinga Insights",
+    "created": "Mon, 01 Jan 2024 13:35:14 -0400",
+    "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
+    "title": "10 Information Technology Stocks With Whale Alerts In Today's Session",
+    "teaser": "",
+    "body": "",
+    "url": "https://www.benzinga.com/markets/options/24/01/36444586/10-information-technology-stocks-with-whale-alerts-in-todays-session",
+    "image": [
+      {
+        "size": "thumb",
+        "url": "https://cdn.benzinga.com/files/imagecache/250x187xUP/images/story/2023/options_image_2.jpeg"
+      },
+      {
+        "size": "small",
+        "url": "https://cdn.benzinga.com/files/imagecache/1024x768xUP/images/story/2023/options_image_2.jpeg"
+      },
+      {
+        "size": "large",
+        "url": "https://cdn.benzinga.com/files/imagecache/2048x1536xUP/images/story/2023/options_image_2.jpeg"
+      }
+    ],
+    "channels": [
+      {
+        "name": "Options"
+      }
+    ],
+    "stocks": [
+      {
+        "name": "AAPL",
+        "cusip": "037833100",
+        "isin": "US0378331005",
+        "exchange": "NASDAQ"
+      },
+      {
+        "name": "CLSK",
+        "cusip": "18452B209",
+        "isin": "US18452B2097",
+        "exchange": "NASDAQ"
+      },
+      {
+        "name": "NVDA",
+        "cusip": "67066G104",
+        "isin": "US67066G1040",
+        "exchange": "NASDAQ"
+      },
+      {
+        "name": "ORCL",
+        "cusip": "68389X105",
+        "isin": "US68389X1054",
+        "exchange": "NYSE"
+      },
+      {
+        "name": "TSM",
+        "cusip": "874039100",
+        "isin": "US8740391003",
+        "exchange": "NYSE"
+      }
+    ],
+    "tags": [
+      {
+        "name": "BZI-AUOA"
+      }
+    ]
+  }
+]
+```
+</ResponseExample>
