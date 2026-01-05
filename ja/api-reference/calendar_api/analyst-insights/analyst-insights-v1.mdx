@@ -1,3 +1,53 @@
 ---
+title: "アナリストインサイト"
 openapi: /ja/openapi/calendar_api.spec.yml GET /api/v1/analyst/insights
 ---
+
+<ResponseExample>
+    ```json レスポンス (200 OK)
+    {
+        "analyst-insights": [
+    {
+        "action": "Upgrades",
+        "analyst_id": "669ea49c3f2d7e0001303664",
+        "analyst_insights": "BWS FinancialはInnodataの株式を「Top Pick」に格上げし、目標株価を110.00ドルとしました。  \n\n **力強い業績と成長見通し**: Innodataは、直近の決算説明会で6,800万ドルの事前トレーニング契約を発表するなど、顕著な財務成長と将来性を示しています。これは、大型契約を獲得する同社の能力と、急速に進化するAI分野における強固なポジションを反映しており、今後の収益成長と投資家の信認向上を後押しすると見込まれます。\n\n**戦略的な政府契約の獲得**: 2025年第4四半期から開始される政府契約の獲得により、Innodataは2026年に新たな事業分野へ大きく拡大する体制を整えています。この取り組みは、年末に向けて同社の収益に大きく貢献すると予想されており、戦略的な成長イニシアチブを示すとともに、市場価値の向上につながると見られます。",
+        "date": "2026-01-05",
+        "firm": "BWS Financial",
+        "firm_id": "57f832d56b87f600016fa43f",
+        "id": "695bdd0f7bad4dcabd14a073",
+        "pt": "110.00",
+        "rating": "Top Pick",
+        "rating_id": "695bd5818f047b0001feddd2",
+        "security": {
+        "cik": "903651",
+        "exchange": "NASDAQ",
+        "isin": "US4576422053",
+        "name": "Innodata",
+        "symbol": "INOD"
+    },
+        "updated": 1767628056
+    },
+    {
+        "action": "Maintains",
+        "analyst_id": "669ea49c3f2d7e0001303664",
+        "analyst_insights": "BWS FinancialはInnodataの株式に対する「Buy」レーティングを維持し、目標株価を110.00ドルとしました。  \n\n **強い売上成長ポテンシャル**: Innodataは6,800万ドルの事前トレーニング契約を獲得しており、AIデータ準備およびエンジニアリングサービスに対する強い需要を示しています。この成長は、同社が大型契約を獲得できることの明確な証左であり、収益見通しと事業基盤の強さに対する投資家の信認を高めています。\n\n**戦略的な政府契約**: 同社は2025年第4四半期に政府契約を獲得しており、2026年の事業機会拡大につながるポジションを築いています。この戦略的な取り組みにより、Innodataの収益源は多様化し、年末に向けてより大きな財務的メリットが期待されます。これにより、同社の市場シェア拡大と収益性向上のポテンシャルが示されています。",
+        "date": "2026-01-05",
+        "firm": "BWS Financial",
+        "firm_id": "57f832d56b87f600016fa43f",
+        "id": "695bd5cf7bad4dcabd14a070",
+        "pt": "110.00",
+        "rating": "Buy",
+        "rating_id": "695bd5818f047b0001feddd2",
+        "security": {
+        "cik": "903651",
+        "exchange": "NASDAQ",
+        "isin": "US4576422053",
+        "name": "Innodata",
+        "symbol": "INOD"
+    },
+        "updated": 1767626200
+    }
+        ]
+    }
+    ```
+</ResponseExample>

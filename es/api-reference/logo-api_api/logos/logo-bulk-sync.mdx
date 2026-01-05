@@ -1,5 +1,5 @@
 ---
-title: "Logotipos para claves de búsqueda específicas"
+title: "Sincronizar logotipos en masa"
 openapi: /es/openapi/logo-api_api.spec.yml GET /logos/sync
 ---
 
@@ -61,19 +61,19 @@ openapi: /es/openapi/logo-api_api.spec.yml GET /logos/sync
   ]
 }
 ```
-```json Respuesta (400 Bad Request)
+```json Respuesta (400 Solicitud incorrecta)
 {
   "ok": false,
   "errors": [
     {
       "code": "bad_request",
       "id": "invalid_parameter",
-      "value": "Parámetro search_keys_type no válido"
+      "value": "Parámetro \"search_keys_type\" no válido"
     }
   ]
 }
 ```
-```json Respuesta (401 Unauthorized)
+```json Respuesta (401 No autorizado)
 {
   "ok": false,
   "errors": [
@@ -85,7 +85,7 @@ openapi: /es/openapi/logo-api_api.spec.yml GET /logos/sync
   ]
 }
 ```
-```json Respuesta (404 Not Found)
+```json Respuesta (404 No encontrado)
 {
   "ok": false,
   "errors": [
@@ -97,7 +97,7 @@ openapi: /es/openapi/logo-api_api.spec.yml GET /logos/sync
   ]
 }
 ```
-```json Respuesta (500 Internal Server Error)
+```json Respuesta (500 Error interno del servidor)
 {
   "ok": false,
   "errors": [
