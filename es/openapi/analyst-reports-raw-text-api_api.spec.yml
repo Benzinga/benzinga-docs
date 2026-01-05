@@ -9,23 +9,30 @@ info:
 paths:
   /analyst/reports/raw-text:
     get:
-      description: Obtener texto sin procesar de informes de analistas
+      description: Recupera texto sin procesar de informes de investigación de
+        analistas profesionales. Devuelve informes de analistas en texto
+        completo, notas de investigación y recomendaciones de inversión de
+        instituciones financieras. Incluye metadatos del informe, cambios de
+        calificación, precios objetivo y análisis detallado. Es esencial para
+        acceder a la investigación institucional y al sentimiento de los
+        analistas.
       operationId: get-analyst-reports-raw-text-data
       parameters:
-        - description: Número de página para la paginación. Indexada desde cero.
+        - description: "Número de página para la paginación. Indexada desde cero (0 =
+            primera página, 1 = segunda página, etc.). Valor predeterminado: 0"
           in: query
           name: page
           schema:
             type: integer
         - description: "Número de resultados por página. Valor predeterminado: 100.
-            Máximo: 100"
+            Máximo: 100. Devuelve primero los informes más recientes."
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
         "200":
-          description: OK
+          description: Array de informes de analistas con texto íntegro y metadatos
           content:
             application/json:
               schema:
@@ -33,7 +40,7 @@ paths:
                   $ref: "#/components/schemas/models.AnalystReportRawText"
                 type: array
         "400":
-          description: Solicitud incorrecta
+          description: Solicitud incorrecta - parámetros no válidos
           content:
             application/json:
               schema:
@@ -50,9 +57,9 @@ paths:
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: Obtener datos de texto en bruto de informes de analistas
+      summary: Informes de analistas
       tags:
-        - Analyst Reports Raw Text
+        - Analyst Reports
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -77,6 +84,3 @@ components:
         ticker:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: Producción

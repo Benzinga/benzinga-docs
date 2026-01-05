@@ -8,47 +8,53 @@ info:
 paths:
   /api/v2/newsquantified:
     get:
-      description: Newsquantified データの取得
+      description: センチメントスコア、関連度メトリクス、市場インパクト指標を含む、定量化されたニュース分析データを取得します。センチメントの極性、記事数、トレンドスコア、ticker
+        固有の指標など、ニュース報道の定量的な側面を分析した構造化データを返します。アルゴリズム取引やクオンツリサーチ向けに、機械可読なニュース分析データへアクセスするためにこのエンドポイントを使用してください。
       operationId: get-newsquantified-data
       parameters:
-        - description: ページング用のページ番号。0始まり（ゼロベース）です。
+        - description: "ページング用のページ番号。0始まり（ゼロベース）です（0 = 1ページ目、1 = 2ページ目 など）。デフォルト値: 0"
           in: query
           name: page
           schema:
             type: integer
-        - description: "1ページあたりの結果数。最大値: 1000。デフォルト値: 1000"
+        - description: "1ページあたりの結果数。デフォルト値: 1000。最大値: 1000。最新のデータから順に返します。"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Unix タイムスタンプ（UTC）。このタイムスタンプ以降に更新された newsquantified データを返します。
+        - description: 秒単位の Unix タイムスタンプ（UTC）。このタイムスタンプ以降に更新された newsquantified
+            データを返します。増分更新に使用します。
           in: query
           name: updated_since
           schema:
             type: integer
-        - description: 結果をフィルタするための株式tickerシンボルのカンマ区切りリスト。
+        - description: "結果をフィルタするための株式tickerシンボルのカンマ区切りリスト（例:
+            AAPL,MSFT,TSLA）。指定した銘柄に対する分析データのみを返します。"
           in: query
           name: symbols
           schema:
             type: string
-        - description: YYYY-MM-DD 形式で指定する単一の日付です。date_from と date_to が同一の日付になる場合の省略形です。
+        - description: "YYYY-MM-DD 形式で指定する単一の日付です（例: 2024-12-30）。date_from と date_to
+            が同一の日付になる場合の省略形です。この特定の日付のデータを返します。"
           in: query
           name: date
           schema:
             type: string
-        - description: YYYY-MM-DD 形式の開始日。この日付以降のデータを返します。
+        - description: YYYY-MM-DD 形式の開始日。この日付以降のデータを返します。日付範囲のクエリを行う場合は date_to と併用します。
           in: query
           name: date_from
           schema:
             type: string
-        - description: YYYY-MM-DD 形式で指定する終了日です。この日付まで（当日を含む）のデータを返します。
+        - description: "YYYY-MM-DD 形式（例:
+            2024-12-31）で指定する終了日です。この日付まで（当日を含む）のデータを返します。日付範囲のクエリでは date_from
+            と組み合わせて使用します。"
           in: query
           name: date_to
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: センチメントスコアおよび各種指標を含む、定量化されたニュース分析データの配列
           content:
             application/json:
               schema:
@@ -56,17 +62,15 @@ paths:
                   $ref: "#/components/schemas/models.Newsquantified"
                 type: array
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - 日付形式またはパラメータが無効です
           content:
             application/json:
               schema:
                 items:
-                  items:
-                    type: object
-                  type: array
+                  type: object
                 type: array
         "404":
-          description: 見つかりませんでした
+          description: 見つかりませんでした - 指定されたパラメータに該当するデータはありません
           content:
             application/json:
               schema:
@@ -77,13 +81,13 @@ paths:
             application/json:
               schema:
                 items:
-                  items:
-                    type: object
-                  type: array
+                  type: object
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: NewsQuantified データの取得
+      summary: ニュースの定量分析
+      tags:
+        - News Analytics
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -337,6 +341,3 @@ components:
         prevDay%:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v2
-    description: V2

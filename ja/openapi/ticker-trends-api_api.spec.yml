@@ -8,50 +8,53 @@ info:
 paths:
   /api/v1/trending-tickers:
     get:
-      description: ticker トレンドデータを取得
+      description: ユーザーエンゲージメント指標に基づき、指定した ticker
+        シンボルのトレンドデータを取得します。さまざまな時間間隔にわたるトレンドスコアとアクティビティレベルを集計して返します。このエンドポイントを使うと、投資家からの関心とエンゲージメントが高まっている証券を特定できます。
+      operationId: get-ticker-trend-data
       parameters:
-        - description: トレンドデータの集計に使用する時間間隔。指定可能な値：10m（10分）、1h（1時間）、1d（1日）
+        - description: トレンドデータの集計に使用する時間間隔。指定可能な値：10m（10分）、1h（1時間）、1d（1日）。必須。
           in: query
           name: interval
           required: true
           schema:
             type: string
-        - description: 株式のtickerシンボル（カンマ区切り）
+        - description: "株式のtickerシンボル（カンマ区切り）（例: AAPL,MSFT,TSLA）のトレンドデータを取得する対象。必須。"
           in: query
           name: tickers
           required: true
           schema:
             type: string
-        - description: "データソースのフィルター。値: all、clickstream、logo"
+        - description: "データソースのフィルター。トレンド計算に使用します。サポートされる値:
+            all（すべてのソースを統合）、clickstream（ユーザーインタラクションデータ）、logo（ロゴリクエストデータ）。必須。"
           in: query
           name: source
           required: true
           schema:
             type: string
-        - description: トレンド分析の時間ウィンドウ。必要に応じてカスタムの時間枠を指定できます。
+        - description: トレンド分析の時間ウィンドウ。必要に応じて、結果を特定の日付範囲でフィルタリングするためのカスタム時間枠を指定できます。
           in: query
           name: timeframe
           schema:
             type: string
-        - description: ページネーションのページ番号。0始まり（ゼロインデックス）です。
+        - description: "ページネーションのページ番号。0始まり（ゼロインデックス。0 = 1ページ目、1 = 2ページ目、など）です。デフォルト値: 0"
           in: query
           name: page
           schema:
             type: integer
-        - description: 1ページあたりの結果数。デフォルト値および最大値は 1000 です。
+        - description: 1ページあたりの結果数。デフォルト値は 1000 です。最大値は 1000 です。
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
         "200":
-          description: OK
+          description: エンゲージメント指標付きトレンドデータ
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - 必須パラメータ（interval、tickers、source）のいずれかが不足しているか無効です
           content:
             application/json:
               schema:
@@ -64,79 +67,78 @@ paths:
                 $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
       security:
         - ApiKeyAuth: []
-      summary: ticker トレンドデータを取得
+      summary: ticker トレンドデータ
       tags:
-        - ticker-trends
+        - Ticker Trends
   /api/v1/trending-tickers/list:
     get:
-      description: tickerトレンドリストのデータを取得
+      description: tickerトレンドリストのデータを取得します。ユーザーエンゲージメント指標に基づいて、トレンド中のtickerシンボルをランキングしたリストを返します。トレンドスコアに基づき、複数の時間間隔にわたって証券を並べ替えて返します。特定の会計期間のトレンド動向を分析できるよう、日付および時刻の範囲でフィルタリングすることも可能です。現在どの証券が投資家の関心を最も集めているかを把握するために、このエンドポイントを使用します。
+      operationId: get-ticker-trend-list-data
       parameters:
-        - description: データの取得間隔
+        - description: 非推奨。代わりに timeframe を使用してください。トレンドデータ集計のためのデータの取得間隔。
           in: query
           name: interval
           required: true
           schema:
             type: string
-        - description: カンマ区切りのティッカー一覧
+        - description: 結果を絞り込むための省略可能なカンマ区切りのティッカー一覧。省略した場合、すべてのトレンドティッカーを返します。
           in: query
           name: tickers
-          required: true
           schema:
             type: string
-        - description: データソース
+        - description: "トレンド計算用のデータソースのフィルター。指定可能な値:
+            all（すべてのソースを統合）、clickstream（ユーザーインタラクションデータ）、logo（ロゴリクエストデータ）。必須。"
           in: query
           name: source
           required: true
           schema:
             type: string
-        - description: データの期間
+        - description: データの期間（トレンド集計の時間間隔）。指定可能な値：10m（10分）、1h（1時間）、1d（1日）。デフォルト：1d
           in: query
           name: timeframe
           schema:
             type: string
-        - description: 24時間表記の開始時刻（例：09:15）
+        - description: 24時間表記の開始時刻フィルター（例：09:15、14:30）。date_from と併用して、時間範囲を正確に指定します。
           in: query
           name: time_from
-          required: true
           schema:
             type: string
-        - description: "終了時刻（24時間表記、例: 22:30）"
+        - description: "終了時刻フィルター（24時間表記、例: 16:00、22:30）。date_to と併用して、正確な時間範囲を指定します。"
           in: query
           name: time_to
-          required: true
           schema:
             type: string
-        - description: ISO 8601 形式の開始日（例：2024-12-30）
+        - description: ISO 8601 形式の開始日のフィルター（例：2024-12-30、2024-01-15）。厳密な範囲を指定するには
+            time_from と併用します。
           in: query
           name: date_from
-          required: true
           schema:
             type: string
-        - description: "ISO 8601 形式の終了日（例: 2024-12-30）"
+        - description: "ISO 8601 形式の終了日フィルター（例: 2024-12-30, 2024-01-31）。time_to
+            と組み合わせて使用すると、より正確な範囲を指定できます。"
           in: query
           name: date_to
-          required: true
           schema:
             type: string
-        - description: ページネーションのページ番号。
+        - description: ページネーションのページ番号。0始まり（0 = 1ページ目、1 = 2ページ目など）。デフォルト：0
           in: query
           name: page
           schema:
             type: integer
-        - description: 返される結果数。最大1000件
+        - description: "1ページあたりの返される結果数。デフォルト: 1000件。最大1000件"
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
         "200":
-          description: OK
+          description: エンゲージメントスコアを含むトレンド中のティッカーのランキング一覧
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
         "400":
-          description: 不正なリクエスト
+          description: 不正なリクエスト - source パラメータが欠落しているか不正である、または日付/時刻の形式が不正です
           content:
             application/json:
               schema:
@@ -149,9 +151,9 @@ paths:
                 $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
       security:
         - ApiKeyAuth: []
-      summary: tickerトレンドリストのデータを取得
+      summary: ランキング付きtickerトレンドリスト
       tags:
-        - ticker-trends
+        - Ticker Trends
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -170,6 +172,8 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
+        - unsupported_message_type
+        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -181,10 +185,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
-        - unsupported_message_type
-        - database_query_error
       type: string
       x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -196,8 +200,6 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -272,6 +274,3 @@ components:
         security:
           $ref: "#/components/schemas/models.Security"
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1

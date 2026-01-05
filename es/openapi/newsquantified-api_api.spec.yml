@@ -8,54 +8,67 @@ info:
 paths:
   /api/v2/newsquantified:
     get:
-      description: Obtener datos de NewsQuantified
+      description: Recupera datos de analítica de noticias cuantitativa con
+        puntuaciones de sentimiento, métricas de relevancia e indicadores de
+        impacto en el mercado. Devuelve datos estructurados que analizan los
+        aspectos cuantitativos de la cobertura de noticias, incluida la
+        polaridad del sentimiento, el número de artículos, las puntuaciones de
+        tendencia y las métricas específicas de cada ticker. Utilice este
+        endpoint para acceder a analítica de noticias en formato legible por
+        máquina para trading algorítmico e investigación cuantitativa.
       operationId: get-newsquantified-data
       parameters:
-        - description: Número de página para la paginación. Comienza en 0.
+        - description: "Número de página para la paginación. Comienza en 0 (0 = primera
+            página, 1 = segunda página, etc.). Valor predeterminado: 0"
           in: query
           name: page
           schema:
             type: integer
-        - description: "Número de resultados por página. Máximo: 1000. Valor
-            predeterminado: 1000"
+        - description: "Número de resultados por página. Valor predeterminado: 1000.
+            Máximo: 1000. Devuelve los datos más recientes primero."
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Marca de tiempo Unix (UTC). Devuelve datos de noticias
+        - description: Marca de tiempo Unix en segundos (UTC). Devuelve datos de noticias
             cuantificados que se hayan actualizado después de esta marca de
-            tiempo.
+            tiempo. Úselo para actualizaciones incrementales.
           in: query
           name: updated_since
           schema:
             type: integer
         - description: Lista de símbolos de ticker de acciones, separados por comas, para
-            filtrar los resultados.
+            filtrar los resultados (por ejemplo, AAPL,MSFT,TSLA). Devuelve
+            análisis únicamente para los valores especificados.
           in: query
           name: symbols
           schema:
             type: string
-        - description: Fecha única en formato AAAA-MM-DD. Forma abreviada de date_from y
-            date_to cuando ambos son iguales.
+        - description: Fecha única en formato AAAA-MM-DD (p. ej., 2024-12-30). Forma
+            abreviada para filtrar cuando date_from y date_to son iguales.
+            Devuelve los datos de esta fecha específica.
           in: query
           name: date
           schema:
             type: string
-        - description: Fecha de inicio en formato AAAA-MM-DD. Devuelve datos a partir de
-            esta fecha.
+        - description: "Fecha de inicio en formato AAAA-MM-DD. Por ejemplo: 2024-01-01.
+            Devuelve datos a partir de esta fecha. Úselo con date_to para
+            consultas de rango de fechas."
           in: query
           name: date_from
           schema:
             type: string
         - description: Fecha de finalización en formato AAAA-MM-DD. Devuelve los datos
-            hasta esta fecha inclusive.
+            hasta esta fecha inclusive. Úselo junto con date_from para consultas
+            de rango de fechas.
           in: query
           name: date_to
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: Array de analítica cuantitativa de noticias con puntuaciones de
+            sentimiento y métricas
           content:
             application/json:
               schema:
@@ -63,17 +76,16 @@ paths:
                   $ref: "#/components/schemas/models.Newsquantified"
                 type: array
         "400":
-          description: Solicitud incorrecta
+          description: Solicitud incorrecta - formato de fecha o parámetros no válidos
           content:
             application/json:
               schema:
                 items:
-                  items:
-                    type: object
-                  type: array
+                  type: object
                 type: array
         "404":
-          description: No encontrado
+          description: No encontrado - no hay datos disponibles para los parámetros
+            indicados
           content:
             application/json:
               schema:
@@ -84,13 +96,13 @@ paths:
             application/json:
               schema:
                 items:
-                  items:
-                    type: object
-                  type: array
+                  type: object
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: Obtener datos de NewsQuantified
+      summary: Analítica cuantitativa de noticias
+      tags:
+        - News Analytics
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -344,6 +356,3 @@ components:
         prevDay%:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v2
-    description: V2
