@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - stage
+    paths:
+      - 'openapi/**'
   workflow_dispatch: # Allows the action to be triggered manually
 
 jobs:

@@ -29,12 +29,6 @@
                 "pages": [
                   "services/overview"
                 ]
-              },
-              {
-                "group": "Components",
-                "pages": [
-                  "components/overview"
-                ]
               }
             ]
           },
@@ -53,7 +47,7 @@
                 "group": "Analyst Insights",
                 "pages": [
                   "api-reference/calendar_api/analyst-insights/overview",
-                  "api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
+                  "api-reference/calendar_api/analyst-insights/analyst-insights-v1"
                 ]
               },
               {
@@ -74,7 +68,7 @@
                 "group": "Calendars",
                 "pages": [
                   "api-reference/calendar_api/overview",
-                  "api-reference/calendar_api/block-trade/get-blocktrade-v1",
+                  "api-reference/calendar_api/block-trade/blocktrade-v1",
                   "api-reference/calendar_api/conference_calls/returns-conference-call-data",
                   "api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data",
                   "api-reference/calendar_api/dividends/dividends-events-v22",
@@ -118,7 +112,8 @@
                 "group": "Corporate Logos",
                 "pages": [
                   "api-reference/logo-api_api/logos/overview",
-                  "api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
+                  "api-reference/logo-api_api/logos/get-search-logos",
+                  "api-reference/logo-api_api/logos/logo-bulk-sync"
                 ]
               },
               {
@@ -131,8 +126,8 @@
               {
                 "group": "Delayed Quotes",
                 "pages": [
-                  "api-reference/data-api-proxy_api/quotedelayed/overview_v2",
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
+                  "api-reference/data-api-proxy_api/quotedelayed/overview",
+                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
                 ]
               },
               {
@@ -200,8 +195,7 @@
                 "group": "Quotes Delayed",
                 "pages": [
                   "api-reference/data-api-proxy_api/quotedelayed/overview",
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols",
-                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols-isins-or-ciks"
+                  "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
                 ]
               },
               {
@@ -323,12 +317,6 @@
                 "group": "Servicios",
                 "pages": [
                   "es/services/overview"
-                ]
-              },
-              {
-                "group": "Componentes",
-                "pages": [
-                  "es/components/overview"
                 ]
               }
             ]
@@ -618,12 +606,6 @@
                 "group": "サービス",
                 "pages": [
                   "ja/services/overview"
-                ]
-              },
-              {
-                "group": "コンポーネント",
-                "pages": [
-                  "ja/components/overview"
                 ]
               }
             ]
