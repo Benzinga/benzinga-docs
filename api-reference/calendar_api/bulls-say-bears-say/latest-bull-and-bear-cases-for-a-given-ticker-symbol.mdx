@@ -1,4 +1,29 @@
 ---
-title: "Latest Bull And Bear Cases For A Given Ticker Symbol"
-openapi: get /bulls_bears_say
+title: "Bulls Say Bears Say"
+openapi: /openapi/calendar_api.spec.yml GET /api/v1/bulls_bears_say
 ---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "bulls_say_bears_say": [
+    {
+      "bear_case": "The analysis highlights a 3.6% year-over-year decline in sales from China, which raises concerns about market performance in a key region. Additionally, while gross margins remain stable at approximately 47% year-over-year, increasing operating expenses pose a risk to profitability. Furthermore, potential sluggish growth in iPhone sales and the possibility of a decline in Apple's reputation could place downward pressure on the company's valuation, leading to apprehension among investors.",
+      "bull_case": "Apple's fourth-quarter sales increased 8% to $102.5 billion, aligning closely with estimates and supporting a projected total sales growth of 10% to 12% in the upcoming quarter, driven primarily by a robust performance in iPhone sales. The company also reported an operating income of $32.4 billion, reflecting a 10% year-over-year increase, and services revenue growth of 15%, contributing positively to gross margin dynamics. Additionally, with anticipated growth in the China region and strategic investments in AI and product development, Apple is positioned for sustainable long-term growth despite rising operational expenditures.",
+      "id": "6951d73e304f6ecd69d00189",
+      "securities": [
+        {
+          "cik": "0000320193",
+          "exchange": "NASDAQ Global Select Consolidated",
+          "isin": "US0378331005",
+          "name": "APPLE INC",
+          "symbol": "AAPL"
+        }
+      ],
+      "ticker": "AAPL",
+      "updated": 1766971198
+    }
+  ]
+}
+```
+</ResponseExample>

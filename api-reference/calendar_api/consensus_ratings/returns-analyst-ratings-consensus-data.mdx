@@ -1,4 +1,25 @@
 ---
-title: "Returns Analyst Ratings Consensus Data"
-openapi: get /consensus-ratings
+title: "Consensus Ratings"
+openapi: /openapi/calendar_api.spec.yml GET /api/v1/consensus-ratings
 ---
+
+<ResponseExample>
+    ```json Response (200 OK)
+    {
+        "aggregate_ratings": {
+        "buy": 1,
+        "hold": 0,
+        "sell": 0
+    },
+        "aggregate_type": "number",
+        "low_price_target": 315,
+        "high_price_target": 315,
+        "consensus_price_target": 315,
+        "consensus_rating_val": 4,
+        "consensus_rating": "BUY",
+        "updated_at": "2025-12-30T11:42:05Z",
+        "total_analyst_count": 1,
+        "unique_analyst_count": 1
+    }
+    ```
+</ResponseExample>

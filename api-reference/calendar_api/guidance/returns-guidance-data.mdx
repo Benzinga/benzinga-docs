@@ -1,4 +1,42 @@
 ---
-title: "Returns Guidance Data"
-openapi: get /calendar/guidance
+title: "Guidance"
+openapi: /openapi/calendar_api.spec.yml GET /api/v2.1/calendar/guidance
 ---
+
+<ResponseExample>
+    ```json Response (200 OK)
+    {
+        "guidance": [
+    {
+        "currency": "USD",
+        "cusip": "088929104",
+        "date": "2025-12-29",
+        "eps_guidance_est": "",
+        "eps_guidance_max": "",
+        "eps_guidance_min": "",
+        "eps_guidance_prior_max": "",
+        "eps_guidance_prior_min": "",
+        "eps_type": "",
+        "exchange": "NASDAQ",
+        "id": "695283336ab0a40001b35278",
+        "importance": 3,
+        "is_primary": "Y",
+        "name": "BGC Group",
+        "notes": "Reaffirming guidance.",
+        "period": "Q4",
+        "period_year": 2025,
+        "prelim": "Y",
+        "revenue_guidance_est": "746327516.000",
+        "revenue_guidance_max": "770000000.000",
+        "revenue_guidance_min": "720000000.000",
+        "revenue_guidance_prior_max": "770000000",
+        "revenue_guidance_prior_min": "720000000.000",
+        "revenue_type": "GAAP",
+        "ticker": "BGC",
+        "time": "08:00:00",
+        "updated": 1767015440
+    }
+        ]
+    }
+    ```
+</ResponseExample>

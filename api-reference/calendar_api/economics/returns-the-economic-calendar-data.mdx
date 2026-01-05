@@ -1,4 +1,33 @@
 ---
-title: "Returns The Economic Calendar Data"
-openapi: get /calendar/economics
+title: "Economics"
+openapi: /openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
 ---
+
+<ResponseExample>
+    ```json Response (200 OK)
+    {
+        "economics": [
+    {
+        "actual": "",
+        "actual_t": "%",
+        "consensus": "",
+        "consensus_t": "",
+        "country": "USA",
+        "date": "2026-03-08",
+        "description": "Challenger Job Cuts (YoY) report tracks the percentage change in layoffs reported by employers during a given month compared to the same month of the previous year. This report is used by investors and analysts to gauge the strength of the labor market and make informed decisions about their investments. The data in this report can also impact the value of the US dollar, with higher than expected numbers being seen as negative and lower than expected numbers being seen as positive.",
+        "event_category": "Employment",
+        "event_name": "Challenger Job Cuts (YoY)",
+        "event_period": "",
+        "id": "6745790147f2830001365a27",
+        "importance": 1,
+        "notes": "",
+        "period_year": 2026,
+        "prior": "",
+        "prior_t": "%",
+        "time": "02:30:09",
+        "updated": 1736341667
+    }
+        ]
+    }
+    ```
+</ResponseExample>

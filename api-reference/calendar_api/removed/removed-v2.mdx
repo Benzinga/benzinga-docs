@@ -1,4 +1,18 @@
 ---
 title: "Removed"
-openapi: get /calendar-removed/
+openapi: /openapi/calendar_api.spec.yml GET /api/v2.1/calendar-removed/
 ---
+
+<ResponseExample>
+    ```json Response (200 OK)
+    {
+        "removed": [
+    {
+        "id": "5b5d22b5be523300016fd411",
+        "type": "dividends",
+        "updated": 0
+    }
+        ]
+    }
+    ```
+</ResponseExample>
