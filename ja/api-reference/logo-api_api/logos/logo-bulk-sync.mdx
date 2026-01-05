@@ -1,5 +1,5 @@
 ---
-title: "指定した検索キーのロゴ"
+title: "ロゴを一括で同期"
 openapi: /ja/openapi/logo-api_api.spec.yml GET /logos/sync
 ---
 
@@ -68,7 +68,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /logos/sync
     {
       "code": "bad_request",
       "id": "invalid_parameter",
-      "value": "無効な search_keys_type パラメータです"
+      "value": "Invalid search_keys_type parameter"
     }
   ]
 }
@@ -80,7 +80,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /logos/sync
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "認証トークンが無効であるか、指定されていません"
+      "value": "Invalid or missing authentication token"
     }
   ]
 }
@@ -92,7 +92,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /logos/sync
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "指定された検索キーに対するロゴが見つかりませんでした"
+      "value": "No logos found for the specified search key"
     }
   ]
 }
@@ -104,7 +104,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /logos/sync
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "リクエストの処理中に予期しないエラーが発生しました"
+      "value": "An unexpected error occurred while processing your request"
     }
   ]
 }
