@@ -1,4 +1,42 @@
 ---
-title: "Returns The Earnings Data"
-openapi: /ja/openapi/calendar_api.spec.yml GET /calendar/earnings
+title: "決算"
+openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/earnings
 ---
+
+<ResponseExample>
+```json レスポンス (200 OK)
+{
+  "earnings": [
+    {
+      "currency": "USD",
+      "cusip": "037833100",
+      "date": "2026-10-29",
+      "date_confirmed": 0,
+      "eps": "",
+      "eps_est": "1.990",
+      "eps_prior": "1.850",
+      "eps_surprise": "",
+      "eps_surprise_percent": "",
+      "eps_type": "",
+      "exchange": "NASDAQ",
+      "id": "69030cfb619d3a00015b72a3",
+      "importance": 5,
+      "isin": "US0378331005",
+      "name": "Apple",
+      "notes": "",
+      "period": "Q4",
+      "period_year": 2026,
+      "revenue": "",
+      "revenue_est": "",
+      "revenue_prior": "102466000000.000",
+      "revenue_surprise": "",
+      "revenue_surprise_percent": "",
+      "revenue_type": "",
+      "ticker": "AAPL",
+      "time": "16:00:00",
+      "updated": 1766187011
+    }
+  ]
+}
+```
+</ResponseExample>

@@ -1,4 +1,29 @@
 ---
-title: "Latest Bull And Bear Cases For A Given Ticker Symbol"
-openapi: /ja/openapi/calendar_api.spec.yml GET /bulls_bears_say
+title: "強気 VS 弱気"
+openapi: /ja/openapi/calendar_api.spec.yml GET /api/v1/bulls_bears_say
 ---
+
+<ResponseExample>
+```json レスポンス（200 OK）
+{
+  "bulls_say_bears_say": [
+    {
+      "bear_case": "本分析では、中国における売上が前年同期比で3.6%減少している点が示されており、重要地域での市場パフォーマンスに対する懸念が高まっています。さらに、粗利益率は前年同期比で約47%と安定している一方で、営業費用の増加が収益性に対するリスクとなっています。加えて、iPhone売上の成長鈍化やAppleの評判低下の可能性は、同社のバリュエーションに下押し圧力をかけ、投資家の不安を招き得ます。",
+      "bull_case": "Appleの第4四半期売上高は1,025億ドルと前年同期比で8%増加し、市場予想とほぼ一致しました。これにより、主にiPhone売上の堅調なパフォーマンスに支えられ、次四半期の総売上成長率は10%〜12%になると見込まれています。同社はまた、営業利益324億ドルを報告しており、これは前年同期比10%の増加であり、サービス収入も15%増加して粗利益率の動向にプラスに寄与しています。さらに、中国地域での成長期待およびAIやプロダクト開発への戦略的投資により、営業費用が増加しているにもかかわらず、Appleは持続的な長期成長を実現し得るポジションにあるとみられます。",
+      "id": "6951d73e304f6ecd69d00189",
+      "securities": [
+        {
+          "cik": "0000320193",
+          "exchange": "NASDAQ Global Select Consolidated",
+          "isin": "US0378331005",
+          "name": "APPLE INC",
+          "symbol": "AAPL"
+        }
+      ],
+      "ticker": "AAPL",
+      "updated": 1766971198
+    }
+  ]
+}
+```
+</ResponseExample>

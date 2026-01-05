@@ -1,31 +1,172 @@
 ---
 title: "認証"
-description: "Benzinga API への認証方法"
+description: "Benzinga API へのリクエストを認証する方法"
 ---
 
-Benzinga API は、API トークンを使用してリクエストを認証します。API トークンは
-[Console](https://www.api.benzinga.com/token)（コンソール）で表示および管理できます。
+Benzinga API では、リクエストの認証に **API Key** を使用します。API Key は一意の識別子であり、サブスクリプションに基づいて特定のデータや機能へのアクセス権を付与します。
 
-API トークンには多くの権限が付与されているため、必ず安全に保管してください。GitHub やクライアントサイドコードなど、
-公開されている領域でトークンを共有しないでください。
+> [!IMPORTANT]
+> **API Key は安全に保管してください。** GitHub、クライアントサイドのコード、保護されていない通信など、一般にアクセス可能な場所で共有しないでください。キーが漏えいしたと思われる場合は、直ちにサポートまでご連絡ください。
 
-API への認証は、Bearer 認証（トークン認証とも呼ばれます）によって行われます。
-これは、ベアラートークンと呼ばれるセキュリティトークンを使用する HTTP 認証方式です。クライアントは、保護されたリソースに対してリクエストを送信する際、
-このトークンを Authorization ヘッダーで送信する必要があります。
+API Key は、[Benzinga Developer Console](https://www.api.benzinga.com/token) で表示および管理できます。
 
-```bash
-Authorization: token <token>
+<div id="authentication-methods">
+  ## 認証方法
+</div>
+
+Benzinga API は 2 種類の認証方法をサポートしています。運用環境のアプリケーションでは、より安全で API キーが URL のログに残るのを防げるため、**HTTP ヘッダー**による方法を強く推奨します。
+
+<div id="1-http-header-recommended">
+  ### 1. HTTP Header（推奨）
+</div>
+
+ヘッダー認証を行うには、値を `token <YOUR_API_KEY>` とした `Authorization` ヘッダーを追加してください。
+
+```http
+Authorization: token <YOUR_API_KEY>
 ```
 
-HTTP Basic認証を使用して認証する必要がある場合は、
-`-H "Authorization: Bearer {{token}}"` の代わりに `-u {{token}}:` を使用してください。
 
-すべてのAPIリクエストはHTTPS経由で行う必要があります。暗号化されていないHTTPで行われた呼び出しは失敗します。認証なしのAPIリクエストも失敗します。
+<div id="2-query-parameter">
+  ### 2. クエリパラメータ
+</div>
 
-<RequestExample>
-  ```bash cURL with Basic Auth
-  curl 'https://api.benzinga.com/api/v1/ratings' \
-  -u '<token>:'
-      # コロンを付けておくと、curlがパスワードの入力を求めません。
-  ```
-</RequestExample>
+簡易的なテストやヘッダーを変更できない場合は、`token` という名前のクエリパラメータとしてキーを渡すことができます。
+
+```http
+https://api.benzinga.com/api/v2/news?token=<YOUR_API_KEY>
+```
+
+
+<div id="code-examples">
+  ## コード例
+</div>
+
+代表的なプログラミング言語で Benzinga API に接続するための、本番環境でそのまま利用できるサンプルです。
+
+<CodeGroup>
+
+```bash cURL
+# 推奨: ヘッダー認証
+curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1' \
+-H 'Authorization: token YOUR_API_KEY' \
+-H 'Accept: application/json'
+
+# 別案: クエリパラメータ
+curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1&token=YOUR_API_KEY'
+```
+
+```python Python
+import requests
+
+url = "https://api.benzinga.com/api/v2/news"
+
+# 推奨: ヘッダー認証
+headers = {
+    "Authorization": "token YOUR_API_KEY",
+    "Accept": "application/json"
+}
+
+params = {
+    "pageSize": 1
+}
+
+try:
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status() # 4xx/5xx レスポンスに対して詳細なエラーを送出する
+    data = response.json()
+    print(data)
+except requests.exceptions.RequestException as e:
+    print(f"Error fetching data: {e}")
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const url = 'https://api.benzinga.com/api/v2/news';
+const apiKey = 'YOUR_API_KEY';
+
+async function getNews() {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'Authorization': `token ${apiKey}`,
+        'Accept': 'application/json'
+      },
+      params: {
+        pageSize: 1
+      }
+    });
+    
+    console.log(response.data);
+  } catch (error) {
+    if (error.response) {
+      // リクエストは送信され、サーバーからレスポンスが返されましたが、
+      // ステータスコードが 2xx の範囲外です
+      console.error('Error Status:', error.response.status);
+      console.error('Error Data:', error.response.data);
+    } else {
+      console.error('Error Message:', error.message);
+    }
+  }
+}
+
+getNews();
+```
+
+```go Go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.benzinga.com/api/v2/news?pageSize=1"
+	apiKey := "YOUR_API_KEY"
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	// 推奨: ヘッダー認証
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", apiKey))
+	req.Header.Add("Accept", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 400 {
+		fmt.Printf("Error: Status Code %d\n", resp.StatusCode)
+		return
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(body))
+}
+```
+
+</CodeGroup>
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+一般的な認証エラーとその解決方法です。
+
+| ステータスコード | メッセージ | 想定される原因 | 解決方法 |
+| :--- | :--- | :--- | :--- |
+| **401** | `Unauthorized` | 無効な API キー | API キーが正しく、再生成されていないことを確認してください。余分なスペースが含まれていないことも確認してください。 |
+| **401** | `Unauthorized` | API キーが指定されていない | `Authorization` ヘッダーが `token <KEY>` として正しくフォーマットされているか、または `token` パラメータが存在するかを確認してください。 |
+| **403** | `Forbidden` | 権限不足 | API キーは有効ですが、ご利用中のプランにはリクエストされたエンドポイントへのアクセス権が含まれていません。プランのアップグレードについて営業またはサポートにお問い合わせください。 |

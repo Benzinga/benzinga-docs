@@ -7,125 +7,55 @@ info:
   title: Logo API
   version: 2.1.0
 paths:
-  /logos/bulk-sync:
-    get:
-      description: Obtener logotipos para las claves de búsqueda indicadas
-      operationId: logo-bulk-sync
-      parameters:
-        - description: Claves de búsqueda
-          in: query
-          name: search_keys
-          required: true
-          schema:
-            type: string
-        - description: Tipo de claves de búsqueda
-          in: query
-          name: search_keys_type
-          schema:
-            type: string
-        - description: Campos
-          in: query
-          name: fields
-          required: true
-          style: form
-          explode: false
-          schema:
-            type: array
-            items:
-              type: string
-        - description: Página
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: Tamaño de página
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: Actualizado desde
-          in: query
-          name: updated_since
-          schema:
-            type: string
-        - description: Escala
-          in: query
-          name: scale
-          schema:
-            type: string
-        - description: Radio compuesto
-          in: query
-          name: composite_radius
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "400":
-          description: Solicitud incorrecta
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "404":
-          description: No encontrado
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
-          description: Error interno del servidor
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-      security:
-        - ApiKeyAuth: []
-      summary: Obtener logotipos para las claves de búsqueda proporcionadas
-      tags:
-        - logos
   /logos/search:
     get:
-      description: Obtener logotipos para las claves de búsqueda especificadas
+      description: Buscar logotipos
       operationId: get-search-logos
       parameters:
-        - description: Claves de búsqueda
+        - description: Lista de identificadores de valores separados por comas. Máximo 100
+            identificadores. El tipo depende del parámetro search_keys_type.
           in: query
           name: search_keys
           required: true
           schema:
             type: string
-        - description: Tipo de clave de búsqueda
+        - description: "Tipo de identificador que se busca. Tipos admitidos: symbol
+            (predeterminado), cik, cusip, isin"
           in: query
           name: search_keys_type
           schema:
             type: string
-        - description: Campos
+        - description: "Lista de campos de logotipo, separados por comas, que se
+            devolverán. Máximo 12 campos. Disponibles: logo_light, logo_dark,
+            logo_vector_light, logo_vector_dark, mark_light, mark_dark,
+            mark_vector_light, mark_vector_dark, mark_composite_light,
+            mark_composite_dark, mark_vector_composite_light,
+            mark_vector_composite_dark, colors"
           in: query
           name: fields
           required: true
           schema:
             type: string
-        - description: Composición automática
+        - description: Si es true y no existe ningún logo, genera una imagen compuesta a
+            partir del nombre de la empresa y los colores de la marca
           in: query
           name: composite_auto
           schema:
             type: boolean
-        - description: Radio de las esquinas de imagen compuesta
+        - description: "Radio de las esquinas de imagen compuesta en porcentaje. Rango
+            0-50, donde 50 crea un círculo. Valor predeterminado: 0"
           in: query
           name: composite_radius
           schema:
             type: integer
-        - description: Escalado
+        - description: "Escala las dimensiones de la imagen en formato ANCHOxALTO (p. ej.,
+            300x300). Las imágenes solo se reducen, nunca se amplían. Valor
+            predeterminado: 300x300"
           in: query
           name: scale
           schema:
             type: string
-        - description: Ancho máximo
+        - description: Restricción de ancho máximo para imágenes escaladas, en píxeles
           in: query
           name: max_width
           schema:
@@ -159,7 +89,102 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: Obtener logotipos para las claves de búsqueda indicadas
+      summary: Buscar logotipos
+      tags:
+        - logos
+  /logos/sync:
+    get:
+      description: Sincronización masiva de logotipos
+      operationId: logo-bulk-sync
+      parameters:
+        - description: Lista de identificadores de valores o códigos MIC de exchange,
+            separados por comas (para logos de exchange en v2.1). El tipo
+            depende del parámetro search_keys_type.
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: "Tipo de identificador que se busca. Tipos admitidos: symbol
+            (predeterminado), cik, cusip, isin, exchange (solo v2.1)"
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: "Lista de campos de logotipo separados por comas que se devolverán.
+            Máximo de 12 campos. Disponibles: logo_light, logo_dark,
+            logo_vector_light, logo_vector_dark, mark_light, mark_dark,
+            mark_vector_light, mark_vector_dark, mark_composite_light,
+            mark_composite_dark, mark_vector_composite_light,
+            mark_vector_composite_dark, colors"
+          in: query
+          name: fields
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: Número de página para paginación. Se utiliza junto con pagesize en
+            operaciones de sincronización masiva.
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "Número de resultados por página. Valor predeterminado: 100.
+            Máximo: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Marca de tiempo Unix (UTC). Devuelve los logotipos actualizados con
+            posterioridad a esta marca de tiempo.
+          in: query
+          name: updated_since
+          schema:
+            type: string
+        - description: "Escala las dimensiones de la imagen en formato ANCHOxALTO (p. ej.,
+            300x300). Las imágenes solo se reducen de tamaño, nunca se amplían.
+            Predeterminado: 300x300"
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: "Radio de las esquinas de las imágenes compuestas, en porcentaje.
+            Rango de 0 a 50, donde 50 crea un círculo. Valor predeterminado: 0"
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "400":
+          description: Solicitud no válida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
+          description: No se encontró
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: Sincronización masiva de logos
       tags:
         - logos
 components:
@@ -180,8 +205,6 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
-        - unsupported_message_type
-        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -193,10 +216,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
       type: string
       x-enum-varnames:
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -208,6 +231,8 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:

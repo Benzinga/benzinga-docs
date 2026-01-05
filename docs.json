@@ -347,73 +347,53 @@
               {
                 "group": "Perspectivas de los analistas",
                 "pages": [
+                  "es/api-reference/calendar_api/analyst-insights/overview",
                   "es/api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
                 ]
               },
               {
                 "group": "Barras",
                 "pages": [
+                  "es/api-reference/data-api-proxy_api/bars/overview",
                   "es/api-reference/data-api-proxy_api/bars/get-bars-v2"
                 ]
               },
               {
                 "group": "Argumentos alcistas Argumentos bajistas",
                 "pages": [
-                  "es/api-reference/calendar_api/bulls-say-bears-say/get-bulls-say-bears-say-v1"
+                  "es/api-reference/calendar_api/bulls-say-bears-say/overview",
+                  "es/api-reference/calendar_api/bulls-say-bears-say/latest-bull-and-bear-cases-for-a-given-ticker-symbol"
                 ]
               },
               {
                 "group": "Calendarios",
                 "pages": [
+                  "es/api-reference/calendar_api/overview",
                   "es/api-reference/calendar_api/block-trade/get-blocktrade-v1",
-                  "es/api-reference/calendar_api/conference_calls/get-conference-calls",
-                  "es/api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
-                  "es/api-reference/calendar_api/dividends/get-dividends-v22",
-                  "es/api-reference/calendar_api/earnings/get-earnings",
-                  "es/api-reference/calendar_api/economics/get-economics",
-                  "es/api-reference/calendar_api/erx-gaps/get-erx-gaps",
-                  "es/api-reference/calendar_api/events/get-events",
-                  "es/api-reference/calendar_api/fda/get-fda",
-                  "es/api-reference/calendar_api/guidance/get-guidance",
-                  "es/api-reference/calendar_api/halt-resume/get-haltresume-v1",
-                  "es/api-reference/calendar_api/ipos/get-ipos-v21",
-                  "es/api-reference/calendar_api/ma/get-merger-and-acquisition",
-                  "es/api-reference/calendar_api/offerings/get-offerings",
-                  "es/api-reference/calendar_api/option-activity/get-optionactivity-v1",
-                  "es/api-reference/calendar_api/ratings/get-ratings",
-                  "es/api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
-                  "es/api-reference/calendar_api/ratings_firms/get-ratings-firms",
-                  "es/api-reference/calendar_api/removed/get-removed-v2"
+                  "es/api-reference/calendar_api/conference_calls/returns-conference-call-data",
+                  "es/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data",
+                  "es/api-reference/calendar_api/dividends/dividends-events-v22",
+                  "es/api-reference/calendar_api/earnings/returns-the-earnings-data",
+                  "es/api-reference/calendar_api/economics/returns-the-economic-calendar-data",
+                  "es/api-reference/calendar_api/erx-gaps/erx-gaps",
+                  "es/api-reference/calendar_api/events/events",
+                  "es/api-reference/calendar_api/fda/fda-approvals-clinical-trials-and-pdufa-dates",
+                  "es/api-reference/calendar_api/guidance/returns-guidance-data",
+                  "es/api-reference/calendar_api/halt-resume/haltresume-v1",
+                  "es/api-reference/calendar_api/ipos/ipos-v21",
+                  "es/api-reference/calendar_api/ma/returns-the-mergers-and-acquisitions-data",
+                  "es/api-reference/calendar_api/offerings/returns-secondary-offering-data",
+                  "es/api-reference/calendar_api/option-activity/optionactivity-v1",
+                  "es/api-reference/calendar_api/ratings/returns-analyst-ratings-data",
+                  "es/api-reference/calendar_api/ratings_analysts/ratings-analysts",
+                  "es/api-reference/calendar_api/ratings_firms/ratings-firms",
+                  "es/api-reference/calendar_api/removed/removed-v2"
                 ]
               },
               {
-                "group": "Cifras y ratios derivados",
+                "group": "Fundamentos de la empresa",
                 "pages": [
-                  "es/api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-for-a-list-of-symbols"
-                ]
-              },
-              {
-                "group": "Cotizaciones diferidas",
-                "pages": [
-                  "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
-                ]
-              },
-              {
-                "group": "Ratios de ganancias",
-                "pages": [
-                  "es/api-reference/data-api-proxy_api/earningratios/get-earning-ratios-for-a-list-of-symbols-isins-or-ciks"
-                ]
-              },
-              {
-                "group": "Transcripciones de llamadas de resultados",
-                "pages": [
-                  "es/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
-                  "es/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
-                ]
-              },
-              {
-                "group": "Fundamentos",
-                "pages": [
+                  "es/api-reference/data-api-proxy_api/fundamentals/overview",
                   "es/api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
                   "es/api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
                   "es/api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
@@ -430,61 +410,99 @@
                 ]
               },
               {
-                "group": "Operaciones del gobierno",
-                "pages": [
-                  "es/api-reference/calendar_api/government-trade-reports/get-government-trade-reports",
-                  "es/api-reference/calendar_api/government-trades/get-government-trades"
-                ]
-              },
-              {
-                "group": "Operaciones de personas con información privilegiada",
-                "pages": [
-                  "es/api-reference/calendar_api/insider-transaction/get-insider-transaction",
-                  "es/api-reference/calendar_api/insider-transaction/get-insider-transaction-owner"
-                ]
-              },
-              {
-                "group": "Logotipos",
+                "group": "Logos corporativos",
                 "pages": [
                   "es/api-reference/logo-api_api/logos/overview",
                   "es/api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
                 ]
               },
               {
-                "group": "Noticias",
+                "group": "Cifras derivadas y ratios",
                 "pages": [
-                  "es/api-reference/news-api_api/news/get-news",
-                  "es/api-reference/news-api_api/news/get-removed-news"
+                  "es/api-reference/data-api-proxy_api/derivedfiguresandratios/overview",
+                  "es/api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-for-a-list-of-symbols"
+                ]
+              },
+              {
+                "group": "Cotizaciones diferidas",
+                "pages": [
+                  "es/api-reference/data-api-proxy_api/quotedelayed/overview_v2",
+                  "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
+                ]
+              },
+              {
+                "group": "Ratios de rentabilidad",
+                "pages": [
+                  "es/api-reference/data-api-proxy_api/earningratios/overview",
+                  "es/api-reference/data-api-proxy_api/earningratios/get-earning-ratios-for-a-list-of-symbols-isins-or-ciks"
+                ]
+              },
+              {
+                "group": "Transcripciones de llamadas de resultados",
+                "pages": [
+                  "es/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/overview",
+                  "es/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
+                  "es/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
+                ]
+              },
+              {
+                "group": "Operaciones del gobierno",
+                "pages": [
+                  "es/api-reference/calendar_api/government-trades/overview",
+                  "es/api-reference/calendar_api/government-trade-reports/government-trade-reports",
+                  "es/api-reference/calendar_api/government-trades/government-trades"
+                ]
+              },
+              {
+                "group": "Transacciones de insiders",
+                "pages": [
+                  "es/api-reference/calendar_api/insider-transaction/overview",
+                  "es/api-reference/calendar_api/insider-transaction/insider-transaction-filing",
+                  "es/api-reference/calendar_api/insider-transaction/insider-transaction-owner"
+                ]
+              },
+              {
+                "group": "Noticias & Why is it Moving (WIIMs)",
+                "pages": [
+                  "es/api-reference/news-api_api/news/overview",
+                  "es/api-reference/news-api_api/news/get-the-news-items",
+                  "es/api-reference/news-api_api/news/returns-the-removed-news-data",
+                  "es/api-reference/news-api_api/channels/get-available-news-channels"
                 ]
               },
               {
                 "group": "NewsQuantified",
                 "pages": [
+                  "es/api-reference/newsquantified-api_api/overview",
                   "es/api-reference/newsquantified-api_api/get-newsquantified-data"
-                ]
-              },
-              {
-                "group": "Cotización en diferido",
-                "pages": [
-                  "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols",
-                  "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols-isins-or-ciks"
                 ]
               },
               {
                 "group": "Ratios de operación",
                 "pages": [
+                  "es/api-reference/data-api-proxy_api/operationratios/overview",
                   "es/api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21"
                 ]
               },
               {
-                "group": "Desdoblamientos de acciones",
+                "group": "Splits de acciones",
                 "pages": [
-                  "es/api-reference/calendar_api/splits/get-splits"
+                  "es/api-reference/calendar_api/splits/overview",
+                  "es/api-reference/calendar_api/splits/returns-the-splits-calendar-data"
+                ]
+              },
+              {
+                "group": "Cotizaciones diferidas",
+                "pages": [
+                  "es/api-reference/data-api-proxy_api/quotedelayed/overview",
+                  "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols",
+                  "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols-isins-or-ciks"
                 ]
               },
               {
                 "group": "Tendencias de tickers",
                 "pages": [
+                  "es/api-reference/ticker-trends-api_api/ticker-trends/overview",
                   "es/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
                   "es/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
                 ]
@@ -492,6 +510,7 @@
               {
                 "group": "Ratios de valoración",
                 "pages": [
+                  "es/api-reference/data-api-proxy_api/valuationratios/overview",
                   "es/api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-for-a-list-of-symbols-isins-or-ciks"
                 ]
               }
@@ -623,73 +642,53 @@
               {
                 "group": "アナリストインサイト",
                 "pages": [
+                  "ja/api-reference/calendar_api/analyst-insights/overview",
                   "ja/api-reference/calendar_api/analyst-insights/get-analyst-insights-v1"
                 ]
               },
               {
                 "group": "バー",
                 "pages": [
+                  "ja/api-reference/data-api-proxy_api/bars/overview",
                   "ja/api-reference/data-api-proxy_api/bars/get-bars-v2"
                 ]
               },
               {
                 "group": "強気派の主張 弱気派の主張",
                 "pages": [
-                  "ja/api-reference/calendar_api/bulls-say-bears-say/get-bulls-say-bears-say-v1"
+                  "ja/api-reference/calendar_api/bulls-say-bears-say/overview",
+                  "ja/api-reference/calendar_api/bulls-say-bears-say/latest-bull-and-bear-cases-for-a-given-ticker-symbol"
                 ]
               },
               {
                 "group": "Calendars",
                 "pages": [
+                  "ja/api-reference/calendar_api/overview",
                   "ja/api-reference/calendar_api/block-trade/get-blocktrade-v1",
-                  "ja/api-reference/calendar_api/conference_calls/get-conference-calls",
-                  "ja/api-reference/calendar_api/consensus_ratings/get-consensus-ratings",
-                  "ja/api-reference/calendar_api/dividends/get-dividends-v22",
-                  "ja/api-reference/calendar_api/earnings/get-earnings",
-                  "ja/api-reference/calendar_api/economics/get-economics",
-                  "ja/api-reference/calendar_api/erx-gaps/get-erx-gaps",
-                  "ja/api-reference/calendar_api/events/get-events",
-                  "ja/api-reference/calendar_api/fda/get-fda",
-                  "ja/api-reference/calendar_api/guidance/get-guidance",
-                  "ja/api-reference/calendar_api/halt-resume/get-haltresume-v1",
-                  "ja/api-reference/calendar_api/ipos/get-ipos-v21",
-                  "ja/api-reference/calendar_api/ma/get-merger-and-acquisition",
-                  "ja/api-reference/calendar_api/offerings/get-offerings",
-                  "ja/api-reference/calendar_api/option-activity/get-optionactivity-v1",
-                  "ja/api-reference/calendar_api/ratings/get-ratings",
-                  "ja/api-reference/calendar_api/ratings_analysts/get-ratings-analysts",
-                  "ja/api-reference/calendar_api/ratings_firms/get-ratings-firms",
-                  "ja/api-reference/calendar_api/removed/get-removed-v2"
+                  "ja/api-reference/calendar_api/conference_calls/returns-conference-call-data",
+                  "ja/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data",
+                  "ja/api-reference/calendar_api/dividends/dividends-events-v22",
+                  "ja/api-reference/calendar_api/earnings/returns-the-earnings-data",
+                  "ja/api-reference/calendar_api/economics/returns-the-economic-calendar-data",
+                  "ja/api-reference/calendar_api/erx-gaps/erx-gaps",
+                  "ja/api-reference/calendar_api/events/events",
+                  "ja/api-reference/calendar_api/fda/fda-approvals-clinical-trials-and-pdufa-dates",
+                  "ja/api-reference/calendar_api/guidance/returns-guidance-data",
+                  "ja/api-reference/calendar_api/halt-resume/haltresume-v1",
+                  "ja/api-reference/calendar_api/ipos/ipos-v21",
+                  "ja/api-reference/calendar_api/ma/returns-the-mergers-and-acquisitions-data",
+                  "ja/api-reference/calendar_api/offerings/returns-secondary-offering-data",
+                  "ja/api-reference/calendar_api/option-activity/optionactivity-v1",
+                  "ja/api-reference/calendar_api/ratings/returns-analyst-ratings-data",
+                  "ja/api-reference/calendar_api/ratings_analysts/ratings-analysts",
+                  "ja/api-reference/calendar_api/ratings_firms/ratings-firms",
+                  "ja/api-reference/calendar_api/removed/removed-v2"
                 ]
               },
               {
-                "group": "派生指標および比率",
+                "group": "企業ファンダメンタルズ",
                 "pages": [
-                  "ja/api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-for-a-list-of-symbols"
-                ]
-              },
-              {
-                "group": "遅延気配",
-                "pages": [
-                  "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
-                ]
-              },
-              {
-                "group": "収益性比率",
-                "pages": [
-                  "ja/api-reference/data-api-proxy_api/earningratios/get-earning-ratios-for-a-list-of-symbols-isins-or-ciks"
-                ]
-              },
-              {
-                "group": "決算説明会の文字起こし",
-                "pages": [
-                  "ja/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
-                  "ja/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
-                ]
-              },
-              {
-                "group": "ファンダメンタルズ",
-                "pages": [
+                  "ja/api-reference/data-api-proxy_api/fundamentals/overview",
                   "ja/api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
                   "ja/api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
                   "ja/api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
@@ -706,61 +705,99 @@
                 ]
               },
               {
-                "group": "政府関係者による取引",
-                "pages": [
-                  "ja/api-reference/calendar_api/government-trade-reports/get-government-trade-reports",
-                  "ja/api-reference/calendar_api/government-trades/get-government-trades"
-                ]
-              },
-              {
-                "group": "インサイダー取引",
-                "pages": [
-                  "ja/api-reference/calendar_api/insider-transaction/get-insider-transaction",
-                  "ja/api-reference/calendar_api/insider-transaction/get-insider-transaction-owner"
-                ]
-              },
-              {
-                "group": "ロゴ",
+                "group": "企業ロゴ",
                 "pages": [
                   "ja/api-reference/logo-api_api/logos/overview",
                   "ja/api-reference/logo-api_api/logos/get-logos-for-given-search-keys-1"
                 ]
               },
               {
-                "group": "ニュース",
+                "group": "派生指標・比率",
                 "pages": [
-                  "ja/api-reference/news-api_api/news/get-news",
-                  "ja/api-reference/news-api_api/news/get-removed-news"
+                  "ja/api-reference/data-api-proxy_api/derivedfiguresandratios/overview",
+                  "ja/api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-for-a-list-of-symbols"
+                ]
+              },
+              {
+                "group": "遅延株価",
+                "pages": [
+                  "ja/api-reference/data-api-proxy_api/quotedelayed/overview_v2",
+                  "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-v2"
+                ]
+              },
+              {
+                "group": "収益性指標",
+                "pages": [
+                  "ja/api-reference/data-api-proxy_api/earningratios/overview",
+                  "ja/api-reference/data-api-proxy_api/earningratios/get-earning-ratios-for-a-list-of-symbols-isins-or-ciks"
+                ]
+              },
+              {
+                "group": "決算説明会の書き起こし",
+                "pages": [
+                  "ja/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/overview",
+                  "ja/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
+                  "ja/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
+                ]
+              },
+              {
+                "group": "政府関係者取引",
+                "pages": [
+                  "ja/api-reference/calendar_api/government-trades/overview",
+                  "ja/api-reference/calendar_api/government-trade-reports/government-trade-reports",
+                  "ja/api-reference/calendar_api/government-trades/government-trades"
+                ]
+              },
+              {
+                "group": "インサイダー取引",
+                "pages": [
+                  "ja/api-reference/calendar_api/insider-transaction/overview",
+                  "ja/api-reference/calendar_api/insider-transaction/insider-transaction-filing",
+                  "ja/api-reference/calendar_api/insider-transaction/insider-transaction-owner"
+                ]
+              },
+              {
+                "group": "ニュースフィード＆Why Is It Moving（WIIMs）",
+                "pages": [
+                  "ja/api-reference/news-api_api/news/overview",
+                  "ja/api-reference/news-api_api/news/get-the-news-items",
+                  "ja/api-reference/news-api_api/news/returns-the-removed-news-data",
+                  "ja/api-reference/news-api_api/channels/get-available-news-channels"
                 ]
               },
               {
                 "group": "NewsQuantified",
                 "pages": [
+                  "ja/api-reference/newsquantified-api_api/overview",
                   "ja/api-reference/newsquantified-api_api/get-newsquantified-data"
                 ]
               },
               {
-                "group": "遅延気配",
+                "group": "経営比率",
                 "pages": [
-                  "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols",
-                  "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols-isins-or-ciks"
-                ]
-              },
-              {
-                "group": "活動性比率",
-                "pages": [
+                  "ja/api-reference/data-api-proxy_api/operationratios/overview",
                   "ja/api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21"
                 ]
               },
               {
                 "group": "株式分割",
                 "pages": [
-                  "ja/api-reference/calendar_api/splits/get-splits"
+                  "ja/api-reference/calendar_api/splits/overview",
+                  "ja/api-reference/calendar_api/splits/returns-the-splits-calendar-data"
+                ]
+              },
+              {
+                "group": "遅延クォート",
+                "pages": [
+                  "ja/api-reference/data-api-proxy_api/quotedelayed/overview",
+                  "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols",
+                  "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols-isins-or-ciks"
                 ]
               },
               {
                 "group": "ティッカートレンド",
                 "pages": [
+                  "ja/api-reference/ticker-trends-api_api/ticker-trends/overview",
                   "ja/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
                   "ja/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
                 ]
@@ -768,6 +805,7 @@
               {
                 "group": "バリュエーション指標",
                 "pages": [
+                  "ja/api-reference/data-api-proxy_api/valuationratios/overview",
                   "ja/api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-for-a-list-of-symbols-isins-or-ciks"
                 ]
               }
