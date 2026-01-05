@@ -39,10 +39,7 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
         case "$filename" in
             "calendar_api.spec.yml")
                 servers='[
-                  {"url": "https://api.benzinga.com/api/v1", "description": "V1"},
-                  {"url": "https://api.benzinga.com/api/v2", "description": "V2"},
-                  {"url": "https://api.benzinga.com/api/v2.1", "description": "V2.1"},
-                  {"url": "https://api.benzinga.com/api/v2.2", "description": "V2.2"}
+                  {"url": "https://api.benzinga.com", "description": "PROD"}
                 ]'
                 ;;
             "logo-api_api.spec.yml")
