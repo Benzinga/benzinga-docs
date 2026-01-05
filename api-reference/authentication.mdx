@@ -1,33 +1,160 @@
 ---
 title: "Authentication"
-description: "How to authenticate to the Benzinga API"
+description: "How to authenticate your requests to the Benzinga API"
 ---
 
-The Benzinga API uses API tokens to authenticate requests. You can view and manage your API token in
-your [Console](https://www.api.benzinga.com/token).
+The Benzinga API uses **API Keys** to authenticate requests. Your API Key is a unique identifier that grants access to specific data and features based on your subscription.
 
-Your API tokens carry many privileges, so be sure to keep them secure! Do not share your tokens in
-publicly accessible areas such as GitHub, client-side code, and so forth.
+> [!IMPORTANT]
+> **Keep your API Key secure.** Do not share it in publicly accessible areas such as GitHub, client-side code, or unsecured communications. If you believe your key has been compromised, contact support immediately.
 
-Authentication to the API is performed via Bearer authentication (also called token authentication).
-It is an HTTP authentication scheme that involves security tokens called bearer tokens. The client must send this token
-in the Authorization header when making requests to protected resources:
+You can view and manage your API Key in your [Benzinga Developer Console](https://www.api.benzinga.com/token).
 
-```bash
-Authorization: token <token>
+## Authentication Methods
+
+The Benzinga API supports two methods for authentication. We strongly recommend using the **HTTP Header** method for production applications as it is more secure and prevents your key from appearing in URL logs.
+
+### 1. HTTP Header (Recommended)
+
+To authenticate via the header, include the `Authorization` header with the value `token <YOUR_API_KEY>`.
+
+```http
+Authorization: token <YOUR_API_KEY>
 ```
 
-If you need to authenticate via HTTP Basic Auth,
-use `-u {{token}}:` instead of `-H "Authorization: Bearer {{token}}"`.
+### 2. Query Parameter
 
-All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication
-will also fail.
+For quick testing or when header modification isn't possible, you can pass your key as a query parameter named `token`.
 
-<RequestExample>
+```http
+https://api.benzinga.com/api/v2/news?token=<YOUR_API_KEY>
+```
 
-    ```bash cURL with Basic Auth
-    curl 'https://api.benzinga.com/api/v1/ratings' \
-    -u '<token>:'
-        # The colon prevents curl from asking for a password.
-        ```
-</RequestExample>
+## Code Examples
+
+Here are production-ready examples for connecting to the Benzinga API in common languages.
+
+<CodeGroup>
+
+```bash cURL
+# Recommended: Header Authentication
+curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1' \
+-H 'Authorization: token YOUR_API_KEY' \
+-H 'Accept: application/json'
+
+# Alternative: Query Parameter
+curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1&token=YOUR_API_KEY'
+```
+
+```python Python
+import requests
+
+url = "https://api.benzinga.com/api/v2/news"
+
+# Recommended: Header Authentication
+headers = {
+    "Authorization": "token YOUR_API_KEY",
+    "Accept": "application/json"
+}
+
+params = {
+    "pageSize": 1
+}
+
+try:
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status() # Raise detailed error for 4xx/5xx responses
+    data = response.json()
+    print(data)
+except requests.exceptions.RequestException as e:
+    print(f"Error fetching data: {e}")
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const url = 'https://api.benzinga.com/api/v2/news';
+const apiKey = 'YOUR_API_KEY';
+
+async function getNews() {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'Authorization': `token ${apiKey}`,
+        'Accept': 'application/json'
+      },
+      params: {
+        pageSize: 1
+      }
+    });
+    
+    console.log(response.data);
+  } catch (error) {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.error('Error Status:', error.response.status);
+      console.error('Error Data:', error.response.data);
+    } else {
+      console.error('Error Message:', error.message);
+    }
+  }
+}
+
+getNews();
+```
+
+```go Go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.benzinga.com/api/v2/news?pageSize=1"
+	apiKey := "YOUR_API_KEY"
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	// Recommended: Header Authentication
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", apiKey))
+	req.Header.Add("Accept", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 400 {
+		fmt.Printf("Error: Status Code %d\n", resp.StatusCode)
+		return
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(body))
+}
+```
+
+</CodeGroup>
+
+## Troubleshooting
+
+Common authentication errors and how to resolve them.
+
+| Status Code | Message | Possible Cause | Resolution |
+| :--- | :--- | :--- | :--- |
+| **401** | `Unauthorized` | Invalid API Key | Check that your API key is correct and has not been regenerated. ensure no extra spaces are copied. |
+| **401** | `Unauthorized` | Missing API Key | Ensure the `Authorization` header is formatted correctly as `token <KEY>` or the `token` parameter is present. |
+| **403** | `Forbidden` | Insufficient Permissions | Your API key is valid, but your plan does not include access to the requested endpoint. Contact sales or support to upgrade your plan. |
