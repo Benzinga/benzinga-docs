@@ -1,65 +1,87 @@
 ---
 title: "エラー"
-description: "エラー発生時の Benzinga API のレスポンス動作。"
+description: "Benzinga API からのエラーおよびステータスコードの扱い方"
 ---
 
-Benzinga は、API リクエストの成功または失敗を示すために、一般的な HTTP ステータスコードを使用します。
-一般に、2xx の範囲のコードは成功を示します。
-4xx の範囲のコードは、指定された情報（必須パラメータの省略、決済失敗など）により処理できなかったエラーを示します。
-5xx の範囲のコードは、Benzinga のサーバー側で発生したエラーを示します。
+Benzinga API は、API リクエストの成功または失敗を示すために、標準的な HTTP レスポンスコードを使用します。概要は次のとおりです。
 
-プログラムで対処可能な 4xx エラーの一部には、報告されたエラーの内容を簡潔に説明するエラーコードが含まれます。
+- **2xx**: 成功。
+- **4xx**: クライアントエラー（例: パラメータ不足、無効なキー）。
+- **5xx**: サーバーエラー（Benzinga 側で問題が発生）。
 
-<div id="parameters">
-  ### パラメータ
+> [!TIP]
+> **ベストプラクティス**: リクエストが成功したかどうかを判断する際は、必ず最初に **HTTP ステータスコード** を確認してください。レスポンスボディだけに依存しないでください。フォーマットは API エンドポイントごとに異なる場合があります。
+
+<div id="http-status-codes">
+  ## HTTP ステータスコード
 </div>
 
-<ResponseField name="type" type="string">
-    返されるエラーの種類。
+次の表は、遭遇しうる標準的なステータスコードの一覧です。
 
-    <code>invalid_request_error</code>、<code>not_found_error</code>、<code>creation_error</code>、
-    <code>update_error</code>、<code>deletion_error</code>、<code>forbidden_error</code>、または <code>authentication_error</code> のいずれか。
-</ResponseField>
+| Code | Status | Description |
+| :--- | :--- | :--- |
+| **200** | `OK` | リクエストは正常に処理されました。 |
+| **400** | `Bad Request` | リクエストに問題があります。多くの場合、パラメータの欠如または不正が原因です。 |
+| **401** | `Unauthorized` | 有効な API Key が指定されていません。`Authorization` ヘッダーまたは `token` パラメータを確認してください。 |
+| **402** | `Request Failed` | パラメータは有効ですが、ビジネスロジック上の理由によりリクエストが失敗しました。 |
+| **403** | `Forbidden` | API Key は有効ですが、このリソースへアクセスする権限がありません。 |
+| **404** | `Not Found` | リクエストされたリソース（例: ID、エンドポイント）が存在しません。 |
+| **429** | `Too Many Requests` | レート制限の上限を超過しています。 |
+| **500** | `Internal Server Error` | Benzinga のサーバー側で問題が発生しました。これはまれに発生します。 |
+| **503** | `Service Unavailable` | サービスは一時的に利用できません（例: メンテナンス）。 |
 
-<ResponseField name="message" type="string">
-    エラーの詳細を示す、人間が読めるメッセージ。
-</ResponseField>
-
-<ResponseField name="params" type="array">
-    エラーが特定のパラメータに起因する場合は、無効だったパラメータの一覧が含まれます。
-</ResponseField>
-
-<div id="http-status-code-summary">
-  ## HTTP ステータスコード概要
+<div id="error-response-bodies">
+  ## エラーレスポンスボディ
 </div>
 
-以下は、Benzinga API が使用する HTTP ステータスコードの一覧です。
+HTTP ステータスコードはエラーの主な指標ですが、レスポンスボディにはデバッグに役立つ詳細情報が含まれていることがよくあります。このボディの形式は、どの API を呼び出すかによって異なる場合があります。
 
-| HTTP Code          | Status | Description |
-| ------------------ | ------ | ----------- |
-| 200                | OK	| すべて正常に処理されました。 |
-| 400                | Bad Request | 必須パラメータの不足などにより、リクエストが不正です。 |
-| 401                | Unauthorized | 有効な API キーが提供されていません。 |
-| 402                | Request Failed | パラメータは有効ですが、リクエストは失敗しました。 |
-| 403                | Forbidden | API キーにこのリクエストを実行する権限がありません。 |
-| 404                | Not Found | 要求されたリソースが存在しません。 |
-| 409                | Conflict | 他のリクエストと競合しています（同じ冪等性キーを使用している可能性があります）。 |
-| 429                | Too Many Requests | 短時間に大量のリクエストが API に送信されました。リクエストには指数バックオフ方式を用いることを推奨します。 |
-| 500, 502, 503, 504 | Server Errors | Benzinga 側で問題が発生しました（これらはまれです）。 |
+<div id="format-1-simple-error-message">
+  ### フォーマット 1: シンプルなエラーメッセージ
+</div>
 
-<ResponseExample>
-    ```json Response Example
+多くのエンドポイント（News API など）は、シンプルな文字列、またはメッセージを含むフラットな JSON オブジェクトを返します。
+
+```json
+"Invalid or Missing Query Parameters"
+```
+
+または
+
+```json
+{
+  "message": "Invalid page size"
+}
+```
+
+
+<div id="format-2-structured-error-object">
+  ### フォーマット 2: 構造化エラーオブジェクト
+</div>
+
+新しい API（Data API Proxy やファンダメンタルズなど）は、エラーの一覧を含む構造化されたオブジェクトを返します。
+
+```json
+{
+  "data": null,
+  "errors": [
     {
-        "error": {
-        "type": "invalid_request_error",
-        "params": [
-    {
-        "param": "name",
-        "message": "This field is required"
+      "code": "database_query_error",
+      "id": "ERR_12345",
+      "value": "シンボルのデータを取得できません: INVALID"
     }
-        ],
-        "message": "Parameter error"
-    }
-    }
-    ```
-</ResponseExample>
+  ],
+  "ok": false
+}
+```
+
+
+<div id="handling-errors-programmatically">
+  ### プログラムでエラーを処理する
+</div>
+
+レスポンスボディにばらつきが生じる可能性があるため、堅牢なエラー処理を行うことを推奨します。
+
+1.  **HTTP ステータスコードを確認します。** `>= 400` の場合はエラーとして扱います。
+2.  **レスポンスボディをログに記録します。** デバッグ目的でボディ全体をログに出力します。
+3.  **汎用的なメッセージを表示します。** 特定のエンドポイントと連携しておらず、その正確なエラー形式を把握していない場合は、ステータスコードとあわせてエンドユーザーに汎用的な「Something went wrong」メッセージを表示します。

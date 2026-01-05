@@ -1,4 +1,63 @@
 ---
-title: "Dividends Events V22"
+title: "配当"
 openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.2/calendar/dividends
 ---
+
+<ResponseExample>
+```json レスポンス (200 OK)
+{
+  "dividends": [
+    {
+      "confirmed": false,
+      "currency": "USD",
+      "cusip": "511795106",
+      "date": "2027-04-12",
+      "dividend": "0.0300",
+      "dividend_prior": "0.0300",
+      "dividend_type": "Cash",
+      "dividend_yield": "",
+      "end_regular_dividend": false,
+      "ex_dividend_date": "2026-01-20",
+      "exchange": "NASDAQ",
+      "frequency": 4,
+      "id": "679c78b7fe55fa0001ee13f1",
+      "importance": 1,
+      "isin": "US5117951062",
+      "name": "Lakeland Industries",
+      "notes": "",
+      "payable_date": "2026-01-26",
+      "period": "",
+      "record_date": "2026-01-20",
+      "ticker": "LAKE",
+      "updated": 1749999992,
+      "year": 0
+    },
+    {
+      "confirmed": false,
+      "currency": "USD",
+      "cusip": "808524672",
+      "date": "2027-01-25",
+      "dividend": "0.2907",
+      "dividend_prior": "0.2907",
+      "dividend_type": "Cash",
+      "dividend_yield": "",
+      "end_regular_dividend": false,
+      "ex_dividend_date": "2026-01-26",
+      "exchange": "ARCA",
+      "frequency": 4,
+      "id": "686390d36564000001e13992",
+      "importance": 2,
+      "isin": "US8085246721",
+      "name": "Schwab International Dividend Equity ETF",
+      "notes": "",
+      "payable_date": "2026-01-26",
+      "period": "",
+      "record_date": "2026-01-26",
+      "ticker": "SCHY",
+      "updated": 1751355603,
+      "year": 0
+    }
+  ]
+}
+```
+</ResponseExample>
