@@ -1,40 +1,40 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: Esta API REST devuelve datos estructurados sobre conferencias de
-    resultados, dividendos, resultados (y próximas fechas de resultados),
-    indicadores económicos, anuncios farmacéuticos, previsiones (guidance), OPIs
-    (ofertas públicas iniciales), ofertas secundarias, calificaciones, actividad
-    de fusiones y adquisiciones (M&A) y splits de acciones.
+  description: Esta API REST devuelve datos estructurados sobre teleconferencias
+    de resultados, dividendos, resultados (y fechas futuras de publicación de
+    resultados), datos económicos, anuncios farmacéuticos, guidance, OPIs,
+    emisiones secundarias, calificaciones, actividad de fusiones y adquisiciones
+    (M&A) y splits de acciones.
   termsOfService: http://swagger.io/terms/
   title: Calendar API
   version: 2.1.0
 paths:
   /api/v1/analyst/insights:
     get:
-      description: Devuelve opiniones de analistas y perspectivas de investigación
-        sobre valores, incluido un análisis detallado y recomendaciones de
+      description: Devuelve perspectivas de analistas e informes de investigación
+        sobre valores, incluidos análisis detallados y recomendaciones de
         analistas financieros
       operationId: get-analyst-insights-v1
       parameters:
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y técnicos, los desplazamientos de página están limitados de 0 a
-            100000. Limite los resultados de la consulta con otros parámetros,
-            como la fecha. El valor predeterminado es 0.
+            y razones técnicas, los desplazamientos de página están limitados al
+            rango de 0 a 100000. Limite los resultados de la consulta mediante
+            otros parámetros, como la fecha. El valor predeterminado es 0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Número de resultados devueltos. Límite: 1000"
+        - description: "Cantidad de resultados devueltos. Límite: 1000"
           in: query
           name: pageSize
           schema:
             type: integer
             default: 100
-        - description: Fecha para consultar datos de calendar. Equivale a date_from y
-            date_to cuando son iguales. De forma predeterminada, usa la fecha
-            más reciente
+        - description: Fecha para consultar datos de calendar. Equivale a usar date_from y
+            date_to cuando son iguales. De forma predeterminada, se establece en
+            la fecha más reciente.
           in: query
           name: date
           schema:
@@ -46,13 +46,13 @@ paths:
           schema:
             type: string
             format: date
-        - description: Fecha de finalización en formato AAAA-MM-DD
+        - description: Fecha de fin en formato AAAA-MM-DD
           in: query
           name: date_to
           schema:
             type: string
             format: date
-        - description: Uno o más símbolos bursátiles separados por una coma. Hasta 50
+        - description: Uno o más símbolos bursátiles separados por comas. Como máximo 50
             símbolos bursátiles
           in: query
           name: symbols
@@ -69,7 +69,7 @@ paths:
           name: rating_id
           schema:
             type: string
-        - description: Tipo de clave de búsqueda
+        - description: Tipo de claves de búsqueda
           in: query
           name: search_keys_type
           schema:
@@ -84,7 +84,7 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: "Campo por el que se ordena, formato: campo:orden (p. ej.,
+        - description: "Campo por el que se va a ordenar, formato: campo:orden (p. ej.,
             date:asc). El valor predeterminado es desc."
           in: query
           name: sort
@@ -101,7 +101,7 @@ paths:
             type: integer
       responses:
         "200":
-          description: Opiniones de analistas
+          description: Análisis de los analistas
           content:
             application/json:
               schema:
@@ -120,35 +120,34 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Información de analistas V1
+      summary: Perspectivas de analistas V1
       tags:
         - Analyst Insights
   /api/v1/bulls_bears_say:
     get:
-      description: Devuelve los casos de inversión alcistas y bajistas más recientes
-        para un determinado ticker de una acción. Los casos alcistas presentan
-        argumentos positivos a favor de comprar la acción, mientras que los
-        casos bajistas presentan argumentos negativos en contra de hacerlo.
+      description: Devuelve los últimos casos de inversión alcistas y bajistas para un
+        ticker de una acción determinado. Los casos alcistas presentan
+        argumentos positivos para comprar una acción, mientras que los casos
+        bajistas presentan argumentos negativos en contra de hacerlo.
       operationId: get-bulls-say-bears-say-v1
       parameters:
-        - description: Símbolo de ticker de la acción para consultar casos alcistas /
-            bajistas
+        - description: Símbolo de ticker bursátil a consultar para casos alcistas/bajistas
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: Número de offset de página. Por motivos de optimización,
-            rendimiento y razones técnicas, los offsets de página están
-            limitados al rango de 0 a 100000. Limita los resultados de la
-            consulta con otros parámetros, como la fecha. El valor
-            predeterminado es 0
+        - description: Desplazamiento de página. Por motivos de optimización, rendimiento
+            y cuestiones técnicas, los desplazamientos de página están limitados
+            al rango de 0 a 100000. Limita los resultados de la consulta
+            mediante otros parámetros, como la fecha. El valor predeterminado es
+            0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Número de resultados que se devolverán. Límite: 200"
+        - description: Número de resultados a devolver. Límite 200
           in: query
           name: pagesize
           schema:
@@ -156,15 +155,15 @@ paths:
             maximum: 200
             default: 100
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
-            registros. Esto obligará a que el orden de clasificación sea mayor o
-            igual que la marca de tiempo indicada.
+            registros. Esto forzará que el ordenamiento sea mayor o igual que la
+            marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: Una matriz de casos alcistas y bajistas para el ticker solicitado
+          description: Un array de casos alcistas y bajistas para el ticker solicitado
           content:
             application/json:
               schema:
@@ -176,7 +175,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "401":
-          description: La información de autenticación falta o es inválida
+          description: Falta la información de autenticación o no es válida
           content:
             application/json:
               schema:
@@ -196,16 +195,15 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Escenarios alcistas y bajistas más recientes para un ticker determinado
+      summary: Últimos casos alcistas y bajistas para un ticker determinado
       tags:
         - Bulls Say Bears Say
   /api/v1/consensus-ratings:
     get:
-      description: Devuelve datos agregados de calificaciones de analistas de consenso
-        para un ticker dado. Este endpoint proporciona precios objetivo de
-        consenso, la distribución agregada de las calificaciones y el recuento
-        de analistas en función de las calificaciones recientes de los
-        analistas.
+      description: Devuelve datos agregados de calificaciones de consenso de analistas
+        para un símbolo de ticker dado. Este endpoint proporciona precios
+        objetivo de consenso, la distribución agregada de calificaciones y el
+        recuento de analistas basados en calificaciones de analistas recientes.
       operationId: get-consensus-ratings-v1
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta
@@ -218,12 +216,12 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: Cantidad de resultados devueltos. Máximo 1000
+        - description: "Número de resultados devueltos. Límite: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Fecha a partir de la cual realizar la consulta (punto en el tiempo)
+        - description: Fecha (punto en el tiempo) desde la cual realizar la consulta
           in: query
           name: parameters[date_from]
           schema:
@@ -235,7 +233,7 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Un ticker para consultar el agregado. Máximo 1 ticker
+        - description: Un ticker para el que consultar el agregado. Máximo 1 ticker
           in: query
           name: parameters[tickers]
           schema:
@@ -248,7 +246,7 @@ paths:
           schema:
             type: boolean
             default: false
-        - description: Para agrupar las calificaciones por número o por porcentaje
+        - description: Para agregar las calificaciones por número o porcentaje
           in: query
           name: aggregate_type
           schema:
@@ -289,34 +287,34 @@ paths:
         - consensus_ratings
   /api/v1/erx-gaps:
     get:
-      description: Devuelve datos sobre brechas de reacción a resultados, que rastrean
-        variaciones significativas en el precio tras los anuncios de resultados
+      description: Devuelve datos sobre los gaps de reacción a resultados, que
+        registran gaps de precio significativos tras los anuncios de resultados.
       operationId: get-erx-gaps
       parameters:
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y razones técnicas, los desplazamientos de página están limitados de
-            0 a 100000. Restrinja los resultados de la consulta mediante otros
+            y técnicos, los desplazamientos de página están limitados entre 0 y
+            100000. Limite los resultados de la consulta mediante otros
             parámetros, como la fecha. El valor predeterminado es 0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Número de resultados devueltos. Límite: 1000"
+        - description: Número de resultados devueltos. Límite de 1000
           in: query
           name: pageSize
           schema:
             type: integer
             default: 100
-        - description: Fecha para consultar datos de calendar. Abreviatura de date_from y
-            date_to cuando son iguales. El valor predeterminado es la fecha más
-            reciente.
+        - description: Fecha para consultar los datos de calendar. Abreviatura de
+            date_from y date_to si son iguales. De manera predeterminada, se usa
+            la más reciente.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: date
-        - description: Fecha de inicio en formato AAAA-MM-DD
+        - description: Fecha de inicio en el formato AAAA-MM-DD
           in: query
           name: parameters[date_from]
           schema:
@@ -328,9 +326,9 @@ paths:
           schema:
             type: string
             format: date
-        - description: Hora de la última actualización de los registros en formato de
-            marca de tiempo Unix (UTC). Esto forzará que el orden de
-            clasificación sea mayor o igual que la marca de tiempo indicada.
+        - description: Registros actualizados por última vez (marca de tiempo Unix, UTC).
+            Esto forzará que el orden de clasificación sea mayor que o igual a
+            la marca de tiempo indicada
           in: query
           name: updated
           schema:
@@ -365,14 +363,14 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Gaps de ERx
+      summary: Brechas de ERx
       tags:
         - ERx Gaps
   /api/v1/government_trade_reports:
     get:
-      description: Devuelve informes detallados de divulgación de operaciones
-        financieras del gobierno, incluidos los informes periódicos de
-        transacciones presentados por miembros del Congreso
+      description: Devuelve informes detallados de divulgación sobre operaciones del
+        gobierno, incluidos los informes periódicos de transacciones presentados
+        por miembros del Congreso
       operationId: get-government-trade-reports
       parameters:
         - description: Número de página
@@ -456,39 +454,39 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Informes sobre operaciones del gobierno
+      summary: Informes de operaciones del gobierno
       tags:
         - Government Trade Reports
   /api/v1/government_trades:
     get:
-      description: Devuelve operaciones de funcionarios gubernamentales, incluidas las
-        transacciones realizadas por miembros de la Cámara de Representantes y
-        del Senado de EE. UU.
+      description: Devuelve operaciones financieras realizadas por funcionarios
+        gubernamentales, incluidas las transacciones de miembros de la Cámara de
+        Representantes y del Senado de EE. UU.
       operationId: get-government-trades
       parameters:
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y cuestiones técnicas, los desplazamientos de página están limitados
-            al rango de 0 a 100000. Limite los resultados de la consulta
-            mediante otros parámetros, como la fecha. El valor predeterminado es
-            0.
+            y consideraciones técnicas, los desplazamientos de página están
+            limitados entre 0 y 100000. Puede limitar los resultados de la
+            consulta mediante otros parámetros, como la fecha. El valor
+            predeterminado es 0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Cantidad de resultados devueltos. Límite: 1000"
+        - description: "Número de resultados devueltos. Límite: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
             default: 100
-        - description: Fecha de inicio en formato AAAA-MM-DD
+        - description: Fecha de inicio con el formato AAAA-MM-DD
           in: query
           name: date_from
           schema:
             type: string
             format: date
-        - description: Fecha de fin en formato AAAA-MM-DD
+        - description: Fecha de finalización en el formato AAAA-MM-DD
           in: query
           name: date_to
           schema:
@@ -520,7 +518,7 @@ paths:
           name: fields
           schema:
             type: string
-        - description: Tipo de clave de búsqueda
+        - description: Tipo de claves de búsqueda
           in: query
           name: search_keys_type
           schema:
@@ -535,7 +533,7 @@ paths:
             type: string
       responses:
         "200":
-          description: Operaciones del Gobierno
+          description: Operaciones del gobierno
           content:
             application/json:
               schema:
@@ -560,21 +558,21 @@ paths:
   /api/v1/sec/insider_transactions/filings:
     get:
       description: Devuelve declaraciones de transacciones de personas con información
-        privilegiada (insiders) del Formulario 4 de la SEC, incluidas compras y
-        ventas de acciones y ejercicios de opciones realizados por insiders de
-        la empresa
+        privilegiada del Formulario 4 de la SEC, incluidas compras y ventas de
+        acciones y ejercicios de opciones por parte de personas con información
+        privilegiada de la empresa
       operationId: get-insider-transaction-filing
       parameters:
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y razones técnicas, los desplazamientos de página están limitados
-            del 0 al 100000. Limite los resultados de la consulta mediante otros
+            y cuestiones técnicas, los desplazamientos de página están limitados
+            de 0 a 100000. Limite los resultados de la consulta usando otros
             parámetros, como la fecha. El valor predeterminado es 0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: Número de resultados devueltos. Máximo 1000.
+        - description: "Número de resultados devueltos. Límite: 1000"
           in: query
           name: pagesize
           schema:
@@ -586,13 +584,13 @@ paths:
           schema:
             type: string
             format: date
-        - description: Fecha hasta en formato AAAA-MM-DD
+        - description: Fecha de finalización en el formato AAAA-MM-DD
           in: query
           name: date_to
           schema:
             type: string
             format: date
-        - description: Marca de tiempo Unix (UTC) de la última actualización de los
+        - description: Última marca de tiempo Unix (UTC) de actualización de los
             registros. Esto forzará que el orden de clasificación sea mayor o
             igual que la marca de tiempo indicada
           in: query
@@ -633,7 +631,7 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: Mostrar
+        - description: Visualización
           in: query
           name: display
           schema:
@@ -643,13 +641,13 @@ paths:
               - nested
       responses:
         "200":
-          description: Transacción de un iniciado
+          description: Transacción de iniciados
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingDoc"
         "400":
-          description: Solicitud no válida
+          description: Solicitud incorrecta
           content:
             application/json:
               schema:
@@ -668,20 +666,20 @@ paths:
   /api/v1/signal/block_trade:
     get:
       description: Devuelve datos de operaciones en bloque, que incluyen operaciones
-        inusualmente grandes que pueden indicar actividad de negociación
+        inusualmente grandes que pueden señalar actividad de negociación
         institucional
       operationId: get-block-trade-v1
       parameters:
-        - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y cuestiones técnicas, los desplazamientos de página están limitados
-            de 0 a 100000. Puede limitar los resultados de la consulta mediante
+        - description: Desplazamiento de página. Por razones de optimización, rendimiento
+            y técnicas, el desplazamiento de página está limitado a valores
+            entre 0 y 100000. Limite los resultados de la consulta mediante
             otros parámetros, como la fecha. El valor predeterminado es 0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Número de resultados devueltos. Límite: 1000"
+        - description: Número de resultados devueltos. Máximo 1000
           in: query
           name: pageSize
           schema:
@@ -708,7 +706,7 @@ paths:
             format: csv
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
             registros. Esto forzará que el orden de clasificación sea mayor o
-            igual que la marca de tiempo indicada
+            igual que la marca de tiempo indicada.
           in: query
           name: updated
           schema:
@@ -721,7 +719,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/calendarapi.BlockTradeJSON"
         "400":
-          description: Solicitud incorrecta
+          description: Solicitud no válida
           content:
             application/json:
               schema:
@@ -739,21 +737,21 @@ paths:
         - Block Trade
   /api/v1/signal/halt_resume:
     get:
-      description: Devuelve información sobre suspensiones y reanudaciones de
-        negociación de valores, incluidos los motivos de la suspensión y las
-        horas previstas para la reanudación
+      description: Devuelve información sobre suspensiones y reanudaciones de la
+        negociación de valores, que incluye los motivos de la suspensión y las
+        horas previstas de reanudación
       operationId: get-halt-resume-v1
       parameters:
-        - description: Desplazamiento de página. Por razones de optimización, rendimiento
-            y técnicas, los desplazamientos de página están limitados de 0 a
-            100000. Limite los resultados de la consulta mediante otros
+        - description: Desplazamiento de página. Por motivos técnicos de optimización y
+            rendimiento, los desplazamientos de página están limitados del 0 al
+            100000. Limite los resultados de la consulta usando otros
             parámetros, como la fecha. El valor predeterminado es 0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Número de resultados devueltos. Límite: 1000"
+        - description: Número de resultados devueltos. Máximo 1000
           in: query
           name: pageSize
           schema:
@@ -771,23 +769,23 @@ paths:
           schema:
             type: string
             format: date
-        - description: Uno o más símbolos bursátiles separados por comas. Máximo 50
+        - description: Uno o más símbolos bursátiles, separados por comas. Máximo 50
             símbolos bursátiles.
           in: query
           name: tickers
           schema:
             type: string
             format: csv
-        - description: Hora de última actualización de los registros en formato Unix
-            (UTC). Esto forzará que el orden de clasificación sea mayor o igual
-            que la marca de tiempo indicada
+        - description: Marca de tiempo Unix (UTC) de la última actualización de los
+            registros. Esto forzará que el orden de clasificación sea mayor o
+            igual que la marca de tiempo indicada
           in: query
           name: updated
           schema:
             type: integer
       responses:
         "200":
-          description: Suspensión Reanudación
+          description: Suspender Reanudar
           content:
             application/json:
               schema:
@@ -811,29 +809,29 @@ paths:
         - Halt Resume
   /api/v1/signal/option_activity:
     get:
-      description: Devuelve datos de actividad inusual en opciones, incluidas
-        operaciones de opciones de gran tamaño o inusuales que pueden señalar
+      description: Devuelve datos sobre actividad inusual en opciones, incluidas
+        operaciones de opciones grandes o inusuales que pueden indicar
         negociación informada
       operationId: get-option-activity-v1
       parameters:
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y técnicos, los desplazamientos de página están limitados al rango
-            de 0 a 100000. Limite los resultados de la consulta mediante otros
-            parámetros, como la fecha. El valor predeterminado es 0.
+            y consideraciones técnicas, los desplazamientos de página están
+            limitados de 0 a 100000. Limite los resultados de la consulta
+            mediante otros parámetros, como la fecha. El valor predeterminado es
+            0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Número de resultados que se devuelven. Límite: 1000"
+        - description: Número de resultados devueltos. Límite 1000
           in: query
           name: pageSize
           schema:
             type: integer
             default: 100
-        - description: Fecha para consultar datos de calendar. Abreviatura de date_from y
-            date_to si son iguales. De forma predeterminada, se usa la fecha más
-            reciente.
+        - description: Fecha para consultar datos de calendar. Equivale a usar date_from y
+            date_to si son iguales. Por defecto, usa la más reciente.
           in: query
           name: parameters[date]
           schema:
@@ -845,7 +843,7 @@ paths:
           schema:
             type: string
             format: date
-        - description: Fecha de fin en formato AAAA-MM-DD
+        - description: Fecha de finalización en formato AAAA-MM-DD
           in: query
           name: parameters[date_to]
           schema:
@@ -858,8 +856,8 @@ paths:
             type: string
             enum:
               - date
-        - description: Uno o más símbolos bursátiles separados por una coma. Máximo 50
-            símbolos bursátiles
+        - description: Uno o más símbolos bursátiles separados por una coma. Como máximo,
+            50 símbolos bursátiles
           in: query
           name: parameters[tickers]
           schema:
@@ -870,9 +868,9 @@ paths:
           name: parameters[id]
           schema:
             type: string
-        - description: Marca de tiempo Unix de la última actualización de los registros
-            (UTC). Esto forzará que el orden de ordenamiento sea mayor o igual
-            que la marca de tiempo indicada
+        - description: Marca de tiempo Unix (UTC) de la última actualización de los
+            registros. Esto forzará que el orden de clasificación sea mayor o
+            igual que la marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
@@ -898,18 +896,18 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Actividad de Opciones V1
+      summary: OptionActivity V1
       tags:
         - Option Activity
   /api/v2.1/calendar-removed/:
     get:
-      description: Devuelve los eventos de calendar que han sido eliminados o
-        cancelados de los tipos de evento especificados
+      description: Devuelve eventos de calendar que hayan sido eliminados o cancelados
+        de los tipos de evento especificados
       operationId: get-removed
       parameters:
         - description: Desplazamiento de página. Por razones de optimización, rendimiento
-            y técnicas, los desplazamientos de página están limitados de 0 a
-            100000. Limite los resultados de la consulta usando otros
+            y técnicas, los desplazamientos de página están limitados entre 0 y
+            100000. Limite los resultados de la consulta mediante otros
             parámetros, como la fecha. El valor predeterminado es 0.
           in: query
           name: page
@@ -938,9 +936,9 @@ paths:
               - guidance
               - ma
               - conference calls
-        - description: Hora de la actualización en formato Unix (UTC) de los registros.
-            Esto forzará que el orden de clasificación sea mayor o igual que la
-            marca de tiempo indicada
+        - description: Marca de tiempo Unix (UTC) de la última actualización de los
+            registros. Esto forzará el orden de clasificación a ser mayor o
+            igual que la marca de tiempo indicada
           in: query
           name: updated
           schema:
@@ -971,15 +969,15 @@ paths:
         - removed
   /api/v2.1/calendar/conference-calls:
     get:
-      description: Devuelve datos de llamadas de resultados para un período y/o valor
-        seleccionados. Las llamadas de resultados son conferencias telefónicas
+      description: Devuelve datos de conferencias telefónicas para un período y/o un
+        valor seleccionados. Las conferencias telefónicas son llamadas
         programadas en las que la dirección de la empresa analiza los resultados
-        financieros trimestrales o anuales, ofrece actualizaciones sobre el
+        financieros trimestrales o anuales, proporciona actualizaciones sobre el
         negocio y responde preguntas de analistas e inversores.
       operationId: get-conference-calls
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan de la misma manera en ambos formatos.
+            funcionan igual en ambos formatos
           in: header
           name: accept
           required: true
@@ -989,9 +987,9 @@ paths:
               - application/json
             default: application/json
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y consideraciones técnicas, los desplazamientos de página están
-            limitados del 0 al 100000. Limite los resultados de la consulta
-            mediante otros parámetros, como la fecha.
+            y razones técnicas, los desplazamientos de página están limitados de
+            0 a 100000. Limite los resultados de la consulta usando otros
+            parámetros, como la fecha.
           in: query
           name: page
           schema:
@@ -1002,9 +1000,9 @@ paths:
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos de calendar. Equivale a date_from y
-            date_to si son iguales. De forma predeterminada, usa la fecha más
-            reciente
+        - description: Fecha para consultar datos de calendar. Es una abreviatura de
+            date_from y date_to cuando son iguales. De forma predeterminada,
+            utiliza la fecha más reciente.
           in: query
           name: parameters[date]
           schema:
@@ -1016,13 +1014,13 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha hasta la cual consultar (punto en el tiempo)
+        - description: Fecha hasta la cual realizar la consulta (punto en el tiempo)
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Uno o más símbolos bursátiles separados por comas. Máximo 50
+        - description: Uno o más símbolos bursátiles separados por comas. Como máximo, 50
             símbolos bursátiles
           in: query
           name: parameters[tickers]
@@ -1030,8 +1028,8 @@ paths:
             type: string
             format: csv
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
-            registros. Esto forzará que el orden de clasificación sea mayor o
-            igual que la marca de tiempo indicada
+            registros. Esto forzará el orden de clasificación a ser mayor o
+            igual que la marca de tiempo indicada.
           in: query
           name: parameters[updated]
           schema:
@@ -1071,14 +1069,14 @@ paths:
         - conference_calls
   /api/v2.1/calendar/dividends:
     get:
-      description: Devuelve datos de dividendos para un período y/o valor
-        seleccionados. Incluye importes de dividendos, fechas ex-dividendo,
-        fechas de pago, rentabilidades por dividendo y otra información
-        relevante sobre dividendos de acciones.
+      description: Devuelve datos de dividendos para un período y/o un valor
+        determinados. Incluye los importes de los dividendos, las fechas
+        exdividendo, las fechas de pago, las rentabilidades por dividendo y otra
+        información relevante sobre dividendos para acciones.
       operationId: get-dividends
       parameters:
-        - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan igual para ambos formatos.
+        - description: Especifica el formato de la respuesta. Los parámetros de consulta
+            funcionan de la misma manera en ambos formatos
           in: header
           name: accept
           required: true
@@ -1089,8 +1087,8 @@ paths:
             default: application/json
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
             y técnicos, los desplazamientos de página están limitados entre 0 y
-            100000. Limite los resultados de la consulta mediante otros
-            parámetros, como la fecha.
+            100000. Limite los resultados de la consulta con otros parámetros,
+            como la fecha.
           in: query
           name: page
           schema:
@@ -1101,28 +1099,28 @@ paths:
           name: pagesize
           schema:
             type: integer
-        - description: Fecha que se va a consultar para los datos de calendar. Es una
-            abreviatura de date_from y date_to si son iguales. De forma
-            predeterminada, se usa la más reciente
+        - description: Fecha para consultar datos de calendar. Abreviatura de date_from y
+            date_to cuando son iguales. De forma predeterminada, usa la última
+            disponible.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha a partir de la cual realizar la consulta
+        - description: Fecha desde la cual realizar la consulta
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha de fin de la consulta (punto en el tiempo)
+        - description: Fecha hasta la cual consultar, como punto en el tiempo
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Campo de fecha de dividendos para ordenar (de más reciente a más
-            antiguo)
+        - description: Campo de fecha de dividendo por el que ordenar (de más reciente a
+            más antiguo)
           in: query
           name: parameters[date_sort]
           schema:
@@ -1132,9 +1130,9 @@ paths:
               - ex
               - payable
               - record
-        - description: Especifica cómo filtrar usando el rendimiento de dividendos. gt =
-            mayor que, gte = mayor o igual que, eq = igual, lt = menor que, lte
-            = menor o igual que
+        - description: Especifica cómo filtrar utilizando el rendimiento de dividendos. gt
+            = mayor que, gte = mayor o igual que, eq = igual, lt = menor que,
+            lte = menor o igual que
           in: query
           name: parameters[dividend_yield_operation]
           schema:
@@ -1145,15 +1143,15 @@ paths:
               - eq
               - lte
               - lt
-        - description: El importe de la rentabilidad por dividendo por el que filtrar. De
-            forma predeterminada se utiliza “Igual a” el importe indicado. 1 =
-            100 %
+        - description: El importe de la rentabilidad por dividendo por el que se va a
+            filtrar. De forma predeterminada, se utiliza Igual a el importe
+            indicado. 1 = 100 %
           in: query
           name: parameters[dividend_yield]
           schema:
             type: number
-        - description: El nivel de importancia por el que se va a filtrar. Usa un valor
-            mayor o igual que la importancia indicada
+        - description: El nivel de importancia por el que filtrar. Usa “mayor o igual que”
+            respecto a la importancia indicada.
           in: query
           name: parameters[importance]
           schema:
@@ -1174,14 +1172,14 @@ paths:
             format: csv
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
             registros. Esto forzará que el orden de clasificación sea mayor o
-            igual que la marca de tiempo indicada
+            igual que la marca de tiempo indicada.
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: Éxito
+          description: Correcto
           content:
             application/json:
               schema:
@@ -1214,15 +1212,15 @@ paths:
         - Dividends
   /api/v2.1/calendar/earnings:
     get:
-      description: Devuelve datos de resultados para un período y/o un valor
-        seleccionados. Incluye las cifras reales de beneficio por acción (EPS) y
-        de ingresos, estimaciones, sorpresas y comparaciones históricas. Los
-        datos de resultados son fundamentales para que los inversores evalúen el
-        rendimiento de una empresa.
+      description: Devuelve datos de resultados para un período y/o valor
+        seleccionados. Incluye las cifras reales de ganancias por acción (EPS) e
+        ingresos, estimaciones, sorpresas y comparaciones históricas. Los datos
+        de resultados son fundamentales para que los inversores evalúen el
+        desempeño de una empresa.
       operationId: get-earnings
       parameters:
-        - description: Especifica el formato de la respuesta. Los parámetros de consulta
-            funcionan igual en ambos formatos.
+        - description: Especifica el formato de respuesta. Los parámetros de consulta
+            funcionan de la misma manera para ambos formatos
           in: header
           name: accept
           required: true
@@ -1232,49 +1230,49 @@ paths:
               - application/json
             default: application/json
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y técnicos, los desplazamientos de página están limitados de 0 a
-            100000. Limite los resultados de la consulta con otros parámetros,
-            como la fecha.
+            y técnicos, los desplazamientos de página están limitados entre 0 y
+            100000. Limite los resultados de la consulta utilizando otros
+            parámetros, como la fecha.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: Número de resultados devueltos. Límite 1000
+        - description: "Cantidad de resultados devueltos. Límite: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos del calendar. Equivalente a usar
-            date_from y date_to cuando son iguales. De forma predeterminada, se
-            usa la más reciente.
+        - description: Fecha para consultar datos del calendar. Equivale a usar date_from
+            y date_to con el mismo valor. De forma predeterminada, usa la fecha
+            más reciente.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha a partir de la cual realizar la consulta
+        - description: Fecha desde la cual consultar
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha límite (punto en el tiempo) hasta la cual consultar
+        - description: Fecha final de la consulta (punto en el tiempo)
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Opción de ordenación por campo para el calendario de resultados.
-            Use `:desc`, `:asc` para el orden de clasificación
+        - description: Opción de ordenación de campos para el calendario de resultados.
+            Utilice `:desc` o `:asc` para indicar el orden
           in: query
           name: parameters[date_sort]
           schema:
             type: string
             enum:
               - date
-        - description: El nivel de importancia por el que filtrar. Usa mayor o igual que
-            la importancia indicada.
+        - description: El nivel de importancia por el que se va a filtrar. Utiliza un
+            valor mayor o igual que la importancia indicada
           in: query
           name: parameters[importance]
           schema:
@@ -1286,16 +1284,16 @@ paths:
               - 3
               - 4
               - 5
-        - description: Uno o más símbolos bursátiles separados por comas. Máximo 50
-            símbolos bursátiles
+        - description: Uno o más símbolos bursátiles separados por una coma. Como máximo,
+            50 símbolos bursátiles
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
-            registros. Esto forzará que el ordenamiento sea mayor o igual que la
-            marca de tiempo indicada.
+            registros. Esto forzará que el orden de clasificación sea mayor o
+            igual que la marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
@@ -1311,7 +1309,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/calendarapi.EarningJSON"
         "400":
-          description: Solicitud no válida
+          description: Solicitud incorrecta
           content:
             application/json:
               schema:
@@ -1330,19 +1328,20 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Devuelve datos de resultados
+      summary: Devuelve los datos de resultados financieros
       tags:
         - earnings
   /api/v2.1/calendar/economics:
     get:
-      description: Devuelve datos del calendario económico, incluidos indicadores,
-        publicaciones e informes económicos de distintos países. Incluye valores
-        reales, estimaciones de consenso y valores anteriores para eventos
-        económicos como el PIB, datos de empleo, métricas de inflación y más.
+      description: Devuelve datos del calendario económico que incluyen indicadores
+        económicos, publicaciones e informes de distintos países. Incluye
+        valores reales, estimaciones de consenso y valores anteriores para
+        eventos económicos como el PIB, datos de empleo, métricas de inflación y
+        más.
       operationId: get-economics
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan de la misma manera en ambos formatos.
+            funcionan de la misma manera para ambos formatos.
           in: header
           name: accept
           required: true
@@ -1351,24 +1350,24 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y razones técnicas, los desplazamientos de página están limitados
-            entre 0 y 100000. Limite los resultados de la consulta mediante
-            otros parámetros, como la fecha.
+        - description: Desplazamiento de página. Por razones de optimización, rendimiento
+            y técnicas, los desplazamientos de página están limitados de 0 a
+            100000. Limita los resultados de la consulta mediante otros
+            parámetros, como la fecha.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Número de resultados devueltos. Límite: 1000."
+        - description: Número de resultados devueltos. Máximo 1000
           in: query
           name: pagesize
           schema:
             type: integer
             maximum: 1000
-        - description: Fecha para consultar datos de calendar. Equivale a date_from y
-            date_to cuando son iguales. De forma predeterminada usa la más
-            reciente.
+        - description: Fecha para consultar datos de calendar. Equivale a usar date_from y
+            date_to con el mismo valor. De forma predeterminada, usa la fecha
+            más reciente.
           in: query
           name: parameters[date]
           schema:
@@ -1380,14 +1379,14 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha hasta la que se realiza la consulta
+        - description: Fecha hasta la cual consultar (momento en el tiempo)
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: El nivel de importancia por el que se va a filtrar. Usa Mayor o
-            Igual que la importancia indicada
+        - description: El nivel de importancia por el que filtrar. Utiliza un criterio de
+            Mayor o igual que el nivel de importancia indicado
           in: query
           name: parameters[importance]
           schema:
@@ -1397,19 +1396,19 @@ paths:
               - 2
               - 3
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
-            registros. Esto forzará que el orden de clasificación sea mayor o
+            registros. Esto forzará que el orden de ordenamiento sea mayor o
             igual que la marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
             type: integer
-        - description: Código de país de tres dígitos (por ejemplo, USA, CAN, GBR)
+        - description: Código de país de 3 dígitos (p. ej., USA, CAN, GBR)
           in: query
           name: country
           schema:
             type: string
             format: A-Z:3
-        - description: Una o más categorías separadas por comas
+        - description: Una o más categorías separadas por una coma
           in: query
           name: event_category
           schema:
@@ -1445,20 +1444,20 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Devuelve los datos económicos del calendar
+      summary: Devuelve los datos del calendario económico
       tags:
         - economics
   /api/v2.1/calendar/fda:
     get:
-      description: Devuelve aprobaciones de la FDA, ensayos clínicos y fechas PDUFA
-        (Prescription Drug User Fee Act) de empresas farmacéuticas y
-        biotecnológicas. Incluye información sobre etapas de desarrollo de
-        medicamentos, resultados de los ensayos, resultados de los procesos de
-        aprobación y hitos regulatorios.
+      description: Devuelve aprobaciones de la FDA, ensayos clínicos y fechas de PDUFA
+        (Prescription Drug User Fee Act) para empresas farmacéuticas y
+        biotecnológicas. Incluye información sobre las etapas de desarrollo de
+        los fármacos, resultados de los ensayos, resultados de las aprobaciones
+        y hitos regulatorios.
       operationId: get-fda
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan igual para ambos formatos
+            funcionan igual en ambos formatos
           in: header
           name: accept
           required: true
@@ -1468,9 +1467,9 @@ paths:
               - application/json
             default: application/json
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y consideraciones técnicas, los desplazamientos de página se limitan
-            al intervalo de 0 a 100000. Limite los resultados de la consulta
-            mediante otros parámetros, como la fecha.
+            y técnicos, los desplazamientos de página están limitados al rango
+            de 0 a 100000. Limite los resultados de la consulta usando otros
+            parámetros, como la fecha.
           in: query
           name: page
           schema:
@@ -1481,8 +1480,8 @@ paths:
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos de calendar. Abreviatura de date_from y
-            date_to cuando son iguales. De forma predeterminada, se usa la más
+        - description: Fecha para consultar datos de calendar. Equivale a usar date_from y
+            date_to con el mismo valor. Por defecto, se utiliza la fecha más
             reciente.
           in: query
           name: parameters[date]
@@ -1495,14 +1494,14 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha hasta la cual realizar la consulta
+        - description: Fecha hasta la que consultar el punto en el tiempo
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha para filtrar y ordenar el calendar. El valor predeterminado
-            es `announced`
+        - description: Fecha para filtrar y ordenar calendar. El valor predeterminado es
+            `announced`
           in: query
           name: parameters[date_search_field]
           schema:
@@ -1512,27 +1511,28 @@ paths:
               - target
             default: announced
         - description: "Algunos campos de fecha (como la fecha objetivo del calendar de la
-            FDA) incluyen fechas aproximadas como 2021‑Q1. Al filtrar, puedes
-            elegir permitir coincidencias de fechas aproximadas o coincidencias
-            de fechas estrictas que busquen ÚNICAMENTE fechas que tengan una
-            coincidencia exacta dentro del período de fechas dado. Valor
-            predeterminado: `TRUE`"
+            FDA) incluyen fechas aproximadas como 2021-Q1. Al filtrar, puedes
+            optar por permitir coincidencias de fecha aproximadas o
+            coincidencias de fecha estrictas que busquen ÚNICAMENTE fechas que
+            tengan una coincidencia exacta dentro del período de fechas dado.
+            Predeterminado: `TRUE`"
           in: query
           name: parameters[date_search_strict]
           schema:
             type: boolean
             default: true
-        - description: Uno o más identificadores de valores separados por una coma. Máximo
-            50 valores. Los identificadores de valores deben estar en formato de
-            símbolos de ticker, solo para acciones que cotizan en EE. UU.
+        - description: Uno o más identificadores de valores separados por comas. Como
+            máximo 50 valores. Los identificadores de valores deben estar en
+            formato de símbolos de ticker, solo para acciones que cotizan en EE.
+            UU.
           in: query
           name: parameters[securities]
           schema:
             type: string
             format: csv
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
-            registros. Esto forzará que el orden de clasificación sea por
-            valores mayores o iguales a la marca de tiempo indicada
+            registros. Esto obligará a que el orden de clasificación sea mayor o
+            igual que la marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
@@ -1572,16 +1572,16 @@ paths:
         - fda
   /api/v2.1/calendar/guidance:
     get:
-      description: Devuelve datos de previsiones de la compañía, incluyendo
-        proyecciones futuras de beneficio y de ingresos proporcionadas por la
-        dirección. Incluye rangos de previsión de beneficio por acción (EPS)
-        (mín./máx.), rangos de previsión de ingresos y comparaciones con
-        previsiones anteriores. Las previsiones son cruciales para entender las
+      description: Devuelve datos de guidance de la empresa, incluidas las
+        proyecciones futuras de ganancias e ingresos proporcionadas por la
+        dirección. Incluye rangos de guidance de ganancias por acción (EPS)
+        (mín./máx.), rangos de guidance de ingresos y comparaciones con el
+        guidance previo. El guidance es fundamental para comprender las
         expectativas de la dirección sobre el desempeño futuro.
       operationId: get-guidance
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan de la misma manera para ambos formatos
+            funcionan de la misma manera para ambos formatos.
           in: header
           name: accept
           required: true
@@ -1591,8 +1591,8 @@ paths:
               - application/json
             default: application/json
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y razones técnicas, los desplazamientos de página están limitados de
-            0 a 100000. Limite los resultados de la consulta mediante otros
+            y técnicos, los desplazamientos de página están limitados de 0 a
+            100000. Limite los resultados de la consulta mediante otros
             parámetros, como la fecha.
           in: query
           name: page
@@ -1604,9 +1604,9 @@ paths:
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos de calendar. Forma abreviada de
-            date_from y date_to si son iguales. De forma predeterminada, utiliza
-            la más reciente.
+        - description: Fecha para consultar datos de calendar. Abreviatura de date_from y
+            date_to cuando son iguales. De forma predeterminada, se usa la fecha
+            más reciente.
           in: query
           name: parameters[date]
           schema:
@@ -1618,14 +1618,14 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha (punto en el tiempo) hasta la que consultar
+        - description: Fecha a consultar para el punto en el tiempo
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Nivel de importancia por el que filtrar. Utiliza un valor mayor o
-            igual que la importancia indicada
+        - description: El nivel de importancia por el que filtrar. Filtra por valores
+            mayores o iguales a la importancia indicada
           in: query
           name: parameters[importance]
           schema:
@@ -1637,8 +1637,8 @@ paths:
               - 3
               - 4
               - 5
-        - description: "Determina si la guidance devuelta es principal, secundaria o
-            todas. Valor predeterminado: Y"
+        - description: Determina si la proyección devuelta es primaria, secundaria o todas
+            ellas. El valor predeterminado es "Y".
           in: query
           name: parameters[is_primary]
           schema:
@@ -1648,16 +1648,16 @@ paths:
               - N
               - All
             default: Y
-        - description: Uno o más símbolos bursátiles separados por comas. Hasta 50
+        - description: Uno o más símbolos bursátiles separados por comas. Máximo 50
             símbolos bursátiles
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Marca de tiempo Unix (UTC) de la última actualización de los
-            registros. Esto forzará que el orden de clasificación sea mayor o
-            igual que la marca de tiempo indicada
+        - description: Última marca de tiempo Unix de actualización de los registros
+            (UTC). Esto forzará que el orden de clasificación sea mayor o igual
+            que la marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
@@ -1692,14 +1692,14 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Devuelve datos de previsión
+      summary: Devuelve datos de proyecciones
       tags:
         - guidance
   /api/v2.1/calendar/ipos:
     get:
-      description: Devuelve los datos de las salidas a bolsa, incluida la información
-        sobre precios, las entidades colocadoras, el estado de la operación y
-        los detalles de la oferta.
+      description: Devuelve datos de ofertas públicas iniciales (IPO), incluida la
+        información sobre precios, las entidades colocadoras, el estado de la
+        operación y los detalles de la oferta
       operationId: get-ipos-v21
       parameters:
         - description: Número de página
@@ -1712,19 +1712,25 @@ paths:
           name: pagesize
           schema:
             type: integer
-        - description: Fecha en formato YYYY-MM-DD
+        - description: Fecha de la OPV en formato AAAA-MM-DD (nuevo parámetro recomendado)
           in: query
-          name: parameters[date]
+          name: ipo_date
           schema:
             type: string
             format: date
-        - description: Fecha de inicio en el formato AAAA-MM-DD
+        - description: Fecha de salida a bolsa en formato AAAA-MM-DD (obsoleto)
+          in: query
+          name: parameters[ipo_date]
+          schema:
+            type: string
+            format: date
+        - description: Fecha de inicio en formato AAAA-MM-DD
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: date
-        - description: Fecha de fin en formato AAAA-MM-DD
+        - description: Fecha de finalización en formato AAAA-MM-DD
           in: query
           name: parameters[date_to]
           schema:
@@ -1735,7 +1741,7 @@ paths:
           name: parameters[tickers]
           schema:
             type: string
-        - description: Tipo de oferta pública inicial (OPI)
+        - description: Tipo de OPI
           in: query
           name: parameters[ipo_type]
           schema:
@@ -1748,7 +1754,7 @@ paths:
             format: int64
       responses:
         "200":
-          description: OPI
+          description: IPOs
           content:
             application/json:
               schema:
@@ -1776,20 +1782,20 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: IPOs V2.1
+      summary: IPOs v2.1
       tags:
         - ipos
   /api/v2.1/calendar/ma:
     get:
-      description: Devuelve datos de fusiones y adquisiciones (M&A), incluidos
-        anuncios de operaciones, cierres y detalles sobre las compañías
-        adquirentes y objetivo. Incluye el importe de la operación, el tipo de
-        pago, el estado de la operación y las fechas previstas/completadas para
-        las actividades de consolidación corporativa.
+      description: Devuelve datos sobre fusiones y adquisiciones (M&A), incluidos
+        anuncios de operaciones, cierres y detalles sobre las empresas
+        adquirentes y objetivo. Incluye el tamaño de la operación, el tipo de
+        pago, el estado de la operación y las fechas previstas/finalización para
+        actividades de consolidación corporativa.
       operationId: get-ma
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan de la misma manera para ambos formatos.
+            funcionan igual en ambos formatos.
           in: header
           name: accept
           required: true
@@ -1798,29 +1804,29 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: Desplazamiento (offset) de página. Por motivos de optimización,
-            rendimiento y consideraciones técnicas, los desplazamientos de
-            página están limitados al rango de 0 a 100000. Limite los resultados
-            de la consulta mediante otros parámetros, como la fecha.
+        - description: Desplazamiento de página. Por razones de optimización, rendimiento
+            y técnicas, los desplazamientos de página están limitados de 0 a
+            100000. Limite los resultados de la consulta utilizando otros
+            parámetros, como la fecha.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: Número de resultados devueltos. Máximo 1000
+        - description: "Número de resultados devueltos. Límite: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos de calendar. Equivalente abreviado de
-            date_from y date_to cuando ambos son iguales. De forma
-            predeterminada, se usa la fecha más reciente.
+        - description: Fecha a consultar para obtener datos de calendar. Equivalente
+            abreviado a date_from y date_to cuando son iguales. De forma
+            predeterminada, usa la fecha más reciente.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha a partir de la cual realizar la consulta
+        - description: Fecha (momento en el tiempo) desde la cual realizar la consulta
           in: query
           name: parameters[date_from]
           schema:
@@ -1832,8 +1838,8 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: El nivel de importancia por el que se va a filtrar. Utiliza un
-            valor mayor o igual que la importancia indicada
+        - description: El nivel de importancia por el que filtrar. Utiliza un valor mayor
+            o igual que la importancia indicada
           in: query
           name: parameters[importance]
           schema:
@@ -1845,23 +1851,22 @@ paths:
               - 3
               - 4
               - 5
-        - description: Uno o más símbolos bursátiles separados por comas. Máximo 50
-            símbolos bursátiles
+        - description: Uno o más símbolos de ticker, separados por comas. Máximo 50 tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Registros actualizados por última vez (marca de tiempo Unix, UTC).
-            Esto forzará que el orden de clasificación sea mayor o igual que la
-            marca de tiempo indicada
+        - description: Marca de tiempo Unix (UTC) de la última actualización de los
+            registros. Esto forzará que el orden de clasificación sea mayor o
+            igual que la marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
             type: integer
         - description: Campo de fecha de M&A para ordenar (de más reciente a más antiguo
-            para operaciones previstas y completadas; de más antiguo a más
-            reciente para operaciones anunciadas)
+            para esperadas y completadas; de más antiguo a más reciente para
+            anunciadas)
           in: query
           name: parameters[date_sort]
           schema:
@@ -1900,20 +1905,20 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Devuelve datos de fusiones y adquisiciones
+      summary: Devuelve datos sobre fusiones y adquisiciones
       tags:
         - ma
   /api/v2.1/calendar/offerings:
     get:
-      description: Devuelve datos de emisiones secundarias de empresas que cotizan en
-        bolsa y que emiten acciones adicionales después de su OPI. Incluye el
-        precio de la emisión, los fondos captados, el número de acciones, las
-        emisiones shelf y si los valores se venden en tramos a lo largo del
-        tiempo o en la fecha inicial de la oferta.
+      description: Devuelve datos sobre ofertas secundarias de empresas que cotizan en
+        bolsa que emiten acciones adicionales tras su IPO. Incluye el precio de
+        la oferta, el importe recaudado, el número de acciones, las ofertas
+        shelf y si los valores se venden en tramos a lo largo del tiempo o en la
+        fecha inicial de la oferta.
       operationId: get-offerings
       parameters:
-        - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan de la misma manera para ambos formatos
+        - description: Especifica el formato de la respuesta. Los parámetros de consulta
+            funcionan igual para ambos formatos.
           in: header
           name: accept
           required: true
@@ -1922,10 +1927,10 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y consideraciones técnicas, los desplazamientos de página están
-            limitados de 0 a 100000. Limite los resultados de la consulta
-            mediante otros parámetros, como la fecha.
+        - description: Desplazamiento de página. Por razones de optimización, rendimiento
+            y técnicas, los desplazamientos de página se limitan de 0 a 100000.
+            Limite los resultados de la consulta mediante otros parámetros, como
+            la fecha.
           in: query
           name: page
           schema:
@@ -1936,29 +1941,28 @@ paths:
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos de calendar. Equivale a date_from y
-            date_to cuando son iguales. De forma predeterminada, se utiliza la
-            fecha más reciente.
+        - description: Fecha para consultar datos de calendar. Forma abreviada de
+            date_from y date_to cuando son iguales. Por defecto, corresponde a
+            la fecha más reciente.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha desde la cual realizar la consulta
+        - description: Fecha a partir de la cual realizar la consulta (punto en el tiempo)
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha hasta la cual realizar la consulta
+        - description: Fecha hasta la cual realizar la consulta (punto en el tiempo)
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: El nivel de importancia por el que se va a filtrar. Se aplica un
-            filtro de tipo «mayor o igual que» respecto al nivel de importancia
-            indicado
+        - description: El nivel de importancia por el que filtrar. Utiliza “mayor o igual
+            que” respecto a la importancia indicada
           in: query
           name: parameters[importance]
           schema:
@@ -1970,16 +1974,16 @@ paths:
               - 3
               - 4
               - 5
-        - description: Uno o más símbolos bursátiles separados por comas. Máximo 50
-            símbolos bursátiles
+        - description: Uno o más símbolos bursátiles separados por comas. Un máximo de 50
+            símbolos bursátiles.
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
-            registros. Esto obligará a que el orden de ordenamiento sea mayor o
-            igual que la marca de tiempo indicada
+            registros. Esto forzará que el ordenamiento sea mayor o igual que la
+            marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
@@ -2019,15 +2023,15 @@ paths:
         - offerings
   /api/v2.1/calendar/ratings:
     get:
-      description: Devuelve datos de recomendaciones de analistas, incluidas mejoras,
-        rebajas, inicios de cobertura y cambios en el precio objetivo por parte
-        de analistas de Wall Street. Incluye recomendaciones actuales y
-        anteriores, precios objetivo, información del analista y métricas de
-        precisión de las recomendaciones cuando estén disponibles.
+      description: Devuelve datos de calificaciones de analistas, incluidas mejoras,
+        rebajas, inicios de cobertura y cambios en los precios objetivo por
+        parte de analistas de Wall Street. Incluye calificaciones actuales y
+        anteriores, precios objetivo, información del analista y, cuando estén
+        disponibles, métricas sobre la precisión de las calificaciones.
       operationId: get-ratings
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan de la misma manera para ambos formatos
+            funcionan igual para ambos formatos.
           in: header
           name: accept
           required: true
@@ -2036,54 +2040,54 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: "Lista de campos separados por comas que se van a devolver. Campos
+        - description: "Lista de campos separados por comas que se deben devolver. Campos
             disponibles: id, date, time, ticker, exchange, name, currency,
             action_pt, action_company, rating_current, pt_current, rating_prior,
             pt_prior, pt_pct_change, url, url_calendar, url_news, analyst,
             analyst_id, analyst_name, ratings_accuracy, importance, notes,
-            updated. Usa * para todos los campos, incluido ratings_accuracy"
+            updated. Utilice * para todos los campos, incluido
+            ratings_accuracy."
           in: query
           name: fields
           schema:
             type: string
             format: csv
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y razones técnicas, los desplazamientos de página están limitados
-            entre 0 y 100000. Limite los resultados de la consulta utilizando
-            otros parámetros, como la fecha.
+            y técnicos, los desplazamientos de página están limitados entre 0 y
+            100000. Limite los resultados de la consulta usando otros
+            parámetros, como la fecha.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Número de resultados devueltos. Límite: 1000"
+        - description: "Cantidad de resultados devueltos. Límite: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos de calendar. Equivale a usar date_from y
-            date_to con el mismo valor. De forma predeterminada, se utiliza la
-            última disponible.
+        - description: Fecha para consultar datos del calendar. Equivalente abreviado de
+            date_from y date_to si son iguales. De forma predeterminada,
+            consulta la más reciente.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha desde la que se realizará la consulta (momento específico en
-            el tiempo)
+        - description: Fecha desde la cual realizar la consulta
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha hasta la cual realizar la consulta (punto en el tiempo)
+        - description: Fecha hasta la que se consulta el punto en el tiempo
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: El nivel de importancia por el que se va a filtrar. Utiliza Mayor o
-            Igual que la importancia indicada
+        - description: El nivel de importancia por el que filtrar. Utiliza un valor mayor
+            o igual que el nivel de importancia indicado
           in: query
           name: parameters[importance]
           schema:
@@ -2095,8 +2099,8 @@ paths:
               - 3
               - 4
               - 5
-        - description: Uno o más símbolos bursátiles separados por comas. Hasta 50
-            símbolos bursátiles
+        - description: Uno o más símbolos de ticker separados por comas. Máximo 50
+            símbolos de ticker
           in: query
           name: parameters[tickers]
           schema:
@@ -2109,22 +2113,20 @@ paths:
           name: parameters[updated]
           schema:
             type: integer
-        - description: Uno o varios identificadores de analista (analyst_id) separados por
-            comas
+        - description: Uno o más IDs de analista (analyst_id) separados por comas
           in: query
           name: parameters[analyst_id]
           schema:
             type: string
             format: csv
-        - description: Uno o más ID de firma (firm_id) separados por comas
+        - description: Uno o más IDs de firma (firm_id) separados por comas
           in: query
           name: parameters[firm_id]
           schema:
             type: string
             format: csv
-        - description: Filtra por un action_company específico (acción para la
-            calificación). Ten en cuenta que todos estos términos están
-            definidos con precisión.
+        - description: Filtra por un action_company específico (acción de rating). Ten en
+            cuenta que todos estos términos están definidos con precisión
           in: query
           name: parameters[action]
           schema:
@@ -2141,22 +2143,23 @@ paths:
               - Removes
               - Suspends
               - Firm Dissolved
-        - description: Una lista de ID de analistas (personas), separada por comas, que se
-            deben devolver. Si se omite, se devolverán todos los analistas
+        - description: Lista de ID de analistas (personas), separados por comas, que se
+            devolverán. Si se omite, se devolverán todos los analistas
             disponibles
           in: query
           name: analyst
           schema:
             type: string
             format: csv
-        - description: Lista separada por comas de ID de firmas de analistas que se van a
-            devolver. Si se omite, se devolverán todas las firmas disponibles
+        - description: Lista de identificadores de firmas de analistas separados por comas
+            que se devolverán. Si se omite, se devolverán todas las firmas
+            disponibles
           in: query
           name: firm
           schema:
             type: string
             format: csv
-        - description: Simplifica las calificaciones en categorías estandarizadas
+        - description: Simplifica las calificaciones a categorías estandarizadas
           in: query
           name: simplify
           schema:
@@ -2192,18 +2195,18 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Devuelve datos de recomendaciones de analistas
+      summary: Devuelve datos de las recomendaciones de analistas
       tags:
         - ratings
   /api/v2.1/calendar/ratings/analysts:
     get:
-      description: Devuelve la lista completa de analistas que emiten calificaciones
+      description: Devuelve la lista completa de analistas que proporcionan calificaciones
       operationId: get-ratings-analysts
       parameters:
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y técnicos, los desplazamientos de página están limitados de 0 a
-            100000. Limite los resultados de la consulta mediante otros
-            parámetros, como la fecha. El valor predeterminado es 0.
+            y consideraciones técnicas, los desplazamientos de página están
+            limitados desde 0 hasta 100000. Limite los resultados de la consulta
+            con otros parámetros, como la fecha. El valor predeterminado es 0.
           in: query
           name: page
           schema:
@@ -2240,9 +2243,9 @@ paths:
           name: firm_name
           schema:
             type: string
-        - description: Hora de actualización en formato Unix (UTC) de los registros. Esto
-            forzará que el ordenamiento sea mayor o igual que la marca de tiempo
-            indicada
+        - description: Marca de tiempo Unix (UTC) de la última actualización de los
+            registros. Esto forzará que el orden de clasificación sea mayor o
+            igual que la marca de tiempo indicada
           in: query
           name: updated
           schema:
@@ -2277,7 +2280,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Analistas de calificaciones
+      summary: Calificaciones de analistas
       tags:
         - ratings_analysts
   /api/v2.1/calendar/ratings/firms:
@@ -2286,10 +2289,9 @@ paths:
       operationId: get-ratings-firms
       parameters:
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y consideraciones técnicas, los desplazamientos de página están
-            limitados de 0 a 100000. Limite los resultados de la consulta
-            mediante otros parámetros, como la fecha. El valor predeterminado es
-            0.
+            y razones técnicas, los desplazamientos de página se limitan entre 0
+            y 100000. Limite los resultados de la consulta mediante otros
+            parámetros, como la fecha. El valor predeterminado es 0.
           in: query
           name: page
           schema:
@@ -2311,9 +2313,9 @@ paths:
           name: firm
           schema:
             type: string
-        - description: Hora de actualización en formato Unix (UTC) de la última vez que se
-            actualizaron los registros. Esto forzará que el orden de
-            clasificación sea mayor que o igual a la marca de tiempo indicada.
+        - description: Marca de tiempo Unix (UTC) de la última actualización de los
+            registros. Esto forzará que el ordenamiento sea mayor o igual que la
+            marca de tiempo indicada
           in: query
           name: updated
           schema:
@@ -2329,7 +2331,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/calendarapi.RatingsFirmJSON"
         "400":
-          description: Solicitud incorrecta
+          description: Solicitud no válida
           content:
             application/json:
               schema:
@@ -2357,12 +2359,12 @@ paths:
         del split, las fechas de anuncio, las fechas ex y las fechas de
         distribución. Los splits de acciones se producen cuando una empresa
         aumenta o reduce el número de acciones en circulación para ajustar el
-        precio de la acción. Incluye información sobre si la acción es
-        negociable mediante opciones.
+        precio de la acción. Incluye información sobre si la acción admite
+        negociación de opciones.
       operationId: get-splits
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta se
-            comportan igual en ambos formatos
+            aplican del mismo modo en ambos formatos
           in: header
           name: accept
           required: true
@@ -2372,8 +2374,8 @@ paths:
               - application/json
             default: application/json
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y razones técnicas, los desplazamientos de página están limitados de
-            0 a 100000. Limite los resultados de la consulta utilizando otros
+            y requisitos técnicos, los desplazamientos de página están limitados
+            de 0 a 100000. Limite los resultados de la consulta con otros
             parámetros, como la fecha.
           in: query
           name: page
@@ -2385,9 +2387,9 @@ paths:
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos de calendar. Equivale a date_from y
-            date_to si son iguales. Si no se especifica, se usa la fecha más
-            reciente.
+        - description: Fecha para consultar datos de calendar. Abreviatura de date_from y
+            date_to cuando son iguales. De forma predeterminada, se utiliza la
+            fecha más reciente
           in: query
           name: parameters[date]
           schema:
@@ -2399,7 +2401,7 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha hasta la cual realizar la consulta (punto en el tiempo)
+        - description: Fecha hasta la que consultar como punto en el tiempo
           in: query
           name: parameters[date_to]
           schema:
@@ -2415,9 +2417,8 @@ paths:
               - announced
               - ex
             default: announced
-        - description: El nivel de importancia por el que se va a filtrar. Aplica un
-            filtro de tipo «mayor o igual que» respecto a la importancia
-            indicada
+        - description: El nivel de importancia por el que se filtrará. Filtra por niveles
+            de importancia mayores o iguales al indicado
           in: query
           name: parameters[importance]
           schema:
@@ -2436,10 +2437,9 @@ paths:
           schema:
             type: string
             format: csv
-        - description: Marca de tiempo Unix (UTC) en la que los registros fueron
-            actualizados por última vez. Esto obligará a que el orden de
-            clasificación sea por valores mayores o iguales a la marca de tiempo
-            indicada
+        - description: Marca de tiempo Unix (UTC) de la última actualización de los
+            registros. Esto obligará a que el orden de clasificación sea mayor o
+            igual que la marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
@@ -2480,14 +2480,14 @@ paths:
   /api/v2.2/calendar/dividends:
     get:
       description: "Devuelve datos de dividendos para un período y/o un valor
-        seleccionado, incluidas tanto las fechas de dividendos confirmadas como
-        las no confirmadas. V2.2 incluye campos adicionales: confirmed, period y
-        year. Esta versión proporciona información más detallada sobre el estado
-        de confirmación de los dividendos y su periodicidad."
+        seleccionados, incluidas tanto fechas de dividendos confirmadas como no
+        confirmadas. V2.2 incluye campos adicionales: confirmed, period y year.
+        Esta versión proporciona información más detallada sobre el estado de
+        confirmación del dividendo y su periodicidad."
       operationId: get-dividends-v22
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan igual en ambos formatos
+            funcionan igual para ambos formatos
           in: header
           name: accept
           required: true
@@ -2496,23 +2496,22 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: Desplazamiento de página. Por razones de optimización, rendimiento
-            y técnicas, los desplazamientos de página están limitados de 0 a
-            100000. Limite los resultados de la consulta usando otros
-            parámetros, como la fecha
+        - description: Desplazamiento de página. Por motivos de optimización, rendimiento
+            y razones técnicas, los desplazamientos de página están limitados
+            entre 0 y 100000. Limite los resultados de la consulta utilizando
+            otros parámetros, como la fecha.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "Número de resultados devueltos. Límite: 1000"
+        - description: Número de resultados devueltos. Límite 1000
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos de calendar. Equivale a usar date_from y
-            date_to con el mismo valor. De forma predeterminada, se utiliza la
-            fecha más reciente.
+        - description: Fecha para consultar datos de calendar. Abreviatura de date_from y
+            date_to si son iguales. El valor predeterminado es latest.
           in: query
           name: parameters[date]
           schema:
@@ -2524,13 +2523,13 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha hasta la cual consultar (punto en el tiempo)
+        - description: Fecha de fin de la consulta (punto en el tiempo)
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Campo de fecha de dividendo para ordenar (del más reciente al más
+        - description: Campo de fecha de dividendo para ordenar (de más reciente a más
             antiguo)
           in: query
           name: parameters[date_sort]
@@ -2541,8 +2540,8 @@ paths:
               - ex
               - payable
               - record
-        - description: Especifica cómo filtrar usando el rendimiento de dividendos. gt =
-            mayor que, gte = mayor o igual que, eq = igual a, lt = menor que,
+        - description: Especifica cómo filtrar mediante el rendimiento por dividendos. gt
+            = mayor que, gte = mayor o igual que, eq = igual, lt = menor que,
             lte = menor o igual que
           in: query
           name: parameters[dividend_yield_operation]
@@ -2554,15 +2553,14 @@ paths:
               - eq
               - lte
               - lt
-        - description: El importe de la rentabilidad por dividendo para filtrar. De forma
-            predeterminada, se usa la opción «Igual a» con el importe indicado.
-            1 = 100%
+        - description: Importe de la rentabilidad por dividendo para filtrar. De forma
+            predeterminada se utiliza Igual a el importe indicado. 1 = 100%
           in: query
           name: parameters[dividend_yield]
           schema:
             type: number
-        - description: El nivel de importancia por el que se va a filtrar. Utiliza mayor o
-            igual que la importancia indicada
+        - description: El nivel de importancia por el que se va a filtrar. Utiliza un
+            valor mayor o igual que la importancia indicada
           in: query
           name: parameters[importance]
           schema:
@@ -2582,8 +2580,8 @@ paths:
             type: string
             format: csv
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
-            registros. Esto forzará que el ordenamiento use la condición de
-            mayor o igual que con respecto a la marca de tiempo indicada
+            registros. Esto obligará a que el orden de clasificación sea Mayor
+            que o Igual que la marca de tiempo indicada
           in: query
           name: parameters[updated]
           schema:
@@ -2618,20 +2616,20 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Eventos de Dividendos V2.2
+      summary: Eventos de dividendos V2.2
       tags:
         - Dividends
   /api/v2/calendar/events:
     get:
-      description: Devuelve eventos corporativos, como reuniones con inversores,
-        conferencias y anuncios especiales
+      description: Devuelve eventos corporativos, incluyendo reuniones con
+        inversionistas, conferencias y anuncios especiales
       operationId: get-events
       parameters:
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y consideraciones técnicas, los desplazamientos de página están
-            limitados al rango de 0 a 100000. Limite los resultados de la
-            consulta mediante otros parámetros, como la fecha. El valor
-            predeterminado es 0.
+            y cuestiones técnicas, los desplazamientos de página están limitados
+            al rango de 0 a 100000. Limite los resultados de la consulta
+            mediante otros parámetros, como la fecha. El valor predeterminado es
+            0.
           in: query
           name: page
           schema:
@@ -2643,28 +2641,28 @@ paths:
           schema:
             type: integer
             default: 100
-        - description: Fecha para consultar datos de calendar. Equivalente a usar
-            date_from y date_to con el mismo valor. Si se omite, se utiliza la
-            fecha más reciente disponible.
+        - description: Fecha para consultar datos de calendar. Equivale a date_from y
+            date_to si son iguales. De forma predeterminada, usa la más
+            reciente.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: date
-        - description: Fecha de inicio en formato AAAA-MM-DD
+        - description: Fecha de inicio en el formato AAAA-MM-DD
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: date
-        - description: Fecha de fin en formato AAAA-MM-DD
+        - description: Fecha de finalización en el formato AAAA-MM-DD
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: date
-        - description: Importancia por la que filtrar. Se aplica como filtro de tipo mayor
-            o igual que la importancia indicada
+        - description: El nivel de importancia por el que se va a filtrar. Utiliza Mayor o
+            Igual que la importancia indicada
           in: query
           name: parameters[importance]
           schema:
@@ -2676,7 +2674,7 @@ paths:
               - 3
               - 4
               - 5
-        - description: Uno o más símbolos bursátiles separados por comas. Hasta 50
+        - description: Uno o más símbolos bursátiles, separados por comas. Máximo 50
             símbolos bursátiles
           in: query
           name: parameters[tickers]
@@ -2737,19 +2735,18 @@ paths:
         - events
   /api/v2/calendar/ipos:
     get:
-      description: Devuelve datos de Ofertas Públicas Iniciales (IPO), incluida la
-        información sobre precios, entidades aseguradoras (underwriters), estado
-        de la operación y detalles de la oferta. Las IPO representan el momento
-        en que una empresa privada ofrece por primera vez acciones al público.
-        Tenga en cuenta que, para el endpoint de IPO, es posible que los nuevos
-        tickers no devuelvan resultados de inmediato, ya que no se vinculan
-        automáticamente a los datos subyacentes de la empresa. Para obtener las
-        filas más recientes, envíe consultas sin especificar el parámetro
-        tickers.
+      description: Devuelve datos de ofertas públicas iniciales (IPO), incluida
+        información de precios, entidades colocadoras, estado de la operación y
+        detalles de la oferta. Las IPO representan el momento en que una empresa
+        privada ofrece acciones al público por primera vez. Tenga en cuenta que,
+        para el endpoint de IPOs, es posible que los tickers nuevos no devuelvan
+        resultados de inmediato, ya que no se vinculan automáticamente a los
+        datos de la empresa subyacente. Para obtener las filas más recientes,
+        envíe consultas sin especificar el parámetro tickers.
       operationId: get-ipos-v2
       parameters:
         - description: Especifica el formato de respuesta. Los parámetros de consulta
-            funcionan igual para ambos formatos
+            funcionan de la misma manera para ambos formatos.
           in: header
           name: accept
           required: true
@@ -2758,8 +2755,8 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y técnicos, el desplazamiento de página está limitado entre 0 y
+        - description: Desplazamiento de página. Por motivos técnicos de optimización y
+            rendimiento, los desplazamientos de página están limitados entre 0 y
             100000. Limite los resultados de la consulta mediante otros
             parámetros, como la fecha.
           in: query
@@ -2767,41 +2764,41 @@ paths:
           schema:
             type: integer
             default: 0
-        - description: Número de resultados devueltos. Máximo 1000
+        - description: "Número de resultados devueltos. Límite: 1000"
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: Fecha para consultar datos del calendar. Equivale a date_from y
-            date_to si tienen el mismo valor. Por defecto, usa la fecha más
+        - description: Fecha para consultar datos de calendar. Abreviatura de date_from y
+            date_to cuando son iguales. De forma predeterminada, la fecha más
             reciente.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha desde la cual realizar la consulta
+        - description: Fecha a partir de la cual realizar la consulta (punto en el tiempo)
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Fecha hasta la que se realizará la consulta (punto en el tiempo)
+        - description: Fecha hasta la cual realizar la consulta
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Uno o más símbolos bursátiles separados por una coma. Máximo 50
-            símbolos bursátiles. Ten en cuenta que los símbolos bursátiles
-            nuevos pueden no devolver resultados de inmediato.
+        - description: Uno o más símbolos bursátiles separados por comas. Máximo 50
+            símbolos bursátiles. Ten en cuenta que es posible que los símbolos
+            bursátiles nuevos no devuelvan resultados de inmediato
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: "Uno o más tipos de OPI separados por una coma. Ejemplo: Acciones
-            ordinarias, SPAC"
+        - description: "Uno o más tipos de OPI separados por una coma. Ejemplo: Ordinary
+            Shares, SPAC"
           in: query
           name: parameters[ipo_type]
           schema:
@@ -2809,7 +2806,7 @@ paths:
             format: csv
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
             registros. Esto forzará que el orden de clasificación sea mayor o
-            igual que la marca de tiempo indicada
+            igual que la marca de tiempo indicada.
           in: query
           name: parameters[updated]
           schema:
@@ -2844,19 +2841,20 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Devuelve datos de salidas a bolsa
+      summary: Devuelve datos de OPI
       tags:
         - ipos
   /sec/insider_transactions/owners:
     get:
-      description: Devuelve información sobre los titulares de transacción de insider,
-        incluidos ejecutivos de la empresa, directores y beneficiarios reales
+      description: Devuelve información sobre los titulares de operaciones de
+        información privilegiada, incluidos directivos de la empresa, miembros
+        del consejo y propietarios beneficiarios
       operationId: get-insider-transaction-owner
       parameters:
-        - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y consideraciones técnicas, el desplazamiento de página está
-            limitado entre 0 y 100000. Limite los resultados de la consulta con
-            otros parámetros como la fecha. El valor predeterminado es 0.
+        - description: Desplazamiento de página. Por motivos técnicos de optimización y
+            rendimiento, los desplazamientos de página están limitados entre 0 y
+            100000. Limite los resultados de la consulta mediante otros
+            parámetros, como la fecha. El valor predeterminado es 0.
           in: query
           name: page
           schema:
@@ -2868,7 +2866,7 @@ paths:
           schema:
             type: integer
             default: 100
-        - description: Fecha de inicio en formato AAAA-MM-DD
+        - description: Fecha inicial en formato AAAA-MM-DD
           in: query
           name: date_from
           schema:
@@ -2881,8 +2879,8 @@ paths:
             type: string
             format: date
         - description: Marca de tiempo Unix (UTC) de la última actualización de los
-            registros. Esto forzará que el orden de clasificación sea mayor o
-            igual que la marca de tiempo indicada
+            registros. Esto forzará que el orden de clasificación sea de «mayor
+            o igual que» respecto a la marca de tiempo indicada.
           in: query
           name: updated_since
           schema:
@@ -2906,7 +2904,7 @@ paths:
           name: fields
           schema:
             type: string
-        - description: Tipo de claves de búsqueda
+        - description: Tipos de claves de búsqueda
           in: query
           name: search_keys_type
           schema:
@@ -2931,7 +2929,7 @@ paths:
               - nested
       responses:
         "200":
-          description: Titular de la operación con información privilegiada
+          description: Titular de la operación de insider
           content:
             application/json:
               schema:
@@ -2950,7 +2948,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: Propietario de transacción de insider
+      summary: Titular de la operación de insider
       tags:
         - Insider Transaction
 components:
@@ -3302,6 +3300,3 @@ components:
         voluntarily_reported:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
