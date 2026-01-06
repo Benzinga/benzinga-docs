@@ -9,7 +9,8 @@ api-reference/earnings-call-transcripts-api_api=Earnings Call Transcripts|
 api-reference/logo-api_api=Logos|
 api-reference/newsquantified-api_api=NewsQuantified|
 api-reference/news-api_api=News|
-api-reference/ticker-trends-api_api=Ticker Trends"
+api-reference/ticker-trends-api_api=Ticker Trends|
+api-reference/webhook_api=Webhook API"
 
 # Array to store JSON output
 output_array=()

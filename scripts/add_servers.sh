@@ -50,7 +50,6 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
                 ;;
             "news-api_api.spec.yml")
                 servers='[
-                  {"url": "https://api.benzinga.com/api/v2", "description": "V2"},
                   {"url": "https://api.benzinga.com/api/v2.1", "description": "V2.1"}
                 ]'
                 ;;
@@ -66,10 +65,7 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
                 ;;
             "data-api-proxy_api.spec.yml")
                 servers='[
-                  {"url": "https://api.benzinga.com/api/v1", "description": "V1"},
-                  {"url": "https://api.benzinga.com/api/v2", "description": "V2"},
-                  {"url": "https://api.benzinga.com/api/v2.1", "description": "V2.1"},
-                  {"url": "https://api.benzinga.com/api/v3", "description": "V3"}
+                  {"url": "https://api.benzinga.com", "description": "PROD"}
                 ]'
                 ;;
             "earnings-call-transcripts-api_api.spec.yml")
