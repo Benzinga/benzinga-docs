@@ -84,3 +84,6 @@ components:
         ticker:
           type: string
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: Producción

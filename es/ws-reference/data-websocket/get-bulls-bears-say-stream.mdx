@@ -1,32 +1,61 @@
 ---
-title: "Flujo de alcistas/bajistas"
-description: "Recibe el flujo de comentarios alcistas y bajistas."
+title: "Bulls/Bears Say Stream"
+description: "Escenarios alcistas y bajistas en tiempo real para valores."
+asyncapi: "/asyncapi/bulls-bears-say-stream.yml bullsBearsSay"
 ---
 
-<div id="websocket-websocketv1">
-  ## WebSocket `websocket/v1`:
+<div id="overview">
+  ## Descripción general
 </div>
 
-```txt
-wss://api.benzinga.com/api/v1/analyst/insights/stream
+Suscríbete para recibir análisis en tiempo real de escenarios alcistas y bajistas para valores. Obtén perspectivas equilibradas sobre escenarios positivos (alcistas) y negativos (bajistas) para acciones.
+
+<div id="key-features">
+  ### Funciones clave
+</div>
+
+- **Análisis equilibrado**: Reciba tanto escenarios alcistas como bajistas para obtener una visión completa del mercado
+- **Actualizaciones en tiempo real**: Reciba notificaciones instantáneas cuando se creen, actualicen o eliminen escenarios
+- **Filtrar por valor**: Suscríbase a tickers o ISIN específicos
+- **Sentimiento de mercado**: Comprenda tanto las perspectivas optimistas como las pesimistas
+
+<div id="use-cases">
+  ### Casos de uso
+</div>
+
+- Crear paneles de análisis de sentimiento que muestren ambos lados de la discusión
+- Hacer seguimiento de los cambios en el sentimiento alcista/bajista a lo largo del tiempo
+- Alertar a los usuarios sobre cambios significativos en la perspectiva del mercado
+- Proporcionar análisis de inversión equilibrado a los clientes
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Usa la herramienta de prueba interactiva de WebSocket de arriba para conectarte y probar la transmisión en tiempo real.
+
+<div id="connection-url">
+  ### URL de conexión
+</div>
+
+```
+wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=YOUR_TOKEN
 ```
 
 
-<div id="parameters">
-  #### Parámetros
+<div id="query-parameters">
+  ### Parámetros de consulta
 </div>
 
-| Nombre     | Ubicación |  Tipo   | Obligatorio |                                                       Descripción |
-| :--------- | :-------: | :-----: | ----------: | ----------------------------------------------------------------: |
-| `token`    | query     | string  |        Yes  | Token WebSocket de Benzinga (bz.production***).                   |
-| `tickers`  | query     | string  |   Optional  | Lista de tickers a los que deseas suscribirte. Separados por comas. |
-| `isins`    | query     | string  |   Optional  | Lista de ISIN por los que deseas filtrar. Separados por comas.    |
+| Parámetro | Obligatorio | Descripción |
+|-----------|-------------|-------------|
+| `token` | Sí | Tu token de la API WebSocket de Benzinga (bz.production***) |
+| `tickers` | No | Lista separada por comas de símbolos ticker (p. ej., `AAPL,TSLA`) |
+| `isins` | No | Lista separada por comas de códigos ISIN para filtrar |
 
-<div id="stream-response">
-  ### Respuesta del flujo:
+<div id="message-example">
+  ## Ejemplo de mensaje
 </div>
-
-Cuando te suscribas al flujo, recibirás actualizaciones sobre los análisis de los analistas en el siguiente formato:
 
 ```json
 {
@@ -36,179 +65,42 @@ Cuando te suscribas al flujo, recibirás actualizaciones sobre los análisis de 
   "data": {
     "action": "created",
     "id": "case123",
+    "timestamp": "2024-10-01T10:00:00Z",
     "content": {
-      "bear_case": "Market downturn expected.",
-      "bull_case": "Positive earnings forecast.",
-      "id": "case123",
+      "bull_case": "Strong earnings growth and market expansion expected.",
+      "bear_case": "Increased competition and regulatory pressures.",
       "ticker": "AAPL",
       "updated": 1696153200
-    },
-    "timestamp": "2024-10-01T10:00:00Z"
+    }
   }
 }
 ```
 
 
-<div id="responses">
-  #### Respuestas
+<div id="message-actions">
+  ### Acciones de mensaje
 </div>
 
-- **200 OK**
-- **Descripción**: Éxito
-- **Tipo de contenido**: `application/json`
-- **Esquema**: [BullBearWSResp](#bullbearwsresp)
+| Acción | Descripción |
+|--------|-------------|
+| `created` / `Created` | Nuevo caso alcista o bajista publicado |
+| `updated` / `Updated` | Caso existente modificado |
+| `deleted` / `Deleted` | Caso eliminado |
 
-<div id="bullbearwsresp">
-  ### BullBearWSResp
+<div id="interactive-commands">
+  ## Comandos interactivos
 </div>
 
-| Parámetro      | Tipo   | Descripción                                           |
-|----------------|--------|-------------------------------------------------------|
-| id             | string | UUID único de la respuesta de WebSocket              |
-| api_version    | string | Versión de la API WebSocket                          |
-| kind           | string | Tipo de flujo de la conexión WebSocket               |
-| data           | object | Contiene la acción y los detalles del caso alcista/bajista |
+| Comando | Descripción |
+|---------|-------------|
+| `ping` | Mantiene la conexión activa (responde con `pong`) |
+| `replay` | Reproduce hasta los últimos 100 mensajes almacenados en caché |
 
-<div id="data-object-inside-bullbearwsresp">
-  ### Objeto de datos (dentro de BullBearWSResp)
+<div id="best-practices">
+  ## Mejores prácticas
 </div>
 
-| Parámetro | Tipo   | Descripción                                                     |
-|-----------|--------|-----------------------------------------------------------------|
-| action    | string | Acción de datos del WebSocket (p. ej., created, updated, deleted) |
-| id        | string | ID de datos para el caso alcista/bajista                        |
-| content   | object | Detalles del caso alcista/bajista (ver más abajo)              |
-| timestamp | string | Marca de tiempo de los datos                                   |
-
-<div id="bullbearcase-schema-inside-data-content">
-  ### Esquema BullBearCase (dentro del content de data)
-</div>
-
-| Parámetro | Tipo     | Descripción                                               |
-|-----------|----------|-----------------------------------------------------------|
-| bear_case | string   | Descripción del escenario bajista                         |
-| bull_case | string   | Descripción del escenario alcista                         |
-| id        | string   | Identificador único del caso alcista/bajista (formato UUID)   |
-| ticker    | string   | Símbolo ticker de la acción relacionado con el caso alcista/bajista        |
-| updated   | integer  | Marca de tiempo de la última actualización del caso (formato int64) |
-
-<div id="success-response">
-  ## Respuesta de éxito
-</div>
-
-- Éxito `101` - Conexión WebSocket establecida correctamente.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '700px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ✅ Conectado a wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Detalles del handshake
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span><strong>URL de la solicitud:</strong> </span>
-        <p style={{ color: 'blue' }}>
-            "https://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz"
-        </p>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Método de la solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
-    </div>
-</div>
-
-<div id="error-response">
-  ## Respuesta de error
-</div>
-
-- No autorizado `401` - token no válido, comprueba el token proporcionado.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ No se pudo conectar a wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: respuesta inesperada del servidor: 401
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Detalles del handshake
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
-    </div>
-</div>
-
-- Bad Gateway `502` - Ruta no válida o error del servidor.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-       alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ No se pudo conectar a wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: respuesta inesperada del servidor: 502
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Detalles del handshake
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
-    </div>
-</div>
+- **Eliminación de duplicados**: Usa el campo `id` para evitar procesar mensajes duplicados
+- **Heartbeat**: Envía comandos de `ping` cada 30-60 segundos
+- **Presentación equilibrada**: Muestra tanto los casos alcistas como los bajistas para ofrecer un análisis imparcial
+- **Seguimiento de actualizaciones**: Supervisa la marca de tiempo `updated` para identificar cambios recientes
