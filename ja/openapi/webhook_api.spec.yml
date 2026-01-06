@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Webhook のテスト配信を行い、連携が正しく動作していることを確認します
+  title: Webhook API
+  version: 1.0.0
+servers:
+  - url: https://api.benzinga.com
+paths:
+  /api/v1/webhook/test:
+    get:
+      summary: Webhook 配信をテストする
+      description: このエンドポイントは、連携を確認できるように、テストデータを利用中のWebhookエンドポイントに送信します
+      operationId: get-webhook-test
+      parameters:
+        - name: destination
+          in: query
+          required: true
+          description: テストデータの送信先となる webhook エンドポイントの url
+          schema:
+            type: string
+            format: uri
+          example: https://your-endpoint.com/webhook
+        - name: version
+          in: query
+          required: true
+          description: API バージョン。現在は webhook/v1。
+          schema:
+            type: string
+            enum:
+              - webhook/v1
+            default: webhook/v1
+        - name: kind
+          in: query
+          required: true
+          description: メッセージのkindを識別します。現在の値は「News/v1」です。
+          schema:
+            type: string
+            enum:
+              - News/v1
+            default: News/v1
+        - name: token
+          in: query
+          required: false
+          description: 本番利用向けにデータを変換するためのトークンを指定します
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功 - テスト Webhook を正常に送信しました
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+        "400":
+          description: 無効なリクエストです。詳細はレスポンスボディを確認してください。
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid destination URL
+        "424":
+          description: 配信エラー - テストペイロードの配信中にシステムでエラーが発生しました
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Failed to deliver test payload to destination
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+      security:
+        - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Key
+      description: Benzinga の API キー

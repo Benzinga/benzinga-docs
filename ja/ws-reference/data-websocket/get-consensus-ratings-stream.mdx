@@ -1,243 +1,134 @@
 ---
-title: "[Calendar] Consensus Ratings ストリーム"
-description: "コンセンサス・レーティングのストリームを取得します。"
+title: "Consensus Ratings ストリーム"
+description: "リアルタイムのコンセンサス・レーティングおよび目標株価の集約データ。"
+asyncapi: "/asyncapi/consensus-ratings-stream.yml consensusRatings"
 ---
 
-<div id="websocket-websocketv1">
-  ## ウェブソケット `websocket/v1`:
+<div id="overview">
+  ## 概要
 </div>
 
-```txt
-wss://api.benzinga.com/api/v1/consensus-ratings/stream
+複数アナリストの見解を集約したリアルタイムのコンセンサス・レーティングを購読し、統一されたレーティングと目標株価を取得できます。市場全体のセンチメントやアナリスト・コンセンサスの変化を追跡します。
+
+<div id="key-features">
+  ### 主な機能
+</div>
+
+- **コンセンサス集約**: 特定銘柄に対するすべてのアナリスト・レーティングを統合したビュー
+- **目標株価コンセンサス**: 平均・高値・安値の目標株価
+- **レーティング分布**: Strong Buy、Buy、Hold、Sell、Strong Sell ごとの内訳
+- **アナリスト数**: アナリストの総数および重複を除いたカバレッジ数を追跡
+- **柔軟な集計**: 件数または割合として表示
+
+<div id="use-cases">
+  ### ユースケース
+</div>
+
+- コンセンサス・レーティングのダッシュボードやウィジェットを構築する
+- アナリスト全体のセンチメントの変化を追跡する
+- 個別レーティングをコンセンサスと比較する
+- 目標株価レンジ（高値・安値・平均）を監視する
+- コンセンサスが改善／悪化している銘柄を特定する
+
+<div id="quick-start">
+  ## クイックスタート
+</div>
+
+上部のインタラクティブなウェブソケットテスターを使用して接続し、リアルタイムでストリームをテストしてください。
+
+<div id="connection-url">
+  ### 接続 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=YOUR_TOKEN
 ```
 
 
-<div id="parameters">
-  #### パラメータ
+<div id="query-parameters">
+  ### クエリパラメータ
 </div>
 
-| Name                | Location |  Type   | Required | Description                                                             |
-| :---------          | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
-| `token`             | query    | string  |      Yes | Benzinga ウェブソケットのトークン（bz.production***）。                            |
-| `tickers`           | query    | string  | Optional | 購読対象とするティッカーのリスト。カンマ区切り。          |
-| `isins`             | query    | string  | Optional | 絞り込みに使用する ISIN（国際証券識別番号）のリスト。カンマ区切り。                |
-| `simplify`          | query    | string  | Optional | レーティングを Buy / Hold / Sell に簡略化します。                                |
-| `aggregate_type`    | query    | string  | Optional | 集計方法。number（数値）または percentage（パーセンテージ）のいずれか。                       |
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Benzinga の WebSocket API トークン（bz.production***） |
+| `tickers` | No | ティッカーシンボルのカンマ区切りリスト（例: `AAPL,MSFT`） |
+| `isins` | No | フィルタ用の ISIN（国際証券識別番号）のカンマ区切りリスト |
+| `simplify` | No | レーティングを Buy／Hold／Sell に簡略化 |
+| `aggregate_type` | No | 集計種別: `number` または `percentage` |
 
-<div id="stream-response">
-  ### ストリームレスポンス
+<div id="message-example">
+  ## メッセージ例
 </div>
-
-ストリームを購読すると、アナリストインサイトに関するアップデートが次の形式で送信されます。
 
 ```json
 {
-    "id": "e9e75b31-604e-422c-a532-362725b2d59d",
-    "api_version": "websocket/v1",
-    "kind": "data/v2.1/calendar/ratings",
-    "data": {
-      "aggregate_ratings": {
-        "buy": 123,
-        "hold": 123,
-        "sell": 123,
-        "strong_buy": 123,
-        "strong_sell": 123
-      },
-      "aggregate_type": "number",
-      "consensus_price_target": 123,
-      "consensus_rating": "SELL",
-      "consensus_rating_val": 123,
-      "high_price_target": 123,
-      "low_price_target": 123,
-      "total_analyst_count": 123,
-      "unique_analyst_count": 123,
-      "updated_at": "2024-10-04T19:21:06.880730108Z"
-    }
+  "id": "e9e75b31-604e-422c-a532-362725b2d59d",
+  "api_version": "websocket/v1",
+  "kind": "data/v2.1/calendar/ratings",
+  "data": {
+    "aggregate_ratings": {
+      "strong_buy": 15,
+      "buy": 25,
+      "hold": 8,
+      "sell": 2,
+      "strong_sell": 0
+    },
+    "aggregate_type": "number",
+    "consensus_rating": "BUY",
+    "consensus_rating_val": 4.2,
+    "consensus_price_target": 195.50,
+    "high_price_target": 225.00,
+    "low_price_target": 160.00,
+    "total_analyst_count": 50,
+    "unique_analyst_count": 48,
+    "updated_at": "2024-10-04T19:21:06Z"
+  }
 }
 ```
 
 
-<div id="responses">
-  #### レスポンス
+<div id="consensus-ratings">
+  ### コンセンサス・レーティング
 </div>
 
-- **200 OK**
-- **説明**: 成功
-- **Content Type**: `application/json`
-- **スキーマ**: [RatingsWSResp](#ratingswsresp)
+| Rating | Numeric Value | Description |
+|--------|---------------|-------------|
+| `STRONG_BUY` | 5.0 | 非常に強気のコンセンサス |
+| `BUY` | 4.0 - 4.9 | 強気のコンセンサス |
+| `HOLD` | 3.0 - 3.9 | 中立的なコンセンサス |
+| `SELL` | 2.0 - 2.9 | 弱気のコンセンサス |
+| `STRONG_SELL` | 1.0 - 1.9 | 非常に弱気のコンセンサス |
 
-<div id="data-structures">
-  ## データ構造
+<div id="key-metrics">
+  ### 主要指標
 </div>
 
-<div id="ratingswsresp">
-  ### RatingsWSResp
+| Field | Description |
+|-------|-------------|
+| `consensus_rating` | 総合レーティング（BUY、HOLD、SELL） |
+| `consensus_rating_val` | レーティング値の数値表現（1.0〜5.0） |
+| `consensus_price_target` | アナリスト全体の平均目標株価 |
+| `high_price_target` | 目標株価の最高値 |
+| `low_price_target` | 目標株価の最低値 |
+| `total_analyst_count` | レーティングの総数 |
+| `unique_analyst_count` | 重複を除いたアナリスト数 |
+
+<div id="interactive-commands">
+  ## 対話型コマンド
 </div>
 
-| Property       | Type   | Description                                                                                               |
-|----------------|--------|-----------------------------------------------------------------------------------------------------------|
-| `id`           | string | ウェブソケットレスポンスの一意の UUID                                                                      |
-| `api_version`  | string | ウェブソケット API のバージョン                                                                           |
-| `kind`         | string | ウェブソケット接続のストリームタイプ                                                                      |
-| `data`         | object | レーティングデータを含みます。プロパティの詳細は以下を参照してください。                                 |
+| Command | 説明 |
+|---------|-------------|
+| `ping` | 接続を維持します（`pong` で応答します） |
+| `replay` | キャッシュされた直近最大100件のメッセージを再送信します |
 
-<div id="data-properties">
-  ### データプロパティ
+<div id="best-practices">
+  ## ベストプラクティス
 </div>
 
-| Property       | Type   | Description                                                                                               |
-|----------------|--------|-----------------------------------------------------------------------------------------------------------|
-| `action`       | string | ウェブソケットデータにおけるアクション。例: created、updated、deleted                                      |
-| `id`           | string | レーティングのデータID                                                                                   |
-| `content`      | object | レーティングに関する詳細。詳細なプロパティについては [ratings](#ratings) を参照してください。           |
-| `timestamp`    | string | データのタイムスタンプ                                                                                   |
-
-<div id="aggregate_ratings-properties">
-  ### Aggregate_Ratings プロパティ
-</div>
-
-| Property       | Type   | Description                                                                                               |
-|----------------|--------|-----------------------------------------------------------------------------------------------------------|
-| `strong_buy`   | int    | strong_buy の合計数/パーセンテージ                                                                        |
-| `buy`          | int    | buy の合計数/パーセンテージ                                                                               |
-| `hold`         | int    | レーティングに関する詳細。追加のプロパティについては [ratings](#ratings) を参照してください。             |
-| `sell`         | int    | データのタイムスタンプ                                                                                   |
-| `strong_sell`  | int    | データのタイムスタンプ                                                                                   |
-
-<div id="ratings">
-  ### Ratings
-</div>
-
-| Property                | Type   | Description                                                                                             |
-|-------------------------|--------|---------------------------------------------------------------------------------------------------------|
-| `aggregate_ratings`     | object | SELL、HOLD、BUY で分類されたすべてのレーティングを含みます                                                 |
-| `aggregate_type`        | string | 集計の種類。数値またはパーセンテージ                                                                    |
-| `consensus_price_target`| string | 平均目標株価                                                                                             |
-| `consensus_rating`      | string | SELL、HOLD、BUY のスケール値                                                                             |
-| `consensus_rating_val`  | string | 浮動小数点数値                                                                                          |
-| `high_price_target`     | string | 指定期間における最高目標株価                                                                            |
-| `low_price_target`      | string | 指定期間における最低目標株価                                                                            |
-| `total_analyst_count`   | string | その期間におけるアナリストレーティングの総数                                                             |
-| `unique_analyst_count`  | string | その期間における重複を除いたアナリスト数                                                                |
-| `updated_at`            | string | UTC の最終更新タイムスタンプ                                                     |
-
-<div id="success-response">
-  ## 成功レスポンス
-</div>
-
-- 成功 `101` - ウェブソケット接続が正常に確立されました。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '700px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ✅ wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=bz.p*** への接続に成功しました
-        </div>
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span><strong>リクエスト URL:</strong> </span>
-        <p style={{ color: 'blue' }}>
-            "https://api.benzinga.com/api/v1/consensus-ratings/stream?token=bz"
-        </p>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>リクエストメソッド:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>ステータスコード:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
-    </div>
-</div>
-
-<div id="error-response">
-  ## エラーレスポンス
-</div>
-
-- Unauthorized `401` - 無効なトークンです。指定したトークンを確認してください。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=bz.p*** に接続できませんでした
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        エラー: 予期しないサーバーからのレスポンス: 401
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
-    </div>
-</div>
-
-- Bad Gateway `502` - 不正なルートかサーバーエラーです。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ wss://api.benzinga.com/api/vv1/consensus-ratings/stream?token=bz.p*** に接続できませんでした
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        エラー: 予期しないサーバーからのレスポンス: 502
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
-    </div>
-</div>
+- **コンセンサスの変化**: 時系列で `consensus_rating_val` の変化を監視する
+- **目標株価レンジ**: 現在株価を高値/安値目標と比較してバリュエーションの判断材料とする
+- **カバレッジの深さ**: アナリスト数が多いほどコンセンサスの信頼性が高いと判断できる
+- **分布分析**: センチメントのニュアンスを把握するために `aggregate_ratings` の内訳を確認する
+- **パーセンテージ表示**: 正規化された比較には `aggregate_type=percentage` を使用する

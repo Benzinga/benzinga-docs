@@ -9,8 +9,8 @@ Los webhooks de Benzinga eliminan el sondeo al publicar eventos de mercado en ti
   ## Servicios de webhook disponibles
 </div>
 
-- **Data Webhook Engine**: Datos de calendar y señales en tiempo real (earnings, dividends, ratings, option activity, WIIMs y más) con filtros configurables y transformaciones opcionales del payload. Lea la guía completa en [Data Webhook Engine](./webhook-engine).
-- Pueden configurarse webhooks adicionales específicos para su cuenta. Póngase en contacto con su representante de Benzinga para habilitar conjuntos de datos específicos o registrar nuevas URL de webhook.
+* **Data Webhook Engine**: Datos de calendar y señales en tiempo real (earnings, dividends, ratings, option activity, WIIMs y más) con filtros configurables y transformaciones opcionales del payload. Lea la guía completa en [Data Webhook Engine](./webhook-engine).
+* Pueden configurarse webhooks adicionales específicos para su cuenta. Póngase en contacto con su representante de Benzinga para habilitar conjuntos de datos específicos o registrar nuevas URL de webhook.
 
 <div id="integration-flow">
   ## Flujo de integración
@@ -20,9 +20,15 @@ Los webhooks de Benzinga eliminan el sondeo al publicar eventos de mercado en ti
   <Step title="Comparta su endpoint y filtros">
     Proporcione un endpoint HTTPS accesible públicamente, además de cualquier filtro por tipo de dato o geografía que necesite. Benzinga configurará el webhook con esos ajustes.
   </Step>
+
+  <Step title="Pruebe su integración">
+    Use el endpoint [Test Webhook Delivery](/es/api-reference/webhook_api/test-webhook-delivery) para verificar que su endpoint de webhook esté correctamente configurado y pueda recibir entregas.
+  </Step>
+
   <Step title="Gestione las entregas de forma idempotente">
     Analice el payload JSON, use los valores `id` y `X-BZ-Delivery` para evitar duplicados y responda rápidamente con un estado 2xx para confirmar la recepción.
   </Step>
+
   <Step title="Supervise e itere">
     Haga un seguimiento de errores, timeouts y reintentos en sus registros. Ajuste los filtros o las transformaciones del payload con su contacto en Benzinga si sus sistemas downstream tienen nuevos requisitos.
   </Step>
@@ -32,7 +38,7 @@ Los webhooks de Benzinga eliminan el sondeo al publicar eventos de mercado en ti
   ## Mejores prácticas
 </div>
 
-- Usa HTTPS y autenticación en tu endpoint de webhook.
-- Procesa el trabajo de forma asíncrona para que las respuestas se devuelvan en un máximo de 30 segundos.
-- Almacena los IDs de entrega procesados para garantizar la idempotencia en los reintentos.
-- Prueba contra endpoints que no sean de producción antes de pasar a la entrega en producción.
+* Usa HTTPS y autenticación en tu endpoint de webhook.
+* Procesa el trabajo de forma asíncrona para que las respuestas se devuelvan en un máximo de 30 segundos.
+* Almacena los IDs de entrega procesados para garantizar la idempotencia en los reintentos.
+* Prueba contra endpoints que no sean de producción antes de pasar a la entrega en producción.

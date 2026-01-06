@@ -1,262 +1,132 @@
 ---
-title: "[Calendar] Earnings ストリーム"
-description: "calendar earnings のストリームを取得します。"
+title: "Earnings Stream（決算ストリーム）"
+description: "リアルタイムの決算発表および業績・財務結果。"
+asyncapi: "/asyncapi/calendar-earnings-stream.yml calendarEarnings"
 ---
 
-<div id="websocket-websocketv1">
-  ## ウェブソケット `websocket/v1`:
+<div id="overview">
+  ## 概要
 </div>
 
-```txt
-wss://api.benzinga.com/api/v2.1/calendar/earnings/stream
+リアルタイムの決算発表をサブスクライブし、1株当たり利益（EPS）、売上高、サプライズ要因などを含む企業業績の更新情報を即時に受信できます。
+
+<div id="key-features">
+  ### 主な機能
+</div>
+
+- **リアルタイム決算**: 決算発表が行われたタイミングで即時に通知を受け取ることができます
+- **包括的なデータ**: EPS、売上高、予想値、実績値、サプライズ指標を含みます
+- **銘柄でのフィルタリング**: 特定のティッカーまたは ISIN に購読できます
+- **決算期間**: Q1、Q2、Q3、Q4 および通期（FY）の結果を追跡します
+- **重要度レーティング**: 市場への重要度を 0〜5 段階のスケールで示します
+
+<div id="use-cases">
+  ### ユースケース
+</div>
+
+- リアルタイムの決算カレンダーとアラートを構築する
+- 決算サプライズや予想超過／未達のパターンを追跡する
+- ポートフォリオ内の銘柄の決算をリアルタイムでモニタリングする
+- 決算シーズン向けのダッシュボードを作成する
+- 決算結果に基づく売買戦略を自動化する
+
+<div id="quick-start">
+  ## クイックスタート
+</div>
+
+上部のインタラクティブなウェブソケットテスターを使って接続し、リアルタイムにストリームをテストしてください。
+
+<div id="connection-url">
+  ### 接続 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=YOUR_TOKEN
 ```
 
 
-<div id="parameters">
-  ### パラメータ
+<div id="query-parameters">
+  ### クエリパラメータ
 </div>
 
-| Name       | Location |  Type   | Required | Description                                                                |
-| :--------- | :-----:  | :-----: | -------: | -------------------------------------------------------------------------: |
-| `token`    | query    | string  |      Yes | Benzinga ウェブソケット用のトークン (bz.production***)。                   |
-| `tickers`  | query    | string  | Optional | 購読対象のティッカー一覧。カンマ区切り。                                   |
-| `isins`    | query    | string  | Optional | フィルタに使用する ISIN（国際証券識別番号）の一覧。カンマ区切り。         |
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Benzinga ウェブソケット API のトークン（bz.production***） |
+| `tickers` | No | ティッカーシンボルのカンマ区切りリスト（例: `AAPL,MSFT`） |
+| `isins` | No | フィルタに使用する ISIN（国際証券識別番号）のカンマ区切りリスト |
 
-<div id="stream-response">
-  ### ストリーム レスポンス
+<div id="message-example">
+  ## メッセージの例
 </div>
-
-ストリームにサブスクライブすると、アナリストのインサイトに関する更新が次の形式で受信されます。
 
 ```json
 {
-    "id": "839f1f45-fffe-4801-9284-11dae5c5dae4",
-    "api_version": "websocket/v1",
-    "kind": "data/v2.1/calendar/earnings",
-    "data": {
-        "action": "created",
-        "id": "66fffe978f3f630001a2ea56",
-        "content": {
-            "currency": "USD",
-            "cusip": "00401G109",
-            "date": "2024-10-04",
-            "date_confirmed": 0,
-            "eps": "",
-            "eps_est": "",
-            "eps_prior": "",
-            "eps_surprise": "",
-            "eps_surprise_percent": "",
-            "eps_type": "",
-            "exchange": "TSXV",
-            "id": "66fffe978f3f630001a2ea56",
-            "importance": 0,
-            "isin": "CA00401G1099",
-            "name": "ACADEMY METALS INC",
-            "notes": "",
-            "period": "Q3",
-            "period_year": 2023,
-            "revenue": "",
-            "revenue_est": "",
-            "revenue_prior": "",
-            "revenue_surprise": "",
-            "revenue_surprise_percent": "",
-            "revenue_type": "",
-            "ticker": "AM",
-            "time": "10:41:27",
-            "updated": 1728052946
-        },
-        "timestamp": "2024-10-04T14:42:27.167526889Z"
+  "id": "839f1f45-fffe-4801-9284-11dae5c5dae4",
+  "api_version": "websocket/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "created",
+    "id": "66fffe978f3f630001a2ea56",
+    "timestamp": "2024-10-04T14:42:27Z",
+    "content": {
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "exchange": "NASDAQ",
+      "date": "2024-10-04",
+      "time": "16:00:00",
+      "period": "Q4",
+      "period_year": 2024,
+      "eps": "1.47",
+      "eps_est": "1.39",
+      "eps_surprise": "0.08",
+      "eps_surprise_percent": "5.76",
+      "revenue": "89500000000",
+      "revenue_est": "89280000000",
+      "importance": 5
     }
+  }
 }
 ```
 
 
-<div id="responses">
-  #### レスポンス
+<div id="key-fields">
+  ### 主要フィールド
 </div>
 
-- **200 OK**
-- **説明**: 成功
-- **Content Type**: `application/json`
-- **スキーマ**: [EarningsWSResp](#earningswsresp)
+| Field | 説明 |
+|-------|-------------|
+| `eps` | 報告された実際の1株当たり利益 |
+| `eps_est` | アナリストコンセンサスによるEPS予想 |
+| `eps_surprise` | 実績値と予想値の差分 |
+| `eps_surprise_percent` | 予想値に対するサプライズの割合（％） |
+| `revenue` | 報告された実際の売上高 |
+| `revenue_est` | アナリストコンセンサスによる売上高予想 |
+| `importance` | 市場における重要度（0〜5、5が最大） |
 
-<div id="data-structures">
-  ## データ構造
+<div id="message-actions">
+  ### メッセージアクション
 </div>
 
-<div id="earningswsresp">
-  ### EarningsWSResp
+| アクション | 説明 |
+|--------|-------------|
+| `created` / `Created` | 新しい決算発表が作成された |
+| `updated` / `Updated` | 決算データが更新された |
+| `deleted` / `Deleted` | 決算発表が削除された |
+
+<div id="interactive-commands">
+  ## インタラクティブコマンド
 </div>
 
-決算データ用の主なレスポンス構造体です。
+| Command | Description |
+|---------|-------------|
+| `ping` | 接続を維持します（`pong` で応答します） |
+| `replay` | 最大 100 件までの直近のキャッシュ済みメッセージを再送します |
 
-| Parameter      | Type   | Description                                               |
-|----------------|--------|-----------------------------------------------------------|
-| id             | string | ウェブソケットレスポンスの一意なUUID                      |
-| api_version    | string | ウェブソケットAPIのバージョン                            |
-| kind           | string | ウェブソケット接続のストリームタイプ                     |
-| data           | object | 決算データのアクションおよび詳細を含みます               |
-
-<div id="data-object-inside-earningswsresp">
-  ### データオブジェクト（EarningsWSResp 内）
+<div id="best-practices">
+  ## ベストプラクティス
 </div>
 
-| Parameter      | Type   | Description                                                   |
-|----------------|--------|---------------------------------------------------------------|
-| action         | string | ウェブソケットのデータアクション（例: created、updated、deleted） |
-| id             | string | 決算データの ID                                               |
-| content        | object | 決算の詳細（後述参照）                                       |
-| timestamp      | string | データのタイムスタンプ                                       |
-
-<div id="earnings-schema-inside-data-content">
-  ### Earnings スキーマ（data content 内）
-</div>
-
-| Parameter               | Type     | Description                                               |
-|-------------------------|----------|-----------------------------------------------------------|
-| id                      | string   | 決算の一意な識別子                                         |
-| date                    | string   | カレンダー上で発表された日付                               |
-| date_confirmed          | string   | 決算発表日が確定しているかどうか（1/0）                    |
-| time                    | string   | カレンダー上で発表された時刻（24時間制）                  |
-| ticker                  | string   | ティッカーシンボル（F、MSFT など）                         |
-| exchange                | string   | 取引所（NYSE、NASDAQ など）                               |
-| name                    | string   | 証券の名称                                                 |
-| currency                | string   | データの通貨建て                                           |
-| period                  | string   | 決算実績の会計期間（Q1, Q2, Q3, Q4, FY, H1, H2）          |
-| period_year             | integer  | 決算実績の会計期間の年                                     |
-| eps_type                | string   | EPS の種類（Adj, GAAP, FFO）                              |
-| eps                     | string   | 比較可能かつ調整後の 1 株当たり利益（EPS）                |
-| eps_est                 | string   | 調整後 EPS のコンセンサス集計アナリスト予想              |
-| eps_prior               | string   | 前会計期間の調整後 EPS                                    |
-| eps_surprise            | string   | 予想値からの EPS の乖離                                   |
-| eps_surprise_percent    | string   | 予想値からの乖離（パーセンテージ）                        |
-| revenue_type            | string   | 売上高の種別（Adj, GAAP, FFO）                            |
-| revenue                 | string   | 売上高                                                     |
-| revenue_est             | string   | 売上高予想                                                 |
-| revenue_prior           | string   | 前会計期間の売上高                                        |
-| revenue_surprise        | string   | 予想値からの売上高の乖離                                  |
-| revenue_surprise_percent | string   | 予想値からの乖離（パーセンテージ）                        |
-| importance              | integer  | 本イベントが市場に与える重要度（0〜5）                    |
-| notes                   | string   | Benzinga Newsdesk による補足メモ                          |
-| updated                 | integer  | 最終更新日時のタイムスタンプ（UTC）                       |
-
-<div id="success-response">
-  ## 成功レスポンス
-</div>
-
-- ステータス `101` - ウェブソケット接続が正常に確立されました。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '700px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ✅ wss://api.benzinga.com/api/v2.1/calendar/earnings?token=bz.p*** に接続しました
-        </div>
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span><strong>リクエスト URL:</strong> </span>
-        <p style={{ color: 'blue' }}>
-            "https://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=bz"
-        </p>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>リクエストメソッド:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>ステータスコード:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
-    </div>
-</div>
-
-<div id="error-response">
-  ## エラーレスポンス
-</div>
-
-- Unauthorized `401` - 無効なトークンです。提供されたトークンを確認してください。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=bz.p*** に接続できませんでした
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        エラー: 予期しないサーバーレスポンス: 401
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>リクエストメソッド:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>ステータスコード:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
-    </div>
-</div>
-
-- Bad Gateway `502` - 無効なルートまたはサーバーエラーです。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=bz.p*** に接続できませんでした
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        エラー: 予期しないサーバーレスポンス: 502
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>リクエストメソッド:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>ステータスコード:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
-    </div>
-</div>
+- **重複排除**: 重複処理を防ぐために `id` フィールドを使用する
+- **重要度フィルター**: 市場インパクトの大きい決算では、重要度 4〜5 を重視する
+- **サプライズアラート**: 大きな決算サプライズに対してアラートのしきい値を設定する
+- **時刻**: `time` フィールドは、EST/EDT における24時間表記である点に注意する

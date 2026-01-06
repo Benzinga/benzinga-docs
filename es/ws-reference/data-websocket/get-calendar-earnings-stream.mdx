@@ -1,262 +1,132 @@
 ---
-title: "[Calendar] Flujo de resultados"
-description: "Obtener el flujo de resultados de calendar."
+title: "Flujo de resultados"
+description: "Anuncios de resultados y métricas financieras en tiempo real."
+asyncapi: "/asyncapi/calendar-earnings-stream.yml calendarEarnings"
 ---
 
-<div id="websocket-websocketv1">
-  ## WebSocket `websocket/v1`:
+<div id="overview">
+  ## Descripción general
 </div>
 
-```txt
-wss://api.benzinga.com/api/v2.1/calendar/earnings/stream
+Suscríbete a los anuncios de resultados en tiempo real y recibe actualizaciones instantáneas sobre los resultados financieros de las empresas, incluidas las ganancias por acción (EPS), los ingresos y las sorpresas en los resultados.
+
+<div id="key-features">
+  ### Características clave
+</div>
+
+- **Resultados en tiempo real**: Obtén notificaciones instantáneas de los anuncios de resultados a medida que ocurren
+- **Datos exhaustivos**: Incluye eps (ganancias por acción), ingresos, estimaciones, resultados reales y métricas de sorpresa
+- **Filtrar por valor**: Suscríbete a símbolos bursátiles o ISIN específicos
+- **Períodos de resultados**: Haz seguimiento de resultados de Q1, Q2, Q3, Q4 y del año completo (FY)
+- **Calificaciones de importancia**: Escala de 0 a 5 que indica la importancia en el mercado
+
+<div id="use-cases">
+  ### Casos de uso
+</div>
+
+- Crear calendarios de resultados y alertas en tiempo real
+- Hacer seguimiento de sorpresas en resultados y patrones de superación/incumplimiento de expectativas
+- Monitorear en tiempo real los resultados de las empresas de la cartera
+- Crear paneles de control para la temporada de resultados
+- Automatizar estrategias de trading basadas en resultados
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Utiliza la herramienta interactiva de prueba de WebSocket de arriba para conectarte y probar el flujo de datos en tiempo real.
+
+<div id="connection-url">
+  ### URL de conexión
+</div>
+
+```
+wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=YOUR_TOKEN
 ```
 
 
-<div id="parameters">
-  ### Parámetros
+<div id="query-parameters">
+  ### Parámetros de consulta
 </div>
 
-| Nombre     | Ubicación |  Tipo   | Obligatorio | Descripción                                                           |
-| :--------- | :-------: | :-----: | ----------: | --------------------------------------------------------------------: |
-| `token`    | query     | string  |        Yes  | token de WebSocket de Benzinga (bz.production***).                    |
-| `tickers`  | query     | string  |   Optional  | Lista de símbolos bursátiles a los que desea suscribirse, separados por comas. |
-| `isins`    | query     | string  |   Optional  | Lista de ISIN por los que desea filtrar, separados por comas.        |
+| Parámetro | Obligatorio | Descripción |
+|-----------|-------------|-------------|
+| `token` | Sí | Tu token de la API WebSocket de Benzinga (bz.production***) |
+| `tickers` | No | Lista de símbolos *ticker* separados por comas (p. ej., `AAPL,MSFT`) |
+| `isins` | No | Lista de ISIN separados por comas para filtrar |
 
-<div id="stream-response">
-  ### Respuesta del stream
+<div id="message-example">
+  ## Ejemplo de mensaje
 </div>
-
-Al suscribirte al stream, recibirás actualizaciones sobre perspectivas de analistas en el siguiente formato:
 
 ```json
 {
-    "id": "839f1f45-fffe-4801-9284-11dae5c5dae4",
-    "api_version": "websocket/v1",
-    "kind": "data/v2.1/calendar/earnings",
-    "data": {
-        "action": "created",
-        "id": "66fffe978f3f630001a2ea56",
-        "content": {
-            "currency": "USD",
-            "cusip": "00401G109",
-            "date": "2024-10-04",
-            "date_confirmed": 0,
-            "eps": "",
-            "eps_est": "",
-            "eps_prior": "",
-            "eps_surprise": "",
-            "eps_surprise_percent": "",
-            "eps_type": "",
-            "exchange": "TSXV",
-            "id": "66fffe978f3f630001a2ea56",
-            "importance": 0,
-            "isin": "CA00401G1099",
-            "name": "ACADEMY METALS INC",
-            "notes": "",
-            "period": "Q3",
-            "period_year": 2023,
-            "revenue": "",
-            "revenue_est": "",
-            "revenue_prior": "",
-            "revenue_surprise": "",
-            "revenue_surprise_percent": "",
-            "revenue_type": "",
-            "ticker": "AM",
-            "time": "10:41:27",
-            "updated": 1728052946
-        },
-        "timestamp": "2024-10-04T14:42:27.167526889Z"
+  "id": "839f1f45-fffe-4801-9284-11dae5c5dae4",
+  "api_version": "websocket/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "created",
+    "id": "66fffe978f3f630001a2ea56",
+    "timestamp": "2024-10-04T14:42:27Z",
+    "content": {
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "exchange": "NASDAQ",
+      "date": "2024-10-04",
+      "time": "16:00:00",
+      "period": "Q4",
+      "period_year": 2024,
+      "eps": "1.47",
+      "eps_est": "1.39",
+      "eps_surprise": "0.08",
+      "eps_surprise_percent": "5.76",
+      "revenue": "89500000000",
+      "revenue_est": "89280000000",
+      "importance": 5
     }
+  }
 }
 ```
 
 
-<div id="responses">
-  #### Respuestas
+<div id="key-fields">
+  ### Campos clave
 </div>
 
-- **200 OK**
-- **Descripción**: Éxito
-- **Tipo de contenido**: `application/json`
-- **Esquema**: [EarningsWSResp](#earningswsresp)
+| Field | Description |
+|-------|-------------|
+| `eps` | Ganancia por acción real informada |
+| `eps_est` | Estimación de EPS según consenso de analistas |
+| `eps_surprise` | Diferencia entre el valor real y la estimación |
+| `eps_surprise_percent` | Diferencia como porcentaje de la estimación |
+| `revenue` | Ingresos reales informados |
+| `revenue_est` | Estimación de ingresos según consenso de analistas |
+| `importance` | Importancia para el mercado (0-5, 5 = máxima) |
 
-<div id="data-structures">
-  ## Estructuras de datos
+<div id="message-actions">
+  ### Acciones de mensaje
 </div>
 
-<div id="earningswsresp">
-  ### EarningsWSResp
+| Acción | Descripción |
+|--------|-------------|
+| `created` / `Created` | Nuevo anuncio de resultados |
+| `updated` / `Updated` | Datos de resultados actualizados |
+| `deleted` / `Deleted` | Anuncio eliminado |
+
+<div id="interactive-commands">
+  ## Comandos interactivos
 </div>
 
-La estructura principal de la respuesta para datos de resultados.
+| Comando | Descripción |
+|---------|-------------|
+| `ping` | Mantiene la conexión activa (responde con `pong`) |
+| `replay` | Reproduce hasta los últimos 100 mensajes en caché |
 
-| Parámetro      | Tipo   | Descripción                                               |
-|----------------|--------|-----------------------------------------------------------|
-| id             | string | UUID único para la respuesta de WebSocket                |
-| api_version    | string | Versión de la API de WebSocket                           |
-| kind           | string | Tipo de flujo de conexión WebSocket                      |
-| data           | object | Contiene la acción y los detalles de los datos de resultados |
-
-<div id="data-object-inside-earningswsresp">
-  ### Objeto de datos (dentro de EarningsWSResp)
+<div id="best-practices">
+  ## Mejores prácticas
 </div>
 
-| Parámetro      | Tipo   | Descripción                                               |
-|----------------|--------|-----------------------------------------------------------|
-| action         | string | Acción de datos del WebSocket (por ejemplo, created, updated, deleted)  |
-| id             | string | ID de los datos de resultados                            |
-| content        | object | Detalles de los resultados (ver más abajo)               |
-| timestamp      | string | Marca de tiempo de los datos                             |
-
-<div id="earnings-schema-inside-data-content">
-  ### Esquema de Earnings (dentro de data content)
-</div>
-
-| Parameter               | Type     | Description                                               |
-|-------------------------|----------|-----------------------------------------------------------|
-| id                      | string   | Identificador único de los earnings                      |
-| date                    | string   | Fecha anunciada en el calendario                         |
-| date_confirmed          | string   | Indica si la fecha del informe fue confirmada (1/0)      |
-| time                    | string   | Hora anunciada en el calendario (formato 24 h)           |
-| ticker                  | string   | Símbolo del ticker (F, MSFT, etc.)                       |
-| exchange                | string   | Exchange (NYSE, NASDAQ, etc.)                            |
-| name                    | string   | Nombre del valor                                         |
-| currency                | string   | Moneda en la que están denominados los datos             |
-| period                  | string   | Período de los earnings reales (Q1, Q2, Q3, Q4, FY, H1, H2) |
-| period_year             | integer  | Año del período de los earnings reales                   |
-| eps_type                | string   | Tipo de EPS (Adj, GAAP, FFO)                             |
-| eps                     | string   | Ganancias por acción comparables y ajustadas             |
-| eps_est                 | string   | Estimación agregada de consenso de EPS ajustado          |
-| eps_prior               | string   | EPS ajustado del período anterior                        |
-| eps_surprise            | string   | Desviación del EPS respecto a la estimación              |
-| eps_surprise_percent    | string   | Desviación respecto a la estimación en porcentaje        |
-| revenue_type            | string   | Tipo de ingresos (Adj, GAAP, FFO)                        |
-| revenue                 | string   | Ingresos                                                 |
-| revenue_est             | string   | Estimación de ingresos                                   |
-| revenue_prior           | string   | Valor de ingresos del período anterior                   |
-| revenue_surprise        | string   | Desviación de los ingresos respecto a la estimación      |
-| revenue_surprise_percent | string  | Desviación respecto a la estimación en porcentaje        |
-| importance              | integer  | Importancia del evento para el mercado (0-5)             |
-| notes                   | string   | Notas adicionales proporcionadas por la redacción de noticias de Benzinga |
-| updated                 | integer  | Marca de tiempo de la última actualización (UTC)         |
-
-<div id="success-response">
-  ## Respuesta de éxito
-</div>
-
-- Éxito `101` - Conexión WebSocket establecida correctamente.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '700px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ✅ Conectado a wss://api.benzinga.com/api/v2.1/calendar/earnings?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Detalles del handshake
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span><strong>URL de la solicitud:</strong> </span>
-        <p style={{ color: 'blue' }}>
-            "https://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=bz"
-        </p>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
-    </div>
-</div>
-
-<div id="error-response">
-  ## Respuesta de error
-</div>
-
-- No autorizado `401` - token no válido; comprueba el token proporcionado.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ No se pudo conectar a wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: respuesta inesperada del servidor: 401
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Detalles del handshake
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
-    </div>
-</div>
-
-- Bad Gateway `502` - ruta no válida o error del servidor.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ No se pudo conectar a wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: respuesta inesperada del servidor: 502
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Detalles del handshake
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
-    </div>
-</div>
+- **Eliminación de duplicados**: Usa el campo `id` para evitar procesar elementos duplicados
+- **Filtro de importancia**: Concéntrate en los resultados más importantes (4-5) para un impacto significativo en el mercado
+- **Alertas de sorpresa**: Configura umbrales para detectar sorpresas significativas en los resultados
+- **Horario**: Ten en cuenta que el campo `time` usa el formato horario de 24 horas en EST/EDT

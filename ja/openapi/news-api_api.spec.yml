@@ -287,8 +287,6 @@ paths:
       summary: 削除済みニュースデータを返します
       tags:
         - News
-servers:
-  - url: //api.benzinga.com/api/v2
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -384,3 +382,6 @@ components:
           example: AAPL
           type: string
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: 本番
