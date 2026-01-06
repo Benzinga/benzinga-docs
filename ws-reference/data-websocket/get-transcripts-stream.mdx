@@ -1,0 +1,248 @@
+---
+title: "Transcripts Stream"
+description: "Real-time earnings call transcripts sentence-by-sentence as they're spoken."
+asyncapi: "/asyncapi/transcripts-stream.yml transcripts"
+---
+
+## Overview
+
+Subscribe to real-time earnings call transcripts and receive sentence-by-sentence updates as they're spoken during live earnings calls. Perfect for building real-time transcript viewers and analysis tools.
+
+### Key Features
+
+- **Live Transcription**: Get real-time sentence updates as speakers talk during earnings calls
+- **Word-Level Timing**: Each sentence includes individual word timestamps and confidence scores
+- **Speaker Identification**: Track who is speaking (executives, analysts, etc.)
+- **Status Tracking**: Monitor whether transcripts are in progress or complete
+- **Flexible Subscription**: Subscribe to specific tickers or all transcripts with `*`
+- **Mock Testing**: Test your integration with mock data when no live calls are active
+
+### Use Cases
+
+- Build real-time earnings call transcript viewers
+- Create live captioning and accessibility tools
+- Perform real-time sentiment analysis on earnings calls
+- Extract key phrases and metrics as they're mentioned
+- Alert on specific keywords or topics during live calls
+- Archive complete transcripts with precise timing data
+
+## Quick Start
+
+Use the interactive WebSocket tester above to connect and test the stream in real-time.
+
+### Connection URL
+
+```
+wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_TOKEN
+```
+
+### Query Parameters
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Your Benzinga WebSocket API token |
+
+## Subscription Commands
+
+Send JSON commands to control your subscriptions:
+
+### Subscribe to a Ticker
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "AAPL"
+}
+```
+
+### Subscribe to All Transcripts
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "*"
+}
+```
+
+### Unsubscribe from a Ticker
+
+```json
+{
+  "action": "unsubscribe",
+  "ticker": "AAPL"
+}
+```
+
+### List Active Transcripts
+
+```json
+{
+  "action": "list"
+}
+```
+
+### Keep Connection Alive
+
+```json
+{
+  "action": "ping"
+}
+```
+
+### Test with Mock Data
+
+When no live transcripts are available, use mock mode for testing:
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "AAPL",
+  "mock": true
+}
+```
+
+Supported mock tickers: `AAPL`, `MSFT`, `TSLA`
+
+## Message Example
+
+```json
+{
+  "call_id": "call_123456",
+  "transcript_id": "550e8400-e29b-41d4-a716-446655440000",
+  "call_title": "Apple Inc. Q4 2024 Earnings Call",
+  "sentence": "Revenue for the quarter was 89.5 billion dollars.",
+  "start_time": "2024-01-15T16:30:15Z",
+  "end_time": "2024-01-15T16:30:19Z",
+  "symbol": "AAPL",
+  "exchange": "NASDAQ",
+  "name": "Apple Inc.",
+  "sequence": 42,
+  "status": "IN_PROGRESS",
+  "speaker": "Tim Cook, CEO",
+  "type": "LIVE",
+  "language": "en",
+  "confidence": 0.98,
+  "words": [
+    {
+      "text": "Revenue",
+      "confidence": 0.99,
+      "start": 0,
+      "end": 450
+    },
+    {
+      "text": "for",
+      "confidence": 0.98,
+      "start": 450,
+      "end": 600
+    }
+  ],
+  "created_time": "2024-01-15T16:30:19Z"
+}
+```
+
+### Key Fields
+
+| Field | Description |
+|-------|-------------|
+| `sentence` | The complete sentence text spoken |
+| `sequence` | Order of this sentence in the transcript (0, 1, 2...) |
+| `speaker` | Name/identifier of the person speaking |
+| `status` | `IN_PROGRESS` (live) or `COMPLETE` (finished) |
+| `confidence` | Overall accuracy confidence (0.0 - 1.0) |
+| `words` | Array of individual words with timing and confidence |
+| `start_time` / `end_time` | ISO 8601 timestamps for sentence timing |
+
+### Transcript Status
+
+| Status | Description |
+|--------|-------------|
+| `IN_PROGRESS` | Transcript is currently live and receiving updates |
+| `COMPLETE` | Transcript has finished, no more updates expected |
+
+## Word-Level Data
+
+Each sentence includes detailed word-level information:
+
+```json
+{
+  "text": "Revenue",
+  "confidence": 0.99,
+  "start": 0,
+  "end": 450
+}
+```
+
+- **text**: The word itself
+- **confidence**: Recognition confidence (0.0 - 1.0)
+- **start/end**: Timing offsets in milliseconds from sentence start
+
+## Interactive Commands
+
+| Command | Parameters | Description |
+|---------|-----------|-------------|
+| `subscribe` | `ticker` | Subscribe to transcript updates for a ticker |
+| `unsubscribe` | `ticker` | Stop receiving updates for a ticker |
+| `list` | - | Get list of active/available transcripts |
+| `subscribed` | - | Get list of your current subscriptions |
+| `ping` | - | Keep connection alive (responds with `pong`) |
+| `echo` | `message` | Echo test (responds with your message) |
+
+## Best Practices
+
+### Real-Time Display
+- **Buffer Management**: Display sentences in sequence order using the `sequence` field
+- **Speaker Formatting**: Format differently based on `speaker` (executives vs analysts)
+- **Status Indicators**: Show visual indicators for `IN_PROGRESS` vs `COMPLETE` status
+
+### Performance
+- **Wildcard Caution**: Using `ticker: "*"` subscribes to ALL transcripts, which can be high volume
+- **Targeted Subscriptions**: Subscribe only to tickers you need to reduce bandwidth
+- **Heartbeat**: Send `ping` every 30-60 seconds to maintain connection
+
+### Data Quality
+- **Confidence Filtering**: Consider ignoring or flagging sentences with low confidence scores
+- **Word Accuracy**: Use word-level confidence to identify uncertain transcriptions
+- **Language Handling**: Check `language` field for proper text rendering
+
+### Testing
+- **Mock Mode**: Use `mock: true` for development when no live calls are active
+- **Echo Testing**: Use `echo` action to verify connection and message handling
+- **List Command**: Check `list` to see what's currently available
+
+## Example Integration
+
+```javascript
+const ws = new WebSocket(
+  'wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_TOKEN'
+);
+
+ws.onopen = () => {
+  // Subscribe to Apple transcripts
+  ws.send(JSON.stringify({
+    action: 'subscribe',
+    ticker: 'AAPL'
+  }));
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+
+  // Display the sentence with speaker
+  console.log(`[${data.sequence}] ${data.speaker}: ${data.sentence}`);
+
+  // Check if transcript is complete
+  if (data.status === 'COMPLETE') {
+    console.log('Transcript finished');
+  }
+};
+
+// Keep connection alive
+setInterval(() => {
+  ws.send(JSON.stringify({ action: 'ping' }));
+}, 30000);
+```
+
+## Related Documentation
+
+- [WebSocket Introduction](../introduction) - General WebSocket concepts and connection basics
+- [Authentication](../authentication) - How to obtain and use API tokens

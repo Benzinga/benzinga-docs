@@ -1,0 +1,160 @@
+asyncapi: '3.0.0'
+info:
+  title: Benzinga Analyst Insights WebSocket Stream
+  version: 1.0.0
+  description: |
+    WebSocket API providing real-time analyst insights for specific ticker symbols.
+
+    **Authentication**
+    - Clients must provide their API token as a query parameter:
+      ```
+      wss://api.benzinga.com/api/v1/analyst/insights/stream?token=YOUR_API_TOKEN
+      ```
+    - Upon connect, you'll receive status messages for connection and authentication.
+
+    **Filtering**
+    - Filter by tickers: Use `tickers` query parameter (comma-separated)
+    - Filter by ISINs: Use `isins` query parameter (comma-separated)
+
+    **Actions**
+    - `ping`: Keeps the WebSocket connection alive
+    - `replay`: Replays up to the last 100 messages (cache-dependent)
+
+servers:
+  production:
+    host: api.benzinga.com/api/v1/analyst/insights
+    protocol: wss
+    description: Real-time analyst insights stream endpoint
+    security:
+      - $ref: '#/components/securitySchemes/tokenAuth'
+
+channels:
+  analystInsights:
+    address: stream
+    messages:
+      publish:
+        $ref: '#/components/messages/ActionRequest'
+      subscribe:
+        $ref: '#/components/messages/AnalystInsightMessage'
+    description: Send action commands; receive real-time analyst insights
+
+operations:
+  analystInsights.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/analystInsights'
+    summary: Send commands to the server
+    messages:
+      - $ref: '#/channels/analystInsights/messages/publish'
+  analystInsights.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/analystInsights'
+    summary: Receive real-time analyst insights
+    messages:
+      - $ref: '#/channels/analystInsights/messages/subscribe'
+
+components:
+  securitySchemes:
+    tokenAuth:
+      type: httpApiKey
+      name: token
+      in: query
+      description: Benzinga WebSocket API token (bz.production***)
+
+  messages:
+    ActionRequest:
+      summary: Send action commands (ping, replay)
+      contentType: text/plain
+      payload:
+        type: string
+        enum: [ping, replay]
+        description: Action to perform (ping for heartbeat, replay for message history)
+
+    AnalystInsightMessage:
+      summary: Analyst insight event
+      contentType: application/json
+      payload:
+        type: object
+        required: [id, api_version, kind, data]
+        properties:
+          id:
+            type: string
+            format: uuid
+            description: Unique UUID for the websocket response
+          api_version:
+            type: string
+            enum: [websocket/v1]
+            description: Websocket API version
+          kind:
+            type: string
+            description: Websocket connection stream type
+          data:
+            type: object
+            required: [action, id, content, timestamp]
+            properties:
+              action:
+                type: string
+                enum: [created, updated, deleted, Created, Updated, Deleted]
+                description: Websocket data action
+              id:
+                type: string
+                description: Data ID for the analyst insight
+              timestamp:
+                type: string
+                format: date-time
+                description: Timestamp of the data
+              content:
+                type: object
+                properties:
+                  action:
+                    type: string
+                    description: "Analyst's action on the stock (e.g., Maintains, Upgrades)"
+                  analyst_insights:
+                    type: string
+                    description: Detailed insights from the analyst
+                  date:
+                    type: string
+                    format: date
+                    description: Date of the analyst insight
+                  firm:
+                    type: string
+                    description: Name of the firm providing the insight
+                  firm_id:
+                    type: string
+                    description: Unique identifier for the firm
+                  id:
+                    type: string
+                    format: uuid
+                    description: Unique identifier for the analyst insight
+                  pt:
+                    type: string
+                    description: Price target given by the analyst
+                  rating:
+                    type: string
+                    description: Rating provided by the analyst
+                  rating_id:
+                    type: string
+                    description: Unique identifier for the rating
+                  security:
+                    type: object
+                    properties:
+                      cik:
+                        type: string
+                        description: Central Index Key of the security
+                      exchange:
+                        type: string
+                        description: Exchange where the security is listed
+                      isin:
+                        type: string
+                        description: International Securities Identification Number
+                      name:
+                        type: string
+                        description: Name of the security
+                      symbol:
+                        type: string
+                        description: Ticker symbol of the security
+                  updated:
+                    type: integer
+                    format: int64
+                    description: Timestamp of when the insight was last updated

@@ -1,0 +1,204 @@
+asyncapi: '3.0.0'
+info:
+  title: Benzinga Transcripts WebSocket API
+  version: 1.0.0
+  description: |
+    WebSocket API that allows clients to subscribe to real-time earnings call transcripts.
+
+    **Authentication**
+    - Clients must provide their API token as a query parameter:
+      ```
+      wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_API_TOKEN
+      ```
+    - Upon connect, you'll receive status messages for connection and authentication.
+
+    **Subscription**
+    - Send a subscription request after authentication
+    - Subscribe to specific ticker symbols or use `*` for all transcripts
+    - Receive sentence-by-sentence updates as they're spoken during live calls
+
+    **Actions**
+    - `subscribe`: Subscribe to transcript updates for a ticker
+    - `unsubscribe`: Unsubscribe from a ticker
+    - `list`: List available/active transcripts
+    - `ping`: Keep the connection alive
+    - `echo`: Test message echo
+
+servers:
+  production:
+    host: api.benzinga.com/api/v1/transcripts
+    protocol: wss
+    description: Real-time transcript stream endpoint
+    security:
+      - $ref: '#/components/securitySchemes/tokenAuth'
+
+channels:
+  transcripts:
+    address: stream
+    messages:
+      publish:
+        $ref: '#/components/messages/ActionRequest'
+      subscribe:
+        $ref: '#/components/messages/TranscriptMessage'
+    description: Send action commands; receive real-time transcript updates
+
+operations:
+  transcripts.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/transcripts'
+    summary: Send commands to the server
+    messages:
+      - $ref: '#/channels/transcripts/messages/publish'
+  transcripts.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/transcripts'
+    summary: Receive real-time transcript data
+    messages:
+      - $ref: '#/channels/transcripts/messages/subscribe'
+
+components:
+  securitySchemes:
+    tokenAuth:
+      type: httpApiKey
+      name: token
+      in: query
+      description: Benzinga WebSocket API token
+
+  messages:
+    ActionRequest:
+      summary: WebSocket command to interact with transcript stream
+      contentType: application/json
+      payload:
+        type: object
+        required: [action]
+        properties:
+          action:
+            type: string
+            enum: [list, subscribe, unsubscribe, subscribed, echo, ping]
+            description: Action to perform
+          ticker:
+            type: string
+            description: Stock ticker symbol (e.g., AAPL) or '*' for all transcripts
+          message:
+            type: string
+            description: Optional message for echo testing
+          mock:
+            type: boolean
+            description: Optional boolean for mock testing when no live transcripts
+      examples:
+        - name: List active transcripts
+          payload:
+            action: list
+        - name: Subscribe to AAPL
+          payload:
+            action: subscribe
+            ticker: AAPL
+        - name: Subscribe to all
+          payload:
+            action: subscribe
+            ticker: '*'
+        - name: Unsubscribe from AAPL
+          payload:
+            action: unsubscribe
+            ticker: AAPL
+        - name: Echo test
+          payload:
+            action: echo
+            message: test
+        - name: Ping
+          payload:
+            action: ping
+
+    TranscriptMessage:
+      summary: Real-time transcript message
+      contentType: application/json
+      payload:
+        type: object
+        required: [call_id, transcript_id, sentence, symbol, sequence, status]
+        properties:
+          call_id:
+            type: string
+            description: Unique identifier for the earnings call
+          transcript_id:
+            type: string
+            format: uuid
+            description: Unique identifier for this transcript
+          call_title:
+            type: string
+            description: Title of the earnings call
+          sentence:
+            type: string
+            description: The spoken sentence text
+          start_time:
+            type: string
+            format: date-time
+            description: When this sentence started
+          end_time:
+            type: string
+            format: date-time
+            description: When this sentence ended
+          symbol:
+            type: string
+            description: Stock ticker symbol (e.g., AAPL)
+          exchange:
+            type: string
+            description: Exchange where security is listed
+          isin:
+            type: string
+            description: International Securities Identification Number
+          cusip:
+            type: string
+            description: CUSIP identifier
+          name:
+            type: string
+            description: Company name
+          sequence:
+            type: integer
+            description: Sequence number of this sentence in the transcript
+          status:
+            type: string
+            enum: [IN_PROGRESS, COMPLETE]
+            description: Status of the transcript
+          words:
+            type: array
+            description: Individual words with timing and confidence
+            items:
+              type: object
+              properties:
+                confidence:
+                  type: number
+                  description: Confidence score for word recognition
+                start:
+                  type: integer
+                  description: Start time offset in milliseconds
+                end:
+                  type: integer
+                  description: End time offset in milliseconds
+                text:
+                  type: string
+                  description: The word text
+          confidence:
+            type: number
+            description: Overall confidence score for the sentence
+          speaker:
+            type: string
+            description: Name or identifier of the speaker
+          type:
+            type: string
+            enum: [LIVE]
+            description: Type of transcript (LIVE for real-time)
+          language:
+            type: string
+            description: Language code (e.g., en, en-US)
+          participants:
+            type: array
+            nullable: true
+            description: List of call participants
+            items:
+              type: object
+          created_time:
+            type: string
+            format: date-time
+            description: When this transcript entry was created

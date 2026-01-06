@@ -1,0 +1,128 @@
+asyncapi: '3.0.0'
+info:
+  title: Benzinga Bulls/Bears Say WebSocket Stream
+  version: 1.0.0
+  description: |
+    WebSocket API providing real-time bull and bear case scenarios for securities.
+
+    **Authentication**
+    - Clients must provide their API token as a query parameter:
+      ```
+      wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=YOUR_API_TOKEN
+      ```
+    - Upon connect, you'll receive status messages for connection and authentication.
+
+    **Filtering**
+    - Filter by tickers: Use `tickers` query parameter (comma-separated)
+    - Filter by ISINs: Use `isins` query parameter (comma-separated)
+
+    **Actions**
+    - `ping`: Keeps the WebSocket connection alive
+    - `replay`: Replays up to the last 100 messages (cache-dependent)
+
+servers:
+  production:
+    host: api.benzinga.com/api/v1/bulls_bears_say
+    protocol: wss
+    description: Real-time bulls/bears say stream endpoint
+    security:
+      - $ref: '#/components/securitySchemes/tokenAuth'
+
+channels:
+  bullsBearsSay:
+    address: stream
+    messages:
+      publish:
+        $ref: '#/components/messages/ActionRequest'
+      subscribe:
+        $ref: '#/components/messages/BullBearMessage'
+    description: Send action commands; receive real-time bull/bear case updates
+
+operations:
+  bullsBearsSay.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/bullsBearsSay'
+    summary: Send commands to the server
+    messages:
+      - $ref: '#/channels/bullsBearsSay/messages/publish'
+  bullsBearsSay.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/bullsBearsSay'
+    summary: Receive real-time bull/bear case data
+    messages:
+      - $ref: '#/channels/bullsBearsSay/messages/subscribe'
+
+components:
+  securitySchemes:
+    tokenAuth:
+      type: httpApiKey
+      name: token
+      in: query
+      description: Benzinga WebSocket API token (bz.production***)
+
+  messages:
+    ActionRequest:
+      summary: Send action commands (ping, replay)
+      contentType: text/plain
+      payload:
+        type: string
+        enum: [ping, replay]
+        description: Action to perform (ping for heartbeat, replay for message history)
+
+    BullBearMessage:
+      summary: Bull/Bear case event
+      contentType: application/json
+      payload:
+        type: object
+        required: [id, api_version, kind, data]
+        properties:
+          id:
+            type: string
+            format: uuid
+            description: Unique UUID for the websocket response
+          api_version:
+            type: string
+            enum: [websocket/v1]
+            description: Websocket API version
+          kind:
+            type: string
+            enum: [bull_bear_case]
+            description: Websocket connection stream type
+          data:
+            type: object
+            required: [action, id, content, timestamp]
+            properties:
+              action:
+                type: string
+                enum: [created, updated, deleted, Created, Updated, Deleted]
+                description: Websocket data action
+              id:
+                type: string
+                description: Data ID for the bull/bear case
+              timestamp:
+                type: string
+                format: date-time
+                description: Timestamp of the data
+              content:
+                type: object
+                required: [bear_case, bull_case, id, ticker, updated]
+                properties:
+                  bear_case:
+                    type: string
+                    description: Description of the bear case scenario
+                  bull_case:
+                    type: string
+                    description: Description of the bull case scenario
+                  id:
+                    type: string
+                    format: uuid
+                    description: Unique identifier for the bull/bear case
+                  ticker:
+                    type: string
+                    description: Stock ticker symbol related to the bull/bear case
+                  updated:
+                    type: integer
+                    format: int64
+                    description: Timestamp of when the case was last updated

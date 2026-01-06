@@ -1,0 +1,199 @@
+asyncapi: '3.0.0'
+info:
+  title: Benzinga Calendar Ratings WebSocket Stream
+  version: 2.1.0
+  description: |
+    WebSocket API providing real-time analyst ratings data for specific ticker symbols.
+
+    **Authentication**
+    - Clients must provide their API token as a query parameter:
+      ```
+      wss://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=YOUR_API_TOKEN
+      ```
+    - Upon connect, you'll receive status messages for connection and authentication.
+
+    **Filtering**
+    - Filter by tickers: Use `tickers` query parameter (comma-separated)
+    - Filter by ISINs: Use `isins` query parameter (comma-separated)
+
+    **Actions**
+    - `ping`: Keeps the WebSocket connection alive
+    - `replay`: Replays up to the last 100 messages (cache-dependent)
+
+servers:
+  production:
+    host: api.benzinga.com/api/v2.1/calendar/ratings
+    protocol: wss
+    description: Real-time calendar ratings stream endpoint
+    security:
+      - $ref: '#/components/securitySchemes/tokenAuth'
+
+channels:
+  calendarRatings:
+    address: stream
+    messages:
+      publish:
+        $ref: '#/components/messages/ActionRequest'
+      subscribe:
+        $ref: '#/components/messages/RatingsMessage'
+    description: Send action commands; receive real-time ratings updates
+
+operations:
+  calendarRatings.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/calendarRatings'
+    summary: Send commands to the server
+    messages:
+      - $ref: '#/channels/calendarRatings/messages/publish'
+  calendarRatings.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/calendarRatings'
+    summary: Receive real-time ratings data
+    messages:
+      - $ref: '#/channels/calendarRatings/messages/subscribe'
+
+components:
+  securitySchemes:
+    tokenAuth:
+      type: httpApiKey
+      name: token
+      in: query
+      description: Benzinga WebSocket API token (bz.production***)
+
+  messages:
+    ActionRequest:
+      summary: Send action commands (ping, replay)
+      contentType: text/plain
+      payload:
+        type: string
+        enum: [ping, replay]
+        description: Action to perform (ping for heartbeat, replay for message history)
+
+    RatingsMessage:
+      summary: Analyst ratings event
+      contentType: application/json
+      payload:
+        type: object
+        required: [id, api_version, kind, data]
+        properties:
+          id:
+            type: string
+            format: uuid
+            description: Unique UUID for the websocket response
+          api_version:
+            type: string
+            enum: [websocket/v1]
+            description: Websocket API version
+          kind:
+            type: string
+            enum: [data/v2.1/calendar/ratings]
+            description: Websocket connection stream type
+          data:
+            type: object
+            required: [action, id, content, timestamp]
+            properties:
+              action:
+                type: string
+                enum: [created, updated, deleted, Created, Updated, Deleted]
+                description: Websocket data action
+              id:
+                type: string
+                description: Data ID for the rating
+              timestamp:
+                type: string
+                format: date-time
+                description: Timestamp of the data
+              content:
+                type: object
+                required: [id, date, ticker, exchange, name]
+                properties:
+                  id:
+                    type: string
+                    description: Unique ID of this entry
+                  date:
+                    type: string
+                    format: date
+                    description: Date for rating
+                  time:
+                    type: string
+                    description: Time for rating
+                  ticker:
+                    type: string
+                    description: Ticker symbol of the company that is the subject of the rating
+                  exchange:
+                    type: string
+                    description: Exchange (NYSE, NASDAQ, etc...)
+                  isin:
+                    type: string
+                    description: International Securities Identification Number
+                  cusip:
+                    type: string
+                    description: CUSIP identifier
+                  name:
+                    type: string
+                    description: Name of the company that is the subject of the rating
+                  currency:
+                    type: string
+                    description: Currency the data is denominated in
+                  action_pt:
+                    type: string
+                    description: Description of the change in price target from the firm's last price target
+                  action_company:
+                    type: string
+                    description: Description of the change in rating from the firm's last rating
+                  rating_current:
+                    type: string
+                    description: The analyst's current rating for the company
+                  pt_current:
+                    type: string
+                    description: Analyst's current price target
+                  adjusted_pt_current:
+                    type: string
+                    description: Analyst's current price target, adjusted for stock splits and dividends
+                  rating_prior:
+                    type: string
+                    description: Prior analyst rating for the company
+                  pt_prior:
+                    type: string
+                    description: Analyst's prior price target
+                  adjusted_pt_prior:
+                    type: string
+                    description: Analyst's prior price target, adjusted for stock splits and dividends
+                  url:
+                    type: string
+                    format: uri
+                    description: URL for the analyst ratings page for this ticker on Benzinga.com
+                  url_calendar:
+                    type: string
+                    format: uri
+                    description: URL for the analyst ratings page for this ticker on Benzinga.com
+                  url_news:
+                    type: string
+                    format: uri
+                    description: URL for the analyst ratings news articles for this ticker on Benzinga.com
+                  analyst:
+                    type: string
+                    description: Name of the analyst firm that published the rating
+                  analyst_id:
+                    type: string
+                    description: ID of the analyst
+                  analyst_name:
+                    type: string
+                    description: Name of the analyst (person) that published the rating
+                  firm_id:
+                    type: string
+                    description: Unique identifier for the firm
+                  importance:
+                    type: integer
+                    minimum: 0
+                    maximum: 5
+                    description: Subjective basis of how important the event is to the market (5 = High)
+                  notes:
+                    type: string
+                    description: Additional notes provided by the Benzinga Newsdesk where applicable
+                  updated:
+                    type: integer
+                    format: int64
+                    description: Last updated timestamp in UTC

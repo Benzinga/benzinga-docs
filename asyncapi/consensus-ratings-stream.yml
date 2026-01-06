@@ -1,0 +1,147 @@
+asyncapi: '3.0.0'
+info:
+  title: Benzinga Consensus Ratings WebSocket Stream
+  version: 1.0.0
+  description: |
+    WebSocket API providing real-time consensus ratings data for specific ticker symbols.
+
+    **Authentication**
+    - Clients must provide their API token as a query parameter:
+      ```
+      wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=YOUR_API_TOKEN
+      ```
+    - Upon connect, you'll receive status messages for connection and authentication.
+
+    **Filtering**
+    - Filter by tickers: Use `tickers` query parameter (comma-separated)
+    - Filter by ISINs: Use `isins` query parameter (comma-separated)
+    - Simplify ratings: Use `simplify` query parameter to simplify ratings to Buy, Hold, Sell
+    - Aggregate type: Use `aggregate_type` query parameter (number or percentage)
+
+    **Actions**
+    - `ping`: Keeps the WebSocket connection alive
+    - `replay`: Replays up to the last 100 messages (cache-dependent)
+
+servers:
+  production:
+    host: api.benzinga.com/api/v1/consensus-ratings
+    protocol: wss
+    description: Real-time consensus ratings stream endpoint
+    security:
+      - $ref: '#/components/securitySchemes/tokenAuth'
+
+channels:
+  consensusRatings:
+    address: stream
+    messages:
+      publish:
+        $ref: '#/components/messages/ActionRequest'
+      subscribe:
+        $ref: '#/components/messages/ConsensusRatingsMessage'
+    description: Send action commands; receive real-time consensus ratings updates
+
+operations:
+  consensusRatings.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/consensusRatings'
+    summary: Send commands to the server
+    messages:
+      - $ref: '#/channels/consensusRatings/messages/publish'
+  consensusRatings.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/consensusRatings'
+    summary: Receive real-time consensus ratings data
+    messages:
+      - $ref: '#/channels/consensusRatings/messages/subscribe'
+
+components:
+  securitySchemes:
+    tokenAuth:
+      type: httpApiKey
+      name: token
+      in: query
+      description: Benzinga WebSocket API token (bz.production***)
+
+  messages:
+    ActionRequest:
+      summary: Send action commands (ping, replay)
+      contentType: text/plain
+      payload:
+        type: string
+        enum: [ping, replay]
+        description: Action to perform (ping for heartbeat, replay for message history)
+
+    ConsensusRatingsMessage:
+      summary: Consensus ratings event
+      contentType: application/json
+      payload:
+        type: object
+        required: [id, api_version, kind, data]
+        properties:
+          id:
+            type: string
+            format: uuid
+            description: Unique UUID for the websocket response
+          api_version:
+            type: string
+            enum: [websocket/v1]
+            description: Websocket API version
+          kind:
+            type: string
+            enum: [data/v2.1/calendar/ratings]
+            description: Websocket connection stream type
+          data:
+            type: object
+            required: [aggregate_ratings, aggregate_type, consensus_rating]
+            properties:
+              aggregate_ratings:
+                type: object
+                description: Contains all the ratings categorized by SELL, HOLD, BUY
+                properties:
+                  strong_buy:
+                    type: integer
+                    description: Total strong_buy count/percentage
+                  buy:
+                    type: integer
+                    description: Total buy count/percentage
+                  hold:
+                    type: integer
+                    description: Total hold count/percentage
+                  sell:
+                    type: integer
+                    description: Total sell count/percentage
+                  strong_sell:
+                    type: integer
+                    description: Total strong_sell count/percentage
+              aggregate_type:
+                type: string
+                enum: [number, percentage]
+                description: Type of aggregation, Number or Percentage
+              consensus_price_target:
+                type: number
+                description: Average price target
+              consensus_rating:
+                type: string
+                enum: [SELL, HOLD, BUY]
+                description: Scale value, SELL, HOLD, BUY
+              consensus_rating_val:
+                type: number
+                description: Value in float
+              high_price_target:
+                type: number
+                description: Highest price target in the specific timeline
+              low_price_target:
+                type: number
+                description: Lowest price target in the specific timeline
+              total_analyst_count:
+                type: integer
+                description: Total analyst ratings in the timeline
+              unique_analyst_count:
+                type: integer
+                description: Unique analyst count in the timeline
+              updated_at:
+                type: string
+                format: date-time
+                description: Last updated timestamp in UTC

@@ -1,24 +1,46 @@
 ---
-title: "Bulls/Bears Stream"
-description: "Get bull say bear say stream."
+title: "Bulls/Bears Say Stream"
+description: "Real-time bull and bear case scenarios for securities."
+asyncapi: "/asyncapi/bulls-bears-say-stream.yml bullsBearsSay"
 ---
 
-## WebSocket `websocket/v1`:
+## Overview
 
-```txt
-wss://api.benzinga.com/api/v1/analyst/insights/stream
+Subscribe to real-time bull and bear case analyses for securities. Get balanced perspectives on both positive (bullish) and negative (bearish) scenarios for stocks.
+
+### Key Features
+
+- **Balanced Analysis**: Receive both bull and bear cases for comprehensive market insight
+- **Real-time Updates**: Get instant notifications when cases are created, updated, or removed
+- **Filter by Security**: Subscribe to specific tickers or ISINs
+- **Market Sentiment**: Understand both optimistic and pessimistic viewpoints
+
+### Use Cases
+
+- Build sentiment analysis dashboards showing both sides of the argument
+- Track changes in bull/bear sentiment over time
+- Alert users to significant shifts in market perspective
+- Provide balanced investment research to clients
+
+## Quick Start
+
+Use the interactive WebSocket tester above to connect and test the stream in real-time.
+
+### Connection URL
+
+```
+wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=YOUR_TOKEN
 ```
 
-#### Parameters
+### Query Parameters
 
-| Name       | Location |  Type   | Required | Description                                                             |
-| :--------- | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
-| `token`    | query    | string  |      Yes | Benzinga websocket token (bz.production***).                            |
-| `tickers`  | query    | string  | Optional | List of tickers you want to subscribe for. Seperated by comma.          |
-| `isins`    | query    | string  | Optional | List of isins you want to filter by. Seperated by comma.                |
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Your Benzinga WebSocket API token (bz.production***) |
+| `tickers` | No | Comma-separated list of ticker symbols (e.g., `AAPL,TSLA`) |
+| `isins` | No | Comma-separated list of ISINs to filter |
 
-### Stream Response:
-When you subscribe to the stream, you'll receive updates about analyst insights in the following format:
+## Message Example
 
 ```json
 {
@@ -28,167 +50,35 @@ When you subscribe to the stream, you'll receive updates about analyst insights 
   "data": {
     "action": "created",
     "id": "case123",
+    "timestamp": "2024-10-01T10:00:00Z",
     "content": {
-      "bear_case": "Market downturn expected.",
-      "bull_case": "Positive earnings forecast.",
-      "id": "case123",
+      "bull_case": "Strong earnings growth and market expansion expected.",
+      "bear_case": "Increased competition and regulatory pressures.",
       "ticker": "AAPL",
       "updated": 1696153200
-    },
-    "timestamp": "2024-10-01T10:00:00Z"
+    }
   }
 }
 ```
 
-#### Responses
+### Message Actions
 
-- **200 OK**
-- **Description**: Success
-- **Content Type**: `application/json`
-- **Schema**: [BullBearWSResp](#bullbearwsresp)
+| Action | Description |
+|--------|-------------|
+| `created` / `Created` | New bull/bear case published |
+| `updated` / `Updated` | Existing case modified |
+| `deleted` / `Deleted` | Case removed |
 
-### BullBearWSResp
+## Interactive Commands
 
-| Parameter      | Type   | Description                                           |
-|----------------|--------|-------------------------------------------------------|
-| id             | string | Unique UUID for the WebSocket response                |
-| api_version    | string | WebSocket API version                                 |
-| kind           | string | WebSocket connection stream type                       |
-| data           | object | Contains the action and details of the bull/bear case |
+| Command | Description |
+|---------|-------------|
+| `ping` | Keep connection alive (responds with `pong`) |
+| `replay` | Replay up to the last 100 cached messages |
 
-### Data Object (inside BullBearWSResp)
+## Best Practices
 
-| Parameter | Type   | Description                                               |
-|-----------|--------|-----------------------------------------------------------|
-| action    | string | WebSocket data action (e.g., created, updated, deleted) |
-| id        | string | Data ID for the bull/bear case                           |
-| content   | object | The bull/bear case details (see below)                   |
-| timestamp | string | Timestamp of the data                                     |
-
-### BullBearCase Schema (inside data content)
-
-| Parameter | Type     | Description                                               |
-|-----------|----------|-----------------------------------------------------------|
-| bear_case | string   | Description of the bear case scenario                     |
-| bull_case | string   | Description of the bull case scenario                     |
-| id        | string   | Unique identifier for the bull/bear case (UUID format)   |
-| ticker    | string   | Stock ticker symbol related to the bull/bear case        |
-| updated   | integer  | Timestamp of when the case was last updated (int64 format) |
-
-
-## Success Response
-
-- Success `101` - Websocket connection established successfully.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '700px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ✅ Connected to wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Handshake Details
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span><strong>Request URL:</strong> </span>
-        <p style={{ color: 'blue' }}>
-            "https://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz"
-        </p>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
-    </div>
-</div>
-
-## Error Response
-
-- Unauthorized `401` - Invalid token, check the token provided.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ Could not connect to wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: Unexpected server response: 401
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Handshake Details
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
-    </div>
-</div>
-
-- Bad Gateway `502` - Either invalid route or server error.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ Could not connect to wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: Unexpected server response: 502
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Handshake Details
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
-    </div>
-</div>
+- **Deduplication**: Use the `id` field to prevent processing duplicate messages
+- **Heartbeat**: Send `ping` commands every 30-60 seconds
+- **Balanced Presentation**: Display both bull and bear cases to provide fair analysis
+- **Update Tracking**: Monitor the `updated` timestamp to identify recent changes

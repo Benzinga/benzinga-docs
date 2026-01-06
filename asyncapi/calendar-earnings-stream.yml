@@ -1,0 +1,199 @@
+asyncapi: '3.0.0'
+info:
+  title: Benzinga Calendar Earnings WebSocket Stream
+  version: 2.1.0
+  description: |
+    WebSocket API providing real-time calendar earnings data for specific ticker symbols.
+
+    **Authentication**
+    - Clients must provide their API token as a query parameter:
+      ```
+      wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=YOUR_API_TOKEN
+      ```
+    - Upon connect, you'll receive status messages for connection and authentication.
+
+    **Filtering**
+    - Filter by tickers: Use `tickers` query parameter (comma-separated)
+    - Filter by ISINs: Use `isins` query parameter (comma-separated)
+
+    **Actions**
+    - `ping`: Keeps the WebSocket connection alive
+    - `replay`: Replays up to the last 100 messages (cache-dependent)
+
+servers:
+  production:
+    host: api.benzinga.com/api/v2.1/calendar/earnings
+    protocol: wss
+    description: Real-time calendar earnings stream endpoint
+    security:
+      - $ref: '#/components/securitySchemes/tokenAuth'
+
+channels:
+  calendarEarnings:
+    address: stream
+    messages:
+      publish:
+        $ref: '#/components/messages/ActionRequest'
+      subscribe:
+        $ref: '#/components/messages/EarningsMessage'
+    description: Send action commands; receive real-time earnings updates
+
+operations:
+  calendarEarnings.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/calendarEarnings'
+    summary: Send commands to the server
+    messages:
+      - $ref: '#/channels/calendarEarnings/messages/publish'
+  calendarEarnings.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/calendarEarnings'
+    summary: Receive real-time earnings data
+    messages:
+      - $ref: '#/channels/calendarEarnings/messages/subscribe'
+
+components:
+  securitySchemes:
+    tokenAuth:
+      type: httpApiKey
+      name: token
+      in: query
+      description: Benzinga WebSocket API token (bz.production***)
+
+  messages:
+    ActionRequest:
+      summary: Send action commands (ping, replay)
+      contentType: text/plain
+      payload:
+        type: string
+        enum: [ping, replay]
+        description: Action to perform (ping for heartbeat, replay for message history)
+
+    EarningsMessage:
+      summary: Earnings event
+      contentType: application/json
+      payload:
+        type: object
+        required: [id, api_version, kind, data]
+        properties:
+          id:
+            type: string
+            format: uuid
+            description: Unique UUID for the websocket response
+          api_version:
+            type: string
+            enum: [websocket/v1]
+            description: Websocket API version
+          kind:
+            type: string
+            enum: [data/v2.1/calendar/earnings]
+            description: Websocket connection stream type
+          data:
+            type: object
+            required: [action, id, content, timestamp]
+            properties:
+              action:
+                type: string
+                enum: [created, updated, deleted, Created, Updated, Deleted]
+                description: Websocket data action
+              id:
+                type: string
+                description: Data ID for the earnings
+              timestamp:
+                type: string
+                format: date-time
+                description: Timestamp of the data
+              content:
+                type: object
+                required: [id, date, ticker, exchange, name]
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier for the earnings
+                  date:
+                    type: string
+                    format: date
+                    description: Announced Date on Calendar
+                  date_confirmed:
+                    type: integer
+                    description: If the report date was confirmed (1/0)
+                  time:
+                    type: string
+                    description: Announced Time on Calendar (24hr format)
+                  ticker:
+                    type: string
+                    description: Ticker Symbol (F, MSFT, etc...)
+                  exchange:
+                    type: string
+                    description: Exchange (NYSE, NASDAQ, etc...)
+                  isin:
+                    type: string
+                    description: International Securities Identification Number
+                  cusip:
+                    type: string
+                    description: CUSIP identifier
+                  name:
+                    type: string
+                    description: Name of the security
+                  currency:
+                    type: string
+                    description: Currency the data is denominated in
+                  period:
+                    type: string
+                    enum: [Q1, Q2, Q3, Q4, FY, H1, H2]
+                    description: Period of the earnings actual
+                  period_year:
+                    type: integer
+                    description: Period Year of the earnings actual
+                  eps_type:
+                    type: string
+                    enum: [Adj, GAAP, FFO]
+                    description: EPS Type
+                  eps:
+                    type: string
+                    description: Comparable and Adjusted Earnings Per Share
+                  eps_est:
+                    type: string
+                    description: Adjusted EPS Consensus Aggregate Analyst Estimate
+                  eps_prior:
+                    type: string
+                    description: Adjusted EPS from Prior Period
+                  eps_surprise:
+                    type: string
+                    description: EPS deviation from estimate
+                  eps_surprise_percent:
+                    type: string
+                    description: Deviation from estimate as a percentage
+                  revenue_type:
+                    type: string
+                    enum: [Adj, GAAP, FFO]
+                    description: Revenue Type
+                  revenue:
+                    type: string
+                    description: Revenue
+                  revenue_est:
+                    type: string
+                    description: Revenue estimate
+                  revenue_prior:
+                    type: string
+                    description: Revenue value for previous period
+                  revenue_surprise:
+                    type: string
+                    description: Revenue deviation from estimate
+                  revenue_surprise_percent:
+                    type: string
+                    description: Deviation from estimate as a percentage
+                  importance:
+                    type: integer
+                    minimum: 0
+                    maximum: 5
+                    description: Importance of the event to the market (0-5)
+                  notes:
+                    type: string
+                    description: Additional notes provided by the Benzinga Newsdesk
+                  updated:
+                    type: integer
+                    format: int64
+                    description: Last updated timestamp (UTC)
