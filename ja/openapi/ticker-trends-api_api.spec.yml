@@ -8,8 +8,8 @@ info:
 paths:
   /api/v1/trending-tickers:
     get:
-      description: ユーザーエンゲージメント指標に基づき、指定した ticker
-        シンボルのトレンドデータを取得します。さまざまな時間間隔にわたるトレンドスコアとアクティビティレベルを集計して返します。このエンドポイントを使うと、投資家からの関心とエンゲージメントが高まっている証券を特定できます。
+      description: 指定した ticker
+        シンボルについて、順位および変化を含むトレンドデータを取得します。さまざまな時間間隔にわたるトレンドスコアとアクティビティレベルを集計して返します。
       operationId: get-ticker-trend-data
       parameters:
         - description: トレンドデータの集計に使用する時間間隔。指定可能な値：10m（10分）、1h（1時間）、1d（1日）。必須。
@@ -67,12 +67,12 @@ paths:
                 $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
       security:
         - ApiKeyAuth: []
-      summary: ticker トレンドデータ
+      summary: ticker トレンドデータを取得
       tags:
         - Ticker Trends
   /api/v1/trending-tickers/list:
     get:
-      description: tickerトレンドリストのデータを取得します。ユーザーエンゲージメント指標に基づいて、トレンド中のtickerシンボルをランキングしたリストを返します。トレンドスコアに基づき、複数の時間間隔にわたって証券を並べ替えて返します。特定の会計期間のトレンド動向を分析できるよう、日付および時刻の範囲でフィルタリングすることも可能です。現在どの証券が投資家の関心を最も集めているかを把握するために、このエンドポイントを使用します。
+      description: 各種指標に基づいて、トレンド中のtickerシンボルのリストを取得します。トレンドスコアに基づき、複数の時間間隔にわたって証券を並べ替えて返します。
       operationId: get-ticker-trend-list-data
       parameters:
         - description: 非推奨。代わりに timeframe を使用してください。トレンドデータ集計のためのデータの取得間隔。
@@ -151,7 +151,7 @@ paths:
                 $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
       security:
         - ApiKeyAuth: []
-      summary: ランキング付きtickerトレンドリスト
+      summary: tickerトレンドリストを取得
       tags:
         - Ticker Trends
 components:
@@ -274,3 +274,6 @@ components:
         security:
           $ref: "#/components/schemas/models.Security"
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD
