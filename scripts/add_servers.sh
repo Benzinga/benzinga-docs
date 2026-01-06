@@ -60,7 +60,7 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
                 ;;
             "ticker-trends-api_api.spec.yml")
                 servers='[
-                  {"url": "https://api.benzinga.com/api/v1", "description": "V1"}
+                  {"url": "https://api.benzinga.com", "description": "PROD"}
                 ]'
                 ;;
             "data-api-proxy_api.spec.yml")
