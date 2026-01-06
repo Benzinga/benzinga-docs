@@ -39,4 +39,40 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
   ]
 }
 ```
+```json Respuesta (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Token de autenticación no válido o ausente"
+    }
+  ]
+}
+```
+```json Respuesta (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No se encontraron datos para los parámetros especificados"
+    }
+  ]
+}
+```
+```json Respuesta (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "Se produjo un error inesperado al procesar su solicitud"
+    }
+  ]
+}
+```
 </ResponseExample>

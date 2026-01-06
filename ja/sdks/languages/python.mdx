@@ -3,3 +3,594 @@ title: "Benzinga Python SDK"
 sidebarTitle: "Python"
 icon: "python"
 ---
+
+<div id="overview">
+  ## 概要
+</div>
+
+Benzinga Python SDK は、定量分析およびマーケットインテリジェンスのために、Benzinga の金融データおよびニュース API へ包括的にアクセスできる手段を提供します。SDK は金融データ用とニュースデータ用の 2 つの主要モジュールを備えており、開発者が高度な金融アプリケーションを構築できるようにします。
+
+<div id="installation">
+  ## インストール
+</div>
+
+pip を使って SSH 経由で SDK をインストールします。
+
+```bash
+pip install git+ssh://git@github.com/Benzinga/benzinga-python-client.git
+```
+
+
+<div id="authentication">
+  ## 認証
+</div>
+
+すべての SDK クラスでは、認証に API キーが必要です。API キーを取得するには、[cloud.benzinga.com](https://cloud.benzinga.com) にアクセスしてください。
+
+<div id="modules">
+  ## モジュール
+</div>
+
+SDK は主に次の 2 つのモジュールで構成されています。
+
+- **Financial Data** - 定量的な金融分析および市場データ
+- **News Data** - 金融ニュース、ヘッドライン、および市場センチメント
+
+---
+
+<div id="financial-data-module">
+  ## 金融データモジュール
+</div>
+
+<div id="initialization">
+  ### 初期化
+</div>
+
+```python
+from benzingaorg import financial_data
+
+fin = financial_data.Benzinga(api_key='YOUR_API_KEY')
+```
+
+
+<div id="price-market-data">
+  ### 価格・市場データ
+</div>
+
+<div id="price-history">
+  #### 価格履歴
+</div>
+
+指定した日付範囲の過去の日次ローソク足データを取得します。
+
+```python
+data = fin.price_history(
+    company_ticker='AAPL',
+    start_date='2024-01-01',
+    end_date='2024-12-31'
+)
+```
+
+**パラメータ:**
+
+* `company_ticker` (必須) - 株式のtickerシンボル
+* `start_date` (必須) - 開始日（YYYY-MM-DD 形式）
+* `end_date` (必須) - 終了日（YYYY-MM-DD 形式）
+
+
+<div id="quote">
+  #### クォート
+</div>
+
+OHLC、ビッド／アスク、出来高、変動率を含むリアルタイムのクォートデータを取得します。
+
+```python
+quote = fin.quote(company_ticker='AAPL')
+```
+
+**戻り値:** symbol、exchange、type、name、open、high、low、close、bid価格、ask価格、出来高、変化率（％）
+
+
+<div id="chart">
+  #### チャート
+</div>
+
+任意の時間間隔を指定してチャートデータを取得します。
+
+```python
+chart = fin.chart(
+    company_ticker='AAPL',
+    start_date='2024-01-01',
+    end_date='2024-12-31',
+    interval='1D'  # オプション: 1MONTH, 1W, 1D, 1H, 15M
+)
+```
+
+**インターバルの選択肢:** `1MONTH`, `1W`, `1D`, `1H`, `15M`
+
+
+<div id="auto-complete">
+  #### オートコンプリート
+</div>
+
+柔軟な検索方法で企業ティッカーを検索できます。
+
+```python
+results = fin.auto_complete(
+    company_ticker='AAPL',
+    search_method='SYMBOL'  # オプション: SYMBOL, SYMBOL_NAME, SYMBOL_WITHIN
+)
+```
+
+
+<div id="fundamental-data">
+  ### ファンダメンタルズデータ
+</div>
+
+<div id="fundamentals">
+  #### ファンダメンタルズ
+</div>
+
+企業のファンダメンタルズデータを包括的に取得します。
+
+```python
+fundamentals = fin.fundamentals(
+    company_ticker='AAPL',
+    isin=None,  # 任意
+    cik=None,   # 任意
+    date=None   # 任意: YYYY-MM-DD
+)
+```
+
+
+<div id="financials">
+  #### 財務情報
+</div>
+
+詳細な財務諸表データにアクセスできます。
+
+```python
+financials = fin.financials(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+
+<div id="valuation-ratios">
+  #### Valuation Ratios（バリュエーション指標）
+</div>
+
+バリュエーション指標および各種レシオを取得します。
+
+```python
+valuation = fin.valuation_ratios(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+
+<div id="earning-ratios">
+  #### 利益関連比率
+</div>
+
+利益に関連する比率および指標を取得します。
+
+```python
+earning_ratios = fin.earning_ratios(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+
+<div id="operation-ratios">
+  #### 経営効率比率
+</div>
+
+経営効率に関する各種比率を取得します。
+
+```python
+operation_ratios = fin.operation_ratios(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+
+<div id="corporate-events-calendar-data">
+  ### 企業イベントおよびcalendarデータ
+</div>
+
+すべてのcalendarメソッドでページネーションとフィルタリングが利用できます。
+
+```python
+# 配当
+dividends = fin.dividends(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# レーティング
+ratings = fin.ratings(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# 決算
+earnings = fin.earnings(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# 株式分割
+splits = fin.splits(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# 経済指標
+economics = fin.economics(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    importance=None
+)
+
+# ガイダンス
+guidance = fin.guidance(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# IPO
+ipos = fin.ipo(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# リテール活動
+retail = fin.retail(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# カンファレンスコール
+conference_calls = fin.conference_calls(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+```
+
+
+<div id="company-information">
+  ### 企業情報
+</div>
+
+<div id="company-profile">
+  #### 企業プロフィール
+</div>
+
+企業の詳細情報を取得します。
+
+```python
+profile = fin.company_profile(company_ticker='AAPL')
+```
+
+
+<div id="company">
+  #### 企業
+</div>
+
+企業に関する基本情報を取得します。
+
+```python
+company = fin.company(company_ticker='AAPL')
+```
+
+
+<div id="share-class">
+  #### 株式クラス
+</div>
+
+株式クラスの詳細を取得します。
+
+```python
+share_class = fin.share_class(company_ticker='AAPL')
+```
+
+
+<div id="earning-reports">
+  #### 決算レポート
+</div>
+
+過去の決算レポートを取得します。
+
+```python
+earning_reports = fin.earning_reports(company_ticker='AAPL')
+```
+
+
+<div id="logos">
+  #### ロゴ
+</div>
+
+オプションのフィルタを指定して企業ロゴを取得します。
+
+```python
+logos = fin.logos(
+    ticker='AAPL',
+    filters=None  # オプションのフィルター
+)
+```
+
+
+<div id="screening-analysis">
+  ### スクリーニングと分析
+</div>
+
+<div id="instruments">
+  #### 銘柄
+</div>
+
+セクターおよび時価総額フィルターで銘柄をスクリーニングします。
+
+```python
+instruments = fin.instruments(
+    sector=None,      # セクターフィルター(オプション)
+    market_cap=None   # 時価総額フィルター(オプション)
+)
+```
+
+
+<div id="security">
+  #### 証券
+</div>
+
+symbol、exchange、通貨、CUSIP を含む証券情報を取得します。
+
+```python
+security = fin.security(company_ticker='AAPL')
+```
+
+
+<div id="movers">
+  #### 値上がり・値下がり銘柄
+</div>
+
+上位の上昇銘柄と下落銘柄を取得します。
+
+```python
+movers = fin.movers(
+    session=None,  # オプション: pre, post, regular
+    sector=None    # オプション: セクターフィルタ
+)
+```
+
+
+<div id="ticker-detail">
+  #### Ticker 詳細
+</div>
+
+主要な統計情報、同業他社情報、およびパーセンタイルデータを取得します。
+
+```python
+detail = fin.ticker_detail(company_ticker='AAPL')
+```
+
+
+<div id="options-data">
+  ### オプションデータ
+</div>
+
+<div id="options-activity">
+  #### Options Activity
+</div>
+
+オプション取引の状況を取得します。
+
+```python
+options = fin.options_activity(
+    company_ticker='AAPL',
+    date_from='2024-01-01',  # 任意
+    date_to='2024-12-31',    # 任意
+    page=0,                   # 任意
+    pagesize=100             # 任意
+)
+```
+
+***
+
+
+<div id="news-data-module">
+  ## ニュースデータモジュール
+</div>
+
+<div id="initialization">
+  ### 初期化
+</div>
+
+```python
+from benzingaorg import news_data
+
+news = news_data.News(api_key='YOUR_API_KEY')
+```
+
+
+<div id="news-methods">
+  ### ニュースメソッド
+</div>
+
+<div id="news">
+  #### ニュース
+</div>
+
+柔軟なフィルタリングと表示オプションでニュース記事を取得できます。
+
+```python
+articles = news.news(
+    pagesize=15,              # デフォルト: 15
+    display_output='full',    # オプション: full, abstract, headline
+    date_from='2024-01-01',   # 任意
+    date_to='2024-12-31',     # 任意
+    channel=None              # 任意: チャネルでフィルタ
+)
+```
+
+**表示オプション:**
+
+* `full` - 記事全文
+* `abstract` - 記事の要約
+* `headline` - 見出しのみ
+
+
+<div id="top-news">
+  #### Top News
+</div>
+
+注目度の高いニュース記事を取得します。
+
+```python
+top = news.top_news(
+    type=None,      # オプションのニュース種別
+    channel=None,   # オプションのチャネルフィルタ
+    limit=10        # 返却する記事の件数
+)
+```
+
+
+<div id="channels">
+  #### チャンネル
+</div>
+
+利用可能なニュースチャンネルの一覧を取得します。
+
+```python
+channels = news.channels()
+```
+
+**戻り値:** チャンネル名とID
+
+
+<div id="quantified-news">
+  #### 定量ニュース
+</div>
+
+定量的な指標付きニュースデータを取得します。
+
+```python
+quantified = news.quantified_news(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',  # 任意
+    date_to='2024-12-31'     # 任意
+)
+```
+
+**戻り値:** 見出し、出来高、寄り付きギャップ、レンジ関連指標などの定量データ
+
+***
+
+
+<div id="output-formatting">
+  ## 出力フォーマット
+</div>
+
+どちらのモジュールでも、JSON 表示を見やすくするための `.output()` メソッドがサポートされています。
+
+```python
+# 財務データ出力
+data = fin.quote('AAPL')
+fin.output(data)
+
+# ニュースデータ出力
+articles = news.news(pagesize=10)
+news.output(articles)
+```
+
+***
+
+
+<div id="complete-example">
+  ## 完全なサンプル
+</div>
+
+```python
+from benzingaorg import financial_data, news_data
+
+# モジュールを初期化
+fin = financial_data.Benzinga(api_key='YOUR_API_KEY')
+news = news_data.News(api_key='YOUR_API_KEY')
+
+# 財務データを取得
+quote = fin.quote('AAPL')
+fundamentals = fin.fundamentals('AAPL')
+earnings = fin.earnings(ticker='AAPL', date_from='2024-01-01')
+
+# ニュースデータを取得
+articles = news.news(pagesize=20, display_output='full')
+top_news = news.top_news(limit=5)
+
+# フォーマットして表示
+fin.output(quote)
+news.output(articles)
+```
+
+***
+
+
+<div id="resources">
+  ## リソース
+</div>
+
+- **リポジトリ**: [github.com/Benzinga/benzinga-python-client](https://github.com/Benzinga/benzinga-python-client)
+- **ライセンス**: MIT
+- **API キー**: [cloud.benzinga.com](https://cloud.benzinga.com)
+
+<div id="support">
+  ## サポート
+</div>
+
+技術的なサポートおよび API キーの発行については、[cloud.benzinga.com](https://cloud.benzinga.com) より Benzinga までお問い合わせください。
