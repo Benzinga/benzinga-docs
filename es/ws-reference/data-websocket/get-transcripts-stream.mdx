@@ -1,0 +1,312 @@
+---
+title: "Stream de Transcripciones"
+description: "Transcripciones de conferencias de resultados en tiempo real, frase por frase a medida que se pronuncian."
+asyncapi: "/asyncapi/transcripts-stream.yml transcripts"
+---
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+Suscríbete a transcripciones en tiempo real de llamadas de resultados y recibe actualizaciones frase por frase a medida que se pronuncian durante las llamadas de resultados en vivo. Ideal para crear visores de transcripciones en tiempo real y herramientas de análisis.
+
+<div id="key-features">
+  ### Funcionalidades principales
+</div>
+
+- **Transcripción en vivo**: Obtén actualizaciones de frases en tiempo real mientras los oradores hablan durante las llamadas de resultados
+- **Temporización a nivel de palabra**: Cada frase incluye marcas de tiempo para cada palabra y puntuaciones de confianza
+- **Identificación de oradores**: Realiza un seguimiento de quién está hablando (ejecutivos, analistas, etc.)
+- **Seguimiento del estado**: Supervisa si las transcripciones están en curso o completas
+- **Suscripción flexible**: Suscríbete a símbolos bursátiles específicos o a todas las transcripciones con `*`
+- **Pruebas con datos simulados**: Prueba tu integración con datos simulados cuando no haya llamadas en vivo en curso
+
+<div id="use-cases">
+  ### Casos de uso
+</div>
+
+- Crear visualizadores en tiempo real de transcripciones de llamadas de resultados
+- Crear herramientas de subtitulado en vivo y de accesibilidad
+- Realizar análisis de sentimiento en tiempo real sobre llamadas de resultados
+- Extraer frases y métricas clave a medida que se mencionan
+- Generar alertas para palabras clave o temas específicos durante llamadas en vivo
+- Archivar transcripciones completas con marcas de tiempo precisas
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Usa la herramienta interactiva de prueba de WebSocket de arriba para conectarte y probar el flujo en tiempo real.
+
+<div id="connection-url">
+  ### URL de conexión
+</div>
+
+```
+wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### Parámetros de consulta
+</div>
+
+| Parámetro | Obligatorio | Descripción |
+|-----------|----------|-------------|
+| `token` | Sí | Tu token de la API WebSocket de Benzinga |
+
+<div id="subscription-commands">
+  ## Comandos de suscripción
+</div>
+
+Envía comandos en JSON para controlar tus suscripciones:
+
+<div id="subscribe-to-a-ticker">
+  ### Suscribirse a un ticker
+</div>
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "AAPL"
+}
+```
+
+
+<div id="subscribe-to-all-transcripts">
+  ### Suscribirse a todas las transcripciones
+</div>
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "*"
+}
+```
+
+
+<div id="unsubscribe-from-a-ticker">
+  ### Cancelar la suscripción a un ticker
+</div>
+
+```json
+{
+  "action": "unsubscribe",
+  "ticker": "AAPL"
+}
+```
+
+
+<div id="list-active-transcripts">
+  ### Listar transcripciones activas
+</div>
+
+```json
+{
+  "action": "list"
+}
+```
+
+
+<div id="keep-connection-alive">
+  ### Mantén la conexión activa
+</div>
+
+```json
+{
+  "action": "ping"
+}
+```
+
+
+<div id="test-with-mock-data">
+  ### Prueba con datos simulados
+</div>
+
+Cuando no haya transcripciones en tiempo real disponibles, usa el modo simulado para realizar pruebas:
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "AAPL",
+  "mock": true
+}
+```
+
+Tickers simulados admitidos: `AAPL`, `MSFT`, `TSLA`
+
+
+<div id="message-example">
+  ## Ejemplo de mensaje
+</div>
+
+```json
+{
+  "call_id": "call_123456",
+  "transcript_id": "550e8400-e29b-41d4-a716-446655440000",
+  "call_title": "Apple Inc. Q4 2024 Earnings Call",
+  "sentence": "Revenue for the quarter was 89.5 billion dollars.",
+  "start_time": "2024-01-15T16:30:15Z",
+  "end_time": "2024-01-15T16:30:19Z",
+  "symbol": "AAPL",
+  "exchange": "NASDAQ",
+  "name": "Apple Inc.",
+  "sequence": 42,
+  "status": "IN_PROGRESS",
+  "speaker": "Tim Cook, CEO",
+  "type": "LIVE",
+  "language": "en",
+  "confidence": 0.98,
+  "words": [
+    {
+      "text": "Revenue",
+      "confidence": 0.99,
+      "start": 0,
+      "end": 450
+    },
+    {
+      "text": "for",
+      "confidence": 0.98,
+      "start": 450,
+      "end": 600
+    }
+  ],
+  "created_time": "2024-01-15T16:30:19Z"
+}
+```
+
+
+<div id="key-fields">
+  ### Campos clave
+</div>
+
+| Campo | Descripción |
+|-------|-------------|
+| `sentence` | El texto completo de la frase pronunciada |
+| `sequence` | Orden de esta frase dentro de la transcripción (0, 1, 2...) |
+| `speaker` | Nombre/identificador de la persona que habla |
+| `status` | `IN_PROGRESS` (en curso) o `COMPLETE` (completado) |
+| `confidence` | Confianza general en la precisión (0.0 - 1.0) |
+| `words` | Lista de palabras individuales con marcas de tiempo y nivel de confianza |
+| `start_time` / `end_time` | Marcas de tiempo ISO 8601 para el inicio y fin de la frase |
+
+<div id="transcript-status">
+  ### Estado de la transcripción
+</div>
+
+| Estado | Descripción |
+|--------|-------------|
+| `IN_PROGRESS` | La transcripción está en vivo y recibiendo actualizaciones |
+| `COMPLETE` | La transcripción ha finalizado, no se esperan más actualizaciones |
+
+<div id="word-level-data">
+  ## Datos a nivel de palabra
+</div>
+
+Cada oración incluye información detallada a nivel de palabra:
+
+```json
+{
+  "text": "Revenue",
+  "confidence": 0.99,
+  "start": 0,
+  "end": 450
+}
+```
+
+* **text**: La palabra en sí
+* **confidence**: Confianza de reconocimiento (0.0 - 1.0)
+* **start/end**: Desplazamientos de tiempo en milisegundos desde el inicio de la oración
+
+
+<div id="interactive-commands">
+  ## Comandos interactivos
+</div>
+
+| Comando | Parámetros | Descripción |
+|---------|------------|-------------|
+| `subscribe` | `ticker` | Suscribirse a las actualizaciones de transcripciones de un ticker |
+| `unsubscribe` | `ticker` | Dejar de recibir actualizaciones de transcripciones de un ticker |
+| `list` | - | Obtener la lista de transcripciones activas/disponibles |
+| `subscribed` | - | Obtener la lista de tus suscripciones actuales |
+| `ping` | - | Mantener viva la conexión (responde con `pong`) |
+| `echo` | `message` | Prueba de eco (responde con tu mensaje) |
+
+<div id="best-practices">
+  ## Prácticas recomendadas
+</div>
+
+<div id="real-time-display">
+  ### Visualización en tiempo real
+</div>
+
+- **Gestión de búfer**: Muestra las oraciones en orden de secuencia utilizando el campo `sequence`
+- **Formato de orador**: Aplica un formato diferente según el valor de `speaker` (ejecutivos vs analistas)
+- **Indicadores de estado**: Muestra indicadores visuales para los estados `IN_PROGRESS` y `COMPLETE`
+
+<div id="performance">
+  ### Rendimiento
+</div>
+
+- **Precaución con comodines**: Usar `ticker: "*"` te suscribe a TODAS las transcripciones, lo que puede generar un volumen elevado
+- **Suscripciones específicas**: Suscríbete solo a los símbolos bursátiles que necesitas para reducir el uso de ancho de banda
+- **Heartbeat**: Envía `ping` cada 30–60 segundos para mantener la conexión
+
+<div id="data-quality">
+  ### Calidad de datos
+</div>
+
+- **Filtrado por confianza**: Considera ignorar o marcar las oraciones con puntuaciones de confianza bajas
+- **Precisión de palabras**: Utiliza la confianza a nivel de palabra para identificar transcripciones dudosas
+- **Gestión del idioma**: Verifica el campo `language` para una representación adecuada del texto
+
+<div id="testing">
+  ### Pruebas
+</div>
+
+- **Modo simulado**: Usa `mock: true` para desarrollo cuando no haya llamadas en vivo activas
+- **Prueba de eco**: Usa la acción `echo` para verificar la conexión y el manejo de mensajes
+- **Comando de lista**: Consulta `list` para ver qué está disponible actualmente
+
+<div id="example-integration">
+  ## Ejemplo de integración
+</div>
+
+```javascript
+const ws = new WebSocket(
+  'wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_TOKEN'
+);
+
+ws.onopen = () => {
+  // Suscribirse a las transcripciones de Apple
+  ws.send(JSON.stringify({
+    action: 'subscribe',
+    ticker: 'AAPL'
+  }));
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+
+  // Mostrar la frase con el interlocutor
+  console.log(`[${data.sequence}] ${data.speaker}: ${data.sentence}`);
+
+  // Verificar si la transcripción está completa
+  if (data.status === 'COMPLETE') {
+    console.log('Transcripción finalizada');
+  }
+};
+
+// Mantener la conexión activa
+setInterval(() => {
+  ws.send(JSON.stringify({ action: 'ping' }));
+}, 30000);
+```
+
+
+<div id="related-documentation">
+  ## Documentación relacionada
+</div>
+
+- [Introducción a WebSocket](../introduction) - Conceptos generales sobre WebSocket y aspectos básicos de la conexión
+- [Autenticación](../authentication) - Cómo obtener y usar tokens de la API

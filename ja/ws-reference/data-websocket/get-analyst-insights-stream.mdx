@@ -1,258 +1,112 @@
 ---
 title: "アナリスト・インサイト・ストリーム"
-description: "このウェブソケットエンドポイントでは、特定のtickerシンボルに対するアナリストインサイトをリアルタイムで購読できます。"
+description: "証券に関するアナリストインサイト、レーティング、目標株価をリアルタイムで配信します。"
+asyncapi: "/asyncapi/analyst-insights-stream.yml analystInsights"
 ---
 
-<div id="websocket-websocketv1">
-  ## ウェブソケット `websocket/v1`:
+<div id="overview">
+  ## 概要
 </div>
 
-```txt
-wss://api.benzinga.com/api/v1/analyst/insights/stream
+リアルタイムのアナリストインサイトを購読し、アナリストレーティング、目標株価、詳細な推奨情報の更新を発生と同時に受け取ることができます。
+
+<div id="key-features">
+  ### 主な機能
+</div>
+
+- **リアルタイム更新**: アナリストが新しいインサイトを公開したり、既存のレーティングを更新したときに、即座に通知を受け取れます
+- **銘柄によるフィルタリング**: 特定のティッカーまたは ISIN を購読して、関連するデータのみを受信できます
+- **包括的なデータ**: アナリストの所属機関の詳細、レーティング、目標株価、詳細なインサイトを含みます
+- **アクションの追跡**: インサイトが作成・更新・削除されたタイミングを監視できます
+
+<div id="use-cases">
+  ### ユースケース
+</div>
+
+- ポートフォリオ内の銘柄に対するアナリストのセンチメント変化を追跡する
+- レーティングの格上げ・格下げに対するリアルタイムアラートを作成する
+- 複数アナリストにわたる目標株価の変更を監視する
+- 複数のアナリスト会社からのコンセンサス見解を集約する
+
+<div id="quick-start">
+  ## クイックスタート
+</div>
+
+上部のインタラクティブなウェブソケットテスターを使って、ストリームにリアルタイム接続し、動作をテストしてください。
+
+<div id="connection-url">
+  ### 接続URL
+</div>
+
+```
+wss://api.benzinga.com/api/v1/analyst/insights/stream?token=YOUR_TOKEN
 ```
 
 
-<div id="parameters">
-  ### Parameters:
+<div id="query-parameters">
+  ### クエリパラメータ
 </div>
 
-| Name       | Location |  Type   | Required | Description                                                             |
-| :--------- | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
-| `token`    | query    | string  |      Yes | Benzinga ウェブソケット用トークン (bz.production***)。                   |
-| `tickers`  | query    | string  | Optional | サブスクライブするティッカーの一覧。カンマ区切り。                       |
-| `isins`    | query    | string  | Optional | 絞り込みに使用する ISIN（国際証券識別番号）の一覧。カンマ区切り。        |
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | あなたの Benzinga WebSocket API トークン (bz.production***) |
+| `tickers` | No | ティッカーシンボルのカンマ区切りリスト (例: `AAPL,MSFT`) |
+| `isins` | No | 絞り込み用の ISIN（国際証券識別番号）のカンマ区切りリスト |
 
-<div id="stream-response">
-  ### ストリームレスポンス:
+<div id="message-example">
+  ## メッセージ例
 </div>
-
-ストリームをサブスクライブすると、アナリストインサイトの更新が次の形式で届きます。
 
 ```json
 {
-  "id": "unique-uuid-for-response",
+  "id": "550e8400-e29b-41d4-a716-446655440000",
   "api_version": "websocket/v1",
   "kind": "stream_type",
   "data": {
-    "action": "created/updated/deleted",
+    "action": "created",
     "id": "insight-id",
+    "timestamp": "2024-10-08T10:00:00Z",
     "content": {
       "action": "Upgrades",
       "analyst_insights": "The analyst has upgraded the stock...",
-      "date": "2024-10-08",
       "firm": "Goldman Sachs",
-      "firm_id": "firm-uuid",
-      "id": "insight-uuid",
       "pt": "150.00",
       "rating": "Buy",
-      "rating_id": "rating-uuid",
       "security": {
-        "cik": "0000320193",
-        "exchange": "NASDAQ",
-        "isin": "US0378331005",
+        "symbol": "AAPL",
         "name": "Apple Inc.",
-        "symbol": "AAPL"
-      },
-      "updated": 1696790400000
-    },
-    "timestamp": "2024-10-08T10:00:00Z"
+        "exchange": "NASDAQ"
+      }
+    }
   }
 }
 ```
 
 
-<div id="supported-actions">
-  ## サポートされているアクション
+<div id="message-actions">
+  ### メッセージアクション
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>アクション</th>
-      <th>説明</th>
-      <th>例</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>list</code></td>
-      <td>直近最大100件のメッセージを再送します。実際の件数はキャッシュの利用可能状況により変動します。</td>
-      <td><code>replay</code></td>
-    </tr>
-    <tr>
-      <td><code>ping</code></td>
-      <td>ウェブソケット接続を維持します。</td>
-      <td><code>ping</code></td>
-    </tr>
-  </tbody>
-</table>
+| アクション | 説明 |
+|--------|-------------|
+| `created` / `Created` | 新しいアナリストインサイトが公開された |
+| `updated` / `Updated` | 既存のアナリストインサイトが更新された |
+| `deleted` / `Deleted` | アナリストインサイトが削除された |
 
-> **注:** 再送するメッセージ数を指定することはできません。返される件数は、関連するキーに対して現在キャッシュされているメッセージ数に依存します。
-
-<div id="responses">
-  #### レスポンス
+<div id="interactive-commands">
+  ## 対話型コマンド
 </div>
 
-- **200 OK**
-- **概要**: 成功
-- **コンテンツタイプ**: `application/json`
-- **スキーマ**: [AnalystInsightsWSResp](#analystinsightwsresp)
+| Command | 説明 |
+|---------|-------------|
+| `ping` | 接続を維持します（`pong` を返します） |
+| `replay` | 直近最大100件のキャッシュ済みメッセージを再送信します |
 
-<div id="analystinsightwsresp">
-  ### AnalystInsightWSResp
+<div id="best-practices">
+  ## ベストプラクティス
 </div>
 
-| Property      | Type   | Description                                                     |
-|---------------|--------|-----------------------------------------------------------------|
-| id            | string | ウェブソケットレスポンスの一意な UUID。                        |
-| api_version   | string | ウェブソケット API バージョン。デフォルトは `websocket/v1`。 |
-| kind          | string | ウェブソケット接続ストリームの種別。                          |
-| data          | object | ウェブソケットデータの詳細を含みます。                        |
-| - action      | string | ウェブソケットデータのアクション（例: created、updated、deleted）。 |
-| - id         | string | アナリストインサイトのデータ ID。                              |
-| - content     | object | `AnalystInsight` スキーマへの参照。                            |
-| - timestamp   | string | データのタイムスタンプ。                                       |
-
-<div id="analystinsight">
-  ### AnalystInsight
-</div>
-
-| Property           | Type    | Description                                                     |
-|--------------------|---------|-----------------------------------------------------------------|
-| action             | string  | アナリストによる株式に対するアクション（例: Maintains、Upgrades）。    |
-| analyst_insights   | string  | アナリストによる詳細なインサイト。                            |
-| date               | string  | アナリストインサイトの日付（date 形式）。              |
-| firm               | string  | インサイトを提供する証券会社名。                        |
-| firm_id            | string  | 証券会社の一意の識別子。                               |
-| id                 | string  | アナリストインサイトの一意の識別子（UUID 形式）。 |
-| pt                 | string  | アナリストが提示した目標株価。                            |
-| rating             | string  | アナリストが提供したレーティング。                               |
-| rating_id          | string  | レーティングの一意の識別子。                             |
-| security           | object  | インサイトの対象となる証券の詳細を含むオブジェクト。  |
-| - cik              | string  | 証券の Central Index Key（CIK）。                            |
-| - exchange         | string  | 証券が上場している取引所。                        |
-| - isin             | string  | ISIN（国際証券識別番号）。               |
-| - name             | string  | 証券名。                                        |
-| - symbol           | string  | 証券の ticker シンボル。                               |
-| updated            | integer | インサイトが最後に更新された日時のタイムスタンプ（int64 形式の整数）。 |
-
-<div id="success-response">
-  ## 成功レスポンス
-</div>
-
-- 成功 `101` - ウェブソケット接続が正常に確立されました。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '700px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ✅ wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p*** に接続しました
-        </div>
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span><strong>リクエスト URL:</strong> </span>
-        <p style={{ color: 'blue' }}>
-            "https://api.benzinga.com/api/v1/analyst/insights/stream?token=bz"
-        </p>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>リクエストメソッド:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>ステータスコード:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
-    </div>
-</div>
-
-<div id="error-response">
-  ## エラーレスポンス
-</div>
-
-- Unauthorized `401` - トークンが無効です。指定したトークンを確認してください。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p*** に接続できませんでした
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        エラー: サーバーからの予期しないレスポンス: 401
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
-    </div>
-</div>
-
-- Bad Gateway `502` - 無効なルートであるか、サーバーエラーが発生しています。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p*** に接続できませんでした
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        エラー: サーバーからの予期しないレスポンス: 502
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Request Method:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Status Code:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
-    </div>
-</div>
+- **重複排除**: `id` フィールドを使用して重複メッセージを処理しないようにする
+- **ハートビート**: 接続を維持するために 30〜60 秒ごとに `ping` コマンドを送信する
+- **エラーハンドリング**: 指数バックオフ付きの再接続ロジックを実装する
+- **フィルタリング**: 帯域幅の使用量を抑えるために ticker/ISIN フィルタを使用する
