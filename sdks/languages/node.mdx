@@ -3,3 +3,420 @@ title: "Benzinga Node.js SDK"
 sidebarTitle: "Node.js"
 icon: "node"
 ---
+
+## Overview
+
+The Benzinga TypeScript/JavaScript SDK provides a modular, event-based interface for interacting with Benzinga APIs. Written in TypeScript, the SDK works seamlessly in both browser and Node.js environments, offering enhanced implementations with caching, deep comparison, and other advanced capabilities.
+
+## Key Features
+
+- **TypeScript Support** - Full TypeScript types and interfaces
+- **Universal** - Works in both browser and Node.js environments
+- **Modular Architecture** - Install only the modules you need
+- **Event-Based** - Reactive programming patterns for real-time data
+- **Advanced Features** - Built-in caching, deep comparison, and optimizations
+- **Modern** - ES6+ syntax with async/await support
+
+## Requirements
+
+- **Node.js 14 or newer**
+
+## Installation
+
+The SDK uses a modular architecture. Start by installing the core session module:
+
+```bash
+npm install @benzinga/session
+```
+
+Then install additional modules as needed:
+
+```bash
+# Example: Install specific modules
+npm install @benzinga/calendar-data
+npm install @benzinga/quotes
+npm install @benzinga/news-data
+```
+
+## Getting Started
+
+### Session Setup
+
+The `@benzinga/session` module provides the foundation for authenticating with Benzinga APIs. All other modules depend on this Session object.
+
+```typescript
+import { Session } from '@benzinga/session';
+
+// Initialize session with your API key
+const session = new Session({
+  apiKey: 'YOUR_API_KEY'
+});
+```
+
+### Configuration Options
+
+The Session object accepts various configuration options for customizing behavior:
+
+```typescript
+const session = new Session({
+  apiKey: 'YOUR_API_KEY',
+  environment: 'production', // or 'sandbox'
+  timeout: 30000,            // Request timeout in milliseconds
+  // Additional configuration options
+});
+```
+
+## Core Concepts
+
+### Modular Design
+
+Each Benzinga API domain is packaged as a separate npm module. This allows you to:
+
+- Install only what you need
+- Reduce bundle size
+- Maintain clear separation of concerns
+- Update modules independently
+
+### Event-Based Architecture
+
+The SDK uses an event-driven pattern for handling real-time data streams and updates:
+
+```typescript
+// Example: Subscribe to data updates
+dataManager.subscribe((data) => {
+  console.log('New data received:', data);
+});
+
+// Example: Handle events
+dataManager.on('update', (event) => {
+  console.log('Data updated:', event);
+});
+```
+
+### Caching & Performance
+
+The SDK includes built-in caching mechanisms to:
+
+- Reduce unnecessary API calls
+- Improve response times
+- Optimize bandwidth usage
+- Provide offline fallbacks
+
+### Deep Comparison
+
+Advanced data comparison features enable:
+
+- Detecting changes in nested objects
+- Efficient state management
+- Smart update triggers
+- Reduced re-renders in UI applications
+
+## Available Modules
+
+The SDK is organized into focused modules for different API domains:
+
+### Core Modules
+
+- **`@benzinga/session`** - Authentication and session management (required)
+- **`@benzinga/calendar-data`** - Calendar events and corporate actions
+- **`@benzinga/news-data`** - News articles and market intelligence
+- **`@benzinga/quotes`** - Real-time and delayed quotes
+- **`@benzinga/fundamentals`** - Company fundamentals and financial data
+
+### Specialized Modules
+
+- **`@benzinga/ratings`** - Analyst ratings and price targets
+- **`@benzinga/options`** - Options activity and analytics
+- **`@benzinga/transcripts`** - Earnings call transcripts
+- **`@benzinga/logos`** - Company logos and branding
+- **`@benzinga/signals`** - Trading signals and indicators
+
+## TypeScript Support
+
+The SDK is written in TypeScript and provides full type definitions:
+
+```typescript
+import { Session } from '@benzinga/session';
+import { CalendarData, DividendEvent } from '@benzinga/calendar-data';
+
+// TypeScript will provide autocomplete and type checking
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const calendar = new CalendarData(session);
+
+// Type-safe API calls
+const dividends: DividendEvent[] = await calendar.getDividends({
+  dateFrom: '2024-01-01',
+  dateTo: '2024-12-31',
+  ticker: 'AAPL'
+});
+```
+
+## Usage Examples
+
+### Basic Data Fetching
+
+```typescript
+import { Session } from '@benzinga/session';
+import { NewsData } from '@benzinga/news-data';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const news = new NewsData(session);
+
+// Fetch latest news
+const articles = await news.getNews({
+  pageSize: 10,
+  displayOutput: 'full'
+});
+
+console.log(articles);
+```
+
+### Real-Time Data Streams
+
+```typescript
+import { Session } from '@benzinga/session';
+import { QuoteStream } from '@benzinga/quotes';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const quoteStream = new QuoteStream(session);
+
+// Subscribe to real-time quotes
+quoteStream.subscribe(['AAPL', 'MSFT', 'GOOGL'], (quote) => {
+  console.log('Quote update:', quote);
+});
+
+// Unsubscribe when done
+quoteStream.unsubscribe(['AAPL']);
+```
+
+### Calendar Events
+
+```typescript
+import { Session } from '@benzinga/session';
+import { CalendarData } from '@benzinga/calendar-data';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const calendar = new CalendarData(session);
+
+// Get upcoming earnings
+const earnings = await calendar.getEarnings({
+  dateFrom: '2024-01-01',
+  dateTo: '2024-01-31',
+  importance: 3  // High importance only
+});
+
+// Get dividends
+const dividends = await calendar.getDividends({
+  ticker: 'AAPL'
+});
+```
+
+### Company Fundamentals
+
+```typescript
+import { Session } from '@benzinga/session';
+import { Fundamentals } from '@benzinga/fundamentals';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const fundamentals = new Fundamentals(session);
+
+// Get company profile
+const profile = await fundamentals.getCompanyProfile('AAPL');
+
+// Get valuation ratios
+const valuationRatios = await fundamentals.getValuationRatios('AAPL');
+
+// Get financial statements
+const financials = await fundamentals.getFinancials('AAPL');
+```
+
+## Browser Usage
+
+The SDK works in browser environments with bundlers like Webpack, Rollup, or Vite:
+
+```typescript
+// In your React, Vue, or Angular application
+import { Session } from '@benzinga/session';
+import { NewsData } from '@benzinga/news-data';
+
+export function NewsComponent() {
+  const session = new Session({ apiKey: process.env.BENZINGA_API_KEY });
+  const news = new NewsData(session);
+
+  // Use in your component logic
+  useEffect(() => {
+    news.getNews({ pageSize: 5 }).then(articles => {
+      setNewsData(articles);
+    });
+  }, []);
+}
+```
+
+## Error Handling
+
+Handle errors gracefully with try-catch blocks:
+
+```typescript
+import { Session } from '@benzinga/session';
+import { NewsData } from '@benzinga/news-data';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const news = new NewsData(session);
+
+try {
+  const articles = await news.getNews({ pageSize: 10 });
+  console.log(articles);
+} catch (error) {
+  if (error.code === 'UNAUTHORIZED') {
+    console.error('Invalid API key');
+  } else if (error.code === 'RATE_LIMIT') {
+    console.error('Rate limit exceeded');
+  } else {
+    console.error('An error occurred:', error.message);
+  }
+}
+```
+
+## Pagination
+
+Handle paginated results efficiently:
+
+```typescript
+import { Session } from '@benzinga/session';
+import { NewsData } from '@benzinga/news-data';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const news = new NewsData(session);
+
+// Fetch multiple pages
+let page = 0;
+let allArticles = [];
+
+while (page < 5) {
+  const articles = await news.getNews({
+    page: page,
+    pageSize: 100
+  });
+
+  if (articles.length === 0) break;
+
+  allArticles = allArticles.concat(articles);
+  page++;
+}
+
+console.log(`Fetched ${allArticles.length} articles`);
+```
+
+## Caching Strategy
+
+Leverage the built-in caching for better performance:
+
+```typescript
+import { Session } from '@benzinga/session';
+import { CalendarData } from '@benzinga/calendar-data';
+
+const session = new Session({
+  apiKey: 'YOUR_API_KEY',
+  cache: {
+    enabled: true,
+    ttl: 300000  // Cache for 5 minutes
+  }
+});
+
+const calendar = new CalendarData(session);
+
+// First call hits the API
+const earnings1 = await calendar.getEarnings({ ticker: 'AAPL' });
+
+// Second call uses cached data (if within TTL)
+const earnings2 = await calendar.getEarnings({ ticker: 'AAPL' });
+```
+
+## Best Practices
+
+### 1. Reuse Session Objects
+
+Create one session instance and reuse it across your application:
+
+```typescript
+// session.ts
+export const globalSession = new Session({ apiKey: process.env.BENZINGA_API_KEY });
+
+// In other files
+import { globalSession } from './session';
+const news = new NewsData(globalSession);
+```
+
+### 2. Environment Variables
+
+Store API keys securely in environment variables:
+
+```typescript
+// .env file
+BENZINGA_API_KEY=your_api_key_here
+
+// In code
+const session = new Session({
+  apiKey: process.env.BENZINGA_API_KEY
+});
+```
+
+### 3. Type Safety
+
+Leverage TypeScript for type-safe API interactions:
+
+```typescript
+import type { NewsArticle, NewsParams } from '@benzinga/news-data';
+
+const params: NewsParams = {
+  pageSize: 10,
+  displayOutput: 'full',
+  ticker: 'AAPL'
+};
+
+const articles: NewsArticle[] = await news.getNews(params);
+```
+
+### 4. Error Boundaries
+
+Implement error boundaries in production:
+
+```typescript
+const safeApiCall = async (fn: () => Promise<any>) => {
+  try {
+    return await fn();
+  } catch (error) {
+    console.error('API Error:', error);
+    // Log to error tracking service
+    return null;
+  }
+};
+
+const articles = await safeApiCall(() => news.getNews({ pageSize: 10 }));
+```
+
+## Resources
+
+- **Repository**: [github.com/Benzinga/benzinga-javascript-client](https://github.com/Benzinga/benzinga-javascript-client)
+- **NPM Package**: [@benzinga/session](https://www.npmjs.com/package/@benzinga/session)
+- **API Key**: [cloud.benzinga.com](https://cloud.benzinga.com)
+- **TypeScript**: Version 4.0+
+- **Node.js**: Version 14+
+
+## Module Documentation
+
+For detailed documentation on specific modules, refer to the individual package READMEs:
+
+- `@benzinga/session` - Core authentication and configuration
+- `@benzinga/calendar-data` - Calendar events API
+- `@benzinga/news-data` - News and articles API
+- `@benzinga/quotes` - Real-time quotes API
+- `@benzinga/fundamentals` - Fundamentals and financials API
+
+## Support
+
+For technical support and API key provisioning, contact Benzinga at [cloud.benzinga.com](https://cloud.benzinga.com).
+
+## Contributing
+
+The Benzinga JavaScript SDK is open source. Contributions are welcome! Visit the [GitHub repository](https://github.com/Benzinga/benzinga-javascript-client) for more information.

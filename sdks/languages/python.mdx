@@ -3,3 +3,456 @@ title: "Benzinga Python SDK"
 sidebarTitle: "Python"
 icon: "python"
 ---
+
+## Overview
+
+The Benzinga Python SDK provides comprehensive access to Benzinga's financial data and news APIs for quantitative analysis and market intelligence. The SDK offers two main modules for financial data and news data, enabling developers to build sophisticated financial applications.
+
+## Installation
+
+Install the SDK using pip with SSH:
+
+```bash
+pip install git+ssh://git@github.com/Benzinga/benzinga-python-client.git
+```
+
+## Authentication
+
+All SDK classes require an API key for authentication. To obtain an API key, visit [cloud.benzinga.com](https://cloud.benzinga.com).
+
+## Modules
+
+The SDK consists of two primary modules:
+
+- **Financial Data** - Quantitative financial analysis and market data
+- **News Data** - Financial news, headlines, and market sentiment
+
+---
+
+## Financial Data Module
+
+### Initialization
+
+```python
+from benzingaorg import financial_data
+
+fin = financial_data.Benzinga(api_key='YOUR_API_KEY')
+```
+
+### Price & Market Data
+
+#### Price History
+Get historical daily candles for a specified date range.
+
+```python
+data = fin.price_history(
+    company_ticker='AAPL',
+    start_date='2024-01-01',
+    end_date='2024-12-31'
+)
+```
+
+**Parameters:**
+- `company_ticker` (required) - Stock ticker symbol
+- `start_date` (required) - Start date in YYYY-MM-DD format
+- `end_date` (required) - End date in YYYY-MM-DD format
+
+#### Quote
+Get real-time quote data including OHLC, bid/ask, volume, and change percentage.
+
+```python
+quote = fin.quote(company_ticker='AAPL')
+```
+
+**Returns:** Symbol, exchange, type, name, open, high, low, close, bid price, ask price, volume, change percent
+
+#### Chart
+Get chart data with customizable time intervals.
+
+```python
+chart = fin.chart(
+    company_ticker='AAPL',
+    start_date='2024-01-01',
+    end_date='2024-12-31',
+    interval='1D'  # Optional: 1MONTH, 1W, 1D, 1H, 15M
+)
+```
+
+**Interval Options:** `1MONTH`, `1W`, `1D`, `1H`, `15M`
+
+#### Auto-Complete
+Search for company tickers with flexible search methods.
+
+```python
+results = fin.auto_complete(
+    company_ticker='AAPL',
+    search_method='SYMBOL'  # Optional: SYMBOL, SYMBOL_NAME, SYMBOL_WITHIN
+)
+```
+
+### Fundamental Data
+
+#### Fundamentals
+Get comprehensive fundamental data for a company.
+
+```python
+fundamentals = fin.fundamentals(
+    company_ticker='AAPL',
+    isin=None,  # Optional
+    cik=None,   # Optional
+    date=None   # Optional: YYYY-MM-DD
+)
+```
+
+#### Financials
+Access detailed financial statements.
+
+```python
+financials = fin.financials(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+#### Valuation Ratios
+Get valuation metrics and ratios.
+
+```python
+valuation = fin.valuation_ratios(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+#### Earning Ratios
+Retrieve earnings-related ratios and metrics.
+
+```python
+earning_ratios = fin.earning_ratios(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+#### Operation Ratios
+Get operational efficiency ratios.
+
+```python
+operation_ratios = fin.operation_ratios(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+### Corporate Events & Calendar Data
+
+All calendar methods support pagination and filtering:
+
+```python
+# Dividends
+dividends = fin.dividends(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Ratings
+ratings = fin.ratings(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Earnings
+earnings = fin.earnings(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Splits
+splits = fin.splits(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Economics
+economics = fin.economics(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    importance=None
+)
+
+# Guidance
+guidance = fin.guidance(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# IPOs
+ipos = fin.ipo(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Retail Activity
+retail = fin.retail(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Conference Calls
+conference_calls = fin.conference_calls(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+```
+
+### Company Information
+
+#### Company Profile
+Get detailed company profile information.
+
+```python
+profile = fin.company_profile(company_ticker='AAPL')
+```
+
+#### Company
+Get basic company information.
+
+```python
+company = fin.company(company_ticker='AAPL')
+```
+
+#### Share Class
+Get share class details.
+
+```python
+share_class = fin.share_class(company_ticker='AAPL')
+```
+
+#### Earning Reports
+Get historical earning reports.
+
+```python
+earning_reports = fin.earning_reports(company_ticker='AAPL')
+```
+
+#### Logos
+Get company logos with optional filtering.
+
+```python
+logos = fin.logos(
+    ticker='AAPL',
+    filters=None  # Optional filters
+)
+```
+
+### Screening & Analysis
+
+#### Instruments
+Screen securities with sector and market cap filters.
+
+```python
+instruments = fin.instruments(
+    sector=None,      # Optional sector filter
+    market_cap=None   # Optional market cap filter
+)
+```
+
+#### Security
+Get security details including symbol, exchange, currency, and CUSIP.
+
+```python
+security = fin.security(company_ticker='AAPL')
+```
+
+#### Movers
+Get top gainers and losers.
+
+```python
+movers = fin.movers(
+    session=None,  # Optional: pre, post, regular
+    sector=None    # Optional sector filter
+)
+```
+
+#### Ticker Detail
+Get key statistics, peer information, and percentile data.
+
+```python
+detail = fin.ticker_detail(company_ticker='AAPL')
+```
+
+### Options Data
+
+#### Options Activity
+Get options trading activity.
+
+```python
+options = fin.options_activity(
+    company_ticker='AAPL',
+    date_from='2024-01-01',  # Optional
+    date_to='2024-12-31',    # Optional
+    page=0,                   # Optional
+    pagesize=100             # Optional
+)
+```
+
+---
+
+## News Data Module
+
+### Initialization
+
+```python
+from benzingaorg import news_data
+
+news = news_data.News(api_key='YOUR_API_KEY')
+```
+
+### News Methods
+
+#### News
+Get news articles with flexible filtering and display options.
+
+```python
+articles = news.news(
+    pagesize=15,              # Default: 15
+    display_output='full',    # Options: full, abstract, headline
+    date_from='2024-01-01',   # Optional
+    date_to='2024-12-31',     # Optional
+    channel=None              # Optional: Filter by channel
+)
+```
+
+**Display Output Options:**
+- `full` - Complete article content
+- `abstract` - Article summary
+- `headline` - Headlines only
+
+#### Top News
+Get trending news articles.
+
+```python
+top = news.top_news(
+    type=None,      # Optional news type
+    channel=None,   # Optional channel filter
+    limit=10        # Number of articles to return
+)
+```
+
+#### Channels
+Get list of available news channels.
+
+```python
+channels = news.channels()
+```
+
+**Returns:** Channel names and IDs
+
+#### Quantified News
+Get news data with quantitative metrics.
+
+```python
+quantified = news.quantified_news(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',  # Optional
+    date_to='2024-12-31'     # Optional
+)
+```
+
+**Returns:** Headlines, volume, open gap, range metrics, and other quantitative data
+
+---
+
+## Output Formatting
+
+Both modules support the `.output()` method for improved JSON visualization:
+
+```python
+# Financial data output
+data = fin.quote('AAPL')
+fin.output(data)
+
+# News data output
+articles = news.news(pagesize=10)
+news.output(articles)
+```
+
+---
+
+## Complete Example
+
+```python
+from benzingaorg import financial_data, news_data
+
+# Initialize modules
+fin = financial_data.Benzinga(api_key='YOUR_API_KEY')
+news = news_data.News(api_key='YOUR_API_KEY')
+
+# Get financial data
+quote = fin.quote('AAPL')
+fundamentals = fin.fundamentals('AAPL')
+earnings = fin.earnings(ticker='AAPL', date_from='2024-01-01')
+
+# Get news data
+articles = news.news(pagesize=20, display_output='full')
+top_news = news.top_news(limit=5)
+
+# Format and display
+fin.output(quote)
+news.output(articles)
+```
+
+---
+
+## Resources
+
+- **Repository**: [github.com/Benzinga/benzinga-python-client](https://github.com/Benzinga/benzinga-python-client)
+- **License**: MIT
+- **API Key**: [cloud.benzinga.com](https://cloud.benzinga.com)
+
+## Support
+
+For technical support and API key provisioning, contact Benzinga at [cloud.benzinga.com](https://cloud.benzinga.com).
