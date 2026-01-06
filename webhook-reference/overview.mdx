@@ -16,6 +16,9 @@ Benzinga webhooks eliminate polling by posting real-time market events directly 
   <Step title="Share your endpoint and filters">
     Provide a publicly reachable HTTPS endpoint plus any data type or geography filters you need. Benzinga will provision the webhook with those settings.
   </Step>
+  <Step title="Test your integration">
+    Use the [Test Webhook Delivery](/api-reference/webhook_api/test-webhook-delivery) endpoint to verify your webhook endpoint is properly configured and can receive deliveries.
+  </Step>
   <Step title="Handle deliveries idempotently">
     Parse the JSON payload, use the `id` and `X-BZ-Delivery` values to avoid duplicates, and respond quickly with a 2xx status to acknowledge receipt.
   </Step>

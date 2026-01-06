@@ -224,6 +224,12 @@
                   "webhook-reference/overview",
                   "webhook-reference/webhook-engine"
                 ]
+              },
+              {
+                "group": "Webhook API",
+                "pages": [
+                  "api-reference/webhook_api/test-webhook-delivery"
+                ]
               }
             ]
           },
