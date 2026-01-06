@@ -272,12 +272,9 @@
               {
                 "group": "SDK's",
                 "pages": [
-                  "sdks/languages/go",
-                  "sdks/languages/python",
-                  "sdks/languages/node",
                   "sdks/languages/java",
-                  "sdks/languages/csharp",
-                  "sdks/languages/ruby"
+                  "sdks/languages/node",
+                  "sdks/languages/python"
                 ]
               }
             ]
