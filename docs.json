@@ -400,7 +400,7 @@
                 ]
               },
               {
-                "group": "Transcripciones de llamadas de resultados",
+                "group": "Transcripciones de conferencias de resultados",
                 "pages": [
                   "es/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/overview",
                   "es/api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
@@ -408,7 +408,7 @@
                 ]
               },
               {
-                "group": "Operaciones del gobierno",
+                "group": "Operaciones gubernamentales",
                 "pages": [
                   "es/api-reference/calendar_api/government-trades/overview",
                   "es/api-reference/calendar_api/government-trade-reports/government-trade-reports",
@@ -416,7 +416,7 @@
                 ]
               },
               {
-                "group": "Transacciones de insiders",
+                "group": "Operaciones con información privilegiada",
                 "pages": [
                   "es/api-reference/calendar_api/insider-transaction/overview",
                   "es/api-reference/calendar_api/insider-transaction/insider-transaction-filing",
@@ -424,7 +424,7 @@
                 ]
               },
               {
-                "group": "Noticias & Why is it Moving (WIIMs)",
+                "group": "Newsfeed & Why is it Moving (WIIMs)",
                 "pages": [
                   "es/api-reference/news-api_api/news/overview",
                   "es/api-reference/news-api_api/news/get-the-news-items",
@@ -440,7 +440,7 @@
                 ]
               },
               {
-                "group": "Cotizaciones diferidas",
+                "group": "Cotizaciones en diferido",
                 "pages": [
                   "es/api-reference/data-api-proxy_api/quotedelayed/overview",
                   "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
@@ -673,7 +673,7 @@
                 ]
               },
               {
-                "group": "政府関係者取引",
+                "group": "政府関係者の取引",
                 "pages": [
                   "ja/api-reference/calendar_api/government-trades/overview",
                   "ja/api-reference/calendar_api/government-trade-reports/government-trade-reports",
@@ -689,7 +689,7 @@
                 ]
               },
               {
-                "group": "ニュースフィード＆Why Is It Moving（WIIMs）",
+                "group": "ニュースフィード & Why is it Moving（WIIMs）",
                 "pages": [
                   "ja/api-reference/news-api_api/news/overview",
                   "ja/api-reference/news-api_api/news/get-the-news-items",
@@ -712,7 +712,7 @@
                 ]
               },
               {
-                "group": "ティッカートレンド",
+                "group": "ティッカー動向",
                 "pages": [
                   "ja/api-reference/ticker-trends-api_api/ticker-trends/overview",
                   "ja/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
