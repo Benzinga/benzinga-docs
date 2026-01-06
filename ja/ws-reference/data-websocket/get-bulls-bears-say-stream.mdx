@@ -1,32 +1,61 @@
 ---
-title: "強気／弱気ストリーム"
-description: "強気コメント／弱気コメントのストリームを購読します。"
+title: "強気／弱気シナリオ・ストリーム"
+description: "証券に関する強気・弱気シナリオをリアルタイムで配信します。"
+asyncapi: "/asyncapi/bulls-bears-say-stream.yml bullsBearsSay"
 ---
 
-<div id="websocket-websocketv1">
-  ## ウェブソケット `websocket/v1`:
+<div id="overview">
+  ## 概要
 </div>
 
-```txt
-wss://api.benzinga.com/api/v1/analyst/insights/stream
+証券の強気・弱気シナリオに関するリアルタイム分析を購読できます。株式についてのポジティブ（強気）およびネガティブ（弱気）双方のシナリオに対するバランスの取れた見解を得ることができます。
+
+<div id="key-features">
+  ### 主な機能
+</div>
+
+- **バランスの取れた分析**: 強気・弱気双方のケースを受け取り、市場を多角的に把握できます
+- **リアルタイム更新**: ケースが作成・更新・削除された際に即時に通知を受け取ります
+- **銘柄でフィルタリング**: 特定の ticker や ISIN を対象に購読できます
+- **市場センチメント**: 楽観的・悲観的な双方の見解を把握できます
+
+<div id="use-cases">
+  ### ユースケース
+</div>
+
+- 賛否両論を可視化するセンチメント分析ダッシュボードを構築する
+- 強気／弱気センチメントの変化を時間の経過とともに追跡する
+- 市場に対する見方の大きな変化をユーザーに通知する
+- クライアントにバランスの取れた投資リサーチを提供する
+
+<div id="quick-start">
+  ## クイックスタート
+</div>
+
+上部のインタラクティブなウェブソケットテスターを使用して、リアルタイムで接続およびストリームのテストを行ってください。
+
+<div id="connection-url">
+  ### 接続 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=YOUR_TOKEN
 ```
 
 
-<div id="parameters">
-  #### パラメーター
+<div id="query-parameters">
+  ### クエリパラメータ
 </div>
 
-| Name       | Location |  Type   | Required | Description                                                             |
-| :--------- | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
-| `token`    | query    | string  |      Yes | Benzinga ウェブソケットトークン（bz.production***）。                   |
-| `tickers`  | query    | string  | Optional | 購読したいティッカーのリスト。カンマ区切り。                            |
-| `isins`    | query    | string  | Optional | フィルター対象とする ISIN（国際証券識別番号）のリスト。カンマ区切り。   |
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Benzinga ウェブソケット API のトークン (bz.production***) |
+| `tickers` | No | ティッカーシンボルのカンマ区切りリスト（例: `AAPL,TSLA`） |
+| `isins` | No | フィルタリングに使用する ISIN（国際証券識別番号）のカンマ区切りリスト |
 
-<div id="stream-response">
-  ### ストリームレスポンス:
+<div id="message-example">
+  ## メッセージ例
 </div>
-
-ストリームにサブスクライブすると、アナリストインサイトの更新情報を次の形式で受信します。
 
 ```json
 {
@@ -36,179 +65,42 @@ wss://api.benzinga.com/api/v1/analyst/insights/stream
   "data": {
     "action": "created",
     "id": "case123",
+    "timestamp": "2024-10-01T10:00:00Z",
     "content": {
-      "bear_case": "Market downturn expected.",
-      "bull_case": "Positive earnings forecast.",
-      "id": "case123",
+      "bull_case": "Strong earnings growth and market expansion expected.",
+      "bear_case": "Increased competition and regulatory pressures.",
       "ticker": "AAPL",
       "updated": 1696153200
-    },
-    "timestamp": "2024-10-01T10:00:00Z"
+    }
   }
 }
 ```
 
 
-<div id="responses">
-  #### レスポンス
+<div id="message-actions">
+  ### メッセージのアクション
 </div>
 
-- **200 OK**
-- **概要**: 成功
-- **Content Type**: `application/json`
-- **スキーマ**: [BullBearWSResp](#bullbearwsresp)
+| アクション | 説明 |
+|--------|-------------|
+| `created` / `Created` | 新しい強気/弱気のケースが公開された |
+| `updated` / `Updated` | 既存のケースが変更された |
+| `deleted` / `Deleted` | ケースが削除された |
 
-<div id="bullbearwsresp">
-  ### BullBearWSResp
+<div id="interactive-commands">
+  ## インタラクティブコマンド
 </div>
 
-| Parameter      | Type   | Description                                           |
-|----------------|--------|-------------------------------------------------------|
-| id             | string | ウェブソケットレスポンスを一意に識別するUUID           |
-| api_version    | string | ウェブソケットAPIのバージョン                         |
-| kind           | string | ウェブソケット接続のストリーム種別                    |
-| data           | object | bull/bearケースのアクションと詳細を含むオブジェクト   |
+| Command | Description |
+|---------|-------------|
+| `ping` | 接続を維持します（`pong` を返します） |
+| `replay` | キャッシュされた直近最大100件のメッセージを再送信します |
 
-<div id="data-object-inside-bullbearwsresp">
-  ### データオブジェクト（BullBearWSResp 内）
+<div id="best-practices">
+  ## ベストプラクティス
 </div>
 
-| Parameter | Type   | Description                                                        |
-|-----------|--------|--------------------------------------------------------------------|
-| action    | string | ウェブソケットにおけるデータのアクション（例：created、updated、deleted） |
-| id        | string | Bull/Bear ケースのデータ ID                                       |
-| content   | object | Bull/Bear ケースの詳細（下記参照）                                |
-| timestamp | string | データのタイムスタンプ                                            |
-
-<div id="bullbearcase-schema-inside-data-content">
-  ### BullBearCase スキーマ（data content 内）
-</div>
-
-| Parameter | Type     | Description                                               |
-|-----------|----------|-----------------------------------------------------------|
-| bear_case | string   | 弱気シナリオの説明                                         |
-| bull_case | string   | 強気シナリオの説明                                         |
-| id        | string   | 強気/弱気シナリオの一意の識別子（UUID 形式）              |
-| ticker    | string   | 強気/弱気シナリオに関連する株式のtickerシンボル           |
-| updated   | integer  | シナリオが最後に更新された日時のタイムスタンプ（int64 形式） |
-
-<div id="success-response">
-  ## 成功レスポンス
-</div>
-
-- 成功 `101` - ウェブソケット接続が正常に確立されました。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '700px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ✅ wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz.p*** に接続しました
-        </div>
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイク詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span><strong>リクエスト URL:</strong> </span>
-        <p style={{ color: 'blue' }}>
-            "https://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz"
-        </p>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>リクエストメソッド:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>ステータスコード:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
-    </div>
-</div>
-
-<div id="error-response">
-  ## エラーレスポンス
-</div>
-
-- Unauthorized `401` - 指定したトークンが無効です。トークンを確認してください。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz.p*** に接続できませんでした
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: 予期しないサーバーレスポンス: 401
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>リクエストメソッド:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>ステータスコード:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
-    </div>
-</div>
-
-- Bad Gateway `502` - 無効なルート、またはサーバーエラーの可能性があります。
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ wss://api.benzinga.com/api/v1/bulls_bears_say/stream?token=bz.p*** に接続できませんでした
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: 予期しないサーバーレスポンス: 502
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        ハンドシェイクの詳細
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>リクエストメソッド:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>ステータスコード:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
-    </div>
-</div>
+- **重複排除**: メッセージの重複処理を防ぐために `id` フィールドを使用する
+- **ハートビート**: 30〜60秒ごとに `ping` コマンドを送信する
+- **バランスの取れた表示**: 公平な分析のために、強気・弱気の両方のケースを表示する
+- **更新監視**: 最新の変更を特定するために `updated` タイムスタンプを監視する
