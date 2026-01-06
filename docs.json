@@ -491,13 +491,29 @@
                 ]
               },
               {
-                "group": "WebSocket de datos",
+                "group": "Perspectivas de los analistas",
                 "pages": [
-                  "es/ws-reference/data-websocket/get-analyst-insights-stream",
-                  "es/ws-reference/data-websocket/get-bulls-bears-say-stream",
+                  "es/ws-reference/data-websocket/get-analyst-insights-stream"
+                ]
+              },
+              {
+                "group": "Sentimiento del mercado",
+                "pages": [
+                  "es/ws-reference/data-websocket/get-bulls-bears-say-stream"
+                ]
+              },
+              {
+                "group": "Datos de calendar",
+                "pages": [
                   "es/ws-reference/data-websocket/get-calendar-earnings-stream",
                   "es/ws-reference/data-websocket/get-calendar-ratings-stream",
                   "es/ws-reference/data-websocket/get-consensus-ratings-stream"
+                ]
+              },
+              {
+                "group": "Transcripciones",
+                "pages": [
+                  "es/ws-reference/data-websocket/get-transcripts-stream"
                 ]
               }
             ]
@@ -510,6 +526,12 @@
                 "pages": [
                   "es/webhook-reference/overview",
                   "es/webhook-reference/webhook-engine"
+                ]
+              },
+              {
+                "group": "API de webhooks",
+                "pages": [
+                  "es/api-reference/webhook_api/test-webhook-delivery"
                 ]
               }
             ]
@@ -756,13 +778,29 @@
                 ]
               },
               {
-                "group": "データウェブソケット",
+                "group": "アナリストインサイト",
                 "pages": [
-                  "ja/ws-reference/data-websocket/get-analyst-insights-stream",
-                  "ja/ws-reference/data-websocket/get-bulls-bears-say-stream",
+                  "ja/ws-reference/data-websocket/get-analyst-insights-stream"
+                ]
+              },
+              {
+                "group": "市場センチメント",
+                "pages": [
+                  "ja/ws-reference/data-websocket/get-bulls-bears-say-stream"
+                ]
+              },
+              {
+                "group": "Calendar データ",
+                "pages": [
                   "ja/ws-reference/data-websocket/get-calendar-earnings-stream",
                   "ja/ws-reference/data-websocket/get-calendar-ratings-stream",
                   "ja/ws-reference/data-websocket/get-consensus-ratings-stream"
+                ]
+              },
+              {
+                "group": "トランスクリプト",
+                "pages": [
+                  "ja/ws-reference/data-websocket/get-transcripts-stream"
                 ]
               }
             ]
@@ -775,6 +813,12 @@
                 "pages": [
                   "ja/webhook-reference/overview",
                   "ja/webhook-reference/webhook-engine"
+                ]
+              },
+              {
+                "group": "Webhook API",
+                "pages": [
+                  "ja/api-reference/webhook_api/test-webhook-delivery"
                 ]
               }
             ]

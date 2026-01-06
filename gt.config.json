@@ -47,7 +47,8 @@
           "./openapi/logo-api_api.spec.yml",
           "./openapi/news-api_api.spec.yml",
           "./openapi/newsquantified-api_api.spec.yml",
-          "./openapi/ticker-trends-api_api.spec.yml"
+          "./openapi/ticker-trends-api_api.spec.yml",
+          "./openapi/webhook_api.spec.yml"
         ]
       }
     },
@@ -74,6 +75,9 @@
         "preset": "openapi"
       },
       "./openapi/ticker-trends-api_api.spec.yml": {
+        "preset": "openapi"
+      },
+      "./openapi/webhook_api.spec.yml": {
         "preset": "openapi"
       }
     }
@@ -113,7 +117,8 @@
         "./openapi/logo-api_api.spec.yml",
         "./openapi/news-api_api.spec.yml",
         "./openapi/newsquantified-api_api.spec.yml",
-        "./openapi/ticker-trends-api_api.spec.yml"
+        "./openapi/ticker-trends-api_api.spec.yml",
+        "./openapi/webhook_api.spec.yml"
       ],
       "transform": [
         {
@@ -147,6 +152,10 @@
         {
           "match": "^openapi/ticker-trends-api_api.spec.yml$",
           "replace": "{locale}/openapi/ticker-trends-api_api.spec.yml"
+        },
+        {
+          "match": "^openapi/webhook_api.spec.yml$",
+          "replace": "{locale}/openapi/webhook_api.spec.yml"
         }
       ]
     }

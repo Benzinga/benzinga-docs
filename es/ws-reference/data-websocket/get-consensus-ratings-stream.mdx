@@ -1,243 +1,134 @@
 ---
-title: "[Calendar] Transmisión de calificaciones de consenso"
-description: "Obtener la transmisión de calificaciones de consenso."
+title: "Transmisión de calificaciones de consenso"
+description: "Calificaciones de consenso y precios objetivo agregados en tiempo real."
+asyncapi: "/asyncapi/consensus-ratings-stream.yml consensusRatings"
 ---
 
-<div id="websocket-websocketv1">
-  ## WebSocket `websocket/v1`:
+<div id="overview">
+  ## Descripción general
 </div>
 
-```txt
-wss://api.benzinga.com/api/v1/consensus-ratings/stream
+Suscríbase a calificaciones de consenso en tiempo real que consolidan múltiples opiniones de analistas en calificaciones unificadas y precios objetivo. Supervise el sentimiento general del mercado y los cambios en el consenso de los analistas.
+
+<div id="key-features">
+  ### Características clave
+</div>
+
+- **Consenso agregado**: Vista combinada de todas las calificaciones de analistas para un valor
+- **Consenso de precio objetivo**: Objetivos de precio promedio, máximo y mínimo
+- **Distribución de calificaciones**: Desglose por “Strong Buy”, “Buy”, “Hold”, “Sell”, “Strong Sell”
+- **Número de analistas**: Seguimiento del número total de analistas y de los analistas únicos que cubren el valor
+- **Agregación flexible**: Visualización como recuentos o porcentajes
+
+<div id="use-cases">
+  ### Casos de uso
+</div>
+
+- Crear paneles y widgets de recomendaciones de consenso
+- Hacer seguimiento de cambios generales en el sentimiento de los analistas
+- Comparar recomendaciones individuales con el consenso
+- Monitorizar rangos de precio objetivo (alto, bajo, promedio)
+- Identificar valores con un consenso en mejora o deterioro
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Usa la herramienta interactiva de prueba de WebSocket de arriba para conectarte y probar el flujo en tiempo real.
+
+<div id="connection-url">
+  ### URL de conexión
+</div>
+
+```
+wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=YOUR_TOKEN
 ```
 
 
-<div id="parameters">
-  #### Parámetros
+<div id="query-parameters">
+  ### Parámetros de consulta
 </div>
 
-| Nombre              | Ubicación |  Tipo   | Obligatorio | Descripción                                                              |
-| :---------          | :-------: | :-----: | ----------: | -----------------------------------------------------------------------: |
-| `token`             | query     | string  |        Sí   | token de WebSocket de Benzinga (bz.production***).                       |
-| `tickers`           | query     | string  | Opcional    | Lista de tickers a los que desea suscribirse, separados por comas.      |
-| `isins`             | query     | string  | Opcional    | Lista de ISIN que desea usar para filtrar, separados por comas.         |
-| `simplify`          | query     | string  | Opcional    | Simplifica las calificaciones a Buy, Hold, Sell.                        |
-| `aggregate_type`    | query     | string  | Opcional    | Criterio de agregación, ya sea número o porcentaje.                     |
+| Parámetro | Obligatorio | Descripción |
+|-----------|-------------|-------------|
+| `token` | Sí | Tu token de la API WebSocket de Benzinga (bz.production***) |
+| `tickers` | No | Lista separada por comas de símbolos bursátiles (p. ej., `AAPL,MSFT`) |
+| `isins` | No | Lista separada por comas de códigos ISIN para filtrar |
+| `simplify` | No | Simplifica las calificaciones a Buy, Hold, Sell |
+| `aggregate_type` | No | Tipo de agregación: `number` o `percentage` |
 
-<div id="stream-response">
-  ### Respuesta del stream
+<div id="message-example">
+  ## Ejemplo de mensaje
 </div>
-
-Cuando te suscribes al stream, recibirás actualizaciones sobre análisis de analistas en el siguiente formato:
 
 ```json
 {
-    "id": "e9e75b31-604e-422c-a532-362725b2d59d",
-    "api_version": "websocket/v1",
-    "kind": "data/v2.1/calendar/ratings",
-    "data": {
-      "aggregate_ratings": {
-        "buy": 123,
-        "hold": 123,
-        "sell": 123,
-        "strong_buy": 123,
-        "strong_sell": 123
-      },
-      "aggregate_type": "number",
-      "consensus_price_target": 123,
-      "consensus_rating": "SELL",
-      "consensus_rating_val": 123,
-      "high_price_target": 123,
-      "low_price_target": 123,
-      "total_analyst_count": 123,
-      "unique_analyst_count": 123,
-      "updated_at": "2024-10-04T19:21:06.880730108Z"
-    }
+  "id": "e9e75b31-604e-422c-a532-362725b2d59d",
+  "api_version": "websocket/v1",
+  "kind": "data/v2.1/calendar/ratings",
+  "data": {
+    "aggregate_ratings": {
+      "strong_buy": 15,
+      "buy": 25,
+      "hold": 8,
+      "sell": 2,
+      "strong_sell": 0
+    },
+    "aggregate_type": "number",
+    "consensus_rating": "BUY",
+    "consensus_rating_val": 4.2,
+    "consensus_price_target": 195.50,
+    "high_price_target": 225.00,
+    "low_price_target": 160.00,
+    "total_analyst_count": 50,
+    "unique_analyst_count": 48,
+    "updated_at": "2024-10-04T19:21:06Z"
+  }
 }
 ```
 
 
-<div id="responses">
-  #### Respuestas
+<div id="consensus-ratings">
+  ### Calificaciones de consenso
 </div>
 
-- **200 OK**
-- **Descripción**: Éxito
-- **Tipo de contenido**: `application/json`
-- **Esquema**: [RatingsWSResp](#ratingswsresp)
+| Calificación | Valor numérico | Descripción |
+|-------------|----------------|-------------|
+| `STRONG_BUY` | 5.0 | Consenso muy alcista |
+| `BUY` | 4.0 - 4.9 | Consenso alcista |
+| `HOLD` | 3.0 - 3.9 | Consenso neutro |
+| `SELL` | 2.0 - 2.9 | Consenso bajista |
+| `STRONG_SELL` | 1.0 - 1.9 | Consenso muy bajista |
 
-<div id="data-structures">
-  ## Estructuras de datos
+<div id="key-metrics">
+  ### Métricas clave
 </div>
 
-<div id="ratingswsresp">
-  ### RatingsWSResp
+| Campo | Descripción |
+|-------|-------------|
+| `consensus_rating` | Calificación general (BUY, HOLD, SELL) |
+| `consensus_rating_val` | Valor numérico de la calificación (1.0-5.0) |
+| `consensus_price_target` | Precio objetivo promedio entre todos los analistas |
+| `high_price_target` | Precio objetivo más alto |
+| `low_price_target` | Precio objetivo más bajo |
+| `total_analyst_count` | Número total de calificaciones |
+| `unique_analyst_count` | Número de analistas distintos |
+
+<div id="interactive-commands">
+  ## Comandos interactivos
 </div>
 
-| Propiedad      | Tipo   | Descripción                                                                                               |
-|----------------|--------|-----------------------------------------------------------------------------------------------------------|
-| `id`           | string | UUID único para la respuesta de WebSocket                                                                 |
-| `api_version`  | string | Versión de la API WebSocket                                                                               |
-| `kind`         | string | Tipo de flujo de conexión de WebSocket                                                                    |
-| `data`         | object | Contiene los datos de ratings. Consulte a continuación las propiedades.                                  |
+| Comando | Descripción |
+|---------|-------------|
+| `ping` | Mantener la conexión activa (responde con `pong`) |
+| `replay` | Reproducir hasta los últimos 100 mensajes almacenados en caché |
 
-<div id="data-properties">
-  ### Propiedades de datos
+<div id="best-practices">
+  ## Mejores prácticas
 </div>
 
-| Propiedad      | Tipo   | Descripción                                                                                               |
-|----------------|--------|-----------------------------------------------------------------------------------------------------------|
-| `action`       | string | Acción de datos de WebSocket; por ejemplo, created, updated, deleted                                      |
-| `id`           | string | ID de los datos de la calificación                                                                         |
-| `content`      | object | Detalles de las calificaciones. Consulte [ratings](#ratings) para ver más propiedades.                    |
-| `timestamp`    | string | Marca de tiempo de los datos                                                                              |
-
-<div id="aggregate_ratings-properties">
-  ### Propiedades de Aggregate_Ratings
-</div>
-
-| Property       | Type   | Description                                                                                               |
-|----------------|--------|-----------------------------------------------------------------------------------------------------------|
-| `strong_buy`   | int    | Recuento/porcentaje total de strong_buy                                                                   |
-| `buy`          | int    | Recuento/porcentaje total de buy                                                                          |
-| `hold`         | int    | Detalles sobre las calificaciones. Consulte [ratings](#ratings) para más propiedades.                    |
-| `sell`         | int    | Marca de tiempo de los datos                                                                              |
-| `strong_sell`  | int    | Marca de tiempo de los datos                                                                              |
-
-<div id="ratings">
-  ### Recomendaciones
-</div>
-
-| Property                | Type   | Description                                                                                             |
-|-------------------------|--------|---------------------------------------------------------------------------------------------------------|
-| `aggregate_ratings`     | object | Contiene todas las recomendaciones categorizadas por SELL, HOLD, BUY                                   |
-| `aggregate_type`        | string | Tipo de agregación, número o porcentaje                                                                |
-| `consensus_price_target`| string | Precio objetivo (PO) promedio                                                                          |
-| `consensus_rating`      | string | Valor de escala, SELL, HOLD, BUY                                                                       |
-| `consensus_rating_val`  | string | Valor en coma flotante                                                                                 |
-| `high_price_target`     | string | Precio objetivo (PO) más alto en el intervalo de tiempo específico                                     |
-| `low_price_target`      | string | Precio objetivo (PO) más bajo en el intervalo de tiempo específico                                     |
-| `total_analyst_count`   | string | Total de calificaciones de analistas en el intervalo de tiempo                                        |
-| `unique_analyst_count`  | string | Número de analistas únicos en el intervalo de tiempo                                                   |
-| `updated_at`            | string | Marca de tiempo de la última actualización en UTC                                                      |
-
-<div id="success-response">
-  ## Respuesta de éxito
-</div>
-
-- Éxito `101` - Conexión WebSocket establecida correctamente.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '700px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ✅ Conectado a wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Detalles del handshake
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span><strong>URL de la solicitud:</strong> </span>
-        <p style={{ color: 'blue' }}>
-            "https://api.benzinga.com/api/v1/consensus-ratings/stream?token=bz"
-        </p>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Método de la solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
-    </div>
-</div>
-
-<div id="error-response">
-  ## Respuesta de error
-</div>
-
-- No autorizado `401` - Token no válido. Comprueba el token proporcionado.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ No se pudo conectar a wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: Respuesta inesperada del servidor: 401
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Detalles del handshake
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
-    </div>
-</div>
-
-- Bad Gateway `502` - Ruta no válida o error en el servidor.
-
-<div style={{
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '16px',
-    fontSize: '14px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    backgroundColor: '#f9f9f9',
-    maxWidth: '500px',
-}}>
-    <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }}>
-        <div style={{ color: '#000000'}}>
-            ❗ No se pudo conectar a wss://api.benzinga.com/api/vv1/consensus-ratings/stream?token=bz.p***
-        </div>
-    </div>
-
-    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        Error: Respuesta inesperada del servidor: 502
-    </div>
-
-    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
-        Detalles del handshake
-    </div>
-
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Método de solicitud:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
-    </div>
-    <div style={{ marginBottom: '4px' }}>
-        <span> <strong>Código de estado:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
-    </div>
-</div>
+- **Cambios en el consenso**: Supervisa los cambios en `consensus_rating_val` a lo largo del tiempo
+- **Rango de precio objetivo**: Compara el precio actual con los objetivos máximo y mínimo para obtener contexto de valoración
+- **Profundidad de cobertura**: Un mayor número de analistas indica un consenso más confiable
+- **Análisis de distribución**: Examina el desglose de `aggregate_ratings` para captar matices en el sentimiento
+- **Vista porcentual**: Usa `aggregate_type=percentage` para comparaciones normalizadas
