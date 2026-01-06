@@ -6,6 +6,65 @@ info:
   title: Data API Proxy
   version: 2.0.0
 paths:
+  /api/v1/market/movers:
+    get:
+      description: 指定したフィルターに基づいてマーケットムーバーズデータを取得します。指定したセッションおよび時間帯において大きく値動きした銘柄を返します。高度なフィルタリングのために、カスタムスクリーナーおよびムーバーズクエリをサポートします。
+      operationId: get-movers
+      parameters:
+        - description: 返却する結果の最大件数です。レスポンスのサイズを制御します。
+          in: query
+          name: maxResults
+          schema:
+            type: integer
+        - description: movers データの開始日時。形式：YYYY-MM-DD または YYYY-MM-DDTHH:MM:SS
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: moversデータの終了日時。形式：YYYY-MM-DD または YYYY-MM-DDTHH:MM:SS
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: 値動き銘柄を絞り込むための取引セッション。例：PRE_MARKET、REGULAR、AFTER_MARKET
+          in: query
+          name: session
+          schema:
+            type: string
+        - description: 特定の条件に基づいて証券をフィルタリングするためのカスタムスクリーナー用クエリ文字列
+          in: query
+          name: screenerQuery
+          schema:
+            type: string
+        - description: 特定の値動きパターンや閾値を定義するためのカスタムmoversクエリ文字列
+          in: query
+          name: moversQuery
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 値動きの大きい銘柄のデータ
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: 不正なリクエスト - 無効なパラメータ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: 値動きの大きい銘柄
+      tags:
+        - Market Data
   /api/v1/quoteDelayed:
     get:
       description: シンボル、ISIN（国際証券識別番号）、または CIK のリストに含まれる銘柄の遅延株価を取得します
@@ -51,6 +110,67 @@ paths:
       summary: 遅延クォートの取得 V1
       tags:
         - QuoteDelayed
+  /api/v1/shortinterest:
+    get:
+      description: 指定した証券の空売り残高データを取得します。空売り株数、カバー日数（days to
+        cover）、空売り比率に関する情報を含みます。オプションでFINRAレポートデータおよび日付範囲によるフィルタリングをサポートします。
+      operationId: get-short-interest
+      parameters:
+        - description: "株式のtickerシンボルのカンマ区切りリスト（例: AAPL,MSFT,TSLA）。必須。"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "FINRA の空売り残高レポートデータを含めるかどうか。デフォルト: false"
+          in: query
+          name: finraReport
+          schema:
+            type: boolean
+        - description: ページネーションに使用するページ番号。pageSize パラメータと併せて使用します。
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: 1ページあたりの結果数。デフォルト値はエンドポイントごとに異なります。
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: 空売り残高データの開始日。形式：YYYY-MM-DD
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: 空売り残高データの終了日。形式：YYYY-MM-DD
+          in: query
+          name: to
+          schema:
+            type: string
+      responses:
+        "200":
+          description: リクエストされたシンボルの空売り残高データ
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: 不正なリクエスト：symbols パラメータが指定されていないか、値が不正です
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: 空売り残高データ
+      tags:
+        - Market Data
   /api/v2.1/fundamentals:
     get:
       description: 指定した証券の拡張された財務ファンダメンタルズデータを取得します。これは、追加のデータフィールドとパフォーマンス向上を備えた v2
@@ -105,33 +225,33 @@ paths:
         - Fundamentals
   /api/v2.1/fundamentals/alphaBeta:
     get:
-      description: Alpha Beta の取得
+      description: 指定したシンボルの Alpha および Beta 指標を取得します。これらの指標は、市場全体に対するボラティリティとパフォーマンスを示します。
       operationId: get-alpha-beta-v21
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: カンマ区切りのシンボル一覧（例：AAPL, MSFT）
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: このパラメータで指定した日付以降の結果を返します
+        - description: このパラメータで指定した日付以降の結果を返します (YYYY-MM-DD)
           in: query
           name: asOf
           schema:
             type: string
-        - description: 返却される結果の会計期間を指定します
+        - description: 返却される結果の会計期間を指定します（例：Q1, 2023）
           in: query
           name: period
           schema:
             type: string
-        - description: TTM、A（当初報告値）、R（修正再表示値）。P（暫定発表）
+        - description: "レポート種別: TTM（直近12か月）、A（当初報告値）、R（修正再表示値）、P（暫定発表）"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: アルファ・ベータデータ
           content:
             application/json:
               schema:
@@ -141,16 +261,66 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: 内部サーバーエラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
       summary: Alpha Beta v2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/assetClassification:
+    get:
+      description: 指定したシンボルについて、セクター、業種などの分類メタデータを含む資産分類の詳細を取得します。ポートフォリオの分類や分析に役立ちます。
+      operationId: get-asset-classification-v21
+      parameters:
+        - description: "カンマ区切りのシンボル一覧（例: AAPL, MSFT）"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付（YYYY-MM-DD）以降の日付の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の対象会計期間を指定します（例：Q1、2023年）。
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "レポート種別: TTM（直近12か月間）、A（原報告値）、R（修正報告値）、P（速報値）"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 資産分類データ
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 資産分類 v2.1 を取得
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/company:
@@ -182,7 +352,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 経営指標を含む企業の財務データ
+          description: 企業の財務データ
           content:
             application/json:
               schema:
@@ -201,7 +371,7 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 企業財務データ
+      summary: 企業財務データ V2.1
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/companyProfile:
@@ -233,7 +403,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 事業内容および企業情報を含む企業概要データ
+          description: 企業概要データ
           content:
             application/json:
               schema:
@@ -252,37 +422,39 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 企業プロフィールの情報
+      summary: 企業プロフィールの情報 V2.1
       tags:
         - Fundamentals
-  /api/v2.1/fundamentals/shareClass:
+  /api/v2.1/fundamentals/earningRatios:
     get:
-      description: 株式クラス情報を取得
+      description: シンボルのリストに対する収益関連レシオを取得します。株価収益率（P/Eレシオ）、1株当たり利益（Earnings Per
+        Share、EPS）など、その他の収益関連レシオを含みます。
+      operationId: get-earning-ratios-v21
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: カンマ区切りのシンボル一覧（例：AAPL, MSFT）
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: このパラメータで指定した日付以降の結果を返します
+        - description: このパラメータで指定した日付（YYYY-MM-DD）以降の結果を返します。
           in: query
           name: asOf
           schema:
             type: string
-        - description: 返される結果の時間範囲を指定します
+        - description: 返される結果の対象となる会計期間を指定します（例：Q1, 2023）
           in: query
           name: period
           schema:
             type: string
-        - description: TTM、A（当初報告値）、R（修正後数値）、P（速報・暫定発表）
+        - description: "レポート種別: TTM（直近12か月累計）、A（当初公表値）、R（修正再表示）、P（速報値）"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: 収益比率データ
           content:
             application/json:
               schema:
@@ -292,13 +464,215 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: サーバー内部エラー
           content:
             application/json:
               schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: Earnings Ratios v2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/earningReports:
+    get:
+      description: 指定した証券について、四半期および通期の決算から、売上高、1株当たり利益（Earnings Per
+        Share、EPS）、EBITDA、純利益、その他の主要な財務指標を含む詳細な決算情報を取得します。企業の財務パフォーマンスや業績の推移を時系列で分析するうえで不可欠です。
+      operationId: get-earnings-reports-v21
+      parameters:
+        - description: "株式tickerシンボルのカンマ区切りリスト（例: AAPL,MSFT,GOOGL）。必須。"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "この日付以降（当日を含む）の日付の結果をフィルタリングします。形式: YYYY-MM-DD（例: 2024-01-01）"
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "財務報告の会計期間を指定するためのフィルターです。サポートされる値は次のとおりです: Q1, Q2, Q3,
+            Q4（四半期）、FY（通期）、TTM（直近12か月）"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: 財務報告の種別。サポートされる値：TTM（直近12か月）、A（当初報告値）、R（修正後の値）、P（速報値）
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 決算発表データ
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: 不正なリクエスト：symbols パラメータが指定されていないか、値が不正です
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 四半期・年次決算レポート v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/financials:
+    get:
+      description: 指定したシンボルの財務諸表データを取得します。貸借対照表、損益計算書、キャッシュ・フロー計算書のデータを含みます。
+      parameters:
+        - description: "カンマ区切りのシンボル一覧（例: AAPL, MSFT）"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付（YYYY-MM-DD）以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の会計期間を指定します（例：Q1、2023）。
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "レポート種別: TTM（直近12か月）, A（原報告値）, R（修正報告値）, P（速報値）"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 財務諸表データ
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 財務情報 v2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/operationRatios:
+    get:
+      description: シンボルのリストに対する経営指標を取得します。営業利益率、純利益率、ROA、ROE などの指標が含まれます。
+      operationId: get-operation-ratios-v21
+      parameters:
+        - description: "カンマ区切りのシンボル一覧（例: AAPL, MSFT）"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付（YYYY-MM-DD）以降の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の対象となる会計期間を指定します（例：Q1, 2023）
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "レポート種別: TTM（直近12か月）、A（当初報告値）、R（修正再表示）、P（速報値）"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 経営指標データ
+          content:
+            application/json:
+              schema:
                 type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: オペレーション比率 v2.1 を取得
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/shareClass:
+    get:
+      description: 特定のシンボルの株式クラス情報を取得します。株式クラスID、通貨、その他の関連メタデータを含む詳細な株式構成データを返します。
+      parameters:
+        - description: カンマ区切りのシンボル一覧（例：AAPL, MSFT）
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付以降の結果を返します (YYYY-MM-DD)
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の時間範囲を指定します（例：Q1, 2023）
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "レポート種別: TTM（直近12か月）、A（当初報告値）、R（修正後数値）、P（速報・暫定発表）"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 株式クラスのデータ
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
       summary: Share Class v2.1 を取得
@@ -306,32 +680,32 @@ paths:
         - Fundamentals
   /api/v2.1/fundamentals/shareClassProfile:
     get:
-      description: シェアクラスプロファイルを取得
+      description: シェアクラスプロファイル情報を取得し、シェアクラスの特性および関連メタデータの詳細を提供します。
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: カンマ区切りのシンボル一覧（例：AAPL, MSFT）
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: このパラメータで指定した日付以降の結果を返します
+        - description: このパラメータで指定した日付以降の結果を返します (YYYY-MM-DD)
           in: query
           name: asOf
           schema:
             type: string
-        - description: 返される結果の会計期間を指定します
+        - description: "返される結果の会計期間を指定します（例: Q1, 2023）"
           in: query
           name: period
           schema:
             type: string
-        - description: TTM、A（当初報告値）、R（修正後値）、P（速報値／暫定値）
+        - description: "レポート種別: TTM（直近12か月）、A（当初報告値）、R（修正後値）、P（速報値／暫定値）"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: OK
+          description: 株式クラスのプロファイル情報
           content:
             application/json:
               schema:
@@ -341,16 +715,67 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: サーバ内部エラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
       summary: Share Class Profile V2.1 の取得
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/valuationRatios:
+    get:
+      description: 複数のシンボルに対するバリュエーション比率を取得します。P/E、P/B、P/S
+        などの指標や、投資分析に不可欠なその他のバリュエーション指標が含まれます。
+      operationId: get-valuation-ratios-v21
+      parameters:
+        - description: "シンボルのカンマ区切りリスト（例: AAPL, MSFT）"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: このパラメータで指定した日付（YYYY-MM-DD）以降の日付の結果を返します
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: 返される結果の会計期間を指定します（例：Q1, 2023）
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "レポート種別: TTM（直近12か月）、A（原報告値）、R（修正報告値）、P（暫定値）"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: バリュエーション指標データ
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: バリュエーション比率 v2.1 を取得
       tags:
         - Fundamentals
   /api/v2/bars:
@@ -468,354 +893,45 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 企業のファンダメンタルズ
-      tags:
-        - Fundamentals
-  /api/v2/fundamentals/assetClassification:
-    get:
-      description: 資産分類の取得
-      operationId: get-asset-classification-v21
-      parameters:
-        - description: カンマ区切りのシンボル一覧
-          in: query
-          name: symbols
-          required: true
-          schema:
-            type: string
-        - description: このパラメータで指定した日付以降（当日を含む）の結果を返します
-          in: query
-          name: asOf
-          schema:
-            type: string
-        - description: 返される結果が対象とする会計期間を指定します
-          in: query
-          name: period
-          schema:
-            type: string
-        - description: TTM、A（当初公表値）、R（修正済み）、P（速報値）
-          in: query
-          name: reportType
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: string
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                type: string
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                type: string
-      security:
-        - ApiKeyAuth: []
-      summary: 資産分類 v2.1 の取得
-      tags:
-        - Fundamentals
-  /api/v2/fundamentals/earningRatios:
-    get:
-      description: シンボル、ISIN（国際証券識別番号）、または CIK のリストに対する収益指標を取得します
-      operationId: get-earning-ratios-v21
-      parameters:
-        - description: カンマ区切りのシンボルのリスト
-          in: query
-          name: symbols
-          schema:
-            type: string
-        - description: このパラメーターで指定した日付以降の結果を返します
-          in: query
-          name: asOf
-          schema:
-            type: string
-        - description: 返される結果の期間を指定します
-          in: query
-          name: period
-          schema:
-            type: string
-        - description: TTM、A（当初報告値）、R（修正値）。P（暫定値）
-          in: query
-          name: reportType
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 利益率を含む JSON オブジェクトを返します
-          content:
-            application/json:
-              schema:
-                type: string
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                type: string
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                type: string
-      security:
-        - ApiKeyAuth: []
-      summary: 収益比率 v2.1 の取得
-      tags:
-        - EarningRatios
-  /api/v2/fundamentals/earningsReports:
-    get:
-      description: 指定した有価証券について、四半期および通期レポートから、売上高、1株当たり利益（Earnings Per Share,
-        EPS）、EBITDA、純利益などの主要な財務実績を含む詳細な決算レポートを取得します。企業の財務パフォーマンスおよび利益動向を時系列で分析するうえで不可欠なデータです。
-      operationId: get-earnings-reports-v21
-      parameters:
-        - description: "カンマ区切りの株式のtickerシンボル一覧（例: AAPL,MSFT,GOOGL）。必須。"
-          in: query
-          name: symbols
-          required: true
-          schema:
-            type: string
-        - description: "このパラメータで指定した日付以降の結果をフィルタリングします。形式: YYYY-MM-DD（例: 2024-01-01）"
-          in: query
-          name: asOf
-          schema:
-            type: string
-        - description: "返される結果の対象となる財務報告の会計期間を絞り込むためのフィルターです。利用可能な値: Q1, Q2, Q3,
-            Q4（四半期）、FY（会計年度）、TTM（直近12か月）"
-          in: query
-          name: period
-          schema:
-            type: string
-        - description: 財務レポートの種類。サポートされる値：TTM（過去12か月）、A（当初公表値）、R（修正後値）、P（速報値）
-          in: query
-          name: reportType
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 売上高、1株当たり利益（Earnings Per Share）および収益性指標を含む決算報告データ
-          content:
-            application/json:
-              schema:
-                type: object
-        "400":
-          description: 不正なリクエスト - シンボルパラメータが指定されていないか無効です
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-      security:
-        - ApiKeyAuth: []
-      summary: 四半期・通期決算レポート
-      tags:
-        - Fundamentals
-  /api/v2/fundamentals/financials:
-    get:
-      description: Financials v2.1 の取得
-      parameters:
-        - description: カンマ区切りのシンボル一覧
-          in: query
-          name: symbols
-          required: true
-          schema:
-            type: string
-        - description: このパラメータで指定した日付以降の結果を返します
-          in: query
-          name: asOf
-          schema:
-            type: string
-        - description: 返される結果が対象とする会計期間を指定します
-          in: query
-          name: period
-          schema:
-            type: string
-        - description: TTM, A（当初公表値）, R（再表示値）. P（暫定値）
-          in: query
-          name: reportType
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                type: array
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-      security:
-        - ApiKeyAuth: []
-      summary: Financials v2.1 の取得
+      summary: 企業のファンダメンタルズ V2
       tags:
         - Fundamentals
   /api/v2/fundamentals/operationRatios:
     get:
-      description: シンボル一覧のオペレーション比率を取得
-      operationId: get-operation-ratios-v21
+      description: 指定した証券のオペレーション比率および業務効率指標を取得します。資産回転率、在庫回転率、売掛金回転率、買掛金回転期間などの主要業績指標（KPI）に加え、企業がどの程度効率的に資産を活用し、オペレーションを管理しているかを測定するその他の業務指標を含みます。
+      operationId: get-operation-ratios-v2
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: "カンマ区切りのシンボル一覧（株式ticker。例: AAPL,MSFT,GOOGL）。必須。"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: このパラメータで指定した日付（当日を含む）以降の結果を返します
+        - description: "このパラメータで指定した日付（当日を含む）以降の結果をフィルタします。形式: YYYY-MM-DD（例: 2024-01-01）"
           in: query
           name: asOf
           schema:
             type: string
-        - description: 返される結果が対象とする会計期間を指定します
+        - description: "返される結果が対象とする財務報告の会計期間を絞り込むフィルタです。指定可能な値: Q1, Q2, Q3,
+            Q4（四半期）、FY（通期）、TTM（直近12か月）"
           in: query
           name: period
           schema:
             type: string
-        - description: TTM、A（当初報告値）、R（修正後値）。P（速報値）
+        - description: "財務レポートの種別。指定可能な値: TTM、A（当初報告値）、R（修正後値）、P（速報値）"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: オペレーション比率を含む JSON オブジェクトを返します
-          content:
-            application/json:
-              schema:
-                type: string
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                type: string
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                type: string
-      security:
-        - ApiKeyAuth: []
-      summary: オペレーション比率 v2.1 を取得
-      tags:
-        - OperationRatios
-  /api/v2/fundamentals/valuationRatios:
-    get:
-      description: シンボル、ISIN（国際証券識別番号）、または CIK のリストに対するバリュエーション比率を取得します
-      operationId: get-valuation-ratios-v21
-      parameters:
-        - description: カンマ区切りのシンボル一覧
-          in: query
-          name: symbols
-          schema:
-            type: string
-        - description: このパラメータで指定した日付以降の結果を返します
-          in: query
-          name: asOf
-          schema:
-            type: string
-        - description: 返される結果の期間を指定します
-          in: query
-          name: period
-          schema:
-            type: string
-        - description: TTM、A（当初公表値）、R（修正公表値）。P（速報値）
-          in: query
-          name: reportType
-          schema:
-            type: string
-      responses:
-        "200":
-          description: バリュエーション指標を含むJSONオブジェクトを返します
-          content:
-            application/json:
-              schema:
-                type: string
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                type: string
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                type: string
-      security:
-        - ApiKeyAuth: []
-      summary: バリュエーション指標 v2.1 を取得
-      tags:
-        - ValuationRatios
-  /api/v2/movers:
-    get:
-      description: 指定したフィルターに基づいてマーケットムーバーのデータを取得します。指定したセッションおよび時間範囲内で大きく値動きした銘柄を返します。高度なフィルタリング用に、カスタムスクリーナーおよびマーケットムーバーのクエリをサポートします。
-      operationId: get-movers
-      parameters:
-        - description: 返却する結果の最大件数。レスポンスのサイズを制御します。
-          in: query
-          name: maxResults
-          schema:
-            type: integer
-        - description: movers データの開始日時。形式：YYYY-MM-DD または YYYY-MM-DDTHH:MM:SS
-          in: query
-          name: from
-          schema:
-            type: string
-        - description: movers データの終了日時。形式：YYYY-MM-DD または YYYY-MM-DDTHH:MM:SS のいずれか
-          in: query
-          name: to
-          schema:
-            type: string
-        - description: "値動き銘柄をフィルタリングするための取引セッション。例: PRE_MARKET, REGULAR, AFTER_MARKET"
-          in: query
-          name: session
-          schema:
-            type: string
-        - description: 特定の条件に基づき証券を抽出するカスタムスクリーナー用クエリ文字列
-          in: query
-          name: screenerQuery
-          schema:
-            type: string
-        - description: 特定の値動きパターンや閾値を定義するためのカスタム movers クエリ文字列
-          in: query
-          name: moversQuery
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 値動きの大きい銘柄データ
+          description: オペレーション効率比率および指標
           content:
             application/json:
               schema:
                 type: object
         "400":
-          description: 不正なリクエスト - 無効なパラメーター
+          description: 不正なリクエスト - `symbols` パラメータが指定されていないか無効です
           content:
             application/json:
               schema:
@@ -825,12 +941,12 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 値動きの大きい銘柄
+      summary: オペレーション比率 v2
       tags:
-        - Market Data
+        - Fundamentals
   /api/v2/quoteDelayed:
     get:
       description: シンボル一覧の遅延クォートを取得
@@ -875,67 +991,6 @@ paths:
       summary: 遅延クォートの取得 V2
       tags:
         - QuoteDelayed
-  /api/v2/short-interest:
-    get:
-      description: 指定した証券の空売り残高データを取得します。空売り株数、買い戻しに必要な日数（days to
-        cover）、空売り比率に関する情報を含みます。オプションとして FINRA レポートデータおよび日付範囲によるフィルタリングをサポートします。
-      operationId: get-short-interest
-      parameters:
-        - description: "株式のtickerシンボルをカンマ区切りにしたリスト（例: AAPL,MSFT,TSLA）。必須。"
-          in: query
-          name: symbols
-          required: true
-          schema:
-            type: string
-        - description: "FINRAの空売り残高レポートデータを含めるかどうか。デフォルト: false"
-          in: query
-          name: finraReport
-          schema:
-            type: boolean
-        - description: ページネーション用のページ番号。pageSize パラメータと組み合わせて使用します。
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: 1ページあたりの結果数。デフォルト値はエンドポイントごとの設定によって異なります。
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-        - description: 空売り残高データの開始日。形式：YYYY-MM-DD
-          in: query
-          name: from
-          schema:
-            type: string
-        - description: "空売り残高データの終了日。形式: YYYY-MM-DD"
-          in: query
-          name: to
-          schema:
-            type: string
-      responses:
-        "200":
-          description: リクエストしたシンボルの空売り残高データ
-          content:
-            application/json:
-              schema:
-                type: object
-        "400":
-          description: 不正なリクエスト - symbols（シンボル）パラメータが指定されていないか無効です
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                type: object
-      security:
-        - ApiKeyAuth: []
-      summary: 空売り残高データ
-      tags:
-        - Market Data
   /api/v3/fundamentals:
     get:
       description: Benzinga
@@ -992,10 +1047,10 @@ paths:
         - Fundamentals
   /api/v3/fundamentals/balance-sheet:
     get:
-      description: 貸借対照表 V3 を取得
+      description: 指定したシンボルについての貸借対照表データを取得します。資産、負債、および自己資本の詳細が含まれます。
       operationId: get-balance-sheet-v3
       parameters:
-        - description: 株式tickerをカンマで区切ったシンボル一覧
+        - description: 株式tickerをカンマで区切ったシンボル一覧（例：AAPL、MSFT）
           in: query
           name: symbols
           required: true
@@ -1019,7 +1074,7 @@ paths:
             type: string
       responses:
         "200":
-          description: OK
+          description: 貸借対照表データ
           content:
             application/json:
               schema:
@@ -1032,6 +1087,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
       summary: v3 貸借対照表の取得
@@ -1039,9 +1100,9 @@ paths:
         - Fundamentals
   /api/v3/fundamentals/cash-flow:
     get:
-      description: キャッシュフロー v3 を取得
+      description: 指定したシンボル（カンマ区切りのシンボル一覧）について、詳細なキャッシュフロー計算書データを取得します。営業活動、投資活動、財務活動によるキャッシュフローを含みます。
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: カンマ区切りのシンボル一覧（例：AAPL, MSFT）
           in: query
           name: symbols
           required: true
@@ -1065,7 +1126,7 @@ paths:
             type: string
       responses:
         "200":
-          description: OK
+          description: キャッシュ・フロー計算書データ
           content:
             application/json:
               schema:
@@ -1089,10 +1150,10 @@ paths:
         - Fundamentals
   /api/v3/fundamentals/derived:
     get:
-      description: シンボル一覧の派生値および比率を取得
+      description: シンボル一覧の派生値および比率を取得。財務分析に不可欠な算出指標を含みます。
       operationId: get-derived-figures-and-ratios-v3
       parameters:
-        - description: カンマ区切りのシンボル一覧
+        - description: "カンマ区切りのシンボル一覧（例: AAPL、MSFT）"
           in: query
           name: symbols
           required: true
@@ -1117,7 +1178,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 派生した数値および比率を含む JSON オブジェクトを返します
+          description: 派生した数値および比率データ
           content:
             application/json:
               schema:
@@ -1127,18 +1188,18 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
         "500":
           description: 内部サーバーエラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
       summary: 派生指標・比率の取得 v3
       tags:
-        - DerivedFiguresAndRatios
+        - Fundamentals
   /api/v3/fundamentals/income-statement:
     get:
       description: 指定した証券の包括的な損益計算書データを取得します。売上高、売上原価、営業費用、営業利益、利息費用、税金、当期純利益、1株当たり利益（EPS）などを含みます。企業の収益性および事業パフォーマンスを経時的に分析するために不可欠なデータです。
@@ -1167,7 +1228,7 @@ paths:
             type: string
       responses:
         "200":
-          description: 売上高、費用、収益性指標を含む損益計算書データ
+          description: 損益計算書データ
           content:
             application/json:
               schema:
@@ -1186,15 +1247,15 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 損益計算書データ
+      summary: 損益計算書データ v3
       tags:
         - Fundamentals
   /api/v3/fundamentals/share-price-ratios:
     get:
-      description: 株価比率を取得
+      description: 指定したシンボル（カンマ区切りのシンボル一覧）について株価比率を取得します。株価収益率（PER）、株価売上高倍率（PSR）などの株価を基準とした各種比率を含みます。
       operationId: get-share-price-ratios-v3
       parameters:
-        - description: 株式tickerシンボルのカンマ区切りリスト
+        - description: "株式tickerシンボルのカンマ区切りリスト（例: AAPL, MSFT）"
           in: query
           name: symbols
           required: true
@@ -1218,7 +1279,7 @@ paths:
             type: string
       responses:
         "200":
-          description: OK
+          description: 株価指標データ
           content:
             application/json:
               schema:
@@ -1326,3 +1387,6 @@ components:
         symbol:
           type: string
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: 本番
