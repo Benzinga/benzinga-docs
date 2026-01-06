@@ -2,53 +2,49 @@ openapi: 3.0.0
 info:
   contact: {}
   description: このREST
-    APIは、決算説明会、配当、決算（および将来の決算発表予定日）、経済指標、医薬品関連の発表、ガイダンス、IPO、セカンダリーオファリング、レーティング、M&A活動、株式分割に関する構造化データを返します。
+    APIは、カンファレンスコール、配当、決算（および将来の決算日）、経済指標、医薬品関連の発表、ガイダンス、IPO、セカンダリーオファリング、レーティング、M&A活動、株式分割に関する構造化データを返します。
   termsOfService: http://swagger.io/terms/
   title: Calendar API
   version: 2.1.0
 paths:
-  /api/v1/analyst/insights:
+  /analyst/insights:
     get:
-      description: 証券に関するアナリストの見解やリサーチ結果を返し、金融アナリストによる詳細な分析と投資推奨を提供します
+      description: 証券に関するアナリストのインサイトおよびリサーチ視点を返します。金融アナリストによる詳細な分析および推奨内容を含みます
       operationId: get-analyst-insights-v1
       parameters:
-        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由から、ページオフセットは0～100000の範囲に制限されています。日付など、他のパラメータでクエリ結果を絞り込んでください。デフォルトは0です。
+        - description: ページ番号
           in: query
           name: page
           schema:
             type: integer
-            default: 0
-        - description: 返される結果数。上限1000件。
+        - description: ページサイズ
           in: query
           name: pageSize
           schema:
             type: integer
-            default: 100
-        - description: calendar データを問い合わせる日付。date_from と date_to
-            が同一の場合の省略形です。指定がない場合は最新がデフォルトになります。
+        - description: YYYY-MM-DD 形式の日付
           in: query
           name: date
           schema:
             type: string
             format: date
-        - description: YYYY-MM-DD 形式の開始日
+        - description: 開始日（YYYY-MM-DD形式）
           in: query
           name: date_from
           schema:
             type: string
             format: date
-        - description: 終了日（YYYY-MM-DD形式）
+        - description: 終了日（YYYY-MM-DD 形式）
           in: query
           name: date_to
           schema:
             type: string
             format: date
-        - description: カンマ区切りの1個以上のティッカーシンボル。最大50件まで
+        - description: シンボル
           in: query
           name: symbols
           schema:
             type: string
-            format: csv
         - description: アナリスト
           in: query
           name: analyst
@@ -59,34 +55,28 @@ paths:
           name: rating_id
           schema:
             type: string
-        - description: 検索キーのタイプ
+        - description: 企業
           in: query
           name: search_keys_type
           schema:
             type: string
             enum:
-              - firm_id
-              - firm
-              - analyst_id
-              - analyst_name
-        - description: 検索キー
+              - '"firm_id"'
+              - '"firm"'
+              - '"analyst_id"'
+              - '"analyst_name"'
+        - description: 会社名
           in: query
           name: search_keys
           schema:
             type: string
-        - description: "ソート対象のフィールド。形式: field:order（例: date:asc）。省略時は desc（降順）が使用されます。"
+        - description: "ソートに使用するフィールド。形式: field:order（例: date:asc）。指定がない場合は desc（降順）になります。"
           in: query
           name: sort
           schema:
             type: string
             enum:
-              - date
-        - description: レコードが最後に更新された Unix タイムスタンプ（UTC）。これにより、ソート順は指定したタイムスタンプ以上（Greater
-            Than or Equal）に強制されます。
-          in: query
-          name: parameters[updated]
-          schema:
-            type: integer
+              - '"date"'
       responses:
         "200":
           description: アナリストインサイト
@@ -111,40 +101,361 @@ paths:
       summary: アナリスト・インサイト V1
       tags:
         - Analyst Insights
-  /api/v1/bulls_bears_say:
+  /api/v2.1/calendar/ipos:
     get:
-      description: 指定した株式tickerに対する最新の強気（bullish）および弱気（bearish）の投資ケースを返します。強気ケースはその株式を購入すべきとする肯定的な根拠を示し、弱気ケースは購入に反対する否定的な根拠を示します。
-      operationId: get-bulls-say-bears-say-v1
+      description: 価格情報、引受会社、案件ステータス、および募集内容の詳細を含むIPO（新規公開株）データを返します
+      operationId: get-ipos-v21
       parameters:
-        - description: bull/bear ケースを取得するための株式ticker
+        - description: ページ番号
           in: query
-          name: symbols
+          name: page
+          schema:
+            type: integer
+        - description: ページサイズ
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: YYYY-MM-DD 形式の IPO 実施日（新しい推奨パラメータ）
+          in: query
+          name: ipo_date
+          schema:
+            type: string
+            format: date
+        - description: IPO 実施日（YYYY-MM-DD 形式、非推奨）
+          in: query
+          name: parameters[ipo_date]
+          schema:
+            type: string
+            format: date
+        - description: 開始日（YYYY-MM-DD 形式）
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: 終了日（YYYY-MM-DD形式）
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: ティッカー
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+        - description: IPO の種類
+          in: query
+          name: parameters[ipo_type]
+          schema:
+            type: string
+        - description: UNIXタイムスタンプ形式の更新日時
+          in: query
+          name: parameters[updated]
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: IPO（新規株式公開）
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: IPO v2.1
+      tags:
+        - ipos
+  /api/v2.2/calendar/dividends:
+    get:
+      description: 選択した会計期間および／または銘柄について、確定済み・未確定の配当日を含む配当データを返します。V2.2
+        では、confirmed、period、year
+        の追加フィールドが含まれます。このバージョンでは、配当の確定状況および会計期間に関する、より詳細な情報が提供されます。
+      operationId: get-dividends-v22
+      parameters:
+        - description: 返却形式を指定します。クエリパラメータはどちらの形式でも同様に動作します
+          in: header
+          name: accept
           required: true
           schema:
             type: string
-        - description: ページオフセット番号。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルト値は 0 です。
+            enum:
+              - application/json
+            default: application/json
+        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由により、ページオフセットの値は 0～100000
+            に制限されています。日付などの他のパラメータを使用してクエリ結果を絞り込んでください。
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: 返却される結果数。最大200件
+        - description: 返される結果数。最大 1000 件
           in: query
           name: pagesize
           schema:
             type: integer
-            maximum: 200
-            default: 100
-        - description: レコードの最終更新日時を示す Unix タイムスタンプ（UTC）。これにより、ソート順は指定したタイムスタンプ以上（Greater
-            Than or Equal）の値のみになるように強制されます
+        - description: calendar データを取得する日付。同一日付を指定する場合の date_from と date_to
+            の省略形。指定しない場合は最新日付が使用されます。
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: クエリの開始時点となる日付
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 特定時点までをクエリするための終了日
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 配当日でソートするためのフィールド（新しいものから古いものの順序）
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - announced
+              - ex
+              - payable
+              - record
+        - description: 配当利回りでフィルタリングする方法を指定します。gt = より大きい（Greater Than）、gte = 以上（Greater
+            Than Equal）、eq = 等しい（Equal）、lt = より小さい（Less Than）、lte = 以下（Less Than
+            Equal）
+          in: query
+          name: parameters[dividend_yield_operation]
+          schema:
+            type: string
+            enum:
+              - gt
+              - gte
+              - eq
+              - lte
+              - lt
+        - description: フィルタに使用する配当利回りの値。既定では、指定した値と等しい条件でフィルタします。1 = 100%
+          in: query
+          name: parameters[dividend_yield]
+          schema:
+            type: number
+        - description: フィルタに使用する重要度レベル。指定した重要度以上のものを対象とします
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: カンマ区切りのティッカーシンボルを1つ以上指定します。最大50件まで。
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: レコードが最後に更新された時刻を示す Unix
+            タイムスタンプ（UTC）。これを指定すると、ソート順は指定したタイムスタンプ以上のレコードに強制されます。
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: 指定されたtickerシンボルに対する強気・弱気のケースの配列
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 配当イベント V2.2
+      tags:
+        - Dividends
+  /api/v2/calendar/ipos:
+    get:
+      description: Initial Public Offering (IPO)
+        データを返します。価格情報、引受会社、ディールステータス、募集内容の詳細などが含まれます。IPO
+        は、非公開企業が初めて株式を一般に公開することを指します。なお、IPOs エンドポイントでは、新しい ticker
+        は、基礎となる企業データに自動的にリンクされないため、すぐに結果が返されない場合があります。最新のレコードを取得するには、tickers
+        パラメータを指定せずにクエリを送信してください。
+      operationId: get-ipos-v2
+      parameters:
+        - description: レスポンス形式を指定します。クエリパラメータはどちらの形式でも同じように動作します。
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由から、ページオフセットは 0 ～ 100000
+            の範囲に制限されています。日付などの他のパラメータでクエリ結果を制限してください
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 返される結果数。最大1000件。
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar データをクエリする日付。date_from と date_to
+            が同じ場合に、それらをまとめて指定するための省略形です。指定しない場合は最新日がデフォルトになります。
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 特定時点からのクエリの終了日
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: クエリ対象の時点を指定する日付
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: カンマ区切りで1つ以上のティッカーシンボルを指定します。最大50件まで指定できます。新しいティッカーは、すぐに結果が返らない場合があります。
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: "カンマ区切りの IPO タイプを 1 つ以上指定します。例: Ordinary Shares,SPAC"
+          in: query
+          name: parameters[ipo_type]
+          schema:
+            type: string
+            format: csv
+        - description: レコードが最後に更新された時刻を表す Unix
+            タイムスタンプ（UTC）。これを指定すると、並び順が指定したタイムスタンプ以上（Greater Than or
+            Equal）のレコードのみになるように強制されます
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: IPOデータを返します
+      tags:
+        - ipos
+  /bulls_bears_say:
+    get:
+      description: 指定した株式のtickerシンボルについて、最新の強気（bullish）および弱気（bearish）の投資ケースを返します。強気ケースはその株式を購入するための肯定的な根拠を示し、弱気ケースはその株式の購入に反対する否定的な根拠を示します。
+      operationId: get-bulls-say-bears-say-v1
+      parameters:
+        - description: 強気／弱気ケースをクエリするための株式のtickerシンボル
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: ページオフセット番号
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 返される結果数。最大200件
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+            maximum: 200
+            default: 100
+        - description: レコードが最後に更新された時刻を表す Unix
+            タイムスタンプ（UTC）。これにより、ソート順が指定したタイムスタンプ以上（Greater Than or
+            Equal）となるように強制されます
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: リクエストされた ticker シンボルに対する強気・弱気のケースの配列
           content:
             application/json:
               schema:
@@ -156,169 +467,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "401":
-          description: 認証情報が存在しないか無効です
+          description: 認証情報が不足しているか無効です
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "404":
-          description: 指定されたtickerシンボルに対する強気/弱気の見解が見つかりませんでした
+          description: 提供されたtickerについての強気／弱気シナリオは見つかりませんでした
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: サーバ内部エラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: 指定した ticker シンボルに関する最新の強気および弱気シナリオ
-      tags:
-        - Bulls Say Bears Say
-  /api/v1/consensus-ratings:
-    get:
-      description: 指定したtickerシンボルに対するアナリストコンセンサス・レーティングの集計データを返します。このエンドポイントは、コンセンサス目標株価、レーティング分布の集計、および直近のアナリストレーティングに基づくアナリスト数を提供します。
-      operationId: get-consensus-ratings-v1
-      parameters:
-        - description: 返却形式を指定します。どちらの形式でもクエリパラメータの動作は同じです
-          in: header
-          name: accept
-          required: true
-          schema:
-            type: string
-            enum:
-              - application/json
-            default: application/json
-        - description: 返される結果数。最大 1000 件
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: クエリの起点となる日付
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: ポイントインタイムクエリの終了日
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: 集計対象とするtickerシンボルは1つだけ指定できます（最大1件）。
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: 集計レーティングを BUY・SELL・HOLD
-            の3種類に単純化するオプションに対して、デフォルトではすべてのレーティング（STRONG_BUY、BUY、HOLD、SELL、STRONG_SELL）が返されます。
-          in: query
-          name: simplify
-          schema:
-            type: boolean
-            default: false
-        - description: レーティングを件数または割合で集計するため
-          in: query
-          name: aggregate_type
-          schema:
-            type: string
-            enum:
-              - number
-              - percentage
-            default: number
-      responses:
-        "200":
-          description: 成功
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.ConsensusRating"
-        "204":
-          description: コンテンツはありません
-          content:
-            application/json:
-              schema:
-                type: string
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                type: string
-        "500":
-          description: 内部エラー
-          content:
-            application/json:
-              schema:
-                type: string
-      security:
-        - ApiKeyAuth: []
-      summary: アナリスト・レーティングのコンセンサスデータを返します
-      tags:
-        - consensus_ratings
-  /api/v1/erx-gaps:
-    get:
-      description: 決算発表後の大きな価格ギャップを追跡する「earnings reaction gap」データを返します
-      operationId: get-erx-gaps
-      parameters:
-        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由により、ページオフセットは0～100000の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは0です。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。最大1000件
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-            default: 100
-        - description: calendar データを照会する日付。date_from と date_to
-            が同一の場合の省略指定です。指定しない場合は最新の日付が使用されます。
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: YYYY-MM-DD 形式の開始日
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: 終了日（YYYY-MM-DD 形式）
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: レコードの最終更新日時（Unix 時刻形式、UTC）。指定したタイムスタンプ以上（Greater Than or
-            Equal）となるようなソート順が強制されます
-          in: query
-          name: updated
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: ERxギャップ
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
@@ -327,18 +484,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: ERxギャップ
+      summary: 指定されたtickerの最新の強気・弱気シナリオ
       tags:
-        - ERx Gaps
-  /api/v1/government_trade_reports:
+        - Bulls Say Bears Say
+  /calendar-removed/:
     get:
-      description: 連邦議会議員が提出した定期取引報告書を含む、政府の詳細な取引開示報告書を返します
-      operationId: get-government-trade-reports
+      description: 指定したイベント種別のうち、削除またはキャンセルされたカレンダーイベントを返します
+      operationId: get-removed
       parameters:
         - description: ページ番号
           in: query
@@ -350,534 +504,31 @@ paths:
           name: pageSize
           schema:
             type: integer
-        - description: 開始日
-          in: query
-          name: date_from
-          schema:
-            type: integer
-            format: int64
-        - description: 終了日
-          in: query
-          name: date_to
-          schema:
-            type: integer
-            format: int64
-        - description: この日時以降の更新
-          in: query
-          name: updated_since
-          schema:
-            type: integer
-            format: int64
-        - description: 日付
-          in: query
-          name: date
-          schema:
-            type: integer
-            format: int64
-        - description: 議院
-          in: query
-          name: chamber
-          schema:
-            type: string
-            enum:
-              - '"House"'
-              - '"Senate"'
-        - description: フィールド
-          in: query
-          name: fields
-          schema:
-            type: string
-        - description: 検索キーのタイプ
-          in: query
-          name: search_keys_type
-          schema:
-            type: string
-            enum:
-              - '"report_id"'
-              - '"ticker"'
-        - description: 検索キー
-          in: query
-          name: search_keys
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 政府取引報告書
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: 政府取引報告書
-      tags:
-        - Government Trade Reports
-  /api/v1/government_trades:
-    get:
-      description: 米国下院および上院議員による取引を含む、政府高官による取引を返します
-      operationId: get-government-trades
-      parameters:
-        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由から、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは 0 です。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。上限は1000件。
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-            default: 100
-        - description: 開始日（YYYY-MM-DD 形式）
-          in: query
-          name: date_from
-          schema:
-            type: string
-            format: date
-        - description: 終了日（YYYY-MM-DD 形式）
-          in: query
-          name: date_to
-          schema:
-            type: string
-            format: date
-        - description: レコードが最後に更新された日時の Unix タイムスタンプ（UTC）。ソート順は指定したタイムスタンプ以上（Greater Than
-            or Equal）となるように強制されます
-          in: query
-          name: updated_since
-          schema:
-            type: integer
-        - description: YYYY-MM-DD 形式の日付
-          in: query
-          name: date
-          schema:
-            type: string
-            format: date
-        - description: 議院
-          in: query
-          name: chamber
-          schema:
-            type: string
-            enum:
-              - House
-              - Senate
-        - description: フィールド
-          in: query
-          name: fields
-          schema:
-            type: string
-        - description: 検索キーのタイプ
-          in: query
-          name: search_keys_type
-          schema:
-            type: string
-            enum:
-              - report_id
-              - ticker
-        - description: 検索キー
-          in: query
-          name: search_keys
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 政府関係者による取引
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: 政府関係者による取引
-      tags:
-        - Government Trades
-  /api/v1/sec/insider_transactions/filings:
-    get:
-      description: SECのForm
-        4に基づくインサイダー取引の提出書類を返します。これには、企業インサイダーによる株式の買付・売却およびオプションの行使が含まれます。
-      operationId: get-insider-transaction-filing
-      parameters:
-        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由から、ページオフセットは0～100000の範囲に制限されています。日付などの他のパラメータを使用してクエリ結果を絞り込んでください。デフォルトは0です。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。上限1000件
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-            default: 100
-        - description: YYYY-MM-DD 形式の開始日
-          in: query
-          name: date_from
-          schema:
-            type: string
-            format: date
-        - description: 終了日（YYYY-MM-DD形式）
-          in: query
-          name: date_to
-          schema:
-            type: string
-            format: date
-        - description: レコードの最終更新 Unix タイムスタンプ（UTC）。指定したタイムスタンプ以上（Greater Than or
-            Equal）となるようソート順を強制します。
-          in: query
-          name: updated_since
-          schema:
-            type: integer
-        - description: 日付（YYYY-MM-DD 形式）
-          in: query
-          name: date
-          schema:
-            type: string
-            format: date
-        - description: チャンバー
-          in: query
-          name: chamber
-          schema:
-            type: string
-            enum:
-              - House
-              - Senate
-        - description: フィールド
-          in: query
-          name: fields
-          schema:
-            type: string
-        - description: 検索キーの種類
-          in: query
-          name: search_keys_type
-          schema:
-            type: string
-            enum:
-              - symbol
-              - accession_number
-              - cik
-              - id
-        - description: 検索キー
-          in: query
-          name: search_keys
-          schema:
-            type: string
-        - description: 表示
-          in: query
-          name: display
-          schema:
-            type: string
-            enum:
-              - flat
-              - nested
-      responses:
-        "200":
-          description: インサイダー取引
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingDoc"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: インサイダー取引の届出
-      tags:
-        - Insider Transaction
-  /api/v1/signal/block_trade:
-    get:
-      description: 機関投資家の取引活動を示している可能性のある、異例なほど大口の取引を含むブロックトレードデータを返します
-      operationId: get-block-trade-v1
-      parameters:
-        - description: ページオフセット。最適化、パフォーマンス、技術的な理由から、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは 0 です。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。上限 1000 件。
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-            default: 100
-        - description: YYYY-MM-DD 形式の開始日
-          in: query
-          name: date_from
-          schema:
-            type: string
-            format: date
-        - description: 終了日（YYYY-MM-DD形式）
-          in: query
-          name: date_to
-          schema:
-            type: string
-            format: date
-        - description: カンマ区切りのティッカーシンボルを1つ以上指定します。最大50件まで。
-          in: query
-          name: tickers
-          schema:
-            type: string
-            format: csv
-        - description: レコードの最終更新 Unix タイムスタンプ（UTC）。指定したタイムスタンプ以上（Greater Than or
-            Equal）の値となるよう、ソート順を強制します
-          in: query
-          name: updated
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: ブロックトレード
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.BlockTradeJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: BlockTrade V1
-      tags:
-        - Block Trade
-  /api/v1/signal/halt_resume:
-    get:
-      description: 証券の売買停止および再開に関する情報を返します。停止理由や予定再開時刻などを含みます
-      operationId: get-halt-resume-v1
-      parameters:
-        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。`date` などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは 0 です。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。最大 1000 件。
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-            default: 100
-        - description: 開始日（YYYY-MM-DD形式）
-          in: query
-          name: date_from
-          schema:
-            type: string
-            format: date
-        - description: 終了日（YYYY-MM-DD 形式）
-          in: query
-          name: date_to
-          schema:
-            type: string
-            format: date
-        - description: カンマ区切りのティッカーシンボルを1つ以上指定します。最大50件のティッカーまで。
-          in: query
-          name: tickers
-          schema:
-            type: string
-            format: csv
-        - description: レコードの最終更新日時（UNIXタイムスタンプ、UTC）。指定したタイムスタンプ以上（Greater Than or
-            Equal）となるようにソート順を強制します
-          in: query
-          name: updated
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: 売買停止／再開
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.HaltResumeJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: HaltResume V1
-      tags:
-        - Halt Resume
-  /api/v1/signal/option_activity:
-    get:
-      description: インフォームドトレーディングを示唆する可能性のある大口または異例のオプション取引を含む、オプションの異常取引活動データを返します
-      operationId: get-option-activity-v1
-      parameters:
-        - description: ページオフセット。最適化やパフォーマンス、技術的な理由から、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータを使用してクエリ結果を制限してください。デフォルトは 0 です。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。最大1000件
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-            default: 100
-        - description: calendar データを照会する YYYY-MM-DD 形式の日付。date_from と date_to
-            が同じ場合の省略形。指定しない場合は最新日がデフォルトになります。
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: date
-        - description: 開始日（YYYY-MM-DD 形式）
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: 終了日（YYYY-MM-DD 形式）
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: 日付順に並べ替え
-          in: query
-          name: parameters[date_sort]
-          schema:
-            type: string
-            enum:
-              - date
-        - description: カンマ区切りのティッカーシンボルを1つ以上指定します。最大50件まで。
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-            format: csv
-        - description: ID
-          in: query
-          name: parameters[id]
-          schema:
-            type: string
-        - description: レコードが最後に更新された時刻を示す、Unix 時刻形式の更新日時（UTC）。これにより、指定したタイムスタンプ以上（Greater
-            Than or Equal）の値となるようソート順が強制されます
-          in: query
-          name: parameters[updated]
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: オプション取引状況
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.OptionActivityJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: サーバ内部エラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: OptionActivity V1
-      tags:
-        - Option Activity
-  /api/v2.1/calendar-removed/:
-    get:
-      description: 指定したイベント種別に属する、削除またはキャンセルされたcalendarイベントを返します
-      operationId: get-removed
-      parameters:
-        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0～100000
-            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは 0 です。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。最大 1000 件
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-            default: 100
         - description: Type
           in: query
           name: type
           schema:
             type: string
             enum:
-              - ratings
-              - earnings
-              - dividends
-              - splits
-              - ipos
-              - offerings
-              - economics
-              - guidance
-              - ma
-              - conference calls
-        - description: UNIX時間での更新日時（UTC）。指定したタイムスタンプ以上（Greater Than or
-            Equal）のレコードが返されるよう、ソート順が強制されます
+              - '"ratings"'
+              - '"earnings"'
+              - '"dividends"'
+              - '"splits"'
+              - '"ipos"'
+              - '"offerings"'
+              - '"economics"'
+              - '"guidance"'
+              - '"ma"'
+              - '"conference calls"'
+        - description: Unixタイム形式の更新日時
           in: query
           name: updated
           schema:
             type: integer
+            format: int64
       responses:
         "200":
-          description: 削除済み
+          description: 削除
           content:
             application/json:
               schema:
@@ -899,12 +550,12 @@ paths:
       summary: 削除済み (v2)
       tags:
         - removed
-  /api/v2.1/calendar/conference-calls:
+  /calendar/conference-calls:
     get:
-      description: 指定した会計期間および／または証券について、カンファレンスコールデータを返します。カンファレンスコールとは、企業の経営陣が四半期または通期の財務業績や事業アップデートについて説明し、アナリストや投資家からの質問に回答するために行う、あらかじめ予定された電話会議です。
+      description: 指定した会計期間および／または銘柄のカンファレンスコールデータを返します。カンファレンスコールとは、企業の経営陣が四半期または通期の業績や事業アップデートについて説明し、アナリストや投資家からの質問に回答するためにあらかじめ予定された電話会議です。
       operationId: get-conference-calls
       parameters:
-        - description: 返却形式を指定します。どちらの形式でもクエリパラメーターの動作は同じです。
+        - description: レスポンス形式を指定します。クエリパラメータはどちらの形式でも同様に機能します
           in: header
           name: accept
           required: true
@@ -913,20 +564,20 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータを使用してクエリ結果を制限してください。
+        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由から、ページオフセットは 0 ～ 100000
+            の範囲に制限されています。クエリ結果を制限するには、日付などの他のパラメータを使用してください。
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: 返される結果の数。最大1000件。
+        - description: 返される結果の件数。最大1000件
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: calendar データを照会する日付。同一の日付を指定する場合の date_from および date_to
-            の省略形です。指定しない場合は最新日がデフォルトになります
+        - description: calendar データを照会する日付。同一の日付を指定する場合の、date_from および date_to
+            の省略形。指定しない場合は最新日付が使用されます。
           in: query
           name: parameters[date]
           schema:
@@ -938,21 +589,21 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: クエリ対象とする時点を表す終了日
+        - description: 照会の基準となる時点を指定する日付
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: カンマ区切りのティッカーを1つ以上指定します（最大50件まで）。
+        - description: カンマ区切りで1つ以上のティッカーシンボル。最大50件まで
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: レコードの最終更新日時を表す Unix
-            タイムスタンプ（UTC）。これを指定すると、ソート順は指定したタイムスタンプ以上（Greater Than or
-            Equal）のレコードのみを対象とします
+        - description: レコードが最後に更新された日時を示す Unix
+            タイムスタンプ（UTC）。これにより、並び替え条件は指定したタイムスタンプ以上（Greater Than or
+            Equal）の値に強制されます
           in: query
           name: parameters[updated]
           schema:
@@ -987,15 +638,15 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: カンファレンスコールのデータを返します
+      summary: カンファレンス・コールのデータを返します
       tags:
         - conference_calls
-  /api/v2.1/calendar/dividends:
+  /calendar/dividends:
     get:
-      description: 指定した会計期間および／または銘柄の配当データを返します。配当金額、権利落ち日、支払日、配当利回り、および株式のその他の関連配当情報を含みます。
+      description: 株式について、選択した会計期間および／または銘柄の配当データを返します。配当金額、権利落ち日、支払日、配当利回り、その他の関連する配当情報を含みます。
       operationId: get-dividends
       parameters:
-        - description: 返却形式を指定します。どちらの形式でもクエリパラメータは同じように動作します
+        - description: レスポンス形式を指定します。どちらの形式でもクエリパラメータは同じように動作します
           in: header
           name: accept
           required: true
@@ -1004,38 +655,38 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータを使用して、クエリ結果を絞り込んでください。
+        - description: ページオフセット。最適化・パフォーマンス・技術的な理由により、ページオフセットは 0 ～ 100000
+            の範囲に制限されています。日付などの他のパラメータを使用してクエリ結果を絞り込んでください。
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: 返される結果の件数。上限は1000件
+        - description: 返される結果数。最大1000件。
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: calendar データを取得する日付。date_from と date_to
-            が同一の場合に、それらをまとめて指定するための省略形です。指定しない場合は最新日が使用されます。
+        - description: calendar データをクエリする日付。同じ日付を指定する場合の、date_from および date_to
+            の省略表記です。指定しない場合は最新の日付が使用されます
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: クエリを実行する起点となる日付
+        - description: クエリの起点となる時点の日付
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: 任意の時点を指定してクエリするための日付
+        - description: クエリ対象とする時点（終了日）を指定する日付
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: 配当日でソートするためのフィールド（新しい順）
+        - description: 配当日でのソートに使用するフィールド（新しい順）
           in: query
           name: parameters[date_sort]
           schema:
@@ -1045,9 +696,8 @@ paths:
               - ex
               - payable
               - record
-        - description: 配当利回りでのフィルタ条件を指定します。gt = より大きい（Greater Than）、gte = 以上（Greater Than
-            Equal）、eq = 等しい（Equal）、lt = より小さい（Less Than）、lte = 以下（Less Than
-            Equal）
+        - description: 配当利回りによるフィルタリング方法を指定します。gt = より大きい, gte = 以上, eq = 等しい, lt = より小さい,
+            lte = 以下
           in: query
           name: parameters[dividend_yield_operation]
           schema:
@@ -1058,13 +708,13 @@ paths:
               - eq
               - lte
               - lt
-        - description: フィルタリングに使用する配当利回りの値です。デフォルトでは、指定した値と「Equal To（等しい）」として比較します。1 は
-            100％ を表します。
+        - description: 配当利回りでフィルタする際に使用する値です。デフォルトでは、指定した値と「等しい」（Equal To）条件でフィルタします。1 =
+            100%
           in: query
           name: parameters[dividend_yield]
           schema:
             type: number
-        - description: フィルタ条件となる重要度レベルです。指定した重要度以上（以上を含む）のものが対象になります。
+        - description: フィルタに使用する重要度レベルです。指定された重要度以上のものを対象にフィルタします。
           in: query
           name: parameters[importance]
           schema:
@@ -1076,14 +726,14 @@ paths:
               - 3
               - 4
               - 5
-        - description: カンマ区切りのティッカーシンボルを1つ以上指定します。最大50件まで指定できます。
+        - description: カンマ区切りのティッカーシンボルを1つ以上指定します。最大50件まで。
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: レコードが最後に更新された時刻を表す Unix
-            タイムスタンプ（UTC）。指定したタイムスタンプ以上（以上条件）となるように並び順が強制されます
+        - description: レコードの最終 更新日時 を表す Unix
+            タイムスタンプ（UTC）。この値を指定すると、ソート順は指定したタイムスタンプ以上のものに強制されます。
           in: query
           name: parameters[updated]
           schema:
@@ -1121,12 +771,12 @@ paths:
       summary: 配当イベント
       tags:
         - Dividends
-  /api/v2.1/calendar/earnings:
+  /calendar/earnings:
     get:
-      description: 指定した会計期間および／または銘柄の決算データを返します。実績の1株当たり利益（EPS）および売上高、予想値、サプライズ、過去データとの比較を含みます。決算データは、投資家が企業の業績を評価するうえで不可欠です。
+      description: 選択した会計期間および／または銘柄の決算データを返します。実績の1株当たり利益（EPS）と売上高、予想値、サプライズ、過去との比較を含みます。決算データは、投資家が企業の業績を評価するうえで不可欠です。
       operationId: get-earnings
       parameters:
-        - description: 返却形式を指定します。クエリパラメータは、どちらの形式でも同様に動作します。
+        - description: 返却形式を指定します。両方の形式でクエリパラメータの動作は同じです
           in: header
           name: accept
           required: true
@@ -1135,46 +785,46 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: ページオフセットです。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
-            に制限されます。日付などの他のパラメータも併用して、クエリ結果を絞り込んでください
+        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由により、ページオフセットは 0 ～ 100000
+            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: 返される結果数。最大1000件。
+        - description: 返される結果の件数。最大1000件
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: calendar のデータを取得する日付。同一の日付を指定する場合の date_from と date_to
-            の省略形です。未指定時は最新日が使用されます。
+        - description: calendar データを照会する日付。date_from と date_to
+            が同一の場合の省略指定です。指定しない場合は最新の日付がデフォルトになります
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: ある時点からクエリを開始する日付
+        - description: ある時点を起点としてクエリを行うための日付
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: 任意の時点をクエリするための日付
+        - description: 特定の時点を指定するための日付
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: earnings calendar のフィールドをソートするためのオプションです。ソート順には
-            `:desc`（降順）、`:asc`（昇順）を指定します。
+        - description: earnings calendar のフィールドに対するソートオプションです。ソート順には
+            `:desc`（降順）、`:asc`（昇順）を指定します
           in: query
           name: parameters[date_sort]
           schema:
             type: string
             enum:
               - date
-        - description: フィルタに使用する重要度レベルです。指定した重要度以上のものを対象とします。
+        - description: フィルタに使用する重要度レベルです。指定した重要度以上のものが対象となります。
           in: query
           name: parameters[importance]
           schema:
@@ -1186,14 +836,14 @@ paths:
               - 3
               - 4
               - 5
-        - description: カンマ区切りのティッカーシンボルを1つ以上。最大50個まで。
+        - description: カンマ区切りのティッカーシンボルを1つ以上指定します（最大50件まで）。
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: レコードが最後に更新された Unix
-            タイムスタンプ（UTC）。これにより、並び替え時には指定したタイムスタンプ以上のレコードのみが対象となります
+        - description: レコードの最終更新 Unix タイムスタンプ（UTC）。これを指定すると、ソート順は指定したタイムスタンプ以上（Greater
+            Than or Equal）の値のみとなるよう強制されます
           in: query
           name: parameters[updated]
           schema:
@@ -1231,12 +881,12 @@ paths:
       summary: 決算データを返します
       tags:
         - earnings
-  /api/v2.1/calendar/economics:
+  /calendar/economics:
     get:
-      description: 各国の経済指標、発表、レポートを含む経済カレンダーデータを返します。GDP、雇用統計、インフレ指標などの経済イベントについて、実績値、コンセンサス予想値、前回値を提供します。
+      description: 各国の経済指標、発表、レポートを含む経済カレンダーデータを返します。GDP、雇用統計、インフレ指標などの経済イベントについて、実績値、コンセンサス予想、前回値を含みます。
       operationId: get-economics
       parameters:
-        - description: 返却形式を指定します。いずれの形式でもクエリパラメータの動作は同じです
+        - description: 返却形式を指定します。いずれの形式でもクエリパラメーターは同様に動作します
           in: header
           name: accept
           required: true
@@ -1245,39 +895,39 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: ページオフセット。最適化やパフォーマンス、技術的な理由により、ページオフセット値は 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータを使用して、クエリ結果を絞り込んでください。
+        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由から、ページオフセットは 0 ～ 100000
+            の範囲に制限されています。日付などの他のパラメーターでクエリ結果を絞り込んでください。
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: 返される結果数。上限は 1000。
+        - description: 返される結果数。最大 1000 件
           in: query
           name: pagesize
           schema:
             type: integer
             maximum: 1000
         - description: calendar データを取得する日付。date_from と date_to
-            が同一の場合の省略形です。指定がない場合は最新日付が使用されます。
+            が同一の日付である場合の省略形です。指定しない場合は最新の日付が使用されます
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: ポイントインタイムでクエリを開始する日付
+        - description: ある時点からクエリを行うための日付
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: クエリ対象とする時点を表す日付
+        - description: ある時点までをクエリするための終了日
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: フィルタリングに使用する重要度レベル。指定した重要度以上のものが対象になります
+        - description: フィルタに使用する重要度レベルです。指定した重要度以上（以上条件）でフィルタします。
           in: query
           name: parameters[importance]
           schema:
@@ -1286,8 +936,8 @@ paths:
               - 1
               - 2
               - 3
-        - description: レコードが最後に更新された日時の Unix
-            タイムスタンプ（UTC）。この値を指定すると、ソート順は指定したタイムスタンプ以上となるように強制されます。
+        - description: レコードが最後に更新された時刻を示す Unix タイムスタンプ（UTC）。これにより、指定したタイムスタンプ以上（Greater
+            Than or Equal）の値のみがソート対象となるように強制されます。
           in: query
           name: parameters[updated]
           schema:
@@ -1334,233 +984,13 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: 経済カレンダーのデータを返します
+      summary: economic calendar データを返します
       tags:
         - economics
-  /api/v2.1/calendar/fda:
+  /calendar/events:
     get:
-      description: 製薬企業およびバイオテクノロジー企業のFDA承認、治験、およびPDUFA（Prescription Drug User Fee
-        Act）に関する日付を返します。医薬品の開発段階、治験結果、承認結果、規制上のマイルストーンに関する情報を含みます。
-      operationId: get-fda
-      parameters:
-        - description: 返却フォーマットを指定します。クエリパラメータは、どちらのフォーマットでも同じように動作します
-          in: header
-          name: accept
-          required: true
-          schema:
-            type: string
-            enum:
-              - application/json
-            default: application/json
-        - description: ページオフセット。最適化、パフォーマンス、技術的な理由から、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータを使用して、クエリ結果を制限してください。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。上限は1000件です
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: calendar データを取得する日付。同一の日付を date_from と date_to
-            の両方に指定する場合の省略形です。指定しない場合は最新の日付が使用されます。
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: 特定の時点からクエリを実行するための日付
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: クエリの終了時点となる日付
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: calendar のフィルタおよびソートに使用する日付です。デフォルト値は `announced` です。
-          in: query
-          name: parameters[date_search_field]
-          schema:
-            type: string
-            enum:
-              - announced
-              - target
-            default: announced
-        - description: 一部の日付フィールド（FDA calendar のターゲット日など）には、2021-Q1
-            のようなあいまいな日付が含まれます。フィルタリング時には、あいまいな日付での一致を許可するか、指定された日付期間内で完全に一致する日付のみを検索する厳密な日付マッチングにするかを選択できます。デフォルトは
-            `TRUE` です。
-          in: query
-          name: parameters[date_search_strict]
-          schema:
-            type: boolean
-            default: true
-        - description: カンマ区切りで1件以上の証券識別子を指定します。証券は最大50件までです。証券識別子は、US上場株式のみを対象としたtickerシンボル形式で指定する必要があります。
-          in: query
-          name: parameters[securities]
-          schema:
-            type: string
-            format: csv
-        - description: レコードが最後に更新された時刻を表す Unix
-            タイムスタンプ（UTC）。これにより、ソート順は指定したタイムスタンプ以上の値になるように強制されます。
-          in: query
-          name: parameters[updated]
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: 成功
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.FDAJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/calendarapi.FDAJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: FDA承認、臨床試験、PDUFA目標日
-      tags:
-        - fda
-  /api/v2.1/calendar/guidance:
-    get:
-      description: 企業経営陣が示す将来の利益および売上高見通しを含む、企業ガイダンスデータを返します。EPS（1株当たり利益）のガイダンスレンジ（下限値／上限値）、売上高ガイダンスレンジ、過去のガイダンスとの比較を含みます。ガイダンスは、将来の業績に対する経営陣の見通しや期待を理解するうえで極めて重要です。
-      operationId: get-guidance
-      parameters:
-        - description: 返却フォーマットを指定します。いずれのフォーマットでもクエリパラメータの動作は同じです
-          in: header
-          name: accept
-          required: true
-          schema:
-            type: string
-            enum:
-              - application/json
-            default: application/json
-        - description: ページオフセットです。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータを使用して、クエリ結果を絞り込んでください。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果の数。最大1000件。
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: calendar データを取得する日付。date_from と date_to
-            が同じ場合の省略形。指定しない場合は最新の日付が使用されます。
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: クエリの起点となる日付
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: 指定した時点までをクエリするための終了日
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: フィルタリングに使用する重要度レベル。指定した重要度以上のデータが対象となります
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: 返されるガイダンスがプライマリ、セカンダリ、またはすべてかを指定します。デフォルトは Y です。
-          in: query
-          name: parameters[is_primary]
-          schema:
-            type: string
-            enum:
-              - Y
-              - N
-              - All
-            default: Y
-        - description: カンマ区切りの1つ以上のティッカーシンボル。最大50件まで指定可能
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-            format: csv
-        - description: レコードが最後に更新された時刻を示す Unix
-            タイムスタンプ（UTC）。これを指定すると、ソート順は指定したタイムスタンプ以上となります。
-          in: query
-          name: parameters[updated]
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: 成功
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: ガイダンス情報を返します
-      tags:
-        - guidance
-  /api/v2.1/calendar/ipos:
-    get:
-      description: 価格情報、引受会社、案件ステータス、およびオファリングの詳細を含むIPOのデータを返します
-      operationId: get-ipos-v21
+      description: 投資家向けミーティング、カンファレンス、特別な発表などを含むコーポレート・イベントを返します
+      operationId: get-events
       parameters:
         - description: ページ番号
           in: query
@@ -1590,32 +1020,51 @@ paths:
           schema:
             type: string
             format: date
+        - description: 重要性
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
         - description: ティッカー
           in: query
           name: parameters[tickers]
           schema:
             type: string
-        - description: IPOの種類
-          in: query
-          name: parameters[ipo_type]
-          schema:
-            type: string
-        - description: UNIX時間形式の更新日時
+        - description: UNIX 時刻で表した更新日時
           in: query
           name: parameters[updated]
           schema:
             type: string
             format: int64
+        - description: 検索キーのタイプ
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"event_type"'
+        - description: 検索キー
+          in: query
+          name: search_keys
+          schema:
+            type: string
       responses:
         "200":
-          description: IPO（新規株式公開）
+          description: イベント
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
+                $ref: "#/components/schemas/calendarapi.EventsJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
+                $ref: "#/components/schemas/calendarapi.EventsJSON"
         "400":
           description: 不正なリクエスト
           content:
@@ -1636,15 +1085,16 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: IPO v2.1
+      summary: イベント
       tags:
-        - ipos
-  /api/v2.1/calendar/ma:
+        - events
+  /calendar/fda:
     get:
-      description: 買収および合併（M&A）に関するデータを返します。取引の発表、完了、および買収企業と対象企業に関する詳細を含みます。企業統合取引について、取引規模、支払形態、取引ステータス、予定日／完了日などを提供します。
-      operationId: get-ma
+      description: 製薬企業およびバイオテクノロジー企業のFDA承認、臨床試験、およびPDUFA（Prescription Drug User Fee
+        Act）の期日を返します。医薬品開発段階、試験結果、承認状況、規制上のマイルストーンに関する情報を含みます。
+      operationId: get-fda
       parameters:
-        - description: 返却形式を指定します。クエリパラメータは、いずれの形式でも同じように機能します。
+        - description: 戻り値の形式を指定します。どちらの形式でもクエリパラメータは同様に機能します
           in: header
           name: accept
           required: true
@@ -1653,38 +1103,146 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: ページオフセットです。最適化、パフォーマンスおよび技術的な理由から、ページオフセットは 0 ～ 100000
+        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由により、ページオフセットは 0 ～ 100000
             の範囲に制限されています。日付などの他のパラメータを使用してクエリ結果を絞り込んでください。
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: 返される結果数。上限は1000件。
+        - description: 返される結果数。最大 1000 件です。
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: calendar データを取得する日付。date_from と date_to
-            が同一の場合の省略指定。未指定の場合は最新日付がデフォルトになります
+        - description: calendar データを照会する日付。同一日を指定する場合の date_from および date_to
+            の省略形。指定がない場合は最新日付が使用されます。
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: クエリの起点となる時点の日付
+        - description: クエリの起点となる日時
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: 照会対象とする時点を指定する日付
+        - description: 特定の時点までのデータを取得するための終了日
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: フィルタに使用する重要度レベル。指定した重要度以上のものを対象とします
+        - description: calendar を絞り込みおよびソートする際に使用する日付。デフォルトは `announced` です
+          in: query
+          name: parameters[date_search_field]
+          schema:
+            type: string
+            enum:
+              - announced
+              - target
+            default: announced
+        - description: 一部の日付フィールド（FDA calendar のターゲット日など）には、2021-Q1
+            のようなあいまいな日付が含まれます。フィルタリング時には、あいまいな日付での一致を許可するか、指定された日付期間内で正確に一致する日付のみを検索する厳密な日付一致を使用するかを選択できます。デフォルトは
+            `TRUE` です。
+          in: query
+          name: parameters[date_search_strict]
+          schema:
+            type: boolean
+            default: true
+        - description: 1件以上の銘柄識別子をカンマ区切りで指定します。最大50件まで指定できます。銘柄識別子は、米国上場株式のみを対象としたtickerシンボル形式で指定する必要があります。
+          in: query
+          name: parameters[securities]
+          schema:
+            type: string
+            format: csv
+        - description: レコードが最後に更新された Unix タイムスタンプ（UTC）。指定したタイムスタンプ以上（Greater Than or
+            Equal）でソートされるよう強制します。
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: FDA承認、臨床試験、PDUFA期日
+      tags:
+        - fda
+  /calendar/guidance:
+    get:
+      description: 企業経営陣が提供する将来の利益および売上高に関するガイダンス（見通し）データを返します。EPS
+        ガイダンスのレンジ（最小値／最大値）、売上高ガイダンスのレンジ、および過去のガイダンスとの比較を含みます。ガイダンスは、経営陣が想定する将来の業績を把握するうえで極めて重要な情報です。
+      operationId: get-guidance
+      parameters:
+        - description: レスポンスフォーマットを指定します。どちらのフォーマットでもクエリパラメータの動作は同じです
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
+            に制限されています。日付などの他のパラメータを使用して、クエリ結果を絞り込んでください。
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 返される結果の件数。最大1000件
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar データを取得する日付。date_from と date_to
+            が同じ場合の省略形です。指定しない場合は最新の日付がデフォルト値になります。
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: ある時点を起点としてクエリを実行するための日付
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 指定時点までをクエリする際の終了日
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: フィルタに使用する重要度レベルです。指定した重要度以上のものを対象にフィルタします
           in: query
           name: parameters[importance]
           schema:
@@ -1696,14 +1254,127 @@ paths:
               - 3
               - 4
               - 5
-        - description: カンマ区切りのティッカーシンボルを1つ以上指定。最大50件まで
+        - description: 返されるガイダンスの種類（プライマリ、セカンダリ、またはすべて）を指定します。デフォルトは Y です。
+          in: query
+          name: parameters[is_primary]
+          schema:
+            type: string
+            enum:
+              - Y
+              - N
+              - All
+            default: Y
+        - description: ティッカーシンボルをカンマ区切りで1つ以上指定します。最大50ティッカーまで。
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: レコードの最終更新 Unix タイムスタンプ（UTC）。指定したタイムスタンプ以上（Greater Than or
-            Equal）となるようにソート順が強制されます
+        - description: レコードの最終更新日時を示す Unix
+            タイムスタンプ（UTC）。これにより、ソート順は指定したタイムスタンプ以上となるように強制されます。
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: サーバ内部エラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: ガイダンスデータを返します
+      tags:
+        - guidance
+  /calendar/ma:
+    get:
+      description: 合併・買収（M&A）のデータを返します。案件の発表、完了状況、買収企業および対象企業に関する詳細が含まれます。案件規模、支払形態、取引ステータスに加え、企業統合案件の予定日および完了日も含まれます。
+      operationId: get-ma
+      parameters:
+        - description: 返却形式を指定します。クエリパラメータの動作は、どちらの形式でも同じです。
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: ページオフセット。最適化、パフォーマンス、技術的な理由から、ページオフセットは 0 ～ 100000
+            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 返される結果数。最大1000件
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar データを取得する日付。date_from と date_to
+            が同一の場合の省略形。指定しない場合は最新日がデフォルトになります
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: クエリを開始する起点となる日付
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: クエリ対象とする時点の日付
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: フィルタに使用する重要度レベル。指定した重要度以上（Greater Than or Equal To）のものが対象になります
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: カンマ区切りのティッカーシンボルを1つ以上指定します。最大50件まで指定できます。
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: レコードの最終更新日時を示す Unix
+            タイムスタンプ（UTC）。これを指定すると、ソート順は指定したタイムスタンプ以上（Greater Than or
+            Equal）のものに固定されます。
           in: query
           name: parameters[updated]
           schema:
@@ -1748,16 +1419,16 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: 合併・買収（M&A）データを返します。
+      summary: 合併・買収（M&A）データを返します
       tags:
         - ma
-  /api/v2.1/calendar/offerings:
+  /calendar/offerings:
     get:
       description: IPO
-        後に追加株式を発行する公開企業のセカンダリー・オファリング（追加株式売出）データを返します。オファリング価格、調達額、株式数、シェルフ・オファリング、および証券が時間をかけて分割して売却されるか、あるいは当初のオファリング日に売却されるかどうかが含まれます。
+        後に追加株式を発行する公開企業のセカンダリー・オファリング（追加公募）データを返します。オファリング価格、調達額、株式数、シェルフ・オファリング、証券が時間をかけて分割して販売されるのか、初回のオファリング日に一括して販売されるのかといった情報を含みます。
       operationId: get-offerings
       parameters:
-        - description: 返却形式を指定します。どちらの形式でも、クエリパラメータは同じように動作します
+        - description: 返却フォーマットを指定します。クエリパラメータはどちらのフォーマットでも同様に動作します
           in: header
           name: accept
           required: true
@@ -1766,38 +1437,38 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
-            に制限されています。日付などの他のパラメータを使用してクエリ結果を絞り込んでください
+        - description: ページオフセット。最適化・パフォーマンス・技術的な理由により、ページオフセットは 0 ～ 100000
+            の範囲に制限されています。日付などの他のパラメータでクエリ結果を制限してください
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: 返される結果の件数。最大1000件。
+        - description: 返される結果数。最大1000件。
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: calendar データを取得する日付。date_from と date_to
-            が同一の場合の省略形です。指定しない場合は最新日付が使用されます。
+        - description: calendar データをクエリする日付。同じ日付を指定する場合の date_from および date_to
+            の省略形です。指定がない場合は最新日付がデフォルト値になります。
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: クエリの起点となる日時
+        - description: クエリの起点となる日付
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: クエリ対象の時点を指定する日付
+        - description: 特定時点のデータを取得するための日付
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: フィルタに使用する重要度レベル。指定した重要度以上（Greater Than or Equal To）のものが対象になります
+        - description: フィルタに使用する重要度レベル。指定した重要度以上のものが対象になります
           in: query
           name: parameters[importance]
           schema:
@@ -1809,15 +1480,15 @@ paths:
               - 3
               - 4
               - 5
-        - description: コンマ区切りのティッカーシンボルを1つ以上指定します。最大50件まで指定可能です。
+        - description: カンマ区切りのティッカーシンボルを1つ以上指定します（最大50件まで）。
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: レコードが最後に更新された時刻を示す Unix
-            タイムスタンプ（UTC）。この値を指定すると、並び順は指定したタイムスタンプ以上（Greater Than or
-            Equal）となるように強制されます
+        - description: レコードの最終更新日時を表す Unix
+            タイムスタンプ（UTC）。これを指定すると、ソート条件は指定したタイムスタンプ以上（Greater Than or
+            Equal）に固定されます。
           in: query
           name: parameters[updated]
           schema:
@@ -1852,15 +1523,15 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: セカンダリー・オファリングのデータを返します
+      summary: セカンダリー・オファリングデータを返します
       tags:
         - offerings
-  /api/v2.1/calendar/ratings:
+  /calendar/ratings:
     get:
-      description: ウォール街のアナリストによる格上げ・格下げ・新規カバレッジ・目標株価の変更などのアナリスト・レーティング・データを返します。利用可能な場合には、現在および過去のレーティング、目標株価、アナリスト情報、レーティング精度に関する指標を含みます。
+      description: ウォール街のアナリストによる、レーティングの引き上げ・引き下げ・新規カバレッジ開始・目標株価の変更を含むアナリストレーティングデータを返します。利用可能な場合は、現在および過去のレーティング、目標株価、アナリスト情報、レーティング精度の指標を含みます。
       operationId: get-ratings
       parameters:
-        - description: 返却形式を指定します。どちらの形式でもクエリパラメータは同様に機能します
+        - description: 返却形式を指定します。どちらの形式でもクエリパラメータの挙動は同じです
           in: header
           name: accept
           required: true
@@ -1873,45 +1544,45 @@ paths:
             name, currency, action_pt, action_company, rating_current,
             pt_current, rating_prior, pt_prior, pt_pct_change, url,
             url_calendar, url_news, analyst, analyst_id, analyst_name,
-            ratings_accuracy, importance, notes,
-            updated。すべてのフィールド（ratings_accuracy を含む）を取得するには * を使用します"
+            ratings_accuracy, importance, notes, updated。ratings_accuracy
+            を含むすべてのフィールドを取得するには、* を使用します。"
           in: query
           name: fields
           schema:
             type: string
             format: csv
-        - description: ページオフセットです。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータを使用してクエリ結果を絞り込んでください。
+        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
+            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: 返される結果数。最大 1000 件。
+        - description: 返される結果数。最大1000件
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: calendar データを取得する日付。date_from と date_to
-            が同一の場合の省略記法。指定がない場合は最新日付が使用されます。
+        - description: calendar データを照会する日付。同一の日付を指定する場合の date_from および date_to
+            の省略表記です。指定しない場合は最新の日付がデフォルトになります。
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: クエリの起点となる日時
+        - description: クエリの開始日時
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: クエリ対象の時点となる日付
+        - description: クエリ対象とする時点を示す日付
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: フィルタ条件として使用する重要度レベル。指定した重要度以上のものが対象になります
+        - description: フィルタリングに使用する重要度レベルです。指定した重要度以上のものを対象とします。
           in: query
           name: parameters[importance]
           schema:
@@ -1923,32 +1594,33 @@ paths:
               - 3
               - 4
               - 5
-        - description: カンマ区切りのティッカーシンボルを1つ以上指定します。最大50ティッカーまで
+        - description: カンマ区切りで指定するティッカーシンボル（1つ以上）。最大50ティッカーまで指定可能
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: レコードが最後に更新された Unix タイムスタンプ（UTC）。これを指定すると、ソート順は指定したタイムスタンプ以上（Greater
-            Than or Equal）の値に固定されます。
+        - description: レコードが最後に更新された時刻を表す Unix
+            タイムスタンプ（UTC）。これを指定すると、ソート条件は指定したタイムスタンプ以上（Greater Than or
+            Equal）を基準としたものに固定されます。
           in: query
           name: parameters[updated]
           schema:
             type: integer
-        - description: 1つ以上のアナリストID（analyst_id）をカンマ区切りで指定
+        - description: カンマ区切りの1つ以上のアナリストID（analyst_id）
           in: query
           name: parameters[analyst_id]
           schema:
             type: string
             format: csv
-        - description: コンマ区切りの1つ以上のfirm_id
+        - description: カンマで区切られた1つ以上のfirm id（firm_id）
           in: query
           name: parameters[firm_id]
           schema:
             type: string
             format: csv
         - description: 特定の
-            action_company（レーティング用のアクション）でフィルタします。これらの用語はいずれも厳密に定義されている点に注意してください。
+            action_company（レーティングに対するアクション）でフィルタします。これらの用語はいずれも厳密に定義されている点に注意してください
           in: query
           name: parameters[action]
           schema:
@@ -1965,19 +1637,19 @@ paths:
               - Removes
               - Suspends
               - Firm Dissolved
-        - description: 取得するアナリスト（人物）IDのカンマ区切りリスト。このパラメータを省略すると、利用可能なすべてのアナリストが返されます
+        - description: 取得するアナリスト（個人）ID のカンマ区切りリスト。省略した場合は、利用可能なすべてのアナリストが返されます
           in: query
           name: analyst
           schema:
             type: string
             format: csv
-        - description: 取得対象のアナリスト会社IDをカンマ区切りで指定します。省略した場合、利用可能なすべての会社が返されます
+        - description: 取得するアナリスト会社IDのカンマ区切りリスト。省略すると、利用可能なすべての会社が返されます
           in: query
           name: firm
           schema:
             type: string
             format: csv
-        - description: レーティングを標準化されたカテゴリに統一する
+        - description: レーティングを標準化されたカテゴリにまとめる
           in: query
           name: simplify
           schema:
@@ -2013,27 +1685,24 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: アナリストレーティングのデータを返します
+      summary: アナリスト・レーティングのデータを返します
       tags:
         - ratings
-  /api/v2.1/calendar/ratings/analysts:
+  /calendar/ratings/analysts:
     get:
-      description: レーティングを提供しているアナリストの全一覧を返します
+      description: レーティングを提供するアナリストの一覧をすべて返します
       operationId: get-ratings-analysts
       parameters:
-        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由から、ページオフセットは 0 ～ 100000
-            に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは 0 です。
+        - description: ページ番号
           in: query
           name: page
           schema:
             type: integer
-            default: 0
-        - description: 返される結果数。最大1000件。
+        - description: ページサイズ
           in: query
           name: pageSize
           schema:
             type: integer
-            default: 100
         - description: フィールド
           in: query
           name: fields
@@ -2054,17 +1723,17 @@ paths:
           name: firm
           schema:
             type: string
-        - description: 会社名
+        - description: 企業名
           in: query
           name: firm_name
           schema:
             type: string
-        - description: レコードの最終更新日時（Unix 形式、UTC）。指定したタイムスタンプ以上（Greater Than or
-            Equal）の順でソートされます。
+        - description: 更新日時（Unix 時刻）
           in: query
           name: updated
           schema:
             type: integer
+            format: int64
       responses:
         "200":
           description: レーティングアナリスト
@@ -2085,7 +1754,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: サーバ内部エラー
+          description: 内部サーバーエラー
           content:
             application/json:
               schema:
@@ -2095,43 +1764,40 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: レーティング担当アナリスト
+      summary: アナリスト・レーティング
       tags:
         - ratings_analysts
-  /api/v2.1/calendar/ratings/firms:
+  /calendar/ratings/firms:
     get:
-      description: アナリスト・レーティングを提供している証券会社の一覧を返します
+      description: アナリスト・レーティングを提供している利用可能な金融機関を返します
       operationId: get-ratings-firms
       parameters:
-        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは 0 です。
+        - description: ページ番号
           in: query
           name: page
           schema:
             type: integer
-            default: 0
-        - description: 返される件数。最大1000件
+        - description: ページサイズ
           in: query
           name: pageSize
           schema:
             type: integer
-            default: 100
         - description: フィールド
           in: query
           name: fields
           schema:
             type: string
-        - description: 会社
+        - description: 企業
           in: query
           name: firm
           schema:
             type: string
-        - description: レコードが最後に更新された UNIX 時刻形式の更新日時（UTC）。指定したタイムスタンプ以上（Greater Than or
-            Equal）となるようにソート順が固定されます
+        - description: Unix 時刻での更新日時
           in: query
           name: updated
           schema:
             type: integer
+            format: int64
       responses:
         "200":
           description: 格付け機関
@@ -2152,7 +1818,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: サーバ内部エラー
+          description: 内部サーバーエラー
           content:
             application/json:
               schema:
@@ -2162,15 +1828,15 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: 格付会社
+      summary: 格付け機関
       tags:
         - ratings_firms
-  /api/v2.1/calendar/splits:
+  /calendar/splits:
     get:
-      description: 株式分割データを返します。分割比率、発表日、権利落ち日、分配日が含まれます。株式分割は、企業が発行済株式数を増減させて株価を調整する際に行われます。また、その株式がオプション取引の対象となるかどうかの情報も含みます。
+      description: 株式分割データを返します。分割比率、発表日、権利落ち日、分配日を含みます。株式分割は、株価を調整するために企業が発行済株式数を増減させる際に行われます。また、その株式がオプション取引の対象かどうかの情報も含みます。
       operationId: get-splits
       parameters:
-        - description: 返却形式を指定します。クエリパラメータはどちらの形式でも同じように動作します
+        - description: 返却形式を指定します。どちらの形式でもクエリパラメーターの動作は同じです
           in: header
           name: accept
           required: true
@@ -2179,8 +1845,8 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: ページオフセット。最適化やパフォーマンス、技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータを使用して、クエリ結果を制限してください。
+        - description: ページオフセット。最適化、パフォーマンスおよび技術的な理由により、ページオフセットは 0 ～ 100000
+            の範囲に制限されています。日付などの他のパラメータを使用して、クエリ結果を絞り込んでください。
           in: query
           name: page
           schema:
@@ -2191,26 +1857,26 @@ paths:
           name: pagesize
           schema:
             type: integer
-        - description: calendar データをクエリする日付。date_from と date_to
-            が同じ場合の省略形です。指定しない場合は最新の日付がデフォルトになります。
+        - description: calendar データを取得する際のクエリ対象日。date_from と date_to
+            が同一の場合の省略指定です。指定しない場合は最新日付がデフォルトになります。
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: クエリの起点となる時点の日付
+        - description: クエリの開始時点となる日付
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: ポイントインタイムクエリの終了日
+        - description: ある時点までのデータを取得するための終了日
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: calendar をどの日付でフィルタおよびソートするかを指定します。デフォルトは `announced` です。
+        - description: calendar をフィルタリングおよび並び替えるための日付。デフォルトは `announced` です
           in: query
           name: parameters[date_search_field]
           schema:
@@ -2219,7 +1885,7 @@ paths:
               - announced
               - ex
             default: announced
-        - description: フィルタに使用する重要度レベルです。指定した重要度以上のものが対象になります
+        - description: フィルタに使用する重要度レベルです。指定した重要度以上のものが対象となります
           in: query
           name: parameters[importance]
           schema:
@@ -2231,14 +1897,14 @@ paths:
               - 3
               - 4
               - 5
-        - description: カンマ区切りのティッカーシンボルを1つ以上指定します。指定できるのは最大50ティッカーまでです
+        - description: カンマ区切りのティッカーシンボルを1つ以上指定。最大50件まで。
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: レコードの最終更新時刻を表す Unix タイムスタンプ（UTC）。これにより、ソート順は指定したタイムスタンプ以上（Greater
-            Than or Equal）のものに強制されます。
+        - description: レコードが最後に更新された日時を示す Unix タイムスタンプ（UTC）。指定したタイムスタンプ以上（Greater Than or
+            Equal）の値が先に来るようにソート順を強制します
           in: query
           name: parameters[updated]
           schema:
@@ -2276,14 +1942,12 @@ paths:
       summary: splits calendar データを返します
       tags:
         - splits
-  /api/v2.2/calendar/dividends:
+  /consensus-ratings:
     get:
-      description: 選択した会計期間および／または銘柄について、確定・未確定の配当日を含む配当データを返します。V2.2 では、追加フィールドとして
-        confirmed、period、year
-        が含まれます。このバージョンでは、配当の確定状況および会計期間区分に関する、より詳細な情報が提供されます。
-      operationId: get-dividends-v22
+      description: 指定したtickerシンボルに対するアナリストコンセンサス評価の集計データを返します。このエンドポイントは、コンセンサスの目標株価、評価区分ごとの集計分布、および直近のアナリスト評価に基づくアナリスト数を提供します。
+      operationId: get-consensus-ratings-v1
       parameters:
-        - description: 返却フォーマットを指定します。クエリパラメータはどちらのフォーマットでも同様に機能します。
+        - description: 返却形式を指定します。クエリパラメーターはどちらの形式でも同様に動作します。
           in: header
           name: accept
           required: true
@@ -2292,147 +1956,96 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータでクエリ結果を制限してください
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。上限 1000 件。
+        - description: 返される結果数。最大1000件
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: calendar データを取得する対象日。date_from と date_to
-            が同一の場合の省略形。指定がない場合は最新日が使用されます。
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: クエリの基準とする日付
+        - description: 特定時点からクエリを開始する日付
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: ある時点を指定してクエリするための日付
+        - description: 照会対象の時点を指定する日付
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: 配当日でソートするためのフィールド（新しい順から古い順）
-          in: query
-          name: parameters[date_sort]
-          schema:
-            type: string
-            enum:
-              - announced
-              - ex
-              - payable
-              - record
-        - description: 配当利回りでフィルタリングする方法を指定します。gt = より大きい (Greater Than)、gte = 以上 (Greater
-            Than or Equal)、eq = 等しい (Equal)、lt = より小さい (Less Than)、lte = 以下
-            (Less Than or Equal)
-          in: query
-          name: parameters[dividend_yield_operation]
-          schema:
-            type: string
-            enum:
-              - gt
-              - gte
-              - eq
-              - lte
-              - lt
-        - description: フィルタに使用する配当利回りです。デフォルトでは、指定した値と「等しい」（Equal To）条件として解釈されます。1 = 100%
-          in: query
-          name: parameters[dividend_yield]
-          schema:
-            type: number
-        - description: フィルタ条件として使用する重要度レベルです。指定した重要度以上のものを対象とします。
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: カンマ区切りで1件以上のティッカーを指定します。最大50件まで指定可能です
+        - description: 集計対象とするtickerシンボルを1つ指定します。指定できるtickerは1件のみです。
           in: query
           name: parameters[tickers]
           schema:
             type: string
-            format: csv
-        - description: レコードが最後に更新された時刻を示す Unix
-            タイムスタンプ（UTC）。これを指定すると、ソート順は指定したタイムスタンプ以上（Greater Than or
-            Equal）の値に固定されます
+        - description: アグリゲート・レーティングを BUY、SELL、HOLD のみの3区分に単純化するオプションに対し、デフォルトではすべてのレーティング
+            (STRONG_BUY, BUY, HOLD, SELL, STRONG_SELL) を返します。
           in: query
-          name: parameters[updated]
+          name: simplify
           schema:
-            type: integer
+            type: boolean
+            default: false
+        - description: レーティングを件数または割合で集計するため
+          in: query
+          name: aggregate_type
+          schema:
+            type: string
+            enum:
+              - number
+              - percentage
+            default: number
       responses:
         "200":
           description: 成功
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.DividendJSON"
-            text/xml:
+                $ref: "#/components/schemas/calendarapi.ConsensusRating"
+        "204":
+          description: コンテンツなし
+          content:
+            application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.DividendJSON"
+                type: string
         "400":
           description: 不正なリクエスト
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                type: string
         "500":
-          description: サーバー内部エラー
+          description: 内部エラー
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                type: string
       security:
         - ApiKeyAuth: []
-      summary: 配当イベント V2.2
+      summary: アナリスト・レーティングのコンセンサスデータを返します
       tags:
-        - Dividends
-  /api/v2/calendar/events:
+        - consensus_ratings
+  /erx-gaps:
     get:
-      description: 投資家向けミーティング、カンファレンス、特別発表などの企業イベントを返します
-      operationId: get-events
+      description: 決算発表後の大きな価格ギャップを追跡する「earnings reaction gap」データを返します
+      operationId: get-erx-gaps
       parameters:
-        - description: ページオフセット。最適化やパフォーマンス、技術的な理由から、ページオフセットは0～100000に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルト値は0です。
+        - description: ページ番号
           in: query
           name: page
           schema:
             type: integer
-            default: 0
-        - description: 返される結果数。最大1000件
+        - description: ページサイズ
           in: query
-          name: pageSize
+          name: pagesize
           schema:
             type: integer
-            default: 100
-        - description: YYYY-MM-DD形式の日付。calendarデータを照会する日付で、date_fromおよびdate_toが同一の場合の省略形です。未指定の場合は最新の日付が使用されます。
+        - description: YYYY-MM-DD 形式の日付
           in: query
           name: parameters[date]
           schema:
             type: string
             format: date
-        - description: YYYY-MM-DD 形式の開始日
+        - description: 開始日（YYYY-MM-DD 形式）
           in: query
           name: parameters[date_from]
           schema:
@@ -2444,53 +2057,22 @@ paths:
           schema:
             type: string
             format: date
-        - description: フィルタに使用する重要性レベルです。指定された重要性以上（Greater Than or Equal To）のものが対象となります。
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: カンマ区切りのティッカーシンボルを1つ以上指定します（最大50件まで）。
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-            format: csv
-        - description: レコードが最後に更新された時刻を表す Unix
-            時間形式の更新日時（UTC）。この値を指定すると、ソートは指定したタイムスタンプ以上（Greater Than or
-            Equal）のレコードのみが対象となるように行われます。
+        - description: Unix 時刻での更新日時
           in: query
           name: parameters[updated]
           schema:
-            type: integer
-        - description: 検索キー種別
-          in: query
-          name: search_keys_type
-          schema:
             type: string
-            enum:
-              - event_type
-        - description: 検索キー
-          in: query
-          name: search_keys
-          schema:
-            type: string
+            format: int64
       responses:
         "200":
-          description: イベント
+          description: ERx ギャップ
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.EventsJSON"
+                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.EventsJSON"
+                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
         "400":
           description: 不正なリクエスト
           content:
@@ -2511,161 +2093,56 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: イベント
+      summary: ERx ギャップ
       tags:
-        - events
-  /api/v2/calendar/ipos:
+        - ERx Gaps
+  /government_trade_reports:
     get:
-      description: Initial Public Offering (IPO)
-        データを返します。価格情報、引受会社、案件ステータス、および募集内容の詳細が含まれます。IPO
-        は、非公開企業が初めて株式を一般投資家に提供するタイミングを表します。IPOs エンドポイントでは、新しい ticker
-        は基礎となる企業データに自動的にリンクされないため、すぐに結果が返らない場合があります。最新のレコードを取得するには、tickers
-        パラメータを指定せずにクエリを送信してください。
-      operationId: get-ipos-v2
+      description: 議会議員が提出した定期取引報告書を含む、政府の詳細な取引開示報告書を返します
+      operationId: get-government-trade-reports
       parameters:
-        - description: 返却フォーマットを指定します。いずれのフォーマットでもクエリパラメータの動作は同じです
-          in: header
-          name: accept
-          required: true
-          schema:
-            type: string
-            enum:
-              - application/json
-            default: application/json
-        - description: ページオフセットです。最適化、パフォーマンスおよび技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメーターを使用してクエリ結果を絞り込んでください。
+        - description: ページ番号
           in: query
           name: page
           schema:
             type: integer
-            default: 0
-        - description: 返される結果数。上限は1000件。
+        - description: ページサイズ
           in: query
-          name: pagesize
+          name: pageSize
           schema:
             type: integer
-        - description: calendar データを取得する日付。date_from と date_to
-            が同一の場合の省略形です。指定しない場合は最新日付が使用されます。
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: クエリの起点となる日時
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: クエリ対象とする時点の日付
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: カンマ区切りで1つ以上のティッカーシンボルを指定します。最大50件まで指定できます。新規ティッカーは、すぐに結果が返らない場合があります。
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-            format: csv
-        - description: "IPOタイプを1つ以上、カンマ区切りで指定します。例: Ordinary Shares,SPAC"
-          in: query
-          name: parameters[ipo_type]
-          schema:
-            type: string
-            format: csv
-        - description: レコードが最後に更新された時刻を示す Unix
-            タイムスタンプ（UTC）。この値を指定すると、ソート順は指定したタイムスタンプ以上（greater than or
-            equal）のレコードに制限されます
-          in: query
-          name: parameters[updated]
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: 成功
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: IPO に関するデータを返します
-      tags:
-        - ipos
-  /sec/insider_transactions/owners:
-    get:
-      description: 企業役員、取締役、実質的所有者を含むインサイダー取引の所有者の情報を返します
-      operationId: get-insider-transaction-owner
-      parameters:
-        - description: ページオフセット。最適化・パフォーマンス・技術的な理由により、ページオフセットは 0 ～ 100000
-            に制限されています。日付などの他のパラメーターで検索結果を絞り込んでください。デフォルトは 0 です。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。最大1000件。
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-            default: 100
-        - description: 開始日（YYYY-MM-DD 形式）
+        - description: 開始日
           in: query
           name: date_from
           schema:
-            type: string
-            format: date
-        - description: 終了日（YYYY-MM-DD 形式）
+            type: integer
+            format: int64
+        - description: 終了日
           in: query
           name: date_to
           schema:
-            type: string
-            format: date
-        - description: レコードが最後に更新された時刻を表す Unix
-            タイムスタンプ（UTC）です。これを指定すると、ソート順は指定したタイムスタンプ以上（Greater Than or
-            Equal）の値を持つレコードを基準とするように強制されます
+            type: integer
+            format: int64
+        - description: この日時以降に更新
           in: query
           name: updated_since
           schema:
             type: integer
-        - description: YYYY-MM-DD 形式の日付
+            format: int64
+        - description: 日付
           in: query
           name: date
           schema:
-            type: string
-            format: date
-        - description: チャンバー
+            type: integer
+            format: int64
+        - description: 室
           in: query
           name: chamber
           schema:
             type: string
             enum:
-              - House
-              - Senate
+              - '"House"'
+              - '"Senate"'
         - description: フィールド
           in: query
           name: fields
@@ -2677,26 +2154,311 @@ paths:
           schema:
             type: string
             enum:
-              - symbol
-              - cik
-              - name_fuzzy
-              - name_starts_with
+              - '"report_id"'
+              - '"ticker"'
         - description: 検索キー
           in: query
           name: search_keys
           schema:
             type: string
+      responses:
+        "200":
+          description: 政府取引報告
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 政府関係者の取引報告書
+      tags:
+        - Government Trade Reports
+  /government_trades:
+    get:
+      description: 米国下院および上院議員による取引を含む、政府高官による取引情報を返します
+      operationId: get-government-trades
+      parameters:
+        - description: ページ番号
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: ページサイズ
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: 開始日
+          in: query
+          name: date_from
+          schema:
+            type: integer
+            format: int64
+        - description: 終了日
+          in: query
+          name: date_to
+          schema:
+            type: integer
+            format: int64
+        - description: 以降に更新
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+            format: int64
+        - description: 日付
+          in: query
+          name: date
+          schema:
+            type: integer
+            format: int64
+        - description: チャンバー
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - '"House"'
+              - '"Senate"'
+        - description: フィールド
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 検索キーの種類
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"report_id"'
+              - '"ticker"'
+        - description: 検索キー
+          in: query
+          name: search_keys
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 政府関係者による取引
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 政府関係者の取引
+      tags:
+        - Government Trades
+  /sec/insider_transactions/filings:
+    get:
+      description: 会社関係者による株式の買付・売却・ストックオプションの行使を含む、SEC Form 4 のインサイダー取引報告書を返します。
+      operationId: get-insider-transaction-filing
+      parameters:
+        - description: ページ番号
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: ページサイズ
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: 開始日
+          in: query
+          name: date_from
+          schema:
+            type: integer
+            format: int64
+        - description: 終了日
+          in: query
+          name: date_to
+          schema:
+            type: integer
+            format: int64
+        - description: この日時以降に更新されたもの
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+            format: int64
+        - description: 日付
+          in: query
+          name: date
+          schema:
+            type: integer
+            format: int64
+        - description: チャンバー
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - '"House"'
+              - '"Senate"'
+        - description: フィールド
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 検索キーのタイプ
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"report_id"'
+              - '"ticker"'
+        - description: 検索キー
+          in: query
+          name: search_keys
+          schema:
+            type: string
+        - description: Unix 時刻形式の更新日時
+          in: query
+          name: updated
+          schema:
+            type: integer
+            format: int64
         - description: 表示
           in: query
           name: display
           schema:
             type: string
             enum:
-              - flat
-              - nested
+              - '"flat"'
+              - '"nested"'
       responses:
         "200":
-          description: インサイダー取引の当事者
+          description: インサイダー取引
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingDoc"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: インサイダー取引報告書
+      tags:
+        - Insider Transaction
+  /sec/insider_transactions/owners:
+    get:
+      description: 企業の役員、取締役、主要株主などのインサイダー取引当事者に関する情報を返します
+      operationId: get-insider-transaction-owner
+      parameters:
+        - description: ページ番号
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: ページサイズ
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: 開始日
+          in: query
+          name: date_from
+          schema:
+            type: integer
+            format: int64
+        - description: 終了日
+          in: query
+          name: date_to
+          schema:
+            type: integer
+            format: int64
+        - description: この日時以降に更新
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+            format: int64
+        - description: 日付
+          in: query
+          name: date
+          schema:
+            type: integer
+            format: int64
+        - description: 議院
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - '"House"'
+              - '"Senate"'
+        - description: フィールド
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 検索キーのタイプ
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"report_id"'
+              - '"ticker"'
+        - description: 検索キー
+          in: query
+          name: search_keys
+          schema:
+            type: string
+        - description: UNIX 時刻での更新日時
+          in: query
+          name: updated
+          schema:
+            type: integer
+            format: int64
+        - description: 表示
+          in: query
+          name: display
+          schema:
+            type: string
+            enum:
+              - '"flat"'
+              - '"nested"'
+      responses:
+        "200":
+          description: インサイダー取引当事者
           content:
             application/json:
               schema:
@@ -2715,9 +2477,213 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: インサイダー取引の所有者
+      summary: インサイダー取引者
       tags:
         - Insider Transaction
+  /signal/block_trade:
+    get:
+      description: 機関投資家の取引活動を示唆し得る異常に大口な取引を含むブロックトレードデータを返します
+      operationId: get-block-trade-v1
+      parameters:
+        - description: ページ番号
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: ページサイズ
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: 開始日（YYYY-MM-DD 形式）
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: 終了日（YYYY-MM-DD 形式）
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: ティッカー
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: Unix 形式の更新日時
+          in: query
+          name: updated
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: 大口取引
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.BlockTradeJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: BlockTrade V1
+      tags:
+        - Block Trade
+  /signal/halt_resume:
+    get:
+      description: 証券の売買停止および売買再開に関する情報を返し、停止理由や再開予定時刻を含みます
+      operationId: get-halt-resume-v1
+      parameters:
+        - description: ページ番号
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: ページサイズ
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: 開始日（YYYY-MM-DD形式）
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: 終了日（YYYY-MM-DD形式）
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: ティッカー
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: 更新日時（UNIX 時刻形式）
+          in: query
+          name: updated
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: 売買停止・再開
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.HaltResumeJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: HaltResume V1
+      tags:
+        - Halt Resume
+  /signal/option_activity:
+    get:
+      description: インフォームド・トレーディングの兆候となり得る大口または異例のオプション取引を含む、異常なオプション取引アクティビティデータを返します
+      operationId: get-option-activity-v1
+      parameters:
+        - description: ページ番号
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: 1ページあたりの件数
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: YYYY-MM-DD 形式の日付
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: date
+        - description: 開始日（YYYY-MM-DD 形式）
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: 終了日（YYYY-MM-DD形式）
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: 日付順に並べ替え
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - date
+        - description: ティッカー
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+        - description: ID
+          in: query
+          name: parameters[id]
+          schema:
+            type: string
+        - description: UNIX 時間形式の更新日時
+          in: query
+          name: parameters[updated]
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: オプション売買動向
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.OptionActivityJSON"
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: OptionActivity V1
+      tags:
+        - Option Activity
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -3067,6 +3033,3 @@ components:
         voluntarily_reported:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
