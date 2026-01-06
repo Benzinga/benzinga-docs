@@ -311,8 +311,6 @@ paths:
       summary: Devuelve los datos de noticias eliminadas
       tags:
         - News
-servers:
-  - url: //api.benzinga.com/api/v2
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -409,3 +407,6 @@ components:
           example: AAPL
           type: string
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD

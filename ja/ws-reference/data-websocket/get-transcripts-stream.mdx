@@ -1,0 +1,312 @@
+---
+title: "トランスクリプト ストリーム"
+description: "決算説明会コールの発言内容を、話されたそばから1文ごとのトランスクリプトとしてリアルタイム配信します。"
+asyncapi: "/asyncapi/transcripts-stream.yml transcripts"
+---
+
+<div id="overview">
+  ## 概要
+</div>
+
+リアルタイムの決算発表コール書き起こしを購読し、ライブの決算発表コール中に話された内容を一文単位でリアルタイムに受信できます。リアルタイムのトランスクリプトビューアや分析ツールを構築するのに最適です。
+
+<div id="key-features">
+  ### 主要な機能
+</div>
+
+- **ライブ文字起こし**: 決算説明会中の発言を、話された内容に応じてリアルタイムで文単位に更新
+- **単語レベルのタイミング**: 各文に、単語ごとのタイムスタンプと信頼度スコアを付与
+- **話者識別**: 誰が発言しているかを把握可能（経営陣、アナリストなど）
+- **ステータス追跡**: 文字起こしが進行中か完了済みかを監視
+- **柔軟なサブスクリプション**: 特定のティッカー、または `*` を指定してすべての文字起こしを購読
+- **モックテスト**: ライブコールがない場合でも、モックデータを使って連携をテスト可能
+
+<div id="use-cases">
+  ### ユースケース
+</div>
+
+- 決算説明会のリアルタイム文字起こしビューアの構築
+- ライブ字幕やアクセシビリティ向けツールの作成
+- 決算説明会に対するリアルタイムなセンチメント分析
+- 発言と同時に重要なフレーズや指標を抽出
+- ライブコール中の特定のキーワードやトピックに基づくアラート
+- 精密なタイミングデータ付きでの完全なトランスクリプトのアーカイブ
+
+<div id="quick-start">
+  ## クイックスタート
+</div>
+
+上部のインタラクティブなウェブソケットテスターを使用して、リアルタイムでストリームへの接続をテストします。
+
+<div id="connection-url">
+  ### 接続 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### クエリパラメータ
+</div>
+
+| パラメータ | 必須 | 説明 |
+|-----------|------|------|
+| `token` | はい | Benzinga の ウェブソケット API トークン |
+
+<div id="subscription-commands">
+  ## サブスクリプションコマンド
+</div>
+
+サブスクリプションを制御するには、JSON形式のコマンドを送信します。
+
+<div id="subscribe-to-a-ticker">
+  ### 特定の ticker を購読する
+</div>
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "AAPL"
+}
+```
+
+
+<div id="subscribe-to-all-transcripts">
+  ### すべてのトランスクリプトを購読する
+</div>
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "*"
+}
+```
+
+
+<div id="unsubscribe-from-a-ticker">
+  ### Ticker の購読を解除
+</div>
+
+```json
+{
+  "action": "unsubscribe",
+  "ticker": "AAPL"
+}
+```
+
+
+<div id="list-active-transcripts">
+  ### アクティブなトランスクリプトを一覧する
+</div>
+
+```json
+{
+  "action": "list"
+}
+```
+
+
+<div id="keep-connection-alive">
+  ### 接続の維持
+</div>
+
+```json
+{
+  "action": "ping"
+}
+```
+
+
+<div id="test-with-mock-data">
+  ### モックデータでのテスト
+</div>
+
+ライブのトランスクリプトが利用できない場合は、テストにはモックモードを使用します：
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "AAPL",
+  "mock": true
+}
+```
+
+サポートされているモック ticker: `AAPL`, `MSFT`, `TSLA`
+
+
+<div id="message-example">
+  ## メッセージの例
+</div>
+
+```json
+{
+  "call_id": "call_123456",
+  "transcript_id": "550e8400-e29b-41d4-a716-446655440000",
+  "call_title": "Apple Inc. Q4 2024 Earnings Call",
+  "sentence": "Revenue for the quarter was 89.5 billion dollars.",
+  "start_time": "2024-01-15T16:30:15Z",
+  "end_time": "2024-01-15T16:30:19Z",
+  "symbol": "AAPL",
+  "exchange": "NASDAQ",
+  "name": "Apple Inc.",
+  "sequence": 42,
+  "status": "IN_PROGRESS",
+  "speaker": "Tim Cook, CEO",
+  "type": "LIVE",
+  "language": "en",
+  "confidence": 0.98,
+  "words": [
+    {
+      "text": "Revenue",
+      "confidence": 0.99,
+      "start": 0,
+      "end": 450
+    },
+    {
+      "text": "for",
+      "confidence": 0.98,
+      "start": 450,
+      "end": 600
+    }
+  ],
+  "created_time": "2024-01-15T16:30:19Z"
+}
+```
+
+
+<div id="key-fields">
+  ### 主要フィールド
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `sentence` | 発話された文全体のテキスト |
+| `sequence` | トランスクリプト内でのこの文の順序 (0, 1, 2...) |
+| `speaker` | 発話者の名前/識別子 |
+| `status` | `IN_PROGRESS`（リアルタイム）または `COMPLETE`（完了） |
+| `confidence` | 全体的な認識精度に対する信頼度 (0.0 - 1.0) |
+| `words` | タイミングおよび信頼度情報を含む単語ごとの配列 |
+| `start_time` / `end_time` | 文のタイミングを表す ISO 8601 タイムスタンプ |
+
+<div id="transcript-status">
+  ### Transcript ステータス
+</div>
+
+| ステータス | 説明 |
+|--------|-------------|
+| `IN_PROGRESS` | Transcript は現在進行中で、更新がリアルタイムに反映されています |
+| `COMPLETE` | Transcript は完了しており、これ以上の更新は行われません |
+
+<div id="word-level-data">
+  ## 単語レベルのデータ
+</div>
+
+各文には、単語ごとの詳細な情報が含まれます。
+
+```json
+{
+  "text": "Revenue",
+  "confidence": 0.99,
+  "start": 0,
+  "end": 450
+}
+```
+
+* **text**: 単語自体
+* **confidence**: 認識信頼度（0.0〜1.0）
+* **start/end**: 文頭からのタイミングオフセット（ミリ秒単位）
+
+
+<div id="interactive-commands">
+  ## インタラクティブコマンド
+</div>
+
+| Command | Parameters | Description |
+|---------|-----------|-------------|
+| `subscribe` | `ticker` | 指定した ticker のトランスクリプト更新を購読します |
+| `unsubscribe` | `ticker` | 指定した ticker のトランスクリプト更新の購読を解除します |
+| `list` | - | 有効/利用可能なトランスクリプトの一覧を取得します |
+| `subscribed` | - | 現在購読中の一覧を取得します |
+| `ping` | - | 接続維持用のコマンドです（`pong` が返されます） |
+| `echo` | `message` | エコー テスト（送信したメッセージがそのまま返されます） |
+
+<div id="best-practices">
+  ## ベストプラクティス
+</div>
+
+<div id="real-time-display">
+  ### リアルタイム表示
+</div>
+
+- **バッファ管理**: `sequence` フィールドを使用して、文を順序どおりに表示する
+- **話者ごとのフォーマット**: `speaker`（経営陣 vs アナリスト）に応じて表示形式を変える
+- **ステータスインジケーター**: `IN_PROGRESS` と `COMPLETE` のステータスを視覚的に区別して表示する
+
+<div id="performance">
+  ### パフォーマンス
+</div>
+
+- **ワイルドカードの注意**: `ticker: "*"` を使用すると、すべてのトランスクリプトを対象としたサブスクリプションとなり、非常に大量のデータが配信される可能性があります
+- **対象を絞ったサブスクリプション**: 帯域幅の消費を抑えるため、必要なティッカーに対してのみサブスクライブしてください
+- **ハートビート**: 接続を維持するために、30〜60秒ごとに `ping` を送信します
+
+<div id="data-quality">
+  ### データ品質
+</div>
+
+- **信頼度によるフィルタリング**: 信頼度スコアが低い文は無視するかフラグを付けることを検討してください
+- **単語レベルの精度**: 単語レベルの信頼度を使用して、不確実な文字起こしを特定してください
+- **言語処理**: テキストが適切にレンダリングされているか確認するために `language` フィールドをチェックしてください
+
+<div id="testing">
+  ### テスト
+</div>
+
+- **モックモード**: ライブ API 呼び出しを行わない開発時は `mock: true` を指定します
+- **エコーテスト**: 接続およびメッセージ処理を確認するには `echo` アクションを使用します
+- **リストコマンド**: 現在利用可能なものを確認するには `list` を実行します
+
+<div id="example-integration">
+  ## 統合の例
+</div>
+
+```javascript
+const ws = new WebSocket(
+  'wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_TOKEN'
+);
+
+ws.onopen = () => {
+  // Appleのトランスクリプトをサブスクライブ
+  ws.send(JSON.stringify({
+    action: 'subscribe',
+    ticker: 'AAPL'
+  }));
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+
+  // 話者と文を表示
+  console.log(`[${data.sequence}] ${data.speaker}: ${data.sentence}`);
+
+  // トランスクリプトが完了しているか確認
+  if (data.status === 'COMPLETE') {
+    console.log('Transcript finished');
+  }
+};
+
+// 接続を維持
+setInterval(() => {
+  ws.send(JSON.stringify({ action: 'ping' }));
+}, 30000);
+```
+
+
+<div id="related-documentation">
+  ## 関連ドキュメント
+</div>
+
+- [WebSocket Introduction](../introduction) - 一般的なウェブソケットの概念と接続の基本
+- [Authentication](../authentication) - API トークンの取得方法と使用方法

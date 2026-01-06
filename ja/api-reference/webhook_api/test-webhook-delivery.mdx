@@ -1,0 +1,91 @@
+---
+title: "Webhook 配信テスト"
+openapi: /ja/openapi/webhook_api.spec.yml GET /api/v1/webhook/test
+---
+
+<div id="overview">
+  ## 概要
+</div>
+
+このエンドポイントを使用して、設定済みのエンドポイントにテスト用のWebhook通知を送信します。これにより、本番環境のライブデータを受信する前に、Webhook連携が正しく動作しているかを確認できます。
+
+<div id="testing-your-integration">
+  ## 統合のテスト
+</div>
+
+このエンドポイントを呼び出すと、Benzinga は設定済みの `destination` URL にテスト用の webhook ペイロードを送信します。このテスト配信は、本番環境の webhook 配信と同じ形式およびリトライロジックで行われます。
+
+<div id="what-to-expect">
+  ### 想定される挙動
+</div>
+
+1. **即時レスポンス**: テスト配信のトリガーに成功すると、API は `200` ステータスコードを返します
+2. **テストペイロード**: Webhook エンドポイントには、本番データと同じ形式のテストペイロードが送信されます
+3. **配信ヘッダー**: テスト配信には、本番配信と同様に `X-BZ-Delivery` ヘッダーが含まれます
+
+<div id="verify-your-integration">
+  ### 統合を検証する
+</div>
+
+このエンドポイントを使用して、次の点を確認します：
+
+- Webhook エンドポイントがインターネットからアクセス可能であること
+- エンドポイントが Webhook のペイロード形式を正しく解析できること
+- エンドポイントが適切なステータスコード（成功時は 2xx）を返すこと
+- エンドポイントがタイムアウト時間である 30 秒以内に応答すること
+- 冪等性ロジックが `X-BZ-Delivery` ヘッダーとペイロードの `id` フィールドを正しく処理できること
+
+<div id="best-practices">
+  ## ベストプラクティス
+</div>
+
+- まずは本番環境以外の webhook エンドポイントでテストする
+- エンドポイントが `200` または `204` のステータスコードで応答していることを確認する
+- ログおよび監視でテスト配信が記録・検知できていることを確認する
+- 重複排除ロジックがテスト配信 ID で正しく動作することを確認する
+- 一時的にエラーステータスコードを返すことでエラーシナリオをテストする
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+<div id="424-delivery-error">
+  ### 424 配信エラー
+</div>
+
+`424` ステータスコードを受信した場合、システムがテストペイロードを宛先エンドポイントに配信できなかったことを示します。主な原因は次のとおりです:
+
+- 宛先 URL が外部からアクセスできない
+- 宛先エンドポイントがエラーステータスコードを返している
+- ネットワーク接続の問題
+- 宛先エンドポイントでの SSL/TLS 証明書エラー
+
+<div id="400-invalid-request">
+  ### 400 無効なリクエスト
+</div>
+
+必須パラメータがすべて指定され、正しい形式であることを確認してください：
+
+- `destination` は有効な HTTPS URL でなければなりません
+- `version` は `webhook/v1` でなければなりません
+- `kind` は `News/v1` でなければなりません
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "status": "success"
+}
+```
+
+```json Response (400 Bad Request)
+{
+  "error": "Invalid destination URL"
+}
+```
+
+```json Response (424 Failed Dependency)
+{
+  "error": "Failed to deliver test payload to destination"
+}
+```
+</ResponseExample>
