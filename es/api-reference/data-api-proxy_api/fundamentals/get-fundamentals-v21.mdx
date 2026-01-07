@@ -364,7 +364,7 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
                 "companyId": "0C00000ADA",
                 "asOf": "2025-09-30",
                 "reportType": "R",
-                "período": "3M",
+                "period": "3M",
                 "aorOrRestate": "RESTATE"
               },
               "fiscalYearEnd": 9,
@@ -413,7 +413,7 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
               "companyId": "0C00000ADA",
               "asOf": "2025-09-30",
               "reportType": "R",
-              "período": "3M",
+              "period": "3M",
               "aorOrRestate": "RESTATE"
             },
             "fiscalYearEnd": 9,
@@ -538,6 +538,45 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
         "symbol": "AAPL",
         "idType": "SYMBOL",
         "id": "AAPL"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (401 Unauthorized)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "auth_failed",
+        "id": "unauthorized",
+        "value": "Token de autenticación inválido o ausente"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (404 Not Found)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "no_data_found",
+        "id": "not_found",
+        "value": "No se encontraron datos para los parámetros especificados"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (500 Internal Server Error)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "internal_server_error",
+        "id": "server_error",
+        "value": "Ocurrió un error inesperado al procesar su solicitud"
       }
     ]
   }
