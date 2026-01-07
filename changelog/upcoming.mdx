@@ -4,21 +4,96 @@ title: "Coming Up"
 
 These are the upcoming releases and planned action items for the next updates.
 
-## December 2024
-- **Planned Release of [Dynamic Event Feedback API](https://calendarapi.com/docs/event-feedback)** to allow users to rate and review events directly from the calendar interface.
-- **Enhancing bulk event creation performance**, aiming to reduce API response time by 20%.
-- **Introducing support for multi-region failover** in the API dashboard to improve service reliability.
-- **Developing Real-Time Attendance Insights**, with WebSocket updates to monitor attendee trends live.
-- **Launching [Advanced Webhook Security](https://calendarapi.com/docs/webhooks/security)**, including signature verification and IP whitelisting.
-- **Rolling out CalendarAPI Premium Managed Services** for enterprise customers, featuring 24/7 support and custom SLAs.
-- **Optimizing CDN integration** to improve load times for assets like ICS and event images.
+## In Progress
+
+Items currently being developed or reviewed.
+
+### In Development
+
+- **Platform Services**: Investigating high-impact option trades not appearing in API responses
+- **Platform Services**: Resolving 401 authentication issues for Halt/Resume endpoints
+- **Platform Services**: Adding support for all webhook types (currently supports News only)
+- **Platform Services**: Processing and backfilling Fastly content data
+- **Platform Services**: Automating future row generation for Guidance Calendar
+- **Platform Services**: Investigating handling of ratings for inactive companies
+- **Calendar API**: Adding Period and Year fields to Conference Call calendar
+- **Calendar API**: Simplifying API parameters across all calendar services
+- **Transcripts**: Adding Period and Year fields to transcript calls
+- **Transcripts**: Improving ticker search support (e.g., MOG/A format)
+- **Transcripts**: Adding Change Titles feature to include Period and Year
+
+### In Review
+
+- **Platform Services**: Updating "Press Release" content type classifications
+
+### Pending Deployment
+
+- **Platform Services**: Implementing content expiration rules (don't send content after X days)
+- **Transcripts**: Fixing transcript edits not being saved properly
+
+## Coming Soon
+
+Items planned for upcoming sprints.
+
+### Platform Services
+
+**New Features**
+- Adding "Conference Call Topics" dictionary for better categorization
+- Logos V2 support for composite_auto SVG images
+- API specifications for Halts/Resumes Calendar API
+- Implementing "Hedge Message" for double reversal logic
+- Rate limiting and messaging improvements across all services
+- Adding Corologix alerts for connection monitoring
+
+**Improvements**
+- Adding monitoring for S3 news delivery
+- Removing legacy TDA "Benzinga Attribution" field
+- Adding 'Active' field to Analyst Dictionary (Yes/No options)
+- ISIN query support for all SoFi endpoints
+- Adding image URL to News Websocket payload
+- Resolving JPMC Upside calculation issues with stock splits
+- Handling Government Trade API updates
+- Backfilling period/year data to conference call calendar
+
+**Bug Fixes**
+- Fixing CIBC dynamic widget issues
+- Resolving Consensus Ratings endpoint returning zeros for single date queries
+- Fixing deduplication logic in /sync endpoint
+- Investigating missing Morgan Stanley preferred stock logos
+
+### Calendar API
+
+**New Features**
+- Using CAGR to calculate upcoming dividend projections
+- Creating API endpoint for updating Government Trades from Newsdesk Tools
+
+### News API
+
+**New Features**
+- Supporting multiple content-types in a single query
+- Adding sector-based query parameter
+- Adding GICS-based query support
+
+**Bug Fixes**
+- Adding updatedSince query support to news-removed endpoint
+
+### Transcripts
+
+**Improvements**
+- Displaying all scheduled transcripts for future dates
+- Adding custom email ID support for conference calls
+- Adding Zoom call link support
+- Frontend UI improvements with enhanced filter options
+- Redesigning UI to calendar grid view (replacing manual/live mode)
+- Adding revision history for each transcript record
+- Adding manual transcript record creation feature
+
+**Bug Fixes**
+- Improving Edge Media login handling
+- Enhancing Webvoyager agent reliability
 
 ---
 
-## January 2025
-- **Adding support for AI-driven event recommendations**, tailored to user preferences and calendar activity.
-- **Introducing a Calendar Sync Debugger Tool** to help developers identify and resolve sync issues more efficiently.
-- **Expanding API key management tools**, including granular access controls and automated expiration policies.
-- **Rolling out [Event Cloning API](https://calendarapi.com/docs/event-cloning)** for rapid duplication of complex event setups.
-- **Launching CalendarAPI Sandbox Environment**, allowing developers to test APIs without affecting live data.
-- **Improving documentation** with additional use-case guides and interactive API walkthroughs.
+*Last updated: January 2026*
+
+*Note: Timelines and features are subject to change based on priorities and dependencies.*
