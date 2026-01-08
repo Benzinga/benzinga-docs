@@ -3075,6 +3075,3 @@ components:
         voluntarily_reported:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: 本番
