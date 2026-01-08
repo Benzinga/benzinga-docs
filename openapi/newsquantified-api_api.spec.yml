@@ -9,21 +9,21 @@ paths:
   /api/v2/newsquantified:
     get:
       description: Retrieves quantified news analytics data with sentiment scores,
-        relevance metrics, and market impact indicators. Returns structured data analyzing
-        the quantitative aspects of news coverage including sentiment polarity, article
-        counts, trending scores, and ticker-specific metrics. Use this endpoint to
-        access machine-readable news analytics for algorithmic trading and quantitative
-        research.
+        relevance metrics, and market impact indicators. Returns structured data
+        analyzing the quantitative aspects of news coverage including sentiment
+        polarity, article counts, trending scores, and ticker-specific metrics.
+        Use this endpoint to access machine-readable news analytics for
+        algorithmic trading and quantitative research.
       operationId: get-newsquantified-data
       parameters:
-        - description: 'Page number for pagination. Zero-indexed (0 = first page,
-            1 = second page, etc.). Default: 0'
+        - description: "Page number for pagination. Zero-indexed (0 = first page, 1 =
+            second page, etc.). Default: 0"
           in: query
           name: page
           schema:
             type: integer
-        - description: 'Number of results per page. Default: 1000. Maximum: 1000.
-            Returns most recent data first.'
+        - description: "Number of results per page. Default: 1000. Maximum: 1000. Returns
+            most recent data first."
           in: query
           name: pagesize
           schema:
@@ -35,41 +35,42 @@ paths:
           schema:
             type: integer
         - description: Comma-separated list of stock ticker symbols to filter results
-            (e.g., AAPL,MSFT,TSLA). Returns analytics for specified securities only.
+            (e.g., AAPL,MSFT,TSLA). Returns analytics for specified securities
+            only.
           in: query
           name: symbols
           schema:
             type: string
-        - description: Single date in YYYY-MM-DD format (e.g., 2024-12-30). Shorthand
-            for filtering when date_from and date_to are the same. Returns data for
+        - description: Single date in YYYY-MM-DD format (e.g., 2024-12-30). Shorthand for
+            filtering when date_from and date_to are the same. Returns data for
             this specific date.
           in: query
           name: date
           schema:
             type: string
-        - description: Start date in YYYY-MM-DD format (e.g., 2024-01-01). Returns
-            data from this date forward. Use with date_to for date range queries.
+        - description: Start date in YYYY-MM-DD format (e.g., 2024-01-01). Returns data
+            from this date forward. Use with date_to for date range queries.
           in: query
           name: date_from
           schema:
             type: string
-        - description: End date in YYYY-MM-DD format (e.g., 2024-12-31). Returns data
-            up to and including this date. Use with date_from for date range queries.
+        - description: End date in YYYY-MM-DD format (e.g., 2024-12-31). Returns data up
+            to and including this date. Use with date_from for date range
+            queries.
           in: query
           name: date_to
           schema:
             type: string
       responses:
-        '200':
-          description: Array of quantified news analytics with sentiment scores and
-            metrics
+        "200":
+          description: Array of quantified news analytics with sentiment scores and metrics
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/models.Newsquantified'
+                  $ref: "#/components/schemas/models.Newsquantified"
                 type: array
-        '400':
+        "400":
           description: Bad request - invalid date format or parameters
           content:
             application/json:
@@ -77,13 +78,13 @@ paths:
                 items:
                   type: object
                 type: array
-        '404':
+        "404":
           description: Not found - no data available for specified parameters
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '500':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
           description: Internal server error
           content:
             application/json:
@@ -106,7 +107,7 @@ components:
     bzhttp.Error:
       properties:
         code:
-          $ref: '#/components/schemas/bzhttp.ErrorCode'
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
         id:
           type: string
         value:
@@ -114,8 +115,6 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
-        - unsupported_message_type
-        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -127,10 +126,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
       type: string
       x-enum-varnames:
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -142,6 +141,8 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -149,7 +150,7 @@ components:
           type: object
         errors:
           items:
-            $ref: '#/components/schemas/bzhttp.Error'
+            $ref: "#/components/schemas/bzhttp.Error"
           type: array
         ok:
           type: boolean
@@ -349,6 +350,3 @@ components:
         prevDay%:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v2
-    description: V2
