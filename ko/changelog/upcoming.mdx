@@ -1,0 +1,125 @@
+---
+title: "예정 사항"
+---
+
+다음 업데이트에 포함될 예정인 릴리스와 작업 항목들입니다.
+
+<div id="in-progress">
+  ## 진행 중
+</div>
+
+현재 개발되거나 검토 중인 항목입니다.
+
+<div id="in-development">
+  ### 개발 중
+</div>
+
+- **Platform Services**: API 응답에 표시되지 않는 대규모 옵션 거래 조사
+- **Platform Services**: Halt/Resume 엔드포인트의 401 인증 문제 해결
+- **Platform Services**: 모든 webhook 유형 지원 추가(현재 News만 지원)
+- **Platform Services**: Fastly content 데이터 처리 및 이력 백필
+- **Platform Services**: Guidance Calendar의 향후 행 자동 생성
+- **Platform Services**: 비활성 기업에 대한 ratings 처리 방식 검토
+- **Calendar API**: Conference Call calendar에 Period 및 Year 필드 추가
+- **Calendar API**: 전체 calendar 서비스에서 API 파라미터 단순화
+- **Transcripts**: transcript 호출에 Period 및 Year 필드 추가
+- **Transcripts**: 티커 검색 지원 개선(예: MOG/A 형식)
+- **Transcripts**: Period 및 Year를 포함하도록 Change Titles 기능 추가
+
+<div id="in-review">
+  ### 검토 중
+</div>
+
+- **Platform Services**: "Press Release" 콘텐츠 유형 분류 업데이트
+
+<div id="pending-deployment">
+  ### 배포 예정
+</div>
+
+- **Platform Services**: content 만료 규칙 구현 (X일이 지난 content는 전송하지 않음)
+- **Transcripts**: 수정한 Transcript가 제대로 저장되지 않는 문제 수정
+
+<div id="coming-soon">
+  ## 곧 제공 예정
+</div>
+
+다가오는 스프린트에 포함된 항목들입니다.
+
+<div id="platform-services">
+  ### 플랫폼 서비스
+</div>
+
+**신규 기능**
+
+- 더 나은 분류를 위한 "Conference Call Topics" 사전 추가
+- composite_auto SVG 이미지에 대한 Logos V2 지원
+- Halts/Resumes Calendar API용 API 사양 추가
+- 이중 반전 로직을 위한 "Hedge Message" 구현
+- 모든 서비스 전반의 요청 제한(rate limiting) 및 메시징 개선
+- 연결 모니터링을 위한 Corologix 알림 추가
+
+**개선 사항**
+
+- S3 뉴스 전달 모니터링 추가
+- 레거시 TDA "Benzinga Attribution" 필드 제거
+- Analyst Dictionary에 'Active' 필드 추가(Yes/No 옵션)
+- 모든 SoFi 엔드포인트에 대한 ISIN 쿼리 지원
+- News 웹소켓 페이로드에 이미지 URL 추가
+- 주식 분할과 관련된 JPMC Upside 계산 문제 해결
+- Government Trade API 업데이트 처리
+- conference call calendar에 기간/연도 데이터 소급 입력(백필)
+
+**버그 수정**
+
+- CIBC 동적 위젯 문제 수정
+- 단일 날짜 쿼리에 대해 0을 반환하던 Consensus Ratings 엔드포인트 문제 해결
+- /sync 엔드포인트의 중복 제거 로직 수정
+- 누락된 Morgan Stanley 우선주 로고 조사
+
+<div id="calendar-api">
+  ### Calendar API
+</div>
+
+**새 기능**
+
+- 향후 배당금 예상치를 계산하기 위해 CAGR 사용
+- Newsdesk Tools에서 Government Trades를 업데이트하기 위한 API 엔드포인트 생성
+
+<div id="news-api">
+  ### News API
+</div>
+
+**새 기능**
+
+- 단일 쿼리에서 여러 콘텐츠 유형 지원
+- 섹터 기반 쿼리 파라미터 추가
+- GICS 기반 쿼리 지원 추가
+
+**버그 수정**
+
+- news-removed 엔드포인트에 updatedSince 쿼리 파라미터 지원 추가
+
+<div id="transcripts">
+  ### Transcripts
+</div>
+
+**개선 사항**
+
+- 향후 날짜에 예정된 모든 transcript 표시
+- 컨퍼런스 콜용 사용자 지정 이메일 주소 지원 추가
+- Zoom 통화 링크 지원 추가
+- 필터 옵션을 강화한 프런트엔드 UI 개선
+- UI를 calendar 그리드 뷰로 재설계 (수동/실시간 모드 대체)
+- 각 transcript 레코드에 대한 변경 이력 추가
+- 수동 transcript 레코드 생성 기능 추가
+
+**버그 수정**
+
+- Edge Media 로그인 처리 개선
+- Webvoyager 에이전트 안정성 향상
+
+---
+
+*마지막 업데이트: 2026년 1월*
+
+*참고: 일정과 기능은 우선순위 및 의존성에 따라 변경될 수 있습니다.*

@@ -1,0 +1,89 @@
+---
+title: "애널리스트 인사이트"
+openapi: /openapi/calendar_api.spec.yml GET /api/v1/analyst/insights
+---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "analyst-insights": [
+    {
+      "action": "Upgrades",
+      "analyst_id": "669ea49c3f2d7e0001303664",
+      "analyst_insights": "BWS Financial이 Innodata 주식을 Top Pick으로 상향 조정하고 목표가를 110.00달러로 제시했습니다.  \n\n **강력한 재무 성과와 성장 전망**: Innodata는 최근 실적 발표에서 6,800만 달러 규모의 프리트레이닝 계약을 발표하는 등 의미 있는 재무 성장과 잠재력을 입증했습니다. 이는 회사가 대형 계약을 확보할 수 있는 역량과 급변하는 AI 시장에서의 강력한 입지를 보여주며, 향후 매출 성장과 투자자 신뢰를 더욱 견인할 것으로 예상됩니다.\n\n**전략적인 정부 계약 수주**: 2025년 4분기에 진입하면서 확보한 정부 계약은 Innodata가 2026년까지 신규 비즈니스 영역으로 대폭 확장할 수 있는 기반을 마련해 줍니다. 이 계약은 연말에 회사 매출에 크게 기여할 것으로 예상되며, 전략적 성장 전략을 보여주고 시장 가치를 한층 높일 것입니다.",
+      "date": "2026-01-05",
+      "firm": "BWS Financial",
+      "firm_id": "57f832d56b87f600016fa43f",
+      "id": "695bdd0f7bad4dcabd14a073",
+      "pt": "110.00",
+      "rating": "Top Pick",
+      "rating_id": "695bd5818f047b0001feddd2",
+      "security": {
+        "cik": "903651",
+        "exchange": "NASDAQ",
+        "isin": "US4576422053",
+        "name": "Innodata",
+        "symbol": "INOD"
+      },
+      "updated": 1767628056
+    },
+    {
+      "action": "Maintains",
+      "analyst_id": "669ea49c3f2d7e0001303664",
+      "analyst_insights": "BWS Financial은 Innodata 주식에 대한 Buy 등급을 유지하고 목표가를 110.00달러로 제시했습니다.  \n\n **강력한 매출 성장 잠재력**: Innodata는 6,800만 달러 규모의 프리트레이닝 계약을 확보하며 견고한 재무 궤적을 보여주고 있습니다. 이는 AI 데이터 준비 및 엔지니어링 서비스에 대한 상당한 수요를 의미합니다. 이러한 성장은 회사가 대형 계약을 유치할 수 있는 역량을 명확히 보여주며, 매출 전망과 운영 역량에 대한 투자자 신뢰를 강화합니다.\n\n**전략적인 정부 계약**: 회사는 2025년 4분기에 정부 계약을 확보하며 2026년 확대된 비즈니스 기회를 위한 발판을 마련했습니다. 이 전략적 행보는 Innodata의 매출원을 다각화할 뿐만 아니라, 연말에 더 큰 재무 성과를 위한 기반을 조성하여 회사의 시장 점유율 확대와 수익성 향상 가능성을 보여줍니다.",
+      "date": "2026-01-05",
+      "firm": "BWS Financial",
+      "firm_id": "57f832d56b87f600016fa43f",
+      "id": "695bd5cf7bad4dcabd14a070",
+      "pt": "110.00",
+      "rating": "Buy",
+      "rating_id": "695bd5818f047b0001feddd2",
+      "security": {
+        "cik": "903651",
+        "exchange": "NASDAQ",
+        "isin": "US4576422053",
+        "name": "Innodata",
+        "symbol": "INOD"
+      },
+      "updated": 1767626200
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "인증 토큰이 없거나 유효하지 않습니다"
+    }
+  ]
+}
+```
+```json Response (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "지정된 파라미터에 해당하는 데이터를 찾을 수 없습니다"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "요청을 처리하는 중 예기치 않은 오류가 발생했습니다"
+    }
+  ]
+}
+```
+</ResponseExample>

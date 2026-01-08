@@ -1,0 +1,49 @@
+---
+title: "기초 재무 지표"
+openapi: /ko/openapi/data-api-proxy_api.spec.yml GET /api/v3/fundamentals
+---
+
+<ResponseExample>
+```json 응답 (200 OK)
+{
+  "ok": "true",
+  "data": []
+}
+```
+```json 응답 (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "인증 토큰이 없거나 올바르지 않습니다"
+    }
+  ]
+}
+```
+```json 응답 (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "지정된 매개변수에 대한 데이터를 찾을 수 없습니다"
+    }
+  ]
+}
+```
+```json 응답 (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "요청 처리 중 예기치 않은 오류가 발생했습니다"
+    }
+  ]
+}
+```
+</ResponseExample>

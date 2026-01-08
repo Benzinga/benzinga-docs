@@ -1,0 +1,76 @@
+---
+title: "Bull Say Bears Say"
+description: bullsBearsSayBearsSay()
+---
+
+[&lt; 뒤로](/ko/sdks/languages/java#bullsbearssaybearssay)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - Bulls Say Bears Say V1 가져오기
+
+<div id="get">
+  ## 가져오기
+</div>
+
+Bulls Say Bears Say V1 가져오기
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetBullsSayBearsSayV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetBullsSayBearsSayV1Response res = sdk.bullsBearsSayBearsSay().get()
+                .symbols("<value>")
+                .call();
+
+        if (res.modelsBullsSayBearsSayJSON().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parameters
+</div>
+
+| Parameter           | Type                | Required            | Description                   |
+| ------------------- | ------------------- | ------------------- | ----------------------------- |
+| `symbols`           | *Optional&lt;String&gt;* | :heavy&#95;minus&#95;sign:  | 심볼 목록(콤마로 구분)        |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetBullsSayBearsSayV1Response](../../models/operations/GetBullsSayBearsSayV1Response.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                       | 상태 코드                      | 콘텐츠 유형                    |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

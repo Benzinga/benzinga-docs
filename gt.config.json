@@ -84,8 +84,8 @@
   },
   "locales": [
     "en",
-    "es",
-    "ja"
+    "ja",
+    "ko"
   ],
   "defaultLocale": "en",
   "$schema": "https://assets.gtx.dev/config-schema.json",

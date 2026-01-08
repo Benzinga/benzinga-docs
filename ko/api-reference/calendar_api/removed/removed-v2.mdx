@@ -1,0 +1,74 @@
+---
+title: "Removed"
+openapi: /openapi/calendar_api.spec.yml GET /api/v2.1/calendar-removed/
+---
+
+<ResponseExample>
+```json 응답 (200 OK)
+{
+  "removed": [
+    {
+      "id": "5b5d22b5be523300016fd411",
+      "type": "dividends",
+      "updated": 0
+    },
+    {
+      "id": "5c3dc573a8839f000125ef6b",
+      "type": "dividends",
+      "updated": 0
+    },
+    {
+      "id": "5c3de0ffa8839f000125efd4",
+      "type": "dividends",
+      "updated": 0
+    },
+    {
+      "id": "5c3e642da8839f000125f167",
+      "type": "dividends",
+      "updated": 0
+    },
+    {
+      "id": "5c3d9249a8839f000125ef61",
+      "type": "dividends",
+      "updated": 0
+    }
+  ]
+}
+```
+```json 응답 (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "인증 토큰이 없거나 올바르지 않습니다."
+    }
+  ]
+}
+```
+```json 응답 (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "지정된 매개변수에 해당하는 데이터를 찾을 수 없습니다."
+    }
+  ]
+}
+```
+```json 응답 (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "요청을 처리하는 동안 예기치 않은 오류가 발생했습니다."
+    }
+  ]
+}
+```
+</ResponseExample>

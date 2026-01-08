@@ -1,0 +1,339 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: 이 REST API는 로고를 검색하고 로고 상세 정보를 가져올 수 있는 엔드포인트를 제공합니다.
+  termsOfService: http://swagger.io/terms/
+  title: Logo API
+  version: 2.1.0
+paths:
+  /logos/search:
+    get:
+      description: 로고 검색
+      operationId: get-search-logos
+      parameters:
+        - description: 증권 식별자를 콤마로 구분한 목록입니다. 식별자는 최대 100개까지 지정할 수 있습니다. 식별자 종류는
+            search_keys_type 매개변수에 따라 달라집니다.
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: "검색할 식별자 유형입니다. 지원되는 유형: symbol(기본값), cik, cusip, 국제증권식별번호(ISIN)"
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: "반환할 로고 필드를 쉼표로 구분한 목록입니다. 최대 12개의 필드를 지정할 수 있습니다. 사용 가능한 필드:
+            logo_light, logo_dark, logo_vector_light, logo_vector_dark,
+            mark_light, mark_dark, mark_vector_light, mark_vector_dark,
+            mark_composite_light, mark_composite_dark,
+            mark_vector_composite_light, mark_vector_composite_dark, colors"
+          in: query
+          name: fields
+          required: true
+          schema:
+            type: string
+        - description: 값이 true이고 로고가 존재하지 않으면 회사 이름과 브랜드 색상을 기반으로 합성 이미지를 생성합니다
+          in: query
+          name: composite_auto
+          schema:
+            type: boolean
+        - description: "합성 이미지에 적용할 테두리 반경(%)입니다. 값의 범위는 0–50이며, 50이면 원 형태가 됩니다. 기본값: 0"
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+        - description: "이미지 크기를 WIDTHxHEIGHT 형식으로 지정합니다(예: 300x300). 크기 조정은 축소만 가능하며, 확대는
+            되지 않습니다. 기본값: 300x300"
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: 크기 조정된 이미지의 최대 너비 제한(픽셀 단위)
+          in: query
+          name: max_width
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 확인
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/logoapi.Logos"
+                type: array
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
+          description: 찾을 수 없음
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 로고 검색
+      tags:
+        - logos
+  /logos/sync:
+    get:
+      description: 대량 로고 동기화
+      operationId: logo-bulk-sync
+      parameters:
+        - description: 증권 식별자 또는 거래소 MIC 코드의 쉼표로 구분된 목록입니다(v2.1 exchange 로고의 경우). 유형은
+            search_keys_type 파라미터에 따라 달라집니다.
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: "검색할 식별자 유형입니다. 지원되는 유형: symbol(기본값), cik, cusip, isin,
+            exchange(v2.1에서만 지원)"
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: "반환할 로고 필드의 쉼표로 구분된 목록입니다. 최대 12개의 필드를 지정할 수 있습니다. 사용 가능 값:
+            logo_light, logo_dark, logo_vector_light, logo_vector_dark,
+            mark_light, mark_dark, mark_vector_light, mark_vector_dark,
+            mark_composite_light, mark_composite_dark,
+            mark_vector_composite_light, mark_vector_composite_dark, colors"
+          in: query
+          name: fields
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: 페이지네이션에 사용할 페이지 번호입니다. 대량 동기화 작업에서는 pagesize와 함께 사용합니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "페이지당 반환되는 결과 수. 기본값: 100. 최대값: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: Unix 타임스탬프(UTC)입니다. 이 시각 이후에 업데이트된 로고를 반환합니다.
+          in: query
+          name: updated_since
+          schema:
+            type: string
+        - description: "이미지 크기를 WIDTHxHEIGHT 형식(예: 300x300)으로 조정합니다. 이미지는 축소만 가능하며, 확대는 되지
+            않습니다. 기본값: 300x300"
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: "합성 이미지의 모서리 둥글기(%)입니다. 0~50 사이의 값이며, 50이면 원 형태가 됩니다. 기본값: 0"
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
+          description: 찾을 수 없습니다
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 로고 일괄 동기화
+      tags:
+        - logos
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
+      type: string
+      x-enum-varnames:
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    logoapi.LogoColors:
+      properties:
+        background_dark:
+          type: string
+        background_light:
+          type: string
+      type: object
+    logoapi.LogoRevisionFiles:
+      properties:
+        logo_dark:
+          type: string
+        logo_light:
+          type: string
+        logo_vector_dark:
+          type: string
+        logo_vector_light:
+          type: string
+        mark_composite_dark:
+          type: string
+        mark_composite_light:
+          type: string
+        mark_dark:
+          type: string
+        mark_light:
+          type: string
+        mark_vector_composite_dark:
+          type: string
+        mark_vector_composite_light:
+          type: string
+        mark_vector_dark:
+          type: string
+        mark_vector_light:
+          type: string
+      type: object
+    logoapi.Logos:
+      properties:
+        colors:
+          $ref: "#/components/schemas/logoapi.LogoColors"
+        company_cik:
+          type: string
+        company_url:
+          type: string
+        created_at:
+          type: string
+        deleted_at:
+          type: string
+        figi_share_class:
+          type: string
+        files:
+          $ref: "#/components/schemas/logoapi.LogoRevisionFiles"
+        id:
+          type: string
+        isin:
+          type: string
+        last_audited:
+          type: string
+        mic_code:
+          type: string
+        securities:
+          items:
+            $ref: "#/components/schemas/logoapi.Security"
+          type: array
+        symbol:
+          type: string
+        type:
+          type: string
+        updated_at:
+          type: string
+        updated_by_user_id:
+          type: string
+      type: object
+    logoapi.Security:
+      properties:
+        cik:
+          type: string
+        country:
+          type: string
+        cusip:
+          type: string
+        exchange:
+          type: string
+        exchange_name:
+          type: string
+        figi:
+          type: string
+        figi_share_class:
+          type: string
+        isin:
+          type: string
+        mic_code:
+          type: string
+        name:
+          type: string
+        name_short:
+          type: string
+        security_type:
+          type: string
+        symbol:
+          type: string
+      type: object
+servers:
+  - url: https://api.benzinga.com/api/v2
+    description: V2
+  - url: https://api.benzinga.com/api/v2.1
+    description: V2.1

@@ -1,0 +1,78 @@
+---
+title: "지연 시세"
+description: quotedelayed()
+---
+
+[&lt; 이전](/ko/sdks/languages/java#quotedelayed)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [getV1](#getv1) - 지연 시세 V1 가져오기
+
+<div id="getv1">
+  ## getV1
+</div>
+
+심볼, 국제증권식별번호(ISIN) 또는 CIK 목록의 지연 시세를 가져옵니다.
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetQuoteDelayedV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetQuoteDelayedV1Response res = sdk.quotedelayed().getV1()
+                .symbols("<value>")
+                .isin("<value>")
+                .cik("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parameters
+</div>
+
+| Parameter                       | Type                            | Required                        | Description                               |
+| ------------------------------- | ------------------------------- | ------------------------------- | ----------------------------------------- |
+| `symbols`                       | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 콤마로 구분된 심볼 목록                   |
+| `isin`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 해당 종목의 국제증권식별번호(ISIN)        |
+| `cik`                           | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 해당 종목의 CIK(SEC 기업 식별자)          |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetQuoteDelayedV1Response](../../models/operations/GetQuoteDelayedV1Response.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

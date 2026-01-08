@@ -1,0 +1,78 @@
+---
+title: "투자의견"
+openapi: /openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings
+---
+
+<ResponseExample>
+```json 응답 (200 OK)
+{
+  "ratings": [
+    {
+      "action_company": "Maintains",
+      "action_pt": "Lowers",
+      "adjusted_pt_current": "260.00",
+      "adjusted_pt_prior": "300.00",
+      "analyst": "Jefferies",
+      "analyst_id": "57fe0358ac6af40001334e62",
+      "analyst_name": "Brent Thill",
+      "currency": "USD",
+      "cusip": "001176213",
+      "date": "2026-01-05",
+      "exchange": "NASDAQ",
+      "id": "695c16678f047b0001fee512",
+      "importance": 3,
+      "isin": "IL0011762130",
+      "name": "Monday.Com",
+      "notes": "",
+      "pt_current": "260.0000",
+      "pt_pct_change": "-13.33",
+      "pt_prior": "300.00",
+      "rating_current": "Buy",
+      "rating_prior": "Buy",
+      "ticker": "MNDY",
+      "time": "14:52:07",
+      "updated": 1767642765,
+      "url": "https://www.benzinga.com/quote/MNDY/analyst-ratings",
+      "url_calendar": "https://www.benzinga.com/quote/MNDY/analyst-ratings",
+      "url_news": "https://www.benzinga.com/stock-articles/MNDY/analyst-ratings"
+    }
+  ]
+}
+```
+```json 응답 (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "인증 토큰이 없거나 유효하지 않습니다"
+    }
+  ]
+}
+```
+```json 응답 (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "지정된 매개변수에 대한 데이터를 찾을 수 없습니다"
+    }
+  ]
+}
+```
+```json 응답 (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "요청을 처리하는 중 예기치 않은 오류가 발생했습니다"
+    }
+  ]
+}
+```
+</ResponseExample>

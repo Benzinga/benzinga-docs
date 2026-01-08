@@ -1,0 +1,160 @@
+---
+title: "Benzinga 위젯"
+description: "웹사이트에 금융 인사이트를 더하세요"
+---
+
+Benzinga 위젯에 오신 것을 환영합니다! Benzinga 위젯은 실시간 금융 데이터, 인사이트, 시각화를 사용자에게 직접 제공해 웹사이트를 한층 강화할 수 있도록 설계되었습니다. 금융 블로그, 투자 플랫폼, 분석 대시보드 등 어떤 서비스를 구축하든 Benzinga 위젯은 사용자에게 신뢰할 수 있는 대화형 최신 도구를 제공합니다.
+
+다음은 몇 가지 샘플 위젯입니다:
+
+----
+
+<div id="charting">
+  ## 차트:
+</div>
+
+***
+
+<iframe frameBorder="0" height="600" width="100%" src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF" />
+
+iframe:
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    class="w-full"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF"
+></iframe>
+```
+
+***
+
+
+<div id="sector-performance">
+  ## 섹터별 성과:
+</div>
+
+***
+
+<div style={{ width: '100%', overflow: 'hidden' }}>
+  <div style={{ transform: 'scale(0.75)', transformOrigin: 'top left', width: 1200, height: 550 }}>
+    <iframe frameBorder="0" width="100%" height="700" src="https://widgets.benzinga.com/embed/sector-performance-heatmap" />
+  </div>
+</div>
+
+iframe:
+
+```html
+<iframe
+  frameBorder="0"
+  height="1550"
+  src="https://widgets.benzinga.com/embed/sector-performance-heatmap"
+  class="w-full"
+></iframe>
+```
+
+***
+
+
+<div id="sankey-chart">
+  ## Sankey 차트:
+</div>
+
+***
+
+<iframe frameBorder="0" height="600" src="https://widgets.benzinga.com/embed/sankey?symbol=AAPL" width="100%" />
+
+iframe:
+
+```html
+<iframe
+  frameBorder="0"
+  height="1550"
+  src="https://widgets.benzinga.com/embed/sankey?symbol=${ticker_name}"
+  class="w-full"
+></iframe>
+```
+
+***
+
+
+<div id="what-are-benzinga-widgets">
+  ### Benzinga 위젯이란?
+</div>
+
+Benzinga 위젯은 미리 만들어진 임베드 가능 컴포넌트로, 최소한의 설정만으로 웹사이트에 금융 차트, 주식 정보, 기타 시장 데이터를 표시할 수 있게 해 줍니다. 이 위젯은 완전히 사용자 정의가 가능하며, 기존 콘텐츠와 자연스럽게 통합되도록 설계되어 있습니다.
+
+<div id="features-of-benzinga-widgets">
+  ### Benzinga 위젯의 특징
+</div>
+
+<div id="interactive-stock-charts">
+  #### 📈 대화형 주가 차트
+</div>
+
+* **실시간 데이터**: 실시간으로 변동되는 주가를 표시합니다.
+* **사용자 정의 가능한 기간**: 사용자가 1일, 6개월, 5년 등 다양한 기간의 데이터를 탐색할 수 있습니다.
+* **동적 시각화**: 최신 시장 동향을 반영해 차트가 자동으로 업데이트됩니다.
+
+```html
+<iframe frameBorder="0" height="500" width="500" src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF" title="Apple 주가 차트" ></iframe>
+```
+
+
+<div id="additional-widgets">
+  #### 💡 추가 위젯
+</div>
+
+* **주식 티커**: 실시간 주가를 스크롤 티커 형식으로 보여줍니다.
+* **뉴스 피드**: 최신 시장 뉴스를 제공해 방문자가 언제나 최신 정보를 얻을 수 있게 합니다.
+* **기업 인사이트**: 특정 기업에 대한 핵심 통계와 데이터를 제공합니다.
+
+<div id="why-use-benzinga-widgets">
+  ### 왜 Benzinga 위젯을 사용해야 하나요?
+</div>
+
+1. **손쉬운 연동**: 간단한 임베드 코드를 복사해 붙여넣기만 하면 바로 사용할 수 있습니다.
+2. **맞춤형 디자인**: 위젯의 디자인을 웹사이트 브랜드에 맞게 자유롭게 구성할 수 있습니다.
+3. **신뢰할 수 있는 데이터 소스**: 금융 정보와 분석 분야의 선도 기업인 Benzinga의 데이터를 기반으로 합니다.
+4. **사용자 참여 증대**: 사용자가 바로 확인할 수 있는 유용한 인사이트를 제공해 이용자 유지율을 높일 수 있습니다.
+
+<div id="how-to-use-benzinga-widgets-on-your-website">
+  ### 귀하의 웹사이트에서 Benzinga 위젯을 사용하는 방법
+</div>
+
+다음 간단한 단계에 따라 Benzinga 위젯을 통합하세요:
+
+1. **위젯 선택**
+   필요에 가장 잘 맞는 위젯을 선택합니다. 많이 사용되는 옵션으로는 주식 차트, 뉴스 피드, 실시간 티커 등이 있습니다.
+
+2. **임베드 코드 사용자 정의**
+   제공된 임베드 URL을 수정하여 요구 사항에 맞게 설정합니다. 예를 들어 주식 심볼, 기간, 색상 테마 등을 변경할 수 있습니다. 예시는 다음과 같습니다:
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    class="w-full"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF"
+></iframe>
+```
+
+3. **코드를 웹사이트에 붙여넣기**
+   iframe 코드를 HTML 또는 CMS(예: WordPress, Wix)의 원하는 위치에 삽입합니다.
+
+4. **연동 테스트**
+   웹사이트에 접속해 위젯이 정상적으로 로드되고 표시되는지 확인합니다. 필요하다면 크기와 스타일을 조정합니다.
+
+
+<div id="start-using-benzinga-widgets-today">
+  ### 지금 바로 Benzinga 위젯을 사용해 보세요!
+</div>
+
+웹사이트에 Benzinga 위젯을 추가하면 콘텐츠를 손쉽고 효과적으로 강화하고, 사용자에게 더 큰 가치를 제공할 수 있습니다. 시작할 준비가 되셨나요? Benzinga의 위젯 라이브러리에서 다양한 위젯과 사용자 정의 옵션을 확인해 보세요.
+
+<div id="have-questions">
+  #### 궁금한 점이 있으신가요?
+</div>
+
+위젯을 사이트에 연동하거나 사이트에 맞게 맞춤 설정하는 데 도움이 필요하시면 FAQ를 확인하시거나 지원팀(licensing@benzinga.com)에 문의해 주십시오.
