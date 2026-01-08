@@ -187,6 +187,10 @@ paths:
           name: importance
           schema:
             type: string
+            enum:
+              - low
+              - medium
+              - high
         - description: Filtra por región (por ejemplo, 'ca' o 'canada' para contenido
             canadiense)
           in: query
