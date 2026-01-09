@@ -302,7 +302,7 @@
         ],
         "language": "en",
         "banner": {
-          "content": "🚀 Version 2.0 is now live! See our [changelog](/changelog/overview) for details.",
+          "content": "🚀 Version 2.0 Documentation is now live! See our [changelog](/changelog/overview) for details.",
           "dismissible": true
         }
       },
