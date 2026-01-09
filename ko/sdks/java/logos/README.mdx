@@ -1,0 +1,151 @@
+---
+title: "로고"
+description: logos()
+---
+
+[&lt; 뒤로](/ko/sdks/languages/java#logos)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [bulkSync](#bulksync) - 주어진 검색 키에 대한 로고를 가져오기
+* [search](#search) - 주어진 검색 키에 대한 로고를 가져오기
+
+<div id="bulksync">
+  ## bulkSync
+</div>
+
+지정된 검색 키에 대한 로고를 가져옵니다
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.LogoBulkSyncRequest;
+import org.benzinga.BZClient.models.operations.LogoBulkSyncResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        LogoBulkSyncRequest req = LogoBulkSyncRequest.builder()
+                .searchKeys("<value>")
+                .fields(List.of(
+                    "<value>"))
+                .build();
+
+        LogoBulkSyncResponse res = sdk.logos().bulkSync()
+                .request(req)
+                .call();
+
+        if (res.bzhttpResp().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+| 매개변수                                                              | 타입                                                                  | 필수 여부                                                             | 설명                                                                  |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [LogoBulkSyncRequest](../../models/operations/LogoBulkSyncRequest.md) | :heavy&#95;check&#95;mark:                                                    | 요청 시 사용할 요청 객체입니다.                                       |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[LogoBulkSyncResponse](../../models/operations/LogoBulkSyncResponse.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 타입                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 404, 500              | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="search">
+  ## search
+</div>
+
+지정한 검색 키에 대한 로고를 가져옵니다
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetSearchLogosRequest;
+import org.benzinga.BZClient.models.operations.GetSearchLogosResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetSearchLogosRequest req = GetSearchLogosRequest.builder()
+                .searchKeys("<value>")
+                .fields("<value>")
+                .build();
+
+        GetSearchLogosResponse res = sdk.logos().search()
+                .request(req)
+                .call();
+
+        if (res.logoapiLogoRevisions().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+| 매개변수                                                                 | 타입                                                                      | 필수 여부                                                                 | 설명                                                                      |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `request`                                                                 | [GetSearchLogosRequest](../../models/operations/GetSearchLogosRequest.md) | :heavy&#95;check&#95;mark:                                                        | 요청에 사용할 객체입니다.                                                 |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetSearchLogosResponse](../../models/operations/GetSearchLogosResponse.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 404, 500              | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

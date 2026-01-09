@@ -1,0 +1,78 @@
+---
+title: "Fda"
+description: fda()
+---
+
+[&lt; 뒤로 가기](/ko/sdks/languages/java#fda)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - FDA 가져오기
+
+<div id="get">
+  ## 가져오기
+</div>
+
+FDA 승인, 임상시험 및 PDUFA 일정
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetFdaRequest;
+import org.benzinga.BZClient.models.operations.GetFdaResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetFdaRequest req = GetFdaRequest.builder()
+                .build();
+
+        GetFdaResponse res = sdk.fda().get()
+                .request(req)
+                .call();
+
+        if (res.modelsFDAJSON().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+| 매개변수                                                   | 타입                                                      | 필수 여부                                                 | 설명                                                      |
+| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
+| `request`                                                 | [GetFdaRequest](../../models/operations/GetFdaRequest.md) | :heavy&#95;check&#95;mark:                                        | 요청에 사용할 객체입니다.                                 |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetFdaResponse](../../models/operations/GetFdaResponse.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

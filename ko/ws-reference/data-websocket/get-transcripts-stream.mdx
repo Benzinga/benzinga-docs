@@ -1,0 +1,312 @@
+---
+title: "Transcripts Stream"
+description: "실시간 실적 발표 콜 발언을 말하는 즉시 문장 단위로 스트리밍합니다."
+asyncapi: "/asyncapi/transcripts-stream.yml transcripts"
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+실시간 실적 발표 콜 콜(transcript)에 구독하면 라이브 실적 발표 콜에서 발언되는 내용을 문장 단위로 바로 받아볼 수 있습니다. 실시간 transcript 뷰어와 분석 도구를 구축하기에 적합합니다.
+
+<div id="key-features">
+  ### 주요 기능
+</div>
+
+- **실시간 전사**: 실적 발표 콜 중 발언 내용을 문장 단위로 실시간으로 받아보기
+- **단어 단위 타이밍**: 각 문장에 단어별 타임스탬프와 신뢰도 점수가 포함
+- **화자 식별**: 누가 말하고 있는지(임원, 애널리스트 등) 추적
+- **상태 추적**: 전사가 진행 중인지 완료되었는지 모니터링
+- **유연한 구독**: 특정 티커 또는 `*`를 사용해 모든 전사를 구독
+- **모의 테스트**: 라이브 콜이 없을 때 모의 데이터를 사용해 통합을 테스트
+
+<div id="use-cases">
+  ### 사용 사례
+</div>
+
+- 실시간 실적 발표 콜 대본 뷰어 구축
+- 실시간 자막 및 접근성 도구 구축
+- 실적 발표 콜에 대한 실시간 감성 분석 수행
+- 언급과 동시에 핵심 문구와 지표 추출
+- 라이브 콜 중 특정 키워드나 주제에 대한 알림
+- 정밀한 타이밍 데이터와 함께 전체 대본 아카이브
+
+<div id="quick-start">
+  ## 빠른 시작
+</div>
+
+위의 대화형 웹소켓 테스트 도구를 사용해 스트림에 실시간으로 연결하고 테스트하세요.
+
+<div id="connection-url">
+  ### 접속 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### 쿼리 매개변수
+</div>
+
+| 매개변수 | 필수 여부 | 설명 |
+|-----------|----------|-------------|
+| `token` | Yes | 사용자의 Benzinga 웹소켓 API 토큰 |
+
+<div id="subscription-commands">
+  ## 구독 명령
+</div>
+
+JSON 명령을 보내 구독을 제어합니다:
+
+<div id="subscribe-to-a-ticker">
+  ### 특정 티커 구독
+</div>
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "AAPL"
+}
+```
+
+
+<div id="subscribe-to-all-transcripts">
+  ### 모든 트랜스크립트 구독
+</div>
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "*"
+}
+```
+
+
+<div id="unsubscribe-from-a-ticker">
+  ### 티커 구독 취소
+</div>
+
+```json
+{
+  "action": "unsubscribe",
+  "ticker": "AAPL"
+}
+```
+
+
+<div id="list-active-transcripts">
+  ### 활성화된 Transcript 목록
+</div>
+
+```json
+{
+  "action": "list"
+}
+```
+
+
+<div id="keep-connection-alive">
+  ### 연결 유지
+</div>
+
+```json
+{
+  "action": "ping"
+}
+```
+
+
+<div id="test-with-mock-data">
+  ### Mock 데이터로 테스트
+</div>
+
+라이브 트랜스크립트가 없을 때는 테스트를 위해 mock 모드를 사용하세요:
+
+```json
+{
+  "action": "subscribe",
+  "ticker": "AAPL",
+  "mock": true
+}
+```
+
+지원되는 모의 티커는 다음과 같습니다: `AAPL`, `MSFT`, `TSLA`
+
+
+<div id="message-example">
+  ## 메시지 예제
+</div>
+
+```json
+{
+  "call_id": "call_123456",
+  "transcript_id": "550e8400-e29b-41d4-a716-446655440000",
+  "call_title": "Apple Inc. Q4 2024 Earnings Call",
+  "sentence": "Revenue for the quarter was 89.5 billion dollars.",
+  "start_time": "2024-01-15T16:30:15Z",
+  "end_time": "2024-01-15T16:30:19Z",
+  "symbol": "AAPL",
+  "exchange": "NASDAQ",
+  "name": "Apple Inc.",
+  "sequence": 42,
+  "status": "IN_PROGRESS",
+  "speaker": "Tim Cook, CEO",
+  "type": "LIVE",
+  "language": "en",
+  "confidence": 0.98,
+  "words": [
+    {
+      "text": "Revenue",
+      "confidence": 0.99,
+      "start": 0,
+      "end": 450
+    },
+    {
+      "text": "for",
+      "confidence": 0.98,
+      "start": 450,
+      "end": 600
+    }
+  ],
+  "created_time": "2024-01-15T16:30:19Z"
+}
+```
+
+
+<div id="key-fields">
+  ### 주요 필드
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `sentence` | 발화된 전체 문장 텍스트 |
+| `sequence` | 전사본에서 이 문장의 순서 (0, 1, 2...) |
+| `speaker` | 발화자의 이름/식별자 |
+| `status` | `IN_PROGRESS`(실시간) 또는 `COMPLETE`(완료) |
+| `confidence` | 전체 인식 정확도 (0.0 - 1.0) |
+| `words` | 각 단어별 타이밍 및 신뢰도가 포함된 배열 |
+| `start_time` / `end_time` | 문장 타이밍을 나타내는 ISO 8601 타임스탬프 |
+
+<div id="transcript-status">
+  ### Transcript 상태
+</div>
+
+| Status | Description |
+|--------|-------------|
+| `IN_PROGRESS` | 트랜스크립트가 현재 실시간으로 진행 중이며 업데이트가 계속 수신되고 있습니다 |
+| `COMPLETE` | 트랜스크립트가 완료되었으며 더 이상의 업데이트는 발생하지 않습니다 |
+
+<div id="word-level-data">
+  ## 단어 수준 데이터
+</div>
+
+각 문장에는 자세한 단어 수준 정보가 포함되어 있습니다.
+
+```json
+{
+  "text": "Revenue",
+  "confidence": 0.99,
+  "start": 0,
+  "end": 450
+}
+```
+
+* **text**: 단어 자체
+* **confidence**: 인식 신뢰도 (0.0 - 1.0)
+* **start/end**: 문장 시작 시점으로부터의 밀리초 단위 시간 오프셋
+
+
+<div id="interactive-commands">
+  ## 대화형 명령
+</div>
+
+| Command | Parameters | Description |
+|---------|-----------|-------------|
+| `subscribe` | `ticker` | 특정 티커의 콜 전 실적 발표 내용 업데이트를 구독합니다 |
+| `unsubscribe` | `ticker` | 특정 티커의 업데이트 수신을 중지합니다 |
+| `list` | - | 현재 활성/제공 중인 콜 전 실적 발표 내용 목록을 가져옵니다 |
+| `subscribed` | - | 현재 사용자의 구독 목록을 가져옵니다 |
+| `ping` | - | 연결을 유지합니다 (`pong`으로 응답) |
+| `echo` | `message` | 에코 테스트를 수행합니다 (보낸 메시지로 응답) |
+
+<div id="best-practices">
+  ## 모범 사례
+</div>
+
+<div id="real-time-display">
+  ### 실시간 표시
+</div>
+
+- **버퍼 관리**: `sequence` 필드를 사용해 문장을 순서대로 표시합니다
+- **화자 포맷팅**: `speaker` 값에 따라 다르게 표시합니다(임원 vs 애널리스트)
+- **상태 표시기**: `IN_PROGRESS`와 `COMPLETE` 상태를 시각적으로 구분해 표시합니다
+
+<div id="performance">
+  ### 성능
+</div>
+
+- **와일드카드 주의**: `ticker: "*"`를 사용하면 모든 콜 텍스트에 구독되며, 데이터 양이 매우 많을 수 있습니다
+- **대상 지정 구독**: 필요한 티커만 구독하여 대역폭 사용을 줄이십시오
+- **하트비트**: 연결을 유지하기 위해 30~60초마다 `ping`을 전송하십시오
+
+<div id="data-quality">
+  ### 데이터 품질
+</div>
+
+- **신뢰도 필터링**: 신뢰도 점수가 낮은 문장은 무시하거나 표시하도록 하는 방안을 고려합니다
+- **단어 정확도**: 단어 단위 신뢰도를 사용해 신뢰도가 낮은 전사를 식별합니다
+- **언어 처리**: 텍스트가 올바르게 렌더링되도록 `language` 필드를 확인합니다
+
+<div id="testing">
+  ### 테스트
+</div>
+
+- **Mock 모드**: 실제 호출이 없는 개발 환경에서는 `mock: true`를 사용하세요
+- **에코 테스트**: 연결 및 메시지 처리 검증을 위해 `echo` action을 사용하세요
+- **list 명령**: 현재 사용 가능한 항목을 확인하려면 `list`를 실행하세요
+
+<div id="example-integration">
+  ## 통합 예제
+</div>
+
+```javascript
+const ws = new WebSocket(
+  'wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_TOKEN'
+);
+
+ws.onopen = () => {
+  // Apple 트랜스크립트 구독
+  ws.send(JSON.stringify({
+    action: 'subscribe',
+    ticker: 'AAPL'
+  }));
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+
+  // 발화자와 문장 표시
+  console.log(`[${data.sequence}] ${data.speaker}: ${data.sentence}`);
+
+  // 트랜스크립트 완료 여부 확인
+  if (data.status === 'COMPLETE') {
+    console.log('트랜스크립트 완료');
+  }
+};
+
+// 연결 유지
+setInterval(() => {
+  ws.send(JSON.stringify({ action: 'ping' }));
+}, 30000);
+```
+
+
+<div id="related-documentation">
+  ## 관련 문서
+</div>
+
+- [웹소켓 소개](../introduction) - 웹소켓 기본 개념과 연결 기초
+- [인증](../authentication) - API 토큰을 발급받아 사용하는 방법

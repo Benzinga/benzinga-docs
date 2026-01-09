@@ -1,0 +1,78 @@
+---
+title: "이례적 옵션 거래"
+openapi: /ko/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
+---
+
+<ResponseExample>
+```json 응답 (200 OK)
+{
+  "option_activity": [
+    {
+      "aggressor_ind": "0.73",
+      "ask": "5.75",
+      "bid": "5.2",
+      "cost_basis": "336000.0",
+      "date": "2025-12-29",
+      "date_expiration": "2026-09-18",
+      "description": "Freeport-McMoRan 옵션 경보: 9월 18일 $50 풋 옵션이 매도호가에 체결: 600 계약 vs 미결제약정 636; 실적 발표 1/22 개장 전 [추정]",
+      "description_extended": "Freeport-McMoRan 옵션 경보: 9월 18일 $50 풋 옵션이 매도호가에 체결: 600 @ $5.6 vs 미결제약정 636; 실적 발표 1/22 개장 전 [추정] 기준가=$51.4",
+      "exchange": "NYSE",
+      "execution_estimate": "AT_ASK",
+      "id": "6952ef7b6ab0a40001b39586",
+      "midpoint": "5.475",
+      "open_interest": "636",
+      "option_activity_type": "TRADE",
+      "option_symbol": "FCX260918P00050000",
+      "price": "5.6",
+      "put_call": "PUT",
+      "sentiment": "BEARISH",
+      "size": "600",
+      "strike_price": "50.00",
+      "ticker": "FCX",
+      "time": "16:15:32",
+      "trade_count": 1,
+      "underlying_price": "51.4",
+      "underlying_type": "STOCK",
+      "updated": 1767042939,
+      "volume": "1601"
+    }
+  ]
+}
+```
+```json 응답 (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "인증 토큰이 잘못되었거나 누락되었습니다"
+    }
+  ]
+}
+```
+```json 응답 (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "지정된 매개변수에 대한 데이터를 찾을 수 없습니다"
+    }
+  ]
+}
+```
+```json 응답 (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "요청을 처리하는 동안 예기치 않은 오류가 발생했습니다"
+    }
+  ]
+}
+```
+</ResponseExample>

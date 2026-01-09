@@ -1,0 +1,296 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: 이 REST API는 트렌딩 티커를 검색하고 티커의 상세 정보를 조회할 수 있는 엔드포인트를 제공합니다.
+  termsOfService: http://swagger.io/terms/
+  title: TickerTrends API
+  version: 2.1.0
+paths:
+  /api/v1/trending-tickers:
+    get:
+      description: 특정 티커에 대해 순위와 변동을 포함한 트렌드 데이터를 조회합니다. 여러 시간 구간별로 집계된 트렌드 점수와 활동 수준을
+        반환합니다.
+      operationId: get-ticker-trend-data
+      parameters:
+        - description: 트렌드 데이터를 집계할 시간 간격입니다. 지원되는 값은 10m(10분), 1h(1시간), 1d(1일)입니다. 필수입니다.
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: "추세 데이터를 조회할 주식 티커 심볼을 쉼표(,)로 구분한 목록입니다(예: AAPL,MSFT,TSLA). 필수
+            항목입니다."
+          in: query
+          name: tickers
+          required: true
+          schema:
+            type: string
+        - description: "추세 계산용 데이터 소스 필터입니다. 지원 값: all (모든 소스 통합), clickstream (사용자 상호작용
+            데이터), logo (로고 요청 데이터). 필수입니다."
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: 추세 분석에 사용할 시간 범위입니다. 특정 날짜 범위로 결과를 필터링하기 위한 선택적 사용자 지정 기간입니다.
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: "페이지네이션용 페이지 번호입니다. 0부터 시작하는 인덱스입니다(0 = 첫 번째 페이지, 1 = 두 번째 페이지 등).
+            기본값: 0"
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "페이지당 결과 수. 기본값: 1000. 최대값: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 참여 지표를 포함한 트렌드 데이터
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+        "400":
+          description: 잘못된 요청 - 필수 매개변수(interval, tickers, source)가 누락되었거나 유효하지 않습니다
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 티커 트렌드 데이터 가져오기
+      tags:
+        - Ticker Trends
+  /api/v1/trending-tickers/list:
+    get:
+      description: 여러 지표를 바탕으로 트렌딩 티커 목록을 조회합니다. 서로 다른 시간 구간별 트렌딩 점수를 기준으로 정렬된 증권 목록을 반환합니다.
+      operationId: get-ticker-trend-list-data
+      parameters:
+        - description: 사용 중단되었습니다. 대신 timeframe을 사용하세요. 트렌드 데이터를 집계할 때 사용할 시간 간격입니다.
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: 결과를 필터링하는 데 사용되는 선택적 쉼표 구분 티커 심볼 목록입니다. 이를 생략하면 모든 트렌딩 티커가 반환됩니다.
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: "추세 계산에 사용할 데이터 소스 필터입니다. 지원되는 값: all(모든 소스를 통합), clickstream(사용자
+            상호작용 데이터), logo(로고 요청 데이터). 필수 값입니다."
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: "트렌드 집계에 사용할 시간 간격입니다. 지원되는 값: 10m(10분), 1h(1시간), 1d(1일). 기본값: 1d"
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: "24시간제 형식의 시작 시간 필터입니다(예: 09:15, 14:30). 정확한 시간 범위를 지정하려면
+            date_from과 함께 사용하십시오."
+          in: query
+          name: time_from
+          schema:
+            type: string
+        - description: "24시간제 종료 시간 필터입니다(예: 16:00, 22:30). 정확한 시간 범위를 지정하려면 date_to와 함께
+            사용합니다."
+          in: query
+          name: time_to
+          schema:
+            type: string
+        - description: "ISO 8601 형식의 시작 날짜 필터(예: 2024-12-30, 2024-01-15). time_from과 함께
+            사용하여 보다 정밀한 범위를 지정합니다."
+          in: query
+          name: date_from
+          schema:
+            type: string
+        - description: "ISO 8601 형식의 종료일 필터(예: 2024-12-30, 2024-01-31). time_to와 함께 사용하여
+            정확한 기간 범위를 지정합니다."
+          in: query
+          name: date_to
+          schema:
+            type: string
+        - description: "페이지네이션용 페이지 번호입니다. 0부터 시작하는 번호입니다(0 = 첫 번째 페이지, 1 = 두 번째 페이지 등).
+            기본값: 0"
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "페이지당 결과 수. 기본값: 1000, 최대값: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 참여 점수 기반 트렌딩 티커 순위 목록
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
+        "400":
+          description: 잘못된 요청 - source 매개변수가 누락되었거나 유효하지 않거나, 날짜/시간 형식이 잘못되었습니다
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 트렌딩 티커 목록 가져오기
+      tags:
+        - Ticker Trends
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - unsupported_message_type
+        - database_query_error
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+      type: string
+      x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.tickerTrendAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendData"
+          type: array
+        ok:
+          example: true
+          type: boolean
+      type: object
+    httpapi.tickerTrendData:
+      properties:
+        exchange:
+          example: NASDAQ
+          type: string
+        metrics:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendMetrics"
+          type: array
+        ticker:
+          example: AAPL
+          type: string
+      type: object
+    httpapi.tickerTrendMetrics:
+      properties:
+        count:
+          example: 1523
+          type: integer
+        count_mavg:
+          example: 1245.67
+          type: number
+        market_count_average:
+          example: 92.1
+          type: number
+        scaled_count:
+          example: 98.5
+          type: number
+        scaled_count_mavg:
+          example: 87.3
+          type: number
+        time_bucket:
+          example: 2024-01-09T10:00:00Z
+          type: string
+      type: object
+    models.Security:
+      properties:
+        exchange:
+          example: NASDAQ
+          type: string
+        name:
+          example: Apple Inc
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+      type: object
+    models.TrendingTickersListAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/models.TrendingTickersListData"
+          type: array
+        ok:
+          example: true
+          type: boolean
+      type: object
+    models.TrendingTickersListData:
+      properties:
+        count:
+          example: 1523
+          type: integer
+        pct_chg:
+          example: 15
+          type: integer
+        security:
+          $ref: "#/components/schemas/models.Security"
+      type: object

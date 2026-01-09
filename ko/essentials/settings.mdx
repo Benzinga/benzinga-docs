@@ -1,0 +1,341 @@
+---
+title: 'Global Settings'
+description: 'Mintlify에서는 docs.json 파일을 통해 문서의 스타일과 전반적인 표현을 완전히 제어할 수 있습니다'
+icon: 'gear'
+---
+
+모든 Mintlify 사이트에는 기본 구성 설정을 담은 `docs.json` 파일이 필요합니다. 아래 [properties](#properties) 섹션에서 자세히 확인하세요.
+
+<div id="properties">
+  ## Properties
+</div>
+
+<ResponseField name="name" type="string" required>
+  프로젝트의 이름입니다. 전역 제목에 사용됩니다.
+
+  예시: `mintlify`
+</ResponseField>
+
+<ResponseField name="navigation" type="Navigation[]" required>
+  각 그룹 내의 모든 페이지를 포함하는 그룹 배열입니다.
+
+  <Expandable title="탐색">
+    <ResponseField name="group" type="string">
+      그룹의 이름입니다.
+
+      예시: `Settings`
+    </ResponseField>
+
+    <ResponseField name="pages" type="string[]">
+      페이지로 사용할 마크다운 파일의 상대 경로입니다.
+
+      예시: `["customization", "page"]`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="logo" type="string or object">
+  로고 이미지 경로 또는 &quot;light&quot; 및 &quot;dark&quot; 모드 로고 이미지 경로를 담은 객체입니다.
+
+  <Expandable title="로고">
+    <ResponseField name="light" type="string">
+      라이트 모드에서 사용할 로고의 경로입니다.
+    </ResponseField>
+
+    <ResponseField name="dark" type="string">
+      다크 모드에서 사용할 로고의 경로입니다.
+    </ResponseField>
+
+    <ResponseField name="href" type="string" default="/">
+      로고를 클릭했을 때 이동할 위치입니다.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="favicon" type="string">
+  파비콘 이미지 경로입니다.
+</ResponseField>
+
+<ResponseField name="colors" type="Colors">
+  전역 테마에 사용할 16진수 색상 코드입니다.
+
+  <Expandable title="색상">
+    <ResponseField name="primary" type="string" required>
+      기본 색상입니다. 라이트 모드에서 강조된 콘텐츠, 섹션 헤더, 강조 요소 등에 가장 자주 사용됩니다.
+    </ResponseField>
+
+    <ResponseField name="light" type="string">
+      다크 모드용 기본 색상입니다. 다크 모드에서 강조된 콘텐츠, 섹션 헤더, 강조 요소 등에 가장 자주 사용됩니다.
+    </ResponseField>
+
+    <ResponseField name="dark" type="string">
+      중요한 버튼에 사용할 기본 색상입니다.
+    </ResponseField>
+
+    <ResponseField name="background" type="object">
+      라이트 및 다크 모드 모두에서의 배경 색상입니다.
+
+      <Expandable title="객체">
+        <ResponseField name="light" type="string" required>
+          라이트 모드에서의 배경 16진수 색상 코드입니다.
+        </ResponseField>
+
+        <ResponseField name="dark" type="string" required>
+          다크 모드에서의 배경 16진수 색상 코드입니다.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="topbarLinks" type="TopbarLink[]">
+  상단바에 포함할 링크의 `name`과 `url`로 이루어진 배열입니다.
+
+  <Expandable title="TopbarLink">
+    <ResponseField name="name" type="string">
+      버튼의 이름입니다.
+
+      예시: `Contact us`
+    </ResponseField>
+
+    <ResponseField name="url" type="string">
+      버튼을 클릭했을 때 이동할 URL입니다. 예시: `https://mintlify.com/contact`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="topbarCtaButton" type="Call to Action">
+  <Expandable title="상단바 Call to Action">
+    <ResponseField name="type" type={'"link" or "github"'} default="link">
+      `link`는 버튼을 표시합니다. `github`는 제공된 URL에서 GitHub 저장소 정보를(스타 수를 포함하여) 표시합니다.
+    </ResponseField>
+
+    <ResponseField name="url" type="string">
+      `link`인 경우: 버튼이 연결될 대상입니다.
+
+      `github`인 경우: GitHub 정보를 로드할 저장소의 링크입니다.
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      버튼 안의 텍스트입니다. `type`이 `link`인 경우에만 필수입니다.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="versions" type="string[]">
+  버전 이름 배열입니다. 탐색 바의 드롭다운을 통해 서로 다른 문서 버전을 표시하려는 경우에만 사용합니다.
+</ResponseField>
+
+<ResponseField name="anchors" type="Anchor[]">
+  앵커 배열로, `icon`, `color`, 그리고 `url`을 포함합니다.
+
+  <Expandable title="Anchor">
+    <ResponseField name="icon" type="string">
+      앵커를 표시하는 데 사용되는 [Font Awesome](https://fontawesome.com/search?s=brands%2Cduotone) 아이콘입니다.
+
+      예: `comments`
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      앵커 레이블의 이름입니다.
+
+      예: `Community`
+    </ResponseField>
+
+    <ResponseField name="url" type="string">
+      앵커에 포함되는 페이지를 결정하는 URL의 시작 부분입니다. 일반적으로 페이지를 넣는 폴더의 이름입니다.
+    </ResponseField>
+
+    <ResponseField name="color" type="string">
+      앵커 아이콘 배경의 16진수 색상입니다. 각각 16진수 색상인 `from` 및 `to` 속성을 가진 객체를 전달하면 그라디언트로도 설정할 수 있습니다.
+    </ResponseField>
+
+    <ResponseField name="version" type="string">
+      특정 문서 버전이 선택될 때까지 앵커를 숨기고 싶을 때 사용합니다.
+    </ResponseField>
+
+    <ResponseField name="isDefaultHidden" type="boolean" default="false">
+      해당 앵커 안의 문서로 직접 링크하기 전까지 앵커를 숨기고 싶다면 `true`를 전달합니다.
+    </ResponseField>
+
+    <ResponseField name="iconType" default="duotone" type="string">
+      다음 중 하나: &quot;brands&quot;, &quot;duotone&quot;, &quot;light&quot;, &quot;sharp-solid&quot;, &quot;solid&quot;, 또는 &quot;thin&quot;
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="topAnchor" type="Object">
+  최상단 앵커에 대한 기본 설정을 재정의합니다.
+
+  <Expandable title="Object">
+    <ResponseField name="name" default="Documentation" type="string">
+      최상단 앵커의 이름입니다.
+    </ResponseField>
+
+    <ResponseField name="icon" default="book-open" type="string">
+      Font Awesome 아이콘입니다.
+    </ResponseField>
+
+    <ResponseField name="iconType" default="duotone" type="string">
+      다음 중 하나: &quot;brands&quot;, &quot;duotone&quot;, &quot;light&quot;, &quot;sharp-solid&quot;, &quot;solid&quot;, 또는 &quot;thin&quot;
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="tabs" type="Tabs[]">
+  탐색 탭 배열입니다.
+
+  <Expandable title="Tabs">
+    <ResponseField name="name" type="string">
+      탭 레이블의 이름입니다.
+    </ResponseField>
+
+    <ResponseField name="url" type="string">
+      탭에 포함되는 페이지를 결정하는 URL의 시작 부분입니다. 일반적으로 페이지를 넣는 폴더의 이름입니다.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="api" type="API">
+  API 설정에 대한 구성입니다. API 페이지에 대한 자세한 내용은 [API Components](/ko/api-playground/demo)를 참고하세요.
+
+  <Expandable title="API">
+    <ResponseField name="baseUrl" type="string">
+      모든 API endpoint에 대한 기본 url입니다. `baseUrl`이 배열인 경우, 사용자가 전환할 수 있는 여러 기본 url
+      옵션을 사용할 수 있습니다.
+    </ResponseField>
+
+    <ResponseField name="auth" type="Auth">
+      <Expandable title="Auth">
+        <ResponseField name="method" type="&#x22;bearer&#x22; | &#x22;basic&#x22; | &#x22;key&#x22;">
+          모든 API endpoint에 사용되는 인증 방식입니다.
+        </ResponseField>
+
+        <ResponseField name="name" type="string">
+          API playground에서 사용되는 인증 파라미터 이름입니다.
+
+          method가 `basic`인 경우 형식은 `[usernameName]:[passwordName]`이어야 합니다.
+        </ResponseField>
+
+        <ResponseField name="inputPrefix" type="string">
+          인증 입력 필드의 접두사로 사용되도록 설계된 기본값입니다.
+
+          예: `inputPrefix`가 `AuthKey`인 경우, 인증 필드의 기본 입력값은 `AuthKey`가 됩니다.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="playground" type="Playground">
+      API playground에 대한 구성입니다.
+
+      <Expandable title="Playground">
+        <ResponseField name="mode" default="show" type="&#x22;show&#x22; | &#x22;simple&#x22; | &#x22;hide&#x22;">
+          playground를 표시할지, 숨길지, 또는 추가 사용자 상호작용 없이 endpoint만 표시하는지(`simple`)를 결정합니다.
+
+          자세한 내용은 [playground guides](/ko/api-playground/demo)를 참고하세요.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="maintainOrder" type="boolean">
+      이 플래그를 활성화하면 OpenAPI 페이지의 키 순서가 OpenAPI 파일에 정의된 키 순서와 일치하도록 보장합니다.
+
+      <Warning>이 동작은 곧 기본으로 활성화되며, 그 시점에 이 필드는 사용 중단(deprecated)될 예정입니다.</Warning>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="openapi" type="string | string[]">
+  OpenAPI 파일을 가리키는 URL 또는 상대 경로의 문자열, 혹은 해당 문자열들의 배열입니다.
+
+  예시:
+
+  <CodeGroup>
+    ```json Absolute
+    "openapi": "https://example.com/openapi.json"
+    ```
+
+    ```json Relative
+    "openapi": "/openapi.json"
+    ```
+
+    ```json Multiple
+    "openapi": ["https://example.com/openapi1.json", "/openapi2.json", "/openapi3.json"]
+    ```
+  </CodeGroup>
+</ResponseField>
+
+<ResponseField name="footerSocials" type="FooterSocials">
+  key:property 쌍이 소셜 미디어 플랫폼과 계정 url을 나타내는 소셜 미디어 계정 객체입니다.
+
+  예:
+
+  ```json
+  {
+    "x": "https://x.com/mintlify",
+    "website": "https://mintlify.com"
+  }
+  ```
+
+  <Expandable title="FooterSocials">
+    <ResponseField name="[key]" type="string">
+      `website`, `facebook`, `x`, `discord`, `slack`, `github`, `linkedin`, `instagram`, `hacker-news` 중 하나의 값입니다.
+
+      예: `x`
+    </ResponseField>
+
+    <ResponseField name="property" type="string">
+      소셜 플랫폼의 URL입니다.
+
+      예: `https://x.com/mintlify`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="feedback" type="Feedback">
+  피드백 버튼을 활성화하기 위한 구성입니다.
+
+  <Expandable title="Feedback">
+    <ResponseField name="suggestEdit" type="boolean" default="false">
+      사용자가 pull request를 통해 수정 제안을 할 수 있는 버튼을 활성화합니다.
+    </ResponseField>
+
+    <ResponseField name="raiseIssue" type="boolean" default="false">
+      사용자가 문서에 대한 이슈를 제기할 수 있는 버튼을 활성화합니다.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="modeToggle" type="ModeToggle">
+  다크 모드 토글을 사용자 지정합니다.
+
+  <Expandable title="ModeToggle">
+    <ResponseField name="default" type={'"light" or "dark"'}>
+      새 사용자에게 항상 라이트 또는 다크 모드를 표시할지 설정합니다. 설정하지 않으면 사용자의 운영 체제와 동일한 모드를 기본값으로 사용합니다.
+    </ResponseField>
+
+    <ResponseField name="isHidden" type="boolean" default="false">
+      다크/라이트 모드 토글을 숨기려면 true로 설정합니다. 문서가 라이트 또는 다크 모드만 사용하도록 강제하려면 `isHidden`과 `default`를 함께 사용할 수 있습니다. 예시는 다음과 같습니다.
+
+      <CodeGroup>
+        ```json 다크 모드만 사용
+        "modeToggle": {
+          "default": "dark",
+          "isHidden": true
+        }
+        ```
+
+        ```json 라이트 모드만 사용
+        "modeToggle": {
+          "default": "light",
+          "isHidden": true
+        }
+        ```
+      </CodeGroup>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="backgroundImage" type="string">
+  모든 페이지 배경에 표시되는 이미지입니다. [Infisical](https://infisical.com/docs) 및 [FRPC](https://frpc.io) 예시를 참고하세요.
+</ResponseField>
