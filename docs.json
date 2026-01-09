@@ -122,18 +122,20 @@
                 ]
               },
               {
+                "group": "Conference Call Transcripts",
+                "pages": [
+                  "api-reference/transcripts_api/overview",
+                  "api-reference/transcripts_api/calls/fetch-all-calls",
+                  "api-reference/transcripts_api/calls/fetch-call-by-id",
+                  "api-reference/transcripts_api/summaries/fetch-summaries",
+                  "api-reference/transcripts_api/summaries/fetch-summary-by-call-id"
+                ]
+              },
+              {
                 "group": "Delayed Quotes",
                 "pages": [
                   "api-reference/data-api-proxy_api/quotedelayed/overview",
                   "api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
-                ]
-              },
-              {
-                "group": "Earnings Call Transcripts",
-                "pages": [
-                  "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/overview",
-                  "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcripts",
-                  "api-reference/earnings-call-transcripts-api_api/earnings-call-transcripts/get-earnings-call-transcript-audio-files"
                 ]
               },
               {

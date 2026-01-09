@@ -1,0 +1,91 @@
+---
+title: "Fetch Transcript Summaries"
+openapi: get /api/v1/transcripts/summaries
+---
+
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "data": [
+    {
+      "summary_id": "4b0d7883-10fd-4212-9d59-d781bf5434d8",
+      "transcript_id": "08dd94d7-ad88-430b-8402-a3cb8d82e80b",
+      "call_id": "694bf432dd7f23000124626c",
+      "summary": "Aritzia achieved over $1 billion in net revenue for Q3 fiscal 2026, surpassing guidance with a 43% increase year-over-year, driven by strong e-commerce and retail channel growth.\nThe company reported a 58% increase in e-commerce sales and a 35% increase in retail sales. U.S. net revenue surged by 54%, showcasing significant demand and expansion.\nStrategic initiatives included new boutique openings, a successful mobile app launch, and marketing investments, contributing to increased brand awareness and sales momentum.\nThe launch of the mobile app exceeded expectations, reaching 1.4 million downloads, and significantly boosting e-commerce engagement.\nManagement raised fiscal 2026 net revenue guidance to $3.615 to $3.64 billion, with plans for further expansion in the U.S. and digital initiatives in fiscal 2027.\nThe company maintained a healthy balance sheet with $620 million in cash and no debt, and continued share repurchases under the NCIB.\nAritzia plans to continue optimizing inventory and sourcing strategies, reducing dependency on China, and maintaining strong margin performance despite external pressures.",
+      "symbol": "ATZ",
+      "sentiment": 0.85,
+      "language": "en-US",
+      "created_at": "2026-01-09T13:00:29.963428Z",
+      "updated_at": "2026-01-09T13:00:29.963428Z"
+    },
+    {
+      "summary_id": "f8890d3f-1c61-40ed-9ed5-2eaed75aa6fa",
+      "transcript_id": "52769188-2cea-442b-8140-aaa57b5733bf",
+      "call_id": "694bf432dd7f23000124626c",
+      "summary": "Aritzia reported record net revenue of $1.04 billion in Q3 fiscal 2026, a 43% increase driven by strong e-commerce and retail performance.\nThe company saw exceptional growth in the United States, with US net revenue increasing by 54%, highlighting strong demand and brand momentum.\nAritzia successfully launched a mobile app, which significantly boosted e-commerce sales and achieved over 1 million downloads shortly after launch.\nThe company opened 13 new and 4 repositioned boutiques, mainly in the US, as part of its real estate expansion strategy, which is yielding exceptional results.\nFuture guidance suggests continued strong performance with Q4 revenue expected to be between $1.1 to $1.125 billion, and fiscal 2026 revenue forecast raised to $3.615 to $3.64 billion.\nAritzia plans to open 12 to 14 new boutiques in fiscal 2027, with a focus on the US market, and will also invest in infrastructure, including a second US distribution center.\nManagement expressed confidence in achieving fiscal 2027 revenue targets ahead of schedule, supported by strategic marketing investments and digital growth initiatives.",
+      "symbol": "ATZ",
+      "sentiment": 0.85,
+      "language": "en-US",
+      "created_at": "2026-01-09T13:00:25.721386Z",
+      "updated_at": "2026-01-09T13:00:25.721386Z"
+    }
+  ],
+  "message": "Successfully fetched summaries",
+  "pagination": {
+    "hits": 16110,
+    "page": 1,
+    "page_count": 1611,
+    "page_size": 2
+  }
+}
+```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "bad_request",
+      "id": "invalid_parameter",
+      "value": "Invalid search_keys_type parameter"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+```json Response (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No logos found for the specified search key"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>

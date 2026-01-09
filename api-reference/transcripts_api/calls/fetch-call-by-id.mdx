@@ -1,0 +1,204 @@
+---
+title: "Fetch Transcript By ID"
+openapi: get /api/v1/transcripts/calls/{call_id}
+---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "call_id": "68c1684993d1da0001953084",
+  "call_title": "TotalEnergies reports strong Q3 growth, boosts dividends despite market challenges",
+  "description": "Q4 2025 TotalEnergies (TTE) Earnings Conference Call",
+  "webcast_url": "https://edge.media-server.com/mmc/p/zfnjs6iz/",
+  "headline": "TotalEnergies enhances shareholder returns with 4% cash flow growth as production ramps up and strategy gains traction amid fluctuating oil prices.",
+  "symbol": "TTE",
+  "exchange": "NYSE",
+  "figis": [
+    "BBG001S6WYD9"
+  ],
+  "name": "TotalEnergies",
+  "start_time": "2025-10-30T10:59:03Z",
+  "end_time": "2025-11-02T19:56:03Z",
+  "duration": 5427,
+  "status": "COMPLETED",
+  "created_at": "2025-10-30T10:59:03.695748Z",
+  "updated_at": "2025-11-02T19:56:03Z",
+  "transcripts": [
+    {
+      "transcript_id": "df8fa7e2-37ec-4981-8e86-6715f9207ff2",
+      "text": "Good afternoon. Good morning everyone. Before Jean Pierre goes through the details of the third quarter results, I would like to make a few opening comments ..{{truncated}}.. And frankly, board of directors and myself as you, we are quite pleased with the results of this quarter because that demonstrates and again that all what we explain you quarter and year after year is on the delivery mode and that free cash flow will increase. Thank you for your attendance.",
+      "language": "en-US",
+      "confidence_score": 0.948344884949495,
+      "segments": [
+        {
+          "segment_id": 0,
+          "speaker": "OPERATOR",
+          "start_time": "00:00:01",
+          "end_time": "00:08:06",
+          "confidence": 0.95141685,
+          "text": "Good afternoon. Good morning everyone. Before Jean Pierre goes through the details of the third quarter results ..{{truncated}}.. I will now turn the call over to Jean Pierre who will go through the details of his first quarter financials.",
+          "sentiment": 0.45
+        },
+        {
+          "segment_id": 1,
+          "speaker": "Jean Pierre",
+          "start_time": "00:08:07",
+          "end_time": "00:19:16",
+          "confidence": 0.95684206,
+          "text": "Thank you Patrick. I will start by commenting on the price environment in the third quarter versus the second quarter. Brent averaged $69 per barrel during the third quarter versus $68 per barrel in the second quarter ..{{truncated}}.. so please open up the line for questions.",
+          "sentiment": 0.2
+        },
+        {
+          "segment_id": 2,
+          "speaker": "OPERATOR",
+          "start_time": "00:19:18",
+          "end_time": "00:19:49",
+          "confidence": 0.9713833,
+          "text": "Thank you ladies and gentlemen. We will now begin the question and answer session. As a reminder, if you wish to ask a question, please press star n1 on your telephone and wait for your name to be announced. Please kindly mute any audio sources by asking a question. If you wish to cancel your request, please press the hash key. Once Again, please press N1 if you wish to ask a question. The first question is from Lydia Rainforth, Barclays. Please go ahead.",
+          "sentiment": 0
+        },
+        {
+          "segment_id": 3,
+          "speaker": "Lydia Rainforth",
+          "start_time": "00:19:51",
+          "end_time": "00:20:26",
+          "confidence": 0.9671036,
+          "text": "Thank you and good afternoon to both of you and thank you for the presentation. So when you're thinking about 2026, can you just, can you give us an indication as to how much more cash flow might grow than production for next year? And just remind us of that?",
+          "sentiment": 0.1
+        },
+        {....},
+        {
+          "segment_id": 98,
+          "speaker": "Patrick",
+          "start_time": "01:29:45",
+          "end_time": "01:30:25",
+          "confidence": 0.9567434,
+          "text": "Okay. So thank you to all of you for your attendance. I hope that all the analysis you've done will be reflected in the stock price was not the case this morning. Thank you for your attendance.",
+          "sentiment": 0.5
+        }
+      ],
+      "type": "NON_LIVE"
+    },
+    {
+      "transcript_id": "b4dee433-51e2-40c5-8bac-d9508b30de1a",
+      "text": "",
+      "language": "en-US",
+      "confidence_score": 0,
+      "segments": null,
+      "type": "LIVE"
+    }
+  ],
+  "recording": {
+    "recording_id": "f18c5664-bfb5-4e50-8434-498a1f5f1080",
+    "total_files": 42,
+    "total_size": 7350006,
+    "duration": 239,
+    "location": "assets/68c1684993d1da0001953084",
+    "bucket": "earnings-call-media",
+    "language": "en",
+    "formats": [
+      {
+        "file_link": "assets/mp3/audio.mp3",
+        "size": 5758476,
+        "content_type": "audio/mpeg",
+        "quality": "192kbps"
+      }
+    ],
+    "created_at": "2025-10-30T10:59:17.801739Z",
+    "updated_at": "2025-10-30T10:59:17.801739Z"
+  },
+  "summary": {
+    "summary_id": "d3a9f050-dcfe-4baf-b5d2-5abf3a4cd0fc",
+    "transcript_id": "",
+    "call_id": "68c1684993d1da0001953084",
+    "summary": "TotalEnergies reported a 4% increase in cash flow for the third quarter despite a $10 per barrel drop in oil prices year on year.\nNew hydrocarbon projects in Brazil and the US have significantly contributed to the company's cash flow, adding $400 million year on year.\nThe board has increased the third interim dividend by close to 8% in Euro and more than 10% in dollars compared to 2024.\nThe company has authorized a share buyback program of up to $1.5 billion for the fourth quarter of 2025.\nUpstream production is forecasted to grow by more than 4% year on year, with net investments expected to decrease.\nThe company plans to begin trading ordinary shares on the New York Stock Exchange from December 8th.\nThe downstream segment saw a cash flow increase of almost $500 million due to better refining margins.\nThe company aims to maintain gearing at 15-16% by year-end, supported by disposals and working capital improvements.\nManagement highlighted the resilience in financial performance, attributing it to strategic initiatives and accretive production growth.",
+    "symbol": "",
+    "sentiment": 0.78,
+    "language": "",
+    "created_at": "2025-10-30T01:29:03Z",
+    "updated_at": "2025-10-30T01:29:03Z"
+  },
+  "participants": [
+    {
+      "participant_id": "b819ea94-8ada-4d02-b7b8-dd1f013443de",
+      "call_id": "68c1684993d1da0001953084",
+      "name": "Patrick Pouyanné",
+      "role": "Chairman and CEO",
+      "organization": "TotalEnergies",
+      "mentions": 11,
+      "human_verified": false
+    },
+    {....},
+    {
+      "participant_id": "8f82b104-01fb-47f6-8554-d15fc282be4e",
+      "call_id": "68c1684993d1da0001953084",
+      "name": "Jean-Pierre Sbraire",
+      "role": "Chief Financial Officer",
+      "organization": "TotalEnergies",
+      "mentions": 4,
+      "human_verified": false
+    }
+  ],
+  "securities": [
+    {
+      "figi": "BBG000CHZ857",
+      "isin": "US89151E1091",
+      "name": "TOTALENERGIES SE -SPON ADR",
+      "symbol": "TTE",
+      "mic_code": "XNYS",
+      "figi_composite": "BBG000CHZ857",
+      "figi_share_class": "BBG001S6WYD9",
+      "refinitiv_exch_code": "NYQ"
+    }
+  ]
+}
+```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "bad_request",
+      "id": "invalid_parameter",
+      "value": "Invalid search_keys_type parameter"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+```json Response (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No logos found for the specified search key"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>
