@@ -309,6 +309,302 @@
       {
         "tabs": [
           {
+            "tab": "التوثيق",
+            "groups": [
+              {
+                "group": "مقدمة",
+                "pages": [
+                  "ar/introduction/welcome",
+                  "ar/introduction/introduction",
+                  "ar/introduction/architecture",
+                  "ar/introduction/faq"
+                ]
+              },
+              {
+                "group": "الخدمات",
+                "pages": [
+                  "ar/services/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "مرجع واجهة برمجة التطبيقات (API)",
+            "groups": [
+              {
+                "group": "توثيق واجهة برمجة التطبيقات",
+                "pages": [
+                  "ar/api-reference/introduction",
+                  "ar/api-reference/authentication",
+                  "ar/api-reference/errors"
+                ]
+              },
+              {
+                "group": "رؤى المحللين",
+                "pages": [
+                  "ar/api-reference/calendar_api/analyst-insights/overview",
+                  "ar/api-reference/calendar_api/analyst-insights/analyst-insights-v1"
+                ]
+              },
+              {
+                "group": "الأعمدة",
+                "pages": [
+                  "ar/api-reference/data-api-proxy_api/bars/overview",
+                  "ar/api-reference/data-api-proxy_api/bars/get-bars-v2"
+                ]
+              },
+              {
+                "group": "آراء المتفائلين آراء المتشائمين",
+                "pages": [
+                  "ar/api-reference/calendar_api/bulls-say-bears-say/overview",
+                  "ar/api-reference/calendar_api/bulls-say-bears-say/latest-bull-and-bear-cases-for-a-given-ticker-symbol"
+                ]
+              },
+              {
+                "group": "التقويمات",
+                "pages": [
+                  "ar/api-reference/calendar_api/overview",
+                  "ar/api-reference/calendar_api/block-trade/blocktrade-v1",
+                  "ar/api-reference/calendar_api/conference_calls/returns-conference-call-data",
+                  "ar/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data",
+                  "ar/api-reference/calendar_api/dividends/dividends-events-v22",
+                  "ar/api-reference/calendar_api/earnings/returns-the-earnings-data",
+                  "ar/api-reference/calendar_api/economics/returns-the-economic-calendar-data",
+                  "ar/api-reference/calendar_api/erx-gaps/erx-gaps",
+                  "ar/api-reference/calendar_api/events/events",
+                  "ar/api-reference/calendar_api/fda/fda-approvals-clinical-trials-and-pdufa-dates",
+                  "ar/api-reference/calendar_api/guidance/returns-guidance-data",
+                  "ar/api-reference/calendar_api/halt-resume/haltresume-v1",
+                  "ar/api-reference/calendar_api/ipos/ipos-v21",
+                  "ar/api-reference/calendar_api/ma/returns-the-mergers-and-acquisitions-data",
+                  "ar/api-reference/calendar_api/offerings/returns-secondary-offering-data",
+                  "ar/api-reference/calendar_api/option-activity/optionactivity-v1",
+                  "ar/api-reference/calendar_api/ratings/returns-analyst-ratings-data",
+                  "ar/api-reference/calendar_api/ratings_analysts/ratings-analysts",
+                  "ar/api-reference/calendar_api/ratings_firms/ratings-firms",
+                  "ar/api-reference/calendar_api/removed/removed-v2",
+                  "ar/api-reference/calendar_api/splits/returns-the-splits-calendar-data"
+                ]
+              },
+              {
+                "group": "الأساسيات المالية للشركة",
+                "pages": [
+                  "ar/api-reference/data-api-proxy_api/fundamentals/overview",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-asset-classification-v21",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-balance-sheet-v3",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-cash-flow-v3",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-company",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-company-profile-v21",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-earnings-reports-v21",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-financials-v21",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-fundamentals-v3",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-income-statement-v3",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-share-class",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-share-class-profile-v21",
+                  "ar/api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3",
+                  "ar/api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-for-a-list-of-symbols-isins-or-ciks",
+                  "ar/api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21",
+                  "ar/api-reference/data-api-proxy_api/earningratios/get-earning-ratios-for-a-list-of-symbols-isins-or-ciks",
+                  "ar/api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-for-a-list-of-symbols"
+                ]
+              },
+              {
+                "group": "شعارات الشركات",
+                "pages": [
+                  "ar/api-reference/logo-api_api/logos/overview",
+                  "ar/api-reference/logo-api_api/logos/get-search-logos",
+                  "ar/api-reference/logo-api_api/logos/logo-bulk-sync"
+                ]
+              },
+              {
+                "group": "نصوص مكالمات المؤتمرات الهاتفية",
+                "pages": [
+                  "ar/api-reference/transcripts_api/overview",
+                  "ar/api-reference/transcripts_api/calls/fetch-all-calls",
+                  "ar/api-reference/transcripts_api/calls/fetch-call-by-id",
+                  "ar/api-reference/transcripts_api/summaries/fetch-summaries",
+                  "ar/api-reference/transcripts_api/summaries/fetch-summary-by-call-id"
+                ]
+              },
+              {
+                "group": "الأسعار المؤجلة",
+                "pages": [
+                  "ar/api-reference/data-api-proxy_api/quotedelayed/overview",
+                  "ar/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
+                ]
+              },
+              {
+                "group": "تداولات الحكومة",
+                "pages": [
+                  "ar/api-reference/calendar_api/government-trades/overview",
+                  "ar/api-reference/calendar_api/government-trade-reports/government-trade-reports",
+                  "ar/api-reference/calendar_api/government-trades/government-trades"
+                ]
+              },
+              {
+                "group": "صفقات المطلعين",
+                "pages": [
+                  "ar/api-reference/calendar_api/insider-transaction/overview",
+                  "ar/api-reference/calendar_api/insider-transaction/insider-transaction-filing",
+                  "ar/api-reference/calendar_api/insider-transaction/insider-transaction-owner"
+                ]
+              },
+              {
+                "group": "خلاصة الأخبار",
+                "pages": [
+                  "ar/api-reference/news-api_api/news/overview",
+                  "ar/api-reference/news-api_api/news/get-the-news-items",
+                  "ar/api-reference/news-api_api/news/returns-the-removed-news-data",
+                  "ar/api-reference/news-api_api/channels/get-available-news-channels"
+                ]
+              },
+              {
+                "group": "لماذا يتحرك السهم؟ (WIIMs)",
+                "pages": [
+                  "ar/api-reference/news-api_api/news/get-wiims"
+                ]
+              },
+              {
+                "group": "NewsQuantified",
+                "pages": [
+                  "ar/api-reference/newsquantified-api_api/overview",
+                  "ar/api-reference/newsquantified-api_api/get-newsquantified-data"
+                ]
+              },
+              {
+                "group": "الأسعار غير فورية",
+                "pages": [
+                  "ar/api-reference/data-api-proxy_api/quotedelayed/overview",
+                  "ar/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
+                ]
+              },
+              {
+                "group": "اتجاهات رموز التداول",
+                "pages": [
+                  "ar/api-reference/ticker-trends-api_api/ticker-trends/overview",
+                  "ar/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
+                  "ar/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "مرجع ويب سوكيت",
+            "groups": [
+              {
+                "group": "ويب سوكيت",
+                "pages": [
+                  "ar/ws-reference/introduction",
+                  "ar/ws-reference/authentication",
+                  "ar/ws-reference/errors",
+                  "ar/ws-reference/actions"
+                ]
+              },
+              {
+                "group": "رؤى المحللين",
+                "pages": [
+                  "ar/ws-reference/data-websocket/get-analyst-insights-stream"
+                ]
+              },
+              {
+                "group": "بيانات calendar",
+                "pages": [
+                  "ar/ws-reference/data-websocket/get-calendar-earnings-stream",
+                  "ar/ws-reference/data-websocket/get-calendar-ratings-stream",
+                  "ar/ws-reference/data-websocket/get-consensus-ratings-stream"
+                ]
+              },
+              {
+                "group": "معنويات السوق",
+                "pages": [
+                  "ar/ws-reference/data-websocket/get-bulls-bears-say-stream"
+                ]
+              },
+              {
+                "group": "الأخبار",
+                "pages": [
+                  "ar/ws-reference/data-websocket/get-news-stream"
+                ]
+              },
+              {
+                "group": "النصوص الحرفية",
+                "pages": [
+                  "ar/ws-reference/data-websocket/get-transcripts-stream"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "مرجع الـ Webhook",
+            "groups": [
+              {
+                "group": "خطافات الويب",
+                "pages": [
+                  "ar/webhook-reference/overview",
+                  "ar/webhook-reference/webhook-engine"
+                ]
+              },
+              {
+                "group": "واجهة برمجة تطبيقات Webhook",
+                "pages": [
+                  "ar/api-reference/webhook_api/test-webhook-delivery"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "الودجتات",
+            "groups": [
+              {
+                "group": "عناصر واجهة المستخدم",
+                "pages": [
+                  "ar/widgets/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "عِدد تطوير البرمجيات SDK",
+            "groups": [
+              {
+                "group": "عدّة تطوير البرمجيات SDK",
+                "pages": [
+                  "ar/sdks/overview"
+                ]
+              },
+              {
+                "group": "حِزَم عُدّة تطوير البرمجيات SDK",
+                "pages": [
+                  "ar/sdks/languages/java",
+                  "ar/sdks/languages/node",
+                  "ar/sdks/languages/python"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "سجل التغييرات",
+            "groups": [
+              {
+                "group": "سجلّ التغييرات",
+                "pages": [
+                  "ar/changelog/overview",
+                  "ar/changelog/upcoming"
+                ]
+              }
+            ]
+          }
+        ],
+        "banner": {
+          "content": "🚀 Version 2.0 Documentation is now live! See our [changelog](/changelog/overview) for details.",
+          "dismissible": true
+        },
+        "language": "ar"
+      },
+      {
+        "tabs": [
+          {
             "tab": "Documentación",
             "groups": [
               {

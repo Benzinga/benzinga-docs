@@ -1,0 +1,211 @@
+---
+title: "تدفق نصوص مكالمات المؤتمرات الهاتفية"
+description: "يتيح لك منفذ ويب سوكيت هذا الاشتراك في نصوص مكالمات المؤتمرات الهاتفية في الوقت الفعلي."
+---
+
+<div id="websocket-websocketv1">
+  ## ويب سوكيت `websocket/v1`:
+</div>
+
+```txt
+wss://api.benzinga.com/api/v1/earnings-call-transcripts/stream
+```
+
+
+<div id="parameters">
+  ### المعلمات:
+</div>
+
+| Name       | Location |  Type   | Required | Description                                                                 |
+| :--------- | :-----:  | :-----: | -------: | --------------------------------------------------------------------------: |
+| `token`    | query    | string  |      Yes | رمز الوصول الخاص ببث Benzinga عبر ويب سوكيت (bz.production***).              |
+| `tickers`  | query    | string  | Optional | قائمة برموز التداول التي تريد الاشتراك فيها، مفصولة بفاصلة.                  |
+
+<div id="stream-response">
+  ### استجابة البث:
+</div>
+
+عند الاشتراك في البث، ستتلقى تحديثات حول نصوص مكالمات الأرباح (conference calls) بالصيغة التالية:
+
+```json
+{
+   "api_version":"EarningsCallTranscripts/v1",
+   "kind":"stream_type",
+   "data":{
+      "type":"transcription_end",
+      "content":{
+         "call_id":"6757fbd6f0cc56000183c6a5",
+         "transcript_chunk":"نحن سعداء للغاية بنتائج الربع الرابع والسنة المالية الكاملة 2024.",
+         "security":{
+            "company_name":"Limoneira",
+            "ticker":"LMNR",
+            "cik":"1342423",
+            "isin":"US5327461043",
+            "exchange":"NAS"
+         },
+         "time":1735189664,
+         "index":0
+      }
+   }
+}
+```
+
+
+<div id="responses">
+  #### الاستجابات
+</div>
+
+- **200 OK**
+- **الوصف**: تم بنجاح
+- **نوع المحتوى**: `application/json`
+- **المخطط**: [EarningsCallTranscriptsWSResp](#earningscalltranscriptswsresp)
+
+<div id="earningscalltranscriptswsresp">
+  ### EarningsCallTranscriptsWSResp
+</div>
+
+| Property      | Type   | Description                                                     |
+|---------------|--------|-----------------------------------------------------------------|
+| api_version   | string | إصدار واجهة برمجة التطبيقات عبر ويب سوكيت: `EarningsCallTranscripts/v1`.            |
+| kind          | string | نوع تدفق اتصال ويب سوكيت.                              |
+| data          | object | يحتوي على التفاصيل المتعلقة ببيانات ويب سوكيت.                    |
+| - type      | string | نوع الرسالة (مثلًا transcript_chunk, transcription_end).      |
+| - content     | object | إشارة إلى مخطط `EarningsCallTranscripts`.                         |
+
+<div id="earningscalltranscripts">
+  ### EarningsCallTranscripts
+</div>
+
+| Property           | Type    | Description                                                     |
+|--------------------|---------|-----------------------------------------------------------------|
+| call_id             | string  | معرّف فريد للمكالمة.    |
+| transcript_chunk   | string  | جزء من نص مكالمة الأرباح.                            |
+| security           | object  | يحتوي على تفاصيل الأداة المالية التي يتم توفير الرؤية التحليلية لها.  |
+| - cik              | string  | مفتاح الفهرس المركزي CIK للأداة المالية.                            |
+| - exchange         | string  | البورصة التي تُدرج فيها الأداة المالية.                        |
+| - isin             | string  | رقم التعريف الدولي للأوراق المالية ISIN.               |
+| - name             | string  | اسم الأداة المالية.                                        |
+| - symbol           | string  | رمز التداول الخاص بالأداة المالية.                               |
+| time            | integer | الطابع الزمني عند إنشاء جزء من نص المكالمة (منسَّق كـ float64). |
+| index            | integer | فهرس جزء النص (منسَّق كـ int). |
+
+<div id="success-response">
+  ## الاستجابة الناجحة
+</div>
+
+- رمز النجاح `101` - تم تأسيس اتصال ويب سوكيت بنجاح.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '700px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ✅ تم الاتصال بـ wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        تفاصيل المصافحة (Handshake)
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span><strong>عنوان الطلب (Request URL):</strong> </span>
+        <p style={{ color: 'blue' }}>
+            "https://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz"
+        </p>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>طريقة الطلب (Request Method):</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>رمز الحالة (Status Code):</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
+    </div>
+</div>
+
+<div id="error-response">
+  ## استجابة الخطأ
+</div>
+
+- غير مصرّح به `401` - رمز وصول غير صالح، تحقق من رمز الوصول المقدم.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ تعذّر الاتصال بـ wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        خطأ: استجابة خادم غير متوقعة: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        تفاصيل المصافحة
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>طريقة الطلب:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>رمز الحالة:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- بوابة غير صالحة `502` - إما أن المسار غير صالح أو يوجد خطأ في الخادم.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ تعذّر الاتصال بـ wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        خطأ: استجابة خادم غير متوقعة: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        تفاصيل المصافحة
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>طريقة الطلب:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>رمز الحالة:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

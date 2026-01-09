@@ -1,0 +1,80 @@
+---
+title: "القيم والنِّسَب المُشتقَّة"
+description: derivedFiguresAndRatios()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#derivedfiguresandratios)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب الأرقام والنسب المشتقة V3
+
+<div id="get">
+  ## جلب
+</div>
+
+جلب القيم والنِّسَب المشتقة لقائمة من الرموز
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetDerivedFiguresAndRatiosV3Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetDerivedFiguresAndRatiosV3Response res = sdk.derivedFiguresAndRatios().get()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .date("2024-08-12")
+                .call();
+
+        if (res.string().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل                         | النوع                           | إلزامي                          | الوصف                           |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | قائمة بالرموز مفصولة بفواصل     |
+| `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | تاريخ البدء                     |
+| `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | تاريخ الانتهاء                  |
+| `date`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | نوع التقرير                     |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetDerivedFiguresAndRatiosV3Response](../../models/operations/GetDerivedFiguresAndRatiosV3Response.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

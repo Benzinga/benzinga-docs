@@ -1,0 +1,149 @@
+---
+title: "الشعارات"
+description: logos()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#logos)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [bulkSync](#bulksync) - جلب الشعارات لمفاتيح البحث المُعطاة
+* [search](#search) - جلب الشعارات لمفاتيح البحث المُعطاة
+
+<div id="bulksync">
+  ## bulkSync
+</div>
+
+جلب الشعارات لمفاتيح البحث المحددة
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.LogoBulkSyncRequest;
+import org.benzinga.BZClient.models.operations.LogoBulkSyncResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        LogoBulkSyncRequest req = LogoBulkSyncRequest.builder()
+                .searchKeys("<value>")
+                .fields(List.of(
+                    "<value>"))
+                .build();
+
+        LogoBulkSyncResponse res = sdk.logos().bulkSync()
+                .request(req)
+                .call();
+
+        if (res.bzhttpResp().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+### المعلمات
+
+| المعلمة                                                               | النوع                                                                 | مطلوب                                                                 | الوصف                                                                 |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [LogoBulkSyncRequest](../../models/operations/LogoBulkSyncRequest.md) | :heavy&#95;check&#95;mark:                                                    | كائن الطلب المستخدم في هذا الطلب.                                     |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[LogoBulkSyncResponse](../../models/operations/LogoBulkSyncResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400، 404، 500              | application/json           |
+| models/errors/APIException | 4XX، 5XX                   | */*                      |
+
+<div id="search">
+  ## search
+</div>
+
+جلب الشعارات لمفاتيح البحث المحددة
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetSearchLogosRequest;
+import org.benzinga.BZClient.models.operations.GetSearchLogosResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetSearchLogosRequest req = GetSearchLogosRequest.builder()
+                .searchKeys("<value>")
+                .fields("<value>")
+                .build();
+
+        GetSearchLogosResponse res = sdk.logos().search()
+                .request(req)
+                .call();
+
+        if (res.logoapiLogoRevisions().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل                                                                 | النوع                                                                     | مطلوب                                                                     | الوصف                                                                     |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `request`                                                                 | [GetSearchLogosRequest](../../models/operations/GetSearchLogosRequest.md) | :heavy&#95;check&#95;mark:                                                        | كائن الطلب المستخدم في الاستعلام.                                         |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetSearchLogosResponse](../../models/operations/GetSearchLogosResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400، 404، 500              | application/json           |
+| models/errors/APIException | 4XX، 5XX                   | */*                      |

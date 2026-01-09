@@ -1,0 +1,76 @@
+---
+title: "النص الخام لتقارير المحللين"
+description: analystReportsRawText()
+---
+
+[&lt; العودة](/ar/sdks/languages/java#analystreportsrawtext)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب بيانات النص الخام لتقارير المحللين
+
+<div id="get">
+  ## get
+</div>
+
+جلب بيانات النصوص الخام لتقارير المحللين
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل           | النوع              | إلزامي             | الوصف              |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `page`             | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | رقم الصفحة         |
+| `pagesize`         | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | عدد العناصر في الصفحة |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetAnalystReportsRawTextDataResponse](../../models/operations/GetAnalystReportsRawTextDataResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | كود الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

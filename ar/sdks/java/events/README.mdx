@@ -1,0 +1,78 @@
+---
+title: "الأحداث"
+description: events()
+---
+
+[&lt; العودة](/ar/sdks/languages/java#events)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب الأحداث
+
+<div id="get">
+  ## جلب
+</div>
+
+جلب الأحداث
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEventsRequest;
+import org.benzinga.BZClient.models.operations.GetEventsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEventsRequest req = GetEventsRequest.builder()
+                .build();
+
+        GetEventsResponse res = sdk.events().get()
+                .request(req)
+                .call();
+
+        if (res.modelsEventsJSON().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| Parameter                                                       | Type                                                            | Required                                                        | Description                                                     |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| `request`                                                       | [GetEventsRequest](../../models/operations/GetEventsRequest.md) | :heavy&#95;check&#95;mark:                                              | كائن الطلب المستخدم في هذه العملية.                             |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetEventsResponse](../../models/operations/GetEventsResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
