@@ -1,0 +1,112 @@
+---
+title: "애널리스트 인사이트 스트림"
+description: "증권에 대한 실시간 애널리스트 인사이트, 투자의견 및 목표가 데이터."
+asyncapi: "/asyncapi/analyst-insights-stream.yml analystInsights"
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+실시간 애널리스트 인사이트를 구독하고 애널리스트 등급, 목표가 및 상세한 추천 내용을 발표와 동시에 받아보십시오.
+
+<div id="key-features">
+  ### 주요 기능
+</div>
+
+- **실시간 업데이트**: 애널리스트가 새로운 인사이트를 게시하거나 기존 리서치 의견을 수정하는 즉시 알림을 받습니다
+- **종목별 필터링**: 특정 티커 또는 국제증권식별번호(ISIN)를 구독해 관련 데이터만 수신합니다
+- **포괄적인 데이터**: 애널리스트 회사 정보, 리서치 의견, 목표주가, 상세 인사이트를 포함합니다
+- **작업 추적**: 인사이트가 생성·업데이트·삭제되는 시점을 모니터링합니다
+
+<div id="use-cases">
+  ### 사용 사례
+</div>
+
+- 포트폴리오 종목에 대한 애널리스트 투자의견 변화 추적
+- 투자의견 상향/하향에 대한 실시간 알림 구축
+- 여러 애널리스트의 목표주가 변경 모니터링
+- 복수 리서치 기관의 컨센서스 인사이트 집계
+
+<div id="quick-start">
+  ## 빠른 시작
+</div>
+
+위의 대화형 웹소켓 테스터를 사용해 실시간으로 스트림에 연결하고 테스트하세요.
+
+<div id="connection-url">
+  ### 접속 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v1/analyst/insights/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### 쿼리 매개변수
+</div>
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Benzinga 웹소켓 API용 토큰 (bz.production***) |
+| `tickers` | No | 티커 심볼을 쉼표로 구분한 목록 (예: `AAPL,MSFT`) |
+| `isins` | No | 필터링에 사용할 국제증권식별번호(ISIN)를 쉼표로 구분한 목록 |
+
+<div id="message-example">
+  ## 메시지 예제
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "stream_type",
+  "data": {
+    "action": "created",
+    "id": "insight-id",
+    "timestamp": "2024-10-08T10:00:00Z",
+    "content": {
+      "action": "Upgrades",
+      "analyst_insights": "The analyst has upgraded the stock...",
+      "firm": "Goldman Sachs",
+      "pt": "150.00",
+      "rating": "Buy",
+      "security": {
+        "symbol": "AAPL",
+        "name": "Apple Inc.",
+        "exchange": "NASDAQ"
+      }
+    }
+  }
+}
+```
+
+
+<div id="message-actions">
+  ### 메시지 action
+</div>
+
+| Action | 설명 |
+|--------|-------------|
+| `created` / `Created` | 신규 애널리스트 인사이트 게시 |
+| `updated` / `Updated` | 기존 인사이트 수정 |
+| `deleted` / `Deleted` | 인사이트 삭제 |
+
+<div id="interactive-commands">
+  ## 대화형 명령
+</div>
+
+| Command | Description |
+|---------|-------------|
+| `ping` | 연결을 유지합니다 (`pong`으로 응답) |
+| `replay` | 캐시에 저장된 최근 메시지 최대 100개를 재생 |
+
+<div id="best-practices">
+  ## 모범 사례
+</div>
+
+- **중복 제거**: 중복 메시지가 처리되지 않도록 `id` 필드를 사용하세요
+- **하트비트(Heartbeat)**: 연결을 유지하기 위해 30~60초마다 `ping` 명령을 보내세요
+- **오류 처리**: 지수 백오프 전략을 사용하는 재연결 로직을 구현하세요
+- **필터링**: 대역폭 사용량을 줄이기 위해 티커/국제증권식별번호(ISIN) 필터를 사용하세요

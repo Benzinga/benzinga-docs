@@ -1,0 +1,130 @@
+---
+title: "Webhook 전송 테스트"
+openapi: /ko/openapi/webhook_api.spec.yml GET /api/v1/webhook/test
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+이 엔드포인트를 사용하여 구성해 둔 엔드포인트로 테스트 웹훅 전송을 실행할 수 있습니다. 이를 통해 실제 운영 데이터 수신 전에 웹훅 연동이 정상적으로 동작하는지 확인할 수 있습니다.
+
+<div id="testing-your-integration">
+  ## 통합 테스트
+</div>
+
+이 엔드포인트를 호출하면 Benzinga에서 설정한 `destination` URL로 테스트용 webhook 페이로드를 전송합니다. 이 테스트 전송은 프로덕션 환경의 webhook 전송과 동일한 형식과 재시도 로직을 따릅니다.
+
+<div id="what-to-expect">
+  ### 예상되는 동작
+</div>
+
+1. **즉시 응답**: 테스트 전송이 성공적으로 트리거되면 API가 `200` 상태 코드를 반환합니다.
+2. **테스트 페이로드**: 운영 환경 데이터와 동일한 형식의 테스트 페이로드가 웹훅 엔드포인트로 전송됩니다.
+3. **전송 헤더**: 테스트 전송에도 운영 환경 전송과 동일하게 `X-BZ-Delivery` 헤더가 포함됩니다.
+
+<div id="verify-your-integration">
+  ### 통합 검증
+</div>
+
+다음 사항을 확인하는 데 이 endpoint를 사용하십시오:
+
+- Webhook endpoint가 공용으로 액세스 가능한지
+- Endpoint가 webhook payload 형식을 올바르게 파싱할 수 있는지
+- Endpoint가 적절한 상태 코드(성공 시 2xx)로 응답하는지
+- Endpoint가 30초 타임아웃 내에 응답하는지
+- Idempotency 로직이 `X-BZ-Delivery` 헤더와 payload `id` 필드를 올바르게 처리하는지
+
+<div id="best-practices">
+  ## 모범 사례
+</div>
+
+- 프로덕션 환경이 아닌 webhook 엔드포인트에서 먼저 테스트하세요
+- 엔드포인트가 `200` 또는 `204` 상태 코드를 반환하는지 확인하세요
+- 로그 및 모니터링에서 테스트 전송이 기록·수집되는지 확인하세요
+- 중복 제거 로직이 테스트 전송 ID와 함께 올바르게 동작하는지 확인하세요
+- 일시적으로 오류 상태 코드를 반환하도록 하여 오류 시나리오를 테스트하세요
+
+<div id="troubleshooting">
+  ## 문제 해결
+</div>
+
+<div id="424-delivery-error">
+  ### 424 전송 오류
+</div>
+
+`424` 상태 코드를 수신한 경우, 시스템이 테스트 페이로드를 대상 엔드포인트로 전달하지 못한 것입니다. 일반적인 원인은 다음과 같습니다:
+
+- 대상 URL이 공개적으로 액세스할 수 없음
+- 대상 엔드포인트가 오류 상태 코드를 반환함
+- 네트워크 연결 문제
+- 대상 엔드포인트의 SSL/TLS 인증서 오류
+
+<div id="400-invalid-request">
+  ### 400 잘못된 요청
+</div>
+
+필수 매개변수가 모두 제공되었고 형식이 올바른지 확인하십시오.
+
+- `destination`은(는) 유효한 HTTPS URL이어야 합니다.
+- `version`은(는) `webhook/v1`이어야 합니다.
+- `kind`은(는) `News/v1`이어야 합니다.
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "status": "success"
+}
+```
+
+```json Response (400 Bad Request)
+{
+  "error": "destination URL이 잘못되었습니다."
+}
+```
+
+```json Response (424 Failed Dependency)
+{
+  "error": "테스트 페이로드를 destination으로 전달하지 못했습니다."
+}
+```
+
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "인증 토큰이 잘못되었거나 누락되었습니다."
+    }
+  ]
+}
+```
+
+```json Response (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "지정된 매개변수에 대한 데이터를 찾을 수 없습니다."
+    }
+  ]
+}
+```
+
+```json Response (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "요청을 처리하는 동안 예기치 않은 오류가 발생했습니다."
+    }
+  ]
+}
+```
+</ResponseExample>

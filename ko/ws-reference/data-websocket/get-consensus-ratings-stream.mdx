@@ -1,0 +1,134 @@
+---
+title: "컨센서스 투자 의견 스트림"
+description: "실시간으로 집계된 컨센서스 투자 의견과 목표가."
+asyncapi: "/asyncapi/consensus-ratings-stream.yml consensusRatings"
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+여러 애널리스트의 의견을 집계해 단일 레이팅과 목표가로 제공하는 실시간 컨센서스 데이터를 구독할 수 있습니다. 이를 통해 전체 시장 심리와 애널리스트 컨센서스의 변화를 추적할 수 있습니다.
+
+<div id="key-features">
+  ### 주요 기능
+</div>
+
+- **집계 컨센서스**: 특정 종목에 대한 전체 애널리스트 투자의견을 통합한 보기
+- **목표가 컨센서스**: 평균, 최고, 최저 목표 주가
+- **투자의견 분포**: Strong Buy, Buy, Hold, Sell, Strong Sell 별 분포
+- **애널리스트 수**: 전체 애널리스트 수와 중복을 제거한 고유 애널리스트 수 추적
+- **유연한 집계 방식**: 개수 또는 비율(%)로 표시
+
+<div id="use-cases">
+  ### 사용 사례
+</div>
+
+- 컨센서스 투자의견 대시보드와 위젯 구축
+- 전체 애널리스트 심리 변화 추적
+- 개별 투자의견을 컨센서스와 비교
+- 목표주가 범위(최고, 최저, 평균) 모니터링
+- 컨센서스가 개선되거나 악화되고 있는 종목 식별
+
+<div id="quick-start">
+  ## 빠른 시작
+</div>
+
+위의 대화형 웹소켓 테스터를 사용해 실시간 스트림에 연결하고 테스트하세요.
+
+<div id="connection-url">
+  ### 연결 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v1/consensus-ratings/stream?token=YOUR_API_KEY
+```
+
+
+<div id="query-parameters">
+  ### 쿼리 매개변수
+</div>
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Benzinga 웹소켓 API 토큰 (bz.production***) |
+| `tickers` | No | 티커 심볼의 쉼표로 구분된 목록 (예: `AAPL,MSFT`) |
+| `isins` | No | 필터링에 사용할 국제증권식별번호(ISIN)의 쉼표로 구분된 목록 |
+| `simplify` | No | 투자의견 등급을 Buy, Hold, Sell로 단순화 |
+| `aggregate_type` | No | 집계 유형: `number` 또는 `percentage` |
+
+<div id="message-example">
+  ## 메시지 예시
+</div>
+
+```json
+{
+  "id": "e9e75b31-604e-422c-a532-362725b2d59d",
+  "api_version": "websocket/v1",
+  "kind": "data/v2.1/calendar/ratings",
+  "data": {
+    "aggregate_ratings": {
+      "strong_buy": 15,
+      "buy": 25,
+      "hold": 8,
+      "sell": 2,
+      "strong_sell": 0
+    },
+    "aggregate_type": "number",
+    "consensus_rating": "BUY",
+    "consensus_rating_val": 4.2,
+    "consensus_price_target": 195.50,
+    "high_price_target": 225.00,
+    "low_price_target": 160.00,
+    "total_analyst_count": 50,
+    "unique_analyst_count": 48,
+    "updated_at": "2024-10-04T19:21:06Z"
+  }
+}
+```
+
+
+<div id="consensus-ratings">
+  ### 컨센서스 등급
+</div>
+
+| 등급 (Rating) | 수치 값 (Numeric Value) | 설명 (Description) |
+|--------|---------------|-------------|
+| `STRONG_BUY` | 5.0 | 매우 강한 매수 컨센서스 |
+| `BUY` | 4.0 - 4.9 | 매수 컨센서스 |
+| `HOLD` | 3.0 - 3.9 | 중립 컨센서스 |
+| `SELL` | 2.0 - 2.9 | 매도 컨센서스 |
+| `STRONG_SELL` | 1.0 - 1.9 | 매우 강한 매도 컨센서스 |
+
+<div id="key-metrics">
+  ### 핵심 지표
+</div>
+
+| Field | 설명 |
+|-------|-------------|
+| `consensus_rating` | 전체 투자의견 (BUY, HOLD, SELL) |
+| `consensus_rating_val` | 수치 투자의견 값 (1.0-5.0) |
+| `consensus_price_target` | 애널리스트들의 평균 목표가 |
+| `high_price_target` | 최고 목표가 |
+| `low_price_target` | 최저 목표가 |
+| `total_analyst_count` | 전체 평점(레이팅) 수 |
+| `unique_analyst_count` | 고유 애널리스트 수 |
+
+<div id="interactive-commands">
+  ## 대화형 명령어
+</div>
+
+| Command | Description |
+|---------|-------------|
+| `ping` | 연결을 유지합니다 (`pong`으로 응답합니다) |
+| `replay` | 최근 캐시된 메시지 최대 100개를 재전송합니다 |
+
+<div id="best-practices">
+  ## 모범 사례
+</div>
+
+- **컨센서스 변화**: 시간에 따른 `consensus_rating_val` 변화를 모니터링
+- **목표가 범위**: 현재 가격을 고가/저가 목표와 비교해 평가 관점 파악
+- **커버리지 깊이**: 애널리스트 수가 많을수록 컨센서스가 더 신뢰할 만함
+- **분포 분석**: `aggregate_ratings` 구성을 확인해 투자 심리의 뉘앙스 파악
+- **퍼센티지 뷰**: 비교를 정규화하기 위해 `aggregate_type=percentage` 사용

@@ -1,0 +1,53 @@
+---
+title: "티커 트렌드 목록 데이터"
+openapi: /ko/openapi/ticker-trends-api_api.spec.yml GET /api/v1/trending-tickers/list
+---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "ok": true,
+  "data": [
+    {
+      "security": {
+        "ticker": "RVLV",
+        "name": "Revolve Gr",
+        "exchange": "NYSE"
+      },
+      "count": 2344,
+      "pct_chg": 23340
+    }
+  ]
+}
+```
+</ResponseExample>
+
+<ResponseExample>
+```json Response (400 Bad Request)
+{
+    "ok": false,
+    "errors": [
+        {
+            "id": "hbiGJjhsSpnfhM8aBePyTB",
+            "code": "400",
+            "value": "Bad Request"
+        }
+    ]
+}
+```
+</ResponseExample>
+
+<ResponseExample>
+```json Response (500 Internal Server Error)
+{
+    "ok": false,
+    "errors": [
+        {
+            "id": "hbiGJjhsSpnfhM8aBePyTB",
+            "code": "500",
+            "value": "Something went wrong"
+        }
+    ]
+}
+```
+</ResponseExample>

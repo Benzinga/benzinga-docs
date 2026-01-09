@@ -1,0 +1,49 @@
+---
+title: "الميزانية العمومية"
+openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v3/fundamentals/balance-sheet
+---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "ok": "true",
+  "data": []
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "رمز مصادقة مفقود أو غير صالح"
+    }
+  ]
+}
+```
+```json Response (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "لم يتم العثور على بيانات للمعاملات المحددة"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
+    }
+  ]
+}
+```
+</ResponseExample>

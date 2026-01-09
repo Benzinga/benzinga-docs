@@ -1,0 +1,80 @@
+---
+title: "تداولات حكومية"
+description: governmentTrades()
+---
+
+[&lt; العودة](/ar/sdks/languages/java#governmenttrades)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب الصفقات الحكومية
+
+<div id="get">
+  ## get
+</div>
+
+جلب التداولات الحكومية
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetGovernmentTradesRequest;
+import org.benzinga.BZClient.models.operations.GetGovernmentTradesResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetGovernmentTradesRequest req = GetGovernmentTradesRequest.builder()
+                .build();
+
+        GetGovernmentTradesResponse res = sdk.governmentTrades().get()
+                .request(req)
+                .call();
+
+        if (res.modelsGovernmentTradeJSON().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعلمة                                                                            | النوع                                                                                | مطلوب                                                                              | الوصف                                                                              |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `request`                                                                           | [GetGovernmentTradesRequest](../../models/operations/GetGovernmentTradesRequest.md) | :heavy&#95;check&#95;mark:                                                                  | كائن الطلب الذي سيُستخدم في الطلب.                                                |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetGovernmentTradesResponse](../../models/operations/GetGovernmentTradesResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                      | رمز الحالة                     | نوع المحتوى                    |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

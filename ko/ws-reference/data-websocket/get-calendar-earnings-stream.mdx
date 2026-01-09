@@ -1,0 +1,132 @@
+---
+title: "실시간 실적 스트림"
+description: "실시간 실적 발표 및 재무 결과."
+asyncapi: "/asyncapi/calendar-earnings-stream.yml calendarEarnings"
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+실시간 실적 발표를 구독하고 주당순이익(EPS), 매출, 어닝 서프라이즈를 포함한 기업 재무 실적에 대한 업데이트를 즉시 받아보세요.
+
+<div id="key-features">
+  ### 주요 기능
+</div>
+
+- **실시간 실적**: 실적 발표가 이뤄질 때마다 즉시 알림을 받습니다
+- **포괄적인 데이터**: 주당순이익(EPS), 매출, 컨센서스 추정치, 실제 실적, 어닝 서프라이즈 지표를 포함합니다
+- **종목별 필터링**: 특정 티커 또는 국제증권식별번호(ISIN)을 기준으로 구독할 수 있습니다
+- **실적 기간**: Q1, Q2, Q3, Q4 및 연간(FY) 실적을 추적합니다
+- **중요도 등급**: 시장 중요도를 나타내는 0~5점 척도
+
+<div id="use-cases">
+  ### 사용 사례
+</div>
+
+- 실시간 실적 캘린더 및 알림 구축
+- 어닝 서프라이즈와 실적 상회/하회 패턴 추적
+- 포트폴리오 내 보유 종목 실적을 실시간으로 모니터링
+- 실적 시즌 대시보드 생성
+- 실적 결과를 기반으로 한 거래 전략 자동화
+
+<div id="quick-start">
+  ## 빠른 시작
+</div>
+
+상단의 대화형 웹소켓 테스터를 사용해 실시간으로 스트림에 연결하고 테스트하세요.
+
+<div id="connection-url">
+  ### 접속 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### 쿼리 파라미터
+</div>
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Benzinga 웹소켓 API 토큰 (bz.production***) |
+| `tickers` | No | 쉼표로 구분된 티커 심볼 목록 (예: `AAPL,MSFT`) |
+| `isins` | No | 쉼표로 구분된 국제증권식별번호(ISIN) 목록 |
+
+<div id="message-example">
+  ## 메시지 예시
+</div>
+
+```json
+{
+  "id": "839f1f45-fffe-4801-9284-11dae5c5dae4",
+  "api_version": "websocket/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "created",
+    "id": "66fffe978f3f630001a2ea56",
+    "timestamp": "2024-10-04T14:42:27Z",
+    "content": {
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "exchange": "NASDAQ",
+      "date": "2024-10-04",
+      "time": "16:00:00",
+      "period": "Q4",
+      "period_year": 2024,
+      "eps": "1.47",
+      "eps_est": "1.39",
+      "eps_surprise": "0.08",
+      "eps_surprise_percent": "5.76",
+      "revenue": "89500000000",
+      "revenue_est": "89280000000",
+      "importance": 5
+    }
+  }
+}
+```
+
+
+<div id="key-fields">
+  ### 주요 필드
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `eps` | 보고된 실제 주당순이익(EPS) |
+| `eps_est` | 애널리스트 컨센서스 주당순이익(EPS) 추정치 |
+| `eps_surprise` | 실제 값과 추정치의 차이(어닝 서프라이즈) |
+| `eps_surprise_percent` | 어닝 서프라이즈(추정치 대비 %) |
+| `revenue` | 보고된 실제 매출 |
+| `revenue_est` | 애널리스트 컨센서스 매출 추정치 |
+| `importance` | 시장 중요도(0-5, 5 = 최고) |
+
+<div id="message-actions">
+  ### 메시지 action
+</div>
+
+| Action | 설명 |
+|--------|-------------|
+| `created` / `Created` | 새로운 실적 발표 |
+| `updated` / `Updated` | 실적 데이터가 변경됨 |
+| `deleted` / `Deleted` | 발표가 삭제됨 |
+
+<div id="interactive-commands">
+  ## 대화형 명령
+</div>
+
+| Command | 설명 |
+|---------|-------------|
+| `ping` | 연결을 유지합니다(`pong`으로 응답) |
+| `replay` | 최근 캐시된 메시지 최대 100개를 재전송합니다 |
+
+<div id="best-practices">
+  ## 모범 사례
+</div>
+
+- **중복 제거**: 중복 처리를 방지하기 위해 `id` 필드를 사용하세요
+- **중요도 필터**: 시장에 큰 영향을 주는 실적 발표의 경우 중요도 4–5에 집중하세요
+- **서프라이즈 알림**: 의미 있는 어닝 서프라이즈를 위한 임계값을 설정하세요
+- **시간**: `time` 필드는 EST/EDT 기준 24시간 형식을 사용한다는 점에 유의하세요

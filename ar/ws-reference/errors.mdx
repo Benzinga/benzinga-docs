@@ -1,0 +1,110 @@
+---
+title: "الأخطاء"
+description: "كيفية استجابة واجهة برمجة التطبيقات API من Benzinga عند حدوث أخطاء."
+---
+
+تستخدم Benzinga رموز استجابة HTTP التقليدية للإشارة إلى نجاح أو فشل طلب واجهة برمجة التطبيقات API.
+بشكل عام: تشير الرموز في نطاق 2xx إلى النجاح.
+تشير الرموز في نطاق 4xx إلى وجود خطأ فشل بالنظر إلى المعلومات المقدَّمة (مثلًا، تم إغفال معلمة مطلوبة،
+أو فشل في عملية تحصيل رسوم، إلخ).
+تشير الرموز في نطاق 5xx إلى وجود خطأ في خوادم Benzinga.
+
+بعض أخطاء 4xx التي يمكن التعامل معها برمجيًا قد تتضمّن
+رمز خطأ يشرح بإيجاز الخطأ المُبلَّغ عنه.
+
+<div id="parameters">
+  ### المعلمات
+</div>
+
+<ResponseField name="type" type="string">
+    نوع الخطأ المُرجع.
+
+    إحدى القيم التالية: <code>invalid_request_error</code> أو <code>not_found_error</code> أو <code>creation_error</code>،
+    أو <code>update_error</code> أو <code>deletion_error</code> أو <code>forbidden_error</code> أو <code>authentication_error</code>.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+    رسالة نصية مفهومة للبشر توفّر مزيدًا من التفاصيل حول الخطأ.
+</ResponseField>
+
+<ResponseField name="params" type="array">
+    إذا كان الخطأ متعلقًا بمعلمة معيّنة، فسيحتوي هذا الحقل على قائمة بالمعلمات غير الصالحة.
+</ResponseField>
+
+<div id="error-response">
+  ## استجابة الخطأ
+</div>
+
+- غير مصرّح `401` - رمز وصول غير صالح؛ تحقّق من رمز الوصول المقدَّم.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ تعذّر الاتصال بـ wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        الخطأ: استجابة غير متوقَّعة من الخادم: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        تفاصيل المصافحة
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>طريقة الطلب:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>رمز الحالة:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- خطأ Bad Gateway `502` - إمّا مسار غير صالح أو خطأ في الخادم.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ تعذّر الاتصال بـ wss://api.benzinga.com/api/v1/analyst/insights/stream?token=bz.p***
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        الخطأ: استجابة غير متوقَّعة من الخادم: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        تفاصيل المصافحة
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>طريقة الطلب:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>رمز الحالة:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

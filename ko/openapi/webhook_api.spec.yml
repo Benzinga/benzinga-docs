@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Webhook 전송을 테스트하여 통합이 제대로 작동하는지 확인하세요
+  title: Webhook API
+  version: 1.0.0
+servers:
+  - url: https://api.benzinga.com
+paths:
+  /api/v1/webhook/test:
+    get:
+      summary: 웹훅 전송 테스트
+      description: 이 엔드포인트는 테스트 데이터를 웹훅 엔드포인트로 전송하여 통합이 올바르게 동작하는지 확인할 수 있도록 합니다
+      operationId: get-webhook-test
+      parameters:
+        - name: destination
+          in: query
+          required: true
+          description: 테스트 데이터를 수신할 webhook 엔드포인트 url
+          schema:
+            type: string
+            format: uri
+          example: https://your-endpoint.com/webhook
+        - name: version
+          in: query
+          required: true
+          description: API 버전(현재는 webhook/v1)
+          schema:
+            type: string
+            enum:
+              - webhook/v1
+            default: webhook/v1
+        - name: kind
+          in: query
+          required: true
+          description: 메시지 kind를 식별합니다. 현재 값은 News/v1입니다.
+          schema:
+            type: string
+            enum:
+              - News/v1
+            default: News/v1
+        - name: token
+          in: query
+          required: false
+          description: 실서비스 환경에서 사용할 수 있도록 데이터를 변환하려면 토큰을 지정하세요
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 성공 - 테스트 웹훅이 성공적으로 전송되었습니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+        "400":
+          description: 잘못된 요청 - 자세한 내용은 응답 본문에서 확인하세요
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid destination URL
+        "424":
+          description: 전달 오류 - 테스트 페이로드를 전송하는 중 시스템 오류가 발생했습니다
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Failed to deliver test payload to destination
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+      security:
+        - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Key
+      description: 사용자의 Benzinga API 키

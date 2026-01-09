@@ -1,0 +1,109 @@
+---
+title: '마크다운 문법'
+description: '텍스트, 제목, 스타일링을 위한 표준 마크다운'
+icon: 'text-size'
+---
+
+<div id="titles">
+  ## 제목
+</div>
+
+섹션 헤더에 사용하기에 가장 적합합니다.
+
+```md
+<div id="titles">
+  ## 제목
+</div>
+
+```
+
+
+<div id="subtitles">
+  ### 부제목
+</div>
+
+소제목(하위 섹션 제목)에 사용하는 것이 가장 적합합니다.
+
+```md
+### 부제
+```
+
+<Tip>
+  각 **제목**과 **부제목**은 앵커를 생성하고 오른쪽 목차에도 표시됩니다.
+</Tip>
+
+
+<div id="text-formatting">
+  ## 텍스트 서식
+</div>
+
+대부분의 마크다운 서식을 지원합니다. 텍스트를 서식 지정하려면 텍스트 앞뒤에 `**`, `_`, 또는 `~`를 추가하면 됩니다.
+
+| 스타일        | 작성 방법            | 결과              |
+| ------------- | -------------------- | ----------------- |
+| Bold          | `**bold**`           | **bold**          |
+| Italic        | `_italic_`           | _italic_          |
+| Strikethrough | `~strikethrough~`    | ~strikethrough~   |
+
+이들을 조합해서 사용할 수도 있습니다. 예를 들어, `**_bold and italic_**`을 작성하면 **_bold and italic_** 텍스트가 됩니다.
+
+위 첨자와 아래 첨자 텍스트를 작성하려면 HTML을 사용해야 합니다. 즉, 텍스트 앞뒤에 `<sup>` 또는 `<sub>`를 추가합니다.
+
+| 텍스트 스타일 | 작성 방법                  | 결과                      |
+| ------------- | -------------------------- | ------------------------- |
+| Superscript   | `<sup>superscript</sup>`   | <sup>superscript</sup>    |
+| Subscript     | `<sub>subscript</sub>`     | <sub>subscript</sub>      |
+
+<div id="linking-to-pages">
+  ## 페이지에 링크하기
+</div>
+
+`[]()` 안에 텍스트를 감싸서 링크를 추가할 수 있습니다. 예를 들어 `[link to google](https://google.com)`이라고 작성하면 [link to google](https://google.com)로 링크됩니다.
+
+문서 내 다른 페이지로 연결되는 링크는 루트 기준 경로여야 합니다. 기본적으로 전체 폴더 경로를 포함해야 합니다. 예를 들어 `[link to text](/writing-content/text)`는 컴포넌트 섹션에 있는 "Text" 페이지로 링크합니다.
+
+`[link to text](../text)`와 같은 상대 경로 링크는 최적화하기가 상대적으로 더 어려워 로딩 속도가 느려질 수 있습니다.
+
+<div id="blockquotes">
+  ## 인용 블록
+</div>
+
+<div id="singleline">
+  ### 한 줄짜리
+</div>
+
+인용문 블록을 만들려면 문단 앞에 `>`를 붙입니다.
+
+> 도로시는 그녀를 따라 그녀의 성 안에 있는 많은 아름다운 방들을 지나갔다.
+
+```md
+> Dorothy는 그녀를 따라 성의 여러 아름다운 방들을 지나갔습니다.
+```
+
+
+<div id="multiline">
+  ### 여러 줄
+</div>
+
+> 도로시는 그녀를 따라 성 안의 아름다운 방들을 여럿 지나갔다.
+>
+> 마녀는 그녀에게 냄비와 주전자를 닦고, 바닥을 쓸고, 장작을 계속 넣어 불을 때라고 시켰다.
+
+```md
+> Dorothy는 성의 아름다운 방들을 지나 그녀를 따라갔습니다.
+>
+> 마녀는 그녀에게 냄비와 주전자를 닦고, 바닥을 쓸고, 장작으로 불을 계속 지피라고 명령했습니다.
+```
+
+
+<div id="latex">
+  ### LaTeX
+</div>
+
+Mintlify는 Latex 컴포넌트를 통해 [LaTeX](https://www.latex-project.org)을 지원합니다.
+
+<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
+
+```md
+<Latex>8 x (vk x H1 - H2) = (0,1)</Latex>
+```

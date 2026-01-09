@@ -1,0 +1,80 @@
+---
+title: "نسب التقييم"
+description: valuationRatios()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#valuationratios)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب نسب التقييم V2.1
+
+<div id="get">
+  ## جلب
+</div>
+
+جلب نسب التقييم لقائمة من الرموز أو أرقام التعريف الدولي للأوراق المالية ISIN أو معرّفات CIK
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetValuationRatiosV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetValuationRatiosV21Response res = sdk.valuationRatios().get()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل                        | النوع                            | مطلوب                          | الوصف                                  |
+| ------------------------------ | -------------------------------- | ------------------------------ | -------------------------------------- |
+| `symbols`                      | *Optional&lt;String&gt;*              | :heavy&#95;minus&#95;sign:             | قائمة رموز مفصولة بفواصل               |
+| `asOf`                         | *Optional&lt;String&gt;*              | :heavy&#95;minus&#95;sign:             | تاريخ سريان البيانات (as of date)      |
+| `period`                       | *Optional&lt;String&gt;*              | :heavy&#95;minus&#95;sign:             | الفترة                                 |
+| `reportType`                   | *Optional&lt;String&gt;*              | :heavy&#95;minus&#95;sign:             | نوع التقرير                            |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetValuationRatiosV21Response](../../models/operations/GetValuationRatiosV21Response.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

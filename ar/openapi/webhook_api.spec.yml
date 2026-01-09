@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: اختبر تسليم الـ webhook للتأكد من أن التكامل لديك يعمل بشكل صحيح
+  title: Webhook API
+  version: 1.0.0
+servers:
+  - url: https://api.benzinga.com
+paths:
+  /api/v1/webhook/test:
+    get:
+      summary: اختبار تسليم الـ Webhook
+      description: ستُرسل نقطة النهاية هذه بيانات اختبار إلى نقطة الـ webhook الخاصة
+        بك حتى تتمكن من التحقق من صحة عملية التكامل
+      operationId: get-webhook-test
+      parameters:
+        - name: destination
+          in: query
+          required: true
+          description: عنوان url لنقطة نهاية webhook التي ستُرسل إليها بيانات الاختبار
+          schema:
+            type: string
+            format: uri
+          example: https://your-endpoint.com/webhook
+        - name: version
+          in: query
+          required: true
+          description: "إصدار واجهة برمجة التطبيقات API الحالي: webhook/v1"
+          schema:
+            type: string
+            enum:
+              - webhook/v1
+            default: webhook/v1
+        - name: kind
+          in: query
+          required: true
+          description: يحدّد نوع الرسالة في حقل kind. القيمة الحالية هي News/v1
+          schema:
+            type: string
+            enum:
+              - News/v1
+            default: News/v1
+        - name: token
+          in: query
+          required: false
+          description: حدِّد رمز الوصول ليتم تهيئة البيانات للاستخدام في بيئة الإنتاج
+          schema:
+            type: string
+      responses:
+        "200":
+          description: نجاح - تم إرسال اختبار تسليم Webhook بنجاح
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+        "400":
+          description: طلب غير صالح - تحقّق من محتوى الاستجابة للاطّلاع على التفاصيل
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid destination URL
+        "424":
+          description: خطأ في التسليم - واجه النظام خطأ أثناء تسليم البيانات الاختبارية
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Failed to deliver test payload to destination
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+      security:
+        - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Key
+      description: مفتاح واجهة برمجة التطبيقات (API) الخاص بك من Benzinga

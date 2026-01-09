@@ -1,0 +1,78 @@
+---
+title: "الاقتصاد"
+description: economics()
+---
+
+[&lt; العودة](/ar/sdks/languages/java#economics)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب البيانات الاقتصادية
+
+<div id="get">
+  ## جلب
+</div>
+
+يُرجِع بيانات التقويم الاقتصادي
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEconomicsRequest;
+import org.benzinga.BZClient.models.operations.GetEconomicsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEconomicsRequest req = GetEconomicsRequest.builder()
+                .build();
+
+        GetEconomicsResponse res = sdk.economics().get()
+                .request(req)
+                .call();
+
+        if (res.modelsEconomicJSON().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعاملة                                                               | النوع                                                                 | مطلوب                                                                  | الوصف                                                                 |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [GetEconomicsRequest](../../models/operations/GetEconomicsRequest.md) | :heavy&#95;check&#95;mark:                                                    | كائن الطلب المستخدم في هذه العملية.                                  |
+
+<div id="response">
+  ### استجابة
+</div>
+
+**[GetEconomicsResponse](../../models/operations/GetEconomicsResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | كود الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

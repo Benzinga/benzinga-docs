@@ -1,0 +1,80 @@
+---
+title: "운영 비율"
+description: operationRatios()
+---
+
+[&lt; 뒤로](/ko/sdks/languages/java#operationratios)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - 운영 비율 v2.1 가져오기
+
+<div id="get">
+  ## 가져오기
+</div>
+
+심볼 목록에 대한 운영 비율을 조회합니다
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetOperationRatiosV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<여기에_API_키_입력>")
+            .build();
+
+        GetOperationRatiosV21Response res = sdk.operationRatios().get()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parameters
+</div>
+
+| Parameter                       | Type                            | Required                        | Description                               |
+| ------------------------------- | ------------------------------- | ------------------------------- | ----------------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | 티커 심볼을 쉼표로 구분한 목록           |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 기준일                                    |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 기간                                      |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 보고서 유형                               |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetOperationRatiosV21Response](../../models/operations/GetOperationRatiosV21Response.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

@@ -159,21 +159,28 @@ components:
     models.Security:
       properties:
         cik:
+          example: "320193"
           type: string
         company_name:
+          example: Apple Inc
           type: string
         exchange:
+          example: NASDAQ
           type: string
         isin:
+          example: US0378331005
           type: string
         ticker:
+          example: AAPL
           type: string
       type: object
     models.Summary:
       properties:
         summary:
+          example: CEO discusses Q4 revenue growth of 15% YoY
           type: string
         time:
+          example: 123.45
           type: number
       type: object
     models.TranscriptAudioFile:
@@ -184,18 +191,24 @@ components:
     models.TranscriptSummary:
       properties:
         call_id:
+          example: AAPL-Q4-2024
           type: string
         created:
+          example: 1704819600
           type: integer
         date:
+          example: 2024-01-09
           type: string
         id:
+          example: 507f1f77bcf86cd799439011
           type: string
         reviewed:
+          example: true
           type: boolean
         security:
           $ref: "#/components/schemas/models.Security"
         start_time:
+          example: 2024-01-09T16:30:00Z
           type: string
         summaries:
           items:
@@ -204,6 +217,7 @@ components:
         summary_full:
           type: string
         title:
+          example: Apple Q4 2024 Earnings Call
           type: string
         transcript_full:
           type: string
@@ -212,8 +226,10 @@ components:
             $ref: "#/components/schemas/models.TranscriptTimestamp"
           type: array
         updated:
+          example: 1704820200
           type: integer
         user_id:
+          example: 12345
           type: integer
       type: object
     models.TranscriptSummaryAudio:
@@ -238,10 +254,9 @@ components:
     models.TranscriptTimestamp:
       properties:
         time:
+          example: 123.45
           type: number
         transcript:
+          example: Thank you for joining us today...
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1

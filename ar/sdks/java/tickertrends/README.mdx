@@ -1,0 +1,153 @@
+---
+title: "اتجاهات رموز التداول"
+description: tickerTrends()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#tickertrends)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب بيانات اتجاه رمز التداول
+* [getList](#getlist) - جلب بيانات قائمة اتجاهات رموز التداول
+
+<div id="get">
+  ## جلب
+</div>
+
+الحصول على بيانات اتجاه رمز التداول
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.errors.HttpapiTickerTrendAPIResponse;
+import org.benzinga.BZClient.models.operations.GetTickerTrendDataRequest;
+import org.benzinga.BZClient.models.operations.GetTickerTrendDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, HttpapiTickerTrendAPIResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetTickerTrendDataRequest req = GetTickerTrendDataRequest.builder()
+                .interval("<value>")
+                .tickers("<value>")
+                .source("<value>")
+                .build();
+
+        GetTickerTrendDataResponse res = sdk.tickerTrends().get()
+                .request(req)
+                .call();
+
+        if (res.httpapiTickerTrendAPIResponse().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+
+### المعلمات
+
+| Parameter                                                                         | Type                                                                              | Required                                                                          | Description                                                                       |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `request`                                                                         | [GetTickerTrendDataRequest](../../models/operations/GetTickerTrendDataRequest.md) | :heavy&#95;check&#95;mark:                                                                | كائن الطلب المستخدم في هذا الطلب.                                                |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetTickerTrendDataResponse](../../models/operations/GetTickerTrendDataResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                                   | رمز الحالة                                  | نوع المحتوى                                 |
+| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| models/errors/BzhttpResp                    | 400                                         | application/json                            |
+| models/errors/HttpapiTickerTrendAPIResponse | 500                                         | application/json                            |
+| models/errors/APIException                  | 4XX, 5XX                                    | */*                                       |
+
+<div id="getlist">
+  ## getList
+</div>
+
+جلب بيانات قائمة اتجاهات رموز التداول
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.errors.HttpapiTrendingTickersListAPIResponse;
+import org.benzinga.BZClient.models.operations.GetTickerTrendListDataRequest;
+import org.benzinga.BZClient.models.operations.GetTickerTrendListDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, HttpapiTrendingTickersListAPIResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetTickerTrendListDataRequest req = GetTickerTrendListDataRequest.builder()
+                .interval("<value>")
+                .tickers("<value>")
+                .source("<value>")
+                .build();
+
+        GetTickerTrendListDataResponse res = sdk.tickerTrends().getList()
+                .request(req)
+                .call();
+
+        if (res.httpapiTrendingTickersListAPIResponse().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل                                                                                | النوع                                                                                     | إلزامي                                                                                   | الوصف                                                                                     |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `request`                                                                                 | [GetTickerTrendListDataRequest](../../models/operations/GetTickerTrendListDataRequest.md) | :heavy&#95;check&#95;mark:                                                                        | كائن الطلب المستخدم لهذا الاستدعاء.                                                       |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetTickerTrendListDataResponse](../../models/operations/GetTickerTrendListDataResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                                           | رمز الحالة                                          | نوع المحتوى                                         |
+| --------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------- |
+| models/errors/BzhttpResp                            | 400                                                 | application/json                                    |
+| models/errors/HttpapiTrendingTickersListAPIResponse | 500                                                 | application/json                                    |
+| models/errors/APIException                          | 4XX, 5XX                                            | */*                                               |

@@ -1,0 +1,3088 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: 이 REST API는 컨퍼런스 콜, 배당, 실적(및 향후 실적 발표일), 경제 지표, 제약 관련 공시, 가이던스,
+    IPO, 2차 공모, 등급 평가, M&A 활동, 그리고 주식분할에 대한 구조화된 데이터를 반환합니다.
+  termsOfService: http://swagger.io/terms/
+  title: Calendar API
+  version: 2.1.0
+paths:
+  /api/v1/analyst/insights:
+    get:
+      description: 증권에 대한 애널리스트 인사이트와 리서치 관점을 반환하며, 금융 애널리스트가 제공하는 상세한 분석과 투자 의견(추천)을 포함합니다
+      operationId: get-analyst-insights-v1
+      parameters:
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋 값은 0에서 100000 사이로 제한됩니다. 날짜와
+            같은 다른 파라미터를 사용하여 조회 결과를 제한하십시오. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 100
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to가 동일할 때 사용할 수 있는 축약형입니다.
+            기본값은 최신입니다.
+          in: query
+          name: date
+          schema:
+            type: string
+            format: date
+        - description: 시작일(YYYY-MM-DD 형식)
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: YYYY-MM-DD 형식의 종료일
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: 쉼표로 구분된 하나 이상의 티커(심볼). 티커는 최대 50개까지 지정할 수 있습니다
+          in: query
+          name: symbols
+          schema:
+            type: string
+            format: csv
+        - description: 애널리스트
+          in: query
+          name: analyst
+          schema:
+            type: string
+        - description: 평가 ID
+          in: query
+          name: rating_id
+          schema:
+            type: string
+        - description: 검색 키 타입
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - firm_id
+              - firm
+              - analyst_id
+              - analyst_name
+        - description: 검색 키
+          in: query
+          name: search_keys
+          schema:
+            type: string
+        - description: "정렬 기준 필드입니다. 형식은 field:order (예: date:asc)이며, 기본값은 desc입니다."
+          in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - date
+        - description: 레코드가 마지막으로 업데이트된 Unix 타임스탬프(UTC)입니다. 이 값을 사용하면 정렬 순서는 지정된 타임스탬프
+            이상(크거나 같은 값)으로 강제됩니다
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 애널리스트 인사이트
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.AnalystInsightsJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 애널리스트 인사이트 V1
+      tags:
+        - Analyst Insights
+  /api/v1/bulls_bears_say:
+    get:
+      description: 지정한 주식 티커 심볼에 대한 최신 강세(bullish) 및 약세(bearish) 투자 관점을 반환합니다. 강세 관점은
+        해당 주식을 매수해야 한다는 긍정적인 근거를 제시하고, 약세 관점은 매수에 반대하는 부정적인 근거를 제시합니다.
+      operationId: get-bulls-say-bears-say-v1
+      parameters:
+        - description: 강세/약세 케이스를 조회할 종목 티커
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋 값은 0~100000 사이로 제한됩니다. 날짜와
+            같은 다른 파라미터를 사용해 조회 결과를 제한하세요. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환할 결과 수입니다. 최대 200개까지 가능합니다.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+            maximum: 200
+            default: 100
+        - description: 레코드가 마지막으로 업데이트된 시점의 Unix 타임스탬프(UTC)입니다. 지정한 타임스탬프 이상(크거나 같은 값)이
+            되도록 정렬 순서를 강제합니다
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 요청한 티커 심볼에 대한 강세 및 약세 시나리오의 배열
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.BullsSayBearsSayJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "401":
+          description: 인증 정보가 없거나 유효하지 않습니다
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "404":
+          description: 제공된 티커에 대한 강세/약세 전망을 찾을 수 없습니다
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 지정된 티커에 대한 최신 강세 및 약세 분석
+      tags:
+        - Bulls Say Bears Say
+  /api/v1/consensus-ratings:
+    get:
+      description: 지정된 티커에 대한 집계된 컨센서스 애널리스트 평점 데이터를 반환합니다. 이 엔드포인트는 최근 애널리스트 평점을 기반으로
+        컨센서스 목표 주가, 집계된 평점 분포, 애널리스트 수를 제공합니다.
+      operationId: get-consensus-ratings-v1
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 간에 쿼리 매개변수의 동작은 동일합니다
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 반환되는 결과 수. 최대 1000개
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: 조회 시작 기준이 되는 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 기준 시점을 나타내는 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 집계를 조회할 하나의 티커 심볼입니다. 최대 1개의 티커만 지정할 수 있습니다.
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+        - description: 종합 등급을 BUY, SELL, HOLD로만 단순화하려는 경우에도, 기본값은 모든 등급(STRONG_BUY, BUY,
+            HOLD, SELL, STRONG_SELL)을 반환합니다.
+          in: query
+          name: simplify
+          schema:
+            type: boolean
+            default: false
+        - description: 평가를 개수 또는 백분율 기준으로 집계하려면
+          in: query
+          name: aggregate_type
+          schema:
+            type: string
+            enum:
+              - number
+              - percentage
+            default: number
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.ConsensusRating"
+        "204":
+          description: 내용 없음
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 내부 오류
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 애널리스트 투자의견 컨센서스 데이터를 반환합니다
+      tags:
+        - consensus_ratings
+  /api/v1/erx-gaps:
+    get:
+      description: 실적 발표 이후 발생하는 큰 가격 갭을 추적하는 실적 반응 갭 데이터를 반환합니다.
+      operationId: get-erx-gaps
+      parameters:
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋 값은 0~100000 범위로 제한됩니다. 날짜와
+            같은 다른 매개변수를 사용하여 쿼리 결과를 제한하십시오. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수입니다. 최대 1000개입니다.
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 100
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to 값이 동일할 때 이를 간단히 지정하는
+            축약형입니다. 기본값은 최신 날짜입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: date
+        - description: 시작 날짜(YYYY-MM-DD 형식)
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: 종료일(YYYY-MM-DD 형식)
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: 레코드가 마지막으로 업데이트된 Unix 타임스탬프(UTC)입니다. 이는 정렬 순서를 지정된 타임스탬프 이상(크거나
+            같음)으로 되도록 강제합니다.
+          in: query
+          name: updated
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: ERx 갭
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: ERx 갭
+      tags:
+        - ERx Gaps
+  /api/v1/government_trade_reports:
+    get:
+      description: 국회의원들이 제출한 정기 거래 보고서를 포함하여, 정부 거래 공시 보고서를 상세하게 반환합니다
+      operationId: get-government-trade-reports
+      parameters:
+        - description: 페이지 번호
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: 페이지 크기
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: 시작일
+          in: query
+          name: date_from
+          schema:
+            type: integer
+            format: int64
+        - description: 종료일
+          in: query
+          name: date_to
+          schema:
+            type: integer
+            format: int64
+        - description: 이 시점 이후 업데이트
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+            format: int64
+        - description: 날짜
+          in: query
+          name: date
+          schema:
+            type: integer
+            format: int64
+        - description: 의사당
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - '"House"'
+              - '"Senate"'
+        - description: 필드
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 검색 키 타입
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - '"report_id"'
+              - '"ticker"'
+        - description: 검색 키
+          in: query
+          name: search_keys
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 정부 거래 보고서
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 정부 거래 보고서
+      tags:
+        - Government Trade Reports
+  /api/v1/government_trades:
+    get:
+      description: 미국 하원 및 상원의원을 포함한 정부 공직자들의 거래 내역을 반환합니다
+      operationId: get-government-trades
+      parameters:
+        - description: 페이지 오프셋 값입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0~100000 범위로 제한됩니다. 날짜와 같은
+            다른 매개변수를 사용해 쿼리 결과를 제한하십시오. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+            default: 100
+        - description: 시작일 (YYYY-MM-DD 형식)
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: 종료일(YYYY-MM-DD 형식)
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: 레코드가 마지막으로 업데이트된 Unix 타임스탬프(UTC)입니다. 이 값을 지정하면 정렬 기준이 지정한 타임스탬프
+            이상(크거나 같음)이 되도록 강제됩니다
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+        - description: YYYY-MM-DD 형식의 날짜
+          in: query
+          name: date
+          schema:
+            type: string
+            format: date
+        - description: 실
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - House
+              - Senate
+        - description: 필드
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 검색 키 타입
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - report_id
+              - ticker
+        - description: 검색 키
+          in: query
+          name: search_keys
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 정부 매매
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GovernmentTradeJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 정부 거래
+      tags:
+        - Government Trades
+  /api/v1/sec/insider_transactions/filings:
+    get:
+      description: 회사 내부자의 주식 매수 및 매도, 옵션 행사 내역을 포함한 SEC Form 4 내부자 거래 신고 데이터를 반환합니다
+      operationId: get-insider-transaction-filing
+      parameters:
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0~100000 범위로만 설정할 수 있습니다.
+            날짜와 같은 다른 파라미터를 사용해 쿼리 결과를 제한하십시오. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수입니다. 최대 1000개입니다.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+            default: 100
+        - description: 시작일(YYYY-MM-DD 형식)
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: YYYY-MM-DD 형식의 종료일
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: 레코드가 마지막으로 업데이트된 시점을 나타내는 Unix 타임스탬프(UTC)입니다. 이를 사용하면 정렬 시 지정된
+            타임스탬프 이상(>=)인 레코드만 대상으로 하도록 강제합니다.
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+        - description: YYYY-MM-DD 형식의 날짜
+          in: query
+          name: date
+          schema:
+            type: string
+            format: date
+        - description: 챔버
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - House
+              - Senate
+        - description: 필드
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 검색 키 유형
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - symbol
+              - accession_number
+              - cik
+              - id
+        - description: 검색 키
+          in: query
+          name: search_keys
+          schema:
+            type: string
+        - description: 디스플레이
+          in: query
+          name: display
+          schema:
+            type: string
+            enum:
+              - flat
+              - nested
+      responses:
+        "200":
+          description: 내부자 거래
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingDoc"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 내부자 거래 보고서
+      tags:
+        - Insider Transaction
+  /api/v1/signal/block_trade:
+    get:
+      description: 기관 거래 활동을 시사할 수 있는 이례적으로 대규모의 거래를 포함하는 블록 트레이드 데이터를 반환합니다.
+      operationId: get-block-trade-v1
+      parameters:
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0에서 100000 사이의 값으로 제한됩니다. 날짜
+            등 다른 파라미터를 사용하여 조회 결과를 제한하십시오. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과의 수. 최대 1000개
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 100
+        - description: 시작 날짜(YYYY-MM-DD 형식)
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: 종료일(YYYY-MM-DD 형식)
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: 쉼표로 구분된 하나 이상의 티커 심볼입니다. 티커는 최대 50개까지 지정할 수 있습니다
+          in: query
+          name: tickers
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 시각을 나타내는 Unix 타임스탬프(UTC)입니다. 이를 사용하면 정렬 순서가 지정한
+            타임스탬프 이상(≥)이 되도록 강제됩니다.
+          in: query
+          name: updated
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 블록 트레이드
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.BlockTradeJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: BlockTrade V1
+      tags:
+        - Block Trade
+  /api/v1/signal/halt_resume:
+    get:
+      description: 증권의 거래 정지 및 재개 정보(정지 사유와 예상 재개 시각 포함)를 반환합니다
+      operationId: get-halt-resume-v1
+      parameters:
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋 값은 0에서 100000까지만 허용됩니다. 날짜와
+            같은 다른 파라미터를 사용해 쿼리 결과를 제한하세요. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 100
+        - description: YYYY-MM-DD 형식의 시작 날짜
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: 종료일(YYYY-MM-DD 형식)
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: 티커 심볼은 쉼표로 구분된 하나 이상의 값으로 입력합니다. 최대 50개까지 가능합니다
+          in: query
+          name: tickers
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 시점을 나타내는 Unix 타임스탬프(UTC)입니다. 이 값을 사용하면 정렬 순서는 지정된
+            타임스탬프보다 크거나 같은 값으로 강제됩니다
+          in: query
+          name: updated
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 거래 정지 / 재개
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.HaltResumeJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: HaltResume V1
+      tags:
+        - Halt Resume
+  /api/v1/signal/option_activity:
+    get:
+      description: 비정상적인 옵션 거래 활동 데이터를 반환하며, 정보 우위가 있는 거래를 시사할 수 있는 대규모 또는 이례적인 옵션 거래를 포함합니다
+      operationId: get-option-activity-v1
+      parameters:
+        - description: 페이지 오프셋 값입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋은 0~100000 범위로 제한됩니다. 날짜 등의
+            다른 파라미터를 사용해 조회 결과를 제한할 수 있습니다. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과의 개수. 최대 1000개
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 100
+        - description: calendar 데이터 조회에 사용할 날짜입니다. date_from과 date_to가 동일할 때 이 둘을 대신해 사용할
+            수 있는 단축 파라미터입니다. 지정하지 않으면 최신 날짜가 기본값입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: date
+        - description: YYYY-MM-DD 형식의 시작일
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: 종료일(YYYY-MM-DD 형식)
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: 날짜순으로 정렬
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - date
+        - description: 쉼표로 구분된 하나 이상의 티커입니다. 티커는 최대 50개까지 지정할 수 있습니다
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: ID
+          in: query
+          name: parameters[id]
+          schema:
+            type: string
+        - description: 레코드의 마지막 업데이트 시각을 나타내는 Unix 타임스탬프(UTC)입니다. 정렬 순서는 지정된 타임스탬프 이상(크거나
+            같음)만 포함되도록 강제됩니다.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 옵션 거래 동향
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.OptionActivityJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: OptionActivity V1
+      tags:
+        - Option Activity
+  /api/v2.1/calendar-removed/:
+    get:
+      description: 지정한 이벤트 유형에 속하는 calendar 이벤트 중 제거되었거나 취소된 이벤트를 반환합니다
+      operationId: get-removed
+      parameters:
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0~100000 범위로 제한됩니다. 날짜 등의 다른
+            파라미터를 사용해 조회 결과를 제한하세요. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개.
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 100
+        - description: Type
+          in: query
+          name: type
+          schema:
+            type: string
+            enum:
+              - ratings
+              - earnings
+              - dividends
+              - splits
+              - ipos
+              - offerings
+              - economics
+              - guidance
+              - ma
+              - conference calls
+        - description: 레코드가 마지막으로 업데이트된 시각의 Unix 타임스탬프(UTC)입니다. 이 값을 지정하면 정렬 순서는 지정한 타임스탬프
+            이상(이상 또는 같음)인 항목만 포함되도록 강제됩니다.
+          in: query
+          name: updated
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 삭제됨
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RemovedJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RemovedJSON"
+        "500":
+          description: 내부 오류
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 삭제됨(v2)
+      tags:
+        - removed
+  /api/v2.1/calendar/conference-calls:
+    get:
+      description: 선택한 기간 및/또는 종목에 대한 컨퍼런스 콜 데이터를 반환합니다. 컨퍼런스 콜은 회사 경영진이 분기 또는 연간 재무
+        실적과 사업 업데이트를 논의하고 애널리스트와 투자자의 질문에 답변하는, 사전에 일정이 잡힌 전화 회의를 의미합니다.
+      operationId: get-conference-calls
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 동일하게 동작합니다
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋 값은 0에서 100000 사이로 제한됩니다. 날짜와
+            같은 다른 파라미터를 사용해 쿼리 결과 범위를 제한하세요.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수입니다. 최대 1000개입니다.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to가 동일한 경우 두 값을 한 번에 지정하는
+            축약형입니다. 지정하지 않으면 최신 날짜가 기본값입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회를 시작할 기준 시점(날짜)
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회할 시점을 나타내는 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 쉼표로 구분된 하나 이상의 티커 심볼입니다. 최대 50개까지 지정할 수 있습니다
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 시각을 나타내는 Unix 타임스탬프(UTC)입니다. 이를 기준으로 정렬 시, 정렬 기준이
+            지정된 타임스탬프 이상(크거나 같은 값)이 되도록 강제합니다
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.ConferenceJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.ConferenceJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 컨퍼런스 콜 데이터를 반환합니다.
+      tags:
+        - conference_calls
+  /api/v2.1/calendar/dividends:
+    get:
+      description: 선택한 기간 및/또는 종목에 대한 배당 데이터를 반환합니다. 배당 금액, 배당락일, 지급일, 배당 수익률 및 주식에 대한
+        기타 관련 배당 정보가 포함됩니다.
+      operationId: get-dividends
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 동일하게 작동합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0 - 100000 범위 내로 제한됩니다. 날짜 등
+            다른 파라미터를 사용해 쿼리 결과를 제한하세요.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과의 수입니다. 최대 1000개입니다.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 기준 날짜입니다. date_from과 date_to가 동일한 경우 이 값을 두 파라미터의
+            축약형으로 사용할 수 있습니다. 지정하지 않으면 최신 날짜가 기본값입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회를 시작할 기준 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 기준 시점을 나타내는 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 정렬 기준 배당일 필드(최신순)
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - announced
+              - ex
+              - payable
+              - record
+        - description: 배당 수익률 기준으로 필터링하는 방법을 지정합니다. gt = 초과(Greater Than), gte =
+            이상(Greater Than Equal), eq = 동일(Equal), lt = 미만(Less Than), lte =
+            이하(Less Than Equal)
+          in: query
+          name: parameters[dividend_yield_operation]
+          schema:
+            type: string
+            enum:
+              - gt
+              - gte
+              - eq
+              - lte
+              - lt
+        - description: 필터링에 사용할 배당 수익률 값입니다. 기본값은 지정한 값과 같은 값(= Equal To)을 사용합니다. 1 = 100%
+          in: query
+          name: parameters[dividend_yield]
+          schema:
+            type: number
+        - description: 필터링에 사용할 중요도 수준입니다. 지정된 중요도 이상(크거나 같은 값)만 포함합니다.
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: 쉼표로 구분된 하나 이상의 티커 심볼입니다. 최대 50개까지 지정할 수 있습니다
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 유닉스 타임스탬프(UTC)입니다. 이를 사용하면 정렬 순서는 지정한 타임스탬프
+            이상(>=)이 되도록 강제됩니다.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 배당 관련 이벤트
+      tags:
+        - Dividends
+  /api/v2.1/calendar/earnings:
+    get:
+      description: 선택한 기간 및/또는 종목의 실적 데이터를 반환합니다. 실제 주당순이익(EPS) 및 매출 수치, 예상치, 어닝
+        서프라이즈, 과거 실적과의 비교 정보를 포함합니다. 실적 데이터는 투자자가 기업 성과를 평가하는 데 중요합니다.
+      operationId: get-earnings
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 동일한 방식으로 작동합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0~100000 범위로 제한됩니다. 날짜와 같은
+            다른 매개변수를 사용해 쿼리 결과를 제한하십시오
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수입니다. 최대값은 1000입니다.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to가 동일한 경우 이 필드 하나로 대체하여
+            지정할 수 있습니다. 지정하지 않으면 최신 날짜가 기본값입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 시작 기준일
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 종료 시점의 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 실적 calendar용 필드 정렬 옵션입니다. 정렬 순서를 지정하려면 `:desc`, `:asc`를 적용하세요
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - date
+        - description: 필터링에 사용할 중요도 수준입니다. 지정한 중요도 이상(크거나 같은 값)을 기준으로 합니다.
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: 쉼표로 구분된 하나 이상의 티커 심볼입니다. 최대 50개까지 지정할 수 있습니다.
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 시점을 나타내는 Unix 타임스탬프(UTC)입니다. 이를 사용하면 정렬 순서가 지정된
+            타임스탬프 이상(크거나 같음)이 되도록 강제됩니다.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EarningJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EarningJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 실적 데이터를 반환합니다
+      tags:
+        - earnings
+  /api/v2.1/calendar/economics:
+    get:
+      description: 여러 국가의 경제 지표, 발표, 보고서를 포함한 경제 calendar 데이터를 반환합니다. GDP, 고용 지표,
+        인플레이션 지표 등과 같은 경제 이벤트에 대해 실제 값, 컨센서스 추정치, 이전 값을 제공합니다.
+      operationId: get-economics
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 동일하게 작동합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0에서 100000 사이로 제한됩니다. 날짜 등의
+            다른 파라미터를 사용하여 쿼리 결과를 제한하세요.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+            maximum: 1000
+        - description: calendar 데이터를 조회할 기준 날짜입니다. date_from과 date_to가 동일할 때 이를 대신해서 사용할 수
+            있는 단축 형태입니다. 지정하지 않으면 최신 날짜가 기본값입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 시작 기준이 되는 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회할 시점을 지정하는 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 필터링에 사용할 중요도 수준입니다. 지정한 중요도 이상(크거나 같음)인 항목만 포함합니다.
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 1
+              - 2
+              - 3
+        - description: 레코드가 마지막으로 업데이트된 Unix 타임스탬프(UTC)입니다. 이를 사용하면 정렬 순서가 지정된 타임스탬프
+            이상(Greater Than or Equal)이 되도록 강제됩니다
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+        - description: "3자리 국가 코드 (예: USA, CAN, GBR)"
+          in: query
+          name: country
+          schema:
+            type: string
+            format: A-Z:3
+        - description: 하나 이상의 카테고리(쉼표로 구분)
+          in: query
+          name: event_category
+          schema:
+            type: string
+            format: csv
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EconomicJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EconomicJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 경제 calendar 데이터를 반환합니다
+      tags:
+        - economics
+  /api/v2.1/calendar/fda:
+    get:
+      description: 제약 및 바이오테크 기업에 대한 FDA 승인, 임상시험 및 PDUFA(Prescription Drug User Fee
+        Act) 일자를 반환합니다. 의약품 개발 단계, 임상시험 결과, 승인 여부, 규제상의 주요 이정표에 대한 정보를 포함합니다.
+      operationId: get-fda
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 동일하게 동작합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋 값은 0에서 100000 사이로 제한됩니다. 날짜와
+            같은 다른 파라미터를 사용하여 조회 결과를 제한하십시오.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수입니다. 최대 1000개입니다.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to가 동일한 경우 대신 사용할 수 있는
+            축약형입니다. 지정하지 않으면 최신 날짜가 기본값입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 시작 기준이 되는 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회할 시점을 지정하는 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: calendar를 필터링하고 정렬할 때 사용하는 날짜입니다. 기본값은 `announced`입니다.
+          in: query
+          name: parameters[date_search_field]
+          schema:
+            type: string
+            enum:
+              - announced
+              - target
+            default: announced
+        - description: "일부 날짜 필드(예: FDA calendar 대상 날짜)에는 2021-Q1과 같은 퍼지(fuzzy) 날짜가 포함될 수
+            있습니다. 필터링 시 퍼지 날짜 매칭을 허용하거나, 지정된 날짜 기간 내에서 정확히 일치하는 날짜만 검색하는 엄격한 날짜
+            매칭을 사용할 수 있습니다. 기본값은 `TRUE`입니다."
+          in: query
+          name: parameters[date_search_strict]
+          schema:
+            type: boolean
+            default: true
+        - description: 쉼표로 구분된 하나 이상의 증권 식별자입니다. 최대 50개까지 지정할 수 있습니다. 증권 식별자는 미국 상장 주식에
+            대해서만 티커 심볼 형식이어야 합니다.
+          in: query
+          name: parameters[securities]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 시점을 나타내는 Unix 타임스탬프(UTC)입니다. 이를 사용하면 정렬 기준이 지정한
+            타임스탬프 이상(크거나 같음)이 되도록 강제됩니다.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: FDA 승인, 임상시험, PDUFA 일정
+      tags:
+        - fda
+  /api/v2.1/calendar/guidance:
+    get:
+      description: 회사 경영진이 제공하는 향후 이익 및 매출 전망을 포함한 회사 가이던스 데이터를 반환합니다. 주당순이익(EPS) 가이던스
+        범위(최소/최대), 매출 가이던스 범위, 그리고 이전 가이던스와의 비교를 포함합니다. 가이던스는 경영진의 향후 실적에 대한 기대를
+        파악하는 데 핵심적입니다.
+      operationId: get-guidance
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 동일하게 작동합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋 값입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋은 0에서 100000 사이로 제한됩니다. 날짜와
+            같은 다른 매개변수로 쿼리 결과를 제한하세요.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수입니다. 최대 1000개입니다.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to가 동일한 경우 이 둘을 대신하는 축약형
+            파라미터입니다. 지정하지 않으면 최신 날짜가 기본값으로 사용됩니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 기준 시점 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회할 시점을 지정하는 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 필터링에 사용할 중요도 수준입니다. 지정한 중요도(이상, Greater Than or Equal To)에 해당하는 항목만
+            포함됩니다.
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: 반환되는 guidance가 기본(primary), 보조(secondary) 또는 전체(all) 중 무엇인지 지정합니다.
+            기본값은 Y입니다.
+          in: query
+          name: parameters[is_primary]
+          schema:
+            type: string
+            enum:
+              - Y
+              - N
+              - All
+            default: Y
+        - description: 하나 이상의 티커를 콤마로 구분해 입력합니다. 최대 50개까지 가능합니다
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 Unix 타임스탬프(UTC)입니다. 이 값을 지정하면 정렬 순서는 지정한 타임스탬프
+            이상(크거나 같음)으로만 적용됩니다
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 가이던스 데이터를 반환합니다.
+      tags:
+        - guidance
+  /api/v2.1/calendar/ipos:
+    get:
+      description: 공모가 정보, 주간사, 거래 상태 및 공모 세부 정보를 포함한 기업공개(IPO) 데이터를 반환합니다
+      operationId: get-ipos-v21
+      parameters:
+        - description: 페이지 번호
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: 페이지 크기
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: YYYY-MM-DD 형식의 IPO 일자(신규 권장 매개변수)
+          in: query
+          name: ipo_date
+          schema:
+            type: string
+            format: date
+        - description: IPO 일자(YYYY-MM-DD 형식, 사용 중단됨)
+          in: query
+          name: parameters[ipo_date]
+          schema:
+            type: string
+            format: date
+        - description: YYYY-MM-DD 형식의 시작일
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: 종료일(YYYY-MM-DD 형식)
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: 티커
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+        - description: IPO 유형
+          in: query
+          name: parameters[ipo_type]
+          schema:
+            type: string
+        - description: 유닉스 타임스탬프 형식의 업데이트 시각
+          in: query
+          name: parameters[updated]
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: IPO
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: IPO v2.1
+      tags:
+        - ipos
+  /api/v2.1/calendar/ma:
+    get:
+      description: 인수합병(M&A) 데이터로, 거래 발표, 거래 완료, 인수 기업과 피인수(타깃) 기업에 대한 상세 정보를 반환합니다.
+        기업 인수·통합 활동에 대해 거래 규모, 지급 유형, 거래 상태, 예정/완료 일자 등을 포함합니다.
+      operationId: get-ma
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식에서 쿼리 매개변수는 동일하게 동작합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋 값입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋은 0~100000 사이의 값으로 제한됩니다.
+            날짜와 같은 다른 파라미터를 사용해 쿼리 결과를 제한하십시오.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 기준 날짜입니다. date_from과 date_to 값이 동일할 때 대신 사용할 수 있는
+            축약 파라미터입니다. 값을 지정하지 않으면 최신 날짜가 기본값으로 사용됩니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 시작 시점 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 종료 시점을 지정하는 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 필터링 기준이 되는 중요도 수준입니다. 지정된 중요도 이상(크거나 같음)만 포함됩니다.
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: 티커 심볼을 쉼표로 구분해 하나 이상 입력합니다. 최대 50개의 티커까지 가능합니다.
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 시각을 나타내는 Unix 타임스탬프(UTC)입니다. 정렬 순서를 지정한 타임스탬프
+            이상(>=)이 되도록 강제합니다.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+        - description: 정렬 기준이 되는 M&A 일자 필드(예정 및 완료 건은 최신순에서 과거순, 발표 건은 과거순에서 최신순)
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - expected
+              - completed
+              - announced
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.AcquisitionJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.AcquisitionJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 인수·합병 데이터를 반환합니다
+      tags:
+        - ma
+  /api/v2.1/calendar/offerings:
+    get:
+      description: IPO 이후 추가 주식을 발행하는 상장 기업의 유상증자(secondary offering) 데이터를 반환합니다. 여기에는
+        공모가, 조달 금액, 발행 주식 수, 선반 공모(shelf offering), 그리고 유가증권이 최초 공모일에 일괄 매도되는지,
+        아니면 일정 기간에 걸쳐 분할 매도되는지 여부가 포함됩니다.
+      operationId: get-offerings
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 동일하게 작동합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋은 0에서 100000 사이로 제한됩니다. 날짜 등의
+            다른 파라미터로 쿼리 결과를 제한하세요.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수(최대 1000개)
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to가 동일할 때 사용하는 축약형입니다.
+            지정하지 않으면 최신 날짜가 기본값으로 사용됩니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 기준이 되는 시점의 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회할 기준 시점을 나타내는 날짜(종료일)
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 필터링에 사용할 중요도 수준입니다. 지정한 중요도 이상(크거나 같음)으로 필터링합니다
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: 쉼표로 구분된 하나 이상의 티커 심볼, 최대 50개
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 Unix 타임스탬프(UTC)입니다. 지정한 타임스탬프 이상(크거나 같음)만 반환되도록 정렬
+            순서를 강제합니다.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.OfferingJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.OfferingJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: Secondary Offering 데이터를 반환합니다
+      tags:
+        - offerings
+  /api/v2.1/calendar/ratings:
+    get:
+      description: 월스트리트 애널리스트의 상향(업그레이드), 하향(다운그레이드), 신규 커버리지 개시, 목표가 변경을 포함한 애널리스트
+        평점 데이터를 반환합니다. 제공되는 경우 현재 및 과거 평점, 목표가, 애널리스트 정보, 평점 정확도 지표를 포함합니다.
+      operationId: get-ratings
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 동일하게 동작합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: "반환할 필드를 콤마(,)로 구분한 목록입니다. 사용 가능한 필드는 다음과 같습니다: id, date, time,
+            ticker, exchange, name, currency, action_pt, action_company,
+            rating_current, pt_current, rating_prior, pt_prior, pt_pct_change,
+            url, url_calendar, url_news, analyst, analyst_id, analyst_name,
+            ratings_accuracy, importance, notes, updated. ratings_accuracy를 포함한
+            모든 필드를 반환하려면 *를 사용하세요."
+          in: query
+          name: fields
+          schema:
+            type: string
+            format: csv
+        - description: 페이지 오프셋 값입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0~100000 범위로 제한됩니다. 날짜 등의
+            다른 매개변수로 쿼리 결과를 제한하십시오.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 기준 날짜입니다. date_from과 date_to가 동일한 경우 이를 한 번에 지정하기
+            위한 축약형입니다. 기본값은 최신 날짜입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회를 시작할 기준 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 종료 시점을 지정하는 종료일
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 필터링에 사용할 중요도 수준입니다. 지정된 중요도 이상(크거나 같음)을 기준으로 합니다.
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: 쉼표로 구분된 하나 이상의 티커 심볼입니다. 최대 50개까지 지정할 수 있습니다
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 시각을 나타내는 Unix 타임스탬프(UTC)입니다. 이 값을 사용하면 정렬 순서는 지정한
+            타임스탬프 이상(크거나 같음)으로 강제됩니다
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+        - description: 쉼표로 구분된 하나 이상의 애널리스트 ID(analyst_id)
+          in: query
+          name: parameters[analyst_id]
+          schema:
+            type: string
+            format: csv
+        - description: 쉼표(,)로 구분된 하나 이상의 firm ID(firm_id)
+          in: query
+          name: parameters[firm_id]
+          schema:
+            type: string
+            format: csv
+        - description: 특정 action_company(레이팅에 대한 action) 값으로 필터링합니다. 이 모든 용어는 명확히 정의되어 있다는
+            점에 유의하십시오.
+          in: query
+          name: parameters[action]
+          schema:
+            type: string
+            enum:
+              - Downgrades
+              - Maintains
+              - Reinstates
+              - Reiterates
+              - Upgrades
+              - Assumes
+              - Initiates Coverage On
+              - Terminates Coverage On
+              - Removes
+              - Suspends
+              - Firm Dissolved
+        - description: 가져올 애널리스트 ID의 쉼표로 구분된 목록입니다. 이 값을 생략하면 사용 가능한 모든 애널리스트가 반환됩니다.
+          in: query
+          name: analyst
+          schema:
+            type: string
+            format: csv
+        - description: 쉼표로 구분된 애널리스트 회사 ID 목록입니다. 이 값을 생략하면 사용 가능한 모든 회사를 반환합니다
+          in: query
+          name: firm
+          schema:
+            type: string
+            format: csv
+        - description: 평가를 표준화된 범주로 단순화합니다
+          in: query
+          name: simplify
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 애널리스트 투자 의견 데이터를 반환합니다
+      tags:
+        - ratings
+  /api/v2.1/calendar/ratings/analysts:
+    get:
+      description: 투자의견을 제공하는 모든 애널리스트의 전체 목록을 반환합니다
+      operationId: get-ratings-analysts
+      parameters:
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0 이상 100000 이하로 제한됩니다. 날짜와
+            같은 다른 매개변수로 조회 결과 범위를 제한하세요. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과의 수. 최대 1000개
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 100
+        - description: 필드
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 애널리스트
+          in: query
+          name: analyst
+          schema:
+            type: string
+        - description: 애널리스트 이름
+          in: query
+          name: analyst_name
+          schema:
+            type: string
+        - description: 회사
+          in: query
+          name: firm
+          schema:
+            type: string
+        - description: 회사명
+          in: query
+          name: firm_name
+          schema:
+            type: string
+        - description: 레코드가 마지막으로 업데이트된 Unix 타임스탬프(UTC)입니다. 이를 사용하면 정렬 기준이 지정된 타임스탬프
+            이상(크거나 같음)이 되도록 강제됩니다.
+          in: query
+          name: updated
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 투자의견 담당 애널리스트
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingsAnalystJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingsAnalystJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 투자의견 애널리스트
+      tags:
+        - ratings_analysts
+  /api/v2.1/calendar/ratings/firms:
+    get:
+      description: 애널리스트 투자의견을 제공하는 이용 가능한 기관을 반환합니다
+      operationId: get-ratings-firms
+      parameters:
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋 값은 0에서 100000까지만 허용됩니다. 날짜 등
+            다른 파라미터를 사용해 조회 결과를 제한하십시오. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 100
+        - description: 필드
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 회사
+          in: query
+          name: firm
+          schema:
+            type: string
+        - description: 레코드가 마지막으로 업데이트된 시점을 나타내는 Unix 타임스탬프(UTC)입니다. 이 값은 정렬 순서를 지정된 타임스탬프
+            이상(>=)이 되도록 강제합니다.
+          in: query
+          name: updated
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 평가사
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingsFirmJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.RatingsFirmJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 평가 기관
+      tags:
+        - ratings_firms
+  /api/v2.1/calendar/splits:
+    get:
+      description: 분할 비율, 발표일, 배당기준일(ex-date), 분배일을 포함한 주식 분할 데이터를 반환합니다. 주식 분할은 회사가
+        발행주식 수를 늘리거나 줄여 주가를 조정할 때 발생합니다. 또한 해당 종목이 옵션 거래 대상인지 여부에 대한 정보도 포함합니다.
+      operationId: get-splits
+      parameters:
+        - description: 반환 형식을 지정합니다. 쿼리 매개변수는 두 형식에서 동일하게 동작합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋 값입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋은 0~100000 범위로 제한됩니다. 날짜와
+            같은 다른 매개변수를 사용해 쿼리 결과를 제한하십시오.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 개수입니다. 최대 1000개입니다.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to가 동일한 경우 두 값을 대신하는
+            축약형입니다. 값을 지정하지 않으면 최신 날짜가 기본값입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 특정 시점을 기준으로 조회할 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 종료 시점의 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: calendar를 필터링하고 정렬하는 데 사용하는 날짜입니다. 기본값은 `announced`입니다.
+          in: query
+          name: parameters[date_search_field]
+          schema:
+            type: string
+            enum:
+              - announced
+              - ex
+            default: announced
+        - description: 필터링에 사용할 중요도 수준입니다. 지정한 중요도 이상(크거나 같은)인 항목만 포함합니다.
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: 쉼표로 구분한 하나 이상의 티커. 최대 50개까지 가능합니다
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드의 마지막 업데이트 시각을 나타내는 Unix 타임스탬프(UTC)입니다. 이 값을 사용하면 정렬 순서를 지정된
+            타임스탬프 이상으로 강제합니다
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.SplitJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.SplitJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: splits calendar 데이터를 반환합니다
+      tags:
+        - splits
+  /api/v2.2/calendar/dividends:
+    get:
+      description: 선택한 기간 및/또는 종목에 대한 배당 데이터(확정 및 미확정 배당일 모두를 포함)를 반환합니다. V2.2에는
+        confirmed, period, year와 같은 추가 필드가 포함됩니다. 이 버전은 배당 확정 여부와 지급 주기에 대한 정보를
+        보다 상세하게 제공합니다.
+      operationId: get-dividends-v22
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 같은 방식으로 작동합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋 값은 0~100000까지로 제한됩니다. 날짜와 같은
+            다른 파라미터를 사용해 조회 결과 범위를 제한하십시오.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 기준 날짜입니다. date_from과 date_to가 동일한 경우 대신 사용할 수 있는
+            축약형입니다. 지정하지 않으면 최신 날짜가 기본값입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 포인트 인 타임 조회 기준일
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 종료 시점을 나타내는 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 정렬 기준이 되는 배당일 필드 (최신순 → 과거순)
+          in: query
+          name: parameters[date_sort]
+          schema:
+            type: string
+            enum:
+              - announced
+              - ex
+              - payable
+              - record
+        - description: 배당수익률로 필터링하는 방식을 지정합니다. gt = 초과(Greater Than), gte = 이상(Greater
+            Than or Equal), eq = 같음(Equal), lt = 미만(Less Than), lte = 이하(Less
+            Than or Equal)
+          in: query
+          name: parameters[dividend_yield_operation]
+          schema:
+            type: string
+            enum:
+              - gt
+              - gte
+              - eq
+              - lte
+              - lt
+        - description: 배당 수익률 필터 값입니다. 기본값은 지정한 수치와 같은 값으로 필터링합니다. 1 = 100%
+          in: query
+          name: parameters[dividend_yield]
+          schema:
+            type: number
+        - description: 필터링 기준이 되는 중요도 레벨입니다. 지정된 중요도 이상(크거나 같은 값)을 사용합니다.
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: 하나 이상의 티커 심볼을 쉼표로 구분해 입력합니다. 최대 50개까지 가능합니다
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드의 마지막 업데이트 시각을 나타내는 Unix 타임스탬프(UTC)입니다. 이 값을 사용하면 정렬 기준이 지정된
+            타임스탬프 이상(크거나 같음)인 레코드만 포함되도록 강제합니다.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.DividendJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 배당 이벤트 V2.2
+      tags:
+        - Dividends
+  /api/v2/calendar/events:
+    get:
+      description: 투자자 미팅, 콘퍼런스, 특별 공지 등을 포함한 기업 이벤트를 반환합니다
+      operationId: get-events
+      parameters:
+        - description: 페이지 오프셋 값입니다. 최적화, 성능 및 기술적인 이유로 페이지 오프셋은 0~100000 범위로 제한됩니다. 날짜 등의
+            다른 파라미터를 사용하여 조회 결과를 제한하십시오. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수입니다. 최대 1000개까지 반환됩니다.
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 100
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to가 동일한 경우 두 값을 대신해 사용할 수
+            있는 축약형입니다. 기본값은 최신 날짜입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: date
+        - description: YYYY-MM-DD 형식의 시작일
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: 종료 일자(YYYY-MM-DD 형식)
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: 필터링 기준이 되는 중요도 수준입니다. 지정한 중요도 이상(크거나 같음)으로 필터링합니다
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: 쉼표로 구분된 하나 이상의 티커 심볼. 티커는 최대 50개까지 지정할 수 있습니다.
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 Unix 타임스탬프(UTC)입니다. 정렬 순서가 지정된 타임스탬프 이상(크거나 같음)이
+            되도록 강제합니다.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+        - description: 검색 키 타입
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - event_type
+        - description: 검색 키
+          in: query
+          name: search_keys
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 이벤트
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EventsJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.EventsJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 이벤트
+      tags:
+        - events
+  /api/v2/calendar/ipos:
+    get:
+      description: 가격 정보, 주간사, 딜 상태, 공모 세부 정보 등을 포함한 기업공개(IPO) 데이터를 반환합니다. IPO는 비상장
+        기업이 처음으로 일반 투자자에게 주식을 공개하는 것을 의미합니다. IPO 엔드포인트의 경우, 새로 상장된 티커는 해당 기업의
+        데이터와 자동으로 연결되지 않기 때문에 바로 결과가 반환되지 않을 수 있습니다. 가장 최근의 행(row)을 얻으려면 tickers
+        매개변수를 지정하지 않고 쿼리를 전송하십시오.
+      operationId: get-ipos-v2
+      parameters:
+        - description: 반환 형식을 지정합니다. 두 형식 모두에서 쿼리 매개변수는 동일하게 동작합니다
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0에서 100000 사이로 제한됩니다. 날짜와 같은
+            다른 파라미터를 사용해 쿼리 결과 범위를 제한하십시오.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 1000개.
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: calendar 데이터를 조회할 날짜입니다. date_from과 date_to가 동일한 경우 두 값을 대신해 사용할 수
+            있는 축약형입니다. 지정하지 않으면 최신 날짜가 기본값입니다.
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회할 시점의 날짜
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 조회 종료 시점을 나타내는 날짜
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: 쉼표로 구분된 하나 이상의 티커 심볼입니다. 최대 50개 티커까지 지정할 수 있습니다. 신규 티커의 경우 결과가 바로
+            반환되지 않을 수 있습니다.
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: "하나 이상의 IPO 유형을 쉼표로 구분해 지정합니다. 예: Ordinary Shares,SPAC"
+          in: query
+          name: parameters[ipo_type]
+          schema:
+            type: string
+            format: csv
+        - description: 레코드가 마지막으로 업데이트된 시점을 나타내는 Unix 타임스탬프(UTC)입니다. 이 값을 지정하면 정렬 기준이 지정한
+            타임스탬프 이상(크거나 같음)으로 강제됩니다.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: IPO 관련 데이터를 반환합니다
+      tags:
+        - ipos
+  /sec/insider_transactions/owners:
+    get:
+      description: 회사 임원, 이사, 실질 소유주 등 내부자 거래 관련 소유자에 대한 정보를 반환합니다
+      operationId: get-insider-transaction-owner
+      parameters:
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0~100000 범위로 제한됩니다. 날짜 등의 다른
+            파라미터로 쿼리 결과를 제한하세요. 기본값은 0입니다.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과의 수. 최대 1000개
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+            default: 100
+        - description: YYYY-MM-DD 형식의 시작일
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: YYYY-MM-DD 형식의 종료 날짜
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: 레코드가 마지막으로 업데이트된 시점을 나타내는 Unix 타임스탬프(UTC)입니다. 이 값을 사용하면 정렬 순서는 지정한
+            타임스탬프 이상(크거나 같음)으로 강제됩니다.
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+        - description: YYYY-MM-DD 형식의 날짜
+          in: query
+          name: date
+          schema:
+            type: string
+            format: date
+        - description: 챔버
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - House
+              - Senate
+        - description: 필드
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 검색 키 타입
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - symbol
+              - cik
+              - name_fuzzy
+              - name_starts_with
+        - description: 검색 키
+          in: query
+          name: search_keys
+          schema:
+            type: string
+        - description: 표시
+          in: query
+          name: display
+          schema:
+            type: string
+            enum:
+              - flat
+              - nested
+      responses:
+        "200":
+          description: 내부자 거래 당사자
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingJSON"
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: 내부자 거래 당사자
+      tags:
+        - Insider Transaction
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    api.ErrorResponse:
+      properties:
+        text:
+          type: string
+      type: object
+    calendarapi.AcquisitionJSON:
+      properties:
+        ma:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.AggregateRating:
+      properties:
+        buy:
+          type: integer
+        hold:
+          type: integer
+        sell:
+          type: integer
+        strong_buy:
+          type: integer
+        strong_sell:
+          type: integer
+      type: object
+    calendarapi.AnalystInsightsJSON:
+      properties:
+        analyst-insights:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.BlockTradeJSON:
+      properties:
+        block_trade:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.BullsSayBearsSayJSON:
+      properties:
+        bulls_say_bears_say:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.ConferenceJSON:
+      properties:
+        conference:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.ConsensusRating:
+      properties:
+        aggregate_ratings:
+          $ref: "#/components/schemas/calendarapi.AggregateRating"
+        aggregate_type:
+          type: string
+        consensus_price_target:
+          type: number
+        consensus_rating:
+          type: string
+        consensus_rating_val:
+          type: number
+        high_price_target:
+          type: number
+        low_price_target:
+          type: number
+        total_analyst_count:
+          type: integer
+        unique_analyst_count:
+          type: integer
+        updated_at:
+          type: string
+      type: object
+    calendarapi.DividendJSON:
+      properties:
+        dividends:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.EarningJSON:
+      properties:
+        earnings:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.EconomicJSON:
+      properties:
+        economics:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.ErxGapJSON:
+      properties:
+        erx_gap:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.EventsJSON:
+      properties:
+        events:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.FDAJSON:
+      properties:
+        fda:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.GovernmentTradeJSON:
+      properties:
+        data:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.GuidanceJSON:
+      properties:
+        guidance:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.HaltResumeJSON:
+      properties:
+        halt_resume:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.IPOJSON:
+      properties:
+        ipos:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.InsiderTransaction:
+      properties:
+        accession_number:
+          type: string
+        company_cik:
+          type: string
+        company_name:
+          type: string
+        company_symbol:
+          type: string
+        filing_date:
+          type: string
+        footnotes:
+          items:
+            $ref: "#/components/schemas/calendarapi.SECFootnotes"
+          type: array
+        form_type:
+          type: string
+        html_url:
+          type: string
+        id:
+          type: string
+        is_10b5:
+          type: boolean
+        owner:
+          $ref: "#/components/schemas/calendarapi.Owner"
+        remaining_shares:
+          type: string
+        remaining_underlying_shares:
+          type: string
+        traded_percentage:
+          type: string
+        transactions:
+          items:
+            $ref: "#/components/schemas/calendarapi.Transaction"
+          type: array
+        updated:
+          type: integer
+      type: object
+    calendarapi.InsiderTransactionFilingDoc:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/calendarapi.InsiderTransaction"
+          type: array
+      type: object
+    calendarapi.InsiderTransactionFilingJSON:
+      properties:
+        data:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.OfferingJSON:
+      properties:
+        offerings:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.OptionActivityJSON:
+      properties:
+        option_activity:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.Owner:
+      properties:
+        insider_cik:
+          type: string
+        insider_name:
+          type: string
+        insider_title:
+          type: string
+        is_director:
+          type: boolean
+        is_officer:
+          type: boolean
+        is_ten_percent_owner:
+          type: boolean
+        raw_signature:
+          type: string
+      type: object
+    calendarapi.RatingJSON:
+      properties:
+        ratings:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.RatingsAnalystJSON:
+      properties:
+        analyst_ratings_analyst:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.RatingsFirmJSON:
+      properties:
+        analyst_ratings_firm:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.Removed:
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        updated:
+          type: integer
+      type: object
+    calendarapi.RemovedJSON:
+      properties:
+        removed:
+          items:
+            $ref: "#/components/schemas/calendarapi.Removed"
+          type: array
+      type: object
+    calendarapi.SECFootnotes:
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+      type: object
+    calendarapi.SplitJSON:
+      properties:
+        splits:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      type: object
+    calendarapi.Transaction:
+      properties:
+        acquired_or_disposed:
+          type: string
+        conversion_exercise_price_derivative:
+          type: string
+        date_deemed_execution:
+          type: string
+        date_exercisable:
+          type: string
+        date_expiration:
+          type: string
+        date_transaction:
+          type: string
+        is_derivative:
+          type: boolean
+        ownership:
+          type: string
+        post_transaction_quantity:
+          type: string
+        price_per_share:
+          type: string
+        remaining_underlying_shares:
+          type: string
+        security_title:
+          type: string
+        shares:
+          type: string
+        transaction_code:
+          type: string
+        transaction_id:
+          type: string
+        underlying_security_title:
+          type: string
+        underlying_shares:
+          type: string
+        voluntarily_reported:
+          type: boolean
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD

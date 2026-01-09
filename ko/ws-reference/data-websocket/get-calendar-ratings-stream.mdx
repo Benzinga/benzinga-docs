@@ -1,0 +1,129 @@
+---
+title: "Ratings Stream"
+description: "실시간 애널리스트 투자의견 및 목표가 변경 사항."
+asyncapi: "/asyncapi/calendar-ratings-stream.yml calendarRatings"
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+실시간 애널리스트 투자의견 변경과 목표가 업데이트를 구독합니다. 상향·하향 조정, 신규 커버리지 개시, 목표가 변경을 발생하는 즉시 모니터링합니다.
+
+<div id="key-features">
+  ### 주요 기능
+</div>
+
+- **실시간 투자의견**: 애널리스트 투자의견 변경을 실시간 알림으로 수신
+- **목표가**: 현재 및 과거 목표가와 그 변동 내역을 추적
+- **애널리스트 세부 정보**: 애널리스트 이름, 소속사, 과거 정확도 지표 포함
+- **조치 유형 분류**: 상향 조정, 하향 조정, 유지, 신규 개시, 재확인
+- **종목 기준 필터링**: 특정 티커 또는 국제증권식별번호(ISIN)을 기준으로 구독
+
+<div id="use-cases">
+  ### 사용 사례
+</div>
+
+- 실시간 투자의견 변경 알림 및 알림 시스템 구축
+- 애널리스트 및 소속 기관의 성과와 적중률 추적
+- 목표주가 컨센서스 변동 모니터링
+- 투자의견 상향/하향 조정 대시보드 구축
+- 애널리스트 행동을 기반으로 한 트레이딩 전략 자동화
+
+<div id="quick-start">
+  ## 빠른 시작
+</div>
+
+상단의 인터랙티브 웹소켓 테스트 도구를 사용하여 스트림에 실시간으로 연결해 테스트하세요.
+
+<div id="connection-url">
+  ### 접속 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### 쿼리 파라미터
+</div>
+
+| 파라미터 | 필수 여부 | 설명 |
+|-----------|----------|-------------|
+| `token` | 예 | Benzinga 웹소켓 API 토큰 (bz.production***) |
+| `tickers` | 아니요 | 쉼표로 구분된 티커 목록 (예: `AAPL,TSLA`) |
+| `isins` | 아니요 | 필터링에 사용할 쉼표로 구분된 국제증권식별번호(ISIN) 목록 |
+
+<div id="message-example">
+  ## 메시지 예시
+</div>
+
+```json
+{
+  "id": "e9e75b31-604e-422c-a532-362725b2d59d",
+  "api_version": "websocket/v1",
+  "kind": "data/v2.1/calendar/ratings",
+  "data": {
+    "action": "created",
+    "id": "66fffdc08f3f630001a2ea51",
+    "timestamp": "2024-10-04T19:21:06Z",
+    "content": {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "exchange": "NASDAQ",
+      "date": "2024-10-04",
+      "time": "10:37:52",
+      "action_company": "Upgrades",
+      "rating_current": "Buy",
+      "rating_prior": "Neutral",
+      "pt_current": "200.00",
+      "pt_prior": "180.00",
+      "analyst": "Goldman Sachs",
+      "firm_id": "57f832ab6b87f600016fa383",
+      "importance": 4
+    }
+  }
+}
+```
+
+
+<div id="rating-actions">
+  ### Rating 액션
+</div>
+
+| Action | 설명 |
+|--------|-------------|
+| `Upgrades` | 투자의견 상향 (예: Neutral → Buy) |
+| `Downgrades` | 투자의견 하향 (예: Buy → Hold) |
+| `Maintains` | 투자의견 유지 |
+| `Initiates` | 최초 투자의견 개시 |
+| `Reiterates` | 기존 투자의견 재확인 |
+
+<div id="message-actions">
+  ### 메시지 action 값
+</div>
+
+| Action | 설명 |
+|--------|-------------|
+| `created` / `Created` | 새 레이팅 게시 |
+| `updated` / `Updated` | 레이팅 수정 |
+| `deleted` / `Deleted` | 레이팅 삭제 |
+
+<div id="interactive-commands">
+  ## 대화형 명령어
+</div>
+
+| Command | Description |
+|---------|-------------|
+| `ping` | 연결을 유지합니다 (`pong`으로 응답) |
+| `replay` | 캐시에 저장된 최근 메시지를 최대 100개까지 다시 전송합니다 |
+
+<div id="best-practices">
+  ## 모범 사례
+</div>
+
+- **변경 사항 추적**: 업그레이드/다운그레이드 감지를 위해 `rating_current`와 `rating_prior`를 비교합니다
+- **목표가 변동**: 목표가 변경을 모니터링하기 위해 `pt_current`와 `pt_prior`를 확인합니다
+- **애널리스트 신뢰도**: 기관의 중요도와 과거 정확도를 함께 고려합니다
+- **중요도 필터**: 큰 영향이 있는 평가에 대해서는 중요도 4–5 등급의 평가에 집중합니다

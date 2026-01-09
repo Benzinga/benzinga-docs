@@ -1,0 +1,99 @@
+---
+title: "توزيعات الأرباح"
+openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.2/calendar/dividends
+---
+
+<ResponseExample>
+```json استجابة (200 OK)
+{
+  "dividends": [
+    {
+      "confirmed": false,
+      "currency": "USD",
+      "cusip": "33740U620",
+      "date": "2026-12-31",
+      "dividend": "0.1636",
+      "dividend_prior": "0.1636",
+      "dividend_type": "Cash",
+      "dividend_yield": "",
+      "end_regular_dividend": false,
+      "ex_dividend_date": "2027-01-04",
+      "exchange": "BATS",
+      "frequency": 12,
+      "id": "6958d4d893cde40001ee2606",
+      "importance": 1,
+      "isin": "US33740U6203",
+      "name": "First Trust Exchange-Traded Fund VIII FT Vest U.S. Equity Buffer & Premium Income ETF - March",
+      "notes": "",
+      "payable_date": "2027-01-05",
+      "period": "JAN",
+      "record_date": "2027-01-04",
+      "ticker": "XIMR",
+      "updated": 1767429336,
+      "year": 2027
+    },
+    {
+      "confirmed": false,
+      "currency": "USD",
+      "cusip": "33740F235",
+      "date": "2026-12-31",
+      "dividend": "0.1788",
+      "dividend_prior": "0.1788",
+      "dividend_type": "Cash",
+      "dividend_yield": "",
+      "end_regular_dividend": false,
+      "ex_dividend_date": "2027-01-04",
+      "exchange": "BATS",
+      "frequency": 12,
+      "id": "6958d4d393cde40001ee25f5",
+      "importance": 1,
+      "isin": "US33740F2359",
+      "name": "First Trust Exchange-Traded Fund VIII FT Vest U.S. Equity Buffer & Premium Income ETF - June",
+      "notes": "",
+      "payable_date": "2027-01-05",
+      "period": "JAN",
+      "record_date": "2027-01-04",
+      "ticker": "XIJN",
+      "updated": 1767429331,
+      "year": 2027
+    }
+  ]
+}
+```
+```json استجابة (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+```json استجابة (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No data found for the specified parameters"
+    }
+  ]
+}
+```
+```json استجابة (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>

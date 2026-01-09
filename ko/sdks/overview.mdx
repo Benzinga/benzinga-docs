@@ -1,0 +1,42 @@
+---
+title: "SDK"
+sidebarTitle: "소개"
+---
+
+로컬 개발 환경부터 프로덕션까지, Benzinga SDK는 애플리케이션이 필요할 때마다 Benzinga에서 시크릿을 가져오는 가장 간편한 방법을 제공합니다.
+
+* 애플리케이션에 언어별 클라이언트 SDK를 설치하고 초기화합니다
+* Benzinga에서 프로젝트와 환경에 대한 클라이언트 범위 액세스를 부여합니다
+* 필요할 때마다 시크릿을 가져옵니다
+
+<CardGroup cols={3}>
+  <Card href="/ko/sdks/languages/java" title="Java" icon="java" color="#e41f23">
+    Java 애플리케이션의 시크릿을 필요할 때마다 관리합니다
+  </Card>
+
+  <Card href="/ko/sdks/languages/node" title="Node" icon="node" color="#68a063">
+    Node 애플리케이션의 시크릿을 필요할 때마다 관리합니다
+  </Card>
+
+  <Card href="/ko/sdks/languages/python" title="Python" icon="python" color="#4c8abe">
+    Python 애플리케이션의 시크릿을 필요할 때마다 관리합니다
+  </Card>
+</CardGroup>
+
+<div id="faq">
+  ## FAQ
+</div>
+
+<AccordionGroup>
+  <Accordion title="모든 API 호출마다 데이터를 요청하는 것이 효율적인가요?">
+    Benzinga API SDK는 성능에 최적화되어 있습니다. 자주 조회되는 데이터를 캐시하고, 중복 요청을 줄이기 위한 전략을 구현해 애플리케이션이 효율적으로 동작하도록 합니다. 캐싱에 대한 세부 내용은 사용 중인 특정 SDK 구현 및 언어에 따라 달라질 수 있습니다.
+  </Accordion>
+
+  <Accordion title="Benzinga API에 대한 요청이 실패하면 어떻게 되나요?">
+    SDK에는 오류 처리 및 재시도 메커니즘이 포함되어 있습니다. 요청이 실패하면 SDK는 설정에 따라 재시도를 시도하거나 적절한 오류 메시지를 제공하여 애플리케이션이 실패 상황을 원활하게 처리할 수 있도록 합니다.
+  </Accordion>
+
+  <Accordion title="애플리케이션 요구사항에 맞게 SDK 구성을 커스터마이즈할 수 있나요?">
+    가능합니다. Benzinga API SDK는 API 키 설정, 타임아웃 설정, 그리고 사용 사례에 특화된 기타 옵션과 같은 매개변수를 통해 맞춤 설정할 수 있습니다. 구성 가능한 매개변수에 대해 더 알아보려면 사용하는 언어의 SDK 문서를 참조하세요.
+  </Accordion>
+</AccordionGroup>

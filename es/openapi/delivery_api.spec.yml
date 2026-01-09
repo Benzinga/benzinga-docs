@@ -1,0 +1,417 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Esta API REST ofrece endpoints para obtener conferencias
+    telefónicas y resúmenes.
+  termsOfService: http://swagger.io/terms/
+  title: Conference call transcripts
+  version: 2.1.0
+paths:
+  /api/v1/transcripts/calls:
+    get:
+      description: Recuperar una lista de llamadas con filtrado y paginación opcionales
+      operationId: get-conference-calls
+      parameters:
+        - description: El número de página para la paginación (comienza en 1)
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - description: El número de elementos a devolver por página
+          in: query
+          name: page_size
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: De acuerdo
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "400":
+          description: Solicitud no válida
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: Recuperar todas las llamadas
+      tags:
+        - calls
+  /api/v1/transcripts/calls/{call_id}:
+    get:
+      description: Recupera información detallada sobre una llamada específica
+        mediante su ID
+      operationId: get-conference-call-by-id
+      parameters:
+        - description: El identificador único de la transcripción de la llamada
+          in: path
+          name: call_id
+          required: true
+          schema:
+            type: string
+        - description: Si es true, incluye URL prefirmadas para grabaciones de audio
+          in: query
+          name: audio
+          schema:
+            type: boolean
+        - description: Si es true, devuelve un formato de salida más limpio y simplificado
+          in: query
+          name: clean
+          schema:
+            type: boolean
+        - description: El formato de la respuesta (p. ej., «JSON» o «HTML»)
+          in: query
+          name: format
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/domain.Calls"
+        "400":
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "404":
+          description: No se encontró
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener llamada por ID
+      tags:
+        - calls
+  /api/v1/transcripts/summaries:
+    get:
+      description: Obtener una lista de resúmenes con paginación
+      operationId: get-summaries
+      parameters:
+        - description: Número de página usado para la paginación (comienza en 1)
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - description: Número de elementos a devolver por página
+          in: query
+          name: page_size
+          schema:
+            type: integer
+            default: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "400":
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener resúmenes
+      tags:
+        - summaries
+  /api/v1/transcripts/summaries/{call_id}:
+    get:
+      description: Obtener los detalles de resumen de un ID de llamada específico
+      operationId: get-summary-by-call-id
+      parameters:
+        - description: El identificador único de la llamada asociada al resumen
+          in: path
+          name: call_id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/domain.Summaries"
+        "404":
+          description: No encontrado
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: Obtener el resumen por ID de llamada
+      tags:
+        - summaries
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    domain.Calls:
+      properties:
+        call_id:
+          example: 80753086-444f-4dcf-961d-15509ba09dc7
+          type: string
+        call_title:
+          example: Q3 2023 Earnings Call
+          type: string
+        created_at:
+          type: string
+        deleted_at:
+          type: string
+        description:
+          example: Quarterly earnings report
+          type: string
+        duration:
+          example: 60
+          type: integer
+        end_time:
+          example: 2023-10-25T15:00:00Z
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        figis:
+          example:
+            - '["BBG000B9XRY4"]'
+          items:
+            type: string
+          type: array
+        headline:
+          example: Company X Reports Strong Q3 Results
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        participants:
+          items:
+            $ref: "#/components/schemas/domain.Participants"
+          type: array
+        period:
+          example: Q3
+          type: string
+        recording:
+          $ref: "#/components/schemas/domain.Recordings"
+        securities:
+          $ref: "#/components/schemas/pgtype.JSONB"
+        start_time:
+          example: 2023-10-25T14:00:00Z
+          type: string
+        status:
+          example: completed
+          type: string
+        summary:
+          $ref: "#/components/schemas/domain.Summaries"
+        symbol:
+          example: AAPL
+          type: string
+        transcripts:
+          items:
+            $ref: "#/components/schemas/domain.Transcripts"
+          type: array
+        updated_at:
+          type: string
+        webcast_url:
+          example: https://example.com/webcast
+          type: string
+        year:
+          example: "2023"
+          type: string
+      type: object
+    domain.Participants:
+      properties:
+        call_id:
+          type: string
+        deleted_at:
+          type: string
+        human_verified:
+          type: boolean
+        mentions:
+          type: integer
+        name:
+          type: string
+        organization:
+          type: string
+        participant_id:
+          type: string
+        role:
+          type: string
+      type: object
+    domain.Recordings:
+      properties:
+        bucket:
+          type: string
+        created_at:
+          type: string
+        duration:
+          type: integer
+        formats:
+          $ref: "#/components/schemas/pgtype.JSONB"
+        language:
+          type: string
+        location:
+          type: string
+        recording_id:
+          type: string
+        total_files:
+          type: integer
+        total_size:
+          type: integer
+        updated_at:
+          type: string
+      type: object
+    domain.Summaries:
+      properties:
+        call_id:
+          example: 770e8400-e29b-41d4-a716-446655440000
+          type: string
+        created_at:
+          type: string
+        deleted_at:
+          type: string
+        language:
+          example: en
+          type: string
+        sentiment:
+          example: 0.85
+          type: number
+        summary:
+          example: The company reported positive growth...
+          type: string
+        summary_id:
+          example: 550e8400-e29b-41d4-a716-446655440000
+          type: string
+        symbol:
+          example: MSFT
+          type: string
+        transcript_id:
+          example: 660e8400-e29b-41d4-a716-446655440000
+          type: string
+        updated_at:
+          type: string
+      type: object
+    domain.TranscriptSegments:
+      properties:
+        confidence:
+          type: number
+        end_time:
+          type: string
+        segment_id:
+          type: integer
+        sentiment:
+          type: number
+        speaker:
+          type: string
+        start_time:
+          type: string
+        text:
+          type: string
+      type: object
+    domain.Transcripts:
+      properties:
+        confidence_score:
+          type: number
+        language:
+          type: string
+        segments:
+          items:
+            $ref: "#/components/schemas/domain.TranscriptSegments"
+          type: array
+        text:
+          type: string
+        transcript_id:
+          type: string
+        type:
+          $ref: "#/components/schemas/domain.TranscriptsType"
+      type: object
+    domain.TranscriptsType:
+      enum:
+        - LIVE
+        - NON_LIVE
+      type: string
+      x-enum-varnames:
+        - LiveTranscripts
+        - NonLiveTranscripts
+    pgtype.JSONB:
+      properties:
+        bytes:
+          items:
+            type: integer
+          type: array
+        status:
+          $ref: "#/components/schemas/pgtype.Status"
+      type: object
+    pgtype.Status:
+      enum:
+        - 0
+        - 1
+        - 2
+      type: integer
+      x-enum-varnames:
+        - Undefined
+        - "Null"
+        - Present
+servers:
+  - url: https://api.benzinga.com
+    description: PROD

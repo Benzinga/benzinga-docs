@@ -1,0 +1,87 @@
+---
+title: "FDA"
+openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
+---
+
+<ResponseExample>
+```json استجابة (200 OK)
+{
+  "fda": [
+    {
+      "commentary": "",
+      "companies": [
+        {
+          "cik": "",
+          "id": "62b3773a118ebc0001427b67",
+          "name": "Alpha Tau Medical Ltd.",
+          "securities": [
+            {
+              "exchange": "NASDAQ",
+              "symbol": "DRTS"
+            }
+          ]
+        }
+      ],
+      "created": 1767621777,
+      "date": "2026-01-05",
+      "drug": {
+        "generic": false,
+        "id": "62b3771c9c3cd100011418ce",
+        "indication_symptom": [
+          "سرطان البروستاتا"
+        ],
+        "name": "Alpha DaRT"
+      },
+      "event_type": "تحديث مقدَّم",
+      "id": "695bc49183cac20001bec514",
+      "nic_number": "",
+      "notes": "",
+      "outcome": "أعلنت شركة Alpha Tau Medical Ltd. عن تقديمها الوحدة الأولى من طلبها للحصول على موافقة ما قبل التسويق (PMA) إلى إدارة الغذاء والدواء الأميركية (FDA)، وذلك عقب قرار إدارة الغذاء والدواء السابق بالسماح للشركة باستخدام النهج المعياري الأكثر مرونة (modular approach).",
+      "outcome_brief": "",
+      "source_link": "https://www.benzinga.com/pressreleases/26/01/g49690927/alpha-tau-submits-first-pre-market-approval-module-to-the-fda-for-alpha-dart-for-the-treatment-of-",
+      "source_type": "بيان صحفي",
+      "status": "",
+      "target_date": "",
+      "time": "09:00:00",
+      "updated": 1767621823
+    }
+  ]
+}
+```
+```json استجابة (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "رمز المصادقة غير صالح أو مفقود"
+    }
+  ]
+}
+```
+```json استجابة (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "لم يتم العثور على بيانات للمعلمات المحددة"
+    }
+  ]
+}
+```
+```json استجابة (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
+    }
+  ]
+}
+```
+</ResponseExample>

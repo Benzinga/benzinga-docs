@@ -1,0 +1,80 @@
+---
+title: "파생 지표 및 비율"
+description: derivedFiguresAndRatios()
+---
+
+[&lt; 뒤로](/ko/sdks/languages/java#derivedfiguresandratios)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - 파생 지표 및 비율 V3 가져오기
+
+<div id="get">
+  ## 가져오기
+</div>
+
+심볼 목록에 대한 파생 지표 및 비율을 가져옵니다
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetDerivedFiguresAndRatiosV3Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetDerivedFiguresAndRatiosV3Response res = sdk.derivedFiguresAndRatios().get()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .date("2024-08-12")
+                .call();
+
+        if (res.string().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parameters
+</div>
+
+| Parameter                       | Type                            | Required                        | Description                     |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | 심볼을 쉼표로 구분한 목록       |
+| `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 시작일                          |
+| `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 종료일                          |
+| `date`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 보고서 유형                     |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetDerivedFiguresAndRatiosV3Response](../../models/operations/GetDerivedFiguresAndRatiosV3Response.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

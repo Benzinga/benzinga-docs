@@ -1,0 +1,211 @@
+---
+title: "컨퍼런스 콜 발언록 실시간 스트림"
+description: "이 웹소켓 엔드포인트를 사용하면 컨퍼런스 콜 발언록의 실시간 스트림을 구독할 수 있습니다."
+---
+
+<div id="websocket-websocketv1">
+  ## 웹소켓 `websocket/v1`:
+</div>
+
+```txt
+wss://api.benzinga.com/api/v1/earnings-call-transcripts/stream
+```
+
+
+<div id="parameters">
+  ### 매개변수:
+</div>
+
+| Name       | Location |  Type   | Required | Description                                                             |
+| :--------- | :-----:  | :-----: | -------: | ----------------------------------------------------------------------: |
+| `token`    | query    | string  |      Yes | Benzinga 웹소켓 토큰 (bz.production***).                                 |
+| `tickers`  | query    | string  | Optional | 구독할 티커 목록. 쉼표로 구분합니다.                                     |
+
+<div id="stream-response">
+  ### 스트림 응답:
+</div>
+
+스트림을 구독하면 다음 형식으로 컨퍼런스 콜 녹취록 업데이트를 받게 됩니다:
+
+```json
+{
+   "api_version":"EarningsCallTranscripts/v1",
+   "kind":"stream_type",
+   "data":{
+      "type":"transcription_end",
+      "content":{
+         "call_id":"6757fbd6f0cc56000183c6a5",
+         "transcript_chunk":"We are extremely pleased with our fourth quarter and full fiscal year 2024 results.",
+         "security":{
+            "company_name":"Limoneira",
+            "ticker":"LMNR",
+            "cik":"1342423",
+            "isin":"US5327461043",
+            "exchange":"NAS"
+         },
+         "time":1735189664,
+         "index":0
+      }
+   }
+}
+```
+
+
+<div id="responses">
+  #### 응답
+</div>
+
+- **200 OK**
+- **설명**: 성공
+- **콘텐츠 유형**: `application/json`
+- **스키마**: [EarningsCallTranscriptsWSResp](#earningscalltranscriptswsresp)
+
+<div id="earningscalltranscriptswsresp">
+  ### EarningsCallTranscriptsWSResp
+</div>
+
+| Property      | Type   | Description                                                     |
+|---------------|--------|-----------------------------------------------------------------|
+| api_version   | string | 웹소켓 API 버전: `EarningsCallTranscripts/v1`.            |
+| kind          | string | 웹소켓 연결 스트림 유형.                              |
+| data          | object | 웹소켓 데이터에 대한 세부 정보를 포함합니다.                    |
+| - type      | string | 메시지 유형 (예: transcript_chunk, transcription_end).      |
+| - content     | object | `EarningsCallTranscripts` 스키마 참조.                         |
+
+<div id="earningscalltranscripts">
+  ### EarningsCallTranscripts
+</div>
+
+| Property           | Type    | Description                                                     |
+|--------------------|---------|-----------------------------------------------------------------|
+| call_id             | string  | 고유한 콜 ID.    |
+| transcript_chunk   | string  | 컨퍼런스 콜 통화록(transcript) 일부 청크.                            |
+| security           | object  | 인사이트가 제공되는 종목(security)의 상세 정보.  |
+| - cik              | string  | 종목의 Central Index Key.                            |
+| - exchange         | string  | 종목이 상장된 exchange.                        |
+| - isin             | string  | 국제증권식별번호(ISIN).               |
+| - name             | string  | 종목명.                                        |
+| - symbol           | string  | 종목의 티커(symbol).                               |
+| time            | integer | 통화록 청크가 생성된 시점의 타임스탬프(float64 형식). |
+| index            | integer | 통화록 청크 인덱스(int 형식). |
+
+<div id="success-response">
+  ## 성공 응답
+</div>
+
+- 성공 코드 `101` - 웹소켓 연결이 정상적으로 설정되었습니다.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '700px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ✅ wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p*** 에 성공적으로 연결되었습니다
+        </div>
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        핸드셰이크 세부 정보
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span><strong>요청 URL:</strong> </span>
+        <p style={{ color: 'blue' }}>
+            "https://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz"
+        </p>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>요청 메서드:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>상태 코드:</strong> </span><span style={{ color: 'blue' }}>"101 Switching Protocols"</span>
+    </div>
+</div>
+
+<div id="error-response">
+  ## 오류 응답
+</div>
+
+- Unauthorized `401` - 잘못된 토큰입니다. 제공한 토큰을 확인하세요.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p*** 에 연결할 수 없습니다.
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        오류: 예기치 않은 서버 응답: 401
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        핸드셰이크 상세 정보
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>요청 메서드:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>상태 코드:</strong> </span><span style={{ color: 'blue' }}>"401 Unauthorized"</span>
+    </div>
+</div>
+
+- Bad Gateway `502` - 잘못된 라우트이거나 서버 오류입니다.
+
+<div style={{
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    padding: '16px',
+    fontSize: '14px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#f9f9f9',
+    maxWidth: '500px',
+}}>
+    <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }}>
+        <div style={{ color: '#000000'}}>
+            ❗ wss://api.benzinga.com/api.benzinga.com/api/v1/earnings-call-transcripts/stream?token=bz.p*** 에 연결할 수 없습니다.
+        </div>
+    </div>
+
+    <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
+        오류: 예기치 않은 서버 응답: 502
+    </div>
+
+    <div style={{ color: 'grey', fontWeight: 'bold', marginBottom: '-4px' }}>
+        핸드셰이크 상세 정보
+    </div>
+
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>요청 메서드:</strong> </span><span style={{ color: 'blue' }}>"GET"</span>
+    </div>
+    <div style={{ marginBottom: '4px' }}>
+        <span> <strong>상태 코드:</strong> </span><span style={{ color: 'blue' }}>"502 Bad Gateway"</span>
+    </div>
+</div>

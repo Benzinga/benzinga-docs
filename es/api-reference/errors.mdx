@@ -9,8 +9,9 @@ La API de Benzinga usa códigos de respuesta HTTP convencionales para indicar el
 - **4xx**: Error del cliente (por ejemplo, parámetro ausente, clave de API no válida).
 - **5xx**: Error del servidor (algo salió mal del lado de Benzinga).
 
-> [!TIP]
-> **Mejor práctica**: Verifica siempre primero el **código de estado HTTP** para determinar si una solicitud fue exitosa. No confíes únicamente en el cuerpo de la respuesta, ya que el formato puede variar entre diferentes endpoints de la API.
+<Tip>
+    Verifica siempre primero el **código de estado HTTP** para determinar si una solicitud fue exitosa. No confíes únicamente en el cuerpo de la respuesta, ya que el formato puede variar entre diferentes endpoints de la API.
+</Tip>
 
 <div id="http-status-codes">
   ## Códigos de estado HTTP

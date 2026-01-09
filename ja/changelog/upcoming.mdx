@@ -4,27 +4,122 @@ title: "今後の予定"
 
 今後のリリース内容と、次回以降のアップデートに向けて予定しているアクション項目です。
 
-<div id="december-2024">
-  ## 2024年12月
+<div id="in-progress">
+  ## 進行中
 </div>
 
-- **[Dynamic Event Feedback API](https://calendarapi.com/docs/event-feedback) のリリースを予定**しており、ユーザーがカレンダーインターフェースから直接イベントを評価およびレビューできるようにします。
-- **一括イベント作成のパフォーマンスを強化**し、API のレスポンス時間を 20% 削減することを目標としています。
-- **複数リージョンのフェイルオーバー対応を API ダッシュボードに導入**し、サービスの信頼性を向上させます。
-- **リアルタイム出席状況インサイト機能を開発**しており、参加者の動向をライブで監視できるウェブソケット更新を提供します。
-- **[Advanced Webhook Security](https://calendarapi.com/docs/webhooks/security) の提供を開始**し、シグネチャ検証および IP ホワイトリスト登録をサポートします。
-- **エンタープライズ顧客向けに CalendarAPI Premium Managed Services を順次展開**し、24時間365日のサポートとカスタム SLA を提供します。
-- **CDN 連携を最適化**し、ICS やイベント画像といったアセットのロード時間を改善します。
+現在開発中またはレビュー中の項目です。
+
+<div id="in-development">
+  ### 開発中
+</div>
+
+- **Platform Services**: API レスポンスに含まれない影響の大きいオプション取引の調査
+- **Platform Services**: Halt/Resume エンドポイントにおける 401 認証問題の解消
+- **Platform Services**: すべての webhook タイプへの対応追加（現在は News のみ対応）
+- **Platform Services**: Fastly content データの処理および欠損分の補完
+- **Platform Services**: Guidance Calendar 向けの将来行の自動生成の自動化
+- **Platform Services**: 非アクティブな企業に対するレーティングの扱い方法の調査
+- **Calendar API**: Conference Call calendar への Period および Year フィールドの追加
+- **Calendar API**: すべての calendar サービスにおける API パラメータの簡素化
+- **Transcripts**: Transcript 呼び出しへの Period および Year フィールドの追加
+- **Transcripts**: ticker 検索のサポート改善（例: MOG/A 形式）
+- **Transcripts**: Period と Year を含める Change Titles 機能の追加
+
+<div id="in-review">
+  ### レビュー中
+</div>
+
+- **Platform Services**: 「Press Release」コンテンツタイプ分類を更新中
+
+<div id="pending-deployment">
+  ### デプロイ予定
+</div>
+
+- **Platform Services**: content の有効期限ルールを実装（X日以降は content を送信しないようにする）
+- **Transcripts**: トランスクリプトの編集内容が正しく保存されない問題を修正
+
+<div id="coming-soon">
+  ## 今後の予定
+</div>
+
+今後のスプリントで対応予定の項目です。
+
+<div id="platform-services">
+  ### プラットフォームサービス
+</div>
+
+**新機能**
+
+- より良い分類のための「Conference Call Topics」辞書の追加
+- composite_auto SVG 画像向け Logos V2 対応
+- Halts/Resumes Calendar API 向け API 仕様の追加
+- 二重反転ロジック用の「Hedge Message」の実装
+- すべてのサービスにおけるレート制限およびメッセージングの改善
+- 接続監視用の Corologix アラートの追加
+
+**改善**
+
+- S3 ニュース配信監視の追加
+- レガシー TDA の「Benzinga Attribution」フィールドの削除
+- Analyst Dictionary への「Active」フィールドの追加（Yes/No オプション）
+- すべての SoFi エンドポイントでの ISIN クエリ対応
+- News ウェブソケットペイロードへの画像 URL の追加
+- 株式分割に関連する JPMC Upside 計算の問題の解消
+- Government Trade API のアップデートへの対応
+- conference call calendar への period/year データのバックフィル
+
+**バグ修正**
+
+- CIBC ダイナミックウィジェットの問題を修正
+- 単一日付クエリでゼロを返していた Consensus Ratings エンドポイントの問題を解消
+- /sync エンドポイントにおける重複排除ロジックの修正
+- Morgan Stanley 優先株のロゴ欠如問題の調査
+
+<div id="calendar-api">
+  ### Calendar API
+</div>
+
+**新機能**
+
+- CAGR を用いた今後の配当予測の算出
+- Newsdesk Tools からの Government Trades 更新用 API エンドポイントの作成
+
+<div id="news-api">
+  ### News API
+</div>
+
+**新機能**
+
+- 1 つのクエリで複数のコンテンツタイプをサポート
+- セクターに基づくクエリパラメータを追加
+- GICS に基づくクエリのサポートを追加
+
+**バグ修正**
+
+- news-removed エンドポイントに `updatedSince` クエリパラメータのサポートを追加
+
+<div id="transcripts">
+  ### Transcripts
+</div>
+
+**改善予定**
+
+- 将来日付に予定されているすべてのトランスクリプトを表示
+- カンファレンスコール向けのカスタムメール ID サポートを追加
+- Zoom コールリンクのサポートを追加
+- フロントエンド UI のフィルターオプションを強化
+- UI を calendar のグリッドビューに再設計（手動/ライブモードを置き換え）
+- 各トランスクリプトレコードの変更履歴を追加
+- 手動でのトランスクリプトレコード作成機能を追加
+
+**バグ修正**
+
+- Edge Media ログイン処理の改善
+- Webvoyager エージェントの信頼性向上
 
 ---
 
-<div id="january-2025">
-  ## 2025年1月
-</div>
+*最終更新日: 2026年1月*
 
-- **AI を活用したイベントレコメンデーション機能のサポートを追加**し、ユーザーの好みとカレンダー上のアクティビティに合わせて最適化します。
-- **Calendar 同期デバッガーツールを導入**し、開発者が同期の問題をより効率的に特定・解決できるようにします。
-- **API キー管理ツールを拡充**し、きめ細かなアクセス制御や自動有効期限ポリシーを追加します。
-- **[Event Cloning API](https://calendarapi.com/docs/event-cloning) を提供開始**し、複雑なイベント設定の迅速な複製を可能にします。
-- **CalendarAPI サンドボックス環境を公開**し、開発者がライブデータに影響を与えることなく API をテストできるようにします。
-- **ドキュメントを強化**し、追加のユースケースガイドやインタラクティブな API ウォークスルーを提供します。
+*注: タイムラインおよび機能は、優先度や依存関係に応じて変更される可能性があります。*

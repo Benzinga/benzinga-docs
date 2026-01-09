@@ -1,0 +1,94 @@
+---
+title: "ID로 콜 녹취록 요약 조회하기"
+openapi: /ko/openapi/delivery_api.spec.yml GET /api/v1/transcripts/summaries/{call_id}
+---
+
+<ResponseExample>
+  ```json Response (200 OK)
+  {
+    "data": [
+      {
+        "summary_id": "4b0d7883-10fd-4212-9d59-d781bf5434d8",
+        "transcript_id": "08dd94d7-ad88-430b-8402-a3cb8d82e80b",
+        "call_id": "694bf432dd7f23000124626c",
+        "summary": "Aritzia achieved over $1 billion in net revenue for Q3 fiscal 2026, surpassing guidance with a 43% increase year-over-year, driven by strong e-commerce and retail channel growth.\nThe company reported a 58% increase in e-commerce sales and a 35% increase in retail sales. U.S. net revenue surged by 54%, showcasing significant demand and expansion.\nStrategic initiatives included new boutique openings, a successful mobile app launch, and marketing investments, contributing to increased brand awareness and sales momentum.\nThe launch of the mobile app exceeded expectations, reaching 1.4 million downloads, and significantly boosting e-commerce engagement.\nManagement raised fiscal 2026 net revenue guidance to $3.615 to $3.64 billion, with plans for further expansion in the U.S. and digital initiatives in fiscal 2027.\nThe company maintained a healthy balance sheet with $620 million in cash and no debt, and continued share repurchases under the NCIB.\nAritzia plans to continue optimizing inventory and sourcing strategies, reducing dependency on China, and maintaining strong margin performance despite external pressures.",
+        "symbol": "ATZ",
+        "sentiment": 0.85,
+        "language": "en-US",
+        "created_at": "2026-01-09T13:00:29.963428Z",
+        "updated_at": "2026-01-09T13:00:29.963428Z"
+      },
+      {
+        "summary_id": "f8890d3f-1c61-40ed-9ed5-2eaed75aa6fa",
+        "transcript_id": "52769188-2cea-442b-8140-aaa57b5733bf",
+        "call_id": "694bf432dd7f23000124626c",
+        "summary": "Aritzia는 2026 회계연도 3분기 기록적인 순매출 10억 4,000만 달러를 기록했으며, 이는 강력한 전자상거래 및 소매 성과에 힘입어 43% 증가한 수치입니다.\n회사는 미국에서 탁월한 성장을 보였으며, 미국 순매출이 54% 증가하여 강력한 수요와 브랜드 모멘텀을 입증했습니다.\nAritzia는 모바일 앱을 성공적으로 출시하여 전자상거래 매출을 크게 증대시켰으며 출시 직후 100만 다운로드를 달성했습니다.\n회사는 부동산 확장 전략의 일환으로 주로 미국에 13개의 신규 부티크와 4개의 재배치 부티크를 오픈했으며, 이는 탁월한 결과를 내고 있습니다.\n향후 가이던스는 4분기 매출이 11억 달러에서 11억 2,500만 달러 사이로 예상되며, 2026 회계연도 매출 전망이 36억 1,500만 달러에서 36억 4,000만 달러로 상향 조정되는 등 지속적인 강력한 성과를 시사합니다.\nAritzia는 2027 회계연도에 미국 시장에 중점을 두고 12~14개의 신규 부티크를 오픈할 계획이며, 두 번째 미국 물류센터를 포함한 인프라에도 투자할 예정입니다.\n경영진은 전략적 마케팅 투자와 디지털 성장 이니셔티브의 지원을 받아 2027 회계연도 매출 목표를 예정보다 앞서 달성할 수 있다는 확신을 표명했습니다.",
+        "symbol": "ATZ",
+        "sentiment": 0.85,
+        "language": "en-US",
+        "created_at": "2026-01-09T13:00:25.721386Z",
+        "updated_at": "2026-01-09T13:00:25.721386Z"
+      }
+    ],
+    "message": "Successfully fetched summaries",
+    "pagination": {
+      "hits": 16110,
+      "page": 1,
+      "page_count": 1611,
+      "page_size": 2
+    }
+  }
+  ```
+
+  ```json Response (400 Bad Request)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "bad_request",
+        "id": "invalid_parameter",
+        "value": "유효하지 않은 search_keys_type 매개변수"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (401 Unauthorized)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "auth_failed",
+        "id": "unauthorized",
+        "value": "인증 토큰이 유효하지 않거나 누락되었습니다"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (404 Not Found)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "no_data_found",
+        "id": "not_found",
+        "value": "지정된 검색 키에 해당하는 로고를 찾을 수 없습니다"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (500 Internal Server Error)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "internal_server_error",
+        "id": "server_error",
+        "value": "요청 처리 중 예기치 않은 오류가 발생했습니다"
+      }
+    ]
+  }
+  ```
+</ResponseExample>

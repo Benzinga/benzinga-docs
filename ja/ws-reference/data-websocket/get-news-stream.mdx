@@ -1,0 +1,134 @@
+---
+title: "ニュースストリーム"
+description: "Benzinga のリアルタイムニュース記事および更新情報。"
+asyncapi: "/asyncapi/news-stream.yml news"
+---
+
+<div id="overview">
+  ## 概要
+</div>
+
+リアルタイムのニュース配信を購読し、新しい記事の公開や既存の記事の更新を即座に通知として受け取ることができます。
+
+<div id="key-features">
+  ### 主な機能
+</div>
+
+- **リアルタイム更新**: ニュース記事が公開または更新されると、即座に通知を受け取れます
+- **銘柄によるフィルタリング**: 特定の ticker や ISIN を購読し、関連するニュースだけを受信できます
+- **包括的なデータ**: 記事の content、著者情報、画像、および関連する証券情報を提供します
+- **アクションの追跡**: 記事の作成・更新・削除のタイミングを監視できます
+
+<div id="use-cases">
+  ### ユースケース
+</div>
+
+- 特定の証券向けのリアルタイムニュースフィードを構築する
+- ポートフォリオ銘柄に関する速報ニュースのアラートを作成する
+- 複数のティッカーにまたがるニュースを集約する
+- 取引シグナル向けにニュースのセンチメントと件数を追跡する
+
+<div id="quick-start">
+  ## クイックスタート
+</div>
+
+上部のインタラクティブなウェブソケットテスターを使用して接続し、ストリームをリアルタイムにテストしてください。
+
+<div id="connection-url">
+  ### 接続 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v1/news/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### クエリパラメータ
+</div>
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Benzinga ウェブソケット API 用のトークン (bz.production***) |
+| `tickers` | No | ティッカーシンボルのカンマ区切りリスト (例: `AAPL,MSFT`) |
+| `channels` | No | フィルタリングに使用するニュースチャンネルのカンマ区切りリスト |
+
+<div id="message-example">
+  ## メッセージの例
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "news",
+  "data": {
+    "action": "created",
+    "id": 36444586,
+    "timestamp": "2024-01-01T13:35:14Z",
+    "content": {
+      "id": 36444586,
+      "author": "Benzinga Insights",
+      "created": "Mon, 01 Jan 2024 13:35:14 -0400",
+      "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
+      "title": "10 Information Technology Stocks With Whale Alerts In Today's Session",
+      "teaser": "",
+      "body": "Full article content...",
+      "url": "https://www.benzinga.com/markets/options/24/01/36444586/...",
+      "image": [
+        {
+          "size": "thumb",
+          "url": "https://cdn.benzinga.com/files/imagecache/250x187xUP/..."
+        }
+      ],
+      "channels": [
+        {
+          "name": "Options"
+        }
+      ],
+      "stocks": [
+        {
+          "name": "AAPL",
+          "cusip": "037833100",
+          "isin": "US0378331005",
+          "exchange": "NASDAQ"
+        }
+      ],
+      "tags": [
+        {
+          "name": "BZI-AUOA"
+        }
+      ]
+    }
+  }
+}
+```
+
+
+<div id="message-actions">
+  ### メッセージアクション
+</div>
+
+| アクション | 説明 |
+|--------|-------------|
+| `created` / `Created` | 新しい記事が公開されたとき |
+| `updated` / `Updated` | 既存の記事が更新されたとき |
+| `deleted` / `Deleted` | 記事が削除されたとき |
+
+<div id="interactive-commands">
+  ## インタラクティブコマンド
+</div>
+
+| Command | Description |
+|---------|-------------|
+| `ping` | 接続を維持します（`pong` で応答します） |
+| `replay` | 直近のキャッシュ済みメッセージを最大 100 件まで再送信します |
+
+<div id="best-practices">
+  ## ベストプラクティス
+</div>
+
+- **重複排除**: 重複したメッセージを処理しないように `id` フィールドを使用する
+- **ハートビート**: 接続を維持するために 30〜60 秒ごとに `ping` コマンドを送信する
+- **エラー処理**: 指数バックオフを用いた再接続ロジックを実装する
+- **フィルタリング**: 帯域幅を削減するために ticker/チャネルのフィルターを使用する

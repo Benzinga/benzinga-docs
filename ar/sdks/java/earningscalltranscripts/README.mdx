@@ -1,0 +1,149 @@
+---
+title: "نصوص مكالمات الأرباح"
+description: earningsCallTranscripts()
+---
+
+[&lt; عودة](/ar/sdks/languages/java#earningscalltranscripts)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب نصوص مكالمات الأرباح
+* [getAudio](#getaudio) - جلب الملفات الصوتية لنصوص مكالمات الأرباح
+
+<div id="get">
+  ## جلب
+</div>
+
+جلب نصوص مكالمات إعلان الأرباح
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEarningsCallTranscriptsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEarningsCallTranscriptsResponse res = sdk.earningsCallTranscripts().get()
+                .tickers(List.of(
+                    "<value>"))
+                .callId(List.of(
+                    "<id>"))
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsTranscriptSummaries().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+### المعلمات
+
+| Parameter          | Type               | Required           | Description        |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `tickers`          | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | رموز الأسهم        |
+| `callId`           | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | معرّف المكالمة     |
+| `page`             | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | الصفحة             |
+| `pagesize`         | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | حجم الصفحة         |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetEarningsCallTranscriptsResponse](../../models/operations/GetEarningsCallTranscriptsResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getaudio">
+  ## getAudio
+</div>
+
+الحصول على ملفات الصوت لنصوص مكالمات الأرباح
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEarningsCallTranscriptAudioFilesResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEarningsCallTranscriptAudioFilesResponse res = sdk.earningsCallTranscripts().getAudio()
+                .tickers(List.of(
+                    "<value>"))
+                .callId(List.of(
+                    "<id>"))
+                .page(942138L)
+                .pagesize(879999L)
+                .call();
+
+        if (res.modelsTranscriptSummaryAudios().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل            | النوع              | مطلوب              | الوصف              |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `tickers`          | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | رموز الأسهم        |
+| `callId`           | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | معرّف المكالمة     |
+| `page`             | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | الصفحة             |
+| `pagesize`         | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | حجم الصفحة         |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetEarningsCallTranscriptAudioFilesResponse](../../models/operations/GetEarningsCallTranscriptAudioFilesResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

@@ -1,0 +1,44 @@
+---
+title: '코드 블록'
+description: '인라인 코드와 코드 블록 표시'
+icon: 'code'
+---
+
+<div id="basic">
+  ## 기본
+</div>
+
+<div id="inline-code">
+  ### 인라인 코드
+</div>
+
+`word` 또는 `phrase`와 같은 단어나 구를 코드로 표시하려면 백틱(`)으로 감싸세요.
+
+```
+`단어` 또는 `구문`을 코드로 표시하려면 백틱(`)으로 감싸세요.
+```
+
+
+<div id="code-block">
+  ### 코드 블록
+</div>
+
+코드를 백틱 세 개로 감싸는 [펜스드 코드 블록](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks)을 사용하고, 여는 백틱 바로 뒤에 코드 스니펫의 프로그래밍 언어를 적어 구문 강조를 적용합니다. 필요하다면 프로그래밍 언어 뒤에 코드의 이름을 추가로 적을 수도 있습니다.
+
+```java HelloWorld.java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+````md
+```java HelloWorld.java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+````

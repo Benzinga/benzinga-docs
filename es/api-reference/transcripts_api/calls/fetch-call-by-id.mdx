@@ -1,0 +1,208 @@
+---
+title: "Obtener transcripción por ID"
+openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
+---
+
+<ResponseExample>
+  ```json Response (200 OK)
+  {
+    "call_id": "68c1684993d1da0001953084",
+    "call_title": "TotalEnergies reporta un sólido crecimiento en el T3 y aumenta los dividendos a pesar de los desafíos del mercado",
+    "description": "Conferencia de resultados del T4 2025 de TotalEnergies (TTE)",
+    "webcast_url": "https://edge.media-server.com/mmc/p/zfnjs6iz/",
+    "headline": "TotalEnergies mejora los retornos para los accionistas con un crecimiento del 4% en el flujo de efectivo a medida que la producción aumenta y la estrategia gana impulso en medio de precios del petróleo fluctuantes.",
+    "symbol": "TTE",
+    "exchange": "NYSE",
+    "figis": [
+      "BBG001S6WYD9"
+    ],
+    "name": "TotalEnergies",
+    "start_time": "2025-10-30T10:59:03Z",
+    "end_time": "2025-11-02T19:56:03Z",
+    "duration": 5427,
+    "status": "COMPLETADO",
+    "created_at": "2025-10-30T10:59:03.695748Z",
+    "updated_at": "2025-11-02T19:56:03Z",
+    "transcripts": [
+      {
+        "transcript_id": "df8fa7e2-37ec-4981-8e86-6715f9207ff2",
+        "text": "Buenas tardes. Buenos días a todos. Antes de que Jean Pierre repase los detalles de los resultados del tercer trimestre, me gustaría hacer algunos comentarios iniciales ..{{truncado}}.. Y francamente, la junta directiva y yo, al igual que ustedes, estamos muy satisfechos con los resultados de este trimestre porque demuestra una vez más que todo lo que les explicamos trimestre tras trimestre y año tras año se está cumpliendo y que el flujo de efectivo libre aumentará. Gracias por su asistencia.",
+        "language": "en-US",
+        "confidence_score": 0.948344884949495,
+        "segments": [
+          {
+            "segment_id": 0,
+            "speaker": "OPERADOR",
+            "start_time": "00:00:01",
+            "end_time": "00:08:06",
+            "confidence": 0.95141685,
+            "text": "Buenas tardes. Buenos días a todos. Antes de que Jean Pierre repase los detalles de los resultados del tercer trimestre ..{{truncado}}.. Ahora cederé la llamada a Jean Pierre, quien repasará los detalles de sus resultados financieros del primer trimestre.",
+            "sentiment": 0.45
+          },
+          {
+            "segment_id": 1,
+            "speaker": "Jean Pierre",
+            "start_time": "00:08:07",
+            "end_time": "00:19:16",
+            "confidence": 0.95684206,
+            "text": "Gracias Patrick. Comenzaré comentando sobre el entorno de precios en el tercer trimestre en comparación con el segundo trimestre. El Brent promedió $69 por barril durante el tercer trimestre frente a $68 por barril en el segundo trimestre ..{{truncado}}.. así que por favor abran la línea para preguntas.",
+            "sentiment": 0.2
+          },
+          {
+            "segment_id": 2,
+            "speaker": "OPERADOR",
+            "start_time": "00:19:18",
+            "end_time": "00:19:49",
+            "confidence": 0.9713833,
+            "text": "Gracias damas y caballeros. Ahora comenzaremos la sesión de preguntas y respuestas. Como recordatorio, si desea hacer una pregunta, presione estrella n1 en su teléfono y espere a que se anuncie su nombre. Por favor, silencie cualquier fuente de audio al hacer una pregunta. Si desea cancelar su solicitud, presione la tecla numeral. Una vez más, presione N1 si desea hacer una pregunta. La primera pregunta es de Lydia Rainforth, Barclays. Por favor, adelante.",
+            "sentiment": 0
+          },
+          {
+            "segment_id": 3,
+            "speaker": "Lydia Rainforth",
+            "start_time": "00:19:51",
+            "end_time": "00:20:26",
+            "confidence": 0.9671036,
+            "text": "Gracias y buenas tardes a ambos y gracias por la presentación. Entonces, cuando piensan en 2026, ¿pueden darnos una indicación de cuánto más podría crecer el flujo de efectivo en comparación con la producción para el próximo año? ¿Y pueden recordarnos eso?",
+            "sentiment": 0.1
+          },
+          {....},
+          {
+            "segment_id": 98,
+            "speaker": "Patrick",
+            "start_time": "01:29:45",
+            "end_time": "01:30:25",
+            "confidence": 0.9567434,
+            "text": "Bien. Así que gracias a todos ustedes por su asistencia. Espero que todo el análisis que han realizado se refleje en el precio de las acciones, lo cual no fue el caso esta mañana. Gracias por su asistencia.",
+            "sentiment": 0.5
+          }
+        ],
+        "type": "NO_EN_VIVO"
+      },
+      {
+        "transcript_id": "b4dee433-51e2-40c5-8bac-d9508b30de1a",
+        "text": "",
+        "language": "en-US",
+        "confidence_score": 0,
+        "segments": null,
+        "type": "EN_VIVO"
+      }
+    ],
+    "recording": {
+      "recording_id": "f18c5664-bfb5-4e50-8434-498a1f5f1080",
+      "total_files": 42,
+      "total_size": 7350006,
+      "duration": 239,
+      "location": "assets/68c1684993d1da0001953084",
+      "bucket": "earnings-call-media",
+      "language": "en",
+      "formats": [
+        {
+          "file_link": "assets/mp3/audio.mp3",
+          "size": 5758476,
+          "content_type": "audio/mpeg",
+          "quality": "192kbps"
+        }
+      ],
+      "created_at": "2025-10-30T10:59:17.801739Z",
+      "updated_at": "2025-10-30T10:59:17.801739Z"
+    },
+    "summary": {
+      "summary_id": "d3a9f050-dcfe-4baf-b5d2-5abf3a4cd0fc",
+      "transcript_id": "",
+      "call_id": "68c1684993d1da0001953084",
+      "summary": "TotalEnergies reportó un aumento del 4% en el flujo de efectivo para el tercer trimestre a pesar de una caída de $10 por barril en los precios del petróleo interanual.\nLos nuevos proyectos de hidrocarburos en Brasil y Estados Unidos han contribuido significativamente al flujo de efectivo de la compañía, agregando $400 millones interanuales.\nLa junta directiva ha aumentado el tercer dividendo provisional en cerca del 8% en euros y más del 10% en dólares en comparación con 2024.\nLa compañía ha autorizado un programa de recompra de acciones de hasta $1.5 mil millones para el cuarto trimestre de 2025.\nSe pronostica que la producción upstream crecerá más del 4% interanual, con inversiones netas que se espera disminuyan.\nLa compañía planea comenzar a cotizar acciones ordinarias en la Bolsa de Valores de Nueva York a partir del 8 de diciembre.\nEl segmento downstream experimentó un aumento en el flujo de efectivo de casi $500 millones debido a mejores márgenes de refinación.\nLa compañía tiene como objetivo mantener el apalancamiento en 15-16% para fin de año, respaldado por desinversiones y mejoras en el capital de trabajo.\nLa gerencia destacó la resiliencia en el desempeño financiero, atribuyéndola a iniciativas estratégicas y crecimiento de producción incremental.",
+      "symbol": "",
+      "sentiment": 0.78,
+      "language": "",
+      "created_at": "2025-10-30T01:29:03Z",
+      "updated_at": "2025-10-30T01:29:03Z"
+    },
+    "participants": [
+      {
+        "participant_id": "b819ea94-8ada-4d02-b7b8-dd1f013443de",
+        "call_id": "68c1684993d1da0001953084",
+        "name": "Patrick Pouyanné",
+        "role": "Presidente y CEO",
+        "organization": "TotalEnergies",
+        "mentions": 11,
+        "human_verified": false
+      },
+      {....},
+      {
+        "participant_id": "8f82b104-01fb-47f6-8554-d15fc282be4e",
+        "call_id": "68c1684993d1da0001953084",
+        "name": "Jean-Pierre Sbraire",
+        "role": "Director Financiero",
+        "organization": "TotalEnergies",
+        "mentions": 4,
+        "human_verified": false
+      }
+    ],
+    "securities": [
+      {
+        "figi": "BBG000CHZ857",
+        "isin": "US89151E1091",
+        "name": "TOTALENERGIES SE -SPON ADR",
+        "symbol": "TTE",
+        "mic_code": "XNYS",
+        "figi_composite": "BBG000CHZ857",
+        "figi_share_class": "BBG001S6WYD9",
+        "refinitiv_exch_code": "NYQ"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (400 Bad Request)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "bad_request",
+        "id": "invalid_parameter",
+        "value": "Parámetro search_keys_type no válido"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (401 Unauthorized)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "auth_failed",
+        "id": "unauthorized",
+        "value": "Token de autenticación inválido o ausente"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (404 Not Found)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "no_data_found",
+        "id": "not_found",
+        "value": "No se encontraron logotipos para la clave de búsqueda especificada"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (500 Internal Server Error)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "internal_server_error",
+        "id": "server_error",
+        "value": "Ocurrió un error inesperado al procesar su solicitud"
+      }
+    ]
+  }
+  ```
+</ResponseExample>

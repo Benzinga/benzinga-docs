@@ -1,0 +1,78 @@
+---
+title: "التصنيفات"
+description: ratings()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#ratings)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب التقييمات
+
+<div id="get">
+  ## جلب
+</div>
+
+يُرجِع بيانات تقييمات المحللين
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetRatingsRequest;
+import org.benzinga.BZClient.models.operations.GetRatingsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetRatingsRequest req = GetRatingsRequest.builder()
+                .build();
+
+        GetRatingsResponse res = sdk.ratings().get()
+                .request(req)
+                .call();
+
+        if (res.modelsRatingJSON().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعلمات
+</div>
+
+| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `request`                                                         | [GetRatingsRequest](../../models/operations/GetRatingsRequest.md) | :heavy&#95;check&#95;mark:                                                | كائن الطلب المستخدم في هذه العملية.                               |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetRatingsResponse](../../models/operations/GetRatingsResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | كود الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

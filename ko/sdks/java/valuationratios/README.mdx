@@ -1,0 +1,80 @@
+---
+title: "밸류에이션 지표"
+description: valuationRatios()
+---
+
+[&lt; 뒤로](/ko/sdks/languages/java#valuationratios)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - 밸류에이션 비율 v2.1 가져오기
+
+<div id="get">
+  ## 가져오기
+</div>
+
+심볼, 국제증권식별번호(ISIN) 또는 CIK 목록에 대한 밸류에이션 비율을 조회합니다.
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetValuationRatiosV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetValuationRatiosV21Response res = sdk.valuationRatios().get()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+| 매개변수                         | 타입                             | 필수 여부                        | 설명                             |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `symbols`                       | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 쉼표로 구분된 심볼 목록          |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 기준 일자                        |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 기간                             |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | 보고서 유형                      |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetValuationRatiosV21Response](../../models/operations/GetValuationRatiosV21Response.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

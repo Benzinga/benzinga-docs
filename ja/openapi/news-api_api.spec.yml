@@ -169,6 +169,10 @@ paths:
           name: importance
           schema:
             type: string
+            enum:
+              - low
+              - medium
+              - high
         - description: 地域でフィルタリングします（例：カナダ向けコンテンツの場合は 'ca' または 'canada'）。
           in: query
           name: region

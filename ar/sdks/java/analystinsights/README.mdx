@@ -1,0 +1,80 @@
+---
+title: "آراء المحللين"
+description: analystInsights()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#analystinsights)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب رؤى المحللين إصدار V1
+
+<div id="get">
+  ## get
+</div>
+
+جلب رؤى المحللين V1
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Request;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystInsightsV1Request req = GetAnalystInsightsV1Request.builder()
+                .build();
+
+        GetAnalystInsightsV1Response res = sdk.analystInsights().get()
+                .request(req)
+                .call();
+
+        if (res.modelsAnalystInsightsJSON().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل                                                                              | النوع                                                                                 | إلزامي                                                                               | الوصف                                                                                |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `request`                                                                             | [GetAnalystInsightsV1Request](../../models/operations/GetAnalystInsightsV1Request.md) | :heavy&#95;check&#95;mark:                                                                    | كائن الطلب الذي سيُستخدم في الطلب.                                                   |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetAnalystInsightsV1Response](../../models/operations/GetAnalystInsightsV1Response.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                      | رمز الحالة                     | نوع المحتوى                    |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

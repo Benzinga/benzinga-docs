@@ -1,0 +1,117 @@
+---
+title: 재사용 가능한 스니펫
+description: 콘텐츠를 동기화된 상태로 유지하기 위한 재사용 가능한 사용자 정의 스니펫
+icon: 'recycle'
+---
+
+import SnippetIntro from '/snippets/ko/snippet-intro.mdx';
+
+<SnippetIntro />
+
+
+<div id="creating-a-custom-snippet">
+  ## 사용자 지정 스니펫 생성하기
+</div>
+
+**전제 조건**: 스니펫 파일은 반드시 `snippets` 디렉터리 안에 생성해야 합니다.
+
+<Note>
+  `snippets` 디렉터리에 있는 모든 페이지는 스니펫으로 간주되며 개별 페이지로
+  렌더링되지 않습니다. 스니펫을 별도의 페이지로 만들고 싶다면,
+  다른 파일에서 해당 스니펫을 import 한 뒤 컴포넌트처럼 사용하십시오.
+</Note>
+
+<div id="default-export">
+  ### 기본 내보내기
+</div>
+
+1. 여러 위치에서 재사용할 내용을 스니펫 파일에 추가합니다. 필요하다면 스니펫을 import할 때 props로 값을 채울 수 있는 변수를 추가할 수도 있습니다.
+
+```mdx snippets/my-snippet.mdx
+Hello world! This is my content I want to reuse across pages. My keyword of the
+day is {word}.
+```
+
+<Warning>
+  재사용하려는 콘텐츠는 import가 동작하려면 반드시 `snippets` 디렉터리 안에 있어야
+  합니다.
+</Warning>
+
+2. 대상 파일에 snippet을 import합니다.
+
+```mdx destination-file.mdx
+---
+title: My title
+description: My Description
+---
+
+import MySnippet from '/snippets/path/to/my-snippet.mdx';
+
+## Header
+
+Lorem impsum dolor sit amet.
+
+<MySnippet word="bananas" />
+```
+
+
+<div id="reusable-variables">
+  ### 재사용 가능한 변수
+</div>
+
+1. 스니펫 파일에서 변수를 export합니다.
+
+```mdx snippets/path/to/custom-variables.mdx
+export const myName = 'my name';
+
+export const myObject = { fruit: 'strawberries' };
+```
+
+2. 대상 파일에서 이 스니펫을 import한 뒤 해당 변수를 사용합니다:
+
+```mdx destination-file.mdx
+---
+title: My title
+description: My Description
+---
+
+import { myName, myObject } from '/snippets/path/to/custom-variables.mdx';
+
+Hello, my name is {myName} and I like {myObject.fruit}.
+```
+
+
+<div id="reusable-components">
+  ### 재사용 가능한 컴포넌트
+</div>
+
+1. 스니펫 파일 안에서 컴포넌트를 화살표 함수 형태로 export하여 props를 인자로 받는 컴포넌트를 생성합니다.
+
+```mdx snippets/custom-component.mdx
+export const MyComponent = ({ title }) => (
+  <div>
+    <h1>{title}</h1>
+    <p>... snippet content ...</p>
+  </div>
+);
+```
+
+<Warning>
+  MDX는 화살표 함수 본문 내부에서는 컴파일되지 않습니다. 가능하면 HTML
+  문법을 사용하거나, MDX가 필요하면 default export를 사용하세요.
+</Warning>
+
+2. 대상 파일로 스니펫을 import한 뒤 props를 전달하세요
+
+```mdx destination-file.mdx
+---
+title: My title
+description: My Description
+---
+
+import { MyComponent } from '/snippets/custom-component.mdx';
+
+Lorem ipsum dolor sit amet.
+
+<MyComponent title={'Custom title'} />
+```

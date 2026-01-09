@@ -1,0 +1,82 @@
+---
+title: "내부자 거래"
+description: insiderTransaction()
+---
+
+[&lt; 뒤로](/ko/sdks/languages/java#insidertransaction)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - 내부자 거래 가져오기
+
+<div id="get">
+  ## 가져오기
+</div>
+
+내부자 거래 조회
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetInsiderTransactionRequest;
+import org.benzinga.BZClient.models.operations.GetInsiderTransactionResponse;
+import org.benzinga.BZClient.models.operations.PathParamType;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetInsiderTransactionRequest req = GetInsiderTransactionRequest.builder()
+                .type(PathParamType.FILINGS)
+                .build();
+
+        GetInsiderTransactionResponse res = sdk.insiderTransaction().get()
+                .request(req)
+                .call();
+
+        if (res.modelsInsiderTransactionFilingJSON().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+| 매개변수                                                                                | 타입                                                                                     | 필수                                                                                   | 설명                                                                                   |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `request`                                                                               | [GetInsiderTransactionRequest](../../models/operations/GetInsiderTransactionRequest.md) | :heavy&#95;check&#95;mark:                                                                      | 요청에 사용할 요청 객체입니다.                                                         |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetInsiderTransactionResponse](../../models/operations/GetInsiderTransactionResponse.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                       | 상태 코드                      | 콘텐츠 유형                    |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

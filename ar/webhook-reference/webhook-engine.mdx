@@ -1,0 +1,673 @@
+---
+title: "محرك Webhook للبيانات"
+description: "إرسال بيانات Benzinga الخاصة بـ calendar وsignal وsentiment مباشرةً إلى نقاط نهاية Webhook لديك في الوقت الفعلي."
+icon: bolt
+---
+
+يقوم محرك webhook بدفع تحديثات calendar وsignal وsentiment مباشرةً إلى نقطة نهاية HTTP لديك مع محاولات إعادة تلقائية مضمّنة وخيارات للتصفية والتحويل. استخدم هذا الدليل لفهم آلية التسليم، وبنية الحمولة، وأفضل ممارسات التكامل.
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+تقوم خدمة Webhook لبيانات Benzinga بإرسال بيانات التقويم (calendar) والإشارات (signals) في الوقت الفعلي إلى نقاط الـ webhook التي قمتَ بتهيئتها. عند إنشاء أو تحديث أو إزالة أحداث التقويم (calendar) مثل الأرباح، والتوزيعات، والتقييمات، إلخ، أو الإشارات (signals) مثل نشاط الخيارات، والإيقافات، إلخ، تقوم الخدمة تلقائيًا بإرسال طلبات HTTP POST إلى عنوان الـ webhook الخاص بك مع حمولة البيانات (payload).
+
+القدرات الرئيسية:
+
+- نطاقات قابلة للتهيئة لتغطية بيانات التقويم (calendar) والإشارات (signals) بحيث تستلم فقط البيانات التي تحتاجها
+- عمليات تسليم متطابقة (idempotent) مع ترويسة فريدة `X-BZ-Delivery` وحقل `id` في الحمولة لأغراض إزالة التكرار
+- جدول إعادة محاولة متين يتدرج من محاولات سريعة بأسلوب أسي إلى محاولات طويلة الأمد تُجرى كل ساعة
+- تحويلات اختيارية على `content` لمواءمة الحمولات مع توقعات الأنظمة اللاحقة في سلسلة المعالجة
+
+<div id="webhook-delivery">
+  ## تسليم طلبات Webhook
+</div>
+
+<div id="http-request-details">
+  ### تفاصيل طلب HTTP
+</div>
+
+- **Method**: `POST`
+- **Content-Type**: `application/json`
+- **User-Agent**: `Benzinga-Dispatch/v1.0.0 {build-version}`
+- **Custom Header**: `X-BZ-Delivery` - معرّف UUID فريد خاص بكل محاولة تسليم (مفيد لمنع التكرار)
+
+<div id="retry-policy">
+  ### سياسة إعادة المحاولة
+</div>
+
+تطبق خدمة Webhook للبيانات آلية قوية لإعادة المحاولة:
+
+- **المرحلة الأسية**: 15 محاولة خلال أول 5 دقائق
+- **محاولات أسية إضافية**: 11 محاولة إضافية عند الحاجة
+- **مرحلة الفاصل الزمني الثابت**: 12 محاولة في الساعة × 24 ساعة/يوم × 7 أيام (لإعادة المحاولة على المدى الطويل)
+- **أقصى مدة انتظار**: 5 دقائق بين المحاولات في المرحلة الأسية
+- **مهلة الطلب**: 30 ثانية لكل طلب
+
+<div id="response-requirements">
+  ### متطلبات الاستجابة
+</div>
+
+يجب أن تُرجِع نقطة نهاية الـ webhook الخاصة بك أحد رموز حالة HTTP التالية:
+
+- **رموز النجاح** (200-202، 204): تشير إلى نجاح عملية التسليم. لن تتم أي محاولات إعادة إرسال.
+- **رموز أخطاء العميل** (401-403): تشير إلى فشل في المصادقة/التفويض. سيتم **إيقاف محاولات إعادة الإرسال فورًا** لمنع المزيد من المحاولات الفاشلة.
+- **رموز أخرى** (4xx، 5xx): ستؤدي إلى محاولات إعادة إرسال وفقًا لسياسة إعادة المحاولة أعلاه.
+
+**مهم**: يجب أن تستجيب نقطة النهاية الخاصة بك بسرعة (يفضل خلال 30 ثانية) لتفادي انتهاء المهلة. سيقوم المحرك بإعادة المحاولة في حال انتهاء المهلة.
+
+<div id="webhook-payload-structure">
+  ## بنية حمولة الـ Webhook
+</div>
+
+يتضمن كل استدعاء Webhook حمولة JSON بالهيكلية التالية:
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b7",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b7",
+      "date": "2024-01-15",
+      "date_confirmed": 1,
+      "time": "08:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "شركة أبل",
+      "period": "Q1",
+      "period_year": 2024,
+      "currency": "USD",
+      "eps": "2.18",
+      "eps_est": "2.10",
+      "revenue": "123900000000",
+      "revenue_est": "121000000000"
+    }
+  }
+}
+```
+
+
+<div id="payload-fields">
+  ### حقول الحمولة
+</div>
+
+<div id="top-level-fields">
+  #### الحقول على المستوى الأعلى
+</div>
+
+- **`id`** (string, UUID): معرّف فريد لتسليم الـ webhook هذا. استخدمه لمنع التكرار.
+- **`api_version`** (string): معرّف إصدار واجهة برمجة التطبيقات API. حاليًا `"webhook/v1"`.
+- **`kind`** (string): معرّف مسار نوع البيانات. راجع [أنواع البيانات المدعومة](#supported-data-types) لجميع القيم المحتملة.
+
+<div id="data-object">
+  #### كائن البيانات
+</div>
+
+- **`action`** (string): نوع إجراء الحدث. القيم الممكنة:
+  - `"Created"`: تم إنشاء بيانات جديدة (القيمة الافتراضية لمفاتيح webhook الجديدة)
+  - `"Updated"`: تم تحديث البيانات الحالية
+  - `"Removed"`: تم حذف البيانات
+  - **ملاحظة**: قد تتلقى مفاتيح webhook القديمة قيماً بحروف صغيرة: `"created"`, `"updated"`, `"removed"`
+- **`id`** (string): معرّف فريد لسجل calendar/signal
+- **`timestamp`** (string، ISO 8601): الطابع الزمني عند إنشاء الـ webhook
+- **`content`** (object): بيانات calendar أو signal الفعلية. تختلف البنية حسب نوع البيانات (انظر [أنواع البيانات المدعومة](#supported-data-types))
+
+<div id="supported-data-types">
+  ## أنواع البيانات المدعومة
+</div>
+
+تدعم خدمة Webhook الخاصة بالبيانات أنواع التقويم والإشارات التالية:
+
+<div id="calendar-data-types-v21">
+  ### أنواع بيانات calendar ‏(v2.1)
+</div>
+
+| نوع البيانات | مسار kind | الوصف |
+|-----------|-----------|-------------|
+| Earnings | `data/v2.1/calendar/earnings` | إعلانات أرباح الشركات |
+| Dividends | `data/v2.1/calendar/dividends` | إعلانات توزيعات الأرباح والمدفوعات |
+| Ratings | `data/v2.1/calendar/ratings` | تقييمات المحللين والأسعار المستهدفة |
+| IPOs | `data/v2.1/calendar/ipos` | الطروحات العامة الأولية |
+| Guidance | `data/v2.1/calendar/guidance` | تحديثات توجيهات الشركات |
+| Conference | `data/v2.1/calendar/conference` | مكالمات وعروض تقديمية في المؤتمرات |
+| Economics | `data/v2.1/calendar/economics` | المؤشرات والإصدارات الاقتصادية |
+| Offerings | `data/v2.1/calendar/offerings` | الطروحات الثانوية |
+| Mergers & Acquisitions | `data/v2.1/calendar/ma` | إعلانات الاندماجات والاستحواذات (M&A) |
+| Retail | `data/v2.1/calendar/retail` | بيانات مبيعات التجزئة |
+| Splits | `data/v2.1/calendar/splits` | تجزئة الأسهم |
+| FDA | `data/v2.1/calendar/fda` | موافقات وإعلانات هيئة الغذاء والدواء الأمريكية (FDA) |
+
+<div id="signals-data-types-v1">
+  ### أنواع بيانات الإشارات (v1)
+</div>
+
+| نوع البيانات | مسار kind | الوصف |
+|-----------|-----------|-------------|
+| نشاط الخيارات | `data/v1/signal/option_activity` | نشاط خيارات غير اعتيادي |
+| WIIMs | `data/v1/wiims` | بيانات «لماذا تتحرك» (Why Is It Moving - WIIMs) |
+| معاملات المطلعين لدى SEC | `data/v1/sec/insider_transactions/filings` | ملفات تداول المطلعين المقدَّمة إلى SEC |
+| تداولات الحكومة | `data/v1/gov/usa/congress` | بيانات تداول أعضاء الكونغرس الأمريكي |
+
+<div id="additional-data-types-v1">
+  ### أنواع بيانات إضافية (v1)
+</div>
+
+| نوع البيانات | مسار kind | الوصف |
+|-----------|-----------|-------------|
+| Bulls Say Bears Say | `data/v1/bulls_bears_say` | تحليل معنويات السوق |
+| Bulls Say Bears Say (Korean) | `data/v1/bulls_bears_say/korean` | معنويات السوق الكوري |
+| Analyst Insights | `data/v1/analyst/insights` | تحليلات وتعليقات المحللين |
+| Consensus Ratings | `data/v1/consensus-ratings` | تقييمات إجماع مُجمَّعة |
+
+<div id="content-structure-examples">
+  ## أمثلة على بنية المحتوى
+</div>
+
+<div id="earnings-example">
+  ### مثال للأرباح
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b7",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b7",
+      "date": "2024-01-15",
+      "date_confirmed": 1,
+      "time": "08:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "period": "Q1",
+      "period_year": 2024,
+      "currency": "USD",
+      "eps": "2.18",
+      "eps_est": "2.10",
+      "eps_prior": "1.88",
+      "eps_surprise": "0.08",
+      "eps_surprise_percent": "3.81",
+      "eps_type": "GAAP",
+      "revenue": "123900000000",
+      "revenue_est": "121000000000",
+      "revenue_prior": "117154000000",
+      "revenue_surprise": "2900000000",
+      "revenue_surprise_percent": "2.40",
+      "importance": 0
+    }
+  }
+}
+```
+
+
+<div id="dividends-example">
+  ### مثال لتوزيعات الأرباح
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440001",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/dividends",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b8",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b8",
+      "date": "2024-02-15",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "currency": "USD",
+      "frequency": 4,
+      "dividend": "0.24",
+      "dividend_prior": "0.23",
+      "dividend_type": "Regular",
+      "dividend_yield": "0.50",
+      "ex_dividend_date": "2024-02-09",
+      "payable_date": "2024-02-15",
+      "record_date": "2024-02-12",
+      "confirmed": true,
+      "importance": 0
+    }
+  }
+}
+```
+
+
+<div id="ratings-example">
+  ### مثال للتقييمات
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440002",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/ratings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b9",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b9",
+      "date": "2024-01-15",
+      "time": "09:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "action_pt": "Maintains",
+      "action_company": "Maintains",
+      "currency": "USD",
+      "rating_current": "Buy",
+      "pt_current": "200.00",
+      "pt_prior": "195.00",
+      "adjusted_pt_current": "200.00",
+      "adjusted_pt_prior": "195.00",
+      "rating_prior": "Buy",
+      "url": "https://www.benzinga.com/...",
+      "importance": 0,
+      "firm": {
+        "name": "Goldman Sachs",
+        "id": "123"
+      },
+      "analyst": {
+        "name": "John Doe",
+        "id": "456"
+      }
+    }
+  }
+}
+```
+
+
+<div id="option-activity-example">
+  ### مثال على نشاط عقود الخيارات
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440003",
+  "api_version": "webhook/v1",
+  "kind": "data/v1/signal/option_activity",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4ba",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4ba",
+      "date": "2024-01-15",
+      "time": "10:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "option_symbol": "AAPL240119C00150000",
+      "strike": "150.00",
+      "expiration": "2024-01-19",
+      "type": "call",
+      "volume": 10000,
+      "open_interest": 50000,
+      "premium": "500000.00",
+      "importance": 0
+    }
+  }
+}
+```
+
+
+<div id="event-actions">
+  ## إجراءات الأحداث
+</div>
+
+تقوم خدمة webhook للبيانات بإرسال أحداث لثلاثة أنواع من الإجراءات:
+
+1. **Created**: يتم إرسال حدث عند نشر بيانات `calendar` أو بيانات الإشارات الجديدة
+2. **Updated**: يتم إرسال حدث عند تعديل البيانات الحالية
+3. **Removed**: يتم إرسال حدث عند حذف البيانات
+
+**ملاحظة**: يعتمد شكل حقل الإجراء على تكوين الـ webhook لديك:
+
+- **مفاتيح webhook الجديدة**: تستقبل إجراءات بحروف كبيرة (`"Created"`, `"Updated"`, `"Removed"`)
+- **مفاتيح webhook القديمة (Legacy)**: تستقبل إجراءات بحروف صغيرة (`"created"`, `"updated"`, `"removed"`)
+
+<div id="content-filtering">
+  ## تصفية المحتوى
+</div>
+
+يمكن أن يتضمّن تكوين الـ webhook لديك عوامل تصفية للتحكم في البيانات التي تتلقّاها:
+
+<div id="filter-options">
+  ### خيارات التصفية
+</div>
+
+- **أنواع البيانات**: التصفية حسب أنواع معيّنة من `calendar`/الإشارات (مثلًا: الأرباح فقط، التقييمات فقط)
+- **عوامل التصفية الجغرافية**: التحكم في ما إذا كنت ستستقبل:
+  - بيانات السوق الأمريكية (`AllowUSA`)
+  - بيانات السوق الكندية (`AllowCanada`)
+  - بيانات السوق الهندية (`AllowIndia`) - لبيانات WIIMs
+- **عامل تصفية التاريخ**: استبعاد البيانات التاريخية الأقدم من تاريخ معيّن (`MaxHistoricalDate`)
+
+<div id="exchange-filtering">
+  ### التصفية حسب البورصة
+</div>
+
+تقوم الخدمة تلقائيًا بتصفية البورصات استنادًا إلى إعداداتك الجغرافية:
+
+- **البورصات الأمريكية**: NYSE, NASDAQ, AMEX, ARCA, OTC, OTCBB, PINX, PINK, BATS, IEX
+- **البورصات الكندية**: TSX, TSXV, CSE, CNSX
+
+<div id="content-transformation">
+  ## تحويل المحتوى
+</div>
+
+يدعم محرك الـ webhook تحويل المحتوى لأنواع بيانات محددة. يتم تطبيق التحويلات بناءً على إعدادات الـ webhook الخاصة بك، وقد تتضمن:
+
+- إعادة تسمية الحقول
+- تحويل تنسيقات البيانات
+- تصفية/إزالة الحقول
+
+<div id="best-practices">
+  ## أفضل الممارسات
+</div>
+
+<div id="1-idempotency">
+  ### 1. Idempotency
+</div>
+
+استخدم الحقل `id` (UUID) في الـ payload لتطبيق خاصية idempotency. خزّن معرّفات التسليم التي جرى معالجتها لتفادي المعالجة المكرّرة.
+
+<div id="2-response-handling">
+  ### 2. التعامل مع الاستجابة
+</div>
+
+- أرجِع `200 OK` أو `204 No Content` على الفور عند استلام الـ webhook
+- عالِج البيانات بشكل غير متزامن إذا لزم الأمر
+- لا تنفِّذ عمليات طويلة الأمد قبل إرسال الاستجابة
+
+<div id="3-error-handling">
+  ### ٣. معالجة الأخطاء
+</div>
+
+- أرجِع رموز حالة HTTP المناسبة
+- في حالة أخطاء المصادقة (401-403)، تأكّد من ضبط الـ endpoint بشكل صحيح
+- في حالة الإخفاقات المؤقتة، أرجِع رموز حالة من نوع 5xx لتفعيل إعادة المحاولة
+
+<div id="4-security">
+  ### 4. الأمان
+</div>
+
+- استخدم HTTPS لنقطة النهاية الخاصة بالـ webhook
+- نفِّذ آليات المصادقة/التفويض (مفاتيح واجهة برمجة التطبيقات API، رموز الوصول، إلخ)
+- تحقَّق من الترويسة `X-BZ-Delivery` لمزيد من الأمان
+
+<div id="5-monitoring">
+  ### 5. المراقبة
+</div>
+
+- راقب أزمنة استجابة نقطة النهاية الخاصة بك
+- اضبط تنبيهات لحالات الفشل المتكررة
+- تتبّع ترويسة `X-BZ-Delivery` لتحديد محاولات التسليم
+
+<div id="6-data-type-handling">
+  ### 6. التعامل مع أنواع البيانات
+</div>
+
+- تحقق من حقل `kind` لتحديد نوع البيانات
+- حلّل كائن `content` وفقًا لبنية نوع البيانات
+- تعامل مع تنسيقات الإجراء المختلفة (أحرف كبيرة مقابل أحرف صغيرة) إذا كنت بحاجة إلى دعم المفاتيح القديمة
+
+<div id="example-webhook-handler">
+  ## مثال لمُعالج Webhook
+</div>
+
+<div id="python-flask">
+  ### Python (Flask)
+</div>
+
+```python
+from flask import Flask, request, jsonify
+import uuid
+
+app = Flask(__name__)
+processed_ids = set()
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    # الحصول على معرّف التسليم لإلغاء التكرار
+    delivery_id = request.headers.get('X-BZ-Delivery')
+    
+    # تحليل البيانات المرسلة
+    payload = request.json
+    content_id = payload['id']
+    
+    # التحقق من وجود تكرارات
+    if content_id in processed_ids:
+        return jsonify({'status': 'duplicate'}), 200
+    
+    # معالجة البيانات
+    action = payload['data']['action']
+    kind = payload['kind']
+    content = payload['data']['content']
+    
+    print(f"Received {action} event for {kind}")
+    print(f"Data ID: {content.get('id')}")
+    
+    # التعامل مع أنواع البيانات المختلفة
+    if 'earnings' in kind:
+        print(f"Earnings: {content.get('ticker')} - {content.get('date')}")
+    elif 'ratings' in kind:
+        print(f"Rating: {content.get('ticker')} - {content.get('rating_current')}")
+    elif 'option_activity' in kind:
+        print(f"Option Activity: {content.get('ticker')} - {content.get('volume')}")
+    
+    # وضع علامة كمُعالَج
+    processed_ids.add(content_id)
+    
+    # إرجاع حالة النجاح فوراً
+    return jsonify({'status': 'received'}), 200
+```
+
+
+<div id="nodejs-express">
+  ### Node.js (Express)
+</div>
+
+```javascript
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+const processedIds = new Set();
+
+app.post('/webhook', (req, res) => {
+  // الحصول على معرف التسليم لإلغاء التكرار
+  const deliveryId = req.headers['x-bz-delivery'];
+  
+  // تحليل البيانات المستلمة
+  const payload = req.body;
+  const contentId = payload.id;
+  
+  // التحقق من وجود تكرارات
+  if (processedIds.has(contentId)) {
+    return res.status(200).json({ status: 'duplicate' });
+  }
+  
+  // معالجة البيانات
+  const { action, content } = payload.data;
+  const kind = payload.kind;
+  
+  console.log(`Received ${action} event for ${kind}`);
+  console.log(`Data ID: ${content.id}`);
+  
+  // معالجة أنواع البيانات المختلفة
+  if (kind.includes('earnings')) {
+    console.log(`Earnings: ${content.ticker} - ${content.date}`);
+  } else if (kind.includes('ratings')) {
+    console.log(`Rating: ${content.ticker} - ${content.rating_current}`);
+  } else if (kind.includes('option_activity')) {
+    console.log(`Option Activity: ${content.ticker} - ${content.volume}`);
+  }
+  
+  // وضع علامة كمُعالَج
+  processedIds.add(contentId);
+  
+  // إرجاع استجابة النجاح فوراً
+  res.status(200).json({ status: 'received' });
+});
+
+app.listen(3000);
+```
+
+
+<div id="go">
+  ### Go
+</div>
+
+```go
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "log"
+    "net/http"
+    "sync"
+)
+
+var (
+    processedIDs = make(map[string]bool)
+    mu           sync.RWMutex
+)
+
+type WebhookPayload struct {
+    ID         string `json:"id"`
+    APIVersion string `json:"api_version"`
+    Kind       string `json:"kind"`
+    Data       struct {
+        Action    string                 `json:"action"`
+        ID        string                 `json:"id"`
+        Timestamp string                 `json:"timestamp"`
+        Content   map[string]interface{} `json:"content"`
+    } `json:"data"`
+}
+
+func webhookHandler(w http.ResponseWriter, r *http.Request) {
+    // الحصول على معرّف التسليم
+    deliveryID := r.Header.Get("X-BZ-Delivery")
+    
+    // تحليل البيانات المستلمة
+    var payload WebhookPayload
+    if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    
+    // التحقق من التكرار
+    mu.RLock()
+    if processedIDs[payload.ID] {
+        mu.RUnlock()
+        w.WriteHeader(http.StatusOK)
+        json.NewEncoder(w).Encode(map[string]string{"status": "duplicate"})
+        return
+    }
+    mu.RUnlock()
+    
+    // معالجة البيانات
+    fmt.Printf("Received %s event for %s\n", payload.Data.Action, payload.Kind)
+    fmt.Printf("Data ID: %s\n", payload.Data.ID)
+    
+    // معالجة أنواع البيانات المختلفة
+    content := payload.Data.Content
+    if ticker, ok := content["ticker"].(string); ok {
+        fmt.Printf("Ticker: %s\n", ticker)
+    }
+    
+    // تعليم كمُعالَج
+    mu.Lock()
+    processedIDs[payload.ID] = true
+    mu.Unlock()
+    
+    // إرجاع استجابة النجاح
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(map[string]string{"status": "received"})
+}
+
+func main() {
+    http.HandleFunc("/webhook", webhookHandler)
+    log.Fatal(http.ListenAndServe(":8080", nil))
+}
+```
+
+
+<div id="troubleshooting">
+  ## استكشاف الأخطاء وإصلاحها
+</div>
+
+<div id="common-issues">
+  ### المشكلات الشائعة
+</div>
+
+1. **عدم استلام أي webhooks**
+   - تحقَّق من أن عنوان الـ webhook (URL) مكوَّن بشكل صحيح
+   - تأكَّد من أن نقطة النهاية لديك متاحة للعامة
+   - تأكَّد من أن مفتاح واجهة برمجة التطبيقات API لديك صالح وفعّال
+   - تحقَّق من أن عوامل التصفية لا تستبعد جميع أنواع البيانات
+   - تحقَّق من أن عوامل التصفية الجغرافية تطابق البيانات التي تتوقعها
+
+2. **عمليات تسليم مكررة**
+   - نفِّذ خاصية idempotency باستخدام الحقل `id`
+   - تحقَّق من أزمنة استجابة نقطة النهاية لديك (قد تؤدي الاستجابات البطيئة إلى إعادة المحاولة)
+
+3. **أخطاء مصادقة (401-403)**
+   - تحقَّق من إعدادات المصادقة لنقطة النهاية لديك
+   - تحقَّق من مفاتيح واجهة برمجة التطبيقات API ورموز الوصول
+   - ملاحظة: تؤدي أخطاء المصادقة إلى إيقاف إعادة المحاولة فورًا
+
+4. **أخطاء انتهاء المهلة**
+   - تأكَّد من أن نقطة النهاية لديك تستجيب خلال 30 ثانية
+   - عالج البيانات بشكل غير متزامن عند الحاجة
+   - أعد استجابة نجاح فورًا ثم عالج البيانات لاحقًا
+
+5. **تنسيق إجراء غير متوقَّع**
+   - تحقَّق مما إذا كنت تستخدم مفتاح webhook قديمًا (قِيَم الحقل `action` بحروف صغيرة)
+   - حدِّث إلى مفتاح webhook جديد لاستلام قِيَم الحقل `action` بحروف كبيرة
+   - عالِج كلا التنسيقين إذا كنت تدعم عدة عملاء
+
+6. **أنواع بيانات مفقودة**
+   - تحقَّق من أن تكوين webhook لديك يتضمّن أنواع البيانات المطلوبة
+   - تحقَّق من عوامل التصفية الجغرافية (إعدادات US/Canada/India)
+   - تأكَّد من أن عوامل تصفية التاريخ لا تستبعد البيانات الحديثة
+
+<div id="support">
+  ## الدعم
+</div>
+
+للاستفسارات أو المشكلات المتعلقة بتسليم الـwebhook:
+
+- اطّلع على [وثائق واجهة برمجة التطبيقات API الخاصة بـ Benzinga](https://docs.benzinga.io/)
+- تواصل مع ممثل حسابك في Benzinga
+- راجع إعدادات الـwebhook مع فريق التكامل لديك
+
+<div id="version-history">
+  ## سجل الإصدارات
+</div>
+
+- **v1.0.0**: الإصدار الأولي لخدمة Webhook للبيانات
+- **Current**: الإصدار الحالي مع تحسين آليات التصفية والتحويل وإعادة المحاولة

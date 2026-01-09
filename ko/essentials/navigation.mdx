@@ -1,0 +1,92 @@
+---
+title: '내비게이션'
+description: 'docs.json의 navigation 필드는 내비게이션 메뉴에 포함될 페이지들을 정의합니다'
+icon: 'map'
+---
+
+내비게이션 메뉴는 모든 웹사이트에 공통으로 있는 링크 목록입니다.
+
+대부분의 경우 새 페이지를 추가할 때마다 `docs.json`을 업데이트해야 합니다. 페이지는 자동으로 표시되지 않습니다.
+
+<div id="navigation-syntax">
+  ## 탐색 구문
+</div>
+
+이 탐색 구문은 재귀적이므로 중첩된 탐색 그룹을 만들 수 있습니다. 페이지 이름에 `.mdx`를 포함할 필요는 없습니다. 탭 안에 그룹이 있고, 그룹 안에 페이지가 있습니다.
+
+<CodeGroup>
+
+```json 일반 탐색
+"navigation": {
+  "tabs": [
+    {
+      "tab": "문서",
+      "groups": [
+        {
+          "group": "시작하기",
+          "pages": ["quickstart"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+```json 중첩 탐색
+"navigation": {
+  "tabs": [
+    {
+      "tab": "문서",
+      "groups": [
+        {
+          "group": "시작하기",
+          "pages": [
+            "quickstart",
+            {
+              "group": "중첩 참조 페이지",
+              "pages": ["nested-reference-page"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+</CodeGroup>
+
+<div id="folders">
+  ## 폴더
+</div>
+
+MDX 파일을 폴더에 넣고 `docs.json`에서 경로만 업데이트하면 됩니다.
+
+예를 들어, `https://yoursite.com/your-folder/your-page` 경로에 페이지를 만들고 싶다면, `your-page.mdx`라는 MDX 파일을 포함하는 `your-folder`라는 폴더를 생성하면 됩니다.
+
+<Warning>
+  다른 폴더 안에 중첩하지 않는 한 폴더 이름으로 `api`를 사용할 수 없습니다. Mintlify는 Next.js를 사용하는데, Next.js에서는 최상위 수준의 `api` 폴더가 내부 서버 호출용으로 예약되어 있습니다. `api-reference`와 같은 폴더 이름은 사용할 수 있습니다.
+</Warning>
+
+```json Navigation With Folder
+"navigation": {
+  "tabs": [
+    {
+      "tab": "문서",
+      "groups": [
+        {
+          "group": "Group Name",
+          "pages": ["your-folder/your-page"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+
+<div id="hidden-pages">
+  ## 숨겨진 페이지
+</div>
+
+`docs.json`에 포함되지 않은 MDX 파일은 사이드바에는 표시되지 않지만, 검색 기능을 통해서나 해당 페이지로 직접 링크하여 접근할 수 있습니다.

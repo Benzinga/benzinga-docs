@@ -1,0 +1,311 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: توفر واجهة برمجة التطبيقات REST نقاط نهاية للبحث عن رموز الأسهم
+    الرائجة والحصول على تفاصيل رمز التداول.
+  termsOfService: http://swagger.io/terms/
+  title: TickerTrends API
+  version: 2.1.0
+paths:
+  /api/v1/trending-tickers:
+    get:
+      description: استردّ بيانات الاتجاهات الشائعة لرموز أسهم محددة، بما في ذلك
+        الترتيب والتغيّر. تُرجع هذه العملية درجات اتجاه مجمَّعة ومستويات النشاط
+        عبر فترات زمنية مختلفة.
+      operationId: get-ticker-trend-data
+      parameters:
+        - description: "الفترة الزمنية المستخدمة لتجميع بيانات الاتجاه. القيم المدعومة:
+            10m (10 دقائق)، 1h (ساعة واحدة)، 1d (يوم واحد). حقل إلزامي."
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: قائمة من رموز تداول الأسهم مفصولة بفواصل (مثل AAPL,MSFT,TSLA)
+            لاسترجاع بيانات الاتجاه الخاصة بها. مطلوب.
+          in: query
+          name: tickers
+          required: true
+          schema:
+            type: string
+        - description: "عامل تصفية لمصدر البيانات المستخدم في حساب الاتجاه. القيم
+            المدعومة: all (جميع المصادر مجتمعة)، clickstream (بيانات تفاعل
+            المستخدم)، logo (بيانات طلبات الشعار). حقل إجباري."
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: نطاق زمني لتحليل الاتجاهات. يمكن تحديد إطار زمني مخصص اختياريًا
+            لتصفية النتائج حسب نطاقات تاريخية محددة.
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: "رقم الصفحة لأغراض ترقيم الصفحات (pagination). يبدأ الفهرس من الصفر
+            (0 = الصفحة الأولى، 1 = الصفحة الثانية، وهكذا). القيمة الافتراضية:
+            0"
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "عدد النتائج في كل صفحة. القيمة الافتراضية: 1000. الحد الأقصى: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: بيانات الرواج مع مقاييس التفاعل
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+        "400":
+          description: طلب غير صالح - معلمات مطلوبة مفقودة أو غير صالحة (interval، tickers
+            أو source)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب بيانات اتجاه رمز التداول
+      tags:
+        - Ticker Trends
+  /api/v1/trending-tickers/list:
+    get:
+      description: استرجِع قائمة برموز الأسهم الرائجة استنادًا إلى مقاييس مختلفة.
+        تُعيد أوراقًا مالية مرتبة حسب درجة الرواج عبر فترات زمنية مختلفة.
+      operationId: get-ticker-trend-list-data
+      parameters:
+        - description: مهمل. استخدم timeframe بدلاً منه. فترة زمنية لتجميع بيانات الاتجاه.
+          in: query
+          name: interval
+          required: true
+          schema:
+            type: string
+        - description: قائمة اختيارية من رموز التداول مفصولة بفواصل لتصفية النتائج. إذا لم
+            تُحدَّد، يتم إرجاع جميع رموز الأسهم الرائجة.
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: |-
+            عامل تصفية مصدر البيانات لحساب الاتجاه. القيم المدعومة:
+            all (جميع المصادر مجتمعة)،
+            clickstream (بيانات تفاعلات المستخدمين)،
+            logo (بيانات طلبات الشعار).
+            مطلوب.
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - description: "الفترة الزمنية لتجميع الاتجاه. القيم المدعومة: ‎10m‎ (10 دقائق)،
+            ‎1h‎ (ساعة واحدة)، ‎1d‎ (يوم واحد). القيمة الافتراضية: ‎1d‎"
+          in: query
+          name: timeframe
+          schema:
+            type: string
+        - description: "عامل تصفية وقت البدء بتنسيق 24 ساعة (مثلًا: 09:15، 14:30). استخدمه
+            مع date_from لتحديد نطاقات زمنية دقيقة."
+          in: query
+          name: time_from
+          schema:
+            type: string
+        - description: عامل تصفية لوقت الانتهاء بتنسيق 24 ساعة (مثل 16:00، 22:30). استخدمه
+            مع date_to لتحديد نطاقات زمنية دقيقة.
+          in: query
+          name: time_to
+          schema:
+            type: string
+        - description: عامل تصفية لتاريخ البدء بتنسيق ISO 8601 (مثل 2024-12-30،
+            2024-01-15). استخدمه مع time_from لتحديد نطاقات زمنية دقيقة.
+          in: query
+          name: date_from
+          schema:
+            type: string
+        - description: مرشح تاريخ الانتهاء بتنسيق ISO 8601 (مثل 2024-12-30، 2024-01-31).
+            استخدمه مع time_to لتحديد نطاقات زمنية دقيقة.
+          in: query
+          name: date_to
+          schema:
+            type: string
+        - description: "رقم الصفحة لأغراض التجزئة (pagination). يبدأ العد من الصفر (0 =
+            الصفحة الأولى، 1 = الصفحة الثانية، إلخ). القيمة الافتراضية: 0"
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "عدد النتائج في كل صفحة. القيمة الافتراضية: 1000. الحد الأقصى: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: قائمة مرتَّبة لأكثر رموز الأسهم رواجًا مع درجات التفاعل
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
+        "400":
+          description: طلب غير صالح - معامل source مفقود أو غير صالح، أو تنسيق
+            التاريخ/الوقت غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب قائمة رموز الأسهم الرائجة
+      tags:
+        - Ticker Trends
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - unsupported_message_type
+        - database_query_error
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+      type: string
+      x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.tickerTrendAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendData"
+          type: array
+        ok:
+          example: true
+          type: boolean
+      type: object
+    httpapi.tickerTrendData:
+      properties:
+        exchange:
+          example: NASDAQ
+          type: string
+        metrics:
+          items:
+            $ref: "#/components/schemas/httpapi.tickerTrendMetrics"
+          type: array
+        ticker:
+          example: AAPL
+          type: string
+      type: object
+    httpapi.tickerTrendMetrics:
+      properties:
+        count:
+          example: 1523
+          type: integer
+        count_mavg:
+          example: 1245.67
+          type: number
+        market_count_average:
+          example: 92.1
+          type: number
+        scaled_count:
+          example: 98.5
+          type: number
+        scaled_count_mavg:
+          example: 87.3
+          type: number
+        time_bucket:
+          example: 2024-01-09T10:00:00Z
+          type: string
+      type: object
+    models.Security:
+      properties:
+        exchange:
+          example: NASDAQ
+          type: string
+        name:
+          example: Apple Inc
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+      type: object
+    models.TrendingTickersListAPIResponse:
+      properties:
+        data:
+          items:
+            $ref: "#/components/schemas/models.TrendingTickersListData"
+          type: array
+        ok:
+          example: true
+          type: boolean
+      type: object
+    models.TrendingTickersListData:
+      properties:
+        count:
+          example: 1523
+          type: integer
+        pct_chg:
+          example: 15
+          type: integer
+        security:
+          $ref: "#/components/schemas/models.Security"
+      type: object

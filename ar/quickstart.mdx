@@ -1,0 +1,79 @@
+---
+title: 'البدء السريع'
+description: 'ابدأ في إنشاء توثيق رائع في أقل من 5 دقائق'
+---
+
+<div id="setup-your-development">
+  ## إعداد بيئة التطوير الخاصة بك
+</div>
+
+تعلّم كيفية تحديث مستنداتك محليًا ثم نشرها للعامة.
+
+<div id="edit-and-preview">
+  ### حرّر ومعاينة
+</div>
+
+<AccordionGroup>
+  <Accordion icon="github" title="استنساخ مستنداتك محليًا">
+    أثناء عملية الإعداد الأولي، أنشأنا مستودعًا على حسابك في GitHub يحتوي على
+    محتوى مستنداتك. يمكنك العثور على هذا المستودع في
+    [لوحة التحكم](https://dashboard.mintlify.com). لاستنساخ المستودع
+    محليًا، اتبع هذه
+    [الإرشادات](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+    في سطر الأوامر لديك.
+  </Accordion>
+
+  <Accordion icon="rectangle-terminal" title="معاينة التغييرات">
+    تساعدك المعاينة على التأكد من أن تغييراتك تظهر بالشكل المقصود. قمنا ببناء
+    واجهة سطر أوامر لعرض هذه التغييرات محليًا. 1. ثبّت
+    [Mintlify CLI](https://www.npmjs.com/package/mintlify) لمعاينة تغييرات
+    التوثيق محليًا باستخدام هذا الأمر: `npm i -g mintlify`
+    2. شغّل الأمر التالي في جذر مجلد التوثيق الخاص بك (حيث يوجد
+    `docs.json`): `mintlify dev`
+  </Accordion>
+</AccordionGroup>
+
+<div id="deploy-your-changes">
+  ### انشر تغييراتك
+</div>
+
+<AccordionGroup>
+  <Accordion icon="message-bot" title="ثبّت تطبيق GitHub الخاص بنا">
+    يقوم تطبيق GitHub الخاص بنا بنشر تغييراتك تلقائيًا على موقع التوثيق الخاص بك، لذلك
+    لست بحاجة إلى إدارة عمليات النشر بنفسك. يمكنك العثور على رابط التثبيت في
+    [لوحة التحكم](https://dashboard.mintlify.com). بمجرد تثبيت البوت بنجاح، من المفترض أن تظهر علامة تحقق بجانب قيمة الـ commit hash
+    الخاصة بالمستودع.
+  </Accordion>
+
+  <Accordion icon="rocket" title="ادفع تغييراتك">
+    [قم بعمل commit وادفع (push) تغييراتك إلى
+    Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
+    لكي تنعكس تغييراتك على موقع التوثيق الخاص بك. إذا قمت بعملية push ولم ترَ أن
+    تطبيق GitHub نشر تغييراتك بنجاح، يمكنك أيضًا تحديث التوثيق يدويًا من خلال
+    [لوحة التحكم](https://dashboard.mintlify.com).
+  </Accordion>
+</AccordionGroup>
+
+<div id="update-your-docs">
+  ## حدِّث وثائقك
+</div>
+
+أضف المحتوى مباشرةً في ملفاتك باستخدام صيغة MDX ومكوّنات React. يمكنك استخدام أيٍّ من مكوّناتنا، أو حتى بناء مكوّناتك الخاصة.
+
+<CardGroup>
+  <Card title="نسِّق وثائقك" icon="paintbrush" href="/ar/settings/global">
+    أضف لمستك الخاصة إلى وثائقك بعلامتك التجارية المخصّصة.
+  </Card>
+
+  <Card title="أضِف نقاط نهاية API" icon="square-code" href="/ar/api-playground/configuration">
+    طبِّق مواصفة OpenAPI الخاصة بك وفعِّل تفاعل المستخدمين مع واجهة برمجة التطبيقات API.
+  </Card>
+
+  <Card title="ادمج التحليلات" icon="chart-mixed" href="/ar/analytics/supported-integrations">
+    استخلص الرؤى من تفاعلات المستخدمين مع التوثيق الخاص بك.
+  </Card>
+
+  <Card title="استضف على نطاق مخصّص" icon="browser" href="/ar/settings/custom-domain/subdomain">
+    احتفِظ بوثائقك على نطاق فرعي تابع لموقعك الإلكتروني.
+  </Card>
+</CardGroup>

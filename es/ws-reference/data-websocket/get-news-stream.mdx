@@ -1,0 +1,134 @@
+---
+title: "Flujo de noticias"
+description: "Artículos y actualizaciones en tiempo real de Benzinga."
+asyncapi: "/asyncapi/news-stream.yml news"
+---
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+Suscríbete para recibir actualizaciones de noticias en tiempo real y notificaciones instantáneas cuando se publiquen nuevos artículos o se actualicen los existentes.
+
+<div id="key-features">
+  ### Funcionalidades clave
+</div>
+
+- **Actualizaciones en tiempo real**: Recibe notificaciones instantáneas cuando se publican o actualizan artículos de noticias
+- **Filtrado por valor**: Suscríbete a tickers o ISIN específicos para recibir solo noticias relevantes
+- **Datos exhaustivos**: Incluye el contenido del artículo, información del autor, imágenes y valores asociados
+- **Seguimiento de eventos**: Supervisa cuándo se crean, actualizan o eliminan artículos
+
+<div id="use-cases">
+  ### Casos de uso
+</div>
+
+- Crear feeds de noticias en tiempo real para valores específicos
+- Crear alertas para noticias de última hora sobre las posiciones de una cartera
+- Consolidar noticias de múltiples tickers
+- Monitorizar el sentimiento y el volumen de noticias para obtener señales de trading
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Usa el probador interactivo de WebSocket de arriba para conectarte y probar el flujo en tiempo real.
+
+<div id="connection-url">
+  ### URL de conexión
+</div>
+
+```
+wss://api.benzinga.com/api/v1/news/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### Parámetros de consulta
+</div>
+
+| Parámetro | Requerido | Descripción |
+|-----------|----------|-------------|
+| `token` | Sí | Tu token de la API WebSocket de Benzinga (bz.production***) |
+| `tickers` | No | Lista de símbolos bursátiles separados por comas (por ejemplo, `AAPL,MSFT`) |
+| `channels` | No | Lista de canales de noticias separados por comas para filtrar |
+
+<div id="message-example">
+  ## Ejemplo de mensaje
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "news",
+  "data": {
+    "action": "created",
+    "id": 36444586,
+    "timestamp": "2024-01-01T13:35:14Z",
+    "content": {
+      "id": 36444586,
+      "author": "Benzinga Insights",
+      "created": "Mon, 01 Jan 2024 13:35:14 -0400",
+      "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
+      "title": "10 acciones de tecnología de la información con alertas de ballena en la sesión de hoy",
+      "teaser": "",
+      "body": "Full article content...",
+      "url": "https://www.benzinga.com/markets/options/24/01/36444586/...",
+      "image": [
+        {
+          "size": "thumb",
+          "url": "https://cdn.benzinga.com/files/imagecache/250x187xUP/..."
+        }
+      ],
+      "channels": [
+        {
+          "name": "Options"
+        }
+      ],
+      "stocks": [
+        {
+          "name": "AAPL",
+          "cusip": "037833100",
+          "isin": "US0378331005",
+          "exchange": "NASDAQ"
+        }
+      ],
+      "tags": [
+        {
+          "name": "BZI-AUOA"
+        }
+      ]
+    }
+  }
+}
+```
+
+
+<div id="message-actions">
+  ### Acciones de los mensajes
+</div>
+
+| Acción | Descripción |
+|--------|-------------|
+| `created` / `Created` | Nuevo artículo publicado |
+| `updated` / `Updated` | Artículo existente modificado |
+| `deleted` / `Deleted` | Artículo eliminado |
+
+<div id="interactive-commands">
+  ## Comandos interactivos
+</div>
+
+| Comando | Descripción |
+|---------|-------------|
+| `ping` | Mantener la conexión activa (responde con `pong`) |
+| `replay` | Reproducir hasta los últimos 100 mensajes en caché |
+
+<div id="best-practices">
+  ## Mejores prácticas
+</div>
+
+- **Eliminación de duplicados**: Usa el campo `id` para evitar procesar mensajes duplicados
+- **Heartbeat**: Envía comandos `ping` cada 30-60 segundos para mantener la conexión
+- **Manejo de errores**: Implementa lógica de reconexión con backoff exponencial
+- **Filtrado**: Usa filtros de ticker/canal para reducir el ancho de banda

@@ -1,0 +1,53 @@
+---
+title: "내부자 거래 소유자"
+openapi: /ko/openapi/calendar_api.spec.yml GET /sec/insider_transactions/owners
+---
+
+<ResponseExample>
+```json 응답 (200 OK)
+{
+  "data": [
+    {
+      "cik": "0001462356",
+      "name": "Katherine L Adams"
+    }
+  ]
+}
+```
+```json 응답 (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+```json 응답 (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No data found for the specified parameters"
+    }
+  ]
+}
+```
+```json 응답 (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>

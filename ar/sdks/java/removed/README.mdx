@@ -1,0 +1,81 @@
+---
+title: "محذوف"
+description: removed()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#removed)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب العناصر المحذوفة (v2)
+
+<div id="get">
+  ## get
+</div>
+
+جلب العناصر المحذوفة من نقطة النهاية v2
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetRemovedResponse;
+import org.benzinga.BZClient.models.operations.Type;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetRemovedResponse res = sdk.removed().get()
+                .page(700347L)
+                .pageSize(558834L)
+                .type(Type.OFFERINGS)
+                .updated(521235L)
+                .call();
+
+        if (res.modelsRmvdJSON().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعلمات
+</div>
+
+| المعلمة                                           | النوع                                              | مطلوب                                              | الوصف                                              |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| `page`                                             | *Optional&lt;Long&gt;*                                  | :heavy&#95;minus&#95;sign:                                 | رقم الصفحة                                         |
+| `pageSize`                                         | *Optional&lt;Long&gt;*                                  | :heavy&#95;minus&#95;sign:                                 | عدد العناصر في الصفحة                              |
+| `type`                                             | [Optional&lt;Type&gt;](../../models/operations/Type.md) | :heavy&#95;minus&#95;sign:                                 | النوع                                              |
+| `updated`                                          | *Optional&lt;Long&gt;*                                  | :heavy&#95;minus&#95;sign:                                 | وقت آخر تحديث بتنسيق Unix                         |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetRemovedResponse](../../models/operations/GetRemovedResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
