@@ -212,9 +212,11 @@
                 ]
               },
               {
-                "group": "News",
+                "group": "Calendar Data",
                 "pages": [
-                  "ws-reference/data-websocket/get-news-stream"
+                  "ws-reference/data-websocket/get-calendar-earnings-stream",
+                  "ws-reference/data-websocket/get-calendar-ratings-stream",
+                  "ws-reference/data-websocket/get-consensus-ratings-stream"
                 ]
               },
               {
@@ -224,11 +226,9 @@
                 ]
               },
               {
-                "group": "Calendar Data",
+                "group": "News",
                 "pages": [
-                  "ws-reference/data-websocket/get-calendar-earnings-stream",
-                  "ws-reference/data-websocket/get-calendar-ratings-stream",
-                  "ws-reference/data-websocket/get-consensus-ratings-stream"
+                  "ws-reference/data-websocket/get-news-stream"
                 ]
               },
               {
@@ -1015,9 +1015,6 @@
   "integrations": {
     "ga4": {
       "measurementId": "G-S98KMZZZY1"
-    },
-    "koala": {
-      "publicApiKey": "pk_5bb2711d5ce6175322f0674687433948226e"
     }
   },
   "contextual": {
