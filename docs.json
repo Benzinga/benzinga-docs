@@ -300,7 +300,11 @@
             ]
           }
         ],
-        "language": "en"
+        "language": "en",
+        "banner": {
+          "content": "🚀 Version 2.0 is now live! See our [changelog](/changelog/overview) for details.",
+          "dismissible": true
+        }
       },
       {
         "tabs": [
