@@ -11,43 +11,43 @@ paths:
       description: Search Logos
       operationId: get-search-logos
       parameters:
-        - description: Comma-separated list of security identifiers. Maximum 100 identifiers.
-            Type depends on search_keys_type parameter.
+        - description: Comma-separated list of security identifiers. Maximum 100
+            identifiers. Type depends on search_keys_type parameter.
           in: query
           name: search_keys
           required: true
           schema:
             type: string
-        - description: 'Type of identifier being searched. Supported types: symbol
-            (default), cik, cusip, isin'
+        - description: "Type of identifier being searched. Supported types: symbol
+            (default), cik, cusip, isin"
           in: query
           name: search_keys_type
           schema:
             type: string
-        - description: 'Comma-separated list of logo fields to return. Maximum 12
-            fields. Available: logo_light, logo_dark, logo_vector_light, logo_vector_dark,
-            mark_light, mark_dark, mark_vector_light, mark_vector_dark, mark_composite_light,
-            mark_composite_dark, mark_vector_composite_light, mark_vector_composite_dark,
-            colors'
+        - description: "Comma-separated list of logo fields to return. Maximum 12 fields.
+            Available: logo_light, logo_dark, logo_vector_light,
+            logo_vector_dark, mark_light, mark_dark, mark_vector_light,
+            mark_vector_dark, mark_composite_light, mark_composite_dark,
+            mark_vector_composite_light, mark_vector_composite_dark, colors"
           in: query
           name: fields
           required: true
           schema:
             type: string
-        - description: If true and no logo exists, generates a composite image based
-            on company name and brand colors
+        - description: If true and no logo exists, generates a composite image based on
+            company name and brand colors
           in: query
           name: composite_auto
           schema:
             type: boolean
-        - description: 'Border radius for composite images in percentage. Range 0-50
-            where 50 creates a circle. Default: 0'
+        - description: "Border radius for composite images in percentage. Range 0-50 where
+            50 creates a circle. Default: 0"
           in: query
           name: composite_radius
           schema:
             type: integer
-        - description: 'Scale image dimensions in WIDTHxHEIGHT format (e.g., 300x300).
-            Images scale down only, never up. Default: 300x300'
+        - description: "Scale image dimensions in WIDTHxHEIGHT format (e.g., 300x300).
+            Images scale down only, never up. Default: 300x300"
           in: query
           name: scale
           schema:
@@ -58,32 +58,32 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/logoapi.Logos'
+                  $ref: "#/components/schemas/logoapi.Logos"
                 type: array
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '404':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '500':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
       summary: Search Logos
@@ -94,24 +94,25 @@ paths:
       description: Bulk logos sync
       operationId: logo-bulk-sync
       parameters:
-        - description: Comma-separated list of security identifiers or exchange MIC
-            codes (for v2.1 exchange logos). Type depends on search_keys_type parameter.
+        - description: Comma-separated list of security identifiers or exchange MIC codes
+            (for v2.1 exchange logos). Type depends on search_keys_type
+            parameter.
           in: query
           name: search_keys
           required: true
           schema:
             type: string
-        - description: 'Type of identifier being searched. Supported types: symbol
-            (default), cik, cusip, isin, exchange (v2.1 only)'
+        - description: "Type of identifier being searched. Supported types: symbol
+            (default), cik, cusip, isin, exchange (v2.1 only)"
           in: query
           name: search_keys_type
           schema:
             type: string
-        - description: 'Comma-separated list of logo fields to return. Maximum 12
-            fields. Available: logo_light, logo_dark, logo_vector_light, logo_vector_dark,
-            mark_light, mark_dark, mark_vector_light, mark_vector_dark, mark_composite_light,
-            mark_composite_dark, mark_vector_composite_light, mark_vector_composite_dark,
-            colors'
+        - description: "Comma-separated list of logo fields to return. Maximum 12 fields.
+            Available: logo_light, logo_dark, logo_vector_light,
+            logo_vector_dark, mark_light, mark_dark, mark_vector_light,
+            mark_vector_dark, mark_composite_light, mark_composite_dark,
+            mark_vector_composite_light, mark_vector_composite_dark, colors"
           in: query
           name: fields
           required: true
@@ -127,7 +128,7 @@ paths:
           name: page
           schema:
             type: integer
-        - description: 'Number of results per page. Default: 100. Maximum: 1000'
+        - description: "Number of results per page. Default: 100. Maximum: 1000"
           in: query
           name: pagesize
           schema:
@@ -137,43 +138,43 @@ paths:
           name: updated_since
           schema:
             type: string
-        - description: 'Scale image dimensions in WIDTHxHEIGHT format (e.g., 300x300).
-            Images scale down only, never up. Default: 300x300'
+        - description: "Scale image dimensions in WIDTHxHEIGHT format (e.g., 300x300).
+            Images scale down only, never up. Default: 300x300"
           in: query
           name: scale
           schema:
             type: string
-        - description: 'Border radius for composite images in percentage. Range 0-50
-            where 50 creates a circle. Default: 0'
+        - description: "Border radius for composite images in percentage. Range 0-50 where
+            50 creates a circle. Default: 0"
           in: query
           name: composite_radius
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '400':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '404':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
-        '500':
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/bzhttp.Resp'
+                $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
       summary: Bulk logos sync
@@ -189,7 +190,7 @@ components:
     bzhttp.Error:
       properties:
         code:
-          $ref: '#/components/schemas/bzhttp.ErrorCode'
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
         id:
           type: string
         value:
@@ -232,7 +233,7 @@ components:
           type: object
         errors:
           items:
-            $ref: '#/components/schemas/bzhttp.Error'
+            $ref: "#/components/schemas/bzhttp.Error"
           type: array
         ok:
           type: boolean
@@ -274,7 +275,7 @@ components:
     logoapi.Logos:
       properties:
         colors:
-          $ref: '#/components/schemas/logoapi.LogoColors'
+          $ref: "#/components/schemas/logoapi.LogoColors"
         company_cik:
           type: string
         company_url:
@@ -286,7 +287,7 @@ components:
         figi_share_class:
           type: string
         files:
-          $ref: '#/components/schemas/logoapi.LogoRevisionFiles'
+          $ref: "#/components/schemas/logoapi.LogoRevisionFiles"
         id:
           type: string
         isin:
@@ -297,7 +298,7 @@ components:
           type: string
         securities:
           items:
-            $ref: '#/components/schemas/logoapi.Security'
+            $ref: "#/components/schemas/logoapi.Security"
           type: array
         symbol:
           type: string
@@ -337,8 +338,3 @@ components:
         symbol:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v2
-    description: V2
-  - url: https://api.benzinga.com/api/v2.1
-    description: V2.1
