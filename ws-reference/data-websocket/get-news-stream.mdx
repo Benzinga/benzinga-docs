@@ -1,0 +1,112 @@
+---
+title: "News Stream"
+description: "Real-time news articles and updates from Benzinga."
+asyncapi: "/asyncapi/news-stream.yml news"
+---
+
+## Overview
+
+Subscribe to real-time news updates and receive instant notifications when new articles are published or existing articles are updated.
+
+### Key Features
+
+- **Real-time Updates**: Get instant notifications when news articles are published or updated
+- **Filter by Security**: Subscribe to specific tickers or ISINs to receive only relevant news
+- **Comprehensive Data**: Includes article content, author information, images, and associated securities
+- **Action Tracking**: Monitor when articles are created, updated, or removed
+
+### Use Cases
+
+- Build real-time news feeds for specific securities
+- Create alerts for breaking news on portfolio holdings
+- Aggregate news across multiple tickers
+- Track news sentiment and volume for trading signals
+
+## Quick Start
+
+Use the interactive WebSocket tester above to connect and test the stream in real-time.
+
+### Connection URL
+
+```
+wss://api.benzinga.com/api/v1/news/stream?token=YOUR_TOKEN
+```
+
+### Query Parameters
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Your Benzinga WebSocket API token (bz.production***) |
+| `tickers` | No | Comma-separated list of ticker symbols (e.g., `AAPL,MSFT`) |
+| `channels` | No | Comma-separated list of news channels to filter |
+
+## Message Example
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "news",
+  "data": {
+    "action": "created",
+    "id": 36444586,
+    "timestamp": "2024-01-01T13:35:14Z",
+    "content": {
+      "id": 36444586,
+      "author": "Benzinga Insights",
+      "created": "Mon, 01 Jan 2024 13:35:14 -0400",
+      "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
+      "title": "10 Information Technology Stocks With Whale Alerts In Today's Session",
+      "teaser": "",
+      "body": "Full article content...",
+      "url": "https://www.benzinga.com/markets/options/24/01/36444586/...",
+      "image": [
+        {
+          "size": "thumb",
+          "url": "https://cdn.benzinga.com/files/imagecache/250x187xUP/..."
+        }
+      ],
+      "channels": [
+        {
+          "name": "Options"
+        }
+      ],
+      "stocks": [
+        {
+          "name": "AAPL",
+          "cusip": "037833100",
+          "isin": "US0378331005",
+          "exchange": "NASDAQ"
+        }
+      ],
+      "tags": [
+        {
+          "name": "BZI-AUOA"
+        }
+      ]
+    }
+  }
+}
+```
+
+### Message Actions
+
+| Action | Description |
+|--------|-------------|
+| `created` / `Created` | New article published |
+| `updated` / `Updated` | Existing article modified |
+| `deleted` / `Deleted` | Article removed |
+
+## Interactive Commands
+
+| Command | Description |
+|---------|-------------|
+| `ping` | Keep connection alive (responds with `pong`) |
+| `replay` | Replay up to the last 100 cached messages |
+
+## Best Practices
+
+- **Deduplication**: Use the `id` field to prevent processing duplicate messages
+- **Heartbeat**: Send `ping` commands every 30-60 seconds to maintain connection
+- **Error Handling**: Implement reconnection logic with exponential backoff
+- **Filtering**: Use ticker/channel filters to reduce bandwidth

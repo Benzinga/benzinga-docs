@@ -109,7 +109,8 @@
                   "api-reference/data-api-proxy_api/fundamentals/get-share-price-ratios-v3",
                   "api-reference/data-api-proxy_api/valuationratios/get-valuation-ratios-for-a-list-of-symbols-isins-or-ciks",
                   "api-reference/data-api-proxy_api/operationratios/get-operation-ratios-v21",
-                  "api-reference/data-api-proxy_api/earningratios/get-earning-ratios-for-a-list-of-symbols-isins-or-ciks"
+                  "api-reference/data-api-proxy_api/earningratios/get-earning-ratios-for-a-list-of-symbols-isins-or-ciks",
+                  "api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-for-a-list-of-symbols"
                 ]
               },
               {
@@ -118,13 +119,6 @@
                   "api-reference/logo-api_api/logos/overview",
                   "api-reference/logo-api_api/logos/get-search-logos",
                   "api-reference/logo-api_api/logos/logo-bulk-sync"
-                ]
-              },
-              {
-                "group": "Derived Figures and Ratios",
-                "pages": [
-                  "api-reference/data-api-proxy_api/derivedfiguresandratios/overview",
-                  "api-reference/data-api-proxy_api/derivedfiguresandratios/get-derived-figures-and-ratios-for-a-list-of-symbols"
                 ]
               },
               {
@@ -159,12 +153,18 @@
                 ]
               },
               {
-                "group": "Newsfeed & Why is it Moving(WIIMs)",
+                "group": "Newsfeed",
                 "pages": [
                   "api-reference/news-api_api/news/overview",
                   "api-reference/news-api_api/news/get-the-news-items",
                   "api-reference/news-api_api/news/returns-the-removed-news-data",
                   "api-reference/news-api_api/channels/get-available-news-channels"
+                ]
+              },
+              {
+                "group": "Why Is It Moving (WIIMs)",
+                "pages": [
+                  "api-reference/news-api_api/news/get-wiims"
                 ]
               },
               {
@@ -207,6 +207,12 @@
                 "group": "Analyst Insights",
                 "pages": [
                   "ws-reference/data-websocket/get-analyst-insights-stream"
+                ]
+              },
+              {
+                "group": "News",
+                "pages": [
+                  "ws-reference/data-websocket/get-news-stream"
                 ]
               },
               {
