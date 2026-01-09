@@ -1,0 +1,69 @@
+---
+title: "الطرحات"
+openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/offerings
+---
+
+<ResponseExample>
+```json استجابة (200 OK)
+{
+  "offerings": [
+    {
+      "currency": "USD",
+      "cusip": "73245B107",
+      "date": "2025-12-29",
+      "dollar_shares": "50000000.000",
+      "exchange": "NASDAQ",
+      "id": "69531bc06ab0a40001b39686",
+      "importance": 2,
+      "name": "SBC Medical Group Holding",
+      "notes": "",
+      "number_shares": 0,
+      "offering_type": "",
+      "price": "",
+      "proceeds": "",
+      "shelf": true,
+      "ticker": "SBC",
+      "time": "19:24:32",
+      "updated": 1767054276,
+      "url": ""
+    }
+  ]
+}
+```
+```json استجابة (401 غير مصرح به)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "رمز الوصول غير صالح أو مفقود"
+    }
+  ]
+}
+```
+```json استجابة (404 غير موجود)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "لم يتم العثور على أي بيانات للمعلمات المحددة"
+    }
+  ]
+}
+```
+```json استجابة (500 خطأ في الخادم الداخلي)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
+    }
+  ]
+}
+```
+</ResponseExample>

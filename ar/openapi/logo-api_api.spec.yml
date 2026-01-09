@@ -1,0 +1,242 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: توفّر واجهة برمجة التطبيقات REST هذه نقاط نهاية للبحث عن الشعارات
+    واسترجاع تفاصيلها.
+  termsOfService: http://swagger.io/terms/
+  title: Logo API
+  version: 2.1.0
+paths:
+  /api/v2.1/logos/sync:
+    get:
+      description: مزامنة الشعارات بالجملة
+      operationId: logo-bulk-sync
+      parameters:
+        - description: قائمة مفصولة بفواصل لمعرّفات الأوراق المالية أو رموز MIC الخاصة
+            بالبورصات (لشعارات البورصات في v2.1). يتوقّف النوع على قيمة معامل
+            search_keys_type.
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: "نوع المعرّف المراد البحث عنه. الأنواع المدعومة: symbol
+            (الافتراضي)، CIK، CUSIP، رقم التعريف الدولي للأوراق المالية ISIN،
+            exchange (في v2.1 فقط)"
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: "قائمة بحقول الشعارات المطلوب إرجاعها، مفصولة بفواصل. الحد الأقصى
+            12 حقلًا. المتاح: logo_light, logo_dark, logo_vector_light,
+            logo_vector_dark, mark_light, mark_dark, mark_vector_light,
+            mark_vector_dark, mark_composite_light, mark_composite_dark,
+            mark_vector_composite_light, mark_vector_composite_dark, colors"
+          in: query
+          name: fields
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: رقم الصفحة لأغراض ترقيم الصفحات (pagination). يُستخدم مع pagesize
+            في عمليات المزامنة الجماعية (bulk sync).
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "عدد النتائج لكل صفحة. القيمة الافتراضية: 100. الحد الأقصى: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: طابع زمني من نوع Unix ‏(UTC). يُرجِع الشعارات التي تم تحديثها بعد
+            هذا الطابع الزمني.
+          in: query
+          name: updated_since
+          schema:
+            type: string
+        - description: "قم بضبط أبعاد الصورة بصيغة WIDTHxHEIGHT (على سبيل المثال 300x300).
+            تُصغَّر الصور فقط ولا تُكبَّر مطلقًا. القيمة الافتراضية: 300x300"
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: "نصف قطر زوايا الصور المركّبة كنسبة مئوية. النطاق من 0 إلى 50، حيث
+            تؤدي القيمة 50 إلى إنشاء دائرة. القيمة الافتراضية: 0"
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: استجابة ناجحة تتضمن مصفوفة من كائنات BulkSyncResponse ضمن الحقل data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "400":
+          description: طلب غير صالح - معلمات غير صالحة أو مفقودة
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
+          description: غير موجود - لم يتم العثور على شعارات تطابق المعايير
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: مزامنة الشعارات بالجملة
+      tags:
+        - logos
+  /api/v2/logos/search:
+    get:
+      description: البحث عن الشعارات
+      operationId: get-search-logos
+      parameters:
+        - description: قائمة بمعرّفات أوراق مالية مفصولة بفواصل. الحد الأقصى هو 100 معرّف.
+            يعتمد النوع على معامل search_keys_type.
+          in: query
+          name: search_keys
+          required: true
+          schema:
+            type: string
+        - description: "نوع المعرّف الذي يتم البحث عنه. الأنواع المدعومة: symbol
+            (الافتراضي)، cik، cusip، رقم التعريف الدولي للأوراق المالية ISIN"
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+        - description: "قائمة مفصولة بفواصل لحقول الشعارات المطلوب إرجاعها. الحد الأقصى 12
+            حقلًا. المتاح: logo_light, logo_dark, logo_vector_light,
+            logo_vector_dark, mark_light, mark_dark, mark_vector_light,
+            mark_vector_dark, mark_composite_light, mark_composite_dark,
+            mark_vector_composite_light, mark_vector_composite_dark, colors"
+          in: query
+          name: fields
+          required: true
+          schema:
+            type: string
+        - description: إذا كانت القيمة true ولا يوجد شعار، يتم إنشاء صورة تركيبية استنادًا
+            إلى اسم الشركة وألوان علامتها التجارية
+          in: query
+          name: composite_auto
+          schema:
+            type: boolean
+        - description: "نصف قطر حافة الصور المركّبة كنسبة مئوية. النطاق من 0 إلى 50، حيث
+            تُنشئ القيمة 50 دائرة. القيمة الافتراضية: 0"
+          in: query
+          name: composite_radius
+          schema:
+            type: integer
+        - description: "قم بضبط أبعاد الصورة بتنسيق WIDTHxHEIGHT (مثلًا: 300x300). يتم
+            تصغير الصور فقط ولا يتم تكبيرها مطلقًا. القيمة الافتراضية: 300x300"
+          in: query
+          name: scale
+          schema:
+            type: string
+        - description: الحد الأقصى لعرض الصور بعد تحجيمها بالبكسل
+          in: query
+          name: max_width
+          schema:
+            type: string
+      responses:
+        "200":
+          description: استجابة ناجحة تتضمن مصفوفة من كائنات LogoClientResponse ضمن الحقل
+            data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "400":
+          description: طلب غير صالح - معلمات غير صحيحة أو مفقودة
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "404":
+          description: غير موجود - لم يتم العثور على شعارات لمفاتيح البحث المحددة
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: البحث عن الشعارات
+      tags:
+        - logos
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
+      type: string
+      x-enum-varnames:
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object

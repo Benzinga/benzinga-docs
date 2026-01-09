@@ -1,0 +1,596 @@
+---
+title: "عدة تطوير البرمجيات SDK بلغة بايثون من Benzinga"
+sidebarTitle: "بايثون"
+icon: "python"
+---
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+توفر عدة تطوير البرمجيات SDK بلغة Python من Benzinga وصولًا شاملًا إلى البيانات المالية وأخبار Benzinga عبر واجهات برمجة التطبيقات API، لأغراض التحليل الكمي وذكاء السوق. تقدم الـ SDK وحدتين رئيسيتين لبيانات الأسواق المالية وبيانات الأخبار، مما يمكّن المطورين من بناء تطبيقات مالية متقدمة.
+
+<div id="installation">
+  ## التثبيت
+</div>
+
+ثبّت عدة تطوير البرمجيات SDK باستخدام pip عبر SSH:
+
+```bash
+pip install git+ssh://git@github.com/Benzinga/benzinga-python-client.git
+```
+
+
+<div id="authentication">
+  ## المصادقة
+</div>
+
+تتطلب جميع أصناف الـSDK مفتاح واجهة برمجة التطبيقات API للمصادقة. للحصول على مفتاح واجهة برمجة التطبيقات API، يُرجى زيارة [cloud.benzinga.com](https://cloud.benzinga.com).
+
+<div id="modules">
+  ## الوحدات
+</div>
+
+تتكوّن عدة تطوير البرمجيات SDK من وحدتين رئيسيتين:
+
+- **البيانات المالية** - تحليل مالي كمي وبيانات السوق
+- **بيانات الأخبار** - أخبار مالية، عناوين، ومعنويات السوق
+
+---
+
+<div id="financial-data-module">
+  ## وحدة البيانات المالية
+</div>
+
+<div id="initialization">
+  ### التهيئة
+</div>
+
+```python
+from benzingaorg import financial_data
+
+fin = financial_data.Benzinga(api_key='YOUR_API_KEY')
+```
+
+
+<div id="price-market-data">
+  ### بيانات الأسعار والسوق
+</div>
+
+<div id="price-history">
+  #### السجل السعري
+</div>
+
+جلب بيانات الشموع اليومية التاريخية لنطاق تاريخي محدد.
+
+```python
+data = fin.price_history(
+    company_ticker='AAPL',
+    start_date='2024-01-01',
+    end_date='2024-12-31'
+)
+```
+
+**المعاملات:**
+
+* `company_ticker` (مطلوب) - رمز التداول
+* `start_date` (مطلوب) - تاريخ البدء بصيغة YYYY-MM-DD
+* `end_date` (مطلوب) - تاريخ الانتهاء بصيغة YYYY-MM-DD
+
+
+<div id="quote">
+  #### عرض سعر
+</div>
+
+جلب بيانات الأسعار اللحظية بما في ذلك OHLC، وسعرَي العرض/الطلب (bid/ask)، والحجم، ونسبة التغير.
+
+```python
+quote = fin.quote(company_ticker='AAPL')
+```
+
+**القيم المعادة:** Symbol، exchange، type، name، سعر الافتتاح، أعلى سعر، أدنى سعر، سعر الإغلاق، سعر العرض، سعر الطلب، الحجم، نسبة التغيير
+
+
+<div id="chart">
+  #### المخطط البياني
+</div>
+
+احصل على بيانات المخطط البياني بفترات زمنية قابلة للتخصيص.
+
+```python
+chart = fin.chart(
+    company_ticker='AAPL',
+    start_date='2024-01-01',
+    end_date='2024-12-31',
+    interval='1D'  # اختياري: 1MONTH، 1W، 1D، 1H، 15M
+)
+```
+
+**خيارات الفواصل الزمنية:** `1MONTH`, `1W`, `1D`, `1H`, `15M`
+
+
+<div id="auto-complete">
+  #### الإكمال التلقائي
+</div>
+
+ابحث عن رموز أسهم الشركات باستخدام طرق بحث مرنة.
+
+```python
+results = fin.auto_complete(
+    company_ticker='AAPL',
+    search_method='SYMBOL'  # اختياري: SYMBOL، SYMBOL_NAME، SYMBOL_WITHIN
+)
+```
+
+
+<div id="fundamental-data">
+  ### البيانات الأساسية
+</div>
+
+<div id="fundamentals">
+  #### الأساسيات المالية
+</div>
+
+احصل على بيانات الأساسيات المالية الشاملة لشركة ما.
+
+```python
+fundamentals = fin.fundamentals(
+    company_ticker='AAPL',
+    isin=None,  # اختياري
+    cik=None,   # اختياري
+    date=None   # اختياري: YYYY-MM-DD
+)
+```
+
+
+<div id="financials">
+  #### البيانات المالية
+</div>
+
+استعرض قوائم مالية مفصلة.
+
+```python
+financials = fin.financials(
+    company_ticker='AAPL',  # رمز تداول الشركة
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+
+<div id="valuation-ratios">
+  #### نسب التقييم
+</div>
+
+الحصول على مقاييس ونسب التقييم.
+
+```python
+valuation = fin.valuation_ratios(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+
+<div id="earning-ratios">
+  #### نسب الأرباح
+</div>
+
+استرجاع النسب والمؤشرات المتعلقة بالأرباح.
+
+```python
+earning_ratios = fin.earning_ratios(
+    company_ticker='AAPL',  # رمز تداول الشركة
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+
+<div id="operation-ratios">
+  #### نسب التشغيل
+</div>
+
+جلب نسب الكفاءة التشغيلية.
+
+```python
+operation_ratios = fin.operation_ratios(
+    company_ticker='AAPL',
+    isin=None,
+    cik=None,
+    date=None
+)
+```
+
+
+<div id="corporate-events-calendar-data">
+  ### أحداث الشركات وبيانات calendar
+</div>
+
+تدعم جميع طرق calendar تقسيم النتائج إلى صفحات (pagination) والتصفية:
+
+```python
+# Dividends
+dividends = fin.dividends(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Ratings
+ratings = fin.ratings(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Earnings
+earnings = fin.earnings(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Splits
+splits = fin.splits(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Economics
+economics = fin.economics(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    importance=None
+)
+
+# Guidance
+guidance = fin.guidance(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# IPOs
+ipos = fin.ipo(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# نشاط المستثمرين الأفراد
+retail = fin.retail(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+
+# Conference Calls
+conference_calls = fin.conference_calls(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',
+    date_to='2024-12-31',
+    ticker='AAPL',
+    importance=None
+)
+```
+
+
+<div id="company-information">
+  ### معلومات الشركة
+</div>
+
+<div id="company-profile">
+  #### الملف التعريفي للشركة
+</div>
+
+احصل على معلومات تفصيلية حول ملف تعريف الشركة.
+
+```python
+profile = fin.company_profile(company_ticker='AAPL')
+```
+
+
+<div id="company">
+  #### الشركة
+</div>
+
+استرجاع معلومات أساسية عن الشركة.
+
+```python
+company = fin.company(company_ticker='AAPL')
+```
+
+
+<div id="share-class">
+  #### فئة السهم
+</div>
+
+جلب تفاصيل فئة السهم.
+
+```python
+share_class = fin.share_class(company_ticker='AAPL')
+```
+
+
+<div id="earning-reports">
+  #### تقارير الأرباح
+</div>
+
+استرجع تقارير الأرباح التاريخية.
+
+```python
+earning_reports = fin.earning_reports(company_ticker='AAPL')
+```
+
+
+<div id="logos">
+  #### الشعارات
+</div>
+
+جلب شعارات الشركات مع دعم عوامل تصفية اختيارية.
+
+```python
+logos = fin.logos(
+    ticker='AAPL',
+    filters=None  # فلاتر اختيارية
+)
+```
+
+
+<div id="screening-analysis">
+  ### المسح والتحليل
+</div>
+
+<div id="instruments">
+  #### الأدوات
+</div>
+
+صفِّ الأوراق المالية بحسب القطاع والقيمة السوقية.
+
+```python
+instruments = fin.instruments(
+    sector=None,      # فلتر القطاع (اختياري)
+    market_cap=None   # فلتر القيمة السوقية (اختياري)
+)
+```
+
+
+<div id="security">
+  #### الورقة المالية
+</div>
+
+جلب تفاصيل الورقة المالية بما في ذلك symbol و exchange و currency و CUSIP.
+
+```python
+security = fin.security(company_ticker='AAPL')
+```
+
+
+<div id="movers">
+  #### الأسهم الأكثر تحركًا
+</div>
+
+احصل على أعلى الرابحين والخاسرين.
+
+```python
+movers = fin.movers(
+    session=None,  # اختياري: pre، post، regular
+    sector=None    # اختياري: فلتر القطاع
+)
+```
+
+
+<div id="ticker-detail">
+  #### تفاصيل رمز التداول
+</div>
+
+احصل على إحصاءات أساسية، ومعلومات عن الشركات النظيرة، وبيانات الشرائح المئوية.
+
+```python
+detail = fin.ticker_detail(company_ticker='AAPL')
+```
+
+
+<div id="options-data">
+  ### بيانات عقود الخيارات
+</div>
+
+<div id="options-activity">
+  #### نشاط تداول الخيارات
+</div>
+
+احصل على نشاط تداول الخيارات.
+
+```python
+options = fin.options_activity(
+    company_ticker='AAPL',
+    date_from='2024-01-01',  # اختياري
+    date_to='2024-12-31',    # اختياري
+    page=0,                   # اختياري
+    pagesize=100             # اختياري
+)
+```
+
+***
+
+
+<div id="news-data-module">
+  ## وحدة بيانات الأخبار
+</div>
+
+<div id="initialization">
+  ### التهيئة
+</div>
+
+```python
+from benzingaorg import news_data
+
+news = news_data.News(api_key='YOUR_API_KEY')
+```
+
+
+<div id="news-methods">
+  ### أساليب الأخبار
+</div>
+
+<div id="news">
+  #### الأخبار
+</div>
+
+استرجِع مقالات الأخبار باستخدام خيارات مرنة للتصفية والعرض.
+
+```python
+articles = news.news(
+    pagesize=15,              # الافتراضي: 15
+    display_output='full',    # الخيارات: full, abstract, headline
+    date_from='2024-01-01',   # اختياري
+    date_to='2024-12-31',     # اختياري
+    channel=None              # اختياري: تصفية حسب القناة
+)
+```
+
+**خيارات عرض النتائج:**
+
+* `full` - المحتوى الكامل للخبر
+* `abstract` - ملخص الخبر
+* `headline` - العناوين الرئيسية فقط
+
+
+<div id="top-news">
+  #### أهم الأخبار
+</div>
+
+جلب المقالات الإخبارية الشائعة.
+
+```python
+top = news.top_news(
+    type=None,      # نوع الأخبار (اختياري)
+    channel=None,   # تصفية القناة (اختياري)
+    limit=10        # عدد المقالات المطلوب إرجاعها
+)
+```
+
+
+<div id="channels">
+  #### القنوات
+</div>
+
+احصل على قائمة بقنوات الأخبار المتاحة.
+
+```python
+channels = news.channels()
+```
+
+**القيمة المُعادة:** أسماء القنوات ومعرّفاتها
+
+
+<div id="quantified-news">
+  #### الأخبار الكمية
+</div>
+
+الحصول على بيانات الأخبار مع مقاييس كمية.
+
+```python
+quantified = news.quantified_news(
+    page=0,
+    pagesize=100,
+    date_from='2024-01-01',  # اختياري
+    date_to='2024-12-31'     # اختياري
+)
+```
+
+**القيم المُعادة:** العناوين الرئيسية، حجم التداول، فجوة الافتتاح، مقاييس النطاق، وغيرها من البيانات الكمية
+
+***
+
+
+<div id="output-formatting">
+  ## تنسيق المخرجات
+</div>
+
+يدعم كلٌّ من الوحدتين التابع `.output()` لتحسين عرض بيانات JSON بصريًا:
+
+```python
+# إخراج البيانات المالية
+data = fin.quote('AAPL')
+fin.output(data)
+
+# إخراج بيانات الأخبار
+articles = news.news(pagesize=10)
+news.output(articles)
+```
+
+***
+
+
+<div id="complete-example">
+  ## مثال كامل
+</div>
+
+```python
+from benzingaorg import financial_data, news_data
+
+# تهيئة الوحدات
+fin = financial_data.Benzinga(api_key='YOUR_API_KEY')
+news = news_data.News(api_key='YOUR_API_KEY')
+
+# الحصول على البيانات المالية
+quote = fin.quote('AAPL')
+fundamentals = fin.fundamentals('AAPL')
+earnings = fin.earnings(ticker='AAPL', date_from='2024-01-01')
+
+# الحصول على بيانات الأخبار
+articles = news.news(pagesize=20, display_output='full')
+top_news = news.top_news(limit=5)
+
+# التنسيق والعرض
+fin.output(quote)
+news.output(articles)
+```
+
+***
+
+
+<div id="resources">
+  ## الموارد
+</div>
+
+- **المستودع**: [github.com/Benzinga/benzinga-python-client](https://github.com/Benzinga/benzinga-python-client)
+- **الترخيص**: MIT
+- **مفتاح واجهة برمجة التطبيقات (API)**: [cloud.benzinga.com](https://cloud.benzinga.com)
+
+<div id="support">
+  ## الدعم
+</div>
+
+للدعم الفني وللحصول على مفتاح واجهة برمجة التطبيقات API، تواصل مع Benzinga عبر [cloud.benzinga.com](https://cloud.benzinga.com).

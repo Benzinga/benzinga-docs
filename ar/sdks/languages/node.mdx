@@ -1,0 +1,507 @@
+---
+title: "عدة تطوير البرمجيات SDK لـ Node.js من Benzinga"
+sidebarTitle: "Node.js"
+icon: "node"
+---
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+توفر عدة تطوير البرمجيات SDK الخاصة بـ Benzinga بلغة TypeScript/JavaScript واجهةً معيارية مكوّنة من وحدات وقائمة على الأحداث للتفاعل مع واجهات برمجة التطبيقات API من Benzinga. وبما أنها مكتوبة بلغة TypeScript، فإن الـ SDK تعمل بسلاسة في كلٍّ من بيئات المتصفح و Node.js، مع تقديم تنفيذات محسَّنة تتضمن التخزين المؤقت، والمقارنة العميقة، وغير ذلك من القدرات المتقدمة.
+
+<div id="key-features">
+  ## الميزات الرئيسية
+</div>
+
+- **دعم TypeScript** - دعم كامل لأنواع (types) وواجهات (interfaces) TypeScript
+- **عالمي** - يعمل في متصفحات الويب وبيئات Node.js على حدٍّ سواء
+- **هندسة معيارية** - ثبّت فقط الوحدات (modules) التي تحتاجها
+- **معتمد على الأحداث** - أنماط برمجة تفاعلية للبيانات في الوقت الفعلي
+- **ميزات متقدمة** - تخزين مؤقت مدمج، مقارنة عميقة، وتحسينات في الأداء
+- **حديث** - صياغة ES6+ مع دعم async/await
+
+<div id="requirements">
+  ## المتطلبات
+</div>
+
+- **الإصدار 14 من Node.js أو أحدث**
+
+<div id="installation">
+  ## التثبيت
+</div>
+
+تتبع عدة تطوير البرمجيات SDK معمارية قائمة على الوحدات. ابدأ بتثبيت وحدة الجلسة الأساسية:
+
+```bash
+npm install @benzinga/session
+```
+
+ثم قم بتثبيت وحدات إضافية حسب الحاجة:
+
+```bash
+# مثال: تثبيت وحدات معينة
+npm install @benzinga/calendar-data
+npm install @benzinga/quotes
+npm install @benzinga/news-data
+```
+
+
+<div id="getting-started">
+  ## البدء
+</div>
+
+<div id="session-setup">
+  ### إعداد الجلسة
+</div>
+
+توفر الوحدة `@benzinga/session` الأساس لعملية المصادقة مع واجهات برمجة التطبيقات API الخاصة بـ Benzinga. تعتمد جميع الوحدات الأخرى على كائن Session هذا.
+
+```typescript
+import { Session } from '@benzinga/session';
+
+// تهيئة الجلسة باستخدام مفتاح API الخاص بك
+const session = new Session({
+  apiKey: 'YOUR_API_KEY'
+});
+```
+
+
+<div id="configuration-options">
+  ### خيارات التهيئة
+</div>
+
+يقبل كائن Session عدة خيارات تهيئة لتخصيص سلوكه:
+
+```typescript
+const session = new Session({
+  apiKey: 'YOUR_API_KEY',
+  environment: 'production', // أو 'sandbox'
+  timeout: 30000,            // مهلة الطلب بالميلي ثانية
+  // خيارات إعداد إضافية
+});
+```
+
+
+<div id="core-concepts">
+  ## المفاهيم الجوهرية
+</div>
+
+<div id="modular-design">
+  ### تصميم معياري
+</div>
+
+يتم تجميع كل نطاق من نطاقات واجهة برمجة التطبيقات API الخاصة بـ Benzinga كوحدة npm مستقلة. يتيح لك هذا:
+
+- تثبيت ما تحتاج إليه فقط
+- تقليل حجم الحزمة
+- الحفاظ على فصل واضح بين المسؤوليات
+- تحديث الوحدات بشكل مستقل
+
+<div id="event-based-architecture">
+  ### معمارية قائمة على الأحداث
+</div>
+
+تستخدم عدة تطوير البرمجيات SDK نمطًا قائمًا على الأحداث للتعامل مع تدفقات البيانات الفورية والتحديثات:
+
+```typescript
+// مثال: الاشتراك في تحديثات البيانات
+dataManager.subscribe((data) => {
+  console.log('New data received:', data);
+});
+
+// Example: Handle events
+dataManager.on('update', (event) => {
+  console.log('Data updated:', event);
+});
+```
+
+
+<div id="caching-performance">
+  ### التخزين المؤقت والأداء
+</div>
+
+يتضمن الـSDK آليات تخزين مؤقت مدمجة من أجل:
+
+- تقليل طلبات واجهة برمجة التطبيقات API غير الضرورية
+- تحسين زمن الاستجابة
+- تحسين استخدام النطاق الترددي
+- توفير بدائل للعمل في وضع عدم الاتصال
+
+<div id="deep-comparison">
+  ### المقارنة العميقة
+</div>
+
+تتيح ميزات مقارنة البيانات المتقدمة ما يلي:
+
+- اكتشاف التغييرات في الكائنات المتداخلة
+- إدارة الحالة بكفاءة
+- مشغلات تحديث ذكية
+- تقليل مرات إعادة التصيير في تطبيقات واجهة المستخدم
+
+<div id="available-modules">
+  ## الوحدات المتاحة
+</div>
+
+تم تنظيم عدة تطوير البرمجيات SDK في وحدات متخصصة تغطي مجالات مختلفة ضمن واجهة برمجة التطبيقات API:
+
+<div id="core-modules">
+  ### الوحدات الأساسية
+</div>
+
+- **`@benzinga/session`** - المصادقة وإدارة الجلسات (إلزامي)
+- **`@benzinga/calendar-data`** - أحداث calendar والإجراءات المؤسسية
+- **`@benzinga/news-data`** - المقالات الإخبارية وتحليلات السوق
+- **`@benzinga/quotes`** - الأسعار الفورية والمتأخرة
+- **`@benzinga/fundamentals`** - البيانات الأساسية والمالية للشركات
+
+<div id="specialized-modules">
+  ### وحدات متخصصة
+</div>
+
+- **`@benzinga/ratings`** - تقييمات المحللين والأسعار المستهدفة
+- **`@benzinga/options`** - نشاط الخيارات وتحليلاتها
+- **`@benzinga/transcripts`** - محاضر مكالمات الأرباح
+- **`@benzinga/logos`** - شعارات الشركات والعلامات التجارية
+- **`@benzinga/signals`** - إشارات التداول ومؤشراته
+
+<div id="typescript-support">
+  ## دعم TypeScript
+</div>
+
+عدة تطوير البرمجيات SDK مكتوبة بلغة TypeScript وتوفر تعريفات أنواع كاملة:
+
+```typescript
+import { Session } from '@benzinga/session';
+import { CalendarData, DividendEvent } from '@benzinga/calendar-data';
+
+// سيوفر TypeScript الإكمال التلقائي والتحقق من النوع
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const calendar = new CalendarData(session);
+
+// استدعاءات API آمنة من حيث النوع
+const dividends: DividendEvent[] = await calendar.getDividends({
+  dateFrom: '2024-01-01',
+  dateTo: '2024-12-31',
+  ticker: 'AAPL'
+});
+```
+
+
+<div id="usage-examples">
+  ## أمثلة على الاستخدام
+</div>
+
+<div id="basic-data-fetching">
+  ### جلب البيانات الأساسي
+</div>
+
+```typescript
+import { Session } from '@benzinga/session';
+import { NewsData } from '@benzinga/news-data';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const news = new NewsData(session);
+
+// جلب أحدث الأخبار
+const articles = await news.getNews({
+  pageSize: 10,
+  displayOutput: 'full'
+});
+
+console.log(articles);
+```
+
+
+<div id="real-time-data-streams">
+  ### تدفقات البيانات في الوقت الفعلي
+</div>
+
+```typescript
+import { Session } from '@benzinga/session';
+import { QuoteStream } from '@benzinga/quotes';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const quoteStream = new QuoteStream(session);
+
+// الاشتراك في عروض الأسعار الفورية
+quoteStream.subscribe(['AAPL', 'MSFT', 'GOOGL'], (quote) => {
+  console.log('Quote update:', quote);
+});
+
+// إلغاء الاشتراك عند الانتهاء
+quoteStream.unsubscribe(['AAPL']);
+```
+
+
+<div id="calendar-events">
+  ### أحداث التقويم
+</div>
+
+```typescript
+import { Session } from '@benzinga/session';
+import { CalendarData } from '@benzinga/calendar-data';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const calendar = new CalendarData(session);
+
+// الحصول على الأرباح القادمة
+const earnings = await calendar.getEarnings({
+  dateFrom: '2024-01-01',
+  dateTo: '2024-01-31',
+  importance: 3  // ذات الأهمية العالية فقط
+});
+
+// الحصول على توزيعات الأرباح
+const dividends = await calendar.getDividends({
+  ticker: 'AAPL'
+});
+```
+
+
+<div id="company-fundamentals">
+  ### الأساسيات المالية للشركة
+</div>
+
+```typescript
+import { Session } from '@benzinga/session';
+import { Fundamentals } from '@benzinga/fundamentals';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const fundamentals = new Fundamentals(session);
+
+// جلب الملف التعريفي للشركة
+const profile = await fundamentals.getCompanyProfile('AAPL');
+
+// جلب نسب التقييم
+const valuationRatios = await fundamentals.getValuationRatios('AAPL');
+
+// جلب القوائم المالية
+const financials = await fundamentals.getFinancials('AAPL');
+```
+
+
+<div id="browser-usage">
+  ## الاستخدام في المتصفح
+</div>
+
+تعمل عدة تطوير البرمجيات SDK في بيئات المتصفح مع أدوات التجميع مثل Webpack وRollup وVite:
+
+```typescript
+// في تطبيق React أو Vue أو Angular الخاص بك
+import { Session } from '@benzinga/session';
+import { NewsData } from '@benzinga/news-data';
+
+export function NewsComponent() {
+  const session = new Session({ apiKey: process.env.BENZINGA_API_KEY });
+  const news = new NewsData(session);
+
+  // استخدم في منطق المكون الخاص بك
+  useEffect(() => {
+    news.getNews({ pageSize: 5 }).then(articles => {
+      setNewsData(articles);
+    });
+  }, []);
+}
+```
+
+
+<div id="error-handling">
+  ## معالجة الأخطاء
+</div>
+
+عالِج الأخطاء بسلاسة باستخدام كتل try/catch:
+
+```typescript
+import { Session } from '@benzinga/session';
+import { NewsData } from '@benzinga/news-data';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const news = new NewsData(session);
+
+try {
+  const articles = await news.getNews({ pageSize: 10 });
+  console.log(articles);
+} catch (error) {
+  if (error.code === 'UNAUTHORIZED') {
+    console.error('مفتاح API غير صالح');
+  } else if (error.code === 'RATE_LIMIT') {
+    console.error('تم تجاوز حد المعدل');
+  } else {
+    console.error('حدث خطأ:', error.message);
+  }
+}
+```
+
+
+<div id="pagination">
+  ## ترقيم الصفحات (Pagination)
+</div>
+
+التعامل بكفاءة مع النتائج المقسَّمة إلى صفحات:
+
+```typescript
+import { Session } from '@benzinga/session';
+import { NewsData } from '@benzinga/news-data';
+
+const session = new Session({ apiKey: 'YOUR_API_KEY' });
+const news = new NewsData(session);
+
+// جلب صفحات متعددة
+let page = 0;
+let allArticles = [];
+
+while (page < 5) {
+  const articles = await news.getNews({
+    page: page,
+    pageSize: 100
+  });
+
+  if (articles.length === 0) break;
+
+  allArticles = allArticles.concat(articles);
+  page++;
+}
+
+console.log(`Fetched ${allArticles.length} articles`);
+```
+
+
+<div id="caching-strategy">
+  ## استراتيجية التخزين المؤقت
+</div>
+
+استخدم ميزة التخزين المؤقت المدمجة لتحسين الأداء:
+
+```typescript
+import { Session } from '@benzinga/session';
+import { CalendarData } from '@benzinga/calendar-data';
+
+const session = new Session({
+  apiKey: 'YOUR_API_KEY',
+  cache: {
+    enabled: true,
+    ttl: 300000  // التخزين المؤقت لمدة 5 دقائق
+  }
+});
+
+const calendar = new CalendarData(session);
+
+// الاستدعاء الأول يتصل بواجهة برمجة التطبيقات API
+const earnings1 = await calendar.getEarnings({ ticker: 'AAPL' });
+
+// الاستدعاء الثاني يستخدم البيانات المخزنة مؤقتاً (إذا كانت ضمن TTL)
+const earnings2 = await calendar.getEarnings({ ticker: 'AAPL' });
+```
+
+
+<div id="best-practices">
+  ## أفضل الممارسات
+</div>
+
+<div id="1-reuse-session-objects">
+  ### 1. إعادة استخدام كائنات الجلسة
+</div>
+
+أنشئ مثيلًا واحدًا للجلسة وأعد استخدامه في جميع أنحاء تطبيقك:
+
+```typescript
+// session.ts
+export const globalSession = new Session({ apiKey: process.env.BENZINGA_API_KEY });
+
+// في ملفات أخرى
+import { globalSession } from './session';
+const news = new NewsData(globalSession);
+```
+
+
+<div id="2-environment-variables">
+  ### 2. متغيرات البيئة
+</div>
+
+خزِّن مفاتيح واجهة برمجة التطبيقات API بأمان في متغيرات البيئة:
+
+```typescript
+// ملف .env
+BENZINGA_API_KEY=your_api_key_here
+
+// في الكود
+const session = new Session({
+  apiKey: process.env.BENZINGA_API_KEY
+});
+```
+
+
+<div id="3-type-safety">
+  ### 3. سلامة الأنواع (Type Safety)
+</div>
+
+استفد من TypeScript لضمان تفاعلات آمنة من ناحية الأنواع مع واجهة برمجة التطبيقات API:
+
+```typescript
+import type { NewsArticle, NewsParams } from '@benzinga/news-data';
+
+const params: NewsParams = {
+  pageSize: 10,
+  displayOutput: 'full',
+  ticker: 'AAPL'
+};
+
+const articles: NewsArticle[] = await news.getNews(params);
+```
+
+
+<div id="4-error-boundaries">
+  ### 4. حدود الأخطاء
+</div>
+
+طبِّق حدود الأخطاء في بيئة الإنتاج:
+
+```typescript
+const safeApiCall = async (fn: () => Promise<any>) => {
+  try {
+    return await fn();
+  } catch (error) {
+    console.error('API Error:', error);
+    // تسجيل الخطأ في خدمة تتبع الأخطاء
+    return null;
+  }
+};
+
+const articles = await safeApiCall(() => news.getNews({ pageSize: 10 }));
+```
+
+
+<div id="resources">
+  ## الموارد
+</div>
+
+- **المستودع**: [github.com/Benzinga/benzinga-javascript-client](https://github.com/Benzinga/benzinga-javascript-client)
+- **حزمة NPM**: [@benzinga/session](https://www.npmjs.com/package/@benzinga/session)
+- **مفتاح واجهة برمجة التطبيقات API**: [cloud.benzinga.com](https://cloud.benzinga.com)
+- **TypeScript**: الإصدار 4.0+
+- **Node.js**: الإصدار 14+
+
+<div id="module-documentation">
+  ## توثيق الوحدات
+</div>
+
+للحصول على توثيق مفصل للوحدات المحددة، راجع ملفات README الخاصة بكل حزمة:
+
+- `@benzinga/session` - المصادقة الأساسية والإعدادات
+- `@benzinga/calendar-data` - واجهة برمجة التطبيقات API لأحداث calendar
+- `@benzinga/news-data` - واجهة برمجة التطبيقات API للأخبار والمقالات
+- `@benzinga/quotes` - واجهة برمجة التطبيقات API للأسعار الآنية
+- `@benzinga/fundamentals` - واجهة برمجة التطبيقات API للأساسيات المالية والبيانات المالية
+
+<div id="support">
+  ## الدعم
+</div>
+
+للدعم الفني ولطلب مفتاح واجهة برمجة التطبيقات API، تواصل مع Benzinga عبر [cloud.benzinga.com](https://cloud.benzinga.com).
+
+<div id="contributing">
+  ## المساهمة
+</div>
+
+عدة تطوير البرمجيات SDK من Benzinga لـ JavaScript مفتوحة المصدر. نرحّب بالمساهمات! زُر [مستودع GitHub](https://github.com/Benzinga/benzinga-javascript-client) لمزيد من المعلومات.

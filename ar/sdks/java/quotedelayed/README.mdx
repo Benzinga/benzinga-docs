@@ -1,0 +1,78 @@
+---
+title: "عرض سعر متأخر"
+description: quotedelayed()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#quotedelayed)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [getV1](#getv1) - جلب الأسعار المتأخرة V1
+
+<div id="getv1">
+  ## getV1
+</div>
+
+الحصول على أسعار متأخرة لقائمة من الرموز، أو أرقام التعريف الدولية للأوراق المالية ISIN، أو معرفات CIK
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetQuoteDelayedV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetQuoteDelayedV1Response res = sdk.quotedelayed().getV1()
+                .symbols("<value>")
+                .isin("<value>")
+                .cik("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل                        | النوع                           | إجباري                         | الوصف                                     |
+| ------------------------------- | ------------------------------- | ------------------------------- | ----------------------------------------- |
+| `symbols`                       | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | قائمة بالرموز مفصولة بفواصل (comma-separated list of ticker symbols) |
+| `isin`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | رقم التعريف الدولي للأوراق المالية ISIN للورقة المالية |
+| `cik`                           | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | CIK (معرّف الشركة لدى SEC) للورقة المالية |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetQuoteDelayedV1Response](../../models/operations/GetQuoteDelayedV1Response.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

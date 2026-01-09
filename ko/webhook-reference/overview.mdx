@@ -1,0 +1,44 @@
+---
+title: "Webhook 개요"
+description: "견고하고 필터링 가능한 webhook으로 Benzinga 시세 데이터를 사용자의 시스템으로 푸시합니다."
+---
+
+Benzinga webhook은 실시간 시장 이벤트를 사용자의 HTTP 엔드포인트로 직접 전송하여 폴링이 필요 없게 합니다. 전송 요청은 고유한 중복 제거용 `X-BZ-Delivery` 헤더를 포함하는 JSON 형식의 `POST` 요청이며, 신뢰성을 극대화하기 위해 단계적인 재시도 전략을 사용합니다.
+
+<div id="available-webhook-services">
+  ## 사용 가능한 webhook 서비스
+</div>
+
+* **Data Webhook Engine**: 구성 가능한 필터와 선택적 payload 변환을 통해 실시간 calendar 및 시그널 데이터(earnings, dividends, ratings, option activity, WIIMs 등)를 제공합니다. 전체 가이드는 [Data Webhook Engine](./webhook-engine)에서 확인할 수 있습니다.
+* 추가 webhook 구성은 계정 단위로 설정할 수 있습니다. 특정 데이터셋을 활성화하거나 새로운 webhook URL을 등록하려면 Benzinga 담당자에게 문의하십시오.
+
+<div id="integration-flow">
+  ## 통합 흐름
+</div>
+
+<Steps>
+  <Step title="엔드포인트와 필터 공유">
+    외부에서 접근 가능한 HTTPS 엔드포인트와 필요한 데이터 유형 또는 지역 필터를 제공하십시오. Benzinga에서 해당 설정으로 webhook을 구성합니다.
+  </Step>
+
+  <Step title="통합 테스트">
+    [Test Webhook Delivery](/ko/api-reference/webhook_api/test-webhook-delivery) 엔드포인트를 사용하여 webhook 엔드포인트가 올바르게 구성되었고 페이로드를 정상적으로 수신할 수 있는지 확인하십시오.
+  </Step>
+
+  <Step title="전달을 멱등적으로 처리">
+    JSON 페이로드를 파싱하고, 중복을 방지하기 위해 `id` 및 `X-BZ-Delivery` 값을 사용한 뒤, 수신을 확인하기 위해 2xx 상태 코드로 신속하게 응답하십시오.
+  </Step>
+
+  <Step title="모니터링 및 반복 개선">
+    로그에서 실패, 타임아웃 및 재시도를 추적하십시오. 다운스트림 시스템에 새로운 요구 사항이 생기는 경우, Benzinga 담당자와 함께 필터 또는 페이로드 변환을 조정하십시오.
+  </Step>
+</Steps>
+
+<div id="best-practices">
+  ## 모범 사례
+</div>
+
+* Webhook 엔드포인트에 HTTPS와 인증을 사용하세요.
+* 작업을 비동기적으로 처리하여 30초 이내에 응답을 반환하세요.
+* 재시도 시 멱등성을 보장하기 위해 처리된 delivery ID를 저장하세요.
+* 라이브 전송으로 전환하기 전에 비프로덕션 엔드포인트에서 테스트하세요.

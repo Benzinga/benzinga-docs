@@ -1,0 +1,78 @@
+---
+title: "محللو التقييم"
+description: ratingsAnalysts()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#ratingsanalysts)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب توصيات المحللين
+
+<div id="get">
+  ## get
+</div>
+
+يُرجِع قائمة كاملة بالمحلّلين الذين يقدّمون تقييمات
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetRatingsAnalystsRequest;
+import org.benzinga.BZClient.models.operations.GetRatingsAnalystsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetRatingsAnalystsRequest req = GetRatingsAnalystsRequest.builder()
+                .build();
+
+        GetRatingsAnalystsResponse res = sdk.ratingsAnalysts().get()
+                .request(req)
+                .call();
+
+        if (res.modelsRatingsAnalystJSON().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل                                                                          | النوع                                                                             | إلزامي                                                                            | الوصف                                                                            |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `request`                                                                         | [GetRatingsAnalystsRequest](../../models/operations/GetRatingsAnalystsRequest.md) | :heavy&#95;check&#95;mark:                                                                | كائن الطلب المستخدم في هذه العملية.                                             |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetRatingsAnalystsResponse](../../models/operations/GetRatingsAnalystsResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

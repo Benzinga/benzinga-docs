@@ -1,0 +1,90 @@
+---
+title: "مرحبًا بك في Benzinga"
+description: "مرحبًا بك في توثيق مطوري واجهات برمجة التطبيقات API من Benzinga!"
+icon: hand-wave
+---
+
+في بوابة توثيق المطورين ضمن [Benzinga Cloud](https://cloud.benzinga.com/) ستجد توثيق واجهات برمجة التطبيقات API لبياناتنا الإخبارية وبيانات السوق وبيانات الشركات. إذا كانت لديك أي أسئلة، فيرجى [التواصل معنا](mailto:partners@benzinga.com). يسعدنا دائمًا تقديم المساعدة.
+
+<div id="about-this-documentation">
+  ## حول هذا التوثيق
+</div>
+
+بالنسبة لواجهات برمجة تطبيقات REST، يستند هذا التوثيق إلى مواصفات OpenAPI. يمكنك عرض مواصفة YAML الخام من خلال الاطلاع على المستودع العام لتطبيق التوثيق هذا، من [هنا](https://github.com/Benzinga/doc-site-mintlify).
+
+يوجد عميل REST مدمج مباشرة في قسم "Playground" لكل صفحة تعتمد على OpenAPI. بمجرد حصولك على مفتاح API، يمكنك اختبار الاستدعاءات دون مغادرة بوابة التوثيق. بدلاً من ذلك، يمكنك اختبار الاستدعاءات باستخدام أي عميل REST بواجهة مستخدم رسومية أخرى ([Postman](https://www.getpostman.com/)، [Insomnia](https://insomnia.rest/)، [Paw](https://paw.cloud/)) أو أدوات سطر الأوامر مثل cUrl1.
+
+أخيرًا، تكون مواصفات OpenAPI متوافقة مع الأدوات في منظومة Swagger، بحيث يمكنك حتى [توليد عميل برمجي للغة البرمجة التي تختارها](http://swagger.io/swagger-codegen/).
+
+<Info>
+    التوثيق لدينا مدعوم بالذكاء الاصطناعي. جرِّب طرح سؤال باستخدام Ctrl + K (على الكمبيوتر الشخصي) أو Cmd + K (على أجهزة Mac).
+</Info>
+
+<div id="acessing-the-data">
+  ## الوصول إلى البيانات
+</div>
+
+<Steps>
+    <Step title="تسجيل الدخول إلى حسابك">
+        انقر على "[Get Started](https://www.benzinga.com/apis/licensing/register)" لإنشاء حساب.
+    </Step>
+    <Step title="انسخ مفتاح واجهة برمجة التطبيقات API الخاص بك">
+        بعد تسجيل الدخول إلى لوحة تحكم المستخدم، انسخ مفتاح واجهة برمجة التطبيقات API الخاص بك.
+    </Step>
+    <Step title="ابدأ التطوير!">
+        تتم المصادقة باستخدام مفتاح واجهة برمجة التطبيقات API المُمرَّر كمعامل استعلام في عنوان URL باسم "token".
+    </Step>
+</Steps>
+
+<div id="best-practices">
+  ## أفضل الممارسات
+</div>
+
+نوصي بأن يستخدم العملاء مكتبات العميل (clients) التي توفّرها Benzinga كلما كان ذلك ممكنًا. العديد من نقاط النهاية متاحة في [مكتبة Python](https://github.com/Benzinga/benzinga-python-client) الخاصة بنا، كما نقدّم تطبيقات توضيحية ومكتبات عملاء عبر [Github](https://github.com/benzinga) العام الخاص بنا.
+
+أخيرًا، نوصي بشدة باستخدام التغييرات (deltas) عند استخدام calendar وSignals وNews ضمن واجهة برمجة التطبيقات API، خصوصًا عند استخدامها لإدخال البيانات الآني (real-time ingestion) بدلًا من إدخال البيانات التاريخية. يمكن تنفيذ ذلك باستخدام معامل الاستعلام `parameters[updated]` مع calendar وSignals، ومعامل الاستعلام `updatedSince` مع News. يضمن استخدام هذه المعاملات تقليل زمن الاستجابة إلى الحد الأدنى.
+
+<div id="additional-resources">
+  ## موارد إضافية
+</div>
+
+<CardGroup cols={2}>
+    <Card title="حالة واجهات برمجة التطبيقات API" icon="signal-bars" href="https://benzinga1.statuspage.io">
+        اطّلع على صفحة حالة واجهة برمجة تطبيقات Benzinga للبقاء على علم بأي انقطاعات في خدمات Benzinga.
+    </Card>
+    <Card title="تشغيل عبر Postman" icon="signs-post" href="">
+        شغّل واجهات Benzinga لبرمجة التطبيقات API في بيئة Postman الخاصة بك.
+    </Card>
+    <Card title="الفعاليات" icon="award" href="https://www.benzinga.com/events/fintech-awards?utm_source=bzapidocs&utm_medium=organic&utm_campaign=docs&utm_term=benzingaevents&utm_content=home">
+        تهدف فعاليات Benzinga إلى ربط المتداولين والمستثمرين والشركات بفرص النمو.
+    </Card>
+    <Card title="منصة Benzinga Research Terminal" icon="rectangle-pro" href="https://www.benzinga.com/pro/register?utm_source=bzapidocs&utm_medium=organic&utm_campaign=docs&utm_term=benzingapro&utm_content=home">
+        تقدّم Benzinga Pro عشرات تنبيهات الأخبار العاجلة القادرة على تحريك السوق كل يوم.
+    </Card>
+</CardGroup>
+
+----
+
+<div id="get-in-touch">
+  ## تواصل معنا!
+</div>
+
+<Info>
+    ## اتصل بنا
+    ### الدعم
+
+    إذا كانت لديك أي أسئلة أو استفسارات، _فنحن هنا للاستماع إليك_.
+
+    - البريد الإلكتروني: partners@benzinga.com
+
+    ### الترخيص
+
+    - الموقع الإلكتروني: [Benzinga Cloud](https://cloud.benzinga.com/)
+    - البريد الإلكتروني: licensing@benzinga.com
+    - الهاتف: +1-877-440-ZING (9464)
+
+</Info>
+
+<Info>
+    هل ذكرنا أن [Benzinga لديها فرص توظيف](http://jobs.benzinga.com/)؟
+</Info>

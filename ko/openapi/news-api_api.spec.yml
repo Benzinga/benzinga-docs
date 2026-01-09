@@ -1,0 +1,395 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: Bearer 토큰 인증
+  title: Newsfeed & Why is it Moving v2
+  version: 2.0.0
+paths:
+  /api/v2.1/news/channels:
+    get:
+      description: 사용 가능한 모든 뉴스 채널 목록을 반환합니다. 이 채널들은 뉴스 항목을 필터링하는 데 사용할 수 있습니다. 채널에는
+        하위 채널이 있을 수 있지만, 모든 하위 채널도 각각 개별 채널로 나열됩니다.
+      operationId: get-channels
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+      summary: 사용 가능한 뉴스 채널 가져오기
+      tags:
+        - Channels
+  /api/v2/news:
+    get:
+      description: 이 REST API는 뉴스에 대한 구조화된 데이터를 반환합니다. 최적의 성능을 위해 tickers, date,
+        channels와 같은 파라미터를 사용해 쿼리 범위를 제한하거나, 증분 데이터의 경우 updatedSince를 사용하십시오.
+        페이지 오프셋은 0에서 100000 사이로 제한됩니다.
+      operationId: get-news
+      parameters:
+        - description: 반환 형식 지정
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+              - application/xml
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋 값은 0~100000 범위로 제한됩니다. 날짜 등
+            다른 파라미터를 사용하여 쿼리 결과를 제한하십시오.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수입니다. 최대 100개입니다.
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            maximum: 100
+            default: 15
+        - description: 헤드라인만 (headline), 헤드라인 + 요약 (abstract), 헤드라인 + 전체 본문 (full) 텍스트 중에서
+            지정합니다
+          in: query
+          name: displayOutput
+          schema:
+            type: string
+            enum:
+              - full
+              - abstract
+              - headline
+            default: headline
+        - description: "뉴스를 조회할 날짜입니다. dateFrom과 dateTo가 동일한 경우 이 두 값을 대신하는 축약형입니다. 형식:
+            yyyy-mm-dd"
+          in: query
+          name: date
+          schema:
+            type: string
+        - description: "조회 시작 날짜입니다. 게시일 기준으로 정렬됩니다. 형식: yyyy-mm-dd"
+          in: query
+          name: dateFrom
+          schema:
+            type: string
+        - description: "조회할 시점을 지정하는 날짜입니다. 게시 날짜 기준으로 정렬됩니다. 형식: yyyy-mm-dd"
+          in: query
+          name: dateTo
+          schema:
+            type: string
+        - description: 가져오고 정렬 기준으로 사용할 마지막 업데이트 시각을 나타내는 Unix 타임스탬프(UTC)
+          in: query
+          name: updatedSince
+          schema:
+            type: integer
+        - description: 가져오기 및 정렬 기준으로 사용할 마지막 게시 Unix 타임스탬프(UTC)
+          in: query
+          name: publishedSince
+          schema:
+            type: integer
+        - description: "결과 정렬 방식을 지정합니다. 기본값은 created, DESC입니다. 형식: field:direction. 정렬
+            필드: id, created, updated(업데이트 시각). 정렬 순서: asc(오름차순), desc(내림차순)"
+          in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - id:asc
+              - id:desc
+              - created:asc
+              - created:desc
+              - updated:asc
+              - updated:desc
+        - description: "쉼표로 구분된 국제증권식별번호(ISIN) 1개 이상. 최대 50개. 형식: csv"
+          in: query
+          name: isin
+          schema:
+            type: string
+        - description: "하나 이상의 CUSIP을 쉼표로 구분하여 입력합니다. 최대 50개까지 입력할 수 있습니다. 라이선스 계약이 필요합니다.
+            형식: csv"
+          in: query
+          name: cusips
+          schema:
+            type: string
+        - description: "쉼표로 구분된 하나 이상의 티커 심볼. 최대 50개까지. 형식: csv"
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: "하나 이상의 기본 티커 심볼을 쉼표(,)로 구분해 지정합니다. 기본 티커 기준으로만 필터링합니다. 형식: CSV"
+          in: query
+          name: primaryTickers
+          schema:
+            type: string
+        - description: "쉼표로 구분된 하나 이상의 채널 이름 또는 ID. 형식: CSV"
+          in: query
+          name: channels
+          schema:
+            type: string
+        - description: "쉼표로 구분된 하나 이상의 단어나 구; 우선순위에 따라 Title, Tags, Body를 순서대로 검색합니다. 형식:
+            CSV"
+          in: query
+          name: topics
+          schema:
+            type: string
+        - description: 토픽 쿼리에서 사용하는 논리 연산자입니다. 모든 토픽이 모두 만족되어야 할 경우에는 'and', 하나라도 만족하면 되는
+            경우에는 'or'를 사용하세요
+          in: query
+          name: topic_group_by
+          schema:
+            type: string
+            enum:
+              - and
+              - or
+            default: or
+        - description: "쉼표로 구분된 하나 이상의 작성자 이름. 형식: CSV"
+          in: query
+          name: authors
+          schema:
+            type: string
+        - description: "쉼표로 구분된 하나 이상의 콘텐츠 타입. 형식: csv"
+          in: query
+          name: content_types
+          schema:
+            type: string
+        - description: 원하는 api 응답 형식을 지정합니다
+          in: query
+          name: format
+          schema:
+            type: string
+            enum:
+              - text
+        - description: 중요도 기준으로 필터링
+          in: query
+          name: importance
+          schema:
+            type: string
+            enum:
+              - low
+              - medium
+              - high
+        - description: "지역으로 필터링합니다(예: 캐나다 데이터의 경우 'ca' 또는 'canada')"
+          in: query
+          name: region
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
+            text/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
+        "400":
+          description: 유효하지 않거나 누락된 쿼리 매개변수
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "499":
+          description: 요청 컨텍스트가 취소됨
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+        "500":
+          description: 내부 오류
+          content:
+            application/json:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 뉴스 항목 가져오기
+      tags:
+        - News
+  /api/v2/news-removed:
+    get:
+      description: 삭제된 뉴스 데이터를 반환합니다. 결과는 지정한 타임스탬프 이후에 업데이트된 항목만 포함하도록 필터링됩니다.
+      operationId: get-removed-news
+      parameters:
+        - description: 반환 형식을 지정합니다.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: 페이지 오프셋입니다. 최적화, 성능 및 기술적 이유로 페이지 오프셋은 0에서 100000 사이로 제한됩니다. 날짜 등의
+            다른 파라미터를 사용해 쿼리 결과를 제한하세요.
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 반환되는 결과 수. 최대 100개.
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            maximum: 100
+            default: 15
+        - description: 결과가 지정된 Unix 타임스탬프(UTC) 이후에 업데이트된 항목만 포함되도록 필터링합니다.
+          in: query
+          name: updatedSince
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: 성공
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  items:
+                    $ref: "#/components/schemas/api.NewsRemovedItem"
+                  type: array
+                type: object
+        "400":
+          description: 유효하지 않거나 누락된 쿼리 파라미터
+          content:
+            application/json:
+              schema:
+                type: string
+        "499":
+          description: 요청 컨텍스트 취소됨
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: 내부 오류
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: 삭제된 뉴스 데이터를 반환합니다
+      tags:
+        - News
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      description: API 키 인증입니다. API 키를 쿼리 매개변수로 전달하세요.
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    api.ChannelTag:
+      description: 채널 또는 태그 이름
+      properties:
+        name:
+          example: Technology
+          type: string
+      type: object
+    api.Image:
+      description: 크기 및 url이 포함된 기사 이미지
+      properties:
+        size:
+          example: large
+          type: string
+        url:
+          example: https://cdn.benzinga.com/files/images/story/2024/example.jpg
+          type: string
+      type: object
+    api.NewsItem:
+      description: 모든 메타데이터가 포함된 뉴스 기사 항목
+      properties:
+        author:
+          example: Benzinga Newsdesk
+          type: string
+        body:
+          type: string
+        channels:
+          items:
+            $ref: "#/components/schemas/api.ChannelTag"
+          type: array
+        created:
+          example: Wed, 17 May 2017 14:20:15 -0400
+          type: string
+        id:
+          example: 123456
+          type: integer
+        image:
+          items:
+            $ref: "#/components/schemas/api.Image"
+          type: array
+        original_id:
+          type: integer
+        stocks:
+          items:
+            $ref: "#/components/schemas/api.Stock"
+          type: array
+        tags:
+          items:
+            $ref: "#/components/schemas/api.ChannelTag"
+          type: array
+        teaser:
+          type: string
+        title:
+          example: Apple Announces New iPhone
+          type: string
+        updated:
+          example: Wed, 17 May 2017 14:20:15 -0400
+          type: string
+        url:
+          example: https://www.benzinga.com/news/123456
+          type: string
+      type: object
+    api.NewsRemovedItem:
+      description: ID 및 업데이트 타임스탬프를 포함한 삭제된 뉴스 기사
+      properties:
+        id:
+          example: 123456
+          type: integer
+        updated:
+          example: Wed, 17 May 2017 14:20:15 -0400
+          type: string
+      type: object
+    api.Stock:
+      description: 티커 심볼 및 식별자와 함께 제공되는 주식 정보
+      properties:
+        cusip:
+          example: "037833100"
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        isin:
+          example: US0378331005
+          type: string
+        name:
+          example: AAPL
+          type: string
+      type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD

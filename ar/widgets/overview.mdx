@@ -1,0 +1,145 @@
+---
+title: "ودجات Benzinga"
+description: "تصورات بصرية لبيانات مالية قابلة للتضمين في موقعك الإلكتروني"
+---
+
+ودجات Benzinga هي مكونات جاهزة قابلة للتضمين تعرض الرسوم البيانية المالية، ومعلومات الأسهم، وبيانات السوق على موقعك الإلكتروني. يمكن دمجها بسلاسة مع حد أدنى من الإعداد، وهي قابلة للتخصيص بالكامل لتلائم هوية علامتك التجارية.
+
+أمثلة على الودجات:
+
+----
+
+<div id="charting">
+  ## الرسوم البيانية:
+</div>
+
+***
+
+<iframe frameBorder="0" height="600" width="100%" src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF" />
+
+عنصر iframe:
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    class="w-full"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF"
+></iframe>
+```
+
+***
+
+
+<div id="sector-performance">
+  ## أداء القطاعات:
+</div>
+
+***
+
+<div style={{ width: '100%', overflow: 'hidden' }}>
+  <div style={{ transform: 'scale(0.75)', transformOrigin: 'top left', width: 1200, height: 550 }}>
+    <iframe frameBorder="0" width="100%" height="700" src="https://widgets.benzinga.com/embed/sector-performance-heatmap" />
+  </div>
+</div>
+
+iframe:
+
+```html
+<iframe
+  frameBorder="0"
+  height="1550"
+  src="https://widgets.benzinga.com/embed/sector-performance-heatmap"
+  class="w-full"
+></iframe>
+```
+
+***
+
+
+<div id="sankey-chart">
+  ## مخطط سانكي:
+</div>
+
+***
+
+<iframe frameBorder="0" height="600" src="https://widgets.benzinga.com/embed/sankey?symbol=AAPL" width="100%" />
+
+iframe:
+
+```html
+<iframe
+  frameBorder="0"
+  height="1550"
+  src="https://widgets.benzinga.com/embed/sankey?symbol=${ticker_name}"
+  class="w-full"
+></iframe>
+```
+
+***
+
+
+<div id="features">
+  ## الميزات
+</div>
+
+<div id="interactive-stock-charts">
+  ### رسوم بيانية تفاعلية للأسهم
+</div>
+
+* بيانات أسعار الأسهم الفورية
+* أُطُر زمنية قابلة للتخصيص (يوم واحد، 6 أشهر، 5 سنوات، إلخ)
+* رسوم بيانية تُحدَّث تلقائيًا لتعكس ظروف السوق الحالية
+
+```html
+<iframe frameBorder="0" height="500" width="500" src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF" title="رسم بياني لسهم Apple" ></iframe>
+```
+
+
+<div id="additional-widgets">
+  ### أدوات واجهة إضافية
+</div>
+
+* رموز الأسهم: أسعار أسهم حية في شريط رموز متحرك
+* خلاصات الأخبار: أحدث المستجدات في أخبار السوق
+* رؤى الشركة: إحصاءات وبيانات أساسية عن الشركة
+
+<div id="integration">
+  ## التكامل
+</div>
+
+ادمج عناصر الواجهة في ثلاث خطوات:
+
+1. **اختر نوع عنصر الواجهة**: اختر من الرسوم البيانية للأسهم، موجزات الأخبار، رموز الأسهم، أو رؤى الشركات.
+
+2. **خصص كود التضمين**: عدّل معاملات عنوان URL بما يتوافق مع متطلباتك (رمز السهم، الإطار الزمني، الألوان):
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    class="w-full"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF"
+></iframe>
+```
+
+3. **ضمّنه في موقعك**: أدرج شفرة iframe في HTML أو في نظام إدارة المحتوى لديك (WordPress، Wix، إلخ)، ثم اختبر طريقة العرض.
+
+
+<div id="customization-options">
+  ## خيارات التخصيص
+</div>
+
+يمكن تخصيص عناصر واجهة المستخدم عبر معاملات عنوان الـ URL:
+
+* `symbol` - رمز تداول السهم
+* `timeframe` - الإطار الزمني للرسم البياني (1d، 6m، 5y، إلخ.)
+* `bgColor` - لون الخلفية (بتنسيق سداسي عشري hex)
+* `chartColor` - لون خط الرسم البياني (بتنسيق سداسي عشري hex)
+* `exchange` - البورصة التي يُتداول فيها السهم
+
+<div id="support">
+  ## الدعم
+</div>
+
+للحصول على مساعدة بخصوص التكامل أو للاستفسار عن التخصيص، تواصل مع licensing@benzinga.com.

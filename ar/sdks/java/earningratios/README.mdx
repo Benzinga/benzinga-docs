@@ -1,0 +1,80 @@
+---
+title: "نِسَب الربحية"
+description: earningRatios()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#earningratios)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب نسب الأرباح v2.1
+
+<div id="get">
+  ## جلب
+</div>
+
+جلب نسب الأرباح لقائمة من الرموز، أو أرقام التعريف الدولي للأوراق المالية ISIN، أو معرّفات CIK
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEarningRatiosV21Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEarningRatiosV21Response res = sdk.earningRatios().get()
+                .symbols("<value>")
+                .asOf("<value>")
+                .period("<value>")
+                .reportType("<value>")
+                .call();
+
+        if (res.string().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| Parameter                       | Type                            | Required                        | Description                                   |
+| ------------------------------- | ------------------------------- | ------------------------------- | --------------------------------------------- |
+| `symbols`                       | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | قائمة من الرموز مفصولة بفواصل                |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | تاريخ السريان                                |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | الفترة                                        |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | نوع التقرير                                   |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetEarningRatiosV21Response](../../models/operations/GetEarningRatiosV21Response.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

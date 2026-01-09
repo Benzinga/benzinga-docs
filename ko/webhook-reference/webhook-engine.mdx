@@ -1,0 +1,673 @@
+---
+title: "Data Webhook Engine"
+description: "Benzinga calendar, 신호, 센티먼트 데이터를 실시간으로 웹훅 엔드포인트에 직접 전송하세요."
+icon: bolt
+---
+
+Webhook 엔진은 calendar, 신호, 센티먼트 업데이트를 HTTP 엔드포인트로 직접 푸시하며, 재시도, 필터링 및 변환 옵션을 기본으로 제공합니다. 이 가이드를 통해 데이터 전달 동작 방식, 페이로드 구조, 그리고 연동 모범 사례를 이해할 수 있습니다.
+
+<div id="overview">
+  ## 개요
+</div>
+
+Benzinga Data Webhook 서비스는 구성한 webhook 엔드포인트로 실시간 calendar 및 시그널 데이터를 전송합니다. calendar 이벤트(실적, 배당, 리서치 의견 변경 등)나 시그널(옵션 거래 동향, 거래 정지 등)이 생성, 업데이트 또는 제거되면, 서비스는 데이터 페이로드를 포함한 HTTP POST 요청을 자동으로 사용자의 webhook URL로 전송합니다.
+
+주요 기능:
+
+- calendar 및 시그널 범위를 설정해 필요한 데이터만 수신
+- 중복 제거를 위해 고유한 `X-BZ-Delivery` 헤더와 페이로드 `id` 필드를 사용하는 멱등 전달
+- 빠른 지수 백오프 재시도에서 장기 시간 간격(시간 단위) 재시도로 이어지는 견고한 재시도 스케줄
+- 다운스트림 시스템의 요구사항에 맞추기 위한 선택적 content 변환 기능
+
+<div id="webhook-delivery">
+  ## 웹훅 전송
+</div>
+
+<div id="http-request-details">
+  ### HTTP 요청 세부 정보
+</div>
+
+- **Method**: `POST`
+- **Content-Type**: `application/json`
+- **User-Agent**: `Benzinga-Dispatch/v1.0.0 {build-version}`
+- **Custom Header**: `X-BZ-Delivery` - 각 전송 시도마다 부여되는 고유 UUID 값 (중복 제거에 유용)
+
+<div id="retry-policy">
+  ### 재시도 정책
+</div>
+
+데이터 webhook 서비스는 다음과 같은 강력한 재시도 메커니즘을 사용합니다:
+
+- **지수 단계**: 처음 5분 동안 최대 15회 재시도
+- **추가 지수 재시도**: 필요 시 11회 추가 재시도
+- **고정 간격 단계**: 장기 재시도를 위해 시간당 12회 × 하루 24시간 × 7일 동안 재시도
+- **최대 대기 시간**: 지수 단계에서 재시도 간 대기 시간은 최대 5분
+- **요청 타임아웃**: 요청당 30초
+
+<div id="response-requirements">
+  ### 응답 요구 사항
+</div>
+
+웹훅 엔드포인트는 다음 HTTP 상태 코드 중 하나를 반환해야 합니다:
+
+- **성공 코드** (200-202, 204): 웹훅이 성공적으로 처리되었음을 의미합니다. 재시도는 수행되지 않습니다.
+- **클라이언트 오류 코드** (401-403): 인증/인가 실패를 의미합니다. 추가 실패 시도를 방지하기 위해 재시도는 **즉시 중단**됩니다.
+- **기타 코드** (4xx, 5xx): 위에서 설명한 재시도 정책에 따라 재시도가 트리거됩니다.
+
+**중요**: 타임아웃을 방지하려면 엔드포인트가 빠르게 응답해야 합니다(이상적으로 30초 이내). 타임아웃이 발생하면 엔진이 재시도를 수행합니다.
+
+<div id="webhook-payload-structure">
+  ## Webhook Payload 구조
+</div>
+
+각 Webhook 전달에는 다음과 같은 구조의 JSON Payload가 포함됩니다:
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b7",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b7",
+      "date": "2024-01-15",
+      "date_confirmed": 1,
+      "time": "08:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "period": "Q1",
+      "period_year": 2024,
+      "currency": "USD",
+      "eps": "2.18",
+      "eps_est": "2.10",
+      "revenue": "123900000000",
+      "revenue_est": "121000000000"
+    }
+  }
+}
+```
+
+
+<div id="payload-fields">
+  ### 페이로드 필드
+</div>
+
+<div id="top-level-fields">
+  #### 최상위 필드
+</div>
+
+- **`id`** (string, UUID): 해당 webhook 전송의 고유 식별자입니다. 중복 제거를 위해 이 값을 사용하십시오.
+- **`api_version`** (string): API 버전 식별자입니다. 현재 값은 `"webhook/v1"`입니다.
+- **`kind`** (string): 데이터 유형 경로 식별자입니다. 가능한 모든 값은 [지원되는 데이터 유형](#supported-data-types)을 참조하십시오.
+
+<div id="data-object">
+  #### 데이터 객체
+</div>
+
+- **`action`** (string): 이벤트 action 유형. 가능한 값:
+  - `"Created"`: 새로운 데이터가 생성됨 (새 webhook 키의 기본값)
+  - `"Updated"`: 기존 데이터가 업데이트됨
+  - `"Removed"`: 데이터가 제거됨
+  - **참고**: 레거시 webhook 키는 소문자 값 `"created"`, `"updated"`, `"removed"`를 받을 수 있음
+- **`id`** (string): calendar/signal 레코드의 고유 식별자
+- **`timestamp`** (string, ISO 8601): webhook이 생성된 시점의 타임스탬프
+- **`content`** (object): 실제 calendar 또는 signal 데이터. 구조는 데이터 유형에 따라 달라짐 ([지원되는 데이터 유형](#supported-data-types) 참조)
+
+<div id="supported-data-types">
+  ## 지원되는 데이터 유형
+</div>
+
+데이터 Webhook 서비스는 다음과 같은 calendar 및 시그널 유형을 지원합니다:
+
+<div id="calendar-data-types-v21">
+  ### 캘린더 데이터 유형 (v2.1)
+</div>
+
+| 데이터 유형 | Kind 경로 | 설명 |
+|-----------|-----------|-------------|
+| 실적 | `data/v2.1/calendar/earnings` | 기업 실적 발표 |
+| 배당 | `data/v2.1/calendar/dividends` | 배당 공시 및 지급 |
+| 투자 의견 | `data/v2.1/calendar/ratings` | 애널리스트 투자 의견 및 목표가 |
+| IPO | `data/v2.1/calendar/ipos` | 기업공개(IPO) |
+| 가이던스 | `data/v2.1/calendar/guidance` | 기업 가이던스 업데이트 |
+| 컨퍼런스 | `data/v2.1/calendar/conference` | 컨퍼런스 콜 및 발표 |
+| 경제 지표 | `data/v2.1/calendar/economics` | 경제 지표 및 발표 |
+| 공모 | `data/v2.1/calendar/offerings` | 유상증자 등 2차 발행 |
+| 인수합병 | `data/v2.1/calendar/ma` | M&A 발표 |
+| 소매 | `data/v2.1/calendar/retail` | 소매 판매 데이터 |
+| 주식 분할 | `data/v2.1/calendar/splits` | 주식 분할 |
+| FDA | `data/v2.1/calendar/fda` | FDA 승인 및 발표 |
+
+<div id="signals-data-types-v1">
+  ### 시그널 데이터 타입 (v1)
+</div>
+
+| 데이터 타입 | Kind Path | 설명 |
+|-----------|-----------|-------------|
+| 옵션 액티비티 | `data/v1/signal/option_activity` | 이례적인 옵션 거래 활동 |
+| WIIMs | `data/v1/wiims` | Why Is It Moving (WIIMs) 데이터 |
+| SEC 내부자 거래 | `data/v1/sec/insider_transactions/filings` | SEC 내부자 거래 공시 데이터 |
+| 정부 거래 | `data/v1/gov/usa/congress` | 미국 의회 거래 데이터 |
+
+<div id="additional-data-types-v1">
+  ### 추가 데이터 유형 (v1)
+</div>
+
+| 데이터 유형 | Kind 경로 | 설명 |
+|-----------|-----------|-------------|
+| Bulls Say Bears Say | `data/v1/bulls_bears_say` | 시장 심리 분석 |
+| Bulls Say Bears Say (Korean) | `data/v1/bulls_bears_say/korean` | 한국 시장 심리 분석 |
+| Analyst Insights | `data/v1/analyst/insights` | 애널리스트 인사이트 및 논평 |
+| Consensus Ratings | `data/v1/consensus-ratings` | 집계된 컨센서스 등급 |
+
+<div id="content-structure-examples">
+  ## content 구조 예제
+</div>
+
+<div id="earnings-example">
+  ### 실적 예제
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b7",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b7",
+      "date": "2024-01-15",
+      "date_confirmed": 1,
+      "time": "08:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "period": "Q1",
+      "period_year": 2024,
+      "currency": "USD",
+      "eps": "2.18",
+      "eps_est": "2.10",
+      "eps_prior": "1.88",
+      "eps_surprise": "0.08",
+      "eps_surprise_percent": "3.81",
+      "eps_type": "GAAP",
+      "revenue": "123900000000",
+      "revenue_est": "121000000000",
+      "revenue_prior": "117154000000",
+      "revenue_surprise": "2900000000",
+      "revenue_surprise_percent": "2.40",
+      "importance": 0
+    }
+  }
+}
+```
+
+
+<div id="dividends-example">
+  ### 배당 예시
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440001",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/dividends",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b8",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b8",
+      "date": "2024-02-15",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "currency": "USD",
+      "frequency": 4,
+      "dividend": "0.24",
+      "dividend_prior": "0.23",
+      "dividend_type": "Regular",
+      "dividend_yield": "0.50",
+      "ex_dividend_date": "2024-02-09",
+      "payable_date": "2024-02-15",
+      "record_date": "2024-02-12",
+      "confirmed": true,
+      "importance": 0
+    }
+  }
+}
+```
+
+
+<div id="ratings-example">
+  ### Ratings 예시
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440002",
+  "api_version": "webhook/v1",
+  "kind": "data/v2.1/calendar/ratings",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4b9",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4b9",
+      "date": "2024-01-15",
+      "time": "09:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "isin": "US0378331005",
+      "cusip": "037833100",
+      "name": "Apple Inc.",
+      "action_pt": "Maintains",
+      "action_company": "Maintains",
+      "currency": "USD",
+      "rating_current": "Buy",
+      "pt_current": "200.00",
+      "pt_prior": "195.00",
+      "adjusted_pt_current": "200.00",
+      "adjusted_pt_prior": "195.00",
+      "rating_prior": "Buy",
+      "url": "https://www.benzinga.com/...",
+      "importance": 0,
+      "firm": {
+        "name": "Goldman Sachs",
+        "id": "123"
+      },
+      "analyst": {
+        "name": "John Doe",
+        "id": "456"
+      }
+    }
+  }
+}
+```
+
+
+<div id="option-activity-example">
+  ### 옵션 거래 동향 예시
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440003",
+  "api_version": "webhook/v1",
+  "kind": "data/v1/signal/option_activity",
+  "data": {
+    "action": "Created",
+    "id": "60a2368362c99dd8ae0cf4ba",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "content": {
+      "id": "60a2368362c99dd8ae0cf4ba",
+      "date": "2024-01-15",
+      "time": "10:00:00",
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "option_symbol": "AAPL240119C00150000",
+      "strike": "150.00",
+      "expiration": "2024-01-19",
+      "type": "call",
+      "volume": 10000,
+      "open_interest": 50000,
+      "premium": "500000.00",
+      "importance": 0
+    }
+  }
+}
+```
+
+
+<div id="event-actions">
+  ## 이벤트 action
+</div>
+
+데이터 webhook 서비스는 세 가지 action 유형에 대한 이벤트를 전송합니다:
+
+1. **Created**: 새로운 calendar 또는 signal 데이터가 게시될 때 발생합니다
+2. **Updated**: 기존 데이터가 수정될 때 발생합니다
+3. **Removed**: 데이터가 삭제될 때 발생합니다
+
+**참고**: `action` 형식은 webhook 구성에 따라 달라집니다:
+
+- **새 webhook 키**: 대문자로 된 action을 수신합니다 (`"Created"`, `"Updated"`, `"Removed"`)
+- **레거시 webhook 키**: 소문자로 된 action을 수신합니다 (`"created"`, `"updated"`, `"removed"`)
+
+<div id="content-filtering">
+  ## 콘텐츠 필터링
+</div>
+
+Webhook 설정에 필터를 추가해 어떤 데이터를 수신할지 제어할 수 있습니다:
+
+<div id="filter-options">
+  ### 필터 옵션
+</div>
+
+- **데이터 유형**: 특정 calendar/시그널 유형으로 필터링 (예: 실적만, 리서치 의견만)
+- **지리적 필터**: 다음 데이터 수신 여부를 제어:
+  - 미국 시장 데이터 (`AllowUSA`)
+  - 캐나다 시장 데이터 (`AllowCanada`)
+  - 인도 시장 데이터 (`AllowIndia`) - WIIMs 데이터용
+- **날짜 필터**: 지정한 날짜보다 이전의 과거 데이터 제외 (`MaxHistoricalDate`)
+
+<div id="exchange-filtering">
+  ### Exchange 필터링
+</div>
+
+서비스는 사용자의 지역 설정에 따라 자동으로 exchange 기준으로 필터링을 수행합니다:
+
+- **미국 거래소(US Exchanges)**: NYSE, NASDAQ, AMEX, ARCA, OTC, OTCBB, PINX, PINK, BATS, IEX
+- **캐나다 거래소(Canadian Exchanges)**: TSX, TSXV, CSE, CNSX
+
+<div id="content-transformation">
+  ## Content 변환
+</div>
+
+webhook 엔진은 특정 데이터 유형에 대해 content 변환을 지원합니다. 변환은 webhook 구성에 따라 적용되며 다음을 포함할 수 있습니다:
+
+- 필드 이름 변경
+- 데이터 형식 변환
+- 필드 필터링/제거
+
+<div id="best-practices">
+  ## 모범 사례
+</div>
+
+<div id="1-idempotency">
+  ### 1. 멱등성
+</div>
+
+멱등성을 구현하려면 페이로드의 `id` 필드(UUID)를 사용하세요. 중복 처리를 방지하기 위해 처리된 delivery ID를 저장하세요.
+
+<div id="2-response-handling">
+  ### 2. 응답 처리
+</div>
+
+- webhook을 수신하면 즉시 `200 OK` 또는 `204 No Content`를 반환하세요
+- 필요하다면 데이터를 비동기적으로 처리하세요
+- 응답을 반환하기 전에 오래 걸리는 작업은 수행하지 마세요
+
+<div id="3-error-handling">
+  ### 3. 오류 처리
+</div>
+
+- 적절한 HTTP 상태 코드를 반환합니다
+- 인증 오류(401-403)의 경우 엔드포인트가 올바르게 구성되어 있는지 확인합니다
+- 일시적인 오류의 경우 재시도를 트리거할 수 있도록 5xx 상태 코드를 반환합니다
+
+<div id="4-security">
+  ### 4. 보안
+</div>
+
+- 웹훅 엔드포인트에는 HTTPS를 사용하세요
+- 인증/인가를 구현하세요 (API 키, 토큰 등)
+- 추가 보안을 위해 `X-BZ-Delivery` 헤더를 검증하세요
+
+<div id="5-monitoring">
+  ### 5. 모니터링
+</div>
+
+- 엔드포인트의 응답 시간을 모니터링하세요
+- 반복된 실패에 대한 알림을 설정하세요
+- 전송 시도를 식별하기 위해 `X-BZ-Delivery` 헤더를 추적하세요
+
+<div id="6-data-type-handling">
+  ### 6. 데이터 타입 처리
+</div>
+
+- 데이터 타입을 판별하기 위해 `kind` 필드를 확인합니다
+- 데이터 타입 구조에 맞게 `content` 객체를 파싱합니다
+- 레거시 키를 지원하는 경우 서로 다른 `action` 형식(대문자와 소문자)을 모두 처리합니다
+
+<div id="example-webhook-handler">
+  ## 웹훅 핸들러 예제
+</div>
+
+<div id="python-flask">
+  ### Python (Flask)
+</div>
+
+```python
+from flask import Flask, request, jsonify
+import uuid
+
+app = Flask(__name__)
+processed_ids = set()
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    # 중복 제거를 위한 배달 ID 가져오기
+    delivery_id = request.headers.get('X-BZ-Delivery')
+    
+    # 페이로드 파싱
+    payload = request.json
+    content_id = payload['id']
+    
+    # 중복 확인
+    if content_id in processed_ids:
+        return jsonify({'status': 'duplicate'}), 200
+    
+    # 데이터 처리
+    action = payload['data']['action']
+    kind = payload['kind']
+    content = payload['data']['content']
+    
+    print(f"Received {action} event for {kind}")
+    print(f"Data ID: {content.get('id')}")
+    
+    # 다양한 데이터 타입 처리
+    if 'earnings' in kind:
+        print(f"Earnings: {content.get('ticker')} - {content.get('date')}")
+    elif 'ratings' in kind:
+        print(f"Rating: {content.get('ticker')} - {content.get('rating_current')}")
+    elif 'option_activity' in kind:
+        print(f"Option Activity: {content.get('ticker')} - {content.get('volume')}")
+    
+    # 처리 완료로 표시
+    processed_ids.add(content_id)
+    
+    # 즉시 성공 반환
+    return jsonify({'status': 'received'}), 200
+```
+
+
+<div id="nodejs-express">
+  ### Node.js (Express)
+</div>
+
+```javascript
+const express = require('express');
+const app = express();
+app.use(express.json());
+
+const processedIds = new Set();
+
+app.post('/webhook', (req, res) => {
+  // 중복 제거를 위한 배송 ID 가져오기
+  const deliveryId = req.headers['x-bz-delivery'];
+  
+  // 페이로드 파싱
+  const payload = req.body;
+  const contentId = payload.id;
+  
+  // 중복 확인
+  if (processedIds.has(contentId)) {
+    return res.status(200).json({ status: 'duplicate' });
+  }
+  
+  // 데이터 처리
+  const { action, content } = payload.data;
+  const kind = payload.kind;
+  
+  console.log(`Received ${action} event for ${kind}`);
+  console.log(`Data ID: ${content.id}`);
+  
+  // 다양한 데이터 유형 처리
+  if (kind.includes('earnings')) {
+    console.log(`Earnings: ${content.ticker} - ${content.date}`);
+  } else if (kind.includes('ratings')) {
+    console.log(`Rating: ${content.ticker} - ${content.rating_current}`);
+  } else if (kind.includes('option_activity')) {
+    console.log(`Option Activity: ${content.ticker} - ${content.volume}`);
+  }
+  
+  // 처리 완료로 표시
+  processedIds.add(contentId);
+  
+  // 즉시 성공 응답 반환
+  res.status(200).json({ status: 'received' });
+});
+
+app.listen(3000);
+```
+
+
+<div id="go">
+  ### Go
+</div>
+
+```go
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "log"
+    "net/http"
+    "sync"
+)
+
+var (
+    processedIDs = make(map[string]bool)
+    mu           sync.RWMutex
+)
+
+type WebhookPayload struct {
+    ID         string `json:"id"`
+    APIVersion string `json:"api_version"`
+    Kind       string `json:"kind"`
+    Data       struct {
+        Action    string                 `json:"action"`
+        ID        string                 `json:"id"`
+        Timestamp string                 `json:"timestamp"`
+        Content   map[string]interface{} `json:"content"`
+    } `json:"data"`
+}
+
+func webhookHandler(w http.ResponseWriter, r *http.Request) {
+    // 전송 ID 가져오기
+    deliveryID := r.Header.Get("X-BZ-Delivery")
+    
+    // 페이로드 파싱
+    var payload WebhookPayload
+    if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+    
+    // 중복 확인
+    mu.RLock()
+    if processedIDs[payload.ID] {
+        mu.RUnlock()
+        w.WriteHeader(http.StatusOK)
+        json.NewEncoder(w).Encode(map[string]string{"status": "duplicate"})
+        return
+    }
+    mu.RUnlock()
+    
+    // 데이터 처리
+    fmt.Printf("Received %s event for %s\n", payload.Data.Action, payload.Kind)
+    fmt.Printf("Data ID: %s\n", payload.Data.ID)
+    
+    // 다양한 데이터 타입 처리
+    content := payload.Data.Content
+    if ticker, ok := content["ticker"].(string); ok {
+        fmt.Printf("Ticker: %s\n", ticker)
+    }
+    
+    // 처리 완료로 표시
+    mu.Lock()
+    processedIDs[payload.ID] = true
+    mu.Unlock()
+    
+    // 성공 응답 반환
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(map[string]string{"status": "received"})
+}
+
+func main() {
+    http.HandleFunc("/webhook", webhookHandler)
+    log.Fatal(http.ListenAndServe(":8080", nil))
+}
+```
+
+
+<div id="troubleshooting">
+  ## 문제 해결
+</div>
+
+<div id="common-issues">
+  ### Common Issues
+</div>
+
+1. **웹훅이 수신되지 않음**
+   - 웹훅 URL이 올바르게 설정되었는지 확인하세요
+   - 엔드포인트가 외부에서 공개적으로 접근 가능한지 확인하세요
+   - API 키가 유효하고 활성 상태인지 확인하세요
+   - 필터가 모든 데이터 유형을 제외하고 있지 않은지 확인하세요
+   - 지리적 필터가 기대하는 데이터 범위와 일치하는지 확인하세요
+
+2. **중복 전송**
+   - `id` 필드를 사용해 멱등성을 구현하세요
+   - 엔드포인트의 응답 시간을 확인하세요 (응답이 느리면 재시도가 발생할 수 있습니다)
+
+3. **인증 오류 (401-403)**
+   - 엔드포인트의 인증 구성을 확인하세요
+   - API 키와 토큰을 확인하세요
+   - 참고: 인증 오류가 발생하면 재시도가 즉시 중단됩니다
+
+4. **타임아웃 오류**
+   - 엔드포인트가 30초 이내에 응답하는지 확인하세요
+   - 필요한 경우 데이터를 비동기적으로 처리하세요
+   - 성공 응답을 즉시 반환하고 이후에 처리하세요
+
+5. **예기치 않은 action 형식**
+   - 기존 웹훅 키(소문자 actions)를 사용 중인지 확인하세요
+   - 대문자 actions를 수신하려면 새 웹훅 키로 업데이트하세요
+   - 여러 클라이언트를 지원하는 경우 두 형식을 모두 처리하세요
+
+6. **누락된 데이터 유형**
+   - 웹훅 구성에 원하는 데이터 유형이 포함되어 있는지 확인하세요
+   - 지리적 필터(US/Canada/India 설정)를 확인하세요
+   - 날짜 필터가 최근 데이터를 제외하지 않는지 확인하세요
+
+<div id="support">
+  ## 지원
+</div>
+
+webhook 전송과 관련해 질문이 있거나 문제가 발생한 경우:
+
+- [Benzinga API 문서](https://docs.benzinga.io/)를 확인하세요
+- Benzinga 담당자에게 문의하세요
+- 통합 팀과 함께 webhook 구성을 검토하세요
+
+<div id="version-history">
+  ## 버전 이력
+</div>
+
+- **v1.0.0**: 초기 데이터 Webhook 서비스 출시
+- **현재**: 필터링, 변환 및 재시도 메커니즘 강화

@@ -1,0 +1,77 @@
+---
+title: '빠르게 시작하기'
+description: '5분 안에 멋진 문서를 만들기 시작하세요'
+---
+
+<div id="setup-your-development">
+  ## 개발 환경 설정
+</div>
+
+로컬에서 문서를 수정하고 공개용으로 배포하는 방법을 설명합니다.
+
+<div id="edit-and-preview">
+  ### 편집 및 미리보기
+</div>
+
+<AccordionGroup>
+  <Accordion icon="github" title="문서를 로컬로 클론하기">
+    온보딩 과정에서 GitHub 계정에 문서 content가 포함된 저장소를 생성했습니다.
+    이 저장소는
+    [대시보드](https://dashboard.mintlify.com)에서 확인할 수 있습니다. 저장소를 로컬로
+    클론하려면 터미널에서 다음
+    [지침](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+    을 따르세요.
+  </Accordion>
+
+  <Accordion icon="rectangle-terminal" title="변경 사항 미리보기">
+    미리보기를 통해 변경 사항이 의도한 대로 표시되는지 확인할 수 있습니다. 이를 위해
+    변경 사항을 로컬에서 렌더링하는 커맨드라인 인터페이스를 제공하고 있습니다. 1. 다음 명령어로 문서 변경 사항을 로컬에서 미리보기 위해
+    [Mintlify CLI](https://www.npmjs.com/package/mintlify)를 설치합니다: `npm i -g mintlify`
+    2. 문서 루트(`docs.json`이 있는 위치)에서 다음 명령어를 실행합니다: `mintlify dev`
+  </Accordion>
+</AccordionGroup>
+
+<div id="deploy-your-changes">
+  ### 변경 사항 배포하기
+</div>
+
+<AccordionGroup>
+  <Accordion icon="message-bot" title="GitHub 앱 설치">
+    GitHub 앱은 변경 사항을 문서 사이트에 자동으로 배포하므로 직접 배포를 관리할
+    필요가 없습니다. 설치 링크는
+    [dashboard](https://dashboard.mintlify.com)에서 확인할 수 있습니다. 봇이
+    성공적으로 설치되면 저장소의 커밋 해시 옆에 체크 표시가 나타나야 합니다.
+  </Accordion>
+
+  <Accordion icon="rocket" title="변경 사항 푸시하기">
+    문서 사이트에 변경 사항이 반영되도록 변경 사항을
+    [Git에 커밋하고 푸시](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
+    해야 합니다. 푸시한 후에도 GitHub 앱이 변경 사항을 정상적으로 배포하지 않은
+    것처럼 보이면, [dashboard](https://dashboard.mintlify.com)에서 문서를 수동으로
+    업데이트할 수도 있습니다.
+  </Accordion>
+</AccordionGroup>
+
+<div id="update-your-docs">
+  ## 문서를 업데이트하세요
+</div>
+
+MDX 구문과 React 컴포넌트를 사용해 파일에 직접 콘텐츠를 추가하세요. 기본 제공 컴포넌트를 사용하거나, 직접 컴포넌트를 만들어 사용할 수도 있습니다.
+
+<CardGroup>
+  <Card title="문서 스타일링" icon="paintbrush" href="/ko/settings/global">
+    맞춤형 브랜딩으로 문서에 개성을 더하세요.
+  </Card>
+
+  <Card title="API 엔드포인트 추가" icon="square-code" href="/ko/api-playground/configuration">
+    OpenAPI 스펙을 적용해 사용자의 API 상호작용을 활성화하세요.
+  </Card>
+
+  <Card title="애널리틱스 통합" icon="chart-mixed" href="/ko/analytics/supported-integrations">
+    문서에서의 사용자 상호작용을 분석해 인사이트를 얻으세요.
+  </Card>
+
+  <Card title="맞춤 도메인으로 호스팅" icon="browser" href="/ko/settings/custom-domain/subdomain">
+    문서를 자체 웹사이트 서브도메인에서 호스팅하세요.
+  </Card>
+</CardGroup>

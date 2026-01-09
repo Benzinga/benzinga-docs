@@ -1,0 +1,44 @@
+---
+title: 'كتل الكود'
+description: 'عرض الكود المضمَّن وكتل الكود'
+icon: 'code'
+---
+
+<div id="basic">
+  ## الأساسيات
+</div>
+
+<div id="inline-code">
+  ### شيفرة ضمن السطر
+</div>
+
+للإشارة إلى أن `word` أو `phrase` شيفرة، أَحِطها بعلامتَي الاقتباس العكسي (`).
+
+```
+للإشارة إلى `كلمة` أو `عبارة` ككود، ضعها بين علامات backticks (`).
+```
+
+
+<div id="code-block">
+  ### كتلة كود
+</div>
+
+استخدم [كتل الكود المحاطة بعلامات (fenced code blocks)](https://www.markdownguide.org/extended-syntax/#fenced-code-blocks) عن طريق إحاطة الكود بثلاث علامات backtick ```، واتبع العلامات الأولى باسم لغة البرمجة الخاصة بمقتطف الكود للحصول على تمييز الصياغة (syntax highlighting). اختياريًا، يمكنك أيضًا كتابة اسم مقطع الكود بعد اسم لغة البرمجة.
+
+```java HelloWorld.java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+
+````md
+```java HelloWorld.java
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+````

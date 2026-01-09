@@ -1,0 +1,88 @@
+---
+title: "오류"
+description: "Benzinga API의 오류 및 상태 코드를 처리하는 방법"
+---
+
+Benzinga API는 API 요청의 성공 또는 실패를 나타내기 위해 표준 HTTP 응답 코드를 사용합니다. 일반적으로:
+
+- **2xx**: 성공.
+- **4xx**: 클라이언트 오류(예: 필수 파라미터 누락, 잘못된 키).
+- **5xx**: 서버 오류(Benzinga 측에서 문제가 발생한 경우).
+
+<Tip>
+    요청이 성공했는지 판단할 때 항상 먼저 **HTTP 상태 코드**를 확인하십시오. 응답 본문 형식은 API 엔드포인트마다 달라질 수 있으므로, 응답 본문만으로 판단하지 마십시오.
+</Tip>
+
+<div id="http-status-codes">
+  ## HTTP 상태 코드
+</div>
+
+다음 표는 발생할 수 있는 표준 상태 코드를 나열합니다.
+
+| Code | Status | Description |
+| :--- | :--- | :--- |
+| **200** | `OK` | 요청이 성공했습니다. |
+| **400** | `Bad Request` | 요청이 허용되지 않는 형식입니다. 주로 누락되었거나 올바르지 않은 파라미터 때문입니다. |
+| **401** | `Unauthorized` | 유효한 API Key가 제공되지 않았습니다. `Authorization` 헤더 또는 `token` 파라미터를 확인하세요. |
+| **402** | `Request Failed` | 파라미터는 유효하지만 비즈니스 로직상의 이유로 요청이 실패했습니다. |
+| **403** | `Forbidden` | API Key는 유효하지만 이 리소스에 접근할 권한이 없습니다. |
+| **404** | `Not Found` | 요청한 리소스(예: ID, endpoint)가 존재하지 않습니다. |
+| **429** | `Too Many Requests` | 할당된 rate limit(요청 한도)를 초과했습니다. |
+| **500** | `Internal Server Error` | Benzinga 서버에서 문제가 발생했습니다. 이런 오류는 드물게 발생합니다. |
+| **503** | `Service Unavailable` | 서비스가 일시적으로 사용 불가능합니다 (예: 유지보수). |
+
+<div id="error-response-bodies">
+  ## 오류 응답 본문
+</div>
+
+HTTP 상태 코드는 오류의 주요 지표이지만, 응답 본문에는 디버깅에 도움이 되는 자세한 정보가 포함되는 경우가 많습니다. 이 본문의 형식은 호출하는 API에 따라 달라질 수 있습니다.
+
+<div id="format-1-simple-error-message">
+  ### 형식 1: 단순 오류 메시지
+</div>
+
+많은 엔드포인트(예: News API)는 메시지 하나가 담긴 단순 `string` 또는 중첩 구조가 없는 JSON 객체를 반환합니다.
+
+```json
+"Invalid or Missing Query Parameters"
+```
+
+또는
+
+```json
+{
+  "message": "Invalid page size"
+}
+```
+
+
+<div id="format-2-structured-error-object">
+  ### 형식 2: 구조화된 오류 객체
+</div>
+
+Data API Proxy 및 Fundamentals와 같은 최신 API는 오류 목록을 담고 있는 구조화된 객체를 반환합니다.
+
+```json
+{
+  "data": null,
+  "errors": [
+    {
+      "code": "database_query_error",
+      "id": "ERR_12345",
+      "value": "Unable to fetch data for symbol: INVALID"
+    }
+  ],
+  "ok": false
+}
+```
+
+
+<div id="handling-errors-programmatically">
+  ### 프로그램적으로 오류 처리하기
+</div>
+
+응답 본문의 형식이 다양할 수 있으므로, 다음과 같은 견고한 오류 처리 전략을 권장합니다:
+
+1.  **HTTP 상태 코드를 확인합니다.** 값이 `>= 400`이면 오류로 처리합니다.
+2.  **응답 본문을 로그로 남깁니다.** 디버깅을 위해 전체 본문을 로그에 기록합니다.
+3.  **일반적인 메시지를 표시합니다.** 특정 엔드포인트와 통합되어 있고 해당 오류 형식을 정확히 알고 있는 경우가 아니라면, 상태 코드와 함께 최종 사용자에게 일반적인 "문제가 발생했습니다" 메시지를 표시합니다.

@@ -1,0 +1,80 @@
+---
+title: "تقارير التداول الحكومي"
+description: governmentTradeReports()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#governmenttradereports)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب تقارير التداول الحكومية
+
+<div id="get">
+  ## get
+</div>
+
+جلب تقارير تداولات الحكومة
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetGovernmentTradeReportsRequest;
+import org.benzinga.BZClient.models.operations.GetGovernmentTradeReportsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetGovernmentTradeReportsRequest req = GetGovernmentTradeReportsRequest.builder()
+                .build();
+
+        GetGovernmentTradeReportsResponse res = sdk.governmentTradeReports().get()
+                .request(req)
+                .call();
+
+        if (res.modelsGovernmentTradeJSON().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل                                                                                         | النوع                                                                                           | مطلوب                                                                                           | الوصف                                                                                           |
+| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `request`                                                                                       | [GetGovernmentTradeReportsRequest](../../models/operations/GetGovernmentTradeReportsRequest.md) | :heavy&#95;check&#95;mark:                                                                              | كائن الطلب المستخدم في هذا الطلب.                                                               |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetGovernmentTradeReportsResponse](../../models/operations/GetGovernmentTradeReportsResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                      | رمز الحالة                     | نوع المحتوى                    |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

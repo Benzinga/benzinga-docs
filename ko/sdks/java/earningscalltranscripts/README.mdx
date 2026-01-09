@@ -1,0 +1,149 @@
+---
+title: "실적 발표 컨퍼런스콜 녹취록"
+description: earningsCallTranscripts()
+---
+
+[&lt; 뒤로](/ko/sdks/languages/java#earningscalltranscripts)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - 실적 발표 컨퍼런스 콜 녹취록 가져오기
+* [getAudio](#getaudio) - 실적 발표 컨퍼런스 콜 녹취 음성 파일 가져오기
+
+<div id="get">
+  ## get
+</div>
+
+실적 발표 콘퍼런스콜 녹취록 가져오기
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEarningsCallTranscriptsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEarningsCallTranscriptsResponse res = sdk.earningsCallTranscripts().get()
+                .tickers(List.of(
+                    "<value>"))
+                .callId(List.of(
+                    "<id>"))
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsTranscriptSummaries().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+### 매개변수
+
+| 매개변수           | 타입               | 필수 여부          | 설명               |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `tickers`          | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | 티커               |
+| `callId`           | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | 콜 ID              |
+| `page`             | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | 페이지             |
+| `pagesize`         | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | 페이지 크기        |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetEarningsCallTranscriptsResponse](../../models/operations/GetEarningsCallTranscriptsResponse.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="getaudio">
+  ## getAudio
+</div>
+
+실적 발표 컨퍼런스 콜 녹취 오디오 파일 가져오기
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.List;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEarningsCallTranscriptAudioFilesResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEarningsCallTranscriptAudioFilesResponse res = sdk.earningsCallTranscripts().getAudio()
+                .tickers(List.of(
+                    "<value>"))
+                .callId(List.of(
+                    "<id>"))
+                .page(942138L)
+                .pagesize(879999L)
+                .call();
+
+        if (res.modelsTranscriptSummaryAudios().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parameters
+</div>
+
+| Parameter          | Type               | Required           | Description        |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `tickers`          | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | 티커               |
+| `callId`           | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | Call ID            |
+| `page`             | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | 페이지             |
+| `pagesize`         | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | 페이지 크기        |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetEarningsCallTranscriptAudioFilesResponse](../../models/operations/GetEarningsCallTranscriptAudioFilesResponse.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 타입                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

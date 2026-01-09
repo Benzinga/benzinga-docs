@@ -1,0 +1,652 @@
+---
+title: "عدة تطوير البرمجيات SDK من Benzinga لـ Java"
+sidebarTitle: "Java"
+icon: "java"
+---
+
+<div id="bz-java-client">
+  # BZ-Java-Client
+</div>
+
+عدة تطوير البرمجيات SDK بلغة Java ملائمة للمطورين وآمنة من حيث الأنواع، ومصممة خصيصًا للاستفادة من واجهة برمجة التطبيقات *openapi*.
+
+<div style={{ textAlign: "left" }}>
+  <a href="https://www.speakeasy.com/?utm_source=openapi&utm_campaign=java">
+    <img src="https://custom-icon-badges.demolab.com/badge/-Built%20By%20Speakeasy-212015?style=for-the-badge&logoColor=FBE331&logo=speakeasy&labelColor=545454" alt="مطوَّرة بواسطة Speakeasy" />
+  </a>
+
+  <a href="https://mit-license.org/">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="رخصة MIT" style={{ width: "100px", height: "28px" }} />
+  </a>
+</div>
+
+<div id="summary">
+  ## الملخص
+</div>
+
+واجهات برمجة التطبيقات API الخاصة بـ Benzinga: توفر واجهة برمجة تطبيقات REST هذه نقاط نهاية لجميع واجهات برمجة التطبيقات الخاصة بـ Benzinga.
+
+<div id="table-of-contents">
+  ## جدول المحتويات
+</div>
+
+* [BZ-Java-Client](#bz-java-client)
+* [تثبيت SDK](#sdk-installation)
+* [مثال على الاستخدام](#sdk-example-usage)
+* [المصادقة](#authentication)
+* [الموارد والعمليات المتاحة](#available-resources-and-operations)
+* [إعادة المحاولات](#retries)
+* [معالجة الأخطاء](#error-handling)
+* [اختيار الخادم](#server-selection)
+* [التطوير](#development)
+* [النضج](#maturity)
+* [المساهمات](#contributions)
+
+<div id="sdk-installation">
+  ## تثبيت عدة تطوير البرمجيات (SDK)
+</div>
+
+<div id="getting-started">
+  ### البدء
+</div>
+
+يتطلب الأمر وجود JDK 11 أو أحدث.
+
+توضح الأمثلة أدناه كيفية استخدام أرتيفاكت منشور من عدة تطوير البرمجيات SDK:
+
+Gradle:
+
+```groovy
+implementation 'org.benzinga:BZClient:0.2.7'
+```
+
+Maven:
+
+```xml
+<dependency>
+    <groupId>org.benzinga</groupId>
+    <artifactId>BZClient</artifactId>
+    <version>0.2.7</version>
+</dependency>
+```
+
+<div id="how-to-build">
+  ### كيفية الإنشاء
+</div>
+
+بعد استنساخ مستودع git إلى نظام الملفات الخاص بك يمكنك إنشاء أرتيفاكت عدة تطوير البرمجيات SDK من المصدر في الدليل `build` بتشغيل الأمر `./gradlew build` على أنظمة *nix أو `gradlew.bat` على أنظمة Windows.
+
+إذا كنت ترغب في الإنشاء من المصدر ونشر أرتيفاكت عدة تطوير البرمجيات SDK إلى مستودع Maven المحلي لديك (على نظام الملفات الخاص بك) فاستخدم الأمر التالي (بعد استنساخ مستودع git محليًا):
+
+على أنظمة *nix:
+
+```bash
+./gradlew publishToMavenLocal -Pskip.signing
+```
+
+على نظام التشغيل Windows:
+
+```bash
+gradlew.bat publishToMavenLocal -Pskip.signing
+```
+
+<div id="sdk-example-usage">
+  ## مثال على استخدام عدة تطوير البرمجيات (SDK)
+</div>
+
+### مثال
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="authentication">
+  ## المصادقة
+</div>
+
+<div id="per-client-security-schemes">
+  ### مخططات الأمان لكل عميل
+</div>
+
+تدعم هذه عدة تطوير البرمجيات SDK مخطط الأمان التالي على مستوى العدة بالكامل:
+
+| Name         | Type   | Scheme  |
+| ------------ | ------ | ------- |
+| `apiKeyAuth` | apiKey | API key |
+
+للمصادقة على واجهة برمجة التطبيقات API يجب ضبط معامل `apiKeyAuth` عند تهيئة مثيل عميل العدة. على سبيل المثال:
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="available-resources-and-operations">
+  ## الموارد والعمليات المتاحة
+</div>
+
+<div id="analystinsights">
+  ### [analystInsights()](/ar/sdks/java/analystinsights/README)
+</div>
+
+* [جلب](/ar/sdks/java/analystinsights/README#get) - جلب رؤى المحللين V1
+
+<div id="analystreportsrawtext">
+  ### [analystReportsRawText()](/ar/sdks/java/analystreportsrawtext/README)
+</div>
+
+* [get](/ar/sdks/java/analystreportsrawtext/README#get) - جلب بيانات النص الخام لتقارير المحللين
+
+<div id="bars">
+  ### [bars()](/ar/sdks/java/bars/README)
+</div>
+
+* [get](/ar/sdks/java/bars/README#get) - جلب بيانات الشموع v2
+
+<div id="bullsbearssaybearssay">
+  ### [bullsBearsSayBearsSay()](/ar/sdks/java/bullsbearssaybearssay/README)
+</div>
+
+* [جلب](/ar/sdks/java/bullsbearssaybearssay/README#get) - جلب Bulls Say Bears Say V1
+
+<div id="conferencecalls">
+  ### [conferenceCalls()](/ar/sdks/java/conferencecalls/README)
+</div>
+
+* [جلب](/ar/sdks/java/conferencecalls/README#get) - جلب مكالمات الأرباح
+
+<div id="consensusratings">
+  ### [consensusRatings()](/ar/sdks/java/consensusratings/README)
+</div>
+
+* [جلب](/ar/sdks/java/consensusratings/README#get) - جلب تقييمات الإجماع
+
+<div id="derivedfiguresandratios">
+  ### [derivedFiguresAndRatios()](/ar/sdks/java/derivedfiguresandratios/README)
+</div>
+
+* [get](/ar/sdks/java/derivedfiguresandratios/README#get) - جلب الأرقام والنسب المشتقة V3
+
+<div id="dividends">
+  ### [dividends()](/ar/sdks/java/dividends/README)
+</div>
+
+* [getV22](/ar/sdks/java/dividends/README#getv22) - جلب توزيعات الأرباح V2.2
+* [get](/ar/sdks/java/dividends/README#get) - جلب توزيعات الأرباح V2 و V2.1
+
+<div id="earningratios">
+  ### [earningRatios()](/ar/sdks/java/earningratios/README)
+</div>
+
+* [get](/ar/sdks/java/earningratios/README#get) - جلب نسب الربحية V2.1
+
+<div id="earnings">
+  ### [earnings()](/ar/sdks/java/earnings/README)
+</div>
+
+* [get](/ar/sdks/java/earnings/README#get) - جلب بيانات الأرباح
+
+<div id="earningscalltranscripts">
+  ### [earningsCallTranscripts()](/ar/sdks/java/earningscalltranscripts/README)
+</div>
+
+* [get](/ar/sdks/java/earningscalltranscripts/README#get) - جلب نصوص مكالمات الأرباح
+* [getAudio](/ar/sdks/java/earningscalltranscripts/README#getaudio) - جلب الملفات الصوتية لمكالمات الأرباح
+
+<div id="economics">
+  ### [economics()](/ar/sdks/java/economics/README)
+</div>
+
+* [get](/ar/sdks/java/economics/README#get) - جلب بيانات Economics
+
+<div id="events">
+  ### [events()](/ar/sdks/java/events/README)
+</div>
+
+* [get](/ar/sdks/java/events/README#get) - جلب الأحداث
+
+<div id="fda">
+  ### [fda()](/ar/sdks/java/fda/README)
+</div>
+
+* [get](/ar/sdks/java/fda/README#get) - جلب بيانات FDA
+
+<div id="fundamentals">
+  ### [fundamentals()](/ar/sdks/java/fundamentals/README)
+</div>
+
+* [getV21](/ar/sdks/java/fundamentals/README#getv21) - جلب الأساسيات المالية V2.1
+* [getAlphaBeta](/ar/sdks/java/fundamentals/README#getalphabeta) - جلب Alpha Beta V2.1
+* [getCompanyV21](/ar/sdks/java/fundamentals/README#getcompanyv21) - جلب بيانات الشركة v2.1
+* [getCompanyProfileV21](/ar/sdks/java/fundamentals/README#getcompanyprofilev21) - جلب ملف تعريف الشركة v2.1
+* [getShareClass](/ar/sdks/java/fundamentals/README#getshareclass) - جلب فئة السهم V2.1
+* [getShareClassProfile](/ar/sdks/java/fundamentals/README#getshareclassprofile) - جلب ملف تعريف فئة السهم V2.1
+* [get](/ar/sdks/java/fundamentals/README#get) - جلب الأساسيات المالية V2
+* [getAssetClassification](/ar/sdks/java/fundamentals/README#getassetclassification) - جلب تصنيف الأصول V2.1
+* [getEarningsReports](/ar/sdks/java/fundamentals/README#getearningsreports) - جلب تقارير الأرباح V2.1
+* [getFinancialsV21](/ar/sdks/java/fundamentals/README#getfinancialsv21) - جلب البيانات المالية V2.1
+* [getV3](/ar/sdks/java/fundamentals/README#getv3) - جلب الأساسيات المالية V3
+* [getBalanceSheetV3](/ar/sdks/java/fundamentals/README#getbalancesheetv3) - جلب الميزانية العمومية V3
+* [getCashFlowV3](/ar/sdks/java/fundamentals/README#getcashflowv3) - جلب التدفقات النقدية V3
+* [getIncomeStatement](/ar/sdks/java/fundamentals/README#getincomestatement) - جلب قائمة الدخل V3
+* [getSharePriceRatios](/ar/sdks/java/fundamentals/README#getsharepriceratios) - جلب نسب سعر السهم V3
+
+<div id="governmenttradereports">
+  ### [governmentTradeReports()](/ar/sdks/java/governmenttradereports/README)
+</div>
+
+* [get](/ar/sdks/java/governmenttradereports/README#get) - جلب تقارير التداول الحكومية
+
+<div id="governmenttrades">
+  ### [governmentTrades()](/ar/sdks/java/governmenttrades/README)
+</div>
+
+* [get](/ar/sdks/java/governmenttrades/README#get) - جلب التداولات الحكومية
+
+<div id="guidance">
+  ### [guidance()](/ar/sdks/java/guidance/README)
+</div>
+
+* [get](/ar/sdks/java/guidance/README#get) - جلب التوجيهات
+
+<div id="insidertransaction">
+  ### [insiderTransaction()](/ar/sdks/java/insidertransaction/README)
+</div>
+
+* [get](/ar/sdks/java/insidertransaction/README#get) - جلب معاملة داخلية
+
+<div id="insidertransactions">
+  ### [insiderTransactions()](/ar/sdks/java/insidertransactions/README)
+</div>
+
+* [getOwner](/ar/sdks/java/insidertransactions/README#getowner) - جلب مالك المعاملة الداخلية
+
+<div id="ipos">
+  ### [ipos()](/ar/sdks/java/ipos/README)
+</div>
+
+* [getV21](/ar/sdks/java/ipos/README#getv21) - جلب بيانات الاكتتابات العامة الأولية (IPOs) V2.1
+* [get](/ar/sdks/java/ipos/README#get) - جلب بيانات الاكتتابات العامة الأولية (IPOs) V2
+
+<div id="logos">
+  ### [logos()](/ar/sdks/java/logos/README)
+</div>
+
+* [bulkSync](/ar/sdks/java/logos/README#bulksync) - جلب الشعارات لمفاتيح البحث المحددة
+* [search](/ar/sdks/java/logos/README#search) - جلب الشعارات لمفاتيح البحث المحددة
+
+<div id="ma">
+  ### [ma()](/ar/sdks/java/ma/README)
+</div>
+
+* [get](/ar/sdks/java/ma/README#get) - جلب بيانات الاندماجات والاستحواذات
+
+<div id="news">
+  ### [news()](/ar/sdks/java/news/README)
+</div>
+
+* [get](/ar/sdks/java/news/README#get) - جلب الأخبار
+* [getRemoved](/ar/sdks/java/news/README#getremoved) - جلب الأخبار المحذوفة
+
+<div id="newsquantified">
+  ### [newsquantified()](/ar/sdks/java/newsquantified/README)
+</div>
+
+* [جلب](/ar/sdks/java/newsquantified/README#get) - جلب بيانات Newsquantified
+
+<div id="offerings">
+  ### [offerings()](/ar/sdks/java/offerings/README)
+</div>
+
+* [get](/ar/sdks/java/offerings/README#get) - جلب العروض
+
+<div id="operationratios">
+  ### [operationRatios()](/ar/sdks/java/operationratios/README)
+</div>
+
+* [GET](/ar/sdks/java/operationratios/README#get) - جلب نسب التشغيل v2.1
+
+<div id="optionactivity">
+  ### [optionActivity()](/ar/sdks/java/optionactivity/README)
+</div>
+
+* [get](/ar/sdks/java/optionactivity/README#get) - جلب بيانات OptionActivity V1
+
+### [quotedelayed()](/ar/sdks/java/quotedelayed/README)
+
+* [getV1](/ar/sdks/java/quotedelayed/README#getv1) - جلب الأسعار المتأخرة V1
+
+<div id="quotedelayed">
+  ### [quoteDelayed()](/ar/sdks/java/bzclientquotedelayed/README)
+</div>
+
+* [get](/ar/sdks/java/bzclientquotedelayed/README#get) - جلب عروض الأسعار المتأخرة V2
+
+<div id="ratings">
+  ### [ratings()](/ar/sdks/java/ratings/README)
+</div>
+
+* [get](/ar/sdks/java/ratings/README#get) - جلب التقييمات
+
+<div id="ratingsanalysts">
+  ### [ratingsAnalysts()](/ar/sdks/java/ratingsanalysts/README)
+</div>
+
+* [get](/ar/sdks/java/ratingsanalysts/README#get) - جلب محللي التقييمات
+
+<div id="ratingsfirms">
+  ### [ratingsFirms()](/ar/sdks/java/ratingsfirms/README)
+</div>
+
+* [get](/ar/sdks/java/ratingsfirms/README#get) - جلب شركات التصنيف
+
+<div id="removed">
+  ### [removed()](/ar/sdks/java/removed/README)
+</div>
+
+* [get](/ar/sdks/java/removed/README#get) - جلب العناصر المحذوفة (v2)
+
+<div id="splits">
+  ### [splits()](/ar/sdks/java/splits/README)
+</div>
+
+* [get](/ar/sdks/java/splits/README#get) - جلب تجزئات الأسهم
+
+<div id="tickertrends">
+  ### [tickerTrends()](/ar/sdks/java/tickertrends/README)
+</div>
+
+* [get](/ar/sdks/java/tickertrends/README#get) - جلب بيانات اتجاهات رمز التداول
+* [getList](/ar/sdks/java/tickertrends/README#getlist) - جلب بيانات قائمة اتجاهات رمز التداول
+
+<div id="valuationratios">
+  ### [valuationRatios()](/ar/sdks/java/valuationratios/README)
+</div>
+
+* [get](/ar/sdks/java/valuationratios/README#get) - جلب نسب التقييم v2.1
+
+<div id="retries">
+  ## إعادة المحاولة
+</div>
+
+بعض نقاط النهاية في هذه العدة تدعم إعادة المحاولة. إذا استخدمت عدة تطوير البرمجيات SDK بدون أي تهيئة، فسيتم استخدام استراتيجية إعادة المحاولة الافتراضية التي توفرها واجهة برمجة التطبيقات API. ومع ذلك، يمكن استبدال استراتيجية إعادة المحاولة الافتراضية لكل عملية على حدة، أو على مستوى العدة بالكامل.
+
+لتغيير استراتيجية إعادة المحاولة الافتراضية لاستدعاء واحد لواجهة برمجة التطبيقات API، يمكنك تمرير كائن `RetryConfig` عبر أسلوب الباني `retryConfig`:
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.concurrent.TimeUnit;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+import org.benzinga.BZClient.utils.BackoffStrategy;
+import org.benzinga.BZClient.utils.RetryConfig;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .retryConfig(RetryConfig.builder()
+                    .backoff(BackoffStrategy.builder()
+                        .initialInterval(1L, TimeUnit.MILLISECONDS)
+                        .maxInterval(50L, TimeUnit.MILLISECONDS)
+                        .maxElapsedTime(1000L, TimeUnit.MILLISECONDS)
+                        .baseFactor(1.1)
+                        .jitterFactor(0.15)
+                        .retryConnectError(false)
+                        .build())
+                    .build())
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+إذا كنت ترغب في تجاوز استراتيجية إعادة المحاولة الافتراضية لجميع العمليات التي تدعم إعادة المحاولة، يمكنك توفير إعداد تكوين عند تهيئة عدة تطوير البرمجيات SDK:
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import java.util.concurrent.TimeUnit;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+import org.benzinga.BZClient.utils.BackoffStrategy;
+import org.benzinga.BZClient.utils.RetryConfig;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .retryConfig(RetryConfig.builder()
+                    .backoff(BackoffStrategy.builder()
+                        .initialInterval(1L, TimeUnit.MILLISECONDS)
+                        .maxInterval(50L, TimeUnit.MILLISECONDS)
+                        .maxElapsedTime(1000L, TimeUnit.MILLISECONDS)
+                        .baseFactor(1.1)
+                        .jitterFactor(0.15)
+                        .retryConnectError(false)
+                        .build())
+                    .build())
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="error-handling">
+  ## معالجة الأخطاء
+</div>
+
+ستتوافق معالجة الأخطاء في عدة تطوير البرمجيات SDK هذه إلى حد كبير مع توقعاتك. تعيد كل عملية كائن استجابة أو تُطلِق استثناءً.
+
+بشكل افتراضي، يؤدّي خطأ في واجهة برمجة التطبيقات API إلى إلقاء استثناء من النوع `models/errors/APIException`. عند تحديد استجابات أخطاء مخصّصة لعملية ما، قد تقوم عدة تطوير البرمجيات SDK أيضًا بإلقاء الاستثناء المرتبط بها. يمكنك الرجوع إلى جداول *الأخطاء* المقابلة في مستندات عدة تطوير البرمجيات SDK للحصول على مزيد من التفاصيل حول أنواع الاستثناءات الممكنة لكل عملية. على سبيل المثال، تقوم طريقة `get` بإلقاء الاستثناءات التالية:
+
+| نوع الخطأ                      | رمز الحالة | نوع المحتوى       |
+| ------------------------------ | ---------- | ------------------ |
+| models/errors/ApiErrorResponse | 400, 500   | application/json   |
+| models/errors/APIException     | 4XX, 5XX   | */*              |
+
+### مثال
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Request;
+import org.benzinga.BZClient.models.operations.GetAnalystInsightsV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystInsightsV1Request req = GetAnalystInsightsV1Request.builder()
+                .build();
+
+        GetAnalystInsightsV1Response res = sdk.analystInsights().get()
+                .request(req)
+                .call();
+
+        if (res.modelsAnalystInsightsJSON().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+<div id="server-selection">
+  ## اختيار الخادم
+</div>
+
+<div id="select-server-by-index">
+  ### تحديد الخادم باستخدام الفهرس
+</div>
+
+يمكنك تجاوز الخادم الافتراضي عالميًا باستخدام أسلوب الـ builder `.serverIndex(int serverIdx)` عند تهيئة كائن عميل الـ SDK. سيتم بعد ذلك استخدام الخادم المحدد كخادم افتراضي في العمليات التي تستخدمه. يسرد هذا الجدول الفهارس المرتبطة بالخوادم المتاحة:
+
+| #   | الخادم                              |
+| --- | ----------------------------------- |
+| 0   | `https://api.benzinga.com`          |
+| 1   | `https://api.benzinga.com/api/v1`   |
+| 2   | `https://api.benzinga.com/api/v2`   |
+| 3   | `https://api.benzinga.com/api/v2.1` |
+| 4   | `https://api.benzinga.com/api/v2.2` |
+
+<div id="example">
+  #### مثال
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .serverIndex(4)
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="override-server-url-per-client">
+  ### تجاوز عنوان الخادم لكل عميل على حدة
+</div>
+
+يمكن أيضًا تجاوز الخادم الافتراضي على مستوى التطبيق باستخدام أسلوب الـ builder `.serverURL(String serverUrl)` عند تهيئة كائن عميل عدة تطوير البرمجيات SDK. على سبيل المثال:
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetAnalystReportsRawTextDataResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .serverURL("https://api.benzinga.com")
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetAnalystReportsRawTextDataResponse res = sdk.analystReportsRawText().get()
+                .page(700347L)
+                .pagesize(558834L)
+                .call();
+
+        if (res.modelsAnalystReportRawTexts().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+<div id="development">
+  # التطوير
+</div>
+
+<div id="maturity">
+  ## مستوى النضج
+</div>
+
+عدة تطوير البرمجيات SDK هذه في مرحلة تجريبية (بيتا)، وقد تطرأ تغييرات غير متوافقة مع الإصدارات السابقة بين الإصدارات من دون إصدار رئيسي جديد. لذلك نوصي بتقييد استخدامك بإصدار معيّن من الحزمة. بهذه الطريقة، يمكنك تثبيت الإصدار نفسه في كل مرة من دون تغييرات غير متوافقة، إلا إذا كنت تبحث عمدًا عن أحدث إصدار.
+
+<div id="contributions">
+  ## المساهمات
+</div>
+
+بينما نقدّر المساهمات مفتوحة المصدر في عدة تطوير البرمجيات SDK هذه، فإن هذه المكتبة تُولَّد برمجياً. ستُستبدل أي تغييرات تُجرى يدوياً على الملفات الداخلية عند عملية التوليد التالية.
+نتطلع إلى سماع ملاحظاتك. لا تتردد في فتح طلب سحب (PR) أو فتح بلاغ مشكلة (issue) مرفق بإثبات مفهوم، وسنبذل قصارى جهدنا لإدراج ذلك في إصدار مستقبلي.
+
+<div id="sdk-created-by-speakeasy">
+  ### عدة تطوير البرمجيات SDK التي طورتها [Speakeasy](https://www.speakeasy.com/?utm_source=openapi\&utm_campaign=java)
+</div>

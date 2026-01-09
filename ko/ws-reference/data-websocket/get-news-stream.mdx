@@ -1,0 +1,134 @@
+---
+title: "뉴스 스트림"
+description: "Benzinga의 실시간 뉴스 기사와 업데이트."
+asyncapi: "/asyncapi/news-stream.yml news"
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+실시간 뉴스 업데이트를 구독하여 새 기사가 게시되거나 기존 기사가 수정될 때 즉시 알림을 받을 수 있습니다.
+
+<div id="key-features">
+  ### 주요 기능
+</div>
+
+- **실시간 업데이트**: 뉴스 기사가 게시되거나 업데이트될 때 즉시 알림을 받습니다
+- **종목 필터링**: 특정 티커 또는 국제증권식별번호(ISIN)를 구독하여 관련 뉴스만 수신합니다
+- **풍부한 데이터**: 기사 본문, 작성자 정보, 이미지 및 연관된 종목 정보를 포함합니다
+- **동작 추적**: 기사가 생성, 업데이트 또는 제거되는 시점을 모니터링합니다
+
+<div id="use-cases">
+  ### 사용 사례
+</div>
+
+- 특정 종목에 대한 실시간 뉴스 피드 구축
+- 포트폴리오 보유 종목의 속보 알림 생성
+- 여러 티커에 대한 뉴스 통합
+- 매매 신호를 위한 뉴스 심리(센티먼트)와 뉴스량 추적
+
+<div id="quick-start">
+  ## 빠른 시작
+</div>
+
+위의 대화형 웹소켓 테스터를 사용해 연결한 뒤 스트림을 실시간으로 테스트하세요.
+
+<div id="connection-url">
+  ### 접속 URL
+</div>
+
+```
+wss://api.benzinga.com/api/v1/news/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### 쿼리 파라미터
+</div>
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `token` | Yes | Benzinga 웹소켓 API 토큰 (bz.production***) |
+| `tickers` | No | 쉼표(,)로 구분된 티커 심볼 목록 (예: `AAPL,MSFT`) |
+| `channels` | No | 쉼표(,)로 구분된 필터링용 뉴스 채널 목록 |
+
+<div id="message-example">
+  ## 메시지 예제
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "news",
+  "data": {
+    "action": "created",
+    "id": 36444586,
+    "timestamp": "2024-01-01T13:35:14Z",
+    "content": {
+      "id": 36444586,
+      "author": "Benzinga Insights",
+      "created": "Mon, 01 Jan 2024 13:35:14 -0400",
+      "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
+      "title": "10 Information Technology Stocks With Whale Alerts In Today's Session",
+      "teaser": "",
+      "body": "Full article content...",
+      "url": "https://www.benzinga.com/markets/options/24/01/36444586/...",
+      "image": [
+        {
+          "size": "thumb",
+          "url": "https://cdn.benzinga.com/files/imagecache/250x187xUP/..."
+        }
+      ],
+      "channels": [
+        {
+          "name": "Options"
+        }
+      ],
+      "stocks": [
+        {
+          "name": "AAPL",
+          "cusip": "037833100",
+          "isin": "US0378331005",
+          "exchange": "NASDAQ"
+        }
+      ],
+      "tags": [
+        {
+          "name": "BZI-AUOA"
+        }
+      ]
+    }
+  }
+}
+```
+
+
+<div id="message-actions">
+  ### 메시지 동작
+</div>
+
+| Action | 설명 |
+|--------|------|
+| `created` / `Created` | 새 기사 게시 |
+| `updated` / `Updated` | 기존 기사 수정 |
+| `deleted` / `Deleted` | 기사 삭제 |
+
+<div id="interactive-commands">
+  ## 대화형 명령
+</div>
+
+| Command | 설명 |
+|---------|-------------|
+| `ping` | 연결을 유지합니다 (`pong`으로 응답) |
+| `replay` | 캐시된 최근 최대 100개의 메시지를 재전송합니다 |
+
+<div id="best-practices">
+  ## 모범 사례
+</div>
+
+- **중복 제거**: `id` 필드를 사용해 중복 메시지 처리를 방지합니다
+- **하트비트**: 연결 유지를 위해 30~60초마다 `ping` 명령을 전송합니다
+- **오류 처리**: 지수 백오프(exponential backoff)를 사용하는 재연결 로직을 구현합니다
+- **필터링**: 대역폭 사용량을 줄이기 위해 티커/채널 필터를 사용합니다
