@@ -1,0 +1,43 @@
+---
+title: "بيانات اتجاهات رموز التداول"
+openapi: /ar/openapi/ticker-trends-api_api.spec.yml GET /api/v1/trending-tickers
+---
+
+<ResponseExample>
+```json استجابة (200 OK)
+{
+  "ok": true,
+  "data": [
+    {
+      "ticker": "AAPL",
+      "exchange": "NASDAQ",
+      "metrics": [
+        {
+          "time_bucket": "2025-12-30T11:00:00Z",
+          "count": 36,
+          "count_mavg": 738,
+          "scaled_count": 0.008905160240828991,
+          "scaled_count_mavg": 0.18255577981472015,
+          "market_count_average": 0.8544670939445496
+        }
+      ]
+    }
+  ]
+}
+```
+</ResponseExample>
+
+<ResponseExample>
+```json استجابة (401 Unauthorized)
+{
+    "ok": false,
+    "errors": [
+        {
+            "id": "hbiGJjhsSpnfhM8aBePyTB",
+            "code": "auth_failed",
+            "value": "authentication failed"
+        }
+    ]
+}
+```
+</ResponseExample>

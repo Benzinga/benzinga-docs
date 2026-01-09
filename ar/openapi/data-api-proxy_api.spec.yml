@@ -1,0 +1,1518 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: توفّر واجهة برمجة التطبيقات REST هذه نقاط نهاية للبحث في الأساسيات
+    المالية والحصول على تفاصيلها.
+  termsOfService: http://swagger.io/terms/
+  title: Data API Proxy
+  version: 2.0.0
+paths:
+  /api/v1/market/movers:
+    get:
+      description: يسترجع بيانات الأسهم المحركة للسوق استنادًا إلى عوامل التصفية
+        المحددة. يُرجِع الأسهم التي تحركت بشكل ملحوظ خلال الجلسة ونطاق الزمن
+        المحددين. يدعم استعلامات screener واستعلامات movers المخصصة للفلترة
+        المتقدمة.
+      operationId: get-movers
+      parameters:
+        - description: الحد الأقصى لعدد النتائج التي سيتم إرجاعها. يحدّد حجم الاستجابة.
+          in: query
+          name: maxResults
+          schema:
+            type: integer
+        - description: "تاريخ ووقت البدء لبيانات الأسهم المؤثرة (movers). التنسيق:
+            YYYY-MM-DD أو YYYY-MM-DDTHH:MM:SS"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: "تاريخ/وقت انتهاء بيانات الأسهم المتحركة (movers). التنسيق:
+            YYYY-MM-DD أو YYYY-MM-DDTHH:MM:SS"
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "جلسة التداول التي تُستخدم لتصفية الأسهم الأكثر تحركًا. أمثلة:
+            PRE_MARKET، REGULAR، AFTER_MARKET"
+          in: query
+          name: session
+          schema:
+            type: string
+        - description: سلسلة استعلام مخصّصة لأداة التصفية لتصفية الأوراق المالية استنادًا
+            إلى معايير محددة
+          in: query
+          name: screenerQuery
+          schema:
+            type: string
+        - description: سلسلة استعلام مخصصة لـ movers لتحديد أنماط حركة أو عتبات معيّنة
+          in: query
+          name: moversQuery
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات محركات السوق
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صالح - معلمات غير صالحة
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: محركات السوق
+      tags:
+        - Market Data
+  /api/v1/quoteDelayed:
+    get:
+      description: جلب عروض أسعار متأخرة لقائمة من الرموز أو أرقام التعريف الدولي
+        للأوراق المالية ISIN أو معرّفات CIK
+      operationId: get-quote-delayed-v1
+      parameters:
+        - description: "قائمة من رموز تداول الأسهم مفصولة بفواصل. يلزم توفير واحد على
+            الأقل من الحقول التالية: الرموز، رقم التعريف الدولي للأوراق المالية
+            ISIN، أو CIK."
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: قائمة من مُعرِّفات رقم التعريف الدولي للأوراق المالية ISIN مفصولة
+            بفواصل. الحد الأقصى 50. يجب تحديد واحد على الأقل من الرموز أو isin
+            أو cik.
+          in: query
+          name: isin
+          schema:
+            type: string
+        - description: قائمة من معرّفات CIK مفصولة بفواصل. يُشترط توفير واحد على الأقل من
+            الرموز أو isin أو cik.
+          in: query
+          name: cik
+          schema:
+            type: string
+      responses:
+        "200":
+          description: يُرجِع كائن JSON يتضمّن عروض أسعار متأخرة
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: جلب الأسعار المتأخرة V1
+      tags:
+        - QuoteDelayed
+  /api/v1/shortinterest:
+    get:
+      description: يجلب بيانات الاهتمام بالبيع على المكشوف للأوراق المالية المحددة.
+        يتضمّن معلومات حول الأسهم المباعة على المكشوف، وأيام التغطية، ونِسَب
+        الاهتمام بالبيع على المكشوف. يدعم تضمين بيانات تقارير FINRA الاختيارية
+        والتصفية حسب نطاق تاريخي.
+      operationId: get-short-interest
+      parameters:
+        - description: قائمة من رموز تداول الأسهم مفصولة بفواصل (مثل AAPL,MSFT,TSLA). حقل
+            مطلوب.
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تضمين بيانات تقرير مراكز البيع على المكشوف من FINRA. القيمة
+            الافتراضية: false"
+          in: query
+          name: finraReport
+          schema:
+            type: boolean
+        - description: رقم الصفحة لأغراض التقسيم إلى صفحات. يُستخدم مع معلمة pageSize.
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: عدد النتائج في كل صفحة. تختلف القيمة الافتراضية حسب إعدادات نقطة
+            النهاية.
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - description: "تاريخ البدء لبيانات مراكز البيع على المكشوف. التنسيق: YYYY-MM-DD"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: "تاريخ الانتهاء لبيانات مراكز البيع على المكشوف. الصيغة: YYYY-MM-DD"
+          in: query
+          name: to
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات مراكز البيع المكشوف للرموز المطلوبة
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صالح - معامل الرموز مفقود أو غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: بيانات مراكز البيع المكشوف
+      tags:
+        - Market Data
+  /api/v2.1/fundamentals:
+    get:
+      description: يسترجع بيانات مُحسَّنة للأساسيات المالية للأوراق المالية المحدَّدة.
+        يُعدّ هذا إصدارًا مُحسَّنًا من نقطة نهاية V2 مع حقول بيانات إضافية وأداء
+        أفضل. يُرجِع مقاييس ونِسَب مالية شاملة، بالإضافة إلى معلومات عن الشركة
+        من مصادر بيانات مُحدَّثة.
+      operationId: get-fundamentals-v21
+      parameters:
+        - description: قائمة من رموز التداول للأسهم مفصولة بفواصل (مثل AAPL,MSFT,GOOGL).
+            هذا الحقل مطلوب.
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تصفية النتائج للتواريخ التي تكون في هذا التاريخ أو بعده. التنسيق:
+            YYYY-MM-DD (مثال: 2024-01-01)"
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "عامل تصفية للفترة الزمنية للتقارير المالية. القيم المدعومة: Q1
+            (الربع الأول)، Q2 (الربع الثاني)، Q3 (الربع الثالث)، Q4 (الربع
+            الرابع)، FY (السنة المالية)، TTM (آخر اثني عشر شهرًا)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير المالي المطلوب جلبه. القيم المدعومة: TTM (آخر اثني عشر
+            شهرًا)، A (كما أُبلِغ عنه في الأصل)، R (القيم المُعاد عرضها)، P
+            (الإعلانات الأولية)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات الأساسيات المالية محسّنة بمقاييس ونِسَب إضافية
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صالح - معامل الرموز مفقود أو غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: الأساسيات المالية للشركة v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/alphaBeta:
+    get:
+      description: احصل على مقاييس Alpha وBeta للرموز المحددة. تشير هذه المقاييس إلى
+        مستوى التقلب والأداء مقارنةً بالسوق.
+      operationId: get-alpha-beta-v21
+      parameters:
+        - description: "قائمة من الرموز مفصولة بفواصل (مثل: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: إرجاع النتائج للتواريخ اللاحقة أو المطابقة للتاريخ المحدد في هذا
+            المعامل (YYYY-MM-DD)
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "يُحدِّد الفترة الزمنية للنتائج المُرجَعة (على سبيل المثال: Q1،
+            2023)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير: TTM (آخر اثني عشر شهرًا)، A (كما تم الإبلاغ عنه في
+            الأصل)، R (معاد عرضه)، P (أولي)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات ألفا وبيتا
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب Alpha Beta V2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/assetClassification:
+    get:
+      description: استرجِع تفاصيل تصنيف الأصول للرموز المحددة، بما في ذلك القطاع
+        والصناعة وغيرها من البيانات الوصفية للتصنيف. مفيد لتصنيف المحافظ
+        وتحليلها.
+      operationId: get-asset-classification-v21
+      parameters:
+        - description: "قائمة رموز مفصولة بفواصل (على سبيل المثال: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: يُرجِع النتائج للتواريخ اللاحقة للتاريخ المحدد في هذه المعلمة أو
+            الموافقة له (YYYY-MM-DD)
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "يُحدِّد الفترة الزمنية للنتائج المُسترجَعة (على سبيل المثال: Q1,
+            2023)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير: TTM (آخر اثني عشر شهرًا)، A (كما أُبلِغ عنه في
+            الأصل)، R (معاد بيانه)، P (أولي)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات تصنيف الأصول
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صحيح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ خادم داخلي
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب تصنيف الأصول v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/company:
+    get:
+      description: يسترجع بيانات مالية مفصّلة خاصة بالشركة، بما في ذلك المقاييس
+        الرئيسة، والإحصاءات التشغيلية، والأداء المالي التاريخي. يوفّر رؤية شاملة
+        للوضع المالي للشركة تتجاوز مجرد الأساسيات المالية.
+      operationId: get-company-v21
+      parameters:
+        - description: "قائمة من رموز تداول الأسهم مفصولة بفواصل (على سبيل المثال:
+            AAPL,MSFT,GOOGL). إلزامي."
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تصفية النتائج للتواريخ في هذا التاريخ أو بعده. التنسيق: YYYY-MM-DD
+            (مثال: 2024-01-01)"
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "عامل تصفية للفترة الزمنية لفترات التقارير المالية. القيم المدعومة:
+            Q1، Q2، Q3، Q4 (أرباع سنوية)، FY (السنة المالية)، TTM (الاثنا عشر
+            شهرًا الأخيرة)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير المالي. القيم المدعومة: TTM (آخر اثني عشر شهرًا)، A
+            (كما أُبلِغ عنه في الأصل)، R (قيم مُعاد بيانها)، P (إعلانات أولية)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: البيانات المالية للشركة
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صحيح - معلمة الرموز مفقودة أو غير صالحة
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: بيانات الشركات المالية v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/companyProfile:
+    get:
+      description: يسترجع معلومات شاملة عن الملف التعريفي للشركة، بما في ذلك وصف
+        الأعمال، وتصنيف الصناعة، وتفاصيل القطاع، وموقع المقر الرئيسي، وكبار
+        التنفيذيين، وغيرها من البيانات الوصفية المؤسسية. ضروري لفهم خلفية الشركة
+        وبنيتها التنظيمية.
+      operationId: get-company-profile-v21
+      parameters:
+        - description: "قائمة من رموز تداول الأسهم مفصولة بفواصل (على سبيل المثال:
+            AAPL,MSFT,GOOGL). مطلوب."
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تصفية النتائج للتواريخ في هذا التاريخ أو بعده. التنسيق: YYYY-MM-DD
+            (مثلًا، 2024-01-01)"
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "عامل تصفية للفترة الخاصة بفترات التقارير المالية. القيم المدعومة:
+            Q1, Q2, Q3, Q4 (أرباع السنة)، FY (السنة المالية)، TTM (الاثنا عشر
+            شهرًا الأخيرة)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير المالي. القيم المسموح بها: TTM (آخر اثني عشر شهرًا)، A
+            (كما أُبلغ عنها في الأصل)، R (القيم المُعاد بيانها)، P (الإعلانات
+            الأولية)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات ملف الشركة
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صالح - معامل «الرموز» مفقود أو غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: معلومات الملف التعريفي للشركة V2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/earningRatios:
+    get:
+      description: استرجع نسب الأرباح لقائمة من الرموز. يتضمن ذلك مؤشرات مثل نسبة
+        السعر إلى ربحية السهم (P/E)، وربحية السهم (EPS)، ونسب أخرى متعلقة
+        بالأرباح.
+      operationId: get-earning-ratios-v21
+      parameters:
+        - description: "قائمة من الرموز مفصولة بفواصل (مثل: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: إرجاع النتائج للتواريخ الأحدث من أو المطابقة للتاريخ المحدد في هذا
+            المعامل (YYYY-MM-DD)
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "يحدّد الفترة الزمنية للنتائج المُرجَعة (مثلًا: Q1، 2023)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير: TTM (آخر اثني عشر شهرًا)، A (كما أُبلِغ عنه في
+            الأصل)، R (مُعاد عرضه)، P (أولي)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات نسب الربحية
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صحيح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب نسب الأرباح v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/earningReports:
+    get:
+      description: يسترجع تقارير أرباح تفصيلية للأوراق المالية المحددة، بما في ذلك
+        الإيرادات، وربحية السهم (EPS)، وEBITDA (الأرباح قبل الفوائد والضرائب
+        والإهلاك والاستهلاك)، وصافي الدخل، وغيرها من النتائج المالية الرئيسية من
+        التقارير ربع السنوية والسنوية. يُعدّ أداة أساسية لتحليل الأداء المالي
+        للشركة واتجاهات أرباحها مع مرور الوقت.
+      operationId: get-earnings-reports-v21
+      parameters:
+        - description: "قائمة من رموز تداول الأسهم مفصولة بفواصل (مثل: AAPL,MSFT,GOOGL).
+            مطلوب."
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تصفية النتائج للتواريخ التي تقع في هذا التاريخ أو بعده. التنسيق:
+            YYYY-MM-DD (على سبيل المثال: 2024-01-01)"
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "عامل تصفية للفترة الزمنية لفترات التقارير المالية. القيم المدعومة:
+            Q1, Q2, Q3, Q4 (ربع سنوية)، FY (السنة المالية)، TTM (الاثنا عشر
+            شهرًا الماضية)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير المالي. القيم المدعومة: TTM (آخر اثني عشر شهرًا)، A
+            (كما تم الإبلاغ عنه في الأصل)، R (قيم مُعاد بيانها)، P (إعلانات
+            أولية)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات تقارير الأرباح
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صالح - معلمة الرموز مفقودة أو غير صالحة
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: تقارير الأرباح السنوية وربع السنوية v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/financials:
+    get:
+      description: استرجع القوائم المالية للرموز المحددة. يتضمن ذلك بيانات من
+        الميزانيات العمومية وقوائم الدخل وقوائم التدفقات النقدية.
+      parameters:
+        - description: "قائمة بالرموز مفصولة بفواصل (مثلًا: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: إرجاع النتائج للتواريخ التي تساوي أو تتجاوز التاريخ المحدد في هذا
+            المعامل (YYYY-MM-DD)
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: يحدّد الفترة الزمنية للنتائج المُعادة (مثلًا Q1، 2023)
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير: TTM (آخر اثني عشر شهرًا)، A (كما ورد في الأصل)، R
+            (معاد تقديمه)، P (أولي)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات القوائم المالية
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب البيانات المالية v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/operationRatios:
+    get:
+      description: استرجِع نسب التشغيل لقائمة من الرموز. تتضمّن مقاييس مثل هامش
+        التشغيل، هامش الربح، العائد على الأصول (ROA)، العائد على حقوق الملكية
+        (ROE)، وغيرها.
+      operationId: get-operation-ratios-v21
+      parameters:
+        - description: "قائمة من الرموز مفصولة بفواصل (مثال: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: إرجاع النتائج للتواريخ اللاحقة أو الموافقة للتاريخ المحدد في هذه
+            المعلمة (YYYY-MM-DD)
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: يحدّد الفترة الزمنية للنتائج الناتجة (مثل Q1, 2023)
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير: TTM (آخر اثني عشر شهرًا)، A (كما أُبلِغ عنه في
+            الأصل)، R (مُعاد بيانه)، P (أولي)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات نسب التشغيل
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب نسب التشغيل V2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/shareClass:
+    get:
+      description: استرجِع معلومات فئات الأسهم لرموز محددة. يعيد بيانات تفصيلية عن
+        هيكل فئات الأسهم، بما في ذلك معرّفات فئات الأسهم، والعملة، وغيرها من
+        البيانات الوصفية ذات الصلة.
+      parameters:
+        - description: "قائمة بالرموز مفصولة بفواصل (على سبيل المثال: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: إرجاع النتائج للتواريخ التي تكون أكبر من أو تساوي التاريخ المحدد في
+            هذا الوسيط (YYYY-MM-DD)
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: يحدّد الفترة الزمنية للنتائج المُرجَعة (مثل Q1، 2023)
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير: TTM (آخر اثني عشر شهرًا متتالية)، A (كما أُبلِغ عنه
+            في الأصل)، R (مُعاد عرضه)، P (أولي)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات فئة السهم
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب فئة الأسهم v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/shareClassProfile:
+    get:
+      description: استرجِع معلومات الملف التعريفي لفئات الأسهم، بما في ذلك تفاصيل
+        خصائص فئة السهم والبيانات الوصفية المرتبطة بها.
+      parameters:
+        - description: قائمة بالرموز مفصولة بفواصل (مثل AAPL، MSFT)
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: إرجاع النتائج للتواريخ الأكبر من أو تساوي التاريخ المحدد في هذا
+            المعامل (YYYY-MM-DD)
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: يحدد الفترة الزمنية للنتائج المُرجَعة (مثل Q1، 2023)
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير: TTM (آخر اثني عشر شهرًا)، A (كما تم الإبلاغ عنه في
+            الأصل)، R (مُعاد تقديمه)، P (أولي)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات ملف تعريف فئة السهم
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب ملف تعريف فئة السهم v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/valuationRatios:
+    get:
+      description: استرجِع نسب التقييم لقائمة من الرموز (قائمة من الرموز مفصولة
+        بفواصل). تتضمن هذه البيانات مؤشرات مثل P/E وP/B وP/S وغيرها من مقاييس
+        التقييم الضرورية لتحليل الاستثمار.
+      operationId: get-valuation-ratios-v21
+      parameters:
+        - description: "قائمة من الرموز مفصولة بفواصل (مثل: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: إرجاع النتائج للتواريخ اللاحقة أو الموافقة للتاريخ المحدد في هذا
+            المُعامل (YYYY-MM-DD)
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "يحدّد الفترة الزمنية للنتائج المُعادة (على سبيل المثال: Q1, 2023)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير: TTM (آخر اثني عشر شهرًا)، A (كما تم الإبلاغ عنه في
+            الأصل)، R (معاد عرضه)، P (أولي)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات نسب التقييم
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب نسب التقييم v2.1
+      tags:
+        - Fundamentals
+  /api/v2/bars:
+    get:
+      description: يسترجع بيانات الشموع السعرية التاريخية OHLCV (سعر الافتتاح، الأعلى،
+        الأدنى، الإغلاق، الحجم) للأوراق المالية المحددة. يُرجِع بيانات أسعار
+        مجمَّعة استنادًا إلى الفاصل الزمني المحدَّد. يدعم رموز تداول متعددة
+        ونطاقات زمنية متنوعة بما في ذلك التواريخ النسبية.
+      operationId: get-bars-v2
+      parameters:
+        - description: "قائمة من رموز تداول الأسهم مفصولة بفواصل (مثل: AAPL,MSFT,TSLA).
+            حقل مطلوب."
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تاريخ/وقت البداية لـ bars. الصيغ المدعومة: YYYY-MM-DD،
+            ‏YYYY-MM-DDTHH:MM:SS، ‏YTD ‏(منذ بداية السنة)، أو قيم نسبية مثل
+            1MONTH/1m/1M، ‏1WEEK/1w/1W، ‏1DAY/1d/1D. هذا الحقل مطلوب."
+          in: query
+          name: from
+          required: true
+          schema:
+            type: string
+        - description: "تاريخ/وقت الانتهاء للبيانات الشريطية (bars). التنسيق: YYYY-MM-DD
+            أو YYYY-MM-DDTHH:MM:SS. القيمة الافتراضية هي التاريخ/الوقت الحالي
+            إذا لم يُحدَّد."
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "الفاصل الزمني لتجميع شموع الأسعار. القيم المدعومة: 1m (دقيقة
+            واحدة)، 5m (5 دقائق)، 15m (15 دقيقة)، 30m (30 دقيقة)، 1h (ساعة
+            واحدة)، 1d (يوم واحد)، 1w (أسبوع واحد)، 1M (شهر واحد). القيمة
+            الافتراضية: 1d"
+          in: query
+          name: interval
+          schema:
+            type: string
+        - description: "عامل تصفية لجلسة التداول. القيم المدعومة: ANY (جميع الجلسات)،
+            PRE_MARKET (تداول ما قبل الافتتاح)، REGULAR (ساعات التداول العادية)،
+            AFTER_MARKET (تداول ما بعد الإغلاق). القيمة الافتراضية: ANY"
+          in: query
+          name: session
+          schema:
+            type: string
+      responses:
+        "200":
+          description: مصفوفة لبيانات المخططات تتضمن أشرطة OHLCV لكل رمز
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/httpapi.Chart"
+                type: array
+        "400":
+          description: طلب غير صالح - معلمات إلزامية مفقودة أو غير صالحة
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: البيانات التاريخية لأشرطة الأسعار
+      tags:
+        - Market Data
+  /api/v2/fundamentals:
+    get:
+      description: يسترجع بيانات شاملة للأساسيات المالية للأوراق المالية المحددة.
+        يُرجع مقاييس ونِسَبًا مالية رئيسية، ومعلومات عن الشركة من مصادر بيانات
+        Morningstar. استخدم نقطة النهاية هذه للوصول إلى بيانات قائمة الدخل
+        والميزانية العمومية وبيان التدفقات النقدية.
+      operationId: get-fundamentals-v2
+      parameters:
+        - description: قائمة من رموز تداول الأسهم مفصولة بفواصل (مثل AAPL,MSFT,GOOGL).
+            إلزامي.
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تصفية النتائج بحيث تقتصر على التواريخ الموافقة لهذا التاريخ أو
+            اللاحقة له. الصيغة: YYYY-MM-DD (مثال: 2024-01-01)"
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "مرشح الفترة لفترات التقرير المالي. القيم المدعومة: Q1 (الربع
+            الأول)، Q2 (الربع الثاني)، Q3 (الربع الثالث)، Q4 (الربع الرابع)، FY
+            (السنة المالية)، TTM (آخر اثني عشر شهرًا)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير المالي المطلوب جلبه. القيم المدعومة: TTM (الاثنا عشر
+            شهرًا الماضية)، A (كما تم الإبلاغ عنه في الأصل)، R (قيم مُعاد
+            بيانها)، P (إعلانات أولية)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات الأساسيات المالية، بما في ذلك القوائم والمؤشرات المالية
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صالح - معامل الرموز مفقود أو غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: الأساسيات المالية للشركات v2
+      tags:
+        - Fundamentals
+  /api/v2/fundamentals/operationRatios:
+    get:
+      description: يسترجع نسب ومقاييس الكفاءة التشغيلية للأوراق المالية المحددة. يشمل
+        مؤشرات أداء رئيسية مثل معدل دوران الأصول، معدل دوران المخزون، معدل دوران
+        الذمم المدينة، فترة الذمم الدائنة، وغيرها من المقاييس التشغيلية التي
+        تقيس مدى فعالية استخدام الشركة لأصولها وإدارتها لعملياتها.
+      operationId: get-operation-ratios-v2
+      parameters:
+        - description: قائمة من رموز تداول الأسهم مفصولة بفواصل (مثل AAPL,MSFT,GOOGL). هذا
+            الحقل مطلوب.
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "قم بتصفية النتائج للتواريخ في هذا التاريخ أو بعده. التنسيق:
+            YYYY-MM-DD (على سبيل المثال: 2024-01-01)"
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "عامل تصفية الفترة للتقارير المالية. القيم المدعومة: Q1 وQ2 وQ3 وQ4
+            (أرباع السنة)، FY (السنة المالية)، TTM (آخر اثني عشر شهرًا)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "نوع التقرير المالي. القيم المدعومة: TTM (آخر اثني عشر شهرًا)، A
+            (كما تم الإبلاغ عنه في الأصل)، R (القيم المُعاد بيانها)، P
+            (الإعلانات الأولية)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: نسب ومقاييس الكفاءة التشغيلية
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صالح - معامل الرموز مفقود أو غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: نسب كفاءة التشغيل V2
+      tags:
+        - Fundamentals
+  /api/v2/quoteDelayed:
+    get:
+      description: جلب عروض أسعار متأخرة لقائمة من الرموز
+      operationId: get-quote-delayed-v2
+      parameters:
+        - description: "قائمة من رموز تداول الأسهم مفصولة بفواصل. يجب توفير واحد على الأقل
+            من الحقول التالية: الرموز، رقم التعريف الدولي للأوراق المالية ISIN،
+            أو CIK."
+          in: query
+          name: symbols
+          schema:
+            type: string
+        - description: قائمة من مُعرِّفات رقم التعريف الدولي للأوراق المالية ISIN مفصولة
+            بفواصل. الحد الأقصى 50 عنصراً. يجب تحديد واحد على الأقل من الرموز أو
+            isin أو CIK.
+          in: query
+          name: isin
+          schema:
+            type: string
+        - description: قائمة من معرّفات CIK مفصولة بفواصل. يجب تحديد واحد على الأقل من
+            الرموز أو رقم التعريف الدولي للأوراق المالية ISIN أو CIK.
+          in: query
+          name: cik
+          schema:
+            type: string
+      responses:
+        "200":
+          description: يُرجع كائن JSON يتضمن أسعارًا متأخرة
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                type: string
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - ApiKeyAuth: []
+      summary: جلب عروض أسعار متأخرة v2
+      tags:
+        - QuoteDelayed
+  /api/v3/fundamentals:
+    get:
+      description: يسترجع أحدث جيل من بيانات الأساسيات المالية المدعومة بخط أنابيب
+        بيانات مُحسَّن من Benzinga. يوفّر قوائم وبيانات مالية شاملة، ومؤشرات،
+        ونسبًا مالية مع جودة بيانات وتغطية محسَّنتين. يدعم الاستعلام باستخدام
+        نطاقات تاريخية مرنة وتحديد تواريخ نسبية.
+      operationId: get-fundamentals-v3
+      parameters:
+        - description: قائمة بالرموز الخاصة بتداول الأسهم مفصولة بفواصل (مثل
+            AAPL,MSFT,GOOGL). حقل إلزامي.
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تاريخ بدء الاستعلام. يدعم عدة صيغ: YYYY-MM-DD (مثل 2024-01-01)، أو
+            YTD (من بداية السنة الحالية في 1 يناير)، أو تواريخ نسبية مثل
+            1MONTH/1m/1M (قبل شهر واحد)، 1WEEK/1w/1W (قبل أسبوع واحد)،
+            1DAY/1d/1D (قبل يوم واحد)"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: "تاريخ انتهاء الاستعلام. التنسيق: YYYY-MM-DD (مثل: 2024-12-31).
+            يُرجِع البيانات حتى هذا التاريخ مشمولًا. إذا لم يتم تحديده، فالقيمة
+            الافتراضية هي تاريخ اليوم."
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "عامل تصفية لنوع التقرير في البيانات المالية. القيم المدعومة: TTM
+            (آخر اثني عشر شهرًا)، A (كما تم الإبلاغ عنه في الأصل)، R (القيم
+            المُعاد عرضها)، P (الإعلانات الأولية)"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: أحدث بيانات الأساسيات المالية بتغطية أوسع وجودة أعلى
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صالح - معلمة الرموز مفقودة أو غير صحيحة
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: أساسيات الشركة المالية V3
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/balance-sheet:
+    get:
+      description: استرجع بيانات الميزانية العمومية للرموز المحددة، بما في ذلك بيانات
+        الأصول والخصوم وحقوق الملكية.
+      operationId: get-balance-sheet-v3
+      parameters:
+        - description: "قائمة من رموز تداول الأسهم مفصولة بفواصل (مثل: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تاريخ البدء للاستعلام بالتنسيق YYYY-MM-DD. التنسيقات المدعومة:
+            ‏YYYY-MM-DD، ‏YTD ‏(منذ بداية العام)، ‏1MONTH/1m/1M ‏(منذ شهر واحد)"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: تاريخ نهاية الاستعلام بتنسيق YYYY-MM-DD. تُرجع البيانات حتى هذا
+            التاريخ مشمولًا.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "عامل تصفية لنوع التقرير. القيم: TTM (آخر اثني عشر شهرًا)، A (كما
+            تم الإبلاغ عنه)، R (مُعاد تقديمه/مُعاد تصحيحه)، P (أولي)"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات الميزانية العمومية
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب قائمة المركز المالي v3
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/cash-flow:
+    get:
+      description: استرجِع بيانات مفصّلة لبيان التدفقات النقدية الخاصة بالرموز
+        المحددة. تتضمن هذه البيانات التدفقات النقدية من الأنشطة التشغيلية
+        والاستثمارية والتمويلية.
+      parameters:
+        - description: "قائمة بالرموز مفصولة بفواصل (مثل: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تاريخ بدء الاستعلام بتنسيق YYYY-MM-DD. التنسيقات المدعومة:
+            YYYY-MM-DD، ‏YTD (منذ بداية العام)، ‏1MONTH/1m/1M (منذ شهر واحد)"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: تاريخ الانتهاء للاستعلام بصيغة YYYY-MM-DD. يعيد البيانات حتى هذا
+            التاريخ بما في ذلك.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "مرشح نوع التقرير. القيم: TTM (آخر اثني عشر شهرًا)، A (كما أُبلغ
+            عنه)، R (مُعاد عرضه)، P (أولي)"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات قائمة التدفقات النقدية
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      summary: جلب التدفق النقدي v3
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/derived:
+    get:
+      description: استرجِع القيم والنِّسَب المالية المشتقة لقائمة من الرموز. يتضمن ذلك
+        مقاييس محسوبة أساسية للتحليل المالي.
+      operationId: get-derived-figures-and-ratios-v3
+      parameters:
+        - description: "قائمة بالرموز مفصولة بفواصل (مثل: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تاريخ بدء الاستعلام بتنسيق YYYY-MM-DD. القيم المدعومة: YYYY-MM-DD،
+            ‏YTD‏ (منذ بداية العام)، ‏1MONTH/1m/1M‏ (قبل شهر واحد)"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: تاريخ انتهاء الاستعلام بالصيغة YYYY-MM-DD. يُرجِع البيانات حتى هذا
+            التاريخ بما في ذلك هذا اليوم.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "عامل تصفية لنوع التقرير. القيم: TTM (آخر اثني عشر شهرًا)، A (كما
+            تم الإبلاغ عنه)، R (معاد بيانه)، P (أولي)"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات القيم والنِّسَب المشتقة
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب الأرقام والنسب المشتقة v3
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/income-statement:
+    get:
+      description: يسترجع بيانات شاملة لقائمة الدخل للأوراق المالية المحددة. تتضمن
+        الإيرادات، وتكلفة البضائع المباعة، والمصروفات التشغيلية، والدخل
+        التشغيلي، ومصروفات الفائدة، والضرائب، وصافي الدخل، وربحية السهم. تُعد
+        هذه البيانات أساسية لتحليل ربحية الشركة وأدائها التشغيلي عبر الوقت.
+      operationId: get-income-statement-v3
+      parameters:
+        - description: قائمة مفصولة بفواصل من رموز تداول الأسهم (مثل AAPL,MSFT,GOOGL). هذا
+            الحقل مطلوب.
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تاريخ بدء الاستعلام. يدعم تنسيقات متعددة: YYYY-MM-DD (مثلًا
+            2024-01-01)، أو YTD (منذ بداية السنة من 1 يناير)، أو تواريخ نسبية
+            مثل 1MONTH/1m/1M (قبل شهر واحد)"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: "تاريخ انتهاء الاستعلام. التنسيق: YYYY-MM-DD (مثال: 2024-12-31).
+            يُرجع البيانات حتى هذا التاريخ (ضمناً)."
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "عامل تصفية لنوع التقرير في القوائم المالية. القيم المدعومة: TTM
+            (آخر اثني عشر شهرًا)، A (كما تم الإبلاغ عنها أصلاً)، R (القيم المعاد
+            بيانها)، P (الإعلانات الأولية)"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات قائمة الدخل
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: طلب غير صالح - معلمة الرموز مفقودة أو غير صالحة
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: بيانات قائمة الدخل v3
+      tags:
+        - Fundamentals
+  /api/v3/fundamentals/share-price-ratios:
+    get:
+      description: استرجِع نسب سعر السهم للرموز المحددة. تشمل مقاييس مثل نسبة السعر
+        إلى الأرباح، ونسبة السعر إلى المبيعات، وغيرها من النسب المعتمدة على
+        السعر.
+      operationId: get-share-price-ratios-v3
+      parameters:
+        - description: قائمة من رموز تداول الأسهم مفصولة بفواصل (مثل AAPL، MSFT)
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "تاريخ بدء الاستعلام بتنسيق YYYY-MM-DD. يدعم: YYYY-MM-DD، YTD (منذ
+            بداية العام)، 1MONTH/1m/1M (قبل شهر واحد)"
+          in: query
+          name: from
+          schema:
+            type: string
+        - description: تاريخ النهاية للاستعلام بالتنسيق YYYY-MM-DD. يُرجع البيانات حتى هذا
+            التاريخ، بما في ذلك هذا اليوم.
+          in: query
+          name: to
+          schema:
+            type: string
+        - description: "عامل تصفية لنوع التقرير. القيم: TTM (الأشهر الاثنا عشر الأخيرة)، A
+            (كما تم الإبلاغ عنه)، R (معاد بيانه)، P (أولي)"
+          in: query
+          name: date
+          schema:
+            type: string
+      responses:
+        "200":
+          description: بيانات نسب أسعار الأسهم
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: جلب نسب سعر السهم V3
+      tags:
+        - Fundamentals
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    bzhttp.Error:
+      properties:
+        code:
+          $ref: "#/components/schemas/bzhttp.ErrorCode"
+        id:
+          type: string
+        value:
+          type: string
+      type: object
+    bzhttp.ErrorCode:
+      enum:
+        - json_unmarshaling_error
+        - no_data_found
+        - no_matching_endpoint
+        - bad_request
+        - db_error
+        - internal_server_error
+        - auth_failed
+        - forbidden
+        - failed_dependency
+        - service_unavailable
+        - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
+      type: string
+      x-enum-varnames:
+        - ErrorJSONUnmarshaling
+        - ErrorNoDataFound
+        - ErrorNoMatchingEndpoint
+        - ErrorBadRequest
+        - ErrorDBError
+        - ErrorInternalServerError
+        - ErrorAuthFailed
+        - ErrorForbidden
+        - ErrorFailedDependency
+        - ErrorServiceUnavailable
+        - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
+    bzhttp.Resp:
+      properties:
+        data:
+          additionalProperties: true
+          type: object
+        errors:
+          items:
+            $ref: "#/components/schemas/bzhttp.Error"
+          type: array
+        ok:
+          type: boolean
+      type: object
+    httpapi.Chart:
+      properties:
+        candles:
+          items:
+            properties:
+              close:
+                type: number
+              dateTime:
+                type: string
+              high:
+                type: number
+              low:
+                type: number
+              open:
+                type: number
+              time:
+                type: string
+              volume:
+                type: string
+            type: object
+          type: array
+        interval:
+          type: integer
+        symbol:
+          type: string
+      type: object

@@ -1,0 +1,76 @@
+---
+title: "آراء المتفائلين والمتشائمين"
+description: bullsBearsSayBearsSay()
+---
+
+[&lt; عودة](/ar/sdks/languages/java#bullsbearssaybearssay)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب Bulls Say Bears Say V1
+
+<div id="get">
+  ## get
+</div>
+
+جلب Bulls Say Bears Say V1
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetBullsSayBearsSayV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetBullsSayBearsSayV1Response res = sdk.bullsBearsSayBearsSay().get()
+                .symbols("<value>")
+                .call();
+
+        if (res.modelsBullsSayBearsSayJSON().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| Parameter           | Type                | Required            | Description                         |
+| ------------------- | ------------------- | ------------------- | ----------------------------------- |
+| `symbols`           | *Optional&lt;String&gt;* | :heavy&#95;minus&#95;sign:  | الرموز (قائمة رموز مفصولة بفواصل) |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetBullsSayBearsSayV1Response](../../models/operations/GetBullsSayBearsSayV1Response.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                      | رمز الحالة                     | نوع المحتوى                    |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

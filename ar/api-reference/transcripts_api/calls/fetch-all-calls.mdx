@@ -1,0 +1,117 @@
+---
+title: "جلب نصوص المكالمات"
+openapi: /ar/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
+---
+
+<ResponseExample>
+```json استجابة (200 OK)
+{
+  "data": [
+    {
+      "call_id": "694bf432dd7f23000124626c",
+      "call_title": "شركة Aritzia تحقق إيرادات قياسية بقيمة 1 مليار دولار، مدفوعة بالنمو الرقمي والتوسع في المتاجر",
+      "description": "مؤتمر إعلان الأرباح للربع الأول 2026 لشركة Aritzia (ATZ)",
+      "webcast_url": "https://events.q4inc.com/attendee/476349537",
+      "headline": "شركة Aritzia تسجل نموًا في الإيرادات بنسبة 43% لتصل إلى 1.04 مليار دولار في الربع الثالث، مدفوعًا بقوة التجارة الإلكترونية في الولايات المتحدة والافتتاح الاستراتيجي للمتاجر",
+      "symbol": "ATZ",
+      "exchange": "TSX",
+      "figis": [
+        "BBG00DR7R5L2"
+      ],
+      "name": "Aritzia",
+      "start_time": "2026-01-08T21:29:03Z",
+      "end_time": "2026-01-09T13:00:13Z",
+      "duration": 0,
+      "status": "COMPLETED",
+      "created_at": "2026-01-08T21:29:03.225054Z",
+      "updated_at": "2026-01-09T13:00:31.632952Z",
+      "transcripts": [
+        {
+          "transcript_id": "053c48c4-17f2-48a8-8216-68513c5c54c2",
+          "text": "شكرًا لانتظاركم معنا، معكم مشغل المؤتمر .. يمكنكم الآن قطع الاتصال",
+          "language": "en-US",
+          "confidence_score": 0.41074312812500047,
+          "segments": null,
+          "type": "LIVE"
+        },
+        {
+          "transcript_id": "c10f465c-f09e-4661-b029-c1092b2b9d40",
+          "text": "شكرًا لانتظاركم معنا... شكرًا لانضمامكم ونتمنى لكم يومًا سعيدًا. يمكنكم الآن قطع الاتصال.",
+          "language": "en-US",
+          "confidence_score": 0.9678800193700792,
+          "segments": null,
+          "type": "NON_LIVE"
+        }
+      ],
+      "securities": [
+        {
+          "figi": "BBG00DR7R5N0",
+          "isin": "CA04045U1021",
+          "name": "ARITZIA INC-SUBORDINATE VOTI",
+          "symbol": "ATZ",
+          "mic_code": "XTSE",
+          "figi_composite": "BBG00DR7R5K3",
+          "figi_share_class": "BBG00DR7R5L2",
+          "refinitiv_exch_code": "TOR"
+        }
+      ]
+    }
+  ],
+  "message": "تم جلب المكالمات بنجاح",
+  "pagination": {
+    "hits": 15686,
+    "page": 1,
+    "page_count": 15686,
+    "page_size": 1
+  }
+}
+```
+```json استجابة (400 طلب غير صحيح)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "bad_request",
+      "id": "invalid_parameter",
+      "value": "معلمة search_keys_type غير صالحة"
+    }
+  ]
+}
+```
+```json استجابة (401 غير مصرح به)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "رمز مصادقة غير صالح أو مفقود"
+    }
+  ]
+}
+```
+```json استجابة (404 غير موجود)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "لم يتم العثور على أي شعارات لمفتاح البحث المحدد"
+    }
+  ]
+}
+```
+```json استجابة (500 خطأ في الخادم الداخلي)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
+    }
+  ]
+}
+```
+</ResponseExample>

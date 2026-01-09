@@ -1,0 +1,173 @@
+---
+title: "المصادقة"
+description: "كيفية مصادقة طلباتك المرسلة إلى واجهة برمجة التطبيقات API من Benzinga"
+---
+
+تستخدم واجهة برمجة التطبيقات API من Benzinga **مفاتيح API** لمصادقة الطلبات. مفتاح الـ API الخاص بك هو معرّف فريد يمنحك إمكانية الوصول إلى بيانات وميزات محددة وفقًا لاشتراكك.
+
+<Note> 
+**حافظ على أمان مفتاح الـ API الخاص بك.** لا تشاركه في الأماكن المتاحة للعامة مثل GitHub، أو شفرة الجانب العميل (client-side code)، أو الاتصالات غير الآمنة. إذا كنت تعتقد أن مفتاحك قد تم اختراقه، فاتصل بفريق الدعم فورًا.
+</Note>
+
+يمكنك عرض وإدارة مفتاح الـ API الخاص بك في [وحدة تحكم مطوري Benzinga](https://www.benzinga.com/apis/licensing/register).
+
+<div id="authentication-methods">
+  ## طرق المصادقة
+</div>
+
+تدعم واجهة برمجة التطبيقات API من Benzinga طريقتين للمصادقة. نوصي بشدة باستخدام طريقة **HTTP Header** في بيئات الإنتاج لأنها أكثر أمانًا وتمنع ظهور مفتاح الـ API الخاص بك في سجلات عناوين URL.
+
+<div id="1-http-header-recommended">
+  ### 1. ترويسة HTTP (موصى بها)
+</div>
+
+للمصادقة عبر الترويسة، أضِف الترويسة `Authorization` بالقيمة `token <YOUR_API_KEY>`.
+
+```http
+Authorization: token <YOUR_API_KEY>
+```
+
+
+<div id="2-query-parameter">
+  ### 2. معامل الاستعلام
+</div>
+
+للاختبار السريع أو عندما يتعذر تعديل الترويسات، يمكنك تمرير مفتاحك في معامل استعلام باسم `token`.
+
+```http
+https://api.benzinga.com/api/v2/news?token=<YOUR_API_KEY>
+```
+
+
+<div id="code-examples">
+  ## أمثلة على الشيفرة
+</div>
+
+فيما يلي أمثلة جاهزة للاستخدام في بيئة الإنتاج للاتصال بواجهة برمجة التطبيقات API من Benzinga بلغات برمجة شائعة.
+
+<CodeGroup>
+
+```bash cURL
+# مُوصى به: المصادقة عبر الترويسة
+curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1' \
+-H 'Authorization: token YOUR_API_KEY' \
+-H 'Accept: application/json'
+
+# بديل: معامل استعلام
+curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1&token=YOUR_API_KEY'
+```
+
+```python Python
+import requests
+
+url = "https://api.benzinga.com/api/v2/news"
+
+# مُوصى به: المصادقة عبر الترويسة
+headers = {
+    "Authorization": "token YOUR_API_KEY",
+    "Accept": "application/json"
+}
+
+params = {
+    "pageSize": 1
+}
+
+try:
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status() # إثارة خطأ مفصل لحالات الاستجابة 4xx/5xx
+    data = response.json()
+    print(data)
+except requests.exceptions.RequestException as e:
+    print(f"Error fetching data: {e}")
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const url = 'https://api.benzinga.com/api/v2/news';
+const apiKey = 'YOUR_API_KEY';
+
+async function getNews() {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'Authorization': `token ${apiKey}`,
+        'Accept': 'application/json'
+      },
+      params: {
+        pageSize: 1
+      }
+    });
+    
+    console.log(response.data);
+  } catch (error) {
+    if (error.response) {
+      // تم تنفيذ الطلب وردّ الخادم برمز حالة
+      // يقع خارج نطاق 2xx
+      console.error('Error Status:', error.response.status);
+      console.error('Error Data:', error.response.data);
+    } else {
+      console.error('Error Message:', error.message);
+    }
+  }
+}
+
+getNews();
+```
+
+```go Go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.benzinga.com/api/v2/news?pageSize=1"
+	apiKey := "YOUR_API_KEY"
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	// مُوصى به: المصادقة عبر الترويسة
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", apiKey))
+	req.Header.Add("Accept", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 400 {
+		fmt.Printf("Error: Status Code %d\n", resp.StatusCode)
+		return
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(body))
+}
+```
+
+</CodeGroup>
+
+<div id="troubleshooting">
+  ## استكشاف الأخطاء وإصلاحها
+</div>
+
+أخطاء المصادقة الشائعة وكيفية حلّها.
+
+| رمز الحالة | الرسالة | السبب المحتمل | الحل |
+| :--- | :--- | :--- | :--- |
+| **401** | `Unauthorized` | مفتاح واجهة برمجة التطبيقات API غير صالح | تحقّق من أن مفتاح واجهة برمجة التطبيقات API صحيح ولم يتم إعادة إنشائه، وتأكد من عدم وجود مسافات إضافية في القيمة المنسوخة. |
+| **401** | `Unauthorized` | مفتاح واجهة برمجة التطبيقات API مفقود | تأكد من أن رأس `Authorization` منسّق بالشكل الصحيح `token <KEY>` أو أن معامل `token` موجود. |
+| **403** | `Forbidden` | أذونات غير كافية | مفتاح واجهة برمجة التطبيقات API صالح، لكن خطتك لا تتضمن صلاحية الوصول إلى نقطة النهاية المطلوبة. تواصل مع فريق المبيعات أو الدعم لترقية خطتك. |

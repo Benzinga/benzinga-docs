@@ -43,6 +43,7 @@
           "./openapi/analyst-reports-raw-text-api_api.spec.yml",
           "./openapi/calendar_api.spec.yml",
           "./openapi/data-api-proxy_api.spec.yml",
+          "./openapi/delivery_api.spec.yml",
           "./openapi/earnings-call-transcripts-api_api.spec.yml",
           "./openapi/logo-api_api.spec.yml",
           "./openapi/news-api_api.spec.yml",
@@ -79,13 +80,17 @@
       },
       "./openapi/webhook_api.spec.yml": {
         "preset": "openapi"
+      },
+      "./openapi/delivery_api.spec.yml": {
+        "preset": "openapi"
       }
     }
   },
   "locales": [
     "en",
-    "es",
-    "ja"
+    "ja",
+    "ko",
+    "ar"
   ],
   "defaultLocale": "en",
   "$schema": "https://assets.gtx.dev/config-schema.json",
@@ -113,6 +118,7 @@
         "./openapi/analyst-reports-raw-text-api_api.spec.yml",
         "./openapi/calendar_api.spec.yml",
         "./openapi/data-api-proxy_api.spec.yml",
+        "./openapi/delivery_api.spec.yml",
         "./openapi/earnings-call-transcripts-api_api.spec.yml",
         "./openapi/logo-api_api.spec.yml",
         "./openapi/news-api_api.spec.yml",
@@ -132,6 +138,10 @@
         {
           "match": "^openapi/data-api-proxy_api.spec.yml$",
           "replace": "{locale}/openapi/data-api-proxy_api.spec.yml"
+        },
+        {
+          "match": "^openapi/delivery_api.spec.yml$",
+          "replace": "{locale}/openapi/delivery_api.spec.yml"
         },
         {
           "match": "^openapi/earnings-call-transcripts-api_api.spec.yml$",

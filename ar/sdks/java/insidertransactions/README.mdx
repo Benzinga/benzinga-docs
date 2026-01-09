@@ -1,0 +1,80 @@
+---
+title: "صفقات المطلعين"
+description: insiderTransactions()
+---
+
+[&lt; رجوع](/ar/sdks/languages/java#insidertransactions)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [getOwner](#getowner) - جلب مالك صفقة تداول المطلعين
+
+<div id="getowner">
+  ## getOwner
+</div>
+
+جلب مالك الصفقة الداخلية
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.ApiErrorResponse;
+import org.benzinga.BZClient.models.operations.GetInsiderTransactionOwnerRequest;
+import org.benzinga.BZClient.models.operations.GetInsiderTransactionOwnerResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws ApiErrorResponse, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetInsiderTransactionOwnerRequest req = GetInsiderTransactionOwnerRequest.builder()
+                .build();
+
+        GetInsiderTransactionOwnerResponse res = sdk.insiderTransactions().getOwner()
+                .request(req)
+                .call();
+
+        if (res.modelsInsiderTransactionFilingJSON().isPresent()) {
+            // معالجة الرد
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل                                                                                          | النوع                                                                                             | إلزامي                                                                                           | الوصف                                                                                            |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `request`                                                                                         | [GetInsiderTransactionOwnerRequest](../../models/operations/GetInsiderTransactionOwnerRequest.md) | :heavy&#95;check&#95;mark:                                                                                | كائن الطلب المستخدم لهذا الطلب.                                                                  |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetInsiderTransactionOwnerResponse](../../models/operations/GetInsiderTransactionOwnerResponse.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                      | رمز الحالة                     | نوع المحتوى                    |
+| ------------------------------ | ------------------------------ | ------------------------------ |
+| models/errors/ApiErrorResponse | 400, 500                       | application/json               |
+| models/errors/APIException     | 4XX, 5XX                       | */*                          |

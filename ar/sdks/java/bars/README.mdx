@@ -1,0 +1,82 @@
+---
+title: "الشموع السعرية (Bars)"
+description: bars()
+---
+
+[&lt; العودة](/ar/sdks/languages/java#bars)
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+<div id="available-operations">
+  ### العمليات المتاحة
+</div>
+
+* [get](#get) - جلب Bars V2
+
+<div id="get">
+  ## جلب
+</div>
+
+جلب Bars v2
+
+<div id="example-usage">
+  ### مثال على الاستخدام
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.errors.BzhttpResp;
+import org.benzinga.BZClient.models.operations.GetBarsV2Response;
+
+public class Application {
+
+    public static void main(String[] args) throws BzhttpResp, Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetBarsV2Response res = sdk.bars().get()
+                .symbols("<value>")
+                .from("<value>")
+                .to("<value>")
+                .interval("<value>")
+                .call();
+
+        if (res.responseBodies().isPresent()) {
+            // معالجة الاستجابة
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### المعاملات
+</div>
+
+| المعامل            | النوع               | مطلوب               | الوصف                                            |
+| ------------------- | ------------------- | ------------------- | ----------------------------------------------- |
+| `symbols`           | *String*            | :heavy&#95;check&#95;mark:  | الرموز (قائمة رموز مفصولة بفواصل)              |
+| `from`              | *String*            | :heavy&#95;check&#95;mark:  | من                                              |
+| `to`                | *Optional&lt;String&gt;* | :heavy&#95;minus&#95;sign:  | إلى                                             |
+| `interval`          | *Optional&lt;String&gt;* | :heavy&#95;minus&#95;sign:  | الفترة الزمنية                                  |
+
+<div id="response">
+  ### الاستجابة
+</div>
+
+**[GetBarsV2Response](../../models/operations/GetBarsV2Response.md)**
+
+<div id="errors">
+  ### الأخطاء
+</div>
+
+| نوع الخطأ                  | رمز الحالة                 | نوع المحتوى                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/BzhttpResp   | 400, 500                   | application/json           |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

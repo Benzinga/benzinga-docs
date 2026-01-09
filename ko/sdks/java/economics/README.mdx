@@ -1,0 +1,78 @@
+---
+title: "경제"
+description: economics()
+---
+
+[&lt; 뒤로 가기](/ko/sdks/languages/java#economics)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - Economics 데이터 조회
+
+<div id="get">
+  ## 가져오기
+</div>
+
+경제 캘린더 데이터를 반환합니다.
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetEconomicsRequest;
+import org.benzinga.BZClient.models.operations.GetEconomicsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetEconomicsRequest req = GetEconomicsRequest.builder()
+                .build();
+
+        GetEconomicsResponse res = sdk.economics().get()
+                .request(req)
+                .call();
+
+        if (res.modelsEconomicJSON().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+| 매개변수                                                               | 유형                                                                  | 필수                                                                   | 설명                                                                   |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [GetEconomicsRequest](../../models/operations/GetEconomicsRequest.md) | :heavy&#95;check&#95;mark:                                                    | 요청에 사용할 객체입니다.                                              |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetEconomicsResponse](../../models/operations/GetEconomicsResponse.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                   | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

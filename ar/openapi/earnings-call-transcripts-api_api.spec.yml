@@ -1,0 +1,282 @@
+openapi: 3.0.0
+info:
+  contact: {}
+  description: توفّر واجهة برمجة التطبيقات REST هذه نقاط نهاية للبحث عن نصوص
+    مكالمات إعلان الأرباح والحصول على تفاصيلها.
+  termsOfService: http://swagger.io/terms/
+  title: Earnings Call Transcripts API
+  version: 1.0.0
+paths:
+  /api/v1/earnings-call-transcripts:
+    get:
+      description: يجلب نصوص مكالمات أرباح للشركات أو لمعرّفات المكالمات المحددة. يعيد
+        نصوصًا كاملة لمكالمات إعلان الأرباح الفصلية والسنوية، بما في ذلك جلسات
+        الأسئلة والأجوبة، وتحديد المتحدثين، والطوابع الزمنية. استخدم عوامل تصفية
+        التواريخ لاسترجاع النصوص من فترات تقارير محددة أو صفِّ النتائج حسب رموز
+        التداول للحصول على مناقشات أرباح خاصة بشركة معينة.
+      operationId: get-earnings-call-transcripts
+      parameters:
+        - description: "قائمة من رموز تداول الأسهم مفصولة بفواصل لتصفية نصوص مكالمات
+            الأرباح (على سبيل المثال: AAPL,MSFT,GOOGL). تُرجِع جميع النصوص
+            الخاصة بهذه الشركات."
+          in: query
+          name: tickers
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: قائمة بمعرّفات مكالمات محددة مفصولة بفواصل لاسترجاعها. استخدم هذا
+            الخيار لجلب النصوص الكاملة (transcripts) لمكالمات الأرباح ذات
+            المعرّفات المعروفة. تحظى هذه المعلمة بالأولوية على التصفية حسب رمز
+            التداول.
+          in: query
+          name: call_id
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: "رقم الصفحة لاستخدامه في ترقيم الصفحات (pagination). يبدأ العد من
+            الصفر (0 = الصفحة الأولى، 1 = الصفحة الثانية، إلخ). القيمة
+            الافتراضية: 0"
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "عدد النتائج في كل صفحة. القيمة الافتراضية: 5. الحد الأقصى: 1000.
+            استخدم أحجام صفحات أكبر لاسترداد البيانات بكميات كبيرة."
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: عامل تصفية تاريخ البداية بصيغة YYYY-MM-DD (مثلًا 2024-01-01). يعيد
+            نصوص مكالمات الأرباح المنعقدة في هذا التاريخ أو بعده.
+          in: query
+          name: date_from
+          schema:
+            type: string
+        - description: عامل تصفية لتاريخ الانتهاء بالتنسيق YYYY-MM-DD (مثل 2024-12-31).
+            يُرجِع نصوص مكالمات الأرباح التي عُقدت في هذا التاريخ أو قبله.
+          in: query
+          name: date_to
+          schema:
+            type: string
+      responses:
+        "200":
+          description: مصفوفة من ملخصات نصوص مكالمات الأرباح، مع النص الكامل والبيانات
+            الوصفية
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/models.TranscriptSummary"
+                type: array
+        "400":
+          description: طلب غير صالح - معلمات غير صالحة
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      security:
+        - ApiKeyAuth: []
+      summary: نصوص مكالمات إعلان الأرباح
+      tags:
+        - Earnings Call Transcripts
+  /api/v1/earnings-call-transcripts/audio:
+    get:
+      description: يسترجع عناوين URL لتنزيل ملفات الصوت الخاصة بتسجيلات مكالمات
+        الأرباح. يُرجع عناوين URL موقَّعة للوصول إلى التسجيلات الصوتية الكاملة
+        لمكالمات الأرباح الفصلية والسنوية. تتضمن الملفات الصوتية عروض الأرباح
+        الكاملة وجلسات الأسئلة والأجوبة. عناوين URL محدودة المدة وموقَّعة بشكل
+        آمن للوصول المصرَّح به.
+      operationId: get-earnings-call-transcript-audio-files
+      parameters:
+        - description: "قائمة من رموز تداول الأسهم مفصولة بفواصل لتصفية الملفات الصوتية
+            (مثلًا: AAPL,MSFT,GOOGL). تُرجِع ملفات صوتية لجميع مكالمات الأرباح
+            الخاصة بهذه الشركات."
+          in: query
+          name: tickers
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: قائمة من معرّفات مكالمات محددة مفصولة بفواصل، لاسترجاع الملفات
+            الصوتية الخاصة بها. استخدم هذا الحقل لجلب الصوت لمعرّفات مكالمات
+            الأرباح المعروفة.
+          in: query
+          name: call_id
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - description: "رقم الصفحة لأغراض التقسيم إلى صفحات (Pagination). يبدأ ترقيم
+            الصفحات من الصفر (0 = الصفحة الأولى، 1 = الصفحة الثانية، إلخ).
+            القيمة الافتراضية: 0"
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: "عدد النتائج في كل صفحة. القيمة الافتراضية: 5. الحد الأقصى: 1000"
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: مصفوفة من البيانات الوصفية لملفات الصوت الخاصة بمكالمات الأرباح
+            تتضمن عناوين url موقَّعة للتنزيل
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/models.TranscriptSummaryAudio"
+                type: array
+        "400":
+          description: طلب غير صالح - معلمات غير صحيحة
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+      security:
+        - ApiKeyAuth: []
+      summary: ملفات الصوت لمكالمات الأرباح
+      tags:
+        - Earnings Call Transcripts
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: query
+      name: token
+      type: apiKey
+  schemas:
+    models.Security:
+      properties:
+        cik:
+          example: "320193"
+          type: string
+        company_name:
+          example: Apple Inc
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        isin:
+          example: US0378331005
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+      type: object
+    models.Summary:
+      properties:
+        summary:
+          example: CEO discusses Q4 revenue growth of 15% YoY
+          type: string
+        time:
+          example: 123.45
+          type: number
+      type: object
+    models.TranscriptAudioFile:
+      properties:
+        file_url:
+          type: string
+      type: object
+    models.TranscriptSummary:
+      properties:
+        call_id:
+          example: AAPL-Q4-2024
+          type: string
+        created:
+          example: 1704819600
+          type: integer
+        date:
+          example: 2024-01-09
+          type: string
+        id:
+          example: 507f1f77bcf86cd799439011
+          type: string
+        reviewed:
+          example: true
+          type: boolean
+        security:
+          $ref: "#/components/schemas/models.Security"
+        start_time:
+          example: 2024-01-09T16:30:00Z
+          type: string
+        summaries:
+          items:
+            $ref: "#/components/schemas/models.Summary"
+          type: array
+        summary_full:
+          type: string
+        title:
+          example: Apple Q4 2024 Earnings Call
+          type: string
+        transcript_full:
+          type: string
+        transcript_timestamped:
+          items:
+            $ref: "#/components/schemas/models.TranscriptTimestamp"
+          type: array
+        updated:
+          example: 1704820200
+          type: integer
+        user_id:
+          example: 12345
+          type: integer
+      type: object
+    models.TranscriptSummaryAudio:
+      properties:
+        audio_file:
+          $ref: "#/components/schemas/models.TranscriptAudioFile"
+        call_id:
+          type: string
+        created:
+          type: integer
+        date:
+          type: string
+        id:
+          type: string
+        security:
+          $ref: "#/components/schemas/models.Security"
+        start_time:
+          type: string
+        updated:
+          type: integer
+      type: object
+    models.TranscriptTimestamp:
+      properties:
+        time:
+          example: 123.45
+          type: number
+        transcript:
+          example: Thank you for joining us today...
+          type: string
+      type: object

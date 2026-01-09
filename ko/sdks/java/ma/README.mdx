@@ -1,0 +1,78 @@
+---
+title: "인수·합병"
+description: ma()
+---
+
+[&lt; 뒤로](/ko/sdks/languages/java#ma)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - 인수·합병 정보 가져오기
+
+<div id="get">
+  ## 가져오기
+</div>
+
+인수·합병(M&amp;A) 데이터를 반환합니다.
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetMaRequest;
+import org.benzinga.BZClient.models.operations.GetMaResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetMaRequest req = GetMaRequest.builder()
+                .build();
+
+        GetMaResponse res = sdk.ma().get()
+                .request(req)
+                .call();
+
+        if (res.modelsAcquisitionJSON().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+| 매개변수                                                | 타입                                                    | 필수 여부                                               | 설명                                                    |
+| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
+| `request`                                               | [GetMaRequest](../../models/operations/GetMaRequest.md) | :heavy&#95;check&#95;mark:                                      | 요청에 사용할 객체입니다.                               |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetMaResponse](../../models/operations/GetMaResponse.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

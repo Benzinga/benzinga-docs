@@ -1,0 +1,78 @@
+---
+title: "컨센서스 등급"
+description: consensusRatings()
+---
+
+[&lt; 뒤로](/ko/sdks/languages/java#consensusratings)
+
+<div id="overview">
+  ## 개요
+</div>
+
+<div id="available-operations">
+  ### 사용 가능한 작업
+</div>
+
+* [get](#get) - 컨센서스 투자 의견 가져오기
+
+<div id="get">
+  ## 가져오기
+</div>
+
+지정된 심볼에 대한 컨센서스 레이팅을 가져옵니다.
+
+<div id="example-usage">
+  ### 사용 예시
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetConsensusRatingsV1Request;
+import org.benzinga.BZClient.models.operations.GetConsensusRatingsV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetConsensusRatingsV1Request req = GetConsensusRatingsV1Request.builder()
+                .build();
+
+        GetConsensusRatingsV1Response res = sdk.consensusRatings().get()
+                .request(req)
+                .call();
+
+        if (res.apiConsensusRating().isPresent()) {
+            // 응답 처리
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### 매개변수
+</div>
+
+| 매개변수                                                                                | 타입                                                                                     | 필수 여부                                                                               | 설명                                                                                    |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `request`                                                                               | [GetConsensusRatingsV1Request](../../models/operations/GetConsensusRatingsV1Request.md) | :heavy&#95;check&#95;mark:                                                                      | 요청에 사용할 요청 객체입니다.                                                          |
+
+<div id="response">
+  ### 응답
+</div>
+
+**[GetConsensusRatingsV1Response](../../models/operations/GetConsensusRatingsV1Response.md)**
+
+<div id="errors">
+  ### 오류
+</div>
+
+| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

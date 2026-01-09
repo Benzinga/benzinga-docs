@@ -1,0 +1,46 @@
+---
+title: "فجوات ERX"
+openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/erx-gaps
+---
+
+<ResponseExample>
+```json استجابة (200 OK)
+{}
+```
+```json استجابة (401 غير مصرح به)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
+    }
+  ]
+}
+```
+```json استجابة (404 غير موجود)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "لم يتم العثور على بيانات للمعاملات المحددة"
+    }
+  ]
+}
+```
+```json استجابة (500 خطأ داخلي في الخادم)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
+    }
+  ]
+}
+```
+</ResponseExample>

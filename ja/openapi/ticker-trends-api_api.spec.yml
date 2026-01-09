@@ -172,6 +172,8 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
+        - unsupported_message_type
+        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -183,10 +185,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
-        - unsupported_message_type
-        - database_query_error
       type: string
       x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -198,8 +200,6 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -219,41 +219,53 @@ components:
             $ref: "#/components/schemas/httpapi.tickerTrendData"
           type: array
         ok:
+          example: true
           type: boolean
       type: object
     httpapi.tickerTrendData:
       properties:
         exchange:
+          example: NASDAQ
           type: string
         metrics:
           items:
             $ref: "#/components/schemas/httpapi.tickerTrendMetrics"
           type: array
         ticker:
+          example: AAPL
           type: string
       type: object
     httpapi.tickerTrendMetrics:
       properties:
         count:
+          example: 1523
           type: integer
         count_mavg:
+          example: 1245.67
           type: number
         market_count_average:
+          example: 92.1
           type: number
         scaled_count:
+          example: 98.5
           type: number
         scaled_count_mavg:
+          example: 87.3
           type: number
         time_bucket:
+          example: 2024-01-09T10:00:00Z
           type: string
       type: object
     models.Security:
       properties:
         exchange:
+          example: NASDAQ
           type: string
         name:
+          example: Apple Inc
           type: string
         ticker:
+          example: AAPL
           type: string
       type: object
     models.TrendingTickersListAPIResponse:
@@ -263,17 +275,17 @@ components:
             $ref: "#/components/schemas/models.TrendingTickersListData"
           type: array
         ok:
+          example: true
           type: boolean
       type: object
     models.TrendingTickersListData:
       properties:
         count:
+          example: 1523
           type: integer
         pct_chg:
+          example: 15
           type: integer
         security:
           $ref: "#/components/schemas/models.Security"
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
