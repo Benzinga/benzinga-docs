@@ -1,20 +1,76 @@
-asyncapi: 2.6.0
+asyncapi: '3.0.0'
 info:
   title: Benzinga News Stream API
   version: 1.0.0
-  description: Real-time streaming of Benzinga news articles and updates
+  description: |
+    Real-time streaming of Benzinga news articles and updates.
+
+    **Authentication**
+    - Clients must provide their API token as a query parameter:
+      ```
+      wss://api.benzinga.com/api/v1/news/stream?token=YOUR_API_TOKEN
+      ```
+    - Upon connect, you'll receive status messages for connection and authentication.
+
+    **Filtering**
+    - Filter by tickers: Use `tickers` query parameter (comma-separated)
+    - Filter by channels: Use `channels` query parameter (comma-separated)
+
+    **Actions**
+    - `ping`: Keeps the WebSocket connection alive
+    - `replay`: Replays up to the last 100 messages (cache-dependent)
+
+servers:
+  production:
+    host: api.benzinga.com/api/v1/news
+    protocol: wss
+    description: Real-time news stream endpoint
+    security:
+      - $ref: '#/components/securitySchemes/tokenAuth'
 
 channels:
   news:
-    subscribe:
-      summary: News Stream
-      description: Receive real-time news articles and updates
-      message:
-        oneOf:
-          - $ref: '#/components/messages/NewsMessage'
+    address: stream
+    messages:
+      publish:
+        $ref: '#/components/messages/ActionRequest'
+      subscribe:
+        $ref: '#/components/messages/NewsMessage'
+    description: Send action commands; receive real-time news updates
+
+operations:
+  news.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/news'
+    summary: Send commands to the server
+    messages:
+      - $ref: '#/channels/news/messages/publish'
+  news.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/news'
+    summary: Receive real-time news updates
+    messages:
+      - $ref: '#/channels/news/messages/subscribe'
 
 components:
+  securitySchemes:
+    tokenAuth:
+      type: httpApiKey
+      name: token
+      in: query
+      description: Benzinga WebSocket API token (bz.production***)
+
   messages:
+    ActionRequest:
+      summary: Send action commands (ping, replay)
+      contentType: text/plain
+      payload:
+        type: string
+        enum: [ping, replay]
+        description: Action to perform (ping for heartbeat, replay for message history)
+
     NewsMessage:
       name: NewsMessage
       title: News Update
