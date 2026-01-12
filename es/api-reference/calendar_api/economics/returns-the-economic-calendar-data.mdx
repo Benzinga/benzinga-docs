@@ -1,0 +1,69 @@
+---
+title: "Economía"
+openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
+---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "economics": [
+    {
+      "actual": "",
+      "actual_t": "%",
+      "consensus": "",
+      "consensus_t": "",
+      "country": "USA",
+      "date": "2026-03-08",
+      "description": "El informe Challenger Job Cuts (YoY) registra el porcentaje de variación en los despidos reportados por los empleadores durante un mes determinado en comparación con el mismo mes del año anterior. Los inversores y analistas utilizan este informe para evaluar la solidez del mercado laboral y tomar decisiones informadas sobre sus inversiones. Los datos de este informe también pueden afectar el valor del dólar estadounidense, ya que unas cifras superiores a las esperadas se consideran negativas y unas cifras inferiores a las esperadas se consideran positivas.",
+      "event_category": "Employment",
+      "event_name": "Challenger Job Cuts (YoY)",
+      "event_period": "",
+      "id": "6745790147f2830001365a27",
+      "importance": 1,
+      "notes": "",
+      "period_year": 2026,
+      "prior": "",
+      "prior_t": "%",
+      "time": "02:30:09",
+      "updated": 1736341667
+    }
+  ]
+}
+```
+```json Respuesta (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Token de autenticación no válido o ausente"
+    }
+  ]
+}
+```
+```json Respuesta (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No se encontraron datos para los parámetros especificados"
+    }
+  ]
+}
+```
+```json Respuesta (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "Se produjo un error inesperado al procesar su solicitud"
+    }
+  ]
+}
+```
+</ResponseExample>

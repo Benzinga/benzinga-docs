@@ -1,0 +1,49 @@
+---
+title: "Flujo de caja"
+openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v3/fundamentals/cash-flow
+---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "ok": "true",
+  "data": []
+}
+```
+```json Respuesta (401 No autorizado)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Token de autenticación no válido o faltante"
+    }
+  ]
+}
+```
+```json Respuesta (404 No encontrado)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No se encontraron datos para los parámetros especificados"
+    }
+  ]
+}
+```
+```json Respuesta (500 Error interno del servidor)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "Se produjo un error inesperado al procesar su solicitud"
+    }
+  ]
+}
+```
+</ResponseExample>

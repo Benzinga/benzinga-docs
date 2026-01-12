@@ -1,0 +1,78 @@
+---
+title: "Fusiones y adquisiciones"
+description: ma()
+---
+
+[&lt; VOLVER](/es/sdks/languages/java#ma)
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+<div id="available-operations">
+  ### Operaciones disponibles
+</div>
+
+* [get](#get) - Obtener fusiones y adquisiciones
+
+<div id="get">
+  ## Obtener
+</div>
+
+Devuelve datos de fusiones y adquisiciones
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetMaRequest;
+import org.benzinga.BZClient.models.operations.GetMaResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetMaRequest req = GetMaRequest.builder()
+                .build();
+
+        GetMaResponse res = sdk.ma().get()
+                .request(req)
+                .call();
+
+        if (res.modelsAcquisitionJSON().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                               | Tipo                                                    | Obligatorio                                             | Descripción                                             |
+| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
+| `request`                                               | [GetMaRequest](../../models/operations/GetMaRequest.md) | :heavy&#95;check&#95;mark:                                      | El objeto de solicitud que se utilizará en la petición. |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[GetMaResponse](../../models/operations/GetMaResponse.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error              | Código de estado HTTP      | Tipo de contenido          |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

@@ -7,7 +7,7 @@ This PR updates the locale configuration for your Mintlify documentation site.
 - **Working Directory**: `.`
 - **Branch Prefix**: `locadex/`
 - **Default Locale**: `en`
-- **Target Locales**: `en`, `ja`, `ko`, `ar`
+- **Target Locales**: `en`, `es`, `ja`, `ko`, `ar`
 - **Route Example**: `/docs`
 
 ## Changes:

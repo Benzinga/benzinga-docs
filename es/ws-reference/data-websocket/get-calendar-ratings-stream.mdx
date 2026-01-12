@@ -1,0 +1,129 @@
+---
+title: "Flujo de calificaciones de analistas"
+description: "Calificaciones de analistas y cambios en el precio objetivo en tiempo real."
+asyncapi: "/asyncapi/calendar-ratings-stream.yml calendarRatings"
+---
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+Suscríbase a los cambios de calificación de analistas en tiempo real y a las actualizaciones de precios objetivo. Supervise mejoras, rebajas, inicios de cobertura y ajustes de precios objetivo en el momento en que se produzcan.
+
+<div id="key-features">
+  ### Características clave
+</div>
+
+- **Calificaciones en tiempo real**: Recibe notificaciones instantáneas sobre cambios en las calificaciones de los analistas
+- **Precios objetivo**: Haz seguimiento de los precios objetivo actuales y anteriores, incluidos sus ajustes
+- **Detalles del analista**: Incluye el nombre del analista, la firma y métricas de precisión histórica
+- **Clasificación de la acción de rating**: Mejoras, rebajas, mantiene, inicia, reitera
+- **Filtrar por valor**: Suscríbete a símbolos bursátiles o ISIN específicos
+
+<div id="use-cases">
+  ### Casos de uso
+</div>
+
+- Crear alertas y notificaciones en tiempo real sobre cambios de calificación
+- Hacer seguimiento al desempeño y la precisión de las firmas de analistas
+- Supervisar cambios en el consenso de precio objetivo
+- Crear paneles de mejoras y rebajas de calificación
+- Automatizar estrategias de trading basadas en las acciones de los analistas
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Usa la herramienta interactiva de prueba de WebSocket que aparece arriba para conectarte y probar el stream en tiempo real.
+
+<div id="connection-url">
+  ### URL de conexión
+</div>
+
+```
+wss://api.benzinga.com/api/v2.1/calendar/ratings/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### Parámetros de consulta
+</div>
+
+| Parámetro | Obligatorio | Descripción |
+|-----------|-------------|-------------|
+| `token` | Sí | Tu token de la API WebSocket de Benzinga (bz.production***) |
+| `tickers` | No | Lista de símbolos bursátiles separados por comas (p. ej., `AAPL,TSLA`) |
+| `isins` | No | Lista de códigos ISIN separados por comas para filtrar |
+
+<div id="message-example">
+  ## Ejemplo de mensaje
+</div>
+
+```json
+{
+  "id": "e9e75b31-604e-422c-a532-362725b2d59d",
+  "api_version": "websocket/v1",
+  "kind": "data/v2.1/calendar/ratings",
+  "data": {
+    "action": "created",
+    "id": "66fffdc08f3f630001a2ea51",
+    "timestamp": "2024-10-04T19:21:06Z",
+    "content": {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "exchange": "NASDAQ",
+      "date": "2024-10-04",
+      "time": "10:37:52",
+      "action_company": "Upgrades",
+      "rating_current": "Buy",
+      "rating_prior": "Neutral",
+      "pt_current": "200.00",
+      "pt_prior": "180.00",
+      "analyst": "Goldman Sachs",
+      "firm_id": "57f832ab6b87f600016fa383",
+      "importance": 4
+    }
+  }
+}
+```
+
+
+<div id="rating-actions">
+  ### Acciones de recomendación
+</div>
+
+| Acción | Descripción |
+|--------|-------------|
+| `Upgrades` | Recomendación mejorada (p. ej., Neutral → Buy) |
+| `Downgrades` | Recomendación rebajada (p. ej., Buy → Hold) |
+| `Maintains` | Recomendación sin cambios |
+| `Initiates` | Primera recomendación (inicio de cobertura) |
+| `Reiterates` | Reitera la recomendación existente |
+
+<div id="message-actions">
+  ### Acciones de mensajes
+</div>
+
+| Acción | Descripción |
+|--------|-------------|
+| `created` / `Created` | Nueva calificación publicada |
+| `updated` / `Updated` | Calificación modificada |
+| `deleted` / `Deleted` | Calificación eliminada |
+
+<div id="interactive-commands">
+  ## Comandos interactivos
+</div>
+
+| Comando | Descripción |
+|---------|-------------|
+| `ping` | Mantiene la conexión activa (responde con `pong`) |
+| `replay` | Reenvía hasta los últimos 100 mensajes en caché |
+
+<div id="best-practices">
+  ## Mejores prácticas
+</div>
+
+- **Seguimiento de cambios**: compare `rating_current` vs `rating_prior` para detectar subidas o bajadas de calificación
+- **Movimiento del precio objetivo**: supervise `pt_current` vs `pt_prior` para detectar cambios en el precio objetivo
+- **Reputación del analista**: tenga en cuenta el peso de la firma y su historial de precisión
+- **Filtro de importancia**: concéntrese en calificaciones de alta importancia (4-5) por su mayor impacto

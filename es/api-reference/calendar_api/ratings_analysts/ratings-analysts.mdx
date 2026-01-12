@@ -1,0 +1,96 @@
+---
+title: "Analistas de calificaciones"
+openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings/analysts
+---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "analyst_ratings_analyst": [
+    {
+      "firm_id": "57f832a96b87f600016fa347",
+      "firm_name": "Morgan Stanley",
+      "id": "683d9c45e5343b000101a1e3",
+      "name_first": "Lillian",
+      "name_full": "Lillian Lou",
+      "name_last": "Lou",
+      "ratings_accuracy": {
+        "1m_average_return": "0.0",
+        "1m_smart_score": "13.81",
+        "1m_stdev": "0.0",
+        "1m_success_rate": "0.0",
+        "1y_average_return": "-60.47",
+        "1y_loss_count": 1,
+        "1y_smart_score": "16.39",
+        "1y_stdev": "0.0",
+        "1y_success_rate": "0.0",
+        "2y_average_return": "-60.47",
+        "2y_loss_count": 1,
+        "2y_smart_score": "13.36",
+        "2y_stdev": "0.0",
+        "2y_success_rate": "0.0",
+        "3m_average_return": "0.0",
+        "3m_smart_score": "10.68",
+        "3m_stdev": "0.0",
+        "3m_success_rate": "0.0",
+        "3y_average_return": "-60.47",
+        "3y_loss_count": 1,
+        "3y_smart_score": "11.3",
+        "3y_stdev": "0.0",
+        "3y_success_rate": "0.0",
+        "9m_average_return": "-60.47",
+        "9m_loss_count": 1,
+        "9m_smart_score": "17.27",
+        "9m_stdev": "0.0",
+        "9m_success_rate": "0.0",
+        "overall_average_return": "-60.47",
+        "overall_avg_return_percentile": "1.7",
+        "overall_loss_count": 1,
+        "overall_stdev": "0.0",
+        "overall_success_rate": "0.0",
+        "smart_score": "2.86",
+        "total_ratings": 1,
+        "total_ratings_percentile": "7.56"
+      },
+      "updated": 1767619219
+    }
+  ]
+}
+```
+```json Respuesta (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Token de autenticación no válido o ausente"
+    }
+  ]
+}
+```
+```json Respuesta (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No se encontraron datos para los parámetros especificados"
+    }
+  ]
+}
+```
+```json Respuesta (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "Se produjo un error inesperado al procesar su solicitud"
+    }
+  ]
+}
+```
+</ResponseExample>

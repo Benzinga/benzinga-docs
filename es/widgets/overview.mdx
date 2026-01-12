@@ -1,0 +1,145 @@
+---
+title: "Widgets de Benzinga"
+description: "Visualizaciones de datos financieros integrables en tu sitio web"
+---
+
+Los widgets de Benzinga son componentes prediseñados e integrables que muestran gráficos financieros, información sobre acciones y datos de mercado en tu sitio web. Se integran fácilmente con una configuración mínima y son totalmente personalizables para adaptarse a tu marca.
+
+Widgets de ejemplo:
+
+----
+
+<div id="charting">
+  ## Gráficos:
+</div>
+
+***
+
+<iframe frameBorder="0" height="600" width="100%" src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF" />
+
+iframe:
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    class="w-full"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF"
+></iframe>
+```
+
+***
+
+
+<div id="sector-performance">
+  ## Rendimiento sectorial:
+</div>
+
+***
+
+<div style={{ width: '100%', overflow: 'hidden' }}>
+  <div style={{ transform: 'scale(0.75)', transformOrigin: 'top left', width: 1200, height: 550 }}>
+    <iframe frameBorder="0" width="100%" height="700" src="https://widgets.benzinga.com/embed/sector-performance-heatmap" />
+  </div>
+</div>
+
+iframe:
+
+```html
+<iframe
+  frameBorder="0"
+  height="1550"
+  src="https://widgets.benzinga.com/embed/sector-performance-heatmap"
+  class="w-full"
+></iframe>
+```
+
+***
+
+
+<div id="sankey-chart">
+  ## Gráfico Sankey:
+</div>
+
+***
+
+<iframe frameBorder="0" height="600" src="https://widgets.benzinga.com/embed/sankey?symbol=AAPL" width="100%" />
+
+iframe:
+
+```html
+<iframe
+  frameBorder="0"
+  height="1550"
+  src="https://widgets.benzinga.com/embed/sankey?symbol=${ticker_name}"
+  class="w-full"
+></iframe>
+```
+
+***
+
+
+<div id="features">
+  ## Características
+</div>
+
+<div id="interactive-stock-charts">
+  ### Gráficos bursátiles interactivos
+</div>
+
+* Datos de precios de acciones en tiempo real
+* Intervalos de tiempo personalizables (1 día, 6 meses, 5 años, etc.)
+* Gráficos que se actualizan automáticamente para reflejar las condiciones actuales del mercado
+
+```html
+<iframe frameBorder="0" height="500" width="500" src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF" title="Gráfico de Acciones de Apple" ></iframe>
+```
+
+
+<div id="additional-widgets">
+  ### Widgets adicionales
+</div>
+
+* Stock Tickers: Precios de acciones en tiempo real en un ticker desplazable
+* News Feeds: Últimas actualizaciones de noticias del mercado
+* Company Insights: Estadísticas clave y datos de la compañía
+
+<div id="integration">
+  ## Integración
+</div>
+
+Integra widgets en tres pasos:
+
+1. **Selecciona un tipo de widget**: Elige entre gráficos de acciones, feeds de noticias, tickers o información de la empresa.
+
+2. **Personaliza tu código de inserción**: Modifica los parámetros de la URL para que se ajusten a tus requisitos (símbolo de la acción, plazo temporal, colores):
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    class="w-full"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?timeframe=6m&exchange=NASDAQ&bgColor=%23ffffff&chartColor=%232962FF"
+></iframe>
+```
+
+3. **Incorpora en tu sitio web**: Inserta el código del iframe en tu HTML o CMS (WordPress, Wix, etc.) y verifica cómo se muestra.
+
+
+<div id="customization-options">
+  ## Opciones de personalización
+</div>
+
+Los widgets se pueden personalizar con parámetros de la URL:
+
+* `symbol` - Ticker de la acción
+* `timeframe` - Período del gráfico (1d, 6m, 5y, etc.)
+* `bgColor` - Color de fondo (formato hexadecimal)
+* `chartColor` - Color de la línea del gráfico (formato hexadecimal)
+* `exchange` - Bolsa en la que cotiza la acción
+
+<div id="support">
+  ## Soporte
+</div>
+
+Para recibir ayuda con la integración o preguntas sobre personalización, ponte en contacto con licensing@benzinga.com.
