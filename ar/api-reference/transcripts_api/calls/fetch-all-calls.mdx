@@ -1,5 +1,5 @@
 ---
-title: "جلب النصوص"
+title: "جلب نصوص المكالمات"
 openapi: /ar/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
 ---
 
@@ -9,10 +9,10 @@ openapi: /ar/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
   "data": [
     {
       "call_id": "694bf432dd7f23000124626c",
-      "call_title": "تسجّل Aritzia إيرادات قياسية قدرها 1 مليار دولار، مدفوعة بالنمو الرقمي والتوسع في متاجر البوتيك",
-      "description": "مكالمة مؤتمر أرباح Aritzia (ATZ) للربع الأول من عام 2026",
+      "call_title": "شركة Aritzia تحقق إيرادات قياسية بقيمة 1 مليار دولار، مدفوعة بالنمو الرقمي والتوسع في المتاجر",
+      "description": "مؤتمر إعلان الأرباح للربع الأول 2026 لشركة Aritzia (ATZ)",
       "webcast_url": "https://events.q4inc.com/attendee/476349537",
-      "headline": "Aritzia تسجّل نموًا في الإيرادات بنسبة 43٪ ليصل إلى 1.04 مليار دولار في الربع الثالث، مدفوعًا بقوة التجارة الإلكترونية في الولايات المتحدة والافتتاحات الاستراتيجية للمتاجر",
+      "headline": "شركة Aritzia تسجل نموًا في الإيرادات بنسبة 43% لتصل إلى 1.04 مليار دولار في الربع الثالث، مدفوعًا بقوة التجارة الإلكترونية في الولايات المتحدة والافتتاح الاستراتيجي للمتاجر",
       "symbol": "ATZ",
       "exchange": "TSX",
       "figis": [
@@ -28,7 +28,7 @@ openapi: /ar/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
       "transcripts": [
         {
           "transcript_id": "053c48c4-17f2-48a8-8216-68513c5c54c2",
-          "text": "شكرًا لانتظاركم، هنا مشغّل المؤتمر ... يمكنكم الآن قطع الاتصال.",
+          "text": "شكرًا لانتظاركم معنا، معكم مشغل المؤتمر .. يمكنكم الآن قطع الاتصال",
           "language": "en-US",
           "confidence_score": 0.41074312812500047,
           "segments": null,
@@ -36,7 +36,7 @@ openapi: /ar/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
         },
         {
           "transcript_id": "c10f465c-f09e-4661-b029-c1092b2b9d40",
-          "text": "شكرًا لانتظاركم... شكرًا لانضمامكم ونتمنى لكم يومًا سعيدًا. يمكنكم الآن قطع الاتصال.",
+          "text": "شكرًا لانتظاركم معنا... شكرًا لانضمامكم ونتمنى لكم يومًا سعيدًا. يمكنكم الآن قطع الاتصال.",
           "language": "en-US",
           "confidence_score": 0.9678800193700792,
           "segments": null,
@@ -66,7 +66,7 @@ openapi: /ar/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
   }
 }
 ```
-```json استجابة (400 Bad Request)
+```json استجابة (400 طلب غير صحيح)
 {
   "ok": false,
   "errors": [
@@ -78,19 +78,19 @@ openapi: /ar/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
   ]
 }
 ```
-```json استجابة (401 Unauthorized)
+```json استجابة (401 غير مصرح به)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز مصادقة مفقود أو غير صالح"
+      "value": "رمز مصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json استجابة (404 غير موجود)
 {
   "ok": false,
   "errors": [
@@ -102,7 +102,7 @@ openapi: /ar/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json استجابة (500 خطأ في الخادم الداخلي)
 {
   "ok": false,
   "errors": [
