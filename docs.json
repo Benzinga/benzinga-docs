@@ -293,8 +293,7 @@
               {
                 "group": "Changelog",
                 "pages": [
-                  "changelog/overview",
-                  "changelog/upcoming"
+                  "changelog/overview"
                 ]
               }
             ]
