@@ -1,0 +1,173 @@
+---
+title: "Autenticación"
+description: "Cómo autenticar tus solicitudes a la API de Benzinga"
+---
+
+La API de Benzinga usa **claves de API (API Keys)** para autenticar las solicitudes. Tu clave de API es un identificador único que otorga acceso a datos y funciones específicas según tu suscripción.
+
+<Note> 
+**Mantén tu clave de API segura.** No la compartas en lugares de acceso público como GitHub, código del lado del cliente o comunicaciones no seguras. Si crees que tu clave se ha visto comprometida, ponte en contacto con el equipo de soporte de inmediato.
+</Note>
+
+Puedes ver y administrar tu clave de API en la [Consola para desarrolladores de Benzinga](https://www.benzinga.com/apis/licensing/register).
+
+<div id="authentication-methods">
+  ## Métodos de autenticación
+</div>
+
+La API de Benzinga admite dos métodos de autenticación. Recomendamos encarecidamente utilizar el método de **encabezado HTTP** para aplicaciones en producción, ya que es más seguro y evita que tu clave de API aparezca en los logs de URL.
+
+<div id="1-http-header-recommended">
+  ### 1. Encabezado HTTP (Recomendado)
+</div>
+
+Para autenticar mediante el encabezado, incluye el encabezado `Authorization` con el valor `token <YOUR_API_KEY>`.
+
+```http
+Authorization: token <YOUR_API_KEY>
+```
+
+
+<div id="2-query-parameter">
+  ### 2. Parámetro de consulta
+</div>
+
+Para pruebas rápidas o cuando no sea posible modificar los encabezados, puedes pasar tu clave de API como un parámetro de consulta llamado `token`.
+
+```http
+https://api.benzinga.com/api/v2/news?token=<YOUR_API_KEY>
+```
+
+
+<div id="code-examples">
+  ## Ejemplos de código
+</div>
+
+A continuación se muestran ejemplos listos para producción para conectarse a la API de Benzinga en lenguajes de uso común.
+
+<CodeGroup>
+
+```bash cURL
+# Recomendado: Autenticación mediante encabezados
+curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1' \
+-H 'Authorization: token YOUR_API_KEY' \
+-H 'Accept: application/json'
+
+# Alternativa: Parámetro de consulta
+curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1&token=YOUR_API_KEY'
+```
+
+```python Python
+import requests
+
+url = "https://api.benzinga.com/api/v2/news"
+
+# Recomendado: Autenticación mediante encabezados
+headers = {
+    "Authorization": "token YOUR_API_KEY",
+    "Accept": "application/json"
+}
+
+params = {
+    "pageSize": 1
+}
+
+try:
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status() # Lanza un error detallado para respuestas 4xx/5xx
+    data = response.json()
+    print(data)
+except requests.exceptions.RequestException as e:
+    print(f"Error al obtener datos: {e}")
+```
+
+```javascript Node.js
+const axios = require('axios');
+
+const url = 'https://api.benzinga.com/api/v2/news';
+const apiKey = 'YOUR_API_KEY';
+
+async function getNews() {
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'Authorization': `token ${apiKey}`,
+        'Accept': 'application/json'
+      },
+      params: {
+        pageSize: 1
+      }
+    });
+    
+    console.log(response.data);
+  } catch (error) {
+    if (error.response) {
+      // La solicitud se realizó y el servidor respondió con un código de estado
+      // que está fuera del rango de 2xx
+      console.error('Error Status:', error.response.status);
+      console.error('Error Data:', error.response.data);
+    } else {
+      console.error('Error Message:', error.message);
+    }
+  }
+}
+
+getNews();
+```
+
+```go Go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "https://api.benzinga.com/api/v2/news?pageSize=1"
+	apiKey := "YOUR_API_KEY"
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	// Recomendado: Autenticación mediante encabezados
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", apiKey))
+	req.Header.Add("Accept", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 400 {
+		fmt.Printf("Error: Código de estado %d\n", resp.StatusCode)
+		return
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(body))
+}
+```
+
+</CodeGroup>
+
+<div id="troubleshooting">
+  ## Solución de problemas
+</div>
+
+Errores de autenticación comunes y cómo resolverlos.
+
+| Código de estado | Mensaje | Posible causa | Solución |
+| :--- | :--- | :--- | :--- |
+| **401** | `Unauthorized` | Clave de API no válida | Verifica que tu clave de API sea correcta y que no haya sido regenerada. Asegúrate de que no se hayan copiado espacios adicionales. |
+| **401** | `Unauthorized` | Falta la clave de API | Asegúrate de que el encabezado `Authorization` esté formateado correctamente como `token <KEY>` o de que el parámetro `token` esté presente. |
+| **403** | `Forbidden` | Permisos insuficientes | Tu clave de API es válida, pero tu plan no incluye acceso al endpoint solicitado. Ponte en contacto con el equipo de ventas o de soporte para actualizar tu plan. |

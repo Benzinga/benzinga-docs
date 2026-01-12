@@ -1,0 +1,66 @@
+---
+title: "Splits de acciones"
+openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/splits
+---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "splits": [
+    {
+      "cusip": "87807D509",
+      "date_announced": "2025-12-30",
+      "date_distribution": "2025-01-06",
+      "date_ex": "2025-01-07",
+      "date_recorded": "2025-01-02",
+      "exchange": "NASDAQ",
+      "id": "677675329a903000017cb6f1",
+      "importance": 1,
+      "name": "TC BioPharm (Holdings)",
+      "notes": "",
+      "optionable": false,
+      "ratio": "1.25:1",
+      "split_type": "ADR Ratio Change",
+      "ticker": "TCBP",
+      "updated": 1735816783
+    }
+  ]
+}
+```
+```json Respuesta (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+```json Respuesta (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No data found for the specified parameters"
+    }
+  ]
+}
+```
+```json Respuesta (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>

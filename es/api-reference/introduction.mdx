@@ -1,0 +1,43 @@
+---
+title: 'Introducción'
+description: 'Una breve introducción a la API de Benzinga.'
+---
+
+Bienvenido a la documentación de la API de Benzinga. Esta guía le ayudará a comprender cómo interactuar con la API de Benzinga para crear,
+obtener, actualizar y eliminar recursos de Benzinga mediante solicitudes HTTP.
+
+<div id="base-url">
+  ## URL base
+</div>
+
+Todas las URL mencionadas en la Documentación comparten la siguiente URL base:
+
+```
+https://api.benzinga.com
+```
+
+
+<div id="authentication">
+  ## Autenticación
+</div>
+
+La API de Benzinga utiliza autenticación Bearer. Al realizar solicitudes, debes incluir tu token de API en el parámetro de consulta `token`
+con el formato `token: <token>`. Para obtener más detalles, consulta la página de [Autenticación](./authentication).
+
+<div id="errors">
+  ## Errores
+</div>
+
+Cuando se produce un error, la API de Benzinga responde con un código de estado HTTP convencional y un objeto JSON con más detalles sobre el error. Para obtener más información, consulta la página de [Errores](./errors).
+
+<div id="rate-limiting">
+  ## Limitación de tasa
+</div>
+
+Ten en cuenta que la API de Benzinga aplica límites de uso para evitar abusos y garantizar la estabilidad del servicio. Si superas estos límites,
+tus solicitudes se verán limitadas y recibirás una respuesta `429 Too Many Requests`.
+
+---
+
+Esperamos que esta guía te ayude a comenzar con la API de Benzinga. Si tienes alguna pregunta, no dudes en ponerte en contacto
+con nuestro equipo de soporte.

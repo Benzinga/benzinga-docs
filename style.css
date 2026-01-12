@@ -1,0 +1,43 @@
+@media (min-width: 1024px) {
+    #localization-select-trigger {
+        position: absolute;
+        z-index: 1000;
+        right: 28%;
+    }
+    #search-bar-entry {
+        width: 60%;
+    }
+}
+
+@media (min-width: 1150px) {
+    #localization-select-trigger {
+        right: 26%;
+    }
+    #search-bar-entry {
+        width: 70%;
+    }
+}
+
+@media (min-width: 1250px) {
+    #localization-select-trigger {
+        right: 24%;
+    }
+    #search-bar-entry {
+        width: 80%;
+    }
+}
+
+@media (min-width: 1350px) {
+    #localization-select-trigger {
+        right: 22%;
+    }
+    #search-bar-entry {
+        width: 90%;
+    }
+}
+
+@media (min-width: 1450px) {
+    #localization-select-trigger {
+        right: 20%;
+    }
+}

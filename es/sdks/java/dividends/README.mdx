@@ -1,0 +1,141 @@
+---
+title: "Dividendos"
+description: dividends()
+---
+
+[&lt; VOLVER](/es/sdks/languages/java#dividends)
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+<div id="available-operations">
+  ### Operaciones disponibles
+</div>
+
+* [getV22](#getv22) - Obtener dividendos v2.2
+* [get](#get) - Obtener dividendos v2 y v2.1
+
+<div id="getv22">
+  ## getV22
+</div>
+
+Devuelve una lista de dividendos
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetDividendsV22Request;
+import org.benzinga.BZClient.models.operations.GetDividendsV22Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetDividendsV22Request req = GetDividendsV22Request.builder()
+                .build();
+
+        GetDividendsV22Response res = sdk.dividends().getV22()
+                .request(req)
+                .call();
+
+        if (res.modelsDividendJSON().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                                                   | Tipo                                                                        | Obligatorio                                                                 | Descripción                                                                 |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `request`                                                                   | [GetDividendsV22Request](../../models/operations/GetDividendsV22Request.md) | :heavy&#95;check&#95;mark:                                                          | Objeto de solicitud que se utilizará en la petición.                        |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[GetDividendsV22Response](../../models/operations/GetDividendsV22Response.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error              | Código de estado           | Tipo de contenido          |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |
+
+<div id="get">
+  ## Obtener
+</div>
+
+Devuelve una lista de dividendos
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetDividendsRequest;
+import org.benzinga.BZClient.models.operations.GetDividendsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetDividendsRequest req = GetDividendsRequest.builder()
+                .build();
+
+        GetDividendsResponse res = sdk.dividends().get()
+                .request(req)
+                .call();
+
+        if (res.modelsDividendJSON().isPresent()) {
+            // gestionar respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                                             | Tipo                                                                  | Obligatorio                                                           | Descripción                                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [GetDividendsRequest](../../models/operations/GetDividendsRequest.md) | :heavy&#95;check&#95;mark:                                                    | El objeto de solicitud que se utilizará para la operación.            |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[GetDividendsResponse](../../models/operations/GetDividendsResponse.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error              | Código de estado           | Tipo de contenido          |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

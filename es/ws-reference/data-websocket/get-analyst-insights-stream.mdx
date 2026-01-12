@@ -1,0 +1,112 @@
+---
+title: "Flujo de insights de analistas"
+description: "Insights de analistas, recomendaciones y precios objetivo en tiempo real para valores."
+asyncapi: "/asyncapi/analyst-insights-stream.yml analystInsights"
+---
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+Suscríbete a insights de analistas en tiempo real y recibe actualizaciones sobre calificaciones de analistas, precios objetivo y recomendaciones detalladas en cuanto se produzcan.
+
+<div id="key-features">
+  ### Características clave
+</div>
+
+- **Actualizaciones en tiempo real**: Reciba notificaciones instantáneas cuando los analistas publiquen nuevos análisis o modifiquen calificaciones existentes
+- **Filtrado por valor**: Suscríbase a tickers o ISIN específicos para recibir solo datos relevantes
+- **Datos exhaustivos**: Incluye información de la firma de analistas, calificaciones, precios objetivo y análisis detallados
+- **Seguimiento de actividad**: Supervise cuándo se crean, actualizan o eliminan los análisis
+
+<div id="use-cases">
+  ### Casos de uso
+</div>
+
+- Hacer seguimiento de los cambios en el sentimiento de los analistas para los valores en cartera
+- Crear alertas en tiempo real para subidas o bajadas de calificación
+- Supervisar los cambios en los precios objetivo de múltiples analistas
+- Consolidar información de consenso de múltiples firmas de analistas
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Use el probador interactivo de WebSocket de la parte superior para conectarse y probar el flujo de datos en tiempo real.
+
+<div id="connection-url">
+  ### URL de conexión
+</div>
+
+```
+wss://api.benzinga.com/api/v1/analyst/insights/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### Parámetros de consulta
+</div>
+
+| Parámetro | Obligatorio | Descripción |
+|-----------|-------------|-------------|
+| `token` | Sí | Tu token de la API WebSocket de Benzinga (bz.production***) |
+| `tickers` | No | Lista separada por comas de símbolos bursátiles (por ejemplo, `AAPL,MSFT`) |
+| `isins` | No | Lista separada por comas de códigos ISIN para filtrar |
+
+<div id="message-example">
+  ## Ejemplo de mensaje
+</div>
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "stream_type",
+  "data": {
+    "action": "created",
+    "id": "insight-id",
+    "timestamp": "2024-10-08T10:00:00Z",
+    "content": {
+      "action": "Upgrades",
+      "analyst_insights": "The analyst has upgraded the stock...",
+      "firm": "Goldman Sachs",
+      "pt": "150.00",
+      "rating": "Buy",
+      "security": {
+        "symbol": "AAPL",
+        "name": "Apple Inc.",
+        "exchange": "NASDAQ"
+      }
+    }
+  }
+}
+```
+
+
+<div id="message-actions">
+  ### Acciones de mensajes
+</div>
+
+| Acción | Descripción |
+|--------|-------------|
+| `created` / `Created` | Nuevo insight de analista publicado |
+| `updated` / `Updated` | Insight existente actualizado |
+| `deleted` / `Deleted` | Insight eliminado |
+
+<div id="interactive-commands">
+  ## Comandos interactivos
+</div>
+
+| Comando | Descripción |
+|---------|-------------|
+| `ping` | Mantiene la conexión activa (responde con `pong`) |
+| `replay` | Reproduce hasta los últimos 100 mensajes en caché |
+
+<div id="best-practices">
+  ## Mejores prácticas
+</div>
+
+- **Eliminación de duplicados**: Utiliza el campo `id` para evitar procesar mensajes duplicados
+- **Heartbeat**: Envía comandos `ping` cada 30-60 segundos para mantener la conexión
+- **Manejo de errores**: Implementa lógica de reconexión con backoff exponencial
+- **Filtrado**: Utiliza filtros de ticker/ISIN para reducir el consumo de ancho de banda

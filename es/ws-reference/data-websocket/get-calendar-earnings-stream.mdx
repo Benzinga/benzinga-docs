@@ -1,0 +1,132 @@
+---
+title: "Flujo de resultados"
+description: "Anuncios de resultados y métricas financieras en tiempo real."
+asyncapi: "/asyncapi/calendar-earnings-stream.yml calendarEarnings"
+---
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+Suscríbete a los anuncios de resultados en tiempo real y recibe actualizaciones instantáneas sobre los resultados financieros de las empresas, incluidas las ganancias por acción (EPS), los ingresos y las sorpresas en los resultados.
+
+<div id="key-features">
+  ### Características clave
+</div>
+
+- **Resultados en tiempo real**: Obtén notificaciones instantáneas de los anuncios de resultados a medida que ocurren
+- **Datos exhaustivos**: Incluye eps (ganancias por acción), ingresos, estimaciones, resultados reales y métricas de sorpresa
+- **Filtrar por valor**: Suscríbete a símbolos bursátiles o ISIN específicos
+- **Períodos de resultados**: Haz seguimiento de resultados de Q1, Q2, Q3, Q4 y del año completo (FY)
+- **Calificaciones de importancia**: Escala de 0 a 5 que indica la importancia en el mercado
+
+<div id="use-cases">
+  ### Casos de uso
+</div>
+
+- Crear calendarios de resultados y alertas en tiempo real
+- Hacer seguimiento de sorpresas en resultados y patrones de superación/incumplimiento de expectativas
+- Monitorear en tiempo real los resultados de las empresas de la cartera
+- Crear paneles de control para la temporada de resultados
+- Automatizar estrategias de trading basadas en resultados
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Utiliza la herramienta interactiva de prueba de WebSocket de arriba para conectarte y probar el flujo de datos en tiempo real.
+
+<div id="connection-url">
+  ### URL de conexión
+</div>
+
+```
+wss://api.benzinga.com/api/v2.1/calendar/earnings/stream?token=YOUR_TOKEN
+```
+
+
+<div id="query-parameters">
+  ### Parámetros de consulta
+</div>
+
+| Parámetro | Obligatorio | Descripción |
+|-----------|-------------|-------------|
+| `token` | Sí | Tu token de la API WebSocket de Benzinga (bz.production***) |
+| `tickers` | No | Lista de símbolos *ticker* separados por comas (p. ej., `AAPL,MSFT`) |
+| `isins` | No | Lista de ISIN separados por comas para filtrar |
+
+<div id="message-example">
+  ## Ejemplo de mensaje
+</div>
+
+```json
+{
+  "id": "839f1f45-fffe-4801-9284-11dae5c5dae4",
+  "api_version": "websocket/v1",
+  "kind": "data/v2.1/calendar/earnings",
+  "data": {
+    "action": "created",
+    "id": "66fffe978f3f630001a2ea56",
+    "timestamp": "2024-10-04T14:42:27Z",
+    "content": {
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "exchange": "NASDAQ",
+      "date": "2024-10-04",
+      "time": "16:00:00",
+      "period": "Q4",
+      "period_year": 2024,
+      "eps": "1.47",
+      "eps_est": "1.39",
+      "eps_surprise": "0.08",
+      "eps_surprise_percent": "5.76",
+      "revenue": "89500000000",
+      "revenue_est": "89280000000",
+      "importance": 5
+    }
+  }
+}
+```
+
+
+<div id="key-fields">
+  ### Campos clave
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `eps` | Ganancia por acción real informada |
+| `eps_est` | Estimación de EPS según consenso de analistas |
+| `eps_surprise` | Diferencia entre el valor real y la estimación |
+| `eps_surprise_percent` | Diferencia como porcentaje de la estimación |
+| `revenue` | Ingresos reales informados |
+| `revenue_est` | Estimación de ingresos según consenso de analistas |
+| `importance` | Importancia para el mercado (0-5, 5 = máxima) |
+
+<div id="message-actions">
+  ### Acciones de mensaje
+</div>
+
+| Acción | Descripción |
+|--------|-------------|
+| `created` / `Created` | Nuevo anuncio de resultados |
+| `updated` / `Updated` | Datos de resultados actualizados |
+| `deleted` / `Deleted` | Anuncio eliminado |
+
+<div id="interactive-commands">
+  ## Comandos interactivos
+</div>
+
+| Comando | Descripción |
+|---------|-------------|
+| `ping` | Mantiene la conexión activa (responde con `pong`) |
+| `replay` | Reproduce hasta los últimos 100 mensajes en caché |
+
+<div id="best-practices">
+  ## Mejores prácticas
+</div>
+
+- **Eliminación de duplicados**: Usa el campo `id` para evitar procesar elementos duplicados
+- **Filtro de importancia**: Concéntrate en los resultados más importantes (4-5) para un impacto significativo en el mercado
+- **Alertas de sorpresa**: Configura umbrales para detectar sorpresas significativas en los resultados
+- **Horario**: Ten en cuenta que el campo `time` usa el formato horario de 24 horas en EST/EDT

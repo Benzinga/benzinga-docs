@@ -1,0 +1,78 @@
+---
+title: "Calificaciones de consenso"
+description: consensusRatings()
+---
+
+[&lt; ATRÁS](/es/sdks/languages/java#consensusratings)
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+<div id="available-operations">
+  ### Operaciones disponibles
+</div>
+
+* [get](#get) - Obtener calificaciones de consenso
+
+<div id="get">
+  ## get
+</div>
+
+Obtener calificaciones de consenso para un símbolo determinado
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetConsensusRatingsV1Request;
+import org.benzinga.BZClient.models.operations.GetConsensusRatingsV1Response;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetConsensusRatingsV1Request req = GetConsensusRatingsV1Request.builder()
+                .build();
+
+        GetConsensusRatingsV1Response res = sdk.consensusRatings().get()
+                .request(req)
+                .call();
+
+        if (res.apiConsensusRating().isPresent()) {
+            // gestionar respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                                                              | Tipo                                                                                     | Obligatorio                                                                             | Descripción                                                                             |
+| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `request`                                                                              | [GetConsensusRatingsV1Request](../../models/operations/GetConsensusRatingsV1Request.md) | :heavy&#95;check&#95;mark:                                                                      | El objeto de solicitud que se utilizará en la petición.                                 |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[GetConsensusRatingsV1Response](../../models/operations/GetConsensusRatingsV1Response.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error              | Código de estado HTTP      | Tipo de contenido          |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

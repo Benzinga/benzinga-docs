@@ -1,0 +1,78 @@
+---
+title: "Productos"
+description: offerings()
+---
+
+[&lt; VOLVER](/es/sdks/languages/java#offerings)
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+<div id="available-operations">
+  ### Operaciones disponibles
+</div>
+
+* [get](#get) - Obtener ofertas
+
+<div id="get">
+  ## get
+</div>
+
+Devuelve datos de ofertas secundarias
+
+<div id="example-usage">
+  ### Ejemplo de uso
+</div>
+
+```java
+package hello.world;
+
+import java.lang.Exception;
+import org.benzinga.BZClient.Bzclient;
+import org.benzinga.BZClient.models.operations.GetOfferingsRequest;
+import org.benzinga.BZClient.models.operations.GetOfferingsResponse;
+
+public class Application {
+
+    public static void main(String[] args) throws Exception {
+
+        Bzclient sdk = Bzclient.builder()
+                .apiKeyAuth("<YOUR_API_KEY_HERE>")
+            .build();
+
+        GetOfferingsRequest req = GetOfferingsRequest.builder()
+                .build();
+
+        GetOfferingsResponse res = sdk.offerings().get()
+                .request(req)
+                .call();
+
+        if (res.modelsOfferingJSON().isPresent()) {
+            // manejar la respuesta
+        }
+    }
+}
+```
+
+<div id="parameters">
+  ### Parámetros
+</div>
+
+| Parámetro                                                             | Tipo                                                                  | Obligatorio                                                           | Descripción                                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `request`                                                             | [GetOfferingsRequest](../../models/operations/GetOfferingsRequest.md) | :heavy&#95;check&#95;mark:                                                    | Objeto de solicitud que se utilizará en la llamada.                   |
+
+<div id="response">
+  ### Respuesta
+</div>
+
+**[GetOfferingsResponse](../../models/operations/GetOfferingsResponse.md)**
+
+<div id="errors">
+  ### Errores
+</div>
+
+| Tipo de error              | Código de estado           | Tipo de contenido          |
+| -------------------------- | -------------------------- | -------------------------- |
+| models/errors/APIException | 4XX, 5XX                   | */*                      |

@@ -1,0 +1,69 @@
+---
+title: "Firmas de calificación"
+openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings/firms
+---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+{
+  "analyst_ratings_firm": [
+    {
+      "id": "692d37e208782e0001f054f2",
+      "name": "konik capital partners llc"
+    },
+    {
+      "id": "691f0b6521a45000013bb706",
+      "name": "BNP Paribas Exane"
+    },
+    {
+      "id": "6916bad521a450000139dde8",
+      "name": "Galaxy Digital"
+    },
+    {
+      "id": "690d8c8ed8a7a50001a7ca17",
+      "name": "Blue Diamond Securities of America LLC"
+    },
+    {
+      "id": "690907ab6d699e0001d02d93",
+      "name": "Aletheia Capital"
+    }
+  ]
+}
+```
+```json Respuesta (401 No autorizado)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+```json Respuesta (404 No encontrado)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No data found for the specified parameters"
+    }
+  ]
+}
+```
+```json Respuesta (500 Error interno del servidor)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>

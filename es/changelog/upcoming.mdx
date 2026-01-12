@@ -1,0 +1,125 @@
+---
+title: "Próximamente"
+---
+
+Estos son los próximos lanzamientos y las acciones previstas para las próximas actualizaciones.
+
+<div id="in-progress">
+  ## En curso
+</div>
+
+Elementos que se encuentran actualmente en desarrollo o revisión.
+
+<div id="in-development">
+  ### En desarrollo
+</div>
+
+- **Platform Services**: Investigación de operaciones de opciones de alto impacto que no aparecen en las respuestas de la API
+- **Platform Services**: Resolución de problemas de autenticación 401 para endpoints de Halt/Resume
+- **Platform Services**: Adición de soporte para todos los tipos de webhook (actualmente solo News)
+- **Platform Services**: Procesamiento y relleno histórico de datos de Fastly content
+- **Platform Services**: Automatización de la generación futura de filas para Guidance Calendar
+- **Platform Services**: Investigación del manejo de ratings para compañías inactivas
+- **Calendar API**: Adición de campos Period y Year al calendario de Conference Call
+- **Calendar API**: Simplificación de parámetros de la API en todos los servicios de Calendar
+- **Transcripts**: Adición de campos Period y Year a las llamadas de transcript
+- **Transcripts**: Mejora del soporte de búsqueda por ticker (por ejemplo, formato MOG/A)
+- **Transcripts**: Adición de la funcionalidad Change Titles para incluir Period y Year
+
+<div id="in-review">
+  ### En revisión
+</div>
+
+- **Platform Services**: Actualización de las clasificaciones del tipo de contenido "Press Release"
+
+<div id="pending-deployment">
+  ### Pendiente de despliegue
+</div>
+
+- **Platform Services**: Implementar reglas de caducidad del content (no enviar content después de X días)
+- **Transcripts**: Corregir el problema por el cual las ediciones de las transcripciones no se guardan correctamente
+
+<div id="coming-soon">
+  ## Próximamente
+</div>
+
+Elementos previstos para los próximos sprints.
+
+<div id="platform-services">
+  ### Platform Services
+</div>
+
+**Nuevas funcionalidades**
+
+- Incorporación del diccionario "Conference Call Topics" para una mejor categorización
+- Compatibilidad de Logos V2 con imágenes SVG composite_auto
+- Especificaciones de la API para Halts/Resumes Calendar API
+- Implementación de "Hedge Message" para lógica de doble reversión
+- Mejoras en la limitación de frecuencia de solicitudes (rate limiting) y mensajería en todos los servicios
+- Incorporación de alertas de Corologix para el monitoreo de conexiones
+
+**Mejoras**
+
+- Incorporación de monitoreo para la entrega de noticias en S3
+- Eliminación del campo heredado TDA "Benzinga Attribution"
+- Incorporación del campo 'Active' al Analyst Dictionary (opciones Sí/No)
+- Compatibilidad con consultas por ISIN para todos los endpoints de SoFi
+- Incorporación de la URL de la imagen al payload de News WebSocket
+- Resolución de problemas en el cálculo del Upside de JPMC con splits de acciones
+- Gestión de actualizaciones de Government Trade API
+- Relleno retroactivo de datos de período/año en el calendario de conference calls
+
+**Corrección de errores**
+
+- Corrección de problemas del widget dinámico de CIBC
+- Corrección del endpoint de Consensus Ratings que devolvía ceros para consultas de una sola fecha
+- Corrección de la lógica de desduplicación en el endpoint /sync
+- Investigación de logos faltantes de acciones preferentes de Morgan Stanley
+
+<div id="calendar-api">
+  ### Calendar API
+</div>
+
+**Nuevas funcionalidades**
+
+- Uso de CAGR para calcular las proyecciones de dividendos futuros
+- Creación de un endpoint de la API para actualizar Government Trades desde Newsdesk Tools
+
+<div id="news-api">
+  ### News API
+</div>
+
+**Nuevas funciones**
+
+- Compatibilidad con múltiples tipos de contenido en una sola consulta
+- Incorporación de un parámetro de consulta basado en sector
+- Incorporación de compatibilidad para consultas basadas en GICS
+
+**Correcciones de errores**
+
+- Incorporación de compatibilidad con la consulta `updatedSince` en el endpoint `news-removed`
+
+<div id="transcripts">
+  ### Transcripts
+</div>
+
+**Mejoras**
+
+- Mostrar todas las transcripciones programadas para fechas futuras
+- Agregar compatibilidad con direcciones de correo electrónico personalizadas para llamadas de conferencia
+- Agregar compatibilidad con enlaces de llamadas de Zoom
+- Mejoras en la interfaz de usuario del front-end con opciones de filtrado avanzadas
+- Rediseñar la interfaz de usuario a una vista de calendario en cuadrícula (sustituyendo el modo manual/en vivo)
+- Agregar historial de revisiones para cada registro de transcripción
+- Agregar la función de creación manual de registros de transcripción
+
+**Correcciones de errores**
+
+- Mejorar el manejo de inicio de sesión de Edge Media
+- Mejorar la confiabilidad del agente Webvoyager
+
+---
+
+*Última actualización: enero de 2026*
+
+*Nota: Los plazos y las funcionalidades están sujetos a cambios según las prioridades y dependencias.*
