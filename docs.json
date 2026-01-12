@@ -1559,8 +1559,8 @@
             "href": "/changelog/overview"
           },
           {
-            "label": "Feedback & Requests",
-            "href": "https://github.com/Benzinga/benzinga-docs/issues/new"
+            "label": "LLM",
+            "href": "https://docs.benzinga.com/llms.txt"
           },
           {
             "label": "FAQs",
@@ -1571,6 +1571,10 @@
       {
         "header": "SUPPORT",
         "items": [
+          {
+            "label": "Feedback & Requests",
+            "href": "https://github.com/Benzinga/benzinga-docs/issues/new"
+          },
           {
             "label": "Terms of Service",
             "href": "https://www.benzinga.com/terms-and-conditions"
