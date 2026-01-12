@@ -5,8 +5,8 @@ description: "How to authenticate your requests to the Benzinga API"
 
 The Benzinga API uses **API Keys** to authenticate requests. Your API Key is a unique identifier that grants access to specific data and features based on your subscription.
 
-<Note> 
-**Keep your API Key secure.** Do not share it in publicly accessible areas such as GitHub, client-side code, or unsecured communications. If you believe your key has been compromised, contact support immediately.
+<Note>
+  **Keep your API Key secure.** Do not share it in publicly accessible areas such as GitHub, client-side code, or unsecured communications. If you believe your key has been compromised, contact support immediately.
 </Note>
 
 You can view and manage your API Key in your [Benzinga Developer Console](https://www.benzinga.com/apis/licensing/register).
@@ -47,6 +47,7 @@ curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1' \
 curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1&token=YOUR_API_KEY'
 ```
 
+
 ```python Python
 import requests
 
@@ -70,6 +71,7 @@ try:
 except requests.exceptions.RequestException as e:
     print(f"Error fetching data: {e}")
 ```
+
 
 ```javascript Node.js
 const axios = require('axios');
@@ -104,6 +106,7 @@ async function getNews() {
 
 getNews();
 ```
+
 
 ```go Go
 package main
@@ -154,8 +157,8 @@ func main() {
 
 Common authentication errors and how to resolve them.
 
-| Status Code | Message | Possible Cause | Resolution |
-| :--- | :--- | :--- | :--- |
-| **401** | `Unauthorized` | Invalid API Key | Check that your API key is correct and has not been regenerated. ensure no extra spaces are copied. |
-| **401** | `Unauthorized` | Missing API Key | Ensure the `Authorization` header is formatted correctly as `token <KEY>` or the `token` parameter is present. |
-| **403** | `Forbidden` | Insufficient Permissions | Your API key is valid, but your plan does not include access to the requested endpoint. Contact sales or support to upgrade your plan. |
+| Status Code | Message        | Possible Cause           | Resolution                                                                                                                             |
+| :---------- | :------------- | :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| **401**     | `Unauthorized` | Invalid API Key          | Check that your API key is correct and has not been regenerated. ensure no extra spaces are copied.                                    |
+| **401**     | `Unauthorized` | Missing API Key          | Ensure the `Authorization` header is formatted correctly as `token <KEY>` or the `token` parameter is present.                         |
+| **403**     | `Forbidden`    | Insufficient Permissions | Your API key is valid, but your plan does not include access to the requested endpoint. Contact sales or support to upgrade your plan. |
