@@ -124,11 +124,11 @@
               {
                 "group": "Conference Call Transcripts",
                 "pages": [
-                  "api-reference/transcripts_api/overview",
-                  "api-reference/transcripts_api/calls/fetch-all-calls",
-                  "api-reference/transcripts_api/calls/fetch-call-by-id",
-                  "api-reference/transcripts_api/summaries/fetch-summaries",
-                  "api-reference/transcripts_api/summaries/fetch-summary-by-call-id"
+                  "api-reference/delivery_api/overview",
+                  "api-reference/delivery_api/calls/fetch-all-calls",
+                  "api-reference/delivery_api/calls/fetch-call-by-id",
+                  "api-reference/delivery_api/summaries/fetch-summaries",
+                  "api-reference/delivery_api/summaries/fetch-summary-by-call-id"
                 ]
               },
               {
@@ -419,11 +419,11 @@
               {
                 "group": "نصوص مكالمات المؤتمرات الهاتفية",
                 "pages": [
-                  "ar/api-reference/transcripts_api/overview",
-                  "ar/api-reference/transcripts_api/calls/fetch-all-calls",
-                  "ar/api-reference/transcripts_api/calls/fetch-call-by-id",
-                  "ar/api-reference/transcripts_api/summaries/fetch-summaries",
-                  "ar/api-reference/transcripts_api/summaries/fetch-summary-by-call-id"
+                  "ar/api-reference/delivery_api/overview",
+                  "ar/api-reference/delivery_api/calls/fetch-all-calls",
+                  "ar/api-reference/delivery_api/calls/fetch-call-by-id",
+                  "ar/api-reference/delivery_api/summaries/fetch-summaries",
+                  "ar/api-reference/delivery_api/summaries/fetch-summary-by-call-id"
                 ]
               },
               {
@@ -715,11 +715,11 @@
               {
                 "group": "カンファレンスコール・トランスクリプト",
                 "pages": [
-                  "ja/api-reference/transcripts_api/overview",
-                  "ja/api-reference/transcripts_api/calls/fetch-all-calls",
-                  "ja/api-reference/transcripts_api/calls/fetch-call-by-id",
-                  "ja/api-reference/transcripts_api/summaries/fetch-summaries",
-                  "ja/api-reference/transcripts_api/summaries/fetch-summary-by-call-id"
+                  "ja/api-reference/delivery_api/overview",
+                  "ja/api-reference/delivery_api/calls/fetch-all-calls",
+                  "ja/api-reference/delivery_api/calls/fetch-call-by-id",
+                  "ja/api-reference/delivery_api/summaries/fetch-summaries",
+                  "ja/api-reference/delivery_api/summaries/fetch-summary-by-call-id"
                 ]
               },
               {
@@ -1011,11 +1011,11 @@
               {
                 "group": "컨퍼런스 콜 녹취록",
                 "pages": [
-                  "ko/api-reference/transcripts_api/overview",
-                  "ko/api-reference/transcripts_api/calls/fetch-all-calls",
-                  "ko/api-reference/transcripts_api/calls/fetch-call-by-id",
-                  "ko/api-reference/transcripts_api/summaries/fetch-summaries",
-                  "ko/api-reference/transcripts_api/summaries/fetch-summary-by-call-id"
+                  "ko/api-reference/delivery_api/overview",
+                  "ko/api-reference/delivery_api/calls/fetch-all-calls",
+                  "ko/api-reference/delivery_api/calls/fetch-call-by-id",
+                  "ko/api-reference/delivery_api/summaries/fetch-summaries",
+                  "ko/api-reference/delivery_api/summaries/fetch-summary-by-call-id"
                 ]
               },
               {
