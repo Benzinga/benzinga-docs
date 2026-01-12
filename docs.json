@@ -1548,51 +1548,6 @@
           {
             "label": "Benzinga Pro",
             "href": "https://benzinga.com/pro"
-          },
-          {
-            "label": "Events",
-            "href": "https://app.benzinga.com/share-secret"
-          },
-          {
-            "label": "Pricing",
-            "href": "https://benzinga.com/pricing"
-          },
-          {
-            "label": "Blog",
-            "href": "https://benzinga.com/blog"
-          }
-        ]
-      },
-      {
-        "header": "USE CASES",
-        "items": [
-          {
-            "label": "Calendar",
-            "href": "https://benzinga.com/api-reference/calendar_api"
-          },
-          {
-            "label": "Logos",
-            "href": "https://benzinga.com/api-reference/logo-api_api/logos/overview"
-          },
-          {
-            "label": "WIIMS",
-            "href": "https://benzinga.com/docs/documentation/platform/dynamic-secrets/overview"
-          },
-          {
-            "label": "Quotes",
-            "href": "https://benzinga.com/docs/integrations/frameworks/terraform"
-          },
-          {
-            "label": "Fundamentals",
-            "href": "https://benzinga.com/docs/integrations/platforms/ansible"
-          },
-          {
-            "label": "Ticker Trends",
-            "href": "https://benzinga.com/docs/integrations/cicd/jenkins"
-          },
-          {
-            "label": "SDK",
-            "href": "https://benzinga.com/docs/sdks/overview"
           }
         ]
       },
@@ -1601,15 +1556,15 @@
         "items": [
           {
             "label": "Changelog",
-            "href": "https://docs.benzinga.com/changelog/overview"
+            "href": "/changelog/overview"
           },
           {
             "label": "Feedback & Requests",
-            "href": "https://github.com/Benzinga/benzinga/issues"
+            "href": "https://github.com/Benzinga/benzinga-docs/issues/new"
           },
           {
             "label": "FAQs",
-            "href": "https://docs.benzinga.com/introduction/faq"
+            "href": "/introduction/faq"
           }
         ]
       },
@@ -1617,16 +1572,12 @@
         "header": "SUPPORT",
         "items": [
           {
-            "label": "Support",
-            "href": "https://benzinga.com/slack"
-          },
-          {
             "label": "Terms of Service",
-            "href": "https://benzinga.com/terms"
+            "href": "https://www.benzinga.com/terms-and-conditions"
           },
           {
             "label": "Privacy Policy",
-            "href": "https://benzinga.com/privacy"
+            "href": "https://www.benzinga.com/page/privacy"
           }
         ]
       }
