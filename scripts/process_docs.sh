@@ -5,6 +5,7 @@ set -euo pipefail
 my_map="api-reference/analyst-reports-raw-text-api_api=Analyst Reports Raw Text|
 api-reference/calendar_api=Calendars|
 api-reference/data-api-proxy_api=Data API Proxy|
+api-reference/delivery_api=Conference Call Transcripts|
 api-reference/earnings-call-transcripts-api_api=Earnings Call Transcripts|
 api-reference/logo-api_api=Logos|
 api-reference/newsquantified-api_api=NewsQuantified|
