@@ -1,0 +1,83 @@
+---
+title: "Authorization"
+description: "How to authorize access to Benzinga Widgets"
+---
+
+## Overview
+
+Benzinga Widgets require authorization to access premium features and real-time data. Authorization is handled through API tokens that are embedded in the widget URLs, ensuring secure access to financial data while maintaining seamless integration.
+
+## Getting Your API Token
+
+To use Benzinga Widgets with full functionality:
+
+1. **Contact Benzinga**: Reach out to licensing@benzinga.com to obtain your widget API token
+2. **License Agreement**: Complete the licensing process for widget access
+3. **Receive Credentials**: You'll receive your unique API token for widget authorization
+
+## Using Your Token
+
+### Basic Authentication
+
+Add your API token to the widget URL using the `token` parameter:
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    width="100%"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?token=YOUR_API_TOKEN&timeframe=6m&exchange=NASDAQ"
+></iframe>
+```
+
+### Best Practices
+
+<Warning>
+**Never expose your API token in client-side code that could be viewed by users.** Widgets are designed to be embedded on public websites, but you should implement server-side token management when possible.
+</Warning>
+
+**Recommended Approach:**
+- Store tokens as environment variables on your server
+- Generate widget URLs server-side with the token included
+- Use URL signing or token rotation for enhanced security
+
+## Token Management
+
+### Security Considerations
+
+- **Keep tokens private**: Don't commit tokens to version control
+- **Monitor usage**: Track widget loads to detect unauthorized use
+- **Rotate tokens**: Request new tokens periodically from Benzinga
+- **Domain restrictions**: Configure allowed domains with Benzinga support
+
+### Rate Limits
+
+Widget API tokens are subject to rate limits based on your license agreement:
+- Standard tier: Up to 10,000 widget loads per day
+- Premium tier: Up to 100,000 widget loads per day
+- Enterprise tier: Custom limits based on agreement
+
+## Troubleshooting
+
+### Common Authorization Issues
+
+**Widget shows "Unauthorized" error:**
+- Verify your token is correctly included in the URL
+- Check that your token hasn't expired
+- Ensure you're accessing from an authorized domain
+
+**Data not updating:**
+- Confirm your license includes real-time data access
+- Check that your token has the necessary permissions
+- Verify your rate limits haven't been exceeded
+
+### Getting Help
+
+For authorization issues or questions:
+- Email: licensing@benzinga.com
+- Include your widget URL structure (with token redacted)
+- Describe the specific error or behavior you're experiencing
+
+## Next Steps
+
+Once authorized, explore the available [widget options](/widgets/overview) to customize your financial data displays.

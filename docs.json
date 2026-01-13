@@ -271,7 +271,8 @@
               {
                 "group": "Widgets",
                 "pages": [
-                  "widgets/overview"
+                  "widgets/overview",
+                  "widgets/authorization"
                 ]
               }
             ]
@@ -566,7 +567,8 @@
               {
                 "group": "عناصر واجهة المستخدم",
                 "pages": [
-                  "ar/widgets/overview"
+                  "ar/widgets/overview",
+                  "ar/widgets/authorization"
                 ]
               }
             ]
@@ -862,7 +864,8 @@
               {
                 "group": "Widgets",
                 "pages": [
-                  "es/widgets/overview"
+                  "es/widgets/overview",
+                  "es/widgets/authorization"
                 ]
               }
             ]
@@ -1158,7 +1161,8 @@
               {
                 "group": "ウィジェット",
                 "pages": [
-                  "ja/widgets/overview"
+                  "ja/widgets/overview",
+                  "ja/widgets/authorization"
                 ]
               }
             ]
