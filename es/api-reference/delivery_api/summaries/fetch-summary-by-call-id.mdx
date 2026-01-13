@@ -1,0 +1,94 @@
+---
+title: "Obtener resúmenes de transcripciones por ID"
+openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/summaries/{call_id}
+---
+
+<ResponseExample>
+  ```json Response (200 OK)
+  {
+    "data": [
+      {
+        "summary_id": "4b0d7883-10fd-4212-9d59-d781bf5434d8",
+        "transcript_id": "08dd94d7-ad88-430b-8402-a3cb8d82e80b",
+        "call_id": "694bf432dd7f23000124626c",
+        "summary": "Aritzia alcanzó más de $1,000 millones en ingresos netos para el T3 del año fiscal 2026, superando las proyecciones con un incremento del 43% interanual, impulsado por un sólido crecimiento en los canales de comercio electrónico y minorista.\nLa compañía reportó un incremento del 58% en las ventas de comercio electrónico y un incremento del 35% en las ventas minoristas. Los ingresos netos en EE. UU. aumentaron un 54%, evidenciando una demanda y expansión significativas.\nLas iniciativas estratégicas incluyeron aperturas de nuevas boutiques, un exitoso lanzamiento de aplicación móvil e inversiones en marketing, contribuyendo a un mayor reconocimiento de marca e impulso en las ventas.\nEl lanzamiento de la aplicación móvil superó las expectativas, alcanzando 1.4 millones de descargas e impulsando significativamente la participación en comercio electrónico.\nLa gerencia elevó las proyecciones de ingresos netos para el año fiscal 2026 a un rango de $3,615 a $3,640 millones, con planes de mayor expansión en EE. UU. e iniciativas digitales en el año fiscal 2027.\nLa compañía mantuvo un balance sólido con $620 millones en efectivo y sin deuda, y continuó con las recompras de acciones bajo el NCIB.\nAritzia planea continuar optimizando las estrategias de inventario y abastecimiento, reduciendo la dependencia de China y manteniendo un sólido desempeño de márgenes a pesar de las presiones externas.",
+        "symbol": "ATZ",
+        "sentiment": 0.85,
+        "language": "en-US",
+        "created_at": "2026-01-09T13:00:29.963428Z",
+        "updated_at": "2026-01-09T13:00:29.963428Z"
+      },
+      {
+        "summary_id": "f8890d3f-1c61-40ed-9ed5-2eaed75aa6fa",
+        "transcript_id": "52769188-2cea-442b-8140-aaa57b5733bf",
+        "call_id": "694bf432dd7f23000124626c",
+        "summary": "Aritzia reportó ingresos netos récord de $1,040 millones en el T3 del año fiscal 2026, un incremento del 43% impulsado por un sólido desempeño en comercio electrónico y minorista.\nLa compañía experimentó un crecimiento excepcional en Estados Unidos, con ingresos netos en EE. UU. aumentando un 54%, destacando una fuerte demanda e impulso de marca.\nAritzia lanzó exitosamente una aplicación móvil, que impulsó significativamente las ventas de comercio electrónico y alcanzó más de 1 millón de descargas poco después del lanzamiento.\nLa compañía abrió 13 boutiques nuevas y 4 reposicionadas, principalmente en EE. UU., como parte de su estrategia de expansión inmobiliaria, que está generando resultados excepcionales.\nLas proyecciones futuras sugieren un desempeño sólido continuo con ingresos del T4 esperados entre $1,100 y $1,125 millones, y el pronóstico de ingresos para el año fiscal 2026 elevado a un rango de $3,615 a $3,640 millones.\nAritzia planea abrir de 12 a 14 boutiques nuevas en el año fiscal 2027, con enfoque en el mercado estadounidense, y también invertirá en infraestructura, incluyendo un segundo centro de distribución en EE. UU.\nLa gerencia expresó confianza en alcanzar los objetivos de ingresos del año fiscal 2027 antes de lo programado, respaldada por inversiones estratégicas en marketing e iniciativas de crecimiento digital.",
+        "symbol": "ATZ",
+        "sentiment": 0.85,
+        "language": "en-US",
+        "created_at": "2026-01-09T13:00:25.721386Z",
+        "updated_at": "2026-01-09T13:00:25.721386Z"
+      }
+    ],
+    "message": "Resúmenes obtenidos exitosamente",
+    "pagination": {
+      "hits": 16110,
+      "page": 1,
+      "page_count": 1611,
+      "page_size": 2
+    }
+  }
+  ```
+
+  ```json Response (400 Bad Request)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "bad_request",
+        "id": "invalid_parameter",
+        "value": "Parámetro search_keys_type no válido"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (401 Unauthorized)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "auth_failed",
+        "id": "unauthorized",
+        "value": "Token de autenticación inválido o ausente"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (404 Not Found)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "no_data_found",
+        "id": "not_found",
+        "value": "No se encontraron logotipos para la clave de búsqueda especificada"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (500 Internal Server Error)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "internal_server_error",
+        "id": "server_error",
+        "value": "Ocurrió un error inesperado al procesar su solicitud"
+      }
+    ]
+  }
+  ```
+</ResponseExample>

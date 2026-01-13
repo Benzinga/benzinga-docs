@@ -1,0 +1,89 @@
+---
+title: "Comunicados de prensa"
+openapi: /es/openapi/news-api_api.spec.yml GET /api/v2/news
+---
+
+<ResponseExample>
+```json Respuesta (200 OK)
+[
+  {
+    "id": 36444586,
+    "author": "GlobeNewswire",
+    "created": "Mon, 01 Jan 2024 13:35:14 -0400",
+    "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
+    "title": "La empresa XYZ anuncia los resultados de ganancias del 4T de 2023 y sus iniciativas estratégicas",
+    "teaser": "",
+    "body": "",
+    "url": "https://www.benzinga.com/pressreleases/24/01/g36444586/company-xyz-announces-q4-2023-earnings-results-and-strategic-initiatives",
+    "image": [
+      {
+        "size": "thumb",
+        "url": "https://cdn.benzinga.com/files/imagecache/250x187xUP/images/story/2023/press_release_image.jpeg"
+      },
+      {
+        "size": "small",
+        "url": "https://cdn.benzinga.com/files/imagecache/1024x768xUP/images/story/2023/press_release_image.jpeg"
+      },
+      {
+        "size": "large",
+        "url": "https://cdn.benzinga.com/files/imagecache/2048x1536xUP/images/story/2023/press_release_image.jpeg"
+      }
+    ],
+    "channels": [
+      {
+        "name": "Comunicados de prensa"
+      }
+    ],
+    "stocks": [
+      {
+        "name": "AAPL",
+        "cusip": "037833100",
+        "isin": "US0378331005",
+        "exchange": "NASDAQ"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Comunicado de prensa"
+      }
+    ]
+  }
+]
+```
+```json Respuesta (401 No autorizado)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Token de autenticación no válido o ausente"
+    }
+  ]
+}
+```
+```json Respuesta (404 No encontrado)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No se encontraron datos para los parámetros especificados"
+    }
+  ]
+}
+```
+```json Respuesta (500 Error interno del servidor)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "Se produjo un error inesperado al procesar su solicitud"
+    }
+  ]
+}
+```
+</ResponseExample>

@@ -1,37 +1,36 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: توفّر واجهة برمجة تطبيقات REST هذه نقاط نهاية لاسترجاع تفاصيل
-    تقارير المحللين.
+  description: توفر واجهة برمجة تطبيقات REST هذه نقاط نهاية لجلب تفاصيل تقارير
+    أبحاث المحللين.
   termsOfService: http://swagger.io/terms/
   title: Analyst Reports Raw Text API
   version: 1.0.0
 paths:
   /analyst/reports/raw-text:
     get:
-      description: يسترجع نصوص خام من تقارير أبحاث المحللين المحترفين. يعيد تقارير
-        المحللين بالنص الكامل، ومذكرات البحث، وتوصيات الاستثمار الصادرة عن
-        المؤسسات المالية. يتضمن بيانات وصفية للتقارير، وتغييرات في التقييمات،
-        والأهداف السعرية، وتحليلات مفصلة. يعد عنصرًا أساسيًا للوصول إلى الأبحاث
-        المؤسسية وقياس توجهات المحللين.
+      description: تسترجع النص الخام لتقارير أبحاث المحللين المحترفين. تُعيد تقارير
+        محللين كاملة النص، ومذكرات بحثية، وتوصيات استثمارية صادرة عن مؤسسات
+        مالية. تتضمن بيانات وصفية للتقرير، وتغييرات في التقييم، وأهدافًا سعرية،
+        وتحليلات تفصيلية. تُعد ضرورية للوصول إلى أبحاث المؤسسات وقياس توجهات
+        المحللين.
       operationId: get-analyst-reports-raw-text-data
       parameters:
-        - description: "رقم الصفحة للاستخدام في آلية التقسيم إلى صفحات (Pagination). يبدأ
-            الترقيم من الصفر (0 = الصفحة الأولى، 1 = الصفحة الثانية، إلخ).
-            القيمة الافتراضية: 0"
+        - description: "رقم الصفحة لأغراض التجزئة (الترقيم). يبدأ العد من الصفر (0 =
+            الصفحة الأولى، 1 = الصفحة الثانية، وهكذا). القيمة الافتراضية: 0"
           in: query
           name: page
           schema:
             type: integer
-        - description: "عدد النتائج في كل صفحة. القيمة الافتراضية: 100. الحد الأقصى: 100.
-            يُرجِع أحدث التقارير أولًا."
+        - description: "عدد النتائج في الصفحة الواحدة. القيمة الافتراضية: 100. الحد
+            الأقصى: 100. تُرجَع أحدث التقارير أولًا."
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
         "200":
-          description: مصفوفة لتقارير المحللين تحتوي على النص الكامل والبيانات الوصفية
+          description: مصفوفة من تقارير المحللين تحتوي على النص الكامل وبيانات التعريف.
           content:
             application/json:
               schema:
@@ -39,7 +38,7 @@ paths:
                   $ref: "#/components/schemas/models.AnalystReportRawText"
                 type: array
         "400":
-          description: طلب غير صالح - معاملات غير صالحة
+          description: طلب غير صالح - معلمات غير صحيحة
           content:
             application/json:
               schema:
@@ -47,7 +46,7 @@ paths:
                   type: string
                 type: array
         "500":
-          description: خطأ داخلي في الخادم
+          description: خطأ خادم داخلي
           content:
             application/json:
               schema:
@@ -56,7 +55,7 @@ paths:
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: تقارير بحوث المحللين
+      summary: تقارير أبحاث المحللين
       tags:
         - Analyst Reports
 components:
@@ -88,3 +87,6 @@ components:
           example: AAPL
           type: string
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD
