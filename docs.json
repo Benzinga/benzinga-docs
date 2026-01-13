@@ -166,7 +166,15 @@
               {
                 "group": "Why Is It Moving (WIIMs)",
                 "pages": [
+                  "api-reference/news-api_api/wiims/overview",
                   "api-reference/news-api_api/news/get-wiims"
+                ]
+              },
+              {
+                "group": "Press Releases",
+                "pages": [
+                  "api-reference/news-api_api/press-releases/overview",
+                  "api-reference/news-api_api/press-releases/get-press-releases"
                 ]
               },
               {
@@ -1555,7 +1563,7 @@
         "items": [
           {
             "label": "Changelog",
-            "href": "/changelog/overview"
+            "href": "https://docs.benzinga.com/changelog/overview"
           },
           {
             "label": "LLM",
@@ -1563,7 +1571,7 @@
           },
           {
             "label": "FAQs",
-            "href": "/introduction/faq"
+            "href": "https://docs.benzinga.com/introduction/faq"
           }
         ]
       },
