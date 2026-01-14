@@ -1,0 +1,199 @@
+---
+title: "Python Client Library"
+description: "The `python-bztcp` package provides a pure-Python implementation of the Benzinga TCP protocol for streaming financial data.
+"
+icon: "python"
+---
+
+<Card title="GitHub Repository" icon="github" href="https://github.com/Benzinga/python-bztcp">
+  View source code and contribute
+</Card>
+
+## Features
+
+- Compatible with Python 2.6+ and Python 3
+- No external dependencies
+- Supports large messages
+- Configurable retry logic with exponential backoff
+
+## Installation
+
+Install the library using setup.py:
+
+```bash
+git clone https://github.com/Benzinga/python-bztcp.git
+cd python-bztcp
+python setup.py install
+```
+
+## Quick Start
+
+Test the client using the built-in demo:
+
+<Tabs>
+  <Tab title="Python 3 / 2.7+">
+    ```bash
+    python -m bztcp USERNAME API_KEY
+    ```
+  </Tab>
+  <Tab title="With Retry Config">
+    ```bash
+    python -m bztcp USERNAME API_KEY RETRIES DELAY BACKOFF
+    ```
+  </Tab>
+  <Tab title="Python 2.6">
+    ```bash
+    python -m bztcp.__main__ USERNAME API_KEY
+    ```
+  </Tab>
+</Tabs>
+
+## Basic Usage
+
+The `bztcp.client.Client` class handles the connection and streaming:
+
+```python
+from __future__ import print_function
+from bztcp.client import Client
+
+client = Client(username='USERNAME', key='API_KEY')
+
+for content in client.content_items():
+    title = content.get('title', None)
+    print(title)
+```
+
+## Configuration Options
+
+### Retry Configuration
+
+Configure retry behavior with exponential backoff:
+
+```python
+from bztcp.client import Client
+
+client = Client(
+    username='USERNAME',
+    key='API_KEY',
+    retries=5,      # Maximum retry attempts
+    delay=90,       # Initial delay in seconds
+    backoff=2       # Backoff multiplier
+)
+
+for content in client.content_items():
+    title = content.get('title', None)
+    print(title)
+```
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `username` | Your Benzinga TCP username | Required |
+| `key` | Your API access key | Required |
+| `retries` | Maximum number of retry attempts | - |
+| `delay` | Initial delay between retries (seconds) | - |
+| `backoff` | Multiplier for exponential backoff | - |
+
+## Advanced Usage
+
+### Low-Level Message Handling
+
+For granular control over connection status and individual messages:
+
+```python
+from bztcp.client import Client, STATUS_STREAM
+from bztcp.exceptions import BzException
+
+client = Client(username='USERNAME', key='API_KEY')
+
+while True:
+    try:
+        msg = client.next_msg()
+        
+        if msg.status == STATUS_STREAM:
+            print(f"Content item: {msg.data}")
+        else:
+            print(f"Status: {msg.status}")
+            
+    except KeyboardInterrupt:
+        print("Cancelled, disconnecting.")
+        client.disconnect()
+        break
+        
+    except BzException as bze:
+        print(f"BZ Error: {bze}")
+        break
+```
+
+### Message Status Constants
+
+| Status | Description |
+|--------|-------------|
+| `STATUS_STREAM` | Normal streaming content message |
+
+### Key Methods
+
+| Method | Description |
+|--------|-------------|
+| `content_items()` | Generator that yields content dictionaries |
+| `next_msg()` | Returns the next raw message object |
+| `disconnect()` | Gracefully disconnects from the server |
+
+## Error Handling
+
+The library raises `BzException` for Benzinga-specific errors:
+
+```python
+from bztcp.exceptions import BzException
+
+try:
+    for content in client.content_items():
+        process(content)
+except BzException as e:
+    print(f"Benzinga error: {e}")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+```
+
+## Complete Example
+
+```python
+#!/usr/bin/env python
+from __future__ import print_function
+import json
+from bztcp.client import Client
+
+def main():
+    client = Client(
+        username='YOUR_USERNAME',
+        key='YOUR_API_KEY',
+        retries=5,
+        delay=30,
+        backoff=2
+    )
+    
+    print("Starting Benzinga TCP stream...")
+    
+    for content in client.content_items():
+        # Extract key fields
+        content_id = content.get('id')
+        title = content.get('title', 'No title')
+        channels = content.get('channels', [])
+        tickers = [t['name'] for t in content.get('tickers', [])]
+        
+        # Print summary
+        print(f"[{content_id}] {title}")
+        if channels:
+            print(f"  Channels: {', '.join(channels)}")
+        if tickers:
+            print(f"  Tickers: {', '.join(tickers)}")
+        print()
+
+if __name__ == '__main__':
+    main()
+```
+
+## See Also
+
+- [Connection Guide](/tcp-reference/connection) - Server details and authentication
+- [Message Format](/tcp-reference/message-format) - JSON structure reference
+- [Go Client](/tcp-reference/go-client) - Alternative Go implementation

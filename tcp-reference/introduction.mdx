@@ -1,0 +1,50 @@
+---
+title: "Overview"
+description: "The Benzinga TCP streaming service provides real-time financial news and market data through a persistent TCP connection. This low-latency solution is ideal for applications requiring immediate access to market-moving information.
+"
+---
+
+## Key Features
+
+- **Real-time Streaming**: Receive financial news and market events as they happen
+- **Low Latency**: Direct TCP connection minimizes delivery delays
+- **JSON Format**: All messages are delivered as structured JSON objects
+- **Persistent Connection**: Maintain a continuous stream of market data
+
+## Prerequisites
+
+To connect to the Benzinga TCP service, you need:
+
+| Requirement | Description |
+|-------------|-------------|
+| **Username** | Your Benzinga TCP account username |
+| **API Key** | Your unique API access key |
+
+Contact Benzinga support to obtain your TCP credentials.
+
+## Available Data
+
+The TCP stream delivers various types of financial content including:
+
+- **Option Alerts**: Unusual options activity, sweeps, and block trades
+- **Press Releases**: Corporate announcements and news
+- **Trading Halts**: Real-time halt and resume notifications
+- **Analyst Ratings**: Price target changes and rating updates
+- **Block Trades**: Large institutional transactions
+
+## Quick Start
+
+<CardGroup cols={2}>
+  <Card title="Connection Guide" icon="plug" href="/tcp-reference/connection">
+    Learn how to establish a TCP connection
+  </Card>
+  <Card title="Message Format" icon="code" href="/tcp-reference/message-format">
+    Understand the JSON message structure
+  </Card>
+  <Card title="Python Client" icon="python" href="/tcp-reference/python-client">
+    Use the Python client library
+  </Card>
+  <Card title="Go Client" icon="golang" href="/tcp-reference/go-client">
+    Use the Go client library
+  </Card>
+</CardGroup>

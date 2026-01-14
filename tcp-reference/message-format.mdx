@@ -1,0 +1,167 @@
+---
+title: "Message Format"
+description: "All messages from the Benzinga TCP stream are delivered as JSON objects. Each message represents a piece of financial content such as news, option alerts, or market events.
+"
+---
+
+## Message Structure
+
+```json
+{
+  "id": 49917328,
+  "title": "Option Alert: GOOG $210 Calls",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+## Field Reference
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | Integer | Unique identifier for the content item |
+| `title` | String | Headline or title of the content |
+| `body` | String | Full body content (HTML formatted when present) |
+| `authors` | Array | List of author objects with `name` property |
+| `published` | String | Original publication timestamp (UTC) |
+| `updated` | String | Last update timestamp (UTC) |
+| `channels` | Array | Content categories (e.g., "Options", "Press Releases") |
+| `tickers` | Array | Associated stock symbols with metadata |
+| `status` | String | Publication status (typically "Published") |
+| `link` | String/null | URL to full article on Benzinga (if available) |
+
+### Ticker Object
+
+```json
+{
+  "name": "GOOG",
+  "primary": false,
+  "sentiment": 0
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | String | Stock ticker symbol |
+| `primary` | Boolean | Whether this is the primary ticker for the content |
+| `sentiment` | Integer | Sentiment indicator (0 = neutral) |
+
+## Example Messages
+
+### Option Alert
+
+```json
+{
+  "id": 49917328,
+  "title": "Alphabet Option Alert: Fri $210 Calls at the Ask: 5 @ $125.0 vs 7017 OI; Earnings 2/4 After Close Ref=$334.37",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+### Block Trade
+
+```json
+{
+  "id": 49917330,
+  "title": "Block Trade: TOGI 1.1M @ $0.044 at the bid",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "TOGI", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+### Press Release
+
+```json
+{
+  "id": 49917339,
+  "title": "MediCapture Launches aiScope™ Pilot for Veterinary Sciences at VMX 2026",
+  "body": "<p>Medical AI Made Easy—From Lab to Real-World Training...</p>",
+  "authors": [{"name": "PRNewswire"}],
+  "published": "Wed Jan 14 2026 18:47:00 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:48:02 GMT+0000 (UTC)",
+  "channels": ["Press Releases"],
+  "tickers": [],
+  "status": "Published",
+  "link": "http://www.benzinga.com/node/49917339"
+}
+```
+
+### Trading Halt
+
+```json
+{
+  "id": 49917388,
+  "title": "Trading Halt: Halted at 1:49:45 p.m. ET - Trading Halt on NASDAQ only: Volatility Trading Pause; Trading Expected to Resume at 1:54:45 p.m. ET",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "WSHP", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+### Analyst Rating
+
+```json
+{
+  "id": 49917389,
+  "title": "UBS Maintains Buy on Procter & Gamble, Lowers Price Target to $161",
+  "body": "UBS analyst Peter Grom maintains Procter & Gamble (NYSE:PG) with a Buy...",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:49 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:50 GMT+0000 (UTC)",
+  "channels": ["News", "Price Target", "Hot", "Analyst Ratings"],
+  "tickers": [{"name": "PG", "primary": true, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+## Common Channels
+
+| Channel | Description |
+|---------|-------------|
+| `Options` | Options activity alerts |
+| `Press Releases` | Corporate press releases |
+| `News` | General news |
+| `Price Target` | Analyst price target updates |
+| `Analyst Ratings` | Rating changes |
+| `Hot` | Trending/notable content |
+| `General` | General market content |
+| `Opinion` | Opinion pieces and analysis |
+
+## Processing Tips
+
+<Tip>
+Messages are delivered as newline-delimited JSON. Each line contains a complete JSON object.
+</Tip>
+
+### Best Practices
+
+1. **Parse Each Line**: Each newline represents a complete JSON message
+2. **Handle HTML in Body**: The `body` field may contain HTML entities and tags
+3. **Check for Updates**: Compare `published` and `updated` timestamps to identify edits
+4. **Filter by Channel**: Use the `channels` array to filter for specific content types
+5. **Track by ID**: Use the `id` field as a unique identifier for deduplication

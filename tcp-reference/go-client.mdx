@@ -1,0 +1,254 @@
+---
+title: "Go Client Library"
+description: "The `go-bztcp` package provides a pure-Go implementation of the Benzinga TCP protocol for streaming financial data.
+"
+icon: "golang"
+---
+
+<Card title="GitHub Repository" icon="github" href="https://github.com/Benzinga/go-bztcp">
+  View source code and contribute
+</Card>
+
+## Features
+
+- Tested with Go 1.13+
+- High performance implementation
+- No external dependencies
+- Uses Go's context library for cancellation
+
+## Installation
+
+Install the library and example client:
+
+```bash
+go install github.com/Benzinga/go-bztcp/cmd/bztcp@latest
+```
+
+The `bztcp` binary will be installed to `$GOPATH/bin`.
+
+## Quick Start
+
+Test the client using the included binary:
+
+```bash
+bztcp -v -user YOUR_USERNAME -key YOUR_API_KEY
+```
+
+### Command Line Options
+
+| Option | Description |
+|--------|-------------|
+| `-user` | Your Benzinga TCP username |
+| `-key` | Your API access key |
+| `-v` | Enable verbose output |
+
+If successful, you'll see messages similar to:
+
+```
+Benzinga TCP Client initializing.
+Connecting to 'tcp-v1.benzinga.io:11337' as user 'YOUR_USERNAME' (w/TLS: false)
+Connected. Waiting for events.
+{"id":49917328,"title":"Alphabet Option Alert..."}
+```
+
+## Library Usage
+
+### Core Functions
+
+The library exposes two primary functions:
+
+| Function | Description |
+|----------|-------------|
+| `bztcp.Dial(addr, user, key)` | Establish connection to the TCP server |
+| `Conn.Stream(ctx, callback)` | Start streaming messages with a callback |
+
+### Basic Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	// Connect to the server
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// Stream messages
+	err = conn.Stream(context.Background(), func(stream bztcp.StreamData) {
+		fmt.Printf("%#v\n", stream)
+	})
+
+	if err != nil {
+		panic(err)
+	}
+}
+```
+
+## Advanced Usage
+
+### Context-Based Cancellation
+
+Use Go's context for graceful shutdown:
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// Create cancellable context
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// Handle shutdown signals
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	
+	go func() {
+		<-sigChan
+		fmt.Println("Shutting down...")
+		cancel()
+	}()
+
+	// Stream with context
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		fmt.Printf("Received: %s\n", stream.Title)
+	})
+
+	if err != nil && err != context.Canceled {
+		fmt.Printf("Error: %v\n", err)
+	}
+}
+```
+
+### Processing Stream Data
+
+The `StreamData` struct contains the parsed message:
+
+```go
+conn.Stream(ctx, func(stream bztcp.StreamData) {
+	// Access message fields
+	fmt.Printf("ID: %d\n", stream.ID)
+	fmt.Printf("Title: %s\n", stream.Title)
+	fmt.Printf("Published: %s\n", stream.Published)
+	
+	// Process tickers
+	for _, ticker := range stream.Tickers {
+		fmt.Printf("Ticker: %s\n", ticker.Name)
+	}
+	
+	// Process channels
+	for _, channel := range stream.Channels {
+		fmt.Printf("Channel: %s\n", channel)
+	}
+})
+```
+
+### Error Handling
+
+```go
+conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+if err != nil {
+	log.Fatalf("Failed to connect: %v", err)
+}
+
+err = conn.Stream(ctx, handler)
+if err != nil {
+	switch {
+	case err == context.Canceled:
+		log.Println("Stream cancelled by user")
+	case err == context.DeadlineExceeded:
+		log.Println("Stream timeout")
+	default:
+		log.Printf("Stream error: %v", err)
+	}
+}
+```
+
+## Complete Example
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	user := os.Getenv("BZTCP_USER")
+	key := os.Getenv("BZTCP_KEY")
+
+	if user == "" || key == "" {
+		log.Fatal("Set BZTCP_USER and BZTCP_KEY environment variables")
+	}
+
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", user, key)
+	if err != nil {
+		log.Fatalf("Connection failed: %v", err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// Graceful shutdown
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigChan
+		fmt.Println("\nShutting down gracefully...")
+		cancel()
+	}()
+
+	fmt.Println("Starting Benzinga TCP stream...")
+
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		// Pretty print the message
+		data, _ := json.MarshalIndent(stream, "", "  ")
+		fmt.Println(string(data))
+	})
+
+	if err != nil && err != context.Canceled {
+		log.Printf("Stream ended with error: %v", err)
+	}
+}
+```
+
+## Requirements
+
+- Go 1.13 or later (uses context library, requires Go 1.8+)
+- Network access to `tcp-v1.benzinga.io:11337`
+
+## See Also
+
+- [Connection Guide](/tcp-reference/connection) - Server details and authentication
+- [Message Format](/tcp-reference/message-format) - JSON structure reference
+- [Python Client](/tcp-reference/python-client) - Alternative Python implementation

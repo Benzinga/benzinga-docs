@@ -266,6 +266,26 @@
             ]
           },
           {
+            "tab": "TCP Reference",
+            "groups": [
+              {
+                "group": "TCP Streaming",
+                "pages": [
+                  "tcp-reference/introduction",
+                  "tcp-reference/connection",
+                  "tcp-reference/message-format"
+                ]
+              },
+              {
+                "group": "Client Libraries",
+                "pages": [
+                  "tcp-reference/go-client",
+                  "tcp-reference/python-client"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Widgets",
             "groups": [
               {
