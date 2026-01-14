@@ -240,3 +240,6 @@ components:
         ok:
           type: boolean
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD
