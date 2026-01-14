@@ -414,5 +414,5 @@ components:
         - "Null"
         - Present
 servers:
-  - url: https://api.benzinga.com
+  - url: https://api.benzinga.com/api/v1
     description: الإنتاج
