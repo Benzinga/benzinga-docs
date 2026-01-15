@@ -1,0 +1,198 @@
+---
+title: "メッセージ形式"
+description: "Benzinga の TCP ストリームから配信されるすべてのメッセージは、JSON オブジェクトとして表現されます。各メッセージは、ニュース、オプションアラート、市場イベントなどの金融コンテンツを 1 件分表します。
+"
+---
+
+<div id="message-structure">
+  ## メッセージ構造
+</div>
+
+```json
+{
+  "id": 49917328,
+  "title": "Option Alert: GOOG $210 Calls",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="field-reference">
+  ## フィールドリファレンス
+</div>
+
+| フィールド | 型 | 説明 |
+|-------|------|-------------|
+| `id` | Integer | コンテンツアイテムの一意の識別子 |
+| `title` | String | コンテンツの見出しまたはタイトル |
+| `body` | String | コンテンツの全文（存在する場合は HTML 形式） |
+| `authors` | Array | `name` プロパティを持つ著者オブジェクトのリスト |
+| `published` | String | 元の公開時刻のタイムスタンプ（UTC） |
+| `updated` | String | 最終更新時刻のタイムスタンプ（UTC） |
+| `channels` | Array | コンテンツのカテゴリ（例: "Options"、"Press Releases"） |
+| `tickers` | Array | 関連する株式ティッカーとそのメタデータ |
+| `status` | String | 公開ステータス（通常は "Published"） |
+| `link` | String/null | Benzinga 上の記事全文への URL（利用可能な場合） |
+
+<div id="ticker-object">
+  ### Ticker オブジェクト
+</div>
+
+```json
+{
+  "name": "GOOG",
+  "primary": false,
+  "sentiment": 0
+}
+```
+
+| Field       | Type    | Description                |
+| ----------- | ------- | -------------------------- |
+| `name`      | String  | 株式のtickerシンボル              |
+| `primary`   | Boolean | これがこのcontentの主要なtickerかどうか |
+| `sentiment` | Integer | センチメント指標（0 = 中立）           |
+
+
+<div id="example-messages">
+  ## メッセージ例
+</div>
+
+<div id="option-alert">
+  ### オプションアラート
+</div>
+
+```json
+{
+  "id": 49917328,
+  "title": "Alphabetオプションアラート: 金 $210 コール アスク: 5 @ $125.0 vs 7017 OI; 決算 2/4 引け後 参考=$334.37",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="block-trade">
+  ### ブロック取引
+</div>
+
+```json
+{
+  "id": 49917330,
+  "title": "Block Trade: TOGI 1.1M @ $0.044 at the bid",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "TOGI", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="press-release">
+  ### プレスリリース
+</div>
+
+```json
+{
+  "id": 49917339,
+  "title": "MediCapture Launches aiScope™ Pilot for Veterinary Sciences at VMX 2026",
+  "body": "<p>Medical AI Made Easy—From Lab to Real-World Training...</p>",
+  "authors": [{"name": "PRNewswire"}],
+  "published": "Wed Jan 14 2026 18:47:00 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:48:02 GMT+0000 (UTC)",
+  "channels": ["プレスリリース"],
+  "tickers": [],
+  "status": "Published",
+  "link": "http://www.benzinga.com/node/49917339"
+}
+```
+
+
+<div id="trading-halt">
+  ### 売買停止
+</div>
+
+```json
+{
+  "id": 49917388,
+  "title": "取引停止：東部標準時午後1時49分45秒に停止 - NASDAQのみ取引停止：ボラティリティ取引一時停止；東部標準時午後1時54分45秒に取引再開予定",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "WSHP", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="analyst-rating">
+  ### アナリスト評価
+</div>
+
+```json
+{
+  "id": 49917389,
+  "title": "UBS、プロクター・アンド・ギャンブルの買い推奨を維持、目標株価を161ドルに引き下げ",
+  "body": "UBS analyst Peter Grom maintains Procter & Gamble (NYSE:PG) with a Buy...",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:49 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:50 GMT+0000 (UTC)",
+  "channels": ["News", "Price Target", "Hot", "Analyst Ratings"],
+  "tickers": [{"name": "PG", "primary": true, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="common-channels">
+  ## 一般的なチャンネル
+</div>
+
+| Channel | 説明 |
+|---------|-------------|
+| `Options` | オプション取引のアクティビティアラート |
+| `Press Releases` | 企業のプレスリリース |
+| `News` | 一般ニュース |
+| `Price Target` | アナリストの目標株価更新 |
+| `Analyst Ratings` | レーティング変更 |
+| `Hot` | トレンド／注目度の高いコンテンツ |
+| `General` | 市場全般に関するコンテンツ |
+| `Opinion` | オピニオン記事や分析 |
+
+<div id="processing-tips">
+  ## 処理に関するヒント
+</div>
+
+<Tip>
+メッセージは改行区切りの JSON として配信されます。各行には完全な JSON オブジェクトが 1 つ含まれます。
+</Tip>
+
+<div id="best-practices">
+  ### ベストプラクティス
+</div>
+
+1. **各行をパースする**: 各改行は 1 つの完全な JSON メッセージを表します
+2. **本文中の HTML を処理する**: `body` フィールドには HTML エンティティやタグが含まれる場合があります
+3. **更新を確認する**: 変更を特定するために、`published` と `updated` のタイムスタンプを比較します
+4. **チャネルでフィルタリングする**: 特定のコンテンツタイプでフィルタリングするために `channels` 配列を使用します
+5. **ID で追跡する**: 重複排除のため、一意の識別子として `id` フィールドを使用します

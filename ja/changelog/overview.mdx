@@ -36,17 +36,10 @@ title: "最新情報"
 
 ### 改善点
 
-- **Platform Services**: PR Newswire のファイル転送プロセスを更新
-- **Platform Services**: AssemblyAI ストリーミングソケットを最新バージョンにアップグレード
 - **Platform Services**: Logos API v2 Search/Sync にシンプルな会社名パラメータを追加
 - **Platform Services**: クライアント認証により webhook のセキュリティを強化
 - **Platform Services**: グローバル証券マスターに IPO データを追加
-- **Platform Services**: 同期処理におけるレコードの重複排除を改善
 - **Platform Services**: Trending Tickers 週間レポートの精度を向上
-- **Platform Services**: 更新を高速化するため、ライセンス管理のリフレッシュ間隔を 30 秒に短縮
-- **Platform Services**: ライセンス管理のトラブルシューティングを容易にするためのログ出力を改善
-- **Transcripts**: AssemblyAI ストリーミングソケットを最新バージョンにアップグレード
-- **Platform Services**: 5 つの RSS フィードを改善されたインフラへ移行
 
 <div id="november-2025">
   ## 2025年11月
@@ -63,19 +56,13 @@ title: "最新情報"
   ### バグ修正
 </div>
 
-- **Platform Services**: Logos サービスで発生していたデータベースタイムアウト問題を解消
-- **Platform Services**: キーの失効処理を修正し、ステータスが正しく disabled に更新されるように改善
 - **Platform Services**: PLTR の exchange 表示を修正（NYSE ではなく NASDAQ を表示）
-- **Platform Services**: フィードエンジンでの画像処理エラーを修正
 - **Platform Services**: アナリストインサイトのデータが欠落する問題を解消
 
 ### 改善
 
-- **Platform Services**: 新規トライアルユーザーに対して、すべてのサービスをデフォルトで有効化
 - **Platform Services**: LSEG Estimates の表示通貨を CAD から USD に統一
-- **Platform Services**: ニュース設定用のライセンス管理画面に新しい PR ソースタイプのオプションを追加
 - **Calendar API**: Korean Bull/Bears Says API エンドポイントを追加
-- **Platform Services**: 7 つの RSS フィードを改良されたインフラへ移行
 
 <div id="october-2025">
   ## 2025年10月
@@ -86,23 +73,12 @@ title: "最新情報"
 </div>
 
 - **Platform Services**: Calendar および EventData 向けの Block Trades API を提供開始
-- **Transcripts**: 問題のより迅速な解決を可能にするため、失敗したコール向けの Slack アラートを追加
-
-<div id="bug-fixes">
-  ### バグ修正
-</div>
-
-- **Transcripts**: ステータスコードが 200 以外の場合に OpenAI クエリをリトライする機構を実装
-- **Transcripts**: MP4 のバックエンド処理失敗を修正
 
 <div id="improvements">
   ### 改善内容
 </div>
 
-- **Platform Services**: Citadel Benzinga Ticker Clickstream のトラッキング機能を追加
-- **Platform Services**: 上位20銘柄向けの RSS フィードを最適化
 - **Platform Services**: 韓国ニュースおよび Bull vs Bear コンテンツの配信を拡大
-- **Platform Services**: 9本の RSS フィードを強化されたインフラへ移行
 
 <div id="september-2025">
   ## 2025年9月
@@ -113,8 +89,6 @@ title: "最新情報"
 </div>
 
 - **Platform Services**: 証券の識別精度向上のため、Logos v2.1 に FIGI マッピングを追加
-- **Transcripts**: すべてのユーザーおよびシステム操作に対する行リビジョン追跡を導入
-- **Transcripts**: 監査証跡を強化するため、アクティビティ追跡テーブルを追加
 
 <div id="bug-fixes">
   ### バグ修正
@@ -123,22 +97,15 @@ title: "最新情報"
 - **Platform Services**: QQQ の異常オプション取引におけるデータ欠損を修正
 - **Platform Services**: Transcripts calendar の検索機能を復旧
 - **Platform Services**: Earnings API レスポンスに不足していた EPS サプライズ関連フィールドを追加
-- **News API**: プレスリリースの content-type 処理を修正
-- **News API**: CIBC 向けのカナダニュース配信を復旧
-- **Transcripts**: デバッグを容易にするため、コール属性を含むトランスクリプトのログ出力を改善
 
 ### 改善点
 
 - **Platform Services**: 柔軟なフィルタリングのために News API に Topic AND/OR パラメータのサポートを追加
-- **Platform Services**: Newstex 向けのカスタム RSS フィードを作成
 - **Platform Services**: IPOs calendar API 向けに年単位の日付クエリのサポートを追加
 - **Platform Services**: Translation Engine における韓国語の固有名詞のマッチングを改善
-- **Platform Services**: 決算カレンダーでサプライズ値が欠落している場合のバリデーションを追加
 - **Platform Services**: 重複しているアナリスト・プロフィールを統合
-- **Platform Services**: Factiva 向けにフランス語、イタリア語、スペイン語のニュース・フィードを追加
 - **Calendar API**: IPOs 向けに年単位の日付クエリのサポートを追加
 - **News API**: 高度なフィルタリングのために Topic AND/OR パラメータを追加
-- **News API**: CIBC 向けに region クエリ・パラメータを追加
 - **Transcripts**: Transcripts v2 API ドキュメントを公開
 
 <div id="august-2025">
@@ -151,8 +118,6 @@ title: "最新情報"
 
 - **Platform Services**: Block Trades API の仕様を公開
 - **Platform Services**: Calendar および EventData 向けの Halts/Resumes API をリリース
-- **Platform Services**: API Admin に Block Trades および Halts/Resumes 管理機能を追加
-- **Platform Services**: Licensing Admin に News & Calendar 用のトライアル機能を追加
 - **Transcripts**: 録音へ安全にアクセスするための事前署名付き URL 生成機能を追加
 
 <div id="bug-fixes">
@@ -161,10 +126,7 @@ title: "最新情報"
 
 - **Platform Services**: Stora Enso の決算ウェブソケットデータで発生していた NaN 値の問題を修正
 - **Platform Services**: API ドキュメントおよびレスポンス内のエラーを修正
-- **Platform Services**: Logos & Movers 向けにワイルドカードベースの発行体バリデーションを追加
-- **Platform Services**: Fastly Clickstream の処理および ClickHouse のメモリエラーを解消
 - **Platform Services**: BZ Wire フィードで見出しが欠落していた問題を修正
-- **News API**: ワイルドカードベースの発行体バリデーションを追加
 - **Transcripts**: ライブトランスクリプトに重複したテキストが表示される問題を修正
 
 ### 改善点
@@ -189,20 +151,13 @@ title: "最新情報"
 </div>
 
 - **Platform Services**: 複数言語間での翻訳の不整合を解消
-- **Platform Services**: Licensing Admin 向けの認証サポートを追加
-- **Platform Services**: News API の content から 2025 年以前のリンク切れ画像を削除
-- **News API**: content レスポンスから 2025 年以前のリンク切れ画像を削除
 - **Transcripts**: エッジケースにおけるコールステータス処理を修正
 - **Transcripts**: 修正用プロンプト内での企業名の扱いを改善
-- **Transcripts**: ファイルアップロード機能の不具合を解消
 
 ### 改善点
 
 - **Platform Services**: GICS ベースのクエリのサポートを追加
-- **Platform Services**: calendar の importance フィールドの自動計算を実装
-- **Platform Services**: Licensing Admin 設定インターフェースを整理
 - **Platform Services**: News API ウェブソケットに不足していた株式の exchange プロパティを追加
-- **Platform Services**: スペイン語、フランス語、韓国市場向けの LexisNexis RSS フィードを作成
 - **Transcripts**: Transcripts v2 のパフォーマンスを最適化
 
 <div id="june-2025">
@@ -216,26 +171,18 @@ title: "最新情報"
 - **Platform Services**: Data-Websocket 向けに最新 100 件のメッセージをリプレイできるウェブソケットリプレイ機能を追加
 - **Platform Services**: News ウェブソケット向けにリプレイ機構を導入
 - **Platform Services**: News ウェブソケット向けに JWT 認証のサポートを追加
-- **Platform Services**: Newsdesk ツールに Kafka からの Block Trades データ取り込みを統合
-- **Platform Services**: Newsdesk ツールに Kafka からの Halts/Resumes データ取り込みを統合
 
 <div id="bug-fixes">
   ### バグ修正
 </div>
 
 - **Platform Services**: カンファレンスコールカレンダーの日付表示の問題を修正
-- **Platform Services**: RSS Engineでの接続拒否エラーを解消
-- **Platform Services**: RSS EngineにおけるJSONパースエラーを修正
 
 ### 改善点
 
 - **Platform Services**: Signals API を api.benzinga.com へ移行
-- **Platform Services**: 完全なインサイダー取引履歴を Ubiquant FTP にアップロード
-- **Platform Services**: パートナー向けキュー配信用ニュースサービスを構築
-- **Platform Services**: INKL 向け RSS フィードを作成
 - **Platform Services**: Refinitiv Estimates からの Revenue、EPS（1株当たり利益）、FFO フィールドを決算カレンダーに追加
 - **Transcripts**: Transcripts v2 の API ドキュメントを公開
-- **Platform Services**: 4つの RSS フィードを強化されたインフラへ移行
 
 <div id="may-2025">
   ## 2025年5月
@@ -245,9 +192,7 @@ title: "最新情報"
   ### 新機能
 </div>
 
-- **Platform Services**: Syndigate 連携向けにワードカウントフィールドを追加
 - **Platform Services**: Insider Trades API を公開
-- **Platform Services**: Security Master v2 を Licensing Admin と統合
 - **Platform Services**: Logos v2 データベースに株式クラス FIGI のサポートを追加
 - **Transcripts**: MP3 録音に加えて HLS 音声ストリーミングを追加
 - **Transcripts**: トランスクリプト詳細を更新するための PUT エンドポイントを追加
@@ -256,23 +201,12 @@ title: "最新情報"
   ### バグ修正
 </div>
 
-- **Platform Services**: LexisNexis フィード配信の問題を解消
 - **Platform Services**: 一部のコンポジットロゴ URL で発生していた 404 エラーを修正
 
 ### 改善点
 
 - **Platform Services**: Country Flags エンドポイントを追加
-- **Platform Services**: アナリストレーティングのフィールドマッピングを完了
-- **Platform Services**: Ticker Trends API の設定をライセンス管理に追加
-- **Platform Services**: パートナー向けコンテンツのアクセスを編集チームのみに制限
-- **Platform Services**: Interactive Brokers 向けのグローバルフィードを設定
 - **Platform Services**: Events API に Event Type クエリパラメータを追加
-- **Platform Services**: 新しい AOL フィードを作成
-- **Platform Services**: MSN 向けの Newsgen フィードを作成
-- **Platform Services**: Why It Is Moving の反転処理を午後 4 時（ET）締めで自動化
-- **Platform Services**: data-websocket 認証が Calendar 設定を使用するように更新
-- **Transcripts**: 過去のトランスクリプトデータのバックフィルを完了
-- **Platform Services**: 22 件の RSS フィードをより優れたインフラに移行
 
 <div id="april-2025">
   ## 2025年4月
@@ -282,16 +216,7 @@ title: "最新情報"
   ### 新機能
 </div>
 
-- **Platform Services**: TD Bank Logos 連携向けの認証トークンサポートを追加
-- **Platform Services**: Fido 向けに設定可能な見出し長オプションを追加
-- **Platform Services**: FIGI テーブルの自動再インデックス化を実装
-- **Platform Services**: News と calendar の変更を Licensing Admin に連携
-- **Platform Services**: ISIN（国際証券識別番号）履歴と Typesense 再インデックスにより Security Master を強化
-- **Platform Services**: ratings ウェブソケットに簡易パラメータオプションを追加
-- **Platform Services**: Why It Is Moving の反転配信にヒット機能を追加
 - **Platform Services**: 日本語翻訳サポートを開始
-- **Platform Services**: Licensing Admin の本番環境移行を完了
-- **Platform Services**: Licensing Admin のワークフローを改善
 
 <div id="bug-fixes">
   ### バグ修正
@@ -304,13 +229,7 @@ title: "最新情報"
 
 ### 改善点
 
-- **Platform Services**: 今後のカンファレンスカレンダー行の自動生成
 - **Platform Services**: Earnings Calendar API に Implied Move フィールドを追加
-- **Platform Services**: Why It Is Moving リバーサル配信を開始
-- **Platform Services**: Apple News RSS フィードの書式を改善
-- **News API**: API キー管理の一元化のため Licensing Admin へ移行
-- **Platform Services**: 33 個の RSS フィードを強化されたインフラストラクチャへ移行
-- **Calendar API**: 1 個の RSS フィードを強化されたインフラストラクチャへ移行
 
 <div id="march-2025">
   ## 2025年3月
@@ -320,14 +239,7 @@ title: "最新情報"
   ### 新機能
 </div>
 
-- **Platform Services**: Licensing Admin に新しいサービスとして Widgets を追加
 - **Platform Services**: Security Master v2 向け Go クライアントライブラリをリリース
-- **Platform Services**: フィルタベース検索により OpenFIGI のインデックス作成を最適化
-- **Platform Services**: HBS アドオン権限に準拠するよう Squawk Transcriptions Calendar を修正
-- **Platform Services**: Transcripts v2 のデプロイ前提条件の整備を完了
-- **Platform Services**: Transcripts v2 のデータベース基盤を構築
-- **Platform Services**: Transcripts v2 のデプロイパイプラインを作成
-- **Platform Services**: 静的認証を使用する Widgets ルートを Licensing Admin に追加
 - **Calendar API**: Guidance Calendar および API に Free Cash Flow と Gross Margin のフィールドを追加
 - **Calendar API**: calendar に目標株価の変化率 (%) 列を追加
 - **Calendar API**: Events calendar API エンドポイントを公開
@@ -336,22 +248,13 @@ title: "最新情報"
   ### バグ修正
 </div>
 
-- **Platform Services**: Why It Is Moving パブリッシャーで誤って反転トリガーが発火する問題を修正
 - **Platform Services**: サードパーティフィードにおけるタイムスタンプ不整合の問題を修正
 - **Platform Services**: Logo API のレスポンスで FIDD ロゴが表示されない問題を修正
 - **Platform Services**: Refinitiv calendar における ticker CODA の 2025 年第 1 四半期の誤った予測値を修正
 
 ### 改善点
 
-- **Platform Services**: サービス向けの社内用 API 管理クライアントを作成
-- **Platform Services**: セルフサービス型の権限表示機能を含むライセンス管理フロントエンドを更新
-- **Platform Services**: ヒストリカルバー API 向けのモニタリングアラートを追加
-- **Platform Services**: 見出しのみの Taboola RSS フィードを作成
-- **Platform Services**: レアケースに対応するため、RSS エンジンで Elasticsearch クエリをサポート
-- **Platform Services**: 翻訳エンジン用プロンプトを改善
-- **Platform Services**: Nordot フィードから Analyst Ratings のコンテンツを削除
 - **Calendar API**: より大規模なクエリ（50 件超）に対応するため、ISIN/ティッカーをリクエストボディに移動
-- **Platform Services**: 13 本の RSS フィードを強化されたインフラストラクチャへ移行
 
 <div id="february-2025">
   ## 2025年2月
@@ -362,14 +265,10 @@ title: "最新情報"
 </div>
 
 - **Platform Services**: Sector Performance API をリリース
-- **Platform Services**: Why It Is Moving 向けにメタデータとタイムスタンプ付きの取引リバーサルの追跡機能を追加
 - **Platform Services**: /ratings エンドポイントにコンセンサス・レーティングを追加
 - **Platform Services**: 本番環境で Security Master v2 をリリース
-- **Platform Services**: Dappier 向けの RSS フィードを作成
 - **Platform Services**: 翻訳済みコンテンツに段落書式を追加
-- **Platform Services**: Apple News 向け RSS フィードを作成
 - **Platform Services**: Data API Proxy のクエリパラメータに対する API キーおよびトークンのサポートを追加
-- **Platform Services**: Beards Bros Pharms 向けのカスタム RSS フィードを作成
 - **Calendar API**: アナリスト・レーティングの重複排除によってコンセンサス・レーティングの精度を向上
 
 <div id="bug-fixes">
@@ -382,16 +281,9 @@ title: "最新情報"
 
 ### 改善点
 
-- **Platform Services**: ライセンス設定 UI を再設計
-- **Platform Services**: ライセンス設定の管理機能を更新
-- **Platform Services**: トランスクリプトファイル URL をメッセージキューと統合
 - **Platform Services**: Corporate Logos エンドポイントに地域別の証券カバレッジ件数を追加
-- **Platform Services**: 保守性向上のため稼働中のクライアントフィードを一覧化
 - **Platform Services**: Refinitiv calendar 上の FY 2024/2025 の重複した予想値を整理
-- **Platform Services**: EBSCO に履歴コンテンツのバックフィル（2020年4月〜2023年12月）を提供
-- **Platform Services**: OpenFIGI StatefulSet インフラストラクチャをデプロイ
 - **Calendar API**: ratings の action_company および action_pt フィールド向けに simplify パラメータを追加
-- **Platform Services**: 1 本の RSS フィードを改良インフラストラクチャへ移行
 
 <div id="january-2025">
   ## 2025年1月
@@ -401,14 +293,9 @@ title: "最新情報"
   ### 新機能
 </div>
 
-- **Platform Services**: Data ウェブソケット向けの監視ダッシュボードを作成
 - **Platform Services**: 接続の安定性向上のため、News ウェブソケットに Ping/Pong メカニズムを追加
-- **Platform Services**: すべてのライセンス、または特定のライセンス向けにホワイトリストドメインを取得する API を追加
-- **Platform Services**: ライセンスIDでライセンス設定を更新する API を追加
 - **Platform Services**: ticker FISV を FI に更新
-- **Platform Services**: Cubist FTP に過去の異常オプション取引データをアップロード
 - **Platform Services**: ランク指定時にレーティング精度が null を返す問題を修正
-- **Platform Services**: ライセンス設定オプションを動的に取得する API を追加
 - **Platform Services**: Data ウェブソケットの接続安定性とパフォーマンスを改善
 - **Calendar API**: Auto Headline Tool を追加
 
@@ -421,7 +308,6 @@ title: "最新情報"
 
 ### 改善点
 
-- **Platform Services**: Data API Proxy キーを API Admin と同期
 - **Platform Services**: データチームからのフィードバックに基づき Refinitiv カレンダーを更新
 - **Platform Services**: Refinitiv の予想値フィールドを Benzinga PRO の決算カレンダーに追加
 - **Platform Services**: 韓国語翻訳で欠落していた HTML タグを修正
@@ -430,33 +316,3 @@ title: "最新情報"
 - **Platform Services**: インサイダー取引ドキュメントに新しいフィールドを追加
 - **Platform Services**: 5 分ごとに切断されていた Why It Is Moving ウェブソケットが切断される問題を修正
 - **Platform Services**: Block Inc. の ticker を SQ から XYZ に更新
-
-<div id="2024">
-  ## 2024
-</div>
-
-- **Platform Services**: 41件の新機能、8件のバグ修正、28件の改善
-- **Calendar API**: 4件の新機能、3件のバグ修正、3件の改善
-
-<div id="2023">
-  ## 2023
-</div>
-
-- **プラットフォームサービス**: 新機能 22 件、不具合修正 16 件、改善 27 件
-- **Calendar API**: 新機能 5 件、不具合修正 2 件
-- **News API**: 新機能 2 件、不具合修正 3 件
-
-<div id="2022">
-  ## 2022
-</div>
-
-- **Platform Services**: 新機能 26 件、バグ修正 10 件、改善 11 件
-- **Calendar API**: 新機能 7 件、バグ修正 1 件、改善 3 件
-- **News API**: 新機能 1 件、バグ修正 2 件、改善 1 件
-
-<div id="2021">
-  ## 2021
-</div>
-
-- **プラットフォームサービス**: 新機能 7 件、バグ修正 5 件、改善 17 件
-- **Calendar API**: 新機能 1 件

@@ -1,0 +1,198 @@
+---
+title: "تنسيق الرسائل"
+description: "يتم تسليم جميع الرسائل من تدفق TCP الخاص بـ Benzinga على شكل كائنات JSON. تمثل كل رسالة عنصرًا من عناصر المحتوى المالي مثل الأخبار أو تنبيهات الخيارات أو أحداث السوق.
+"
+---
+
+<div id="message-structure">
+  ## بنية الرسالة
+</div>
+
+```json
+{
+  "id": 49917328,
+  "title": "تنبيه الخيارات: GOOG $210 Calls",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="field-reference">
+  ## مرجع الحقول
+</div>
+
+| الحقل | النوع | الوصف |
+|-------|------|-------------|
+| `id` | عدد صحيح | معرّف فريد لعنصر المحتوى |
+| `title` | سلسلة نصية | عنوان المحتوى أو العنوان الرئيسي |
+| `body` | سلسلة نصية | نص المحتوى الكامل (منسَّق بصيغة HTML عند توفره) |
+| `authors` | مصفوفة | قائمة كائنات المؤلفين التي تتضمّن خاصية `name` |
+| `published` | سلسلة نصية | الطابع الزمني للنشر الأصلي (UTC) |
+| `updated` | سلسلة نصية | الطابع الزمني لآخر تحديث (UTC) |
+| `channels` | مصفوفة | فئات المحتوى (مثلًا: "الخيارات"، "البيانات الصحفية") |
+| `tickers` | مصفوفة | رموز الأسهم المرتبطة مع بياناتها الوصفية |
+| `status` | سلسلة نصية | حالة النشر (عادةً "Published") |
+| `link` | سلسلة نصية/null | عنوان URL للمقال الكامل على Benzinga (إن وُجد) |
+
+<div id="ticker-object">
+  ### كائن رمز التداول
+</div>
+
+```json
+{
+  "name": "GOOG",
+  "primary": false,
+  "sentiment": 0
+}
+```
+
+| الحقل       | النوع   | الوصف                                         |
+| ----------- | ------- | --------------------------------------------- |
+| `name`      | String  | رمز تداول السهم                               |
+| `primary`   | Boolean | ما إذا كان هذا هو رمز التداول الأساسي للمحتوى |
+| `sentiment` | Integer | مؤشر المعنويات (0 = حيادي)                    |
+
+
+<div id="example-messages">
+  ## أمثلة للرسائل
+</div>
+
+<div id="option-alert">
+  ### تنبيه خيارات
+</div>
+
+```json
+{
+  "id": 49917328,
+  "title": "Alphabet Option Alert: Fri $210 Calls at the Ask: 5 @ $125.0 vs 7017 OI; Earnings 2/4 After Close Ref=$334.37",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="block-trade">
+  ### صفقة كبيرة
+</div>
+
+```json
+{
+  "id": 49917330,
+  "title": "Block Trade: TOGI 1.1M @ $0.044 at the bid",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "TOGI", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="press-release">
+  ### بيان صحفي
+</div>
+
+```json
+{
+  "id": 49917339,
+  "title": "MediCapture تطلق البرنامج التجريبي aiScope™ لعلوم الطب البيطري في VMX 2026",
+  "body": "<p>الذكاء الاصطناعي الطبي بكل سهولة—من المختبر إلى التدريب في العالم الحقيقي...</p>",
+  "authors": [{"name": "PRNewswire"}],
+  "published": "Wed Jan 14 2026 18:47:00 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:48:02 GMT+0000 (UTC)",
+  "channels": ["النشرات الصحفية"],
+  "tickers": [],
+  "status": "منشور",
+  "link": "http://www.benzinga.com/node/49917339"
+}
+```
+
+
+<div id="trading-halt">
+  ### إيقاف التداول
+</div>
+
+```json
+{
+  "id": 49917388,
+  "title": "Trading Halt: Halted at 1:49:45 p.m. ET - Trading Halt on NASDAQ only: Volatility Trading Pause; Trading Expected to Resume at 1:54:45 p.m. ET",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "WSHP", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="analyst-rating">
+  ### تقييمات المحللين
+</div>
+
+```json
+{
+  "id": 49917389,
+  "title": "UBS تحافظ على توصية الشراء لشركة Procter & Gamble، وتخفض السعر المستهدف إلى 161 دولارًا",
+  "body": "محلل UBS بيتر جروم يحافظ على توصية الشراء لشركة Procter & Gamble (NYSE:PG)...",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:49 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:50 GMT+0000 (UTC)",
+  "channels": ["أخبار", "السعر المستهدف", "ساخن", "تقييمات المحللين"],
+  "tickers": [{"name": "PG", "primary": true, "sentiment": 0}],
+  "status": "منشور",
+  "link": null
+}
+```
+
+
+<div id="common-channels">
+  ## القنوات الشائعة
+</div>
+
+| Channel | Description |
+|---------|-------------|
+| `Options` | تنبيهات نشاط الخيارات |
+| `Press Releases` | البيانات الصحفية للشركات |
+| `News` | أخبار عامة |
+| `Price Target` | تحديثات الأسعار المستهدفة من المحللين |
+| `Analyst Ratings` | تغييرات تصنيفات المحللين |
+| `Hot` | محتوى رائج/بارز |
+| `General` | محتوى عام للسوق |
+| `Opinion` | مقالات رأي وتحليلات |
+
+<div id="processing-tips">
+  ## نصائح للمعالجة
+</div>
+
+<Tip>
+تُرسل الرسائل بصيغة JSON مفصول بأسطر جديدة (newline-delimited). يحتوي كل سطر على كائن JSON كامل.
+</Tip>
+
+<div id="best-practices">
+  ### أفضل الممارسات
+</div>
+
+1. **تحليل كل سطر**: يمثّل كل سطر جديد رسالة JSON كاملة
+2. **معالجة HTML في الحقل `body`**: قد يحتوي الحقل `body` على كيانات وعناصر HTML
+3. **التحقق من التحديثات**: قارِن بين الطوابع الزمنية `published` و`updated` لتحديد التعديلات
+4. **التصفية حسب القناة**: استخدم مصفوفة `channels` لتصفية أنواع معيّنة من المحتوى
+5. **التتبّع باستخدام المعرّف**: استخدم الحقل `id` كمعرّف فريد لإزالة التكرار
