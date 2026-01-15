@@ -1,0 +1,227 @@
+---
+title: "مكتبة عميل Python"
+description: "توفّر حزمة `python-bztcp` تنفيذًا خالصًا بلغة Python لبروتوكول TCP من Benzinga لبث البيانات المالية.
+"
+icon: "python"
+---
+
+<Card title="مستودع GitHub" icon="github" href="https://github.com/Benzinga/python-bztcp">
+  عرض الشيفرة المصدرية والمساهمة فيها
+</Card>
+
+<div id="features">
+  ## الميزات
+</div>
+
+* متوافق مع Python 2.6+ و Python 3
+* لا يعتمد على مكتبات خارجية
+* يدعم الرسائل الكبيرة
+* منطق إعادة المحاولة قابل للتهيئة مع تأخير أُسِّي متزايد
+
+<div id="installation">
+  ## التثبيت
+</div>
+
+ثبّت المكتبة باستخدام setup.py:
+
+```bash
+git clone https://github.com/Benzinga/python-bztcp.git
+cd python-bztcp
+python setup.py install
+```
+
+<div id="quick-start">
+  ## البدء السريع
+</div>
+
+اختبر العميل البرمجي باستخدام العرض التوضيحي المدمج:
+
+<Tabs>
+  <Tab title="Python 3 / 2.7+">
+    ```bash
+    python -m bztcp USERNAME API_KEY
+    ```
+  </Tab>
+
+  <Tab title="مع إعدادات إعادة المحاولة">
+    ```bash
+    python -m bztcp USERNAME API_KEY RETRIES DELAY BACKOFF
+    ```
+  </Tab>
+
+  <Tab title="Python 2.6">
+    ```bash
+    python -m bztcp.__main__ USERNAME API_KEY
+    ```
+  </Tab>
+</Tabs>
+
+<div id="basic-usage">
+  ## الاستخدام الأساسي
+</div>
+
+تتولى فئة `bztcp.client.Client` إدارة الاتصال وتدفق البيانات:
+
+```python
+from __future__ import print_function
+from bztcp.client import Client
+
+client = Client(username='USERNAME', key='API_KEY')
+
+for content in client.content_items():
+    title = content.get('title', None)
+    print(title)
+```
+
+<div id="configuration-options">
+  ## خيارات الإعداد
+</div>
+
+<div id="retry-configuration">
+  ### تهيئة إعادة المحاولة
+</div>
+
+اضبط سلوك إعادة المحاولة باستخدام أسلوب التراجع الأسي (exponential backoff):
+
+```python
+from bztcp.client import Client
+
+client = Client(
+    username='USERNAME',
+    key='API_KEY',
+    retries=5,      # الحد الأقصى لمحاولات إعادة المحاولة
+    delay=90,       # التأخير الأولي بالثواني
+    backoff=2       # مُضاعِف التراجع التصاعدي
+)
+
+for content in client.content_items():
+    title = content.get('title', None)
+    print(title)
+```
+
+| المعامِل   | الوصف                                               | القيمة الافتراضية |
+| ---------- | --------------------------------------------------- | ----------------- |
+| `username` | اسم مستخدم TCP الخاص بك لدى Benzinga                | إلزامي            |
+| `key`      | مفتاح الوصول إلى واجهة برمجة التطبيقات API الخاص بك | إلزامي            |
+| `retries`  | الحد الأقصى لعدد المحاولات                          | -                 |
+| `delay`    | التأخير الابتدائي بين المحاولات (بالثواني)          | -                 |
+| `backoff`  | معامل التراجع الأسي                                 | -                 |
+
+<div id="advanced-usage">
+  ## الاستخدامات المتقدمة
+</div>
+
+<div id="low-level-message-handling">
+  ### المعالجة منخفضة المستوى للرسائل
+</div>
+
+للحصول على تحكم أدق في حالة الاتصال والرسائل الفردية:
+
+```python
+from bztcp.client import Client, STATUS_STREAM
+from bztcp.exceptions import BzException
+
+client = Client(username='USERNAME', key='API_KEY')
+
+while True:
+    try:
+        msg = client.next_msg()
+        
+        if msg.status == STATUS_STREAM:
+            print(f"Content item: {msg.data}")
+        else:
+            print(f"Status: {msg.status}")
+            
+    except KeyboardInterrupt:
+        print("تم الإلغاء، جارٍ قطع الاتصال.")
+        client.disconnect()
+        break
+        
+    except BzException as bze:
+        print(f"BZ Error: {bze}")
+        break
+```
+
+<div id="message-status-constants">
+  ### ثوابت حالة الرسائل
+</div>
+
+| الحالة | الوصف |
+|--------|-------------|
+| `STATUS_STREAM` | رسالة محتوى متدفّقة عادية |
+
+<div id="key-methods">
+  ### الطرق الأساسية
+</div>
+
+| Method | Description |
+|--------|-------------|
+| `content_items()` | مولِّد يُنتِج قواميس `content` |
+| `next_msg()` | يُرجِع كائن الرسالة الخام التالية |
+| `disconnect()` | يُنهي الاتصال بالخادم بشكل سلس |
+
+<div id="error-handling">
+  ## معالجة الأخطاء
+</div>
+
+تُثير المكتبة الاستثناء `BzException` عند حدوث أخطاء خاصة بـ Benzinga:
+
+```python
+from bztcp.exceptions import BzException
+
+try:
+    for content in client.content_items():
+        process(content)
+except BzException as e:
+    print(f"خطأ في Benzinga: {e}")
+except Exception as e:
+    print(f"خطأ غير متوقع: {e}")
+```
+
+<div id="complete-example">
+  ## مثال كامل
+</div>
+
+```python
+#!/usr/bin/env python
+from __future__ import print_function
+import json
+from bztcp.client import Client
+
+def main():
+    client = Client(
+        username='YOUR_USERNAME',
+        key='YOUR_API_KEY',
+        retries=5,
+        delay=30,
+        backoff=2
+    )
+    
+    print("بدء بث Benzinga TCP...")
+    
+    for content in client.content_items():
+        # استخراج الحقول الأساسية
+        content_id = content.get('id')
+        title = content.get('title', 'بدون عنوان')
+        channels = content.get('channels', [])
+        tickers = [t['name'] for t in content.get('tickers', [])]
+        
+        # طباعة الملخص
+        print(f"[{content_id}] {title}")
+        if channels:
+            print(f"  Channels: {', '.join(channels)}")
+        if tickers:
+            print(f"  Tickers: {', '.join(tickers)}")
+        print()
+
+if __name__ == '__main__':
+    main()
+```
+
+<div id="see-also">
+  ## اطّلع أيضًا على
+</div>
+
+* [دليل الاتصال](/ar/tcp-reference/connection) - تفاصيل الخادم و المصادقة
+* [تنسيق الرسالة](/ar/tcp-reference/message-format) - مرجع بنية JSON
+* [عميل Go](/ar/tcp-reference/go-client) - تطبيق بديل بلغة Go

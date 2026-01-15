@@ -1,0 +1,282 @@
+---
+title: "مكتبة عميل Go"
+description: "توفّر حزمة `go-bztcp` تطبيقًا مكتوبًا بالكامل بلغة Go لبروتوكول TCP الخاص بـ Benzinga لبث البيانات المالية.
+"
+icon: "golang"
+---
+
+<Card title="مستودع GitHub" icon="github" href="https://github.com/Benzinga/go-bztcp">
+  اطّلع على الشيفرة المصدرية وساهم في تطويرها
+</Card>
+
+<div id="features">
+  ## الميزات
+</div>
+
+* تم اختباره مع Go 1.13+
+* تنفيذ عالي الأداء
+* دون تبعيات خارجية
+* يستخدم مكتبة context الخاصة بـ Go لإلغاء العمليات
+
+<div id="installation">
+  ## التثبيت
+</div>
+
+ثبّت المكتبة والعميل النموذجي:
+
+```bash
+go install github.com/Benzinga/go-bztcp/cmd/bztcp@latest
+```
+
+سيتم تثبيت الملف التنفيذي `bztcp` في `$GOPATH/bin`.
+
+<div id="quick-start">
+  ## البدء السريع
+</div>
+
+اختبر العميل البرمجي باستخدام البرنامج التنفيذي المرفق:
+
+```bash
+bztcp -v -user YOUR_USERNAME -key YOUR_API_KEY
+```
+
+<div id="command-line-options">
+  ### خيارات سطر الأوامر
+</div>
+
+| Option  | الوصف                                         |
+| ------- | --------------------------------------------- |
+| `-user` | اسم مستخدم Benzinga TCP الخاص بك              |
+| `-key`  | مفتاح وصول واجهة برمجة التطبيقات API الخاص بك |
+| `-v`    | تفعيل الإخراج التفصيلي                        |
+
+إذا تم التنفيذ بنجاح، سترى رسائل مشابهة لما يلي:
+
+```
+Benzinga TCP Client initializing.
+Connecting to 'tcp-v1.benzinga.io:11337' as user 'YOUR_USERNAME' (w/TLS: false)
+Connected. Waiting for events.
+{"id":49917328,"title":"Alphabet Option Alert..."}
+```
+
+<div id="library-usage">
+  ## استخدام المكتبة
+</div>
+
+<div id="core-functions">
+  ### الدوال الأساسية
+</div>
+
+توفر المكتبة دالتين رئيسيتين:
+
+| الدالة | الوصف |
+|----------|-------------|
+| `bztcp.Dial(addr, user, key)` | إنشاء اتصال بخادم TCP |
+| `Conn.Stream(ctx, callback)` | بدء تدفق الرسائل باستخدام استدعاء راجع (callback) |
+
+<div id="basic-example">
+  ### مثال بسيط
+</div>
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	// الاتصال بالخادم
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// بث الرسائل
+	err = conn.Stream(context.Background(), func(stream bztcp.StreamData) {
+		fmt.Printf("%#v\n", stream)
+	})
+
+	if err != nil {
+		panic(err)
+	}
+}
+```
+
+<div id="advanced-usage">
+  ## الاستخدامات المتقدمة
+</div>
+
+<div id="context-based-cancellation">
+  ### الإلغاء المستند إلى السياق
+</div>
+
+استخدم حزمة `context` في Go لتنفيذ إيقاف تشغيل سلس:
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// إنشاء سياق قابل للإلغاء
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// معالجة إشارات الإغلاق
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	
+	go func() {
+		<-sigChan
+		fmt.Println("جارٍ الإغلاق...")
+		cancel()
+	}()
+
+	// البث باستخدام السياق
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		fmt.Printf("تم الاستلام: %s\n", stream.Title)
+	})
+
+	if err != nil && err != context.Canceled {
+		fmt.Printf("خطأ: %v\n", err)
+	}
+}
+```
+
+<div id="processing-stream-data">
+  ### معالجة تدفق البيانات
+</div>
+
+تحتوي البنية `StreamData` على الرسالة المُحلَّلة:
+
+```go
+conn.Stream(ctx, func(stream bztcp.StreamData) {
+	// الوصول إلى حقول الرسالة
+	fmt.Printf("ID: %d\n", stream.ID)
+	fmt.Printf("Title: %s\n", stream.Title)
+	fmt.Printf("Published: %s\n", stream.Published)
+	
+	// معالجة رموز التداول
+	for _, ticker := range stream.Tickers {
+		fmt.Printf("Ticker: %s\n", ticker.Name)
+	}
+	
+	// معالجة القنوات
+	for _, channel := range stream.Channels {
+		fmt.Printf("Channel: %s\n", channel)
+	}
+})
+```
+
+<div id="error-handling">
+  ### معالجة الأخطاء
+</div>
+
+```go
+conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+if err != nil {
+	log.Fatalf("فشل الاتصال: %v", err)
+}
+
+err = conn.Stream(ctx, handler)
+if err != nil {
+	switch {
+	case err == context.Canceled:
+		log.Println("تم إلغاء البث من قبل المستخدم")
+	case err == context.DeadlineExceeded:
+		log.Println("انتهت مهلة البث")
+	default:
+		log.Printf("خطأ في البث: %v", err)
+	}
+}
+```
+
+<div id="complete-example">
+  ## مثال كامل
+</div>
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	user := os.Getenv("BZTCP_USER")
+	key := os.Getenv("BZTCP_KEY")
+
+	if user == "" || key == "" {
+		log.Fatal("Set BZTCP_USER and BZTCP_KEY environment variables")
+	}
+
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", user, key)
+	if err != nil {
+		log.Fatalf("Connection failed: %v", err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// إيقاف سلس
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigChan
+		fmt.Println("\nShutting down gracefully...")
+		cancel()
+	}()
+
+	fmt.Println("Starting Benzinga TCP stream...")
+
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		// طباعة الرسالة بتنسيق واضح
+		data, _ := json.MarshalIndent(stream, "", "  ")
+		fmt.Println(string(data))
+	})
+
+	if err != nil && err != context.Canceled {
+		log.Printf("Stream ended with error: %v", err)
+	}
+}
+```
+
+<div id="requirements">
+  ## المتطلبات
+</div>
+
+* Go 1.13 أو أحدث (يستخدم مكتبة context، ويتطلب Go 1.8+)
+* اتصال شبكي إلى `tcp-v1.benzinga.io:11337`
+
+<div id="see-also">
+  ## انظر أيضًا
+</div>
+
+* [Connection Guide](/ar/tcp-reference/connection) - تفاصيل الخادم والمصادقة
+* [Message Format](/ar/tcp-reference/message-format) - مرجع هيكل JSON
+* [Python Client](/ar/tcp-reference/python-client) - تنفيذ بديل لعميل Python

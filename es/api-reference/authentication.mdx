@@ -57,6 +57,7 @@ curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1' \
 curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1&token=YOUR_API_KEY'
 ```
 
+
 ```python Python
 import requests
 
@@ -80,6 +81,7 @@ try:
 except requests.exceptions.RequestException as e:
     print(f"Error al obtener datos: {e}")
 ```
+
 
 ```javascript Node.js
 const axios = require('axios');
@@ -114,6 +116,7 @@ async function getNews() {
 
 getNews();
 ```
+
 
 ```go Go
 package main
@@ -166,8 +169,8 @@ func main() {
 
 Errores de autenticación comunes y cómo resolverlos.
 
-| Código de estado | Mensaje | Posible causa | Solución |
-| :--- | :--- | :--- | :--- |
-| **401** | `Unauthorized` | Clave de API no válida | Verifica que tu clave de API sea correcta y que no haya sido regenerada. Asegúrate de que no se hayan copiado espacios adicionales. |
-| **401** | `Unauthorized` | Falta la clave de API | Asegúrate de que el encabezado `Authorization` esté formateado correctamente como `token <KEY>` o de que el parámetro `token` esté presente. |
-| **403** | `Forbidden` | Permisos insuficientes | Tu clave de API es válida, pero tu plan no incluye acceso al endpoint solicitado. Ponte en contacto con el equipo de ventas o de soporte para actualizar tu plan. |
+| Código de estado | Mensaje        | Posible causa           | Solución                                                                                                                             |
+| :---------- | :------------- | :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| **401**     | `Unauthorized` | Clave de API no válida          | Verifica que tu clave de API sea correcta y que no haya sido regenerada. Asegúrate de que no se hayan copiado espacios adicionales.                                    |
+| **401**     | `Unauthorized` | Falta la clave de API          | Asegúrate de que el encabezado `Authorization` esté formateado correctamente como `token &lt;KEY&gt;` o de que el parámetro `token` esté presente.                         |
+| **403**     | `Forbidden`    | Permisos insuficientes | Tu clave de API es válida, pero tu plan no incluye acceso al endpoint solicitado. Ponte en contacto con el equipo de ventas o de soporte para actualizar tu plan. |

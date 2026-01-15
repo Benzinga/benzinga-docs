@@ -5,8 +5,8 @@ description: "Benzinga API へのリクエストを認証する方法"
 
 Benzinga API では、リクエストの認証に **API Key** を使用します。API Key は一意の識別子であり、サブスクリプションに基づいて特定のデータや機能へのアクセス権を付与します。
 
-<Note> 
-**API Key は安全に保管してください。** GitHub、クライアントサイドのコード、保護されていない通信など、一般にアクセス可能な場所で共有しないでください。キーが漏えいしたと思われる場合は、直ちにサポートまでご連絡ください。
+<Note>
+  **API Key は安全に保管してください。** GitHub、クライアントサイドのコード、保護されていない通信など、一般にアクセス可能な場所で共有しないでください。キーが漏えいしたと思われる場合は、直ちにサポートまでご連絡ください。
 </Note>
 
 API Key は、[Benzinga Developer Console](https://www.benzinga.com/apis/licensing/register) で表示および管理できます。
@@ -57,6 +57,7 @@ curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1' \
 curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1&token=YOUR_API_KEY'
 ```
 
+
 ```python Python
 import requests
 
@@ -80,6 +81,7 @@ try:
 except requests.exceptions.RequestException as e:
     print(f"Error fetching data: {e}")
 ```
+
 
 ```javascript Node.js
 const axios = require('axios');
@@ -114,6 +116,7 @@ async function getNews() {
 
 getNews();
 ```
+
 
 ```go Go
 package main
