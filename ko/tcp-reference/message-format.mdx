@@ -1,0 +1,198 @@
+---
+title: "메시지 형식"
+description: "Benzinga TCP 스트림을 통해 전송되는 모든 메시지는 JSON 객체로 전달됩니다. 각 메시지는 뉴스, 옵션 알림, 시장 이벤트와 같은 개별 금융 콘텐츠를 나타냅니다.
+"
+---
+
+<div id="message-structure">
+  ## 메시지 구조
+</div>
+
+```json
+{
+  "id": 49917328,
+  "title": "Option Alert: GOOG $210 Calls",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="field-reference">
+  ## 필드 참조
+</div>
+
+| 필드 | 타입 | 설명 |
+|-------|------|-------------|
+| `id` | Integer | 콘텐츠 항목의 고유 식별자 |
+| `title` | String | 콘텐츠의 헤드라인 또는 제목 |
+| `body` | String | 전체 본문 콘텐츠(존재할 경우 HTML 형식) |
+| `authors` | Array | `name` 속성을 포함하는 author 객체 목록 |
+| `published` | String | 원본 게시 타임스탬프 (UTC) |
+| `updated` | String | 마지막 업데이트 타임스탬프 (UTC) |
+| `channels` | Array | 콘텐츠 카테고리 (예: "Options", "Press Releases") |
+| `tickers` | Array | 메타데이터가 포함된 연관 주식 티커 심볼 배열 |
+| `status` | String | 게시 상태 (일반적으로 "Published") |
+| `link` | String/null | Benzinga 웹사이트의 전체 기사 URL (가능한 경우) |
+
+<div id="ticker-object">
+  ### 티커 객체
+</div>
+
+```json
+{
+  "name": "GOOG",
+  "primary": false,
+  "sentiment": 0
+}
+```
+
+| Field       | Type    | Description                |
+| ----------- | ------- | -------------------------- |
+| `name`      | String  | 주식 티커 심볼                   |
+| `primary`   | Boolean | 이 content에서 기본(대표) 티커인지 여부 |
+| `sentiment` | Integer | 센티먼트 지표 (0 = 중립)           |
+
+
+<div id="example-messages">
+  ## 예제 메시지
+</div>
+
+<div id="option-alert">
+  ### 옵션 알림
+</div>
+
+```json
+{
+  "id": 49917328,
+  "title": "Alphabet 옵션 알림: 금 $210 콜 매도호가: 5 @ $125.0 vs 7017 OI; 실적 2/4 장마감 후 기준=$334.37",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="block-trade">
+  ### 블록 트레이드
+</div>
+
+```json
+{
+  "id": 49917330,
+  "title": "Block Trade: TOGI 1.1M @ $0.044 at the bid",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "TOGI", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="press-release">
+  ### 보도자료
+</div>
+
+```json
+{
+  "id": 49917339,
+  "title": "MediCapture Launches aiScope™ Pilot for Veterinary Sciences at VMX 2026",
+  "body": "<p>Medical AI Made Easy—From Lab to Real-World Training...</p>",
+  "authors": [{"name": "PRNewswire"}],
+  "published": "Wed Jan 14 2026 18:47:00 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:48:02 GMT+0000 (UTC)",
+  "channels": ["Press Releases"],
+  "tickers": [],
+  "status": "Published",
+  "link": "http://www.benzinga.com/node/49917339"
+}
+```
+
+
+<div id="trading-halt">
+  ### 거래 정지
+</div>
+
+```json
+{
+  "id": 49917388,
+  "title": "거래 중단: 오후 1시 49분 45초 ET에 중단됨 - NASDAQ에만 거래 중단: 변동성 거래 일시 중지; 오후 1시 54분 45초 ET에 거래 재개 예상",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "WSHP", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="analyst-rating">
+  ### 애널리스트 평가
+</div>
+
+```json
+{
+  "id": 49917389,
+  "title": "UBS Maintains Buy on Procter & Gamble, Lowers Price Target to $161",
+  "body": "UBS analyst Peter Grom maintains Procter & Gamble (NYSE:PG) with a Buy...",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:49 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:50 GMT+0000 (UTC)",
+  "channels": ["News", "Price Target", "Hot", "Analyst Ratings"],
+  "tickers": [{"name": "PG", "primary": true, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="common-channels">
+  ## Common Channels
+</div>
+
+| Channel | Description |
+|---------|-------------|
+| `Options` | 옵션 거래 활동 알림 |
+| `Press Releases` | 기업 보도자료 |
+| `News` | 일반 뉴스 |
+| `Price Target` | 애널리스트 목표가 변경 내역 |
+| `Analyst Ratings` | 애널리스트 투자의견 변경 |
+| `Hot` | 화제/주목할 만한 콘텐츠 |
+| `General` | 일반 시장 관련 콘텐츠 |
+| `Opinion` | 오피니언 및 분석 기사 |
+
+<div id="processing-tips">
+  ## 처리 팁
+</div>
+
+<Tip>
+메시지는 줄바꿈 문자로 구분된 JSON 형식으로 전달됩니다. 각 줄에는 하나의 완전한 JSON 객체가 포함됩니다.
+</Tip>
+
+<div id="best-practices">
+  ### 모범 사례
+</div>
+
+1. **각 줄을 파싱하세요**: 각 줄바꿈은 하나의 완전한 JSON 메시지를 나타냅니다
+2. **본문의 HTML 처리**: `body` 필드에는 HTML 엔티티와 태그가 포함될 수 있습니다
+3. **업데이트 여부 확인**: 수정 사항을 식별하기 위해 `published`와 `updated` 타임스탬프를 비교하세요
+4. **채널별 필터링**: 특정 콘텐츠 유형을 필터링하기 위해 `channels` 배열을 사용하세요
+5. **ID로 추적**: 중복 제거를 위해 고유 식별자로 `id` 필드를 사용하세요

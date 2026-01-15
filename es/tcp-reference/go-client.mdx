@@ -1,0 +1,282 @@
+---
+title: "Biblioteca cliente de Go"
+description: "El paquete `go-bztcp` proporciona una implementación pura en Go del protocolo TCP de Benzinga para la transmisión de datos financieros.
+"
+icon: "golang"
+---
+
+<Card title="Repositorio de GitHub" icon="github" href="https://github.com/Benzinga/go-bztcp">
+  Ver código fuente y contribuir
+</Card>
+
+<div id="features">
+  ## Características
+</div>
+
+* Probado con Go 1.13 o superior
+* Implementación de alto rendimiento
+* Sin dependencias externas
+* Utiliza la biblioteca `context` de Go para la cancelación
+
+<div id="installation">
+  ## Instalación
+</div>
+
+Instala la biblioteca y el cliente de ejemplo:
+
+```bash
+go install github.com/Benzinga/go-bztcp/cmd/bztcp@latest
+```
+
+El binario `bztcp` se instalará en `$GOPATH/bin`.
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Prueba el cliente con el ejecutable incluido:
+
+```bash
+bztcp -v -user YOUR_USERNAME -key YOUR_API_KEY
+```
+
+<div id="command-line-options">
+  ### Opciones de línea de comandos
+</div>
+
+| Opción  | Descripción                          |
+| ------- | ------------------------------------ |
+| `-user` | Tu nombre de usuario TCP de Benzinga |
+| `-key`  | Tu clave de acceso a la API          |
+| `-v`    | Habilita la salida detallada         |
+
+Si se ejecuta correctamente, verás mensajes similares a:
+
+```
+Benzinga TCP Client initializing.
+Connecting to 'tcp-v1.benzinga.io:11337' as user 'YOUR_USERNAME' (w/TLS: false)
+Connected. Waiting for events.
+{"id":49917328,"title":"Alphabet Option Alert..."}
+```
+
+<div id="library-usage">
+  ## Uso de la librería
+</div>
+
+<div id="core-functions">
+  ### Funciones principales
+</div>
+
+La biblioteca expone dos funciones principales:
+
+| Función | Descripción |
+|----------|-------------|
+| `bztcp.Dial(addr, user, key)` | Establece una conexión con el servidor TCP |
+| `Conn.Stream(ctx, callback)` | Inicia la transmisión de mensajes con un callback |
+
+<div id="basic-example">
+  ### Ejemplo básico
+</div>
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	// Conectarse al servidor
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// Transmitir mensajes en streaming
+	err = conn.Stream(context.Background(), func(stream bztcp.StreamData) {
+		fmt.Printf("%#v\n", stream)
+	})
+
+	if err != nil {
+		panic(err)
+	}
+}
+```
+
+<div id="advanced-usage">
+  ## Uso avanzado
+</div>
+
+<div id="context-based-cancellation">
+  ### Cancelación basada en contexto
+</div>
+
+Use el contexto de Go para un cierre ordenado:
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// Crear contexto cancelable
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// Gestionar señales de cierre
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	
+	go func() {
+		<-sigChan
+		fmt.Println("Cerrando...")
+		cancel()
+	}()
+
+	// Transmitir con contexto
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		fmt.Printf("Recibido: %s\n", stream.Title)
+	})
+
+	if err != nil && err != context.Canceled {
+		fmt.Printf("Error: %v\n", err)
+	}
+}
+```
+
+<div id="processing-stream-data">
+  ### Procesamiento de datos del stream
+</div>
+
+La estructura `StreamData` contiene el mensaje ya analizado:
+
+```go
+conn.Stream(ctx, func(stream bztcp.StreamData) {
+	// Acceder a los campos del mensaje
+	fmt.Printf("ID: %d\n", stream.ID)
+	fmt.Printf("Title: %s\n", stream.Title)
+	fmt.Printf("Published: %s\n", stream.Published)
+	
+	// Procesar tickers
+	for _, ticker := range stream.Tickers {
+		fmt.Printf("Ticker: %s\n", ticker.Name)
+	}
+	
+	// Procesar canales
+	for _, channel := range stream.Channels {
+		fmt.Printf("Channel: %s\n", channel)
+	}
+})
+```
+
+<div id="error-handling">
+  ### Gestión de errores
+</div>
+
+```go
+conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+if err != nil {
+	log.Fatalf("Fallo al conectar: %v", err)
+}
+
+err = conn.Stream(ctx, handler)
+if err != nil {
+	switch {
+	case err == context.Canceled:
+		log.Println("Stream cancelado por el usuario")
+	case err == context.DeadlineExceeded:
+		log.Println("Tiempo de espera del stream agotado")
+	default:
+		log.Printf("Error de stream: %v", err)
+	}
+}
+```
+
+<div id="complete-example">
+  ## Ejemplo completo
+</div>
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	user := os.Getenv("BZTCP_USER")
+	key := os.Getenv("BZTCP_KEY")
+
+	if user == "" || key == "" {
+		log.Fatal("Establece las variables de entorno BZTCP_USER y BZTCP_KEY")
+	}
+
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", user, key)
+	if err != nil {
+		log.Fatalf("Connection failed: %v", err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// Graceful shutdown
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigChan
+		fmt.Println("\nShutting down gracefully...")
+		cancel()
+	}()
+
+	fmt.Println("Starting Benzinga TCP stream...")
+
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		// Pretty print the message
+		data, _ := json.MarshalIndent(stream, "", "  ")
+		fmt.Println(string(data))
+	})
+
+	if err != nil && err != context.Canceled {
+		log.Printf("Stream ended with error: %v", err)
+	}
+}
+```
+
+<div id="requirements">
+  ## Requisitos
+</div>
+
+* Go 1.13 o posterior (usa el paquete context, requiere Go 1.8 o superior)
+* Acceso de red a `tcp-v1.benzinga.io:11337`
+
+<div id="see-also">
+  ## Consulta también
+</div>
+
+* [Guía de conexión](/es/tcp-reference/connection) - Detalles del servidor y autenticación
+* [Formato de mensajes](/es/tcp-reference/message-format) - Referencia de la estructura JSON
+* [Cliente de Python](/es/tcp-reference/python-client) - Implementación alternativa en Python
