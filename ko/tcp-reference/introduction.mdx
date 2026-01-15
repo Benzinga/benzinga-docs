@@ -1,0 +1,61 @@
+---
+title: "개요"
+description: "Benzinga TCP 스트리밍 서비스는 지속적인 TCP 연결을 통해 실시간 금융 뉴스와 시세 데이터를 제공합니다. 이 저지연 솔루션은 시장 변동에 직결되는 정보에 즉시 접근해야 하는 애플리케이션에 적합합니다.
+"
+---
+
+<div id="key-features">
+  ## 주요 기능
+</div>
+
+* **실시간 스트리밍**: 금융 뉴스와 시장 이벤트를 발생하는 즉시 수신
+* **저지연**: 직접 TCP 연결을 통해 전송 지연 시간 최소화
+* **JSON 형식**: 모든 메시지는 구조화된 JSON 객체로 전달
+* **지속적인 연결**: 시장 데이터 스트림을 연속적으로 유지
+
+<div id="prerequisites">
+  ## 사전 준비 사항
+</div>
+
+Benzinga TCP 서비스에 연결하려면 다음이 필요합니다:
+
+| Requirement | Description |
+|-------------|-------------|
+| **Username** | Benzinga TCP 계정 사용자 이름 |
+| **API Key** | 고유한 API 액세스 키 |
+
+TCP 자격 증명을 받으려면 Benzinga 지원팀에 문의하십시오.
+
+<div id="available-data">
+  ## 사용 가능한 데이터
+</div>
+
+TCP 스트림을 통해 다음과 같은 다양한 유형의 금융 콘텐츠를 제공합니다:
+
+* **옵션 알림**: 이례적인 옵션 거래, 스윕 주문, 블록 거래
+* **보도자료**: 기업 보도자료 및 뉴스
+* **거래 중단**: 실시간 거래 정지 및 재개 알림
+* **애널리스트 투자 의견**: 목표가 변경 및 등급 업데이트
+* **블록 트레이드**: 대규모 기관 블록 거래
+
+<div id="quick-start">
+  ## 빠른 시작
+</div>
+
+<CardGroup cols={2}>
+  <Card title="연결 가이드" icon="plug" href="/ko/tcp-reference/connection">
+    TCP 연결을 설정하는 방법을 확인하세요
+  </Card>
+
+  <Card title="메시지 형식" icon="code" href="/ko/tcp-reference/message-format">
+    JSON 메시지 구조를 이해하세요
+  </Card>
+
+  <Card title="Python 클라이언트" icon="python" href="/ko/tcp-reference/python-client">
+    Python 클라이언트 라이브러리를 사용하세요
+  </Card>
+
+  <Card title="Go 클라이언트" icon="golang" href="/ko/tcp-reference/go-client">
+    Go 클라이언트 라이브러리를 사용하세요
+  </Card>
+</CardGroup>

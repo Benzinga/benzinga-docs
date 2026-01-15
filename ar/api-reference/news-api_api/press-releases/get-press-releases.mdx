@@ -1,0 +1,89 @@
+---
+title: "البيانات الصحفية"
+openapi: /ar/openapi/news-api_api.spec.yml GET /api/v2/news
+---
+
+<ResponseExample>
+```json استجابة (200 OK)
+[
+  {
+    "id": 36444586,
+    "author": "GlobeNewswire",
+    "created": "Mon, 01 Jan 2024 13:35:14 -0400",
+    "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
+    "title": "شركة XYZ تعلن عن نتائج أرباح الربع الرابع لعام 2023 والمبادرات الاستراتيجية",
+    "teaser": "",
+    "body": "",
+    "url": "https://www.benzinga.com/pressreleases/24/01/g36444586/company-xyz-announces-q4-2023-earnings-results-and-strategic-initiatives",
+    "image": [
+      {
+        "size": "thumb",
+        "url": "https://cdn.benzinga.com/files/imagecache/250x187xUP/images/story/2023/press_release_image.jpeg"
+      },
+      {
+        "size": "small",
+        "url": "https://cdn.benzinga.com/files/imagecache/1024x768xUP/images/story/2023/press_release_image.jpeg"
+      },
+      {
+        "size": "large",
+        "url": "https://cdn.benzinga.com/files/imagecache/2048x1536xUP/images/story/2023/press_release_image.jpeg"
+      }
+    ],
+    "channels": [
+      {
+        "name": "البيانات الصحفية"
+      }
+    ],
+    "stocks": [
+      {
+        "name": "AAPL",
+        "cusip": "037833100",
+        "isin": "US0378331005",
+        "exchange": "NASDAQ"
+      }
+    ],
+    "tags": [
+      {
+        "name": "بيان صحفي"
+      }
+    ]
+  }
+]
+```
+```json استجابة (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
+    }
+  ]
+}
+```
+```json استجابة (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "لم يتم العثور على أي بيانات للمعلمات المحددة"
+    }
+  ]
+}
+```
+```json استجابة (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
+    }
+  ]
+}
+```
+</ResponseExample>

@@ -1,13 +1,13 @@
 ---
 title: "نظرة عامة"
-description: "نظرة عامة على واجهة برمجة التطبيقات لمحاضر مكالمات الأرباح"
+description: "نظرة عامة على واجهة برمجة التطبيقات API لنصوص مكالمات الأرباح"
 ---
 
 <div id="introduction">
   ## المقدمة
 </div>
 
-توفر واجهة برمجة التطبيقات REST هذه نقاط نهاية لاسترجاع مكالمات المؤتمرات وملخصاتها.
+توفر واجهة برمجة التطبيقات REST هذه نقاط نهاية لجلب مكالمات المؤتمرات (conference calls) والملخصات.
 
 <div id="available-endpoints">
   ## نقاط النهاية المتاحة
@@ -17,22 +17,22 @@ description: "نظرة عامة على واجهة برمجة التطبيقات 
   ### [جلب جميع المكالمات](/ar/api-reference/delivery_api/calls/fetch-all-calls)
 </div>
 
-استرداد قائمة بالمكالمات مع إمكانية التصفية وترقيم الصفحات (pagination) بشكل اختياري.
+استرجاع قائمة بالمكالمات مع إمكانية التصفية وتقسيم النتائج إلى صفحات.
 
 <div id="fetch-call-by-id">
-  ### [Fetch Call by ID](/ar/api-reference/delivery_api/calls/fetch-call-by-id)
+  ### [جلب مكالمة بواسطة المعرّف](/ar/api-reference/delivery_api/calls/fetch-call-by-id)
 </div>
 
-استرجاع معلومات تفصيلية حول مكالمة محددة وفقًا لمعرّفها (ID).
+استرداد معلومات تفصيلية عن مكالمة معيّنة باستخدام معرّفها.
 
 <div id="fetch-summaries">
   ### [جلب الملخصات](/ar/api-reference/delivery_api/summaries/fetch-summaries)
 </div>
 
-جلب قائمة من الملخصات مع دعم ترقيم الصفحات.
+استرداد قائمة بالملخصات مع ترقيم الصفحات.
 
 <div id="fetch-summary-by-call-id">
-  ### [جلب ملخص بواسطة معرّف المكالمة](/ar/api-reference/delivery_api/summaries/fetch-summary-by-call-id)
+  ### [جلب الملخّص حسب معرّف المكالمة](/ar/api-reference/delivery_api/summaries/fetch-summary-by-call-id)
 </div>
 
-استرجع تفاصيل الملخص لمكالمة معيّنة باستخدام معرّف المكالمة.
+استرداد تفاصيل الملخّص لمكالمة معيّنة باستخدام معرّفها.
