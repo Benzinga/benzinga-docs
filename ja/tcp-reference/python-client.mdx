@@ -1,0 +1,227 @@
+---
+title: "Python クライアントライブラリ"
+description: "`python-bztcp` パッケージは、金融データのストリーミング用 Benzinga TCP プロトコルの純粋な Python 実装を提供します。
+"
+icon: "python"
+---
+
+<Card title="GitHub リポジトリ" icon="github" href="https://github.com/Benzinga/python-bztcp">
+  ソースコードを閲覧し、開発に貢献する
+</Card>
+
+<div id="features">
+  ## 機能
+</div>
+
+* Python 2.6 以降および Python 3 と互換性あり
+* 外部ライブラリへの依存なし
+* 大容量メッセージをサポート
+* 指数バックオフ付きの再試行ロジックを設定可能
+
+<div id="installation">
+  ## インストール
+</div>
+
+`setup.py` を使ってライブラリをインストールします:
+
+```bash
+git clone https://github.com/Benzinga/python-bztcp.git
+cd python-bztcp
+python setup.py install
+```
+
+<div id="quick-start">
+  ## クイックスタート
+</div>
+
+組み込みのデモを使用してクライアントをテストします:
+
+<Tabs>
+  <Tab title="Python 3 / 2.7+">
+    ```bash
+    python -m bztcp USERNAME API_KEY
+    ```
+  </Tab>
+
+  <Tab title="リトライ設定あり">
+    ```bash
+    python -m bztcp USERNAME API_KEY RETRIES DELAY BACKOFF
+    ```
+  </Tab>
+
+  <Tab title="Python 2.6">
+    ```bash
+    python -m bztcp.__main__ USERNAME API_KEY
+    ```
+  </Tab>
+</Tabs>
+
+<div id="basic-usage">
+  ## 基本的な使い方
+</div>
+
+`bztcp.client.Client` クラスが接続とストリーミングを処理します。
+
+```python
+from __future__ import print_function
+from bztcp.client import Client
+
+client = Client(username='USERNAME', key='API_KEY')
+
+for content in client.content_items():
+    title = content.get('title', None)
+    print(title)
+```
+
+<div id="configuration-options">
+  ## 構成オプション
+</div>
+
+<div id="retry-configuration">
+  ### リトライ設定
+</div>
+
+指数バックオフ方式のリトライ動作を設定します：
+
+```python
+from bztcp.client import Client
+
+client = Client(
+    username='USERNAME',
+    key='API_KEY',
+    retries=5,      # 最大リトライ回数
+    delay=90,       # 初期遅延(秒)
+    backoff=2       # バックオフ倍率
+)
+
+for content in client.content_items():
+    title = content.get('title', None)
+    print(title)
+```
+
+| パラメータ      | 説明                  | デフォルト |
+| ---------- | ------------------- | ----- |
+| `username` | Benzinga TCP のユーザー名 | 必須    |
+| `key`      | API アクセスキー          | 必須    |
+| `retries`  | リトライ試行回数の上限         | -     |
+| `delay`    | リトライ間の初期間隔（秒）       | -     |
+| `backoff`  | 指数バックオフに使用する倍率      | -     |
+
+<div id="advanced-usage">
+  ## 高度な使い方
+</div>
+
+<div id="low-level-message-handling">
+  ### 低レベルなメッセージ処理
+</div>
+
+接続ステータスや個々のメッセージを詳細に制御するには：
+
+```python
+from bztcp.client import Client, STATUS_STREAM
+from bztcp.exceptions import BzException
+
+client = Client(username='USERNAME', key='API_KEY')
+
+while True:
+    try:
+        msg = client.next_msg()
+        
+        if msg.status == STATUS_STREAM:
+            print(f"Content item: {msg.data}")
+        else:
+            print(f"Status: {msg.status}")
+            
+    except KeyboardInterrupt:
+        print("Cancelled, disconnecting.")
+        client.disconnect()
+        break
+        
+    except BzException as bze:
+        print(f"BZ Error: {bze}")
+        break
+```
+
+<div id="message-status-constants">
+  ### メッセージステータス定数
+</div>
+
+| Status | 説明 |
+|--------|-------------|
+| `STATUS_STREAM` | 通常のストリーミングメッセージ |
+
+<div id="key-methods">
+  ### 主要メソッド
+</div>
+
+| Method | Description |
+|--------|-------------|
+| `content_items()` | content の辞書を逐次返すジェネレーター |
+| `next_msg()` | 次の生のメッセージオブジェクトを返す |
+| `disconnect()` | サーバーとの接続を正常に終了する |
+
+<div id="error-handling">
+  ## エラー処理
+</div>
+
+Benzinga 固有のエラーが発生した場合、このライブラリは `BzException` をスローします。
+
+```python
+from bztcp.exceptions import BzException
+
+try:
+    for content in client.content_items():
+        process(content)
+except BzException as e:
+    print(f"Benzinga error: {e}")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+```
+
+<div id="complete-example">
+  ## 完全なサンプル
+</div>
+
+```python
+#!/usr/bin/env python
+from __future__ import print_function
+import json
+from bztcp.client import Client
+
+def main():
+    client = Client(
+        username='YOUR_USERNAME',
+        key='YOUR_API_KEY',
+        retries=5,
+        delay=30,
+        backoff=2
+    )
+    
+    print("Starting Benzinga TCP stream...")
+    
+    for content in client.content_items():
+        # 主要なフィールドを抽出
+        content_id = content.get('id')
+        title = content.get('title', 'No title')
+        channels = content.get('channels', [])
+        tickers = [t['name'] for t in content.get('tickers', [])]
+        
+        # 概要を出力
+        print(f"[{content_id}] {title}")
+        if channels:
+            print(f"  Channels: {', '.join(channels)}")
+        if tickers:
+            print(f"  Tickers: {', '.join(tickers)}")
+        print()
+
+if __name__ == '__main__':
+    main()
+```
+
+<div id="see-also">
+  ## 関連項目
+</div>
+
+* [Connection Guide](/ja/tcp-reference/connection) - サーバーの詳細と認証
+* [Message Format](/ja/tcp-reference/message-format) - JSON 構造のリファレンス
+* [Go Client](/ja/tcp-reference/go-client) - Go による代替実装

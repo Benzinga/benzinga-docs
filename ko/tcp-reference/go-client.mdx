@@ -1,0 +1,282 @@
+---
+title: "Go 클라이언트 라이브러리"
+description: "`go-bztcp` 패키지는 금융 데이터 스트리밍을 위한 Benzinga TCP 프로토콜의 순수 Go 구현을 제공합니다.
+"
+icon: "golang"
+---
+
+<Card title="GitHub 저장소" icon="github" href="https://github.com/Benzinga/go-bztcp">
+  소스 코드를 확인하고 기여하세요
+</Card>
+
+<div id="features">
+  ## 기능
+</div>
+
+* Go 1.13 이상에서 테스트됨
+* 고성능 구현
+* 외부 의존성 없음
+* 취소 처리를 위해 Go의 context 라이브러리 사용
+
+<div id="installation">
+  ## 설치
+</div>
+
+라이브러리와 예제 클라이언트를 설치합니다:
+
+```bash
+go install github.com/Benzinga/go-bztcp/cmd/bztcp@latest
+```
+
+`bztcp` 바이너리가 `$GOPATH/bin` 디렉터리에 설치됩니다.
+
+<div id="quick-start">
+  ## 빠른 시작
+</div>
+
+포함된 바이너리로 클라이언트를 테스트합니다:
+
+```bash
+bztcp -v -user YOUR_USERNAME -key YOUR_API_KEY
+```
+
+<div id="command-line-options">
+  ### 명령줄 옵션
+</div>
+
+| 옵션      | 설명                  |
+| ------- | ------------------- |
+| `-user` | Benzinga TCP 사용자 이름 |
+| `-key`  | API 액세스 키           |
+| `-v`    | 상세 출력 활성화           |
+
+성공적으로 실행되면 다음과 유사한 메시지가 표시됩니다:
+
+```
+Benzinga TCP Client initializing.
+Connecting to 'tcp-v1.benzinga.io:11337' as user 'YOUR_USERNAME' (w/TLS: false)
+Connected. Waiting for events.
+{"id":49917328,"title":"Alphabet Option Alert..."}
+```
+
+<div id="library-usage">
+  ## 라이브러리 사용 방법
+</div>
+
+<div id="core-functions">
+  ### 핵심 함수
+</div>
+
+이 라이브러리는 두 가지 핵심 함수를 제공합니다:
+
+| Function | Description |
+|----------|-------------|
+| `bztcp.Dial(addr, user, key)` | TCP 서버에 연결을 수립합니다 |
+| `Conn.Stream(ctx, callback)` | 콜백을 사용해 메시지 스트리밍을 시작합니다 |
+
+<div id="basic-example">
+  ### 기본 예제
+</div>
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	// 서버에 연결
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// 메시지 스트림
+	err = conn.Stream(context.Background(), func(stream bztcp.StreamData) {
+		fmt.Printf("%#v\n", stream)
+	})
+
+	if err != nil {
+		panic(err)
+	}
+}
+```
+
+<div id="advanced-usage">
+  ## 고급 사용법
+</div>
+
+<div id="context-based-cancellation">
+  ### 컨텍스트 기반 취소
+</div>
+
+정상 종료를 위해 Go의 context를 사용하세요:
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// 취소 가능한 컨텍스트 생성
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// 종료 신호 처리
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	
+	go func() {
+		<-sigChan
+		fmt.Println("종료 중...")
+		cancel()
+	}()
+
+	// 컨텍스트를 사용한 스트림
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		fmt.Printf("수신: %s\n", stream.Title)
+	})
+
+	if err != nil && err != context.Canceled {
+		fmt.Printf("오류: %v\n", err)
+	}
+}
+```
+
+<div id="processing-stream-data">
+  ### 스트림 데이터 처리
+</div>
+
+`StreamData` 구조체에는 파싱된 메시지가 포함합니다:
+
+```go
+conn.Stream(ctx, func(stream bztcp.StreamData) {
+	// 메시지 필드에 접근
+	fmt.Printf("ID: %d\n", stream.ID)
+	fmt.Printf("Title: %s\n", stream.Title)
+	fmt.Printf("Published: %s\n", stream.Published)
+	
+	// 티커 처리
+	for _, ticker := range stream.Tickers {
+		fmt.Printf("Ticker: %s\n", ticker.Name)
+	}
+	
+	// 채널 처리
+	for _, channel := range stream.Channels {
+		fmt.Printf("Channel: %s\n", channel)
+	}
+})
+```
+
+<div id="error-handling">
+  ### 오류 처리
+</div>
+
+```go
+conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+if err != nil {
+	log.Fatalf("연결 실패: %v", err)
+}
+
+err = conn.Stream(ctx, handler)
+if err != nil {
+	switch {
+	case err == context.Canceled:
+		log.Println("사용자에 의해 스트림 취소됨")
+	case err == context.DeadlineExceeded:
+		log.Println("스트림 타임아웃")
+	default:
+		log.Printf("스트림 오류: %v", err)
+	}
+}
+```
+
+<div id="complete-example">
+  ## 전체 예제
+</div>
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	user := os.Getenv("BZTCP_USER")
+	key := os.Getenv("BZTCP_KEY")
+
+	if user == "" || key == "" {
+		log.Fatal("BZTCP_USER 및 BZTCP_KEY 환경 변수를 설정하세요")
+	}
+
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", user, key)
+	if err != nil {
+		log.Fatalf("연결 실패: %v", err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// 정상 종료 처리
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigChan
+		fmt.Println("\n정상 종료 중...")
+		cancel()
+	}()
+
+	fmt.Println("Benzinga TCP 스트림 시작 중...")
+
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		// 메시지를 포맷하여 출력
+		data, _ := json.MarshalIndent(stream, "", "  ")
+		fmt.Println(string(data))
+	})
+
+	if err != nil && err != context.Canceled {
+		log.Printf("스트림이 오류로 종료됨: %v", err)
+	}
+}
+```
+
+<div id="requirements">
+  ## 요구 사항
+</div>
+
+* Go 1.13 이상 (`context` 라이브러리를 사용하므로 Go 1.8 이상 필요)
+* `tcp-v1.benzinga.io:11337`에 대한 네트워크 접속
+
+<div id="see-also">
+  ## 같이 보기
+</div>
+
+* [Connection Guide](/ko/tcp-reference/connection) - 서버 정보 및 인증
+* [Message Format](/ko/tcp-reference/message-format) - JSON 구조 참조
+* [Python Client](/ko/tcp-reference/python-client) - 대안 Python 구현
