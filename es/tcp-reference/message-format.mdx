@@ -1,0 +1,198 @@
+---
+title: "Formato de mensajes"
+description: "Todos los mensajes del stream TCP de Benzinga se entregan como objetos JSON. Cada mensaje representa contenido financiero, como noticias, alertas de opciones o eventos de mercado.
+"
+---
+
+<div id="message-structure">
+  ## Estructura del mensaje
+</div>
+
+```json
+{
+  "id": 49917328,
+  "title": "Option Alert: GOOG $210 Calls",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="field-reference">
+  ## Referencia de campos
+</div>
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | Integer | Identificador único del elemento de contenido |
+| `title` | String | Encabezado o título del contenido |
+| `body` | String | Cuerpo completo del contenido (con formato HTML cuando está presente) |
+| `authors` | Array | Lista de objetos de autores con la propiedad `name` |
+| `published` | String | Marca de tiempo de la publicación original (UTC) |
+| `updated` | String | Marca de tiempo de la última actualización (UTC) |
+| `channels` | Array | Categorías de contenido (por ejemplo, "Options", "Press Releases") |
+| `tickers` | Array | Símbolos bursátiles asociados con metadatos |
+| `status` | String | Estado de la publicación (normalmente "Published") |
+| `link` | String/null | URL del artículo completo en Benzinga (si está disponible) |
+
+<div id="ticker-object">
+  ### Objeto ticker
+</div>
+
+```json
+{
+  "name": "GOOG",
+  "primary": false,
+  "sentiment": 0
+}
+```
+
+| Field       | Type    | Description                                         |
+| ----------- | ------- | --------------------------------------------------- |
+| `name`      | String  | Símbolo bursátil (ticker)                           |
+| `primary`   | Boolean | Indica si este es el ticker principal del contenido |
+| `sentiment` | Integer | Indicador de sentimiento (0 = neutral)              |
+
+
+<div id="example-messages">
+  ## Ejemplos de mensajes
+</div>
+
+<div id="option-alert">
+  ### Alerta de opciones
+</div>
+
+```json
+{
+  "id": 49917328,
+  "title": "Alphabet Option Alert: Fri $210 Calls at the Ask: 5 @ $125.0 vs 7017 OI; Earnings 2/4 After Close Ref=$334.37",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:30 GMT+0000 (UTC)",
+  "channels": ["Options"],
+  "tickers": [{"name": "GOOG", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="block-trade">
+  ### Operación en bloque
+</div>
+
+```json
+{
+  "id": 49917330,
+  "title": "Block Trade: TOGI 1.1M @ $0.044 at the bid",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:47:33 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "TOGI", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="press-release">
+  ### Comunicado de prensa
+</div>
+
+```json
+{
+  "id": 49917339,
+  "title": "MediCapture Launches aiScope™ Pilot for Veterinary Sciences at VMX 2026",
+  "body": "<p>Medical AI Made Easy—From Lab to Real-World Training...</p>",
+  "authors": [{"name": "PRNewswire"}],
+  "published": "Wed Jan 14 2026 18:47:00 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:48:02 GMT+0000 (UTC)",
+  "channels": ["Press Releases"],
+  "tickers": [],
+  "status": "Published",
+  "link": "http://www.benzinga.com/node/49917339"
+}
+```
+
+
+<div id="trading-halt">
+  ### Suspensión de la negociación
+</div>
+
+```json
+{
+  "id": 49917388,
+  "title": "Trading Halt: Halted at 1:49:45 p.m. ET - Trading Halt on NASDAQ only: Volatility Trading Pause; Trading Expected to Resume at 1:54:45 p.m. ET",
+  "body": "",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:45 GMT+0000 (UTC)",
+  "channels": [],
+  "tickers": [{"name": "WSHP", "primary": false, "sentiment": 0}],
+  "status": "Published",
+  "link": null
+}
+```
+
+
+<div id="analyst-rating">
+  ### Recomendación de analistas
+</div>
+
+```json
+{
+  "id": 49917389,
+  "title": "UBS mantiene recomendación de compra en Procter & Gamble, reduce precio objetivo a $161",
+  "body": "El analista de UBS Peter Grom mantiene Procter & Gamble (NYSE:PG) con recomendación de compra...",
+  "authors": [{"name": "Benzinga Newsdesk"}],
+  "published": "Wed Jan 14 2026 18:49:49 GMT+0000 (UTC)",
+  "updated": "Wed Jan 14 2026 18:49:50 GMT+0000 (UTC)",
+  "channels": ["Noticias", "Precio Objetivo", "Destacado", "Calificaciones de Analistas"],
+  "tickers": [{"name": "PG", "primary": true, "sentiment": 0}],
+  "status": "Publicado",
+  "link": null
+}
+```
+
+
+<div id="common-channels">
+  ## Canales habituales
+</div>
+
+| Canal | Descripción |
+|---------|-------------|
+| `Options` | Alertas de actividad de opciones |
+| `Press Releases` | Comunicados de prensa corporativos |
+| `News` | Noticias generales |
+| `Price Target` | Actualizaciones del PO de analistas |
+| `Analyst Ratings` | Cambios de calificación de analistas |
+| `Hot` | Contenido destacado/en tendencia |
+| `General` | Contenido general del mercado |
+| `Opinion` | Artículos de opinión y análisis |
+
+<div id="processing-tips">
+  ## Consejos de procesamiento
+</div>
+
+<Tip>
+Los mensajes se entregan en formato JSON delimitado por saltos de línea. Cada línea contiene un objeto JSON completo.
+</Tip>
+
+<div id="best-practices">
+  ### Mejores prácticas
+</div>
+
+1. **Analiza cada línea**: Cada salto de línea representa un mensaje JSON completo
+2. **Gestiona el HTML en el `body`**: El campo `body` puede contener entidades y etiquetas HTML
+3. **Verifica actualizaciones**: Compara las marcas de tiempo `published` y `updated` para identificar cambios
+4. **Filtra por canal**: Usa el array `channels` para filtrar por tipos específicos de contenido
+5. **Realiza el seguimiento por ID**: Usa el campo `id` como identificador único para la eliminación de duplicados

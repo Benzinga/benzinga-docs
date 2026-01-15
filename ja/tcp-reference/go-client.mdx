@@ -1,0 +1,282 @@
+---
+title: "Go クライアントライブラリ"
+description: "`go-bztcp` パッケージは、ストリーミング金融データ用 Benzinga TCP プロトコルの純粋な Go 実装を提供します。
+"
+icon: "golang"
+---
+
+<Card title="GitHub リポジトリ" icon="github" href="https://github.com/Benzinga/go-bztcp">
+  ソースコードを閲覧し、開発に貢献する
+</Card>
+
+<div id="features">
+  ## 機能
+</div>
+
+* Go 1.13 以降でテスト済み
+* 高性能な実装
+* 外部ライブラリへの依存なし
+* キャンセルのために Go の context パッケージを使用
+
+<div id="installation">
+  ## インストール
+</div>
+
+ライブラリとサンプルクライアントをインストールします：
+
+```bash
+go install github.com/Benzinga/go-bztcp/cmd/bztcp@latest
+```
+
+`bztcp` バイナリは `$GOPATH/bin` ディレクトリにインストールされます。
+
+<div id="quick-start">
+  ## クイックスタート
+</div>
+
+同梱のバイナリを使用してクライアントをテストします。
+
+```bash
+bztcp -v -user YOUR_USERNAME -key YOUR_API_KEY
+```
+
+<div id="command-line-options">
+  ### コマンドラインオプション
+</div>
+
+| Option  | Description         |
+| ------- | ------------------- |
+| `-user` | Benzinga TCP のユーザー名 |
+| `-key`  | API アクセスキー          |
+| `-v`    | 詳細出力を有効にする          |
+
+成功すると、次のようなメッセージが表示されます：
+
+```
+Benzinga TCP Client initializing.
+Connecting to 'tcp-v1.benzinga.io:11337' as user 'YOUR_USERNAME' (w/TLS: false)
+Connected. Waiting for events.
+{"id":49917328,"title":"Alphabet Option Alert..."}
+```
+
+<div id="library-usage">
+  ## ライブラリの利用方法
+</div>
+
+<div id="core-functions">
+  ### コア機能
+</div>
+
+このライブラリは、主に次の 2 つの関数を公開しています:
+
+| Function | Description |
+|----------|-------------|
+| `bztcp.Dial(addr, user, key)` | TCP サーバーへの接続を確立します |
+| `Conn.Stream(ctx, callback)` | コールバック関数でメッセージのストリーミングを開始します |
+
+<div id="basic-example">
+  ### 基本例
+</div>
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	// サーバーへ接続
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// メッセージをストリーム
+	err = conn.Stream(context.Background(), func(stream bztcp.StreamData) {
+		fmt.Printf("%#v\n", stream)
+	})
+
+	if err != nil {
+		panic(err)
+	}
+}
+```
+
+<div id="advanced-usage">
+  ## 高度な使い方
+</div>
+
+<div id="context-based-cancellation">
+  ### コンテキストベースのキャンセル
+</div>
+
+グレースフルシャットダウンのために Go の context を使用します:
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+	if err != nil {
+		panic(err)
+	}
+
+	// キャンセル可能なコンテキストを作成
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// シャットダウンシグナルを処理
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	
+	go func() {
+		<-sigChan
+		fmt.Println("シャットダウン中...")
+		cancel()
+	}()
+
+	// コンテキストでストリーミング
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		fmt.Printf("受信: %s\n", stream.Title)
+	})
+
+	if err != nil && err != context.Canceled {
+		fmt.Printf("エラー: %v\n", err)
+	}
+}
+```
+
+<div id="processing-stream-data">
+  ### ストリームデータの処理
+</div>
+
+`StreamData` 構造体には、解析済みのメッセージが含まれています。
+
+```go
+conn.Stream(ctx, func(stream bztcp.StreamData) {
+	// メッセージフィールドへアクセス
+	fmt.Printf("ID: %d\n", stream.ID)
+	fmt.Printf("Title: %s\n", stream.Title)
+	fmt.Printf("Published: %s\n", stream.Published)
+	
+	// tickerを処理
+	for _, ticker := range stream.Tickers {
+		fmt.Printf("Ticker: %s\n", ticker.Name)
+	}
+	
+	// チャネルを処理
+	for _, channel := range stream.Channels {
+		fmt.Printf("Channel: %s\n", channel)
+	}
+})
+```
+
+<div id="error-handling">
+  ### エラー処理
+</div>
+
+```go
+conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", "USER", "KEY")
+if err != nil {
+	log.Fatalf("Failed to connect: %v", err)
+}
+
+err = conn.Stream(ctx, handler)
+if err != nil {
+	switch {
+	case err == context.Canceled:
+		log.Println("Stream cancelled by user")
+	case err == context.DeadlineExceeded:
+		log.Println("Stream timeout")
+	default:
+		log.Printf("Stream error: %v", err)
+	}
+}
+```
+
+<div id="complete-example">
+  ## 完全なサンプル
+</div>
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"github.com/Benzinga/go-bztcp/bztcp"
+)
+
+func main() {
+	user := os.Getenv("BZTCP_USER")
+	key := os.Getenv("BZTCP_KEY")
+
+	if user == "" || key == "" {
+		log.Fatal("BZTCP_USERとBZTCP_KEY環境変数を設定してください")
+	}
+
+	conn, err := bztcp.Dial("tcp-v1.benzinga.io:11337", user, key)
+	if err != nil {
+		log.Fatalf("接続に失敗しました: %v", err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// グレースフルシャットダウン
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigChan
+		fmt.Println("\nグレースフルシャットダウン中...")
+		cancel()
+	}()
+
+	fmt.Println("Benzinga TCPストリームを開始しています...")
+
+	err = conn.Stream(ctx, func(stream bztcp.StreamData) {
+		// メッセージを整形して出力
+		data, _ := json.MarshalIndent(stream, "", "  ")
+		fmt.Println(string(data))
+	})
+
+	if err != nil && err != context.Canceled {
+		log.Printf("ストリームがエラーで終了しました: %v", err)
+	}
+}
+```
+
+<div id="requirements">
+  ## 要件
+</div>
+
+* Go 1.13 以降（context ライブラリを使用するため、Go 1.8 以上が必要）
+* `tcp-v1.benzinga.io:11337` へのネットワーク アクセス
+
+<div id="see-also">
+  ## 関連項目
+</div>
+
+* [Connection Guide](/ja/tcp-reference/connection) - サーバーの詳細と認証
+* [Message Format](/ja/tcp-reference/message-format) - JSON 構造のリファレンス
+* [Python Client](/ja/tcp-reference/python-client) - 代替の Python 実装

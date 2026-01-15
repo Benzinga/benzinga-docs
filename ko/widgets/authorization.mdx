@@ -1,0 +1,112 @@
+---
+title: "Authorization"
+description: "Benzinga 위젯에 대한 접근 권한을 부여하는 방법"
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+Benzinga 위젯에서 프리미엄 기능과 실시간 데이터에 액세스하려면 인증이 필요합니다. 인증은 위젯 URL에 포함된 API 토큰으로 처리되며, 이를 통해 금융 데이터에 안전하게 액세스하면서도 원활한 통합을 유지할 수 있습니다.
+
+<div id="getting-your-api-token">
+  ## API 토큰 받기
+</div>
+
+Benzinga Widgets의 모든 기능을 사용하려면:
+
+1. **Benzinga에 문의**: licensing@benzinga.com으로 연락해 위젯 API 토큰을 요청합니다.
+2. **라이선스 계약**: 위젯 액세스를 위한 라이선스 절차를 완료합니다.
+3. **자격 증명 수령**: 위젯 인증을 위해 고유한 API 토큰을 받게 됩니다.
+
+<div id="using-your-token">
+  ## 발급받은 토큰 사용하기
+</div>
+
+<div id="basic-authentication">
+  ### 기본 인증
+</div>
+
+`token` 매개변수를 사용해 위젯의 URL에 API 토큰을 추가합니다:
+
+```html
+<iframe
+    frameBorder="0"
+    height="600"
+    width="100%"
+    src="https://widgets.benzinga.com/embed/chart/AAPL?token=YOUR_API_TOKEN&timeframe=6m&exchange=NASDAQ"
+></iframe>
+```
+
+<div id="best-practices">
+  ### 모범 사례
+</div>
+
+<Warning>
+  **사용자가 볼 수 있는 클라이언트 측 코드에 API 토큰을 절대 노출하지 마세요.** 위젯은 공개 웹사이트에 삽입해 사용하도록 설계되었지만, 가능하다면 서버 측 토큰 관리를 구현하는 것이 좋습니다.
+</Warning>
+
+**권장 방식:**
+
+* 토큰을 서버 환경 변수로 저장합니다.
+* 토큰이 포함된 위젯 URL을 서버 측에서 생성합니다.
+* 보안을 강화하기 위해 URL 서명이나 토큰 로테이션을 사용합니다.
+
+<div id="token-management">
+  ## 토큰 관리
+</div>
+
+<div id="security-considerations">
+  ### 보안 고려사항
+</div>
+
+* **토큰을 비공개로 유지**: 토큰을 버전 관리 시스템에 커밋하지 마세요
+* **사용량 모니터링**: 위젯 로드 수를 추적해 무단 사용을 감지하세요
+* **토큰 교체**: Benzinga에서 정기적으로 새 토큰을 발급받으세요
+* **도메인 제한**: Benzinga 지원팀을 통해 허용 도메인을 설정하세요
+
+<div id="rate-limits">
+  ### 요청 한도
+</div>
+
+Widget API 토큰에는 라이선스 계약에 따라 다음과 같은 요청 한도가 적용됩니다:
+
+* Standard 등급: 하루 최대 10,000회 위젯 로드
+* Premium 등급: 하루 최대 100,000회 위젯 로드
+* Enterprise 등급: 계약에 따른 맞춤 한도
+
+<div id="troubleshooting">
+  ## 문제 해결
+</div>
+
+<div id="common-authorization-issues">
+  ### 일반적인 인증 문제
+</div>
+
+**위젯에 &quot;Unauthorized&quot; 오류가 표시되는 경우:**
+
+* URL에 토큰이 올바르게 포함되어 있는지 확인하세요
+* 토큰이 만료되지 않았는지 확인하세요
+* 허용된 도메인에서 접속하고 있는지 확인하세요
+
+**데이터가 업데이트되지 않는 경우:**
+
+* 사용 중인 라이선스에 실시간 데이터 접근 권한이 포함되어 있는지 확인하세요
+* 토큰에 필요한 권한이 있는지 확인하세요
+* 할당된 요청 한도(rate limit)를 초과하지 않았는지 확인하세요
+
+<div id="getting-help">
+  ### 도움 받는 방법
+</div>
+
+인증 관련 문제나 질문이 있는 경우:
+
+* 이메일: licensing@benzinga.com
+* 위젯 URL 구조를 포함하세요 (`token`은 마스킹 처리)
+* 겪고 있는 구체적인 오류나 동작을 설명하세요
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+인증을 완료한 후, 사용 가능한 [위젯 옵션](/ko/widgets/overview)을 살펴보고 금융 데이터 표시를 원하는 대로 맞춤 설정하세요.

@@ -1,0 +1,227 @@
+---
+title: "Biblioteca cliente de Python"
+description: "El paquete `python-bztcp` proporciona una implementación íntegramente en Python del protocolo TCP de Benzinga para la transmisión de datos financieros.
+"
+icon: "python"
+---
+
+<Card title="Repositorio de GitHub" icon="github" href="https://github.com/Benzinga/python-bztcp">
+  Ver el código fuente y contribuir
+</Card>
+
+<div id="features">
+  ## Características
+</div>
+
+* Compatible con Python 2.6+ y Python 3
+* Sin dependencias externas
+* Admite mensajes grandes
+* Lógica de reintentos configurable con backoff exponencial
+
+<div id="installation">
+  ## Instalación
+</div>
+
+Instala la librería con setup.py:
+
+```bash
+git clone https://github.com/Benzinga/python-bztcp.git
+cd python-bztcp
+python setup.py install
+```
+
+<div id="quick-start">
+  ## Inicio rápido
+</div>
+
+Prueba el cliente con la demo integrada:
+
+<Tabs>
+  <Tab title="Python 3 / 2.7+">
+    ```bash
+    python -m bztcp USERNAME API_KEY
+    ```
+  </Tab>
+
+  <Tab title="Con configuración de reintentos">
+    ```bash
+    python -m bztcp USERNAME API_KEY RETRIES DELAY BACKOFF
+    ```
+  </Tab>
+
+  <Tab title="Python 2.6">
+    ```bash
+    python -m bztcp.__main__ USERNAME API_KEY
+    ```
+  </Tab>
+</Tabs>
+
+<div id="basic-usage">
+  ## Uso básico
+</div>
+
+La clase `bztcp.client.Client` gestiona la conexión y el streaming:
+
+```python
+from __future__ import print_function
+from bztcp.client import Client
+
+client = Client(username='USERNAME', key='API_KEY')
+
+for content in client.content_items():
+    title = content.get('title', None)
+    print(title)
+```
+
+<div id="configuration-options">
+  ## Opciones de configuración
+</div>
+
+<div id="retry-configuration">
+  ### Configuración de reintentos
+</div>
+
+Configura el comportamiento de los reintentos con un backoff exponencial:
+
+```python
+from bztcp.client import Client
+
+client = Client(
+    username='USERNAME',
+    key='API_KEY',
+    retries=5,      # Número máximo de intentos de reintento
+    delay=90,       # Retraso inicial en segundos
+    backoff=2       # Multiplicador de retroceso exponencial
+)
+
+for content in client.content_items():
+    title = content.get('title', None)
+    print(title)
+```
+
+| Parameter  | Descripción                               | Valor predeterminado |
+| ---------- | ----------------------------------------- | -------------------- |
+| `username` | Tu nombre de usuario TCP de Benzinga      | Obligatorio          |
+| `key`      | Tu clave de acceso a la API               | Obligatorio          |
+| `retries`  | Número máximo de reintentos               | -                    |
+| `delay`    | Pausa inicial entre reintentos (segundos) | -                    |
+| `backoff`  | Multiplicador para el backoff exponencial | -                    |
+
+<div id="advanced-usage">
+  ## Uso avanzado
+</div>
+
+<div id="low-level-message-handling">
+  ### Manejo de mensajes de bajo nivel
+</div>
+
+Para un control detallado sobre el estado de la conexión y los mensajes individuales:
+
+```python
+from bztcp.client import Client, STATUS_STREAM
+from bztcp.exceptions import BzException
+
+client = Client(username='USERNAME', key='API_KEY')
+
+while True:
+    try:
+        msg = client.next_msg()
+        
+        if msg.status == STATUS_STREAM:
+            print(f"Content item: {msg.data}")
+        else:
+            print(f"Status: {msg.status}")
+            
+    except KeyboardInterrupt:
+        print("Cancelled, disconnecting.")
+        client.disconnect()
+        break
+        
+    except BzException as bze:
+        print(f"BZ Error: {bze}")
+        break
+```
+
+<div id="message-status-constants">
+  ### Constantes de estado de mensajes
+</div>
+
+| Estado | Descripción |
+|--------|-------------|
+| `STATUS_STREAM` | Mensaje de contenido de streaming normal |
+
+<div id="key-methods">
+  ### Métodos clave
+</div>
+
+| Método | Descripción |
+|--------|-------------|
+| `content_items()` | Generador que devuelve diccionarios de `content` |
+| `next_msg()` | Devuelve el siguiente objeto de mensaje sin procesar |
+| `disconnect()` | Desconecta limpiamente del servidor |
+
+<div id="error-handling">
+  ## Gestión de errores
+</div>
+
+La biblioteca lanza la excepción `BzException` para errores propios de Benzinga:
+
+```python
+from bztcp.exceptions import BzException
+
+try:
+    for content in client.content_items():
+        process(content)
+except BzException as e:
+    print(f"Error de Benzinga: {e}")
+except Exception as e:
+    print(f"Error inesperado: {e}")
+```
+
+<div id="complete-example">
+  ## Ejemplo completo
+</div>
+
+```python
+#!/usr/bin/env python
+from __future__ import print_function
+import json
+from bztcp.client import Client
+
+def main():
+    client = Client(
+        username='YOUR_USERNAME',
+        key='YOUR_API_KEY',
+        retries=5,
+        delay=30,
+        backoff=2
+    )
+    
+    print("Starting Benzinga TCP stream...")
+    
+    for content in client.content_items():
+        # Extraer campos clave
+        content_id = content.get('id')
+        title = content.get('title', 'No title')
+        channels = content.get('channels', [])
+        tickers = [t['name'] for t in content.get('tickers', [])]
+        
+        # Imprimir resumen
+        print(f"[{content_id}] {title}")
+        if channels:
+            print(f"  Channels: {', '.join(channels)}")
+        if tickers:
+            print(f"  Tickers: {', '.join(tickers)}")
+        print()
+
+if __name__ == '__main__':
+    main()
+```
+
+<div id="see-also">
+  ## Ver también
+</div>
+
+* [Guía de conexión](/es/tcp-reference/connection) - Detalles del servidor y autenticación
+* [Formato de mensaje](/es/tcp-reference/message-format) - Referencia de la estructura JSON
+* [Cliente Go](/es/tcp-reference/go-client) - Implementación alternativa en Go
