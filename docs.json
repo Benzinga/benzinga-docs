@@ -44,6 +44,12 @@
                 ]
               },
               {
+                "group": "Guides",
+                "pages": [
+                  "api-reference/guides/consensus-ratings-explained"
+                ]
+              },
+              {
                 "group": "Analyst Insights",
                 "pages": [
                   "api-reference/calendar_api/analyst-insights/overview",
