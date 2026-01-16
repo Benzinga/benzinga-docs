@@ -1,3 +1,64 @@
 ---
-openapi: /openapi/data-api-proxy_api.spec.yml GET /api/v2/movers
+title: "급등락 종목"
+openapi: /ko/openapi/data-api-proxy_api.spec.yml GET /api/v1/market/movers
 ---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "result": {
+    "fromDate": "2026-01-14T16:00:00.000-05:00",
+    "toDate": "2026-01-15T15:59:00.000-05:00",
+    "snapTo": "[Snap id=1384473, date=2026-01-15T20:59:00.000Z]",
+    "usePreviousClose": true,
+    "gainers": [
+      {
+        "symbol": "SPHL",
+        "price": 17.6,
+        "change": 15.35,
+        "changePercent": 682.22,
+        "volume": "110157546",
+        "close": 17.6,
+        "companyName": "Springview Holdings",
+        "averageVolume": 54118,
+        "previousClose": 2.25,
+        "marketCap": "3717459",
+        "gicsSectorName": "Consumer Discretionary",
+        "shareFloat": "627204",
+        "isin": "KYG837611170"
+      },
+      {
+        "symbol": "CJMB",
+        "price": 4.23,
+        "change": 3.11,
+        "changePercent": 277.67,
+        "volume": "192332880",
+        "close": 4.23,
+        "companyName": "Callan Jmb",
+        "averageVolume": 38277,
+        "previousClose": 1.12,
+        "marketCap": "5177790",
+        "gicsSectorName": "Industrials",
+        "shareFloat": "1412527",
+        "isin": "US1311001093"
+      },
+      {
+        "symbol": "MLEC",
+        "price": 7.48,
+        "change": 3.95,
+        "changePercent": 111.89,
+        "volume": "9590059",
+        "close": 7.48,
+        "companyName": "Moolec Science",
+        "averageVolume": 38513,
+        "previousClose": 3.53,
+        "marketCap": "2563193",
+        "gicsSectorName": "Consumer Staples",
+        "shareFloat": "573192",
+        "isin": "KYG6223S1259"
+      }
+    ]
+  }
+}
+```
+</ResponseExample>

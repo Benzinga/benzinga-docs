@@ -383,21 +383,21 @@
                 ]
               },
               {
-                "group": "أشرطة الأسعار",
+                "group": "الشموع السعرية",
                 "pages": [
                   "ar/api-reference/data-api-proxy_api/bars/overview",
                   "ar/api-reference/data-api-proxy_api/bars/get-bars-v2"
                 ]
               },
               {
-                "group": "آراء المتفائلين وآراء المتشائمين",
+                "group": "ما يقوله المتفائلون (الثيران) وما يقوله المتشائمون (الدببة)",
                 "pages": [
                   "ar/api-reference/calendar_api/bulls-say-bears-say/overview",
                   "ar/api-reference/calendar_api/bulls-say-bears-say/latest-bull-and-bear-cases-for-a-given-ticker-symbol"
                 ]
               },
               {
-                "group": "التقويمات المالية",
+                "group": "التقويمات",
                 "pages": [
                   "ar/api-reference/calendar_api/overview",
                   "ar/api-reference/calendar_api/block-trade/blocktrade-v1",
@@ -423,7 +423,7 @@
                 ]
               },
               {
-                "group": "الأساسيات المالية للشركات",
+                "group": "الأساسيات المالية للشركة",
                 "pages": [
                   "ar/api-reference/data-api-proxy_api/fundamentals/overview",
                   "ar/api-reference/data-api-proxy_api/fundamentals/get-alpha-beta-v21",
@@ -454,7 +454,7 @@
                 ]
               },
               {
-                "group": "نصوص مكالمات المؤتمرات الهاتفية للشركات",
+                "group": "نصوص مكالمات المؤتمرات الهاتفية",
                 "pages": [
                   "ar/api-reference/delivery_api/overview",
                   "ar/api-reference/delivery_api/calls/fetch-all-calls",
@@ -464,14 +464,14 @@
                 ]
               },
               {
-                "group": "عروض أسعار مؤجلة",
+                "group": "أسعار متأخرة",
                 "pages": [
                   "ar/api-reference/data-api-proxy_api/quotedelayed/overview",
                   "ar/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
                 ]
               },
               {
-                "group": "تداولات حكومية",
+                "group": "تداولات الجهات الحكومية",
                 "pages": [
                   "ar/api-reference/calendar_api/government-trades/overview",
                   "ar/api-reference/calendar_api/government-trade-reports/government-trade-reports",
@@ -487,26 +487,20 @@
                 ]
               },
               {
-                "group": "موجز الأخبار",
+                "group": "بيانات السوق",
+                "pages": [
+                  "ar/api-reference/data-api-proxy_api/market-data/overview",
+                  "ar/api-reference/data-api-proxy_api/market-data/market-movers",
+                  "ar/api-reference/data-api-proxy_api/market-data/short-interest-data"
+                ]
+              },
+              {
+                "group": "تغذية الأخبار",
                 "pages": [
                   "ar/api-reference/news-api_api/news/overview",
                   "ar/api-reference/news-api_api/news/get-the-news-items",
                   "ar/api-reference/news-api_api/news/returns-the-removed-news-data",
                   "ar/api-reference/news-api_api/channels/get-available-news-channels"
-                ]
-              },
-              {
-                "group": "لماذا يتحرّك السهم؟ (WIIMs)",
-                "pages": [
-                  "ar/api-reference/news-api_api/wiims/overview",
-                  "ar/api-reference/news-api_api/news/get-wiims"
-                ]
-              },
-              {
-                "group": "البيانات الصحفية",
-                "pages": [
-                  "ar/api-reference/news-api_api/press-releases/overview",
-                  "ar/api-reference/news-api_api/press-releases/get-press-releases"
                 ]
               },
               {
@@ -517,7 +511,14 @@
                 ]
               },
               {
-                "group": "تأخيرات عروض الأسعار",
+                "group": "البيانات الصحفية",
+                "pages": [
+                  "ar/api-reference/news-api_api/press-releases/overview",
+                  "ar/api-reference/news-api_api/press-releases/get-press-releases"
+                ]
+              },
+              {
+                "group": "الأسعار (متأخرة)",
                 "pages": [
                   "ar/api-reference/data-api-proxy_api/quotedelayed/overview",
                   "ar/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
@@ -529,6 +530,13 @@
                   "ar/api-reference/ticker-trends-api_api/ticker-trends/overview",
                   "ar/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
                   "ar/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
+                ]
+              },
+              {
+                "group": "لماذا يتحرك السهم؟ (WIIMs)",
+                "pages": [
+                  "ar/api-reference/news-api_api/wiims/overview",
+                  "ar/api-reference/news-api_api/news/get-wiims"
                 ]
               }
             ]
@@ -546,7 +554,7 @@
                 ]
               },
               {
-                "group": "رؤى المحللين",
+                "group": "تحليلات المحللين",
                 "pages": [
                   "ar/ws-reference/data-websocket/get-analyst-insights-stream"
                 ]
@@ -572,7 +580,7 @@
                 ]
               },
               {
-                "group": "النصوص الحرفية",
+                "group": "التفريغات النصية (Transcripts)",
                 "pages": [
                   "ar/ws-reference/data-websocket/get-transcripts-stream"
                 ]
@@ -580,17 +588,17 @@
             ]
           },
           {
-            "tab": "مرجع ويب هوك",
+            "tab": "مرجع Webhook",
             "groups": [
               {
-                "group": "خطافات Webhook",
+                "group": "ويب هوكس",
                 "pages": [
                   "ar/webhook-reference/overview",
                   "ar/webhook-reference/webhook-engine"
                 ]
               },
               {
-                "group": "واجهة برمجة تطبيقات Webhook API",
+                "group": "واجهة برمجة التطبيقات API للويب هوك",
                 "pages": [
                   "ar/api-reference/webhook_api/test-webhook-delivery"
                 ]
@@ -598,10 +606,10 @@
             ]
           },
           {
-            "tab": "مرجع بروتوكول TCP",
+            "tab": "مرجع TCP",
             "groups": [
               {
-                "group": "البث عبر بروتوكول TCP",
+                "group": "بث عبر TCP",
                 "pages": [
                   "ar/tcp-reference/introduction",
                   "ar/tcp-reference/connection",
@@ -618,10 +626,10 @@
             ]
           },
           {
-            "tab": "الويدجتات",
+            "tab": "الودجات",
             "groups": [
               {
-                "group": "الويدجتات",
+                "group": "الودجات",
                 "pages": [
                   "ar/widgets/overview",
                   "ar/widgets/authorization"
@@ -633,13 +641,13 @@
             "tab": "عدة تطوير البرمجيات SDK",
             "groups": [
               {
-                "group": "عدة تطوير البرمجيات SDK",
+                "group": "حزم عِدّة تطوير البرمجيات SDK",
                 "pages": [
                   "ar/sdks/overview"
                 ]
               },
               {
-                "group": "عدة تطوير البرمجيات SDK",
+                "group": "حزم عِدّة تطوير البرمجيات SDK",
                 "pages": [
                   "ar/sdks/languages/java",
                   "ar/sdks/languages/node",
@@ -707,14 +715,14 @@
                 ]
               },
               {
-                "group": "Barras de precios",
+                "group": "Barras",
                 "pages": [
                   "es/api-reference/data-api-proxy_api/bars/overview",
                   "es/api-reference/data-api-proxy_api/bars/get-bars-v2"
                 ]
               },
               {
-                "group": "Opiniones alcistas y bajistas",
+                "group": "Bulls Say Bears Say",
                 "pages": [
                   "es/api-reference/calendar_api/bulls-say-bears-say/overview",
                   "es/api-reference/calendar_api/bulls-say-bears-say/latest-bull-and-bear-cases-for-a-given-ticker-symbol"
@@ -778,7 +786,7 @@
                 ]
               },
               {
-                "group": "Transcripciones de conferencias de resultados",
+                "group": "Transcripciones de conferencias telefónicas",
                 "pages": [
                   "es/api-reference/delivery_api/overview",
                   "es/api-reference/delivery_api/calls/fetch-all-calls",
@@ -795,7 +803,7 @@
                 ]
               },
               {
-                "group": "Operaciones gubernamentales",
+                "group": "Transacciones gubernamentales",
                 "pages": [
                   "es/api-reference/calendar_api/government-trades/overview",
                   "es/api-reference/calendar_api/government-trade-reports/government-trade-reports",
@@ -803,7 +811,7 @@
                 ]
               },
               {
-                "group": "Transacciones de insiders",
+                "group": "Transacciones de iniciados",
                 "pages": [
                   "es/api-reference/calendar_api/insider-transaction/overview",
                   "es/api-reference/calendar_api/insider-transaction/insider-transaction-filing",
@@ -811,26 +819,20 @@
                 ]
               },
               {
-                "group": "Servicio de noticias",
+                "group": "Datos de mercado",
+                "pages": [
+                  "es/api-reference/data-api-proxy_api/market-data/overview",
+                  "es/api-reference/data-api-proxy_api/market-data/market-movers",
+                  "es/api-reference/data-api-proxy_api/market-data/short-interest-data"
+                ]
+              },
+              {
+                "group": "Newsfeed",
                 "pages": [
                   "es/api-reference/news-api_api/news/overview",
                   "es/api-reference/news-api_api/news/get-the-news-items",
                   "es/api-reference/news-api_api/news/returns-the-removed-news-data",
                   "es/api-reference/news-api_api/channels/get-available-news-channels"
-                ]
-              },
-              {
-                "group": "Why Is It Moving (WIIMs)",
-                "pages": [
-                  "es/api-reference/news-api_api/wiims/overview",
-                  "es/api-reference/news-api_api/news/get-wiims"
-                ]
-              },
-              {
-                "group": "Comunicados de prensa",
-                "pages": [
-                  "es/api-reference/news-api_api/press-releases/overview",
-                  "es/api-reference/news-api_api/press-releases/get-press-releases"
                 ]
               },
               {
@@ -841,7 +843,14 @@
                 ]
               },
               {
-                "group": "Cotizaciones retrasadas",
+                "group": "Comunicados de prensa",
+                "pages": [
+                  "es/api-reference/news-api_api/press-releases/overview",
+                  "es/api-reference/news-api_api/press-releases/get-press-releases"
+                ]
+              },
+              {
+                "group": "Cotizaciones en diferido",
                 "pages": [
                   "es/api-reference/data-api-proxy_api/quotedelayed/overview",
                   "es/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
@@ -853,6 +862,13 @@
                   "es/api-reference/ticker-trends-api_api/ticker-trends/overview",
                   "es/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
                   "es/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
+                ]
+              },
+              {
+                "group": "Why Is It Moving (WIIMs)",
+                "pages": [
+                  "es/api-reference/news-api_api/wiims/overview",
+                  "es/api-reference/news-api_api/news/get-wiims"
                 ]
               }
             ]
@@ -870,7 +886,7 @@
                 ]
               },
               {
-                "group": "Información de analistas",
+                "group": "Opiniones de analistas",
                 "pages": [
                   "es/ws-reference/data-websocket/get-analyst-insights-stream"
                 ]
@@ -922,10 +938,10 @@
             ]
           },
           {
-            "tab": "Referencia TCP",
+            "tab": "Referencia de TCP",
             "groups": [
               {
-                "group": "Transmisión TCP",
+                "group": "Transmisión vía TCP",
                 "pages": [
                   "es/tcp-reference/introduction",
                   "es/tcp-reference/connection",
@@ -933,7 +949,7 @@
                 ]
               },
               {
-                "group": "Bibliotecas cliente",
+                "group": "Librerías de cliente",
                 "pages": [
                   "es/tcp-reference/go-client",
                   "es/tcp-reference/python-client"
@@ -954,16 +970,16 @@
             ]
           },
           {
-            "tab": "SDK",
+            "tab": "Kits de desarrollo de software (SDK)",
             "groups": [
               {
-                "group": "SDK",
+                "group": "SDKs",
                 "pages": [
                   "es/sdks/overview"
                 ]
               },
               {
-                "group": "SDK",
+                "group": "SDKs",
                 "pages": [
                   "es/sdks/languages/java",
                   "es/sdks/languages/node",
@@ -1031,21 +1047,21 @@
                 ]
               },
               {
-                "group": "バー（barデータ）",
+                "group": "バー",
                 "pages": [
                   "ja/api-reference/data-api-proxy_api/bars/overview",
                   "ja/api-reference/data-api-proxy_api/bars/get-bars-v2"
                 ]
               },
               {
-                "group": "強気・弱気コメント",
+                "group": "強気／弱気",
                 "pages": [
                   "ja/api-reference/calendar_api/bulls-say-bears-say/overview",
                   "ja/api-reference/calendar_api/bulls-say-bears-say/latest-bull-and-bear-cases-for-a-given-ticker-symbol"
                 ]
               },
               {
-                "group": "calendar",
+                "group": "カレンダー",
                 "pages": [
                   "ja/api-reference/calendar_api/overview",
                   "ja/api-reference/calendar_api/block-trade/blocktrade-v1",
@@ -1102,7 +1118,7 @@
                 ]
               },
               {
-                "group": "決算説明会の書き起こし",
+                "group": "カンファレンスコール・トランスクリプト",
                 "pages": [
                   "ja/api-reference/delivery_api/overview",
                   "ja/api-reference/delivery_api/calls/fetch-all-calls",
@@ -1119,7 +1135,7 @@
                 ]
               },
               {
-                "group": "政府関係者の取引",
+                "group": "政府関係者による取引",
                 "pages": [
                   "ja/api-reference/calendar_api/government-trades/overview",
                   "ja/api-reference/calendar_api/government-trade-reports/government-trade-reports",
@@ -1135,26 +1151,20 @@
                 ]
               },
               {
+                "group": "市場データ",
+                "pages": [
+                  "ja/api-reference/data-api-proxy_api/market-data/overview",
+                  "ja/api-reference/data-api-proxy_api/market-data/market-movers",
+                  "ja/api-reference/data-api-proxy_api/market-data/short-interest-data"
+                ]
+              },
+              {
                 "group": "ニュースフィード",
                 "pages": [
                   "ja/api-reference/news-api_api/news/overview",
                   "ja/api-reference/news-api_api/news/get-the-news-items",
                   "ja/api-reference/news-api_api/news/returns-the-removed-news-data",
                   "ja/api-reference/news-api_api/channels/get-available-news-channels"
-                ]
-              },
-              {
-                "group": "Why Is It Moving（WIIM）",
-                "pages": [
-                  "ja/api-reference/news-api_api/wiims/overview",
-                  "ja/api-reference/news-api_api/news/get-wiims"
-                ]
-              },
-              {
-                "group": "プレスリリース",
-                "pages": [
-                  "ja/api-reference/news-api_api/press-releases/overview",
-                  "ja/api-reference/news-api_api/press-releases/get-press-releases"
                 ]
               },
               {
@@ -1165,18 +1175,32 @@
                 ]
               },
               {
-                "group": "気配値（遅延）",
+                "group": "プレスリリース",
+                "pages": [
+                  "ja/api-reference/news-api_api/press-releases/overview",
+                  "ja/api-reference/news-api_api/press-releases/get-press-releases"
+                ]
+              },
+              {
+                "group": "遅延気配値",
                 "pages": [
                   "ja/api-reference/data-api-proxy_api/quotedelayed/overview",
                   "ja/api-reference/data-api-proxy_api/quotedelayed/get-delayed-quotes-for-a-list-of-symbols"
                 ]
               },
               {
-                "group": "tickerトレンド",
+                "group": "ティッカー・トレンド",
                 "pages": [
                   "ja/api-reference/ticker-trends-api_api/ticker-trends/overview",
                   "ja/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
                   "ja/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
+                ]
+              },
+              {
+                "group": "なぜ動いているのか（WIIMs）",
+                "pages": [
+                  "ja/api-reference/news-api_api/wiims/overview",
+                  "ja/api-reference/news-api_api/news/get-wiims"
                 ]
               }
             ]
@@ -1194,13 +1218,13 @@
                 ]
               },
               {
-                "group": "アナリスト・インサイト",
+                "group": "アナリストインサイト",
                 "pages": [
                   "ja/ws-reference/data-websocket/get-analyst-insights-stream"
                 ]
               },
               {
-                "group": "カレンダー・データ",
+                "group": "カレンダーデータ",
                 "pages": [
                   "ja/ws-reference/data-websocket/get-calendar-earnings-stream",
                   "ja/ws-reference/data-websocket/get-calendar-ratings-stream",
@@ -1208,7 +1232,7 @@
                 ]
               },
               {
-                "group": "マーケット・センチメント",
+                "group": "市場センチメント",
                 "pages": [
                   "ja/ws-reference/data-websocket/get-bulls-bears-say-stream"
                 ]
@@ -1238,7 +1262,7 @@
                 ]
               },
               {
-                "group": "ウェブフック API",
+                "group": "Webhook API",
                 "pages": [
                   "ja/api-reference/webhook_api/test-webhook-delivery"
                 ]
@@ -1246,10 +1270,10 @@
             ]
           },
           {
-            "tab": "TCP リファレンス",
+            "tab": "TCPリファレンス",
             "groups": [
               {
-                "group": "TCP ストリーミング",
+                "group": "TCPストリーミング",
                 "pages": [
                   "ja/tcp-reference/introduction",
                   "ja/tcp-reference/connection",
@@ -1297,10 +1321,10 @@
             ]
           },
           {
-            "tab": "更新履歴",
+            "tab": "変更履歴",
             "groups": [
               {
-                "group": "更新履歴",
+                "group": "変更履歴",
                 "pages": [
                   "ja/changelog/overview"
                 ]
@@ -1337,7 +1361,7 @@
             ]
           },
           {
-            "tab": "API 레퍼런스",
+            "tab": "API 참조",
             "groups": [
               {
                 "group": "API 문서",
@@ -1355,7 +1379,7 @@
                 ]
               },
               {
-                "group": "바 시세",
+                "group": "Bar 데이터",
                 "pages": [
                   "ko/api-reference/data-api-proxy_api/bars/overview",
                   "ko/api-reference/data-api-proxy_api/bars/get-bars-v2"
@@ -1443,7 +1467,7 @@
                 ]
               },
               {
-                "group": "정부 거래 내역",
+                "group": "정부 매매",
                 "pages": [
                   "ko/api-reference/calendar_api/government-trades/overview",
                   "ko/api-reference/calendar_api/government-trade-reports/government-trade-reports",
@@ -1451,11 +1475,19 @@
                 ]
               },
               {
-                "group": "내부자 거래 내역",
+                "group": "내부자 매매",
                 "pages": [
                   "ko/api-reference/calendar_api/insider-transaction/overview",
                   "ko/api-reference/calendar_api/insider-transaction/insider-transaction-filing",
                   "ko/api-reference/calendar_api/insider-transaction/insider-transaction-owner"
+                ]
+              },
+              {
+                "group": "시장 데이터",
+                "pages": [
+                  "ko/api-reference/data-api-proxy_api/market-data/overview",
+                  "ko/api-reference/data-api-proxy_api/market-data/market-movers",
+                  "ko/api-reference/data-api-proxy_api/market-data/short-interest-data"
                 ]
               },
               {
@@ -1468,24 +1500,17 @@
                 ]
               },
               {
-                "group": "Why Is It Moving (WIIMs)",
-                "pages": [
-                  "ko/api-reference/news-api_api/wiims/overview",
-                  "ko/api-reference/news-api_api/news/get-wiims"
-                ]
-              },
-              {
-                "group": "보도 자료",
-                "pages": [
-                  "ko/api-reference/news-api_api/press-releases/overview",
-                  "ko/api-reference/news-api_api/press-releases/get-press-releases"
-                ]
-              },
-              {
                 "group": "NewsQuantified",
                 "pages": [
                   "ko/api-reference/newsquantified-api_api/overview",
                   "ko/api-reference/newsquantified-api_api/get-newsquantified-data"
+                ]
+              },
+              {
+                "group": "보도자료",
+                "pages": [
+                  "ko/api-reference/news-api_api/press-releases/overview",
+                  "ko/api-reference/news-api_api/press-releases/get-press-releases"
                 ]
               },
               {
@@ -1496,17 +1521,24 @@
                 ]
               },
               {
-                "group": "티커 추세",
+                "group": "티커 트렌드",
                 "pages": [
                   "ko/api-reference/ticker-trends-api_api/ticker-trends/overview",
                   "ko/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
                   "ko/api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
                 ]
+              },
+              {
+                "group": "Why Is It Moving (WIIMs)",
+                "pages": [
+                  "ko/api-reference/news-api_api/wiims/overview",
+                  "ko/api-reference/news-api_api/news/get-wiims"
+                ]
               }
             ]
           },
           {
-            "tab": "웹소켓 레퍼런스",
+            "tab": "웹소켓 참조",
             "groups": [
               {
                 "group": "웹소켓",
@@ -1524,7 +1556,7 @@
                 ]
               },
               {
-                "group": "캘린더 데이터",
+                "group": "calendar 데이터",
                 "pages": [
                   "ko/ws-reference/data-websocket/get-calendar-earnings-stream",
                   "ko/ws-reference/data-websocket/get-calendar-ratings-stream",
@@ -1544,7 +1576,7 @@
                 ]
               },
               {
-                "group": "실적 발표 콜 녹취록",
+                "group": "컨퍼런스 콜 녹취록",
                 "pages": [
                   "ko/ws-reference/data-websocket/get-transcripts-stream"
                 ]
@@ -1552,7 +1584,7 @@
             ]
           },
           {
-            "tab": "웹훅 레퍼런스",
+            "tab": "웹훅 참조",
             "groups": [
               {
                 "group": "웹훅",
@@ -1570,7 +1602,7 @@
             ]
           },
           {
-            "tab": "TCP 레퍼런스",
+            "tab": "TCP 참조",
             "groups": [
               {
                 "group": "TCP 스트리밍",
@@ -1611,7 +1643,7 @@
                 ]
               },
               {
-                "group": "SDK 모음",
+                "group": "SDK",
                 "pages": [
                   "ko/sdks/languages/java",
                   "ko/sdks/languages/node",
