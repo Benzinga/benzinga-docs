@@ -1,0 +1,36 @@
+---
+title: "Overview"
+description: "Overview of the Market Data APIs"
+---
+
+## Introduction
+
+The Market Data APIs provide comprehensive market information including delayed quotes, market movers, and short interest data for securities.
+
+## Market Movers
+
+The Market Movers API provides real-time data on the top gaining, losing, and most actively traded securities. Use this endpoint to identify:
+- **Gainers** - Securities with the highest positive price change
+- **Losers** - Securities with the highest negative price change
+- **Volume Leaders** - Securities with the highest trading volume
+
+Each result includes price, change percentage, volume, market cap, sector, and float data.
+
+### [Get Market Movers](/api-reference/data-api-proxy_api/market-data/market-movers)
+Get top market movers including gainers, losers, and volume leaders.
+
+---
+
+## Short Interest Data
+
+The Short Interest API provides short selling activity data for securities. This data is valuable for understanding market sentiment and identifying potential short squeeze candidates.
+
+Key metrics include:
+- **Total Short Interest** - Number of shares sold short
+- **Days to Cover** - Estimated days to cover short positions based on average volume
+- **Short % of Float** - Percentage of float shares sold short
+- **Month-over-Month Change** - Change in short interest from prior month
+
+### [Get Short Interest Data](/api-reference/data-api-proxy_api/market-data/short-interest-data)
+Get short interest data for securities.
+

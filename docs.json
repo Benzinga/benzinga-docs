@@ -155,6 +155,14 @@
                 ]
               },
               {
+                "group": "Market Data",
+                "pages": [
+                  "api-reference/data-api-proxy_api/market-data/overview",
+                  "api-reference/data-api-proxy_api/market-data/market-movers",
+                  "api-reference/data-api-proxy_api/market-data/short-interest-data"
+                ]
+              },
+              {
                 "group": "Newsfeed",
                 "pages": [
                   "api-reference/news-api_api/news/overview",
@@ -164,10 +172,10 @@
                 ]
               },
               {
-                "group": "Why Is It Moving (WIIMs)",
+                "group": "NewsQuantified",
                 "pages": [
-                  "api-reference/news-api_api/wiims/overview",
-                  "api-reference/news-api_api/news/get-wiims"
+                  "api-reference/newsquantified-api_api/overview",
+                  "api-reference/newsquantified-api_api/get-newsquantified-data"
                 ]
               },
               {
@@ -175,13 +183,6 @@
                 "pages": [
                   "api-reference/news-api_api/press-releases/overview",
                   "api-reference/news-api_api/press-releases/get-press-releases"
-                ]
-              },
-              {
-                "group": "NewsQuantified",
-                "pages": [
-                  "api-reference/newsquantified-api_api/overview",
-                  "api-reference/newsquantified-api_api/get-newsquantified-data"
                 ]
               },
               {
@@ -197,6 +198,13 @@
                   "api-reference/ticker-trends-api_api/ticker-trends/overview",
                   "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-data",
                   "api-reference/ticker-trends-api_api/ticker-trends/get-ticker-trend-list-data"
+                ]
+              },
+              {
+                "group": "Why Is It Moving (WIIMs)",
+                "pages": [
+                  "api-reference/news-api_api/wiims/overview",
+                  "api-reference/news-api_api/news/get-wiims"
                 ]
               }
             ]
