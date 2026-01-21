@@ -148,7 +148,7 @@
                 "group": "Government Trades",
                 "pages": [
                   "api-reference/calendar_api/government-trades/overview",
-                  "api-reference/calendar_api/get-government-trade-reports",
+                  "api-reference/calendar_api/government-trades/get-government-trade-reports",
                   "api-reference/calendar_api/government-trades/get-government-trades"
                 ]
               },
