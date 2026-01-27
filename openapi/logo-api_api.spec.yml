@@ -148,6 +148,12 @@ paths:
           name: max_width
           schema:
             type: string
+        - description: If true, adds flutter_compatible=true query parameter to SVG
+            URLs for flutter_svg library compatibility
+          in: query
+          name: flutter_compatible
+          schema:
+            type: boolean
       responses:
         '200':
           description: Success response with array of LogoClientResponse objects in
