@@ -1,62 +1,61 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: تُعيد واجهة برمجة تطبيقات REST هذه بيانات مُنظَّمة لمكالمات
-    المؤتمرات الهاتفية (conference calls)، وتوزيعات الأرباح (dividends)،
-    والأرباح (بما في ذلك تواريخ الأرباح المستقبلية)، والبيانات الاقتصادية،
-    وإعلانات شركات الأدوية، والتوجيّهات المستقبلية للشركات (guidance)،
-    والاكتتابات العامة الأولية (IPOs)، والعروض الثانوية، والتقييمات (ratings)،
-    وأنشطة الاندماجات والاستحواذات (M&A)، وتجزيئة الأسهم (splits).
+  description: تُرجِع واجهة برمجة التطبيقات REST هذه بيانات منظمة عن مكالمات
+    المؤتمرات، وتوزيعات الأرباح، والأرباح (وتواريخ الأرباح المستقبلية)،
+    والبيانات الاقتصادية، وإعلانات شركات الأدوية، والإرشادات المستقبلية،
+    والاكتتابات العامة الأولية (IPOs)، والعروض الثانوية، والتقييمات، وأنشطة
+    الاندماج والاستحواذ، وتجزئات الأسهم.
   termsOfService: http://swagger.io/terms/
   title: Calendar API
   version: 2.1.0
 paths:
   /api/v1/analyst/insights:
     get:
-      description: يُرجِع تحليلات ورؤى بحثية حول الأوراق المالية، بما في ذلك تحليلات
-        تفصيلية وتوصيات صادرة عن محللين ماليين
+      description: تُرجِع رؤى المحللين ووجهات النظر البحثية حول الأوراق المالية.
       operationId: get-analyst-insights-v1
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تكون إزاحات الصفحات محصورة بين 0 و 100000. قيِّد نتائج الاستعلام
-            باستخدام معاملات أخرى مثل التاريخ. القيمة الافتراضية هي 0
+        - description: إزاحة الصفحة. لأسباب تتعلق بالأداء والتحسين والقيود التقنية، تقتصر
+            إزاحة الصفحات على النطاق من 0 إلى 100000. قيِّد نتائج الاستعلام
+            باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى 1000
+        - description: عدد النتائج المُعادة في الاستجابة. الحد الأقصى 1000
           in: query
           name: pageSize
           schema:
             type: integer
             default: 100
-        - description: تاريخ الاستعلام عن بيانات calendar. يُستخدم كاختصار لـ date_from و
-            date_to إذا كانتا متطابقتين. القيمة الافتراضية هي الأحدث
+        - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُستخدم كاختصار لـ
+            date_from و date_to إذا كانا متطابقين. القيمة الافتراضية هي الأحدث
           in: query
           name: date
           schema:
             type: string
             format: date
-        - description: تاريخ البدء بتنسيق YYYY-MM-DD
+        - description: تاريخ البدء بالتنسيق YYYY-MM-DD
           in: query
           name: date_from
           schema:
             type: string
             format: date
-        - description: تاريخ الانتهاء بتنسيق YYYY-MM-DD
+        - description: تاريخ الانتهاء بالتنسيق YYYY-MM-DD
           in: query
           name: date_to
           schema:
             type: string
             format: date
-        - description: رمز تداول واحد أو أكثر تفصل بينها فواصل. بحد أقصى 50 من رموز الأسهم
+        - description: رمز واحد أو أكثر من رموز التداول، مفصولة بفواصل. الحد الأقصى 50 رمز
+            سهم
           in: query
           name: symbols
           schema:
             type: string
             format: csv
-        - description: محلِّل
+        - description: المحلّل
           in: query
           name: analyst
           schema:
@@ -66,7 +65,7 @@ paths:
           name: rating_id
           schema:
             type: string
-        - description: نوع مفاتيح البحث
+        - description: نوع مفتاح البحث
           in: query
           name: search_keys_type
           schema:
@@ -81,23 +80,24 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: "حقل الفرز، بالتنسيق: field:order (مثال: date:asc). القيمة
-            الافتراضية: desc."
+        - description: "الحقل المراد الفرز بحسبه، بالتنسيق: field:order (مثال: date:asc).
+            القيمة الافتراضية هي desc."
           in: query
           name: sort
           schema:
             type: string
             enum:
               - date
-        - description: الطابع الزمني Unix (بتوقيت UTC) لآخر تحديث للسجلات. سيُجبِر هذا
-            ترتيب الفرز على أن يكون أكبر من أو يساوي الطابع الزمني المُشار إليه
+        - description: أحدث طابع زمني Unix (بتوقيت UTC) لتحديث السجلات. سيُجبِر ذلك ترتيب
+            الفرز على أن يُعيد قيَمًا أكبر من أو تساوي الطابع الزمني المُشار
+            إليه.
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: رؤى المحللين
+          description: آراء المحلّلين
           content:
             application/json:
               schema:
@@ -116,53 +116,54 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: رؤى المحلّلين V1
+      summary: رؤى المحللين V1
       tags:
         - Analyst Insights
   /api/v1/bulls_bears_say:
     get:
-      description: يعيد أحدث الأطروحات الاستثمارية الصعودية والهبوطية لسهم معيّن بناءً
-        على رمز التداول الخاص به. تعرض الأطروحات الصعودية مبررات إيجابية لشراء
-        السهم، بينما تعرض الأطروحات الهبوطية مبررات سلبية لعدم شرائه.
+      description: يجلب أحدث الأطروحات الاستثمارية الصعودية والهبوطية لرمز تداول سهم
+        معيّن. توضّح الأطروحات الصعودية مبرّرات إيجابية لشراء السهم، بينما توضّح
+        الأطروحات الهبوطية مبرّرات سلبية ضد شرائه.
       operationId: get-bulls-say-bears-say-v1
       parameters:
-        - description: رمز تداول السهم المراد الاستعلام عن حالات السوق الصاعدة/الهابطة له
+        - description: رمز التداول للسهم الذي تريد جلب أحداث التفاؤل/التشاؤم له
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            يتم تقييد قيم إزاحة الصفحة بين 0 و100000. حَدِّد نتائج الاستعلام
-            باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0.
+        - description: إزاحة الصفحة (Page offset). لأسباب تتعلق بالتحسين والأداء والقيود
+            التقنية، تُقيَّد إزاحة الصفحة بالقيم من 0 إلى 100000. قيِّد نطاق
+            نتائج الاستعلام باستخدام معاملات أخرى مثل التاريخ. القيمة الافتراضية
+            هي 0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج التي ستُرجَع، بحد أقصى 200
+        - description: عدد النتائج التي سيتم إرجاعها. الحد الأقصى 200.
           in: query
           name: pagesize
           schema:
             type: integer
             maximum: 200
             default: 100
-        - description: الطابع الزمني (Unix timestamp) لآخر تحديث للسجلات بتوقيت UTC.
-            سيُجبِر هذا ترتيب الفرز على أن يكون أكبر من أو يساوي الطابع الزمني
-            المُشار إليه
+        - description: آخر طابع زمني «محدَّث» بصيغة Unix (بتوقيت UTC) للسجلات. يؤدي ذلك
+            إلى تقييد ترتيب الفرز ليكون أكبر من أو مساوياً للطابع الزمني
+            المزوَّد.
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: مصفوفة بالحالات الصعودية والهبوطية لرمز التداول المطلوب
+          description: مصفوفة من أحداث التفاؤل/التشاؤم لرمز التداول المطلوب
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/calendarapi.BullsSayBearsSayJSON"
         "400":
-          description: الطلب غير صالح
+          description: طلب غير صالح
           content:
             application/json:
               schema:
@@ -174,31 +175,31 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "404":
-          description: لم يتم العثور على سيناريو صعودي/هبوطي لرمز التداول المُقدَّم
+          description: لم يتم العثور على حالة صعودية/هبوطية لرمز التداول المحدَّد
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ داخلي في الخادم
+          description: خطأ خادم داخلي
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: أحدث السيناريوهات الصعودية والهبوطية لرمز تداول محدّد
+      summary: أحدث عمليات رفع وتخفيض التقييم لرمز تداول معيّن
       tags:
         - Bulls Say Bears Say
   /api/v1/consensus-ratings:
     get:
-      description: يعيد بيانات إجمالية عن توصيات المحللين الإجماعية لرمز تداول معيّن.
-        يوفّر هذا المسار أسعارًا مستهدفة إجمالية (إجماعية)، وتوزيعًا إجماليًا
-        للتقييمات، وأعداد المحللين استنادًا إلى أحدث توصيات المحللين.
+      description: يُرجِع بيانات مجمَّعة لتصنيفات المحللين الإجماعية لرمز تداول
+        معيَّن. توفّر نقطة النهاية هذه أهداف الأسعار الإجماعية، وتوزيع التصنيفات
+        الإجمالي، وأعداد المحللين استنادًا إلى أحدث تصنيفات المحللين.
       operationId: get-consensus-ratings-v1
       parameters:
-        - description: يحدّد تنسيق الإرجاع. تعمل معاملات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
+        - description: يحدّد صيغة الإرجاع. تعمل معاملات الاستعلام بالطريقة نفسها في كلتا
+            الصيغتين
           in: header
           name: accept
           required: true
@@ -207,38 +208,38 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: عدد النتائج المُرتجَعة. الحد الأقصى 1000
+        - description: عدد النتائج المُرجَعة. الحد الأقصى هو 1000
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: تاريخ بدء الاستعلام من نقطة زمنية معينة
+        - description: تاريخ بداية الاستعلام (من نقطة زمنية محددة)
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ تنفيذ الاستعلام حتى نقطة زمنية معيّنة
+        - description: تاريخ نهاية الاستعلام (إلى نقطة زمنية محددة)
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: رمز تداول واحد للاستعلام عن البيانات المجمّعة له. الحد الأقصى رمز
-            تداول واحد
+        - description: "رمز تداول واحد للاستعلام عن البيانات المُجمَّعة. الحد الأقصى: رمز
+            تداول واحد"
           in: query
           name: parameters[tickers]
           schema:
             type: string
-        - description: لتبسيط التصنيفات المجمَّعة إلى BUY وSELL وHOLD فقط، فإن السلوك
-            الافتراضي سيُرجِع جميع التصنيفات (STRONG_BUY, BUY, HOLD, SELL,
-            STRONG_SELL)
+        - description: لتبسيط التقييمات المُجمَّعة بحيث تقتصر على BUY و SELL و HOLD؛
+            الإعداد الافتراضي يعيد جميع التقييمات (STRONG_BUY و BUY و HOLD و
+            SELL و STRONG_SELL)
           in: query
           name: simplify
           schema:
             type: boolean
             default: false
-        - description: لتجميع التقييمات إما حسب العدد أو حسب النسبة المئوية
+        - description: لتجميع التقييمات إمّا حسب العدد أو النسبة المئوية
           in: query
           name: aggregate_type
           schema:
@@ -255,7 +256,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/calendarapi.ConsensusRating"
         "204":
-          description: لا محتوى
+          description: لا يوجد محتوى
           content:
             application/json:
               schema:
@@ -267,58 +268,59 @@ paths:
               schema:
                 type: string
         "500":
-          description: خطأ داخلي
+          description: خطأ داخلي في الخادم
           content:
             application/json:
               schema:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: يُرجِع بيانات إجماع تصنيفات المحللين
+      summary: يعيد بيانات إجماع تقييمات المحللين
       tags:
         - consensus_ratings
   /api/v1/erx-gaps:
     get:
-      description: يُرجِع بيانات فجوات تفاعل السعر مع الأرباح، والتي ترصد فجوات
-        الأسعار الكبيرة التي تلي إعلانات الأرباح
+      description: يعيد بيانات فجوة رد الفعل على الأرباح، والتي تتتبّع الفجوات السعرية
+        الكبيرة التي تلي إعلانات الأرباح
       operationId: get-erx-gaps
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والجوانب التقنية، يتم
-            تقييد إزاحات الصفحات بين 0 و100000. قيِّد نتائج الاستعلام باستخدام
-            معاملات أخرى مثل التاريخ. القيمة الافتراضية هي 0
+        - description: إزاحة الصفحة (Page offset). لأسباب تتعلق بالتحسين والأداء
+            والاعتبارات التقنية، تُقيَّد إزاحات الصفحات من 0 إلى 100000. قيِّد
+            نتائج الاستعلام باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية
+            هي 0.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى 1000
+        - description: عدد النتائج المُعادة. الحد الأقصى هو 1000.
           in: query
           name: pageSize
           schema:
             type: integer
             default: 100
-        - description: تاريخ الاستعلام عن بيانات calendar. يُستخدم كاختصار لـ date_from و
-            date_to إذا كانتا متطابقتين. الإعداد الافتراضي هو آخر تاريخ متاح
+        - description: التاريخ المراد الاستعلام عنه لبيانات calendar. يُستخدم كاختصار
+            لكلٍّ من date_from و date_to عندما تكونان متساويتين. القيمة
+            الافتراضية هي أحدث البيانات المتاحة.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: date
-        - description: تاريخ البدء بتنسيق YYYY-MM-DD
+        - description: تاريخ البدء بالتنسيق YYYY-MM-DD.
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: date
-        - description: تاريخ الانتهاء بالتنسيق YYYY-MM-DD
+        - description: تاريخ الانتهاء بالتنسيق YYYY-MM-DD.
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: date
-        - description: الطابع الزمني (Unix) لآخر مرة كانت السجلات محدَّثة فيها (بتوقيت
-            UTC). سيؤدي ذلك إلى فرض ترتيب فرز تكون فيه القيم أكبر من أو تساوي
-            الطابع الزمني المُشار إليه
+        - description: أحدث طابع زمني من نوع Unix للسجلات (UTC). سيؤدي ذلك إلى فرض أن يكون
+            ترتيب الفرز أكبر من أو يساوي الطابع الزمني المشار إليه
           in: query
           name: updated
           schema:
@@ -334,7 +336,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/calendarapi.ErxGapJSON"
         "400":
-          description: طلب غير صحيح
+          description: طلب غير صالح
           content:
             application/json:
               schema:
@@ -343,7 +345,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ داخلي في الخادم
+          description: خطأ في الخادم الداخلي
           content:
             application/json:
               schema:
@@ -358,8 +360,8 @@ paths:
         - ERx Gaps
   /api/v1/government_trade_reports:
     get:
-      description: يُرجِع تقارير مفصّلة حول إفصاحات التداول الحكومية، بما في ذلك
-        تقارير المعاملات الدورية التي يقدّمها أعضاء الكونغرس
+      description: يعيد تقارير مفصّلة عن إفصاحات التداولات الحكومية، بما في ذلك تقارير
+        المعاملات الدورية المقدَّمة من أعضاء الكونغرس
       operationId: get-government-trade-reports
       parameters:
         - description: رقم الصفحة
@@ -372,13 +374,13 @@ paths:
           name: pageSize
           schema:
             type: integer
-        - description: من
+        - description: تاريخ من
           in: query
           name: date_from
           schema:
             type: integer
             format: int64
-        - description: تاريخ الانتهاء
+        - description: تاريخ إلى
           in: query
           name: date_to
           schema:
@@ -396,7 +398,7 @@ paths:
           schema:
             type: integer
             format: int64
-        - description: غرفة
+        - description: المجلس
           in: query
           name: chamber
           schema:
@@ -409,7 +411,7 @@ paths:
           name: fields
           schema:
             type: string
-        - description: نوع مفاتيح البحث
+        - description: نوع مفتاح البحث
           in: query
           name: search_keys_type
           schema:
@@ -424,7 +426,7 @@ paths:
             type: string
       responses:
         "200":
-          description: تقارير التجارة الحكومية
+          description: تقارير تداولات الحكومة
           content:
             application/json:
               schema:
@@ -443,54 +445,54 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: تقارير التجارة الحكومية
+      summary: تقارير التداولات الحكومية
       tags:
         - Government Trade Reports
   /api/v1/government_trades:
     get:
-      description: تُرجع صفقات تداول المسؤولين الحكوميين، بما في ذلك المعاملات التي
-        يجريها أعضاء مجلس النواب الأمريكي ومجلس الشيوخ
+      description: يعيد بيانات تداولات المسؤولين الحكوميين، بما في ذلك الصفقات التي
+        يجريها أعضاء مجلس النواب الأمريكي ومجلس الشيوخ الأمريكي
       operationId: get-government-trades
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بتحسين الأداء واعتبارات تقنية، يتم تقييد
-            إزاحة الصفحات بين 0 و100000. قَيِّد نتائج الاستعلام باستخدام معلمات
-            أخرى مثل التاريخ. القيمة الافتراضية هي 0
+        - description: إزاحة الصفحة. لأغراض التحسين والأداء والأسباب التقنية، تُضبط إزاحة
+            الصفحات بين 0 و100000. قيِّد نتائج الاستعلام باستخدام معلمات أخرى
+            مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُرجعة. الحد الأقصى 1000
+        - description: عدد النتائج المُعادة. الحد الأقصى 1000
           in: query
           name: pagesize
           schema:
             type: integer
             default: 100
-        - description: تاريخ البدء بتنسيق YYYY-MM-DD
+        - description: تاريخ البداية بتنسيق YYYY-MM-DD
           in: query
           name: date_from
           schema:
             type: string
             format: date
-        - description: تاريخ الانتهاء بتنسيق YYYY-MM-DD
+        - description: تاريخ النهاية بتنسيق YYYY-MM-DD
           in: query
           name: date_to
           schema:
             type: string
             format: date
-        - description: طابع وقت يونكس (UTC) لآخر تحديث للسجلات. سيؤدي ذلك إلى فرض ترتيب
-            فرز بحيث تكون القيم أكبر من أو مساوية للطابع الزمني المحدَّد
+        - description: آخر طابع زمني Unix (UTC) لتحديث السجلات. يؤدي ذلك إلى إجبار ترتيب
+            الفرز على أن يكون أكبر من أو يساوي الطابع الزمني المحدَّد
           in: query
           name: updated_since
           schema:
             type: integer
-        - description: التاريخ بتنسيق YYYY-MM-DD
+        - description: تاريخ بتنسيق YYYY-MM-DD
           in: query
           name: date
           schema:
             type: string
             format: date
-        - description: غرفة
+        - description: الغرفة
           in: query
           name: chamber
           schema:
@@ -503,7 +505,7 @@ paths:
           name: fields
           schema:
             type: string
-        - description: نوع مفاتيح البحث
+        - description: نوع مفتاح البحث
           in: query
           name: search_keys_type
           schema:
@@ -537,54 +539,55 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: تداولات الحكومة
+      summary: التداولات الحكومية
       tags:
         - Government Trades
   /api/v1/sec/insider_transactions/filings:
     get:
-      description: يُرجِع إفصاحات معاملات المطلعين من نموذج SEC Form 4، بما في ذلك
-        عمليات شراء وبيع الأسهم وتنفيذ الخيارات من قبل المطلعين في الشركة
+      description: يعيد إفصاحات معاملات المطلعين من نموذج SEC Form 4، بما في ذلك
+        عمليات شراء وبيع الأسهم وتنفيذ الخيارات التي يقوم بها المطلعون في الشركة
       operationId: get-insider-transaction-filing
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بتحسين الأداء والاعتبارات التقنية،
-            تُقيَّد إزاحات الصفحات بين 0 و100000. يمكنك حصر نتائج الاستعلام
-            باستخدام معاملات أخرى مثل التاريخ. القيمة الافتراضية هي 0
+        - description: إزاحة الترقيم الصفحي. لأسباب تتعلق بالتحسين والأداء واعتبارات
+            تقنية، تُقيَّد إزاحة الترقيم بين 0 و100000. قيِّد نتائج الاستعلام
+            باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُسترجَعة. الحد الأقصى 1000
+        - description: عدد النتائج المُرجَعة. الحد الأقصى هو 1000
           in: query
           name: pagesize
           schema:
             type: integer
             default: 100
-        - description: تاريخ البدء بتنسيق YYYY-MM-DD
+        - description: تاريخ البدء بصيغة YYYY-MM-DD
           in: query
           name: date_from
           schema:
             type: string
             format: date
-        - description: تاريخ الانتهاء بتنسيق YYYY-MM-DD
+        - description: تاريخ الانتهاء بصيغة YYYY-MM-DD
           in: query
           name: date_to
           schema:
             type: string
             format: date
-        - description: الطابع الزمني بنظام Unix (UTC) لآخر تحديث للسجلات. سيؤدي ذلك إلى
-            فرض ترتيب الفرز بحيث يكون أكبر من أو يساوي الطابع الزمني المحدَّد
+        - description: الطابع الزمني بنظام Unix لآخر السجلات المحدَّثة (بتوقيت UTC). يؤدي
+            ذلك إلى فرض ترتيب الفرز بحيث يكون أكبر من أو يساوي الطابع الزمني
+            المحدَّد
           in: query
           name: updated_since
           schema:
             type: integer
-        - description: التاريخ بتنسيق YYYY-MM-DD
+        - description: التاريخ بالصيغة YYYY-MM-DD
           in: query
           name: date
           schema:
             type: string
             format: date
-        - description: غرفة
+        - description: الغرفة
           in: query
           name: chamber
           schema:
@@ -612,7 +615,7 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: العرض
+        - description: طريقة العرض
           in: query
           name: display
           schema:
@@ -622,7 +625,7 @@ paths:
               - nested
       responses:
         "200":
-          description: صفقات المطلعين
+          description: معاملة المطلعين
           content:
             application/json:
               schema:
@@ -634,24 +637,24 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ داخلي في الخادم
+          description: خطأ في الخادم الداخلي
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: إفصاح عن تعاملات المطلعين
+      summary: إيداع صفقة مطّلع داخلي
       tags:
         - Insider Transaction
   /api/v1/signal/block_trade:
     get:
-      description: تعيد بيانات صفقات الكتل، بما في ذلك الصفقات الضخمة على نحو غير
-        اعتيادي التي قد تدل على نشاط تداول مؤسسي
+      description: يُرجِع بيانات صفقات الكتل (Block Trades)، والتي تتضمن الصفقات ذات
+        الأحجام الكبيرة على نحو غير معتاد وقد تشير إلى نشاط تداول مؤسسي
       operationId: get-block-trade-v1
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            يتم تقييد إزاحات الصفحات ضمن النطاق من 0 إلى 100000. قَيِّد نتائج
+        - description: إزاحة الصفحة (Page offset). لأسباب متعلقة بالتحسين والأداء والقيود
+            التقنية، تكون قيمة إزاحة الصفحات مقيّدة بين 0 و100000. قيِّد نتائج
             الاستعلام باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
@@ -664,33 +667,34 @@ paths:
           schema:
             type: integer
             default: 100
-        - description: تاريخ البدء بتنسيق YYYY-MM-DD
+        - description: تاريخ البدء بالصيغة YYYY-MM-DD
           in: query
           name: date_from
           schema:
             type: string
             format: date
-        - description: تاريخ الانتهاء بتنسيق YYYY-MM-DD
+        - description: تاريخ الانتهاء بالصيغة YYYY-MM-DD
           in: query
           name: date_to
           schema:
             type: string
             format: date
-        - description: رمز تداول واحد أو أكثر، تفصل بينها فاصلة، وبحد أقصى 50 من رموز الأسهم
+        - description: رمز تداول واحد أو أكثر من رموز التداول مفصولة بفاصلة (قائمة مفصولة
+            بفواصل). الحد الأقصى 50 من رموز الأسهم
           in: query
           name: tickers
           schema:
             type: string
             format: csv
-        - description: آخر وقت لتحديث السجلات بطابع زمني Unix (UTC). سيفرض هذا أن يكون
-            ترتيب الفرز أكبر من أو يساوي الطابع الزمني المشار إليه
+        - description: أحدث طابع زمني بنظام Unix محدَّث للسجلات (بتوقيت UTC). يؤدي ذلك إلى
+            فرض أن يكون ترتيب الفرز أكبر من أو يساوي الطابع الزمني المحدَّد
           in: query
           name: updated
           schema:
             type: integer
       responses:
         "200":
-          description: صفقة ضخمة
+          description: صفقة كبيرة (Block Trade)
           content:
             application/json:
               schema:
@@ -709,24 +713,24 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: BlockTrade الإصدار 1
+      summary: BlockTrade V1
       tags:
         - Block Trade
   /api/v1/signal/halt_resume:
     get:
-      description: يُرجِع معلومات حول إيقاف واستئناف التداول للأوراق المالية، بما في
-        ذلك أسباب الإيقاف وأوقات الاستئناف المتوقعة
+      description: يعيد معلومات حول إيقاف واستئناف تداول الأوراق المالية، بما في ذلك
+        أسباب الإيقاف وأوقات الاستئناف المتوقَّعة
       operationId: get-halt-resume-v1
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تكون قيم إزاحة الصفحة محصورة بين 0 و100000. يمكنك تقييد نتائج
-            الاستعلام باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
+        - description: إزاحة الصفحة. لأغراض التحسين والأداء والأسباب التقنية، تقتصر إزاحات
+            الصفحات على النطاق من 0 إلى 100000. قيِّد نتائج الاستعلام باستخدام
+            معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "عدد النتائج المُعادة. الحد الأقصى: 1000"
+        - description: عدد النتائج المُعادة. الحد الأقصى 1000
           in: query
           name: pageSize
           schema:
@@ -744,21 +748,21 @@ paths:
           schema:
             type: string
             format: date
-        - description: رمز تداول واحد أو أكثر، تفصل بينها فاصلة. الحد الأقصى 50 رمز تداول
+        - description: رمز تداول لسهم واحد أو أكثر، مفصولة بفواصل. الحد الأقصى 50 رمز تداول
           in: query
           name: tickers
           schema:
             type: string
             format: csv
-        - description: الطابع الزمني Unix (بتوقيت UTC) لآخر تحديث للسجلات. سيُجبِر هذا
-            خيار الفرز على أن يكون أكبر من أو يساوي الطابع الزمني المحدَّد
+        - description: طابع زمني Unix (بتوقيت UTC) لآخر مرة تم فيها تحديد أن السجل محدَّث.
+            يؤدي هذا إلى فرض ترتيب فرز أكبر من أو يساوي الطابع الزمني المحدَّد
           in: query
           name: updated
           schema:
             type: integer
       responses:
         "200":
-          description: إيقاف واستئناف
+          description: إيقاف واستئناف التداول
           content:
             application/json:
               schema:
@@ -770,7 +774,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ خادم داخلي
+          description: خطأ في الخادم الداخلي
           content:
             application/json:
               schema:
@@ -782,12 +786,13 @@ paths:
         - Halt Resume
   /api/v1/signal/option_activity:
     get:
-      description: يُرجِع بيانات نشاط الخيارات غير الاعتيادي، بما في ذلك صفقات خيارات
-        كبيرة أو غير اعتيادية قد تشير إلى تداول مبني على معلومات
+      description: يُرجِع بيانات نشاط الخيارات غير الاعتيادي، بما في ذلك صفقات
+        الخيارات الكبيرة أو غير الاعتيادية التي قد تشير إلى تداول مبني على
+        معلومات
       operationId: get-option-activity-v1
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تقتصر قيم إزاحة الصفحة على النطاق من 0 إلى 100000. قيّد نتائج
+        - description: إزاحة الصفحة (offset). لأسباب تتعلق بالتحسين والأداء واعتبارات
+            تقنية، يتم تقييد إزاحة الصفحة بين 0 و100000. يمكنك تقليل نتائج
             الاستعلام باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
@@ -800,59 +805,59 @@ paths:
           schema:
             type: integer
             default: 100
-        - description: التاريخ المراد الاستعلام عنه للحصول على بيانات calendar. يُستخدم
-            كاختصار لـ date_from و date_to إذا كانا متساويين. القيمة الافتراضية
-            هي أحدث تاريخ متاح.
+        - description: التاريخ المطلوب للاستعلام عن بيانات التقويم. اختصار لـ date_from
+            وdate_to إذا كانتا متطابقتين. الوضع الافتراضي هو أحدث البيانات
           in: query
           name: parameters[date]
           schema:
             type: string
             format: date
-        - description: تاريخ البدء بتنسيق YYYY-MM-DD
+        - description: تاريخ البدء بصيغة YYYY-MM-DD
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: date
-        - description: تاريخ الانتهاء بالتنسيق YYYY-MM-DD
+        - description: تاريخ الانتهاء بصيغة YYYY-MM-DD
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: date
-        - description: ترتيب حسب التاريخ
+        - description: الفرز حسب التاريخ
           in: query
           name: parameters[date_sort]
           schema:
             type: string
             enum:
               - date
-        - description: رمز تداول واحد أو أكثر، تفصل بينها فاصلة، وبحد أقصى 50 رمز تداول
+        - description: رمز سهم واحد أو أكثر (قائمة مفصولة بفواصل). الحد الأقصى 50 رمز سهم
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: المعرّف
+        - description: المعرِّف
           in: query
           name: parameters[id]
           schema:
             type: string
-        - description: آخر طابع زمني لتحديث السجلات بنظام Unix (UTC). سيؤدي ذلك إلى فرض أن
-            يكون ترتيب الفرز أكبر من أو يساوي الطابع الزمني المحدَّد
+        - description: الطابع الزمني بنظام Unix لآخر مرة تم فيها تحديث السجلات (UTC). يفرض
+            هذا ترتيب فرز يكون فيه الطابع الزمني أكبر من أو يساوي الطابع الزمني
+            المحدَّد
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: نشاط عقود الخيارات
+          description: نشاط الخيارات
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/calendarapi.OptionActivityJSON"
         "400":
-          description: طلب غير صحيح
+          description: طلب غير صالح
           content:
             application/json:
               schema:
@@ -870,25 +875,24 @@ paths:
         - Option Activity
   /api/v2.1/calendar-removed/:
     get:
-      description: يُرجِع أحداث calendar التي تمت إزالتها أو إلغاؤها من أنواع الأحداث
-        المحددة
+      description: يعيد أحداث التقويم التي تمت إزالتها أو إلغاؤها لأنواع الأحداث المحددة
       operationId: get-removed
       parameters:
-        - description: إزاحة الصفحة. لأسباب متعلقة بتحسين الأداء واعتبارات تقنية، تقتصر
-            إزاحات الصفحات على النطاق من 0 إلى 100000. يمكنك تقييد نتائج
-            الاستعلام باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
+        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والقيود التقنية، تقتصر
+            إزاحات الصفحات على القيم بين 0 و100000. قيِّد نتائج الاستعلام
+            باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى 1000
+        - description: عدد النتائج المُرجَعة. الحد الأقصى هو 1000
           in: query
           name: pageSize
           schema:
             type: integer
             default: 100
-        - description: type
+        - description: النوع
           in: query
           name: type
           schema:
@@ -904,8 +908,9 @@ paths:
               - guidance
               - ma
               - conference calls
-        - description: آخر طابع زمني Unix لتحديث السجلات (UTC). سيؤدي ذلك إلى فرض ترتيب
-            فرز بحيث تكون القيم أكبر من أو تساوي الطابع الزمني المحدَّد
+        - description: آخر طابع زمني بنظام Unix (بتوقيت UTC) تبيَّن عنده أن السجلات كانت
+            محدَّثة. يؤدي ذلك إلى فرض ترتيب فرز بقيم أكبر من أو تساوي الطابع
+            الزمني المحدَّد
           in: query
           name: updated
           schema:
@@ -931,19 +936,19 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: محذوف (v2)
+      summary: الأوراق المالية المحذوفة (v2)
       tags:
         - removed
   /api/v2.1/calendar/conference-calls:
     get:
-      description: يُرجع بيانات مكالمات المؤتمر الهاتفي لفترة محددة و/أو ورقة مالية
-        محددة. مكالمات المؤتمر الهاتفي هي مكالمات مجدولة تناقش فيها إدارة الشركة
-        النتائج المالية الربعية أو السنوية، وتحديثات الأعمال، وتجيب عن أسئلة
+      description: يُرجِع بيانات مكالمات الأرباح للفترة و/أو الورقة المالية المحددة.
+        مكالمات الأرباح هي مكالمات مجدولة تناقش فيها إدارة الشركة النتائج
+        المالية ربع السنوية أو السنوية، وتحديثات الأعمال، وتجيب عن أسئلة
         المحللين والمستثمرين.
       operationId: get-conference-calls
       parameters:
-        - description: يُحدِّد تنسيق الإرجاع. تنطبق معاملات الاستعلام بالطريقة نفسها على
-            كلا التنسيقين
+        - description: يُحدِّد تنسيق الإرجاع. تعمل معلمات الاستعلام بالطريقة نفسها في كلا
+            التنسيقين
           in: header
           name: accept
           required: true
@@ -952,55 +957,56 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تكون إزاحات الصفحات محصورة بين 0 و100000. قيِّد نتائج الاستعلام
-            باستخدام معلمات أخرى مثل التاريخ.
+        - description: إزاحة الصفحات (offset). لأسباب تتعلق بالتحسين والأداء والقيود
+            التقنية، تقتصر الإزاحة على النطاق من 0 إلى 100000. قيِّد نتائج
+            الاستعلام باستخدام معلمات أخرى مثل التاريخ
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى 1000
+        - description: عدد النتائج المُعادة. الحد الأقصى هو 1000
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: "التاريخ الذي يُستعلم عنه للحصول على بيانات calendar. يُستخدم
-            كاختصار للمعاملين date_from وdate_to إذا كانا متساويين. القيمة
-            الافتراضية: أحدث تاريخ متاح"
+        - description: تاريخ الاستعلام عن بيانات التقويم. يُستخدم بديلًا لكلٍّ من
+            date_from وdate_to إذا كانت قيمتهما متطابقة. القيمة الافتراضية هي
+            الأحدث
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ بدء الاستعلام من نقطة زمنية معيّنة
+        - description: تاريخ بداية الفترة الزمنية للاستعلام
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى لحظة زمنية معيّنة
+        - description: تاريخ نهاية الفترة الزمنية للاستعلام
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: رمز تداول واحد أو أكثر، مفصولة بفواصل. الحد الأقصى 50 رمزًا من رموز
-            الأسهم
+        - description: رمز تداول سهم واحد أو أكثر، مفصولين بفاصلة (قائمة رموز مفصولة
+            بفواصل). الحد الأقصى 50 من رموز التداول
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: الطابع الزمني Unix (بتوقيت UTC) لآخر تحديث للسجلات. يؤدي ذلك إلى
-            فرض ترتيب الفرز بحيث يكون أكبر من أو يساوي الطابع الزمني المحدَّد
+        - description: أحدث طابع زمني محدَّث بصيغة Unix (بالتوقيت العالمي UTC) للسجلات.
+            يفرض هذا أن يكون ترتيب الفرز أكبر من أو يساوي ذلك الطابع الزمني
+            المشار إليه
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: نجاح
+          description: ناجح
           content:
             application/json:
               schema:
@@ -1028,19 +1034,18 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: يعيد بيانات مكالمات المؤتمر
+      summary: يُرجِع بيانات مكالمات الأرباح
       tags:
         - conference_calls
   /api/v2.1/calendar/dividends:
     get:
-      description: يُرجِع بيانات توزيعات الأرباح لفترة محددة و/أو لورقة مالية محددة.
-        يتضمّن مبالغ التوزيعات، وتواريخ الانفصال عن التوزيعات (ex-dividend
-        dates)، وتواريخ الدفع، وعوائد التوزيعات، وغيرها من معلومات توزيعات
-        الأرباح ذات الصلة بالأسهم.
+      description: يعيد بيانات توزيعات الأرباح لفترة و/أو أداة مالية محدَّدة. يتضمّن
+        مبالغ التوزيعات، وتواريخ الاستحقاق (ex-dividend)، وتواريخ الدفع، وعائد
+        التوزيعات، وغير ذلك من معلومات توزيعات الأرباح ذات الصلة بالأسهم.
       operationId: get-dividends
       parameters:
-        - description: يُحدِّد تنسيق الإرجاع. تعمل معاملات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
+        - description: يحدِّد تنسيق الاستجابة. تعمل معاملات الاستعلام بالطريقة نفسها في
+            كلا التنسيقين.
           in: header
           name: accept
           required: true
@@ -1049,9 +1054,9 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            يتم تقييد إزاحات الصفحات ضمن النطاق من 0 إلى 100000. حدِّد نتائج
-            الاستعلام باستخدام معلمات أخرى مثل التاريخ.
+        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والقيود التقنية،
+            تُقيَّد قيمة إزاحة الصفحة بين 0 و100000. يمكنك حصر النتائج باستخدام
+            معلمات أخرى مثل التاريخ
           in: query
           name: page
           schema:
@@ -1062,27 +1067,27 @@ paths:
           name: pagesize
           schema:
             type: integer
-        - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُستخدم كاختصار لكل
-            من date_from وdate_to إذا كانتا متطابقتين. القيمة الافتراضية هي أحدث
-            تاريخ.
+        - description: تاريخ الاستعلام لبيانات التقويم. يُستخدم كاختصار للمعلمتين
+            date_from وdate_to إذا كانتا متساويتين. القيمة الافتراضية هي أحدث
+            تاريخ متاح
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ بدء الاستعلام من نقطة زمنية معينة
+        - description: التاريخ الذي يبدأ عنده الاستعلام من نقطة زمنية معينة
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى نقطة زمنية محددة
+        - description: التاريخ الذي ينتهي عنده الاستعلام عند نقطة زمنية معينة
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: حقل تاريخ توزيع الأرباح الذي يُستخدم للفرز (من الأحدث إلى الأقدم)
+        - description: حقل تاريخ توزيع الأرباح المُستخدم للفرز (من الأحدث إلى الأقدم)
           in: query
           name: parameters[date_sort]
           schema:
@@ -1092,7 +1097,7 @@ paths:
               - ex
               - payable
               - record
-        - description: يحدد كيفية التصفية باستخدام عائد التوزيعات. gt = أكبر من، gte =
+        - description: يحدّد طريقة التصفية باستخدام عائد التوزيعات. gt = أكبر من، gte =
             أكبر من أو يساوي، eq = يساوي، lt = أقل من، lte = أقل من أو يساوي
           in: query
           name: parameters[dividend_yield_operation]
@@ -1104,14 +1109,14 @@ paths:
               - eq
               - lte
               - lt
-        - description: قيمة عائد توزيعات الأرباح التي تتم التصفية على أساسها. افتراضيًا،
-            يُستخدم عامل «يساوي» للقيمة المحددة. 1 = ‎100%‎
+        - description: قيمة عائد التوزيعات المستخدمة في التصفية. بشكل افتراضي، تُستخدم
+            المقارنة «يساوي» مع القيمة المحددة. 1 = 100٪
           in: query
           name: parameters[dividend_yield]
           schema:
             type: number
-        - description: مستوى الأهمية الذي تتم التصفية على أساسه. يستخدم مقارنة أكبر من أو
-            يساوي لمستوى الأهمية المحدَّد
+        - description: مستوى الأهمية المستخدم في التصفية. يتم تطبيق عامل «أكبر من أو
+            يساوي» على مستوى الأهمية المحدد
           in: query
           name: parameters[importance]
           schema:
@@ -1123,22 +1128,22 @@ paths:
               - 3
               - 4
               - 5
-        - description: رمز سهم واحد أو أكثر، تفصل بينها فاصلة. الحد الأقصى 50 رمز سهم
+        - description: رمز تداول واحد أو أكثر مفصول بفاصلة (قائمة مفصولة بفواصل). الحد
+            الأقصى 50 من رموز الأسهم
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: الطابع الزمني بنظام Unix (بتوقيت UTC) لآخر تحديث للسجلات. سيُجبِر
-            هذا ترتيب الفرز على أن يكون أكبر من أو يساوي الطابع الزمني المشار
-            إليه
+        - description: أحدث طابع زمني بنظام Unix (بتوقيت UTC) تم عنده تحديث السجلات. يفرض
+            أن يكون ترتيب الفرز أكبر من أو مساويًا للطابع الزمني المحدَّد
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: النجاح
+          description: نجاح
           content:
             application/json:
               schema:
@@ -1171,14 +1176,13 @@ paths:
         - Dividends
   /api/v2.1/calendar/earnings:
     get:
-      description: تُرجِع بيانات الأرباح لفترة محددة و/أو ورقة مالية معينة. تتضمن
-        البيانات قيم ربحية السهم الفعلية وأرقام الإيرادات، بالإضافة إلى
-        التقديرات والمفاجآت والمقارنات التاريخية. تُعَدّ بيانات الأرباح أساسية
-        للمستثمرين لتقييم أداء الشركة.
+      description: يعيد بيانات الأرباح لفترة و/أو ورقة مالية محدَّدة. يتضمن قيم ربحية
+        السهم والإيرادات الفعلية، والتقديرات، والمفاجآت، والمقارنات التاريخية.
+        تُعَدّ بيانات الأرباح عنصرًا أساسيًا للمستثمرين لتقييم أداء الشركة.
       operationId: get-earnings
       parameters:
-        - description: يحدِّد تنسيق الاستجابة. تعمل معلمات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
+        - description: يحدِّد تنسيق القيمة المعادة. تعمل معاملات الاستعلام بالطريقة نفسها
+            لكلا التنسيقين.
           in: header
           name: accept
           required: true
@@ -1187,49 +1191,49 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تُقيَّد قيم إزاحة الصفحة بين 0 و100000. احصر نتائج الاستعلام
-            باستخدام معاملات أخرى مثل التاريخ.
+        - description: إزاحة الصفحات (pagination offset). لأسباب تتعلق بتحسين الأداء
+            والقيود التقنية، تُحَدَّد إزاحة الصفحات ضمن النطاق من 0 إلى 100000.
+            قيِّد نتائج الاستعلام باستخدام معلمات أخرى مثل التاريخ.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُرجَعة. الحد الأقصى 1000
+        - description: عدد النتائج المُرجَعة. الحد الأقصى 1000.
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: التاريخ المستخدم للاستعلام عن بيانات calendar. اختصار لـ date_from
-            و date_to إذا كانتا متطابقتين. وفي حال عدم التحديد، تكون القيمة
-            الافتراضية هي الأحدث
+        - description: التاريخ المطلوب للاستعلام عن بيانات التقويم. يُعد اختصارًا لـ
+            date_from و date_to إذا كانا متطابقين. القيمة الافتراضية هي أحدث
+            تاريخ متاح.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ بدء الاستعلام كنقطة زمنية محددة
+        - description: تاريخ بداية نقطة الزمن التي يبدأ الاستعلام منها.
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى هذه النقطة الزمنية
+        - description: تاريخ نهاية نقطة الزمن التي ينتهي عندها الاستعلام.
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: خيار حقل الفرز لتقويم الأرباح. استخدم `:desc` أو `:asc` لترتيب
-            النتائج
+        - description: خيار ترتيب الحقل في تقويم الأرباح. استخدم ‎`:desc`‎ أو ‎`:asc`‎
+            لتحديد اتجاه الفرز.
           in: query
           name: parameters[date_sort]
           schema:
             type: string
             enum:
               - date
-        - description: مستوى الأهمية للتصفية حسبه. يستخدم مقارنة «أكبر من أو يساوي» مع
-            مستوى الأهمية المحدد
+        - description: مستوى الأهمية لاستخدامه في التصفية. يطبِّق عامل تصفية بشرط أن يكون
+            أكبر من أو يساوي مستوى الأهمية المحدَّد
           in: query
           name: parameters[importance]
           schema:
@@ -1241,15 +1245,16 @@ paths:
               - 3
               - 4
               - 5
-        - description: رمز تداول واحد أو أكثر مفصولة بفواصل. الحد الأقصى 50 رمز تداول
+        - description: رمز واحد أو أكثر من رموز الأسهم، مفصولة بفاصلة (قائمة رموز مفصولة
+            بفواصل). الحد الأقصى 50 من رموز الأسهم
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: الطابع الزمني بنظام Unix (بتوقيت UTC) لآخر تحديث للسجلات. سيؤدي هذا
-            إلى فرض ترتيب فرز بشرط أن يكون أكبر من أو يساوي الطابع الزمني
-            المُشار إليه
+        - description: الطابع الزمني Unix (بتوقيت UTC) لآخر مرة تم فيها تعيين حقل
+            "updated" في السجلات. يجعل ترتيب الفرز أكبر من أو يساوي الطابع
+            الزمني المحدَّد
           in: query
           name: parameters[updated]
           schema:
@@ -1290,13 +1295,13 @@ paths:
   /api/v2.1/calendar/economics:
     get:
       description: يُرجِع بيانات التقويم الاقتصادي، بما في ذلك المؤشرات الاقتصادية
-        والإعلانات والتقارير من دول مختلفة. يتضمن القيم الفعلية وتقديرات الإجماع
-        والقيم السابقة للأحداث الاقتصادية مثل الناتج المحلي الإجمالي، وبيانات
-        التوظيف، ومقاييس التضخم، وغير ذلك.
+        والإصدارات والتقارير من دول مختلفة. يتضمّن القيم الفعلية، والتقديرات
+        التوافقية، والقيم السابقة للأحداث الاقتصادية مثل الناتج المحلي الإجمالي،
+        وبيانات التوظيف، ومؤشرات التضخم، وغيرها.
       operationId: get-economics
       parameters:
-        - description: يحدد تنسيق الإرجاع. تعمل معلمات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
+        - description: يُحدِّد صيغة المخرجات. تعمل معاملات الاستعلام بالطريقة نفسها في
+            كلتا الصيغتين.
           in: header
           name: accept
           required: true
@@ -1305,42 +1310,41 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تقتصر قيم إزاحة الصفحة على المجال من 0 إلى 100000. قَيِّد نتائج
-            الاستعلام باستخدام معلمات أخرى مثل التاريخ.
+        - description: إزاحة الصفحة (Page offset). لأغراض تحسين الأداء واعتبارات تقنية،
+            تقتصر إزاحات الصفحات على النطاق من 0 إلى 100000. قيِّد نتائج
+            الاستعلام باستخدام معاملات أخرى مثل التاريخ.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُرجَعة. الحد الأقصى 1000
+        - description: عدد النتائج المُرجَعة. الحد الأقصى 1000.
           in: query
           name: pagesize
           schema:
             type: integer
             maximum: 1000
-        - description: تاريخ الاستعلام عن بيانات calendar. يُستخدم كصيغة مختصرة لـ
-            date_from وdate_to إذا كان التاريخان متماثلين. القيمة الافتراضية هي
-            أحدث تاريخ متاح
+        - description: تاريخ الاستعلام لبيانات calendar. يُستخدم كاختصار للحقلين date_from
+            و date_to إذا كانتا متطابقتين. القيمة الافتراضية هي الأحدث.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام اعتبارًا من نقطة زمنية معيّنة
+        - description: تاريخ البدء للاستعلام من نقطة زمنية معيّنة.
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى نقطة زمنية معيّنة
+        - description: تاريخ الانتهاء للاستعلام إلى نقطة زمنية معيّنة.
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: مستوى الأهمية الذي تتم التصفية بناءً عليه. يستخدم قيمة أكبر من أو
-            تساوي مستوى الأهمية المحدد
+        - description: مستوى الأهمية الذي تتم التصفية بناءً عليه. يُستخدم معيار "أكبر من
+            أو يساوي" لمستوى الأهمية المحدَّد.
           in: query
           name: parameters[importance]
           schema:
@@ -1349,20 +1353,19 @@ paths:
               - 1
               - 2
               - 3
-        - description: الطابع الزمني بنظام Unix (بتوقيت UTC) لآخر تحديث للسجلات. سيؤدي ذلك
-            إلى فرض ترتيب الفرز بحيث يكون أكبر من أو يساوي الطابع الزمني المشار
-            إليه
+        - description: آخر طابع زمني Unix (بالتوقيت العالمي UTC) محدَّث للسجلات. يجعل
+            ترتيب الفرز يعتمد على شرط "أكبر من أو يساوي" للطابع الزمني المحدَّد.
           in: query
           name: parameters[updated]
           schema:
             type: integer
-        - description: "رمز الدولة المكوَّن من ثلاثة أحرف (مثل: USA، CAN، GBR)"
+        - description: "رمز الدولة المكوَّن من 3 أحرف (مثل: USA، CAN، GBR)."
           in: query
           name: country
           schema:
             type: string
             format: A-Z:3
-        - description: فئة واحدة أو أكثر تفصل بينها فاصلة
+        - description: فئة واحدة أو أكثر مفصولة بفواصل
           in: query
           name: event_category
           schema:
@@ -1370,7 +1373,7 @@ paths:
             format: csv
       responses:
         "200":
-          description: نجاح
+          description: ناجح
           content:
             application/json:
               schema:
@@ -1378,6 +1381,337 @@ paths:
             text/xml:
               schema:
                 $ref: "#/components/schemas/calendarapi.EconomicJSON"
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: يُرجِع بيانات التقويم الاقتصادي
+      tags:
+        - economics
+  /api/v2.1/calendar/fda:
+    get:
+      description: يعيد بيانات موافقات إدارة الغذاء والدواء (FDA)، والتجارب السريرية،
+        وتواريخ PDUFA ‏(Prescription Drug User Fee Act) لشركات الأدوية والتقنيات
+        الحيوية. يتضمّن معلومات عن مراحل تطوير الأدوية، ونتائج التجارب، ونتائج
+        الموافقات، والمعالم التنظيمية.
+      operationId: get-fda
+      parameters:
+        - description: يحدِّد تنسيق الاستجابة. تعمل معاملات الاستعلام بالطريقة نفسها في
+            كلا التنسيقين.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: إزاحة الصفحة (Page offset). لأسباب تتعلق بالتحسين والأداء والقيود
+            التقنية، تقتصر إزاحة الصفحة على النطاق من 0 إلى 100000. قلِّل حجم
+            نتائج الاستعلام باستخدام معلمات أخرى مثل التاريخ
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: عدد النتائج المُعادة. الحد الأقصى هو 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُعد اختصارًا لـ
+            date_from و date_to إذا كانتا متطابقتين. القيمة الافتراضية هي الأحدث
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: تاريخ بدء الاستعلام (من نقطة زمنية معينة)
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: تاريخ انتهاء الاستعلام (إلى نقطة زمنية معينة)
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: التاريخ المستخدم لتصفية نتائج calendar وترتيبها. القيمة الافتراضية
+            هي `announced`
+          in: query
+          name: parameters[date_search_field]
+          schema:
+            type: string
+            enum:
+              - announced
+              - target
+            default: announced
+        - description: "بعض حقول التواريخ (مثل تاريخ الهدف في تقويم FDA) تتضمّن تواريخ
+            تقريبية مثل 2021-Q1. عند التصفية، يمكنك اختيار السماح بمطابقة
+            التواريخ التقريبية، أو فرض مطابقة صارمة للتواريخ بحيث تُعاد فقط
+            التواريخ التي لها تطابق دقيق ضمن النطاق الزمني المحدَّد. القيمة
+            الافتراضية: `TRUE`."
+          in: query
+          name: parameters[date_search_strict]
+          schema:
+            type: boolean
+            default: true
+        - description: واحد أو أكثر من معرّفات الأوراق المالية مفصولة بفواصل (قائمة مفصولة
+            بفواصل). الحد الأقصى 50 ورقة مالية. يجب أن تكون معرّفات الأوراق
+            المالية على هيئة رموز تداول، لأسهم مدرجة في الولايات المتحدة فقط.
+          in: query
+          name: parameters[securities]
+          schema:
+            type: string
+            format: csv
+        - description: الطابع الزمني بنظام Unix (بتوقيت UTC) لآخر مرة جرى فيها تحديث
+            السجلات. سيُقيِّد ذلك ترتيب الفرز بحيث يكون أكبر من أو يساوي الطابع
+            الزمني المحدَّد.
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: نجاح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.FDAJSON"
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: موافقات FDA، والتجارب السريرية، وتواريخ PDUFA
+      tags:
+        - fda
+  /api/v2.1/calendar/guidance:
+    get:
+      description: يعيد بيانات توجيهات الشركة، بما في ذلك توقّعات الأرباح والإيرادات
+        المستقبلية المقدَّمة من إدارة الشركة. يتضمّن نطاقات توجيهات ربحية السهم
+        (حدًّا أدنى/حدًّا أقصى)، ونطاقات توجيهات الإيرادات، والمقارنات مع
+        التوجيهات السابقة. يُعدّ التوجيه عنصرًا أساسيًا لفهم توقّعات الإدارة
+        للأداء المستقبلي.
+      operationId: get-guidance
+      parameters:
+        - description: يُحدِّد تنسيق الاستجابة. تعمل معاملات الاستعلام بالطريقة نفسها في
+            كلا التنسيقين.
+          in: header
+          name: accept
+          required: true
+          schema:
+            type: string
+            enum:
+              - application/json
+            default: application/json
+        - description: إزاحة الصفحات (Page offset). لأسباب تتعلق بتحسين الأداء والقيود
+            التقنية، تُقيَّد قيم إزاحة الصفحات بين 0 و 100000. قيِّد نتائج
+            الاستعلام باستخدام معايير أخرى مثل التاريخ
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: عدد النتائج المُعادة. الحد الأقصى هو 1000
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُستخدم كاختصار
+            للحقلين date_from و date_to عندما تكون قيمتهما متطابقة. القيمة
+            الافتراضية هي أحدث البيانات المتاحة
+          in: query
+          name: parameters[date]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: التاريخ الذي يبدأ منه الاستعلام (نقطة البداية الزمنية)
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: التاريخ الذي ينتهي عنده الاستعلام (نقطة النهاية الزمنية)
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: YYYY-MM-DD
+        - description: مستوى الأهمية الذي سيتم التصفية على أساسه. يُستخدم عامل مقارنة
+            «أكبر من أو يساوي» لمستوى الأهمية المحدَّد
+          in: query
+          name: parameters[importance]
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+        - description: يحدِّد ما إذا كانت عمليات إعادة التوجيه أساسية أو ثانوية أو الكل.
+            القيمة الافتراضية هي Y
+          in: query
+          name: parameters[is_primary]
+          schema:
+            type: string
+            enum:
+              - Y
+              - N
+              - All
+            default: Y
+        - description: رمز واحد أو أكثر من رموز التداول، مفصولة بفواصل (قائمة مفصولة
+            بفواصل). الحد الأقصى 50 رمز سهم
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+            format: csv
+        - description: الطابع الزمني بنظام Unix (بتوقيت UTC) لآخر مرة تبيَّن فيها أن
+            السجلات محدَّثة. سيُجبِر ذلك ترتيب الفرز ليكون أكبر من أو يساوي
+            الطابع الزمني المُشار إليه
+          in: query
+          name: parameters[updated]
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: ناجح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: خطأ في الخادم الداخلي
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: يُرجِع بيانات التوجيه المالي
+      tags:
+        - guidance
+  /api/v2.1/calendar/ipos:
+    get:
+      description: يُرجِع بيانات الطرح العام الأولي (IPO)، بما في ذلك معلومات التسعير،
+        ومديري الاكتتاب، وحالة الصفقة، وتفاصيل الطرح
+      operationId: get-ipos-v21
+      parameters:
+        - description: رقم الصفحة
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: حجم الصفحة
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+        - description: تاريخ الطرح العام الأولي (IPO) بالتنسيق YYYY-MM-DD (مُعامِل جديد
+            مُفضَّل)
+          in: query
+          name: ipo_date
+          schema:
+            type: string
+            format: date
+        - description: تاريخ الطرح العام الأولي بصيغة YYYY-MM-DD (متوقَّف عن الاستخدام)
+          in: query
+          name: parameters[ipo_date]
+          schema:
+            type: string
+            format: date
+        - description: تاريخ البداية بصيغة YYYY-MM-DD
+          in: query
+          name: parameters[date_from]
+          schema:
+            type: string
+            format: date
+        - description: تاريخ النهاية بصيغة YYYY-MM-DD
+          in: query
+          name: parameters[date_to]
+          schema:
+            type: string
+            format: date
+        - description: رموز الأسهم
+          in: query
+          name: parameters[tickers]
+          schema:
+            type: string
+        - description: نوع الطرح العام الأولي
+          in: query
+          name: parameters[ipo_type]
+          schema:
+            type: string
+        - description: وقت التحديث بصيغة طابع زمن Unix
+          in: query
+          name: parameters[updated]
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: عمليات الاكتتابات العامة الأولية
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
+            text/xml:
+              schema:
+                $ref: "#/components/schemas/calendarapi.IPOJSON"
         "400":
           description: طلب غير صالح
           content:
@@ -1398,347 +1732,19 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: يعيد بيانات calendar الاقتصادي
-      tags:
-        - economics
-  /api/v2.1/calendar/fda:
-    get:
-      description: يوفر بيانات عن موافقات هيئة الغذاء والدواء الأمريكية (FDA)،
-        والتجارب السريرية، وتواريخ PDUFA ‏(قانون رسوم مستخدمي الأدوية الموصوفة)
-        لشركات الأدوية وشركات التكنولوجيا الحيوية. يتضمن معلومات حول مراحل تطوير
-        الأدوية، ونتائج التجارب، وقرارات الموافقة، والمعالم التنظيمية الرئيسية.
-      operationId: get-fda
-      parameters:
-        - description: يُحدِّد تنسيق الإرجاع. تعمل معاملات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
-          in: header
-          name: accept
-          required: true
-          schema:
-            type: string
-            enum:
-              - application/json
-            default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تقتصر إزاحات الصفحات على النطاق من 0 إلى 100000. قلِّص نتائج
-            الاستعلام باستخدام معلمات أخرى مثل التاريخ.
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: عدد النتائج المُرجعة. الحد الأقصى 1000
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُعد اختصارًا
-            لاستخدام date_from و date_to عندما يكونان متطابقين. القيمة
-            الافتراضية هي الأحدث.
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: تاريخ بدء الاستعلام من نقطة زمنية معينة
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: تاريخ الاستعلام إلى نقطة زمنية معينة
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: التاريخ المستخدم لتصفية calendar وفرزها. القيمة الافتراضية هي
-            `announced`
-          in: query
-          name: parameters[date_search_field]
-          schema:
-            type: string
-            enum:
-              - announced
-              - target
-            default: announced
-        - description: بعض حقول التواريخ (مثل التاريخ المستهدف في تقويم FDA) تتضمّن تواريخ
-            تقريبية مثل 2021-Q1. عند التصفية، يمكنك اختيار السماح بمطابقة
-            التواريخ التقريبية، أو مطابقة صارمة للتواريخ تبحث فقط عن التواريخ
-            ذات التطابق التام ضمن الفترة الزمنية المحددة. القيمة الافتراضية
-            `TRUE`
-          in: query
-          name: parameters[date_search_strict]
-          schema:
-            type: boolean
-            default: true
-        - description: معرّف ورقة مالية واحد أو أكثر، مفصولة بفواصل. الحد الأقصى 50 ورقة
-            مالية. يجب أن تكون معرّفات الأوراق المالية بصيغة رموز التداول،
-            وللأسهم المدرجة في البورصات الأمريكية فقط
-          in: query
-          name: parameters[securities]
-          schema:
-            type: string
-            format: csv
-        - description: الطابع الزمني يونكس (UTC) لآخر مرة تم فيها تحديث السجلات. يؤدي ذلك
-            إلى فرض ترتيب الفرز ليكون أكبر من أو يساوي الطابع الزمني المحدَّد
-          in: query
-          name: parameters[updated]
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: نجاح
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.FDAJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/calendarapi.FDAJSON"
-        "400":
-          description: طلب غير صحيح
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: خطأ داخلي في الخادم
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: موافقات إدارة الغذاء والدواء (FDA)، التجارب السريرية، وتواريخ PDUFA
-      tags:
-        - fda
-  /api/v2.1/calendar/guidance:
-    get:
-      description: يُرجِع بيانات توجيه الشركات، بما في ذلك توقعات الأرباح والإيرادات
-        المستقبلية المقدَّمة من إدارة الشركة. يتضمن نطاقات توجيه ربحية السهم (حد
-        أدنى/حد أقصى)، ونطاقات توجيه الإيرادات، ومقارنات مع التوجيهات السابقة.
-        يُعَدّ هذا التوجيه عنصرًا حاسمًا لفهم توقعات الإدارة للأداء المستقبلي.
-      operationId: get-guidance
-      parameters:
-        - description: يُحدِّد تنسيق الإرجاع. تعمل معاملات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
-          in: header
-          name: accept
-          required: true
-          schema:
-            type: string
-            enum:
-              - application/json
-            default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات الفنية،
-            تُقيَّد إزاحات الصفحات بين 0 و100000. قيِّد نتائج الاستعلام باستخدام
-            معلمات أخرى مثل التاريخ.
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى 1000
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: التاريخ المطلوب الاستعلام عنه للحصول على بيانات التقويم. يُعد
-            اختصارًا للحقلين date_from وdate_to إذا كانا متساويين. القيمة
-            الافتراضية هي الأحدث.
-          in: query
-          name: parameters[date]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: تاريخ بدء الاستعلام من نقطة زمنية معينة
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: تاريخ الاستعلام إلى لحظة زمنية معيّنة
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: YYYY-MM-DD
-        - description: مستوى الأهمية الذي تتم التصفية بناءً عليه. تُستخدم فيه قيمة أكبر من
-            أو تساوي مستوى الأهمية المحدَّد
-          in: query
-          name: parameters[importance]
-          schema:
-            type: integer
-            enum:
-              - 0
-              - 1
-              - 2
-              - 3
-              - 4
-              - 5
-        - description: يحدّد ما إذا كانت الإرشادات المُعادة أساسية أو ثانوية أو جميعها.
-            القيمة الافتراضية هي Y
-          in: query
-          name: parameters[is_primary]
-          schema:
-            type: string
-            enum:
-              - Y
-              - N
-              - All
-            default: Y
-        - description: رمز تداول واحد أو أكثر، مفصولة بفاصلة، وبحد أقصى 50 رمزًا
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-            format: csv
-        - description: الطابع الزمني (Unix timestamp) لآخر تحديث للسجلات (UTC). سيؤدي ذلك
-            إلى فرض ترتيب الفرز ليكون أكبر من أو مساويًا للطابع الزمني المحدَّد
-          in: query
-          name: parameters[updated]
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: نجاح
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
-        "400":
-          description: طلب غير صالح
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: خطأ داخلي في الخادم
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: يُرجِع بيانات التوجيه
-      tags:
-        - guidance
-  /api/v2.1/calendar/ipos:
-    get:
-      description: يُرجِع بيانات الطرح العام الأولي (IPO)، بما في ذلك معلومات التسعير،
-        ومتعهدي التغطية، وحالة الصفقة، وتفاصيل الطرح
-      operationId: get-ipos-v21
-      parameters:
-        - description: رقم الصفحة
-          in: query
-          name: page
-          schema:
-            type: integer
-        - description: حجم الصفحة
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-        - description: تاريخ الطرح العام الأولي (IPO) بتنسيق YYYY-MM-DD ‏(مَعْلَمة جديدة
-            ومفضَّلة)
-          in: query
-          name: ipo_date
-          schema:
-            type: string
-            format: date
-        - description: تاريخ الطرح العام الأولي بتنسيق YYYY-MM-DD ‏(مهمل)
-          in: query
-          name: parameters[ipo_date]
-          schema:
-            type: string
-            format: date
-        - description: تاريخ البدء بتنسيق YYYY-MM-DD
-          in: query
-          name: parameters[date_from]
-          schema:
-            type: string
-            format: date
-        - description: تاريخ الانتهاء بالتنسيق YYYY-MM-DD
-          in: query
-          name: parameters[date_to]
-          schema:
-            type: string
-            format: date
-        - description: رموز الأسهم
-          in: query
-          name: parameters[tickers]
-          schema:
-            type: string
-        - description: نوع الطرح العام الأولي
-          in: query
-          name: parameters[ipo_type]
-          schema:
-            type: string
-        - description: وقت التحديث بصيغة Unix
-          in: query
-          name: parameters[updated]
-          schema:
-            type: string
-            format: int64
-      responses:
-        "200":
-          description: الطروحات العامة الأولية
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
-        "400":
-          description: طلب غير صحيح
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: خطأ داخلي في الخادم
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-            text/xml:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
       summary: الاكتتابات العامة الأولية v2.1
       tags:
         - ipos
   /api/v2.1/calendar/ma:
     get:
-      description: يُرجِع بيانات الاندماجات والاستحواذات (M&A)، بما في ذلك إعلانات
-        الصفقات، وإتمامها، وتفاصيل عن شركات الاستحواذ والشركات المستهدفة. تتضمن
-        البيانات حجم الصفقة، ونوع الدفع، وحالة الصفقة، والتواريخ
-        المتوقعة/المكتملة لأنشطة توحيد الشركات.
+      description: يُرجِع بيانات عمليات الاندماج والاستحواذ (M&A)، بما في ذلك إعلانات
+        الصفقات، وإتمامها، وتفاصيل الشركات المستحوذة والمستهدفة. تتضمن البيانات
+        حجم الصفقة، وطريقة المقابل المالي، وحالة الصفقة، والتواريخ
+        المتوقَّعة/المكتملة لأنشطة توحيد الشركات.
       operationId: get-ma
       parameters:
-        - description: يُحدِّد تنسيق الاستجابة. تعمل معاملات الاستعلام بالطريقة نفسها في
-            كلا التنسيقين
+        - description: يُحدِّد تنسيق الاستجابة. تعمل معاملات الاستعلام بالطريقة نفسها لكلا
+            التنسيقين.
           in: header
           name: accept
           required: true
@@ -1747,41 +1753,42 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تكون قيم إزاحة الصفحة محصورة بين 0 و100000. قيّد نتائج الاستعلام
-            باستخدام معلمات أخرى مثل التاريخ.
+        - description: إزاحة الصفحة (Page offset). لأسباب متعلقة بالتحسين والأداء
+            والاعتبارات التقنية، تقتصر قيم إزاحة الصفحة على النطاق من 0 إلى
+            100000. قيِّد نتائج الاستعلام باستخدام معاملات أخرى مثل معاملات
+            التاريخ.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُسترجَعة. الحد الأقصى 1000
+        - description: عدد النتائج المُرجَعة. الحد الأقصى هو 1000.
           in: query
           name: pagesize
           schema:
             type: integer
         - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُستخدم كاختصار لـ
-            date_from و date_to إذا كانتا متطابقتين. القيمة الافتراضية هي
+            date_from وdate_to إذا كانت لهما القيمة نفسها. القيمة الافتراضية هي
             الأحدث.
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ البدء بالاستعلام من نقطة زمنية معيّنة
+        - description: تاريخ بداية الاستعلام.
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى نقطة زمنية معينة
+        - description: تاريخ نهاية الاستعلام.
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: مستوى الأهمية الذي تتم التصفية بناءً عليه. تُطبَّق تصفية بقيمة أكبر
-            من أو تساوي مستوى الأهمية المحدَّد
+        - description: مستوى الأهمية الذي ستُطبَّق عليه التصفية. يُستخدَم شرط «أكبر من أو
+            يساوي» لمستوى الأهمية المحدَّد
           in: query
           name: parameters[importance]
           schema:
@@ -1793,21 +1800,23 @@ paths:
               - 3
               - 4
               - 5
-        - description: واحد أو أكثر من رموز التداول، مفصولة بفاصلة. الحد الأقصى 50 رمز سهم
+        - description: رمز واحد أو أكثر من رموز الأسهم مفصولة بفواصل، بحد أقصى 50 رمزًا من
+            رموز الأسهم
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: الطابع الزمني لآخر تحديث للسجلات بصيغة Unix timestamp (بتوقيت UTC).
-            سيُجبِر هذا ترتيب الفرز على أن يكون أكبر من أو يساوي الطابع الزمني
+        - description: الطابع الزمني بنظام Unix (بتوقيت UTC) لآخر مرة جرى فيها تحديث
+            السجلات. يفرض أن يكون ترتيب الفرز «أكبر من أو يساوي» الطابع الزمني
             المحدَّد
           in: query
           name: parameters[updated]
           schema:
             type: integer
-        - description: حقل تاريخ صفقات M&A للفرز (من الأحدث إلى الأقدم للصفقات المتوقعة
-            والمكتملة؛ من الأقدم إلى الأحدث للصفقات المُعلَن عنها)
+        - description: حقل تاريخ عمليات الدمج والاستحواذ الذي يُستخدَم للفرز (من الأحدث
+            إلى الأقدم للسجلات المتوقَّعة والمكتملة، ومن الأقدم إلى الأحدث
+            للسجلات المُعلن عنها)
           in: query
           name: parameters[date_sort]
           schema:
@@ -1846,20 +1855,19 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: يُعيد بيانات الاندماج والاستحواذ
+      summary: يُرجِع بيانات الاندماجات والاستحواذات
       tags:
         - ma
   /api/v2.1/calendar/offerings:
     get:
-      description: يُرجِع بيانات الطروحات الثانوية للشركات المساهمة العامة التي تُصدِر
-        أسهماً إضافية بعد طرحها العام الأولي (IPO). تتضمن البيانات سعر الطرح،
-        وحصيلة الطرح، وعدد الأسهم، والطروحات المسجلة على أساس الرف (Shelf
-        Offerings)، وما إذا كانت الأوراق المالية تُباع على دفعات بمرور الوقت أو
-        دفعة واحدة في تاريخ الطرح.
+      description: يُرجِع بيانات الطرح الثانوي لأسهم الشركات العامة التي تصدر أسهماً
+        إضافية بعد طرحها الأولي للاكتتاب العام (IPO). تتضمن البيانات سعر الطرح،
+        والعائدات، وعدد الأسهم، وعروض الرف (shelf offerings)، وما إذا كانت
+        الأوراق المالية تُباع على دفعات بمرور الوقت أو في تاريخ الطرح الأولي.
       operationId: get-offerings
       parameters:
-        - description: يحدِّد تنسيق الإرجاع. تعمل معلمات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
+        - description: يحدّد تنسيق البيانات المُعادة. تعمل معاملات الاستعلام بالطريقة
+            نفسها في كلا التنسيقين.
           in: header
           name: accept
           required: true
@@ -1868,41 +1876,40 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تُحَدَّد إزاحات الصفحات ضمن النطاق من 0 إلى 100000. قَيِّد نتائج
-            الاستعلام باستخدام معلمات أخرى مثل التاريخ.
+        - description: إزاحة الصفحة (Page offset). لأغراض التحسين والأداء والأسباب
+            التقنية، تُحدَّد إزاحات الصفحات ضمن النطاق من 0 إلى 100000. قيِّد
+            نتائج الاستعلام باستخدام معلمات أخرى مثل التاريخ.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى هو 1000
+        - description: عدد النتائج المُعادة. الحد الأقصى 1000.
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: التاريخ الذي يتم الاستعلام عنده عن بيانات calendar. يُستخدَم
-            كاختصار لـ date_from و date_to عندما يكونان متطابقين. يضبط افتراضيًا
-            على الأحدث.
+        - description: تاريخ الاستعلام لبيانات calendar. يُستخدم كاختصار لـ date_from و
+            date_to إذا كانتا متساويتين. القيمة الافتراضية هي الأحدث تاريخًا
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ بدء الاستعلام من نقطة زمنية محددة
+        - description: تاريخ بداية الفترة الزمنية للاستعلام
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى نقطة زمنية معيّنة
+        - description: تاريخ نهاية الفترة الزمنية للاستعلام
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: مستوى الأهمية المستخدم للتصفية. يستخدم عامل «أكبر من أو يساوي»
-            لمستوى الأهمية المحدَّد
+        - description: مستوى الأهمية المراد التصفية بناءً عليه. تُطبَّق تصفية بشرط أكبر من
+            أو يساوي لمستوى الأهمية المحدَّد
           in: query
           name: parameters[importance]
           schema:
@@ -1914,14 +1921,16 @@ paths:
               - 3
               - 4
               - 5
-        - description: رمز تداول واحد أو أكثر مفصولة بفواصل، بحد أقصى 50 رمز تداول
+        - description: رمز تداول واحد أو أكثر في صورة قائمة رموز مفصولة بفواصل
+            (comma-separated). الحد الأقصى 50 رمز تداول
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: آخر طابع زمني Unix (بتوقيت UTC) جرى فيه تحديث السجلات. سيؤدي ذلك
-            إلى فرض ترتيب فرز بقيمة أكبر من أو تساوي الطابع الزمني المحدَّد
+        - description: طابع زمني بنظام Unix (بتوقيت UTC) لآخر مرة جرى فيها تحديث السجلات.
+            سيُجبِر ذلك ترتيب الفرز على أن يكون أكبر من أو يساوي الطابع الزمني
+            المحدَّد
           in: query
           name: parameters[updated]
           schema:
@@ -1946,7 +1955,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ داخلي في الخادم
+          description: خطأ في الخادم الداخلي
           content:
             application/json:
               schema:
@@ -1956,19 +1965,19 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: يعيد بيانات الطرح الثانوي
+      summary: يُرجِع بيانات الطروحات الثانوية
       tags:
         - offerings
   /api/v2.1/calendar/ratings:
     get:
-      description: يُرجِع بيانات تقييمات المحللين، بما في ذلك رفع التصنيف، وخفضه، وبدء
-        التغطية، وتغييرات السعر المستهدف من محللي وول ستريت. يتضمن التصنيفات
-        الحالية والسابقة، والأسعار المستهدفة، ومعلومات عن المحللين، ومقاييس دقة
-        التصنيفات عند توفرها.
+      description: يعيد بيانات تقييمات المحلّلين بما في ذلك الترقيات، وتخفيضات
+        التقييم، وبدء التغطية، وتغييرات السعر المستهدف من محلّلي وول ستريت.
+        يتضمّن التقييمات الحالية والسابقة، والأسعار المستهدفة، ومعلومات المحلّل،
+        ومقاييس دقّة هذه التقييمات عند توفّرها.
       operationId: get-ratings
       parameters:
-        - description: يُحدِّد تنسيق الإرجاع. تعمل معاملات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
+        - description: يحدّد تنسيق الاستجابة. تعمل معاملات الاستعلام بالطريقة نفسها لكلا
+            التنسيقين.
           in: header
           name: accept
           required: true
@@ -1977,51 +1986,52 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: "قائمة بالحقول المطلوب إرجاعها مفصولة بفواصل. الحقول المتاحة: id،
+        - description: "قائمة مفصولة بفواصل للحقول المطلوب إرجاعها. الحقول المتاحة هي: id،
             date، time، ticker، exchange، name، currency، action_pt،
             action_company، rating_current، pt_current، rating_prior، pt_prior،
             pt_pct_change، url، url_calendar، url_news، analyst، analyst_id،
-            analyst_name، ratings_accuracy، importance، notes، updated. استخدم *
-            لإرجاع جميع الحقول بما في ذلك ratings_accuracy"
+            analyst_name، ratings_accuracy، importance، notes، updated. استخدم
+            الرمز * لإرجاع جميع الحقول، بما في ذلك ratings_accuracy."
           in: query
           name: fields
           schema:
             type: string
             format: csv
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء واعتبارات تقنية، تُحصر
-            إزاحات الصفحات ضمن النطاق من 0 إلى 100000. قيِّد نتائج الاستعلام
-            باستخدام معلمات أخرى مثل التاريخ.
+        - description: إزاحة الصفحة (page offset). لأسباب تتعلق بتحسين الأداء والاعتبارات
+            التقنية، تقتصر قيم إزاحة الصفحات على النطاق بين 0 و100000. قَيِّد
+            نتائج الاستعلام باستخدام معلمات أخرى مثل التاريخ
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى هو 1000
+        - description: عدد النتائج المُعادة في الاستجابة. الحد الأقصى هو 1000
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: تاريخ الاستعلام عن بيانات calendar. يُستخدم كاختصار لـ date_from و
-            date_to إذا كانتا متطابقتين. الإعداد الافتراضي هو الأحدث.
+        - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُعد اختصارًا لـ
+            date_from وdate_to إذا كانتا متطابقتين. القيمة الافتراضية هي أحدث
+            تاريخ متاح
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ بدء الاستعلام من نقطة زمنية معيّنة
+        - description: التاريخ المطلوب للاستعلام منه كنقطة بداية زمنية
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى نقطة زمنية معينة
+        - description: التاريخ المطلوب للاستعلام إليه كنقطة نهاية زمنية
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: مستوى الأهمية الذي تتم التصفية بناءً عليه. يستخدم عامل "أكبر من أو
-            يساوي" لمستوى الأهمية المحدد
+        - description: مستوى الأهمية الذي تتم التصفية بناءً عليه. تُستخدم مقارنة "أكبر من
+            أو يساوي" لمستوى الأهمية المحدَّد
           in: query
           name: parameters[importance]
           schema:
@@ -2033,32 +2043,34 @@ paths:
               - 3
               - 4
               - 5
-        - description: واحد أو أكثر من رموز التداول مفصولة بفاصلة. الحد الأقصى 50 رمز تداول
+        - description: رمز تداول واحد أو أكثر في قائمة مفصولة بفواصل. الحد الأقصى 50 رمز
+            تداول
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: آخر طابع زمني Unix تم تحديثه للسجلات (UTC). سيَفرِض هذا أن يكون
-            ترتيب الفرز أكبر من أو مساويًا للطابع الزمني المشار إليه
+        - description: أحدث طابع زمني محدَّث للسجلات بتنسيق Unix (بالتوقيت العالمي UTC).
+            يؤدي ذلك إلى فرض أن يكون ترتيب الفرز أكبر من أو يساوي الطابع الزمني
+            المحدَّد
           in: query
           name: parameters[updated]
           schema:
             type: integer
-        - description: معرّف محلّل واحد أو أكثر (analyst_id) تفصل بينها فواصل
+        - description: معرّف محلّل واحد أو أكثر (analyst_id) في قائمة مفصولة بفواصل
           in: query
           name: parameters[analyst_id]
           schema:
             type: string
             format: csv
-        - description: معرّف شركة واحد أو أكثر (firm_id)، مفصولة بفواصل
+        - description: معرّف شركة واحد أو أكثر (firm_id) في قائمة مفصولة بفواصل
           in: query
           name: parameters[firm_id]
           schema:
             type: string
             format: csv
-        - description: تصفية النتائج حسب action_company محدد (الإجراء الخاص بالتقييم).
-            لاحظ أن جميع هذه المصطلحات محددة بدقة
+        - description: تصفية حسب action_company معيّن (حقل الإجراء في التقييم). لاحظ أن
+            جميع هذه المصطلحات معرَّفة بدقة
           in: query
           name: parameters[action]
           schema:
@@ -2075,21 +2087,21 @@ paths:
               - Removes
               - Suspends
               - Firm Dissolved
-        - description: قائمة من معرّفات المحللين (الأشخاص) مفصولة بفواصل لإرجاعها. إذا تم
-            إغفالها سيتم إرجاع جميع المحللين المتاحين
+        - description: قائمة مفصولة بفواصل من معرّفات المحللين (الأشخاص) المطلوب إرجاعهم.
+            إذا تم إهماله، فستُرجع جميع سجلات المحللين المتاحة
           in: query
           name: analyst
           schema:
             type: string
             format: csv
-        - description: قائمة بمعرّفات شركات المحللين مفصولة بفواصل ليتم إرجاعها. في حال
-            عدم تحديدها، سيتم إرجاع جميع الشركات المتاحة
+        - description: قائمة مفصولة بفواصل من معرّفات شركات المحللين المطلوب إرجاعها. إذا
+            تم إهماله، فستُرجع جميع شركات المحللين المتاحة
           in: query
           name: firm
           schema:
             type: string
             format: csv
-        - description: بسّط التصنيفات إلى فئات معيارية موحّدة
+        - description: توحيد التصنيفات ضمن فئات معيارية
           in: query
           name: simplify
           schema:
@@ -2097,7 +2109,7 @@ paths:
             default: false
       responses:
         "200":
-          description: نجاح
+          description: ناجح
           content:
             application/json:
               schema:
@@ -2115,7 +2127,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ داخلي في الخادم
+          description: خطأ خادم داخلي
           content:
             application/json:
               schema:
@@ -2125,23 +2137,23 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: يُرجِع بيانات توصيات المحللين
+      summary: تُرجِع بيانات تقييمات المحللين
       tags:
         - ratings
   /api/v2.1/calendar/ratings/analysts:
     get:
-      description: يُرجِع القائمة الكاملة بالمحلّلين الذين يقدّمون التقييمات
+      description: يُرجع القائمة الكاملة للمحللين الذين يقدّمون التصنيفات
       operationId: get-ratings-analysts
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء واعتبارات تقنية، تكون
-            قيم إزاحة الصفحة محصورة بين 0 و100000. حدِّد نتائج الاستعلام
-            باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0.
+        - description: إزاحة (offset) الصفحة. لأسباب تتعلّق بالتحسين والأداء والقيود
+            التقنية، تُقيَّد قيمة الإزاحة بين 0 و100000. قيِّد نتائج الاستعلام
+            باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُرجعة. الحد الأقصى 1000
+        - description: عدد النتائج المُرجَعة. الحد الأقصى 1000
           in: query
           name: pageSize
           schema:
@@ -2152,17 +2164,17 @@ paths:
           name: fields
           schema:
             type: string
-        - description: محلل
+        - description: المحلِّل
           in: query
           name: analyst
           schema:
             type: string
-        - description: اسم المحلل
+        - description: اسم المحلِّل
           in: query
           name: analyst_name
           schema:
             type: string
-        - description: شركة
+        - description: الشركة
           in: query
           name: firm
           schema:
@@ -2172,8 +2184,8 @@ paths:
           name: firm_name
           schema:
             type: string
-        - description: الطابع الزمني بنظام Unix (بتوقيت UTC) لآخر مرة جرى فيها تحديث
-            السجلات. سيُفرَض ترتيب الفرز ليكون أكبر من أو يساوي الطابع الزمني
+        - description: طابع زمني بنظام Unix (بتوقيت UTC) لآخر وقت تم فيه تحديث السجلات.
+            يُجبِر هذا ترتيب الفرز على أن يكون أكبر من أو يساوي الطابع الزمني
             المحدَّد
           in: query
           name: updated
@@ -2181,7 +2193,7 @@ paths:
             type: integer
       responses:
         "200":
-          description: تقييمات المحللين
+          description: محلِّلو التصنيفات
           content:
             application/json:
               schema:
@@ -2199,7 +2211,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ داخلي في الخادم
+          description: خطأ خادم داخلي
           content:
             application/json:
               schema:
@@ -2209,23 +2221,23 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: تصنيفات المحللين
+      summary: محللو التقييمات
       tags:
         - ratings_analysts
   /api/v2.1/calendar/ratings/firms:
     get:
-      description: يُرجِع الشركات المتاحة التي تقدّم تقييمات المحللين
+      description: يعيد الشركات المتاحة التي توفّر تصنيفات المحللين
       operationId: get-ratings-firms
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تُقيَّد قيم إزاحة الصفحة بين 0 و100000. يمكنك حصر نتائج الاستعلام
-            باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
+        - description: إزاحة التصفّح (pagination). لأسباب تتعلق بالتحسين والأداء والقيود
+            التقنية، يتم تقييد إزاحة التصفّح بين 0 و100000. قيِّد نتائج
+            الاستعلام باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى 1000
+        - description: عدد النتائج المُرجَعة. الحد الأقصى 1000
           in: query
           name: pageSize
           schema:
@@ -2236,21 +2248,21 @@ paths:
           name: fields
           schema:
             type: string
-        - description: شركة
+        - description: الشركة
           in: query
           name: firm
           schema:
             type: string
-        - description: الطابع الزمني بنظام Unix (بتوقيت UTC) لآخر مرة تم فيها تحديث
-            السجلات. سيؤدي ذلك إلى فرض ترتيب فرز تكون قيمه أكبر من أو تساوي
-            الطابع الزمني المحدد.
+        - description: الطابع الزمني بنظام Unix (بالتوقيت العالمي المنسَّق UTC) لوقت آخر
+            تحديث للسجلات. يتطلّب هذا أن يكون ترتيب الفرز أكبر من أو يساوي
+            الطابع الزمني المبيَّن
           in: query
           name: updated
           schema:
             type: integer
       responses:
         "200":
-          description: شركات التصنيف
+          description: شركات التصنيفات
           content:
             application/json:
               schema:
@@ -2268,7 +2280,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ داخلي في الخادم
+          description: خطأ خادم داخلي
           content:
             application/json:
               schema:
@@ -2278,19 +2290,20 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: وكالات التصنيف
+      summary: شركات التقييمات
       tags:
         - ratings_firms
   /api/v2.1/calendar/splits:
     get:
-      description: تُرجِع بيانات تجزئة الأسهم بما في ذلك نسب التجزئة، تواريخ الإعلان،
-        تواريخ الاستحقاق (ex-dates)، وتواريخ التوزيع. تحدث تجزئة الأسهم عندما
-        تزيد الشركة أو تُنقِص عدد الأسهم القائمة لضبط سعر السهم. تتضمن البيانات
-        معلومات حول ما إذا كان السهم قابلاً لتداول عقود الخيارات أم لا.
+      description: يُرجِع بيانات تجزئة الأسهم بما في ذلك نسب التجزئة، تواريخ الإعلان،
+        تواريخ الاستحقاق (ex-date)، وتواريخ التوزيع. تحدث تجزئة الأسهم عندما
+        تزيد الشركة أو تُقلِّل عدد الأسهم القائمة لضبط سعر السهم. تتضمّن
+        البيانات معلومات حول ما إذا كان السهم قابلاً لتداول الخيارات
+        (optionable) أم لا.
       operationId: get-splits
       parameters:
-        - description: يحدّد تنسيق الإخراج. تعمل معاملات الاستعلام بالطريقة نفسها لكلا
-            التنسيقين
+        - description: يحدّد تنسيق الإرجاع. تعمل معلمات الاستعلام بالطريقة نفسها في كلا
+            التنسيقين.
           in: header
           name: accept
           required: true
@@ -2299,40 +2312,40 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لتحسين الأداء ولأسباب تقنية، يتم تقييد قيم إزاحة
-            الصفحة من 0 إلى 100000. قيِّد نتائج الاستعلام باستخدام معلمات أخرى
-            مثل التاريخ.
+        - description: إزاحة الصفحة (page offset). لأغراض التحسين والأداء والاعتبارات
+            التقنية، يتم تقييد إزاحة الصفحات بين 0 و100000. قيِّد نتائج
+            الاستعلام باستخدام معلمات أخرى مثل التاريخ.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى 1000
+        - description: عدد النتائج المُعادة، بحد أقصى 1000
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: تاريخ الاستعلام لبيانات calendar. يُعد اختصارًا لـ date_from و
-            date_to إذا كانت قيمتاهما متطابقتين. تكون القيمة الافتراضية هي
-            الأحدث
+        - description: التاريخ المطلوب الاستعلام عنه لجلب بيانات calendar. يُعد اختصارًا
+            لكلٍّ من date_from وdate_to إذا كانتا متطابقتين. القيمة الافتراضية
+            هي الأحدث
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ بدء الاستعلام من نقطة زمنية معينة
+        - description: تاريخ بداية نطاق الاستعلام
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى نقطة زمنية معيّنة
+        - description: تاريخ نهاية نطاق الاستعلام
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: التاريخ الذي تُستخدم على أساسه تصفية بيانات calendar وفرزها. القيمة
+        - description: التاريخ الذي تُستخدَم عليه تصفية وترتيب بيانات calendar. القيمة
             الافتراضية هي `announced`
           in: query
           name: parameters[date_search_field]
@@ -2342,8 +2355,8 @@ paths:
               - announced
               - ex
             default: announced
-        - description: مستوى الأهمية الذي تتم التصفية على أساسه. يستخدم قيمة أكبر من أو
-            تساوي مستوى الأهمية المحددة.
+        - description: مستوى الأهمية الذي تتمّ التصفية بناءً عليه. يُستخدَم معيار أكبر من
+            أو يساوي لمستوى الأهمية المحدَّد
           in: query
           name: parameters[importance]
           schema:
@@ -2355,22 +2368,21 @@ paths:
               - 3
               - 4
               - 5
-        - description: رمز تداول واحد أو أكثر، تفصل بينها فاصلة، وبحد أقصى 50 رمزًا من
-            رموز الأسهم
+        - description: رمز تداول واحد أو أكثر، مفصولة بفاصلة. الحد الأقصى 50 رمز تداول
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: آخر طابع زمني محدث بنظام Unix للسجلات (UTC). سيؤدي ذلك إلى فرض
-            ترتيب الفرز بحيث يكون أكبر من أو يساوي الطابع الزمني المحدَّد
+        - description: آخر طابع زمني بنظام يونكس محدَّث للسجلات (UTC). يفرض أن يكون ترتيب
+            الفرز أكبر من أو يساوي الطابع الزمني المحدَّد
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: نجاح
+          description: ناجح
           content:
             application/json:
               schema:
@@ -2398,19 +2410,19 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: يُرجِع بيانات calendar لتجزئات الأسهم
+      summary: تُرجِع بيانات تقويم تجزئة الأسهم
       tags:
         - splits
   /api/v2.2/calendar/dividends:
     get:
-      description: "يُرجع بيانات توزيعات الأرباح لفترة و/أو ورقة مالية محددة، بما في
-        ذلك تواريخ توزيعات الأرباح المؤكدة وغير المؤكدة. تتضمن V2.2 حقولًا
-        إضافية: confirmed و period و year. يوفّر هذا الإصدار معلومات أكثر
-        تفصيلاً حول حالة تأكيد توزيعات الأرباح ودوريتها."
+      description: "يعيد بيانات توزيعات الأرباح لفترة محددة و/أو ورقة مالية محددة، بما
+        في ذلك تواريخ التوزيعات المؤكَّدة وغير المؤكَّدة. يتضمّن الإصدار v2.2
+        حقولاً إضافية: confirmed وperiod وyear. يوفِّر هذا الإصدار معلومات أكثر
+        تفصيلاً حول حالة تأكيد التوزيعات ودوريتها."
       operationId: get-dividends-v22
       parameters:
-        - description: يُحدِّد تنسيق الإرجاع. تعمل معاملات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
+        - description: يحدِّد تنسيق الاستجابة. تعمل معاملات الاستعلام بالطريقة نفسها لكلا
+            التنسيقين.
           in: header
           name: accept
           required: true
@@ -2419,40 +2431,39 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لتحسين الأداء ولأسباب تقنية، تقتصر إزاحات الصفحات على
-            النطاق من 0 حتى 100000. قيّد نتائج الاستعلام باستخدام معلمات أخرى
-            مثل التاريخ.
+        - description: إزاحة الصفحات (pagination offset). لأسباب متعلقة بالتحسين والأداء
+            واعتبارات تقنية، يتم تقييد إزاحة الصفحات بين 0 و100000. احصر نتائج
+            الاستعلام باستخدام معلمات أخرى مثل التاريخ
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى 1000
+        - description: عدد النتائج المعادة. الحد الأقصى هو 1000
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُستخدم كاختصار لـ
-            date_from وdate_to إذا كان التاريخان متماثلين. تكون القيمة
-            الافتراضية هي أحدث تاريخ.
+        - description: تاريخ طلب بيانات calendar. يُعد اختصارًا للمعاملين date_from
+            وdate_to عندما تكون قيمتهما متطابقة. القيمة الافتراضية هي الأحدث
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ إجراء الاستعلام اعتبارًا من نقطة زمنية معيّنة
+        - description: تاريخ الاستعلام من نقطة زمنية محددة (تاريخ البداية)
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى نقطة زمنية محددة
+        - description: تاريخ الاستعلام حتى نقطة زمنية محددة (تاريخ النهاية)
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: حقل تاريخ توزيع الأرباح للفرز (من الأحدث إلى الأقدم)
+        - description: حقل تاريخ توزيع الأرباح المستخدم للفرز (من الأحدث إلى الأقدم)
           in: query
           name: parameters[date_sort]
           schema:
@@ -2462,9 +2473,8 @@ paths:
               - ex
               - payable
               - record
-        - description: يحدد طريقة التصفية باستخدام عائد الأرباح (dividend yield). gt =
-            أكبر من، gte = أكبر من أو يساوي، eq = يساوي، lt = أقل من، lte = أقل
-            من أو يساوي
+        - description: يحدد كيفية تصفية عائد الأرباح (dividend yield). gt = أكبر من، gte =
+            أكبر من أو يساوي، eq = يساوي، lt = أقل من، lte = أقل من أو يساوي
           in: query
           name: parameters[dividend_yield_operation]
           schema:
@@ -2475,14 +2485,14 @@ paths:
               - eq
               - lte
               - lt
-        - description: قيمة عائد الأرباح (Dividend Yield) المستخدمة كمعيار للتصفية.
-            افتراضيًا يُستخدم عامل المطابقة "يساوي" للقيمة المحددة. 1 = 100٪
+        - description: قيمة عائد الأرباح (dividend yield) المراد التصفية بناءً عليها.
+            افتراضياً يُستخدم عامل «يساوي» لهذه القيمة. 1 = ‎100%‎
           in: query
           name: parameters[dividend_yield]
           schema:
             type: number
-        - description: مستوى الأهمية الذي تتم التصفية بناءً عليه. تُستخدم قيمة أكبر من أو
-            تساوي مستوى الأهمية المحدَّد
+        - description: درجة الأهمية المراد التصفية بناءً عليها. يُستخدم شرط «أكبر من أو
+            يساوي» لدرجة الأهمية المحددة
           in: query
           name: parameters[importance]
           schema:
@@ -2494,15 +2504,15 @@ paths:
               - 3
               - 4
               - 5
-        - description: رمز تداول واحد أو أكثر، مفصولة بفواصل. الحد الأقصى 50 رمزًا من رموز
-            الأسهم
+        - description: رمز تداول واحد أو عدة رموز أسهم مفصولة بفاصلة. الحد الأقصى 50 من
+            رموز الأسهم
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: طابع وقت آخر تحديث للسجلات بتنسيق Unix timestamp (UTC). سيؤدي هذا
-            إلى فرض ترتيب فرز يكون أكبر من أو يساوي الطابع الزمني المحدَّد
+        - description: طابع زمني بصيغة Unix (بتوقيت UTC) لآخر مرة جرى فيها تحديث السجلات.
+            يفرض أن يكون ترتيب الفرز أكبر من أو مساويًا للطابع الزمني المُمرَّر
           in: query
           name: parameters[updated]
           schema:
@@ -2527,7 +2537,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ داخلي في الخادم
+          description: خطأ في الخادم الداخلي
           content:
             application/json:
               schema:
@@ -2537,51 +2547,51 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: أحداث توزيعات الأرباح V2.2
+      summary: أحداث توزيعات الأرباح v2.2
       tags:
         - Dividends
   /api/v2/calendar/events:
     get:
-      description: يُرجِع فعاليات الشركات، بما في ذلك اجتماعات المستثمرين والمؤتمرات
+      description: يُرجِع أحداثًا مؤسسية بما في ذلك اجتماعات المستثمرين والمؤتمرات
         والإعلانات الخاصة
       operationId: get-events
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بالأداء والتحسين والاعتبارات التقنية،
-            تقتصر قيم إزاحة الصفحة على النطاق من 0 إلى 100000. قيّد نتائج
-            الاستعلام باستخدام معايير أخرى مثل التاريخ. القيمة الافتراضية هي 0
+        - description: إزاحة الصفحة (Page offset). لأسباب تتعلق بالتحسين والأداء واعتبارات
+            تقنية أخرى، تُحدَّد إزاحات الصفحات من 0 إلى 100000. قَيِّد نتائج
+            الاستعلام باستخدام معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المعادة. الحد الأقصى 1000
+        - description: عدد النتائج المُعادة. الحد الأقصى 1000
           in: query
           name: pageSize
           schema:
             type: integer
             default: 100
-        - description: التاريخ المطلوب الاستعلام عنه للحصول على بيانات calendar. يُستخدم
-            كاختصار لـ date_from و date_to إذا كانا متطابقين. في حال عدم
-            التحديد، تكون القيمة الافتراضية هي أحدث تاريخ.
+        - description: التاريخ المطلوب للاستعلام للحصول على بيانات التقويم. يُستخدم
+            كاختصار للحقلين date_from و date_to إذا كانا متطابقين. القيمة
+            الافتراضية هي أحدث تاريخ متاح
           in: query
           name: parameters[date]
           schema:
             type: string
             format: date
-        - description: تاريخ البدء بالتنسيق YYYY-MM-DD
+        - description: تاريخ البدء بصيغة YYYY-MM-DD
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: date
-        - description: تاريخ الانتهاء بالصيغة YYYY-MM-DD
+        - description: تاريخ الانتهاء بصيغة YYYY-MM-DD
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: date
-        - description: مستوى الأهمية الذي تتم التصفية بناءً عليه. يستخدم معيار "أكبر من أو
-            يساوي" لمستوى الأهمية المحدّد
+        - description: مستوى الأهمية الذي تتم التصفية بناءً عليه. يُستخدم شرط أكبر من أو
+            يساوي (>=) لمستوى الأهمية المحدَّد
           in: query
           name: parameters[importance]
           schema:
@@ -2593,19 +2603,21 @@ paths:
               - 3
               - 4
               - 5
-        - description: رمز تداول واحد أو أكثر تفصل بينها فواصل، وبحد أقصى 50 رمزًا.
+        - description: رمز تداول واحد أو أكثر ضمن قائمة رموز مفصولة بفواصل
+            (comma-separated). الحد الأقصى 50 رمز تداول
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: الطابع الزمني الأخير لتحديث السجلات بصيغة Unix (بتوقيت UTC). سيؤدي
-            ذلك إلى فرض ترتيب فرز يكون أكبر من أو يساوي الطابع الزمني المحدَّد
+        - description: الطابع الزمني بنظام Unix لآخر مرة تم فيها تحديد أن السجل محدَّث
+            (UTC). يؤدي ذلك إلى تطبيق شرط أكبر من أو يساوي (>=) على الطابع
+            الزمني المحدَّد عند ترتيب النتائج
           in: query
           name: parameters[updated]
           schema:
             type: integer
-        - description: نوع مفاتيح البحث
+        - description: نوع مفاتيح البحث (type)
           in: query
           name: search_keys_type
           schema:
@@ -2652,16 +2664,17 @@ paths:
         - events
   /api/v2/calendar/ipos:
     get:
-      description: تُرجِع بيانات الطرح العام الأولي (IPO)، بما في ذلك معلومات التسعير،
-        ومديري الاكتتاب، وحالة الصفقة، وتفاصيل الطرح. تمثّل عمليات الـ IPO
-        المرحلة التي تطرح فيها الشركة الخاصة أسهمها للجمهور للمرة الأولى. يُرجى
-        ملاحظة أنه بالنسبة لنقطة النهاية الخاصة بـ IPOs، قد لا تُرجِع رموز
-        التداول الجديدة نتائج فورًا لأنها لا تكون مرتبطة تلقائيًا ببيانات الشركة
-        الأساسية. للحصول على أحدث الصفوف، أرسل الطلبات بدون تحديد معامل tickers.
+      description: يعيد بيانات الطرح العام الأولي (IPO)، بما في ذلك معلومات التسعير،
+        ومديري الاكتتاب، وحالة الصفقة، وتفاصيل الطرح. يمثّل الطرح العام الأولي
+        اللحظة التي تطرح فيها الشركة الخاصة أسهمها للاكتتاب العام للمرة الأولى.
+        لاحظ أنه بالنسبة لنقطة النهاية الخاصة بـ IPOs، قد لا تُرجِع الرموز
+        الجديدة نتائج على الفور، لأنها لا ترتبط تلقائيًا ببيانات الشركة
+        الأساسية. للحصول على أحدث السجلات، أرسل الاستعلامات من دون تحديد معلمة
+        رموز الأسهم tickers.
       operationId: get-ipos-v2
       parameters:
-        - description: يحدّد تنسيق الاستجابة. تعمل معاملات الاستعلام بالطريقة نفسها في كلا
-            التنسيقين
+        - description: يحدد تنسيق الاستجابة. تعمل معاملات الاستعلام بالطريقة نفسها في كلا
+            التنسيقين.
           in: header
           name: accept
           required: true
@@ -2670,63 +2683,63 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء واعتبارات تقنية، تقتصر
-            إزاحات الصفحات على النطاق من 0 إلى 100000. حَدِّد نتائج الاستعلام
-            باستخدام معلمات أخرى مثل التاريخ.
+        - description: إزاحة الصفحات (page offset). لأسباب تتعلّق بالتحسينات في الأداء
+            والقيود التقنية، تُقيَّد قيمة إزاحة الصفحات بين 0 و100000. قيِّد
+            نطاق نتائج الاستعلام باستخدام معاملات أخرى مثل التاريخ
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُعادة. الحد الأقصى هو 1000
+        - description: عدد النتائج المُعادة. الحد الأقصى 1000.
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُستخدم كصيغة مختصرة
-            لكلٍّ من date_from و date_to إذا كانتا متساويتين. القيمة الافتراضية
-            هي الأحدث.
+        - description: التاريخ المطلوب للاستعلام عن بيانات calendar. يُستخدم كاختصار
+            للحقلين date_from وdate_to عندما تكون قيمتهما متطابقة. القيمة
+            الافتراضية هي التاريخ الأحدث
           in: query
           name: parameters[date]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ بدء الاستعلام من نقطة زمنية معيّنة
+        - description: تاريخ بداية الفترة الزمنية المراد الاستعلام منها
           in: query
           name: parameters[date_from]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: تاريخ الاستعلام حتى نقطة زمنية معينة
+        - description: تاريخ نهاية الفترة الزمنية المراد الاستعلام حتى
           in: query
           name: parameters[date_to]
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: رمز تداول واحد أو أكثر مفصولًا بفاصلة. الحد الأقصى 50 رمز تداول.
-            يُرجى ملاحظة أن رموز التداول الجديدة قد لا تُرجِع نتائج مباشرة.
+        - description: رمز سهم واحد أو عدة رموز أسهم مفصولة بفواصل. الحد الأقصى 50 رمزًا.
+            لاحظ أن رموز الأسهم الجديدة قد لا تُرجِع نتائج فورًا
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: "نوع أو أكثر من أنواع الطرح العام الأولي (IPO) مفصولة بفاصلة. مثال:
-            Ordinary Shares، SPAC"
+        - description: "نوع طرح عام أولي (IPO) واحد أو أكثر، مفصولة بفواصل. مثال: Ordinary
+            Shares,SPAC"
           in: query
           name: parameters[ipo_type]
           schema:
             type: string
             format: csv
-        - description: الطابع الزمني بنظام Unix لآخر تحديث للسجلات (بالتوقيت العالمي
-            المنسّق UTC). سيؤدي ذلك إلى فرض أن يكون ترتيب الفرز أكبر من أو يساوي
-            الطابع الزمني المحدَّد
+        - description: طابع زمني بأسلوب Unix (بتوقيت UTC) لآخر مرة جرى فيها تحديث السجلات.
+            يؤدي ذلك إلى تقييد ترتيب الفرز بحيث يكون أكبر من أو يساوي الطابع
+            الزمني المحدَّد
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
         "200":
-          description: نجاح
+          description: ناجح
           content:
             application/json:
               schema:
@@ -2744,7 +2757,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/api.ErrorResponse"
         "500":
-          description: خطأ خادم داخلي
+          description: خطأ في الخادم الداخلي
           content:
             application/json:
               schema:
@@ -2754,56 +2767,55 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: يُرجِع بيانات الطروحات العامة الأولية
+      summary: تُرجِع بيانات الاكتتابات العامة الأولية (IPO)
       tags:
         - ipos
   /sec/insider_transactions/owners:
     get:
-      description: يُرجِع معلومات عن مالكي التداولات الداخلية، بما في ذلك مسؤولو
-        الشركة وأعضاء مجلس الإدارة والمالكون المنتفعون
+      description: يعيد معلومات عن مالكي معاملات المطلعين، بما في ذلك مسؤولو الشركة
+        والمديرون والمالكون المستفيدون
       operationId: get-insider-transaction-owner
       parameters:
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تقتصر قيم إزاحة الصفحات على النطاق من 0 إلى 100000. يمكنك تقييد
-            نتائج الاستعلام باستخدام معاملات أخرى مثل التاريخ. القيمة الافتراضية
-            هي 0
+        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والقيود التقنية،
+            تُقيَّد إزاحات الصفحات بين 0 و100000. احصر نتائج الاستعلام باستخدام
+            معلمات أخرى مثل التاريخ. القيمة الافتراضية هي 0
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "عدد النتائج المُعادة. الحد الأقصى: 1000"
+        - description: عدد النتائج المُعادة. الحد الأقصى هو 1000
           in: query
           name: pagesize
           schema:
             type: integer
             default: 100
-        - description: تاريخ البدء بالتنسيق YYYY-MM-DD
+        - description: تاريخ البداية بصيغة YYYY-MM-DD
           in: query
           name: date_from
           schema:
             type: string
             format: date
-        - description: تاريخ الانتهاء بصيغة YYYY-MM-DD
+        - description: تاريخ النهاية بصيغة YYYY-MM-DD
           in: query
           name: date_to
           schema:
             type: string
             format: date
-        - description: الطابع الزمني Unix لآخر مرة كانت فيها السجلات محدَّثة (بتوقيت UTC).
-            سيؤدي هذا إلى فرض ترتيب الفرز ليكون أكبر من أو يساوي الطابع الزمني
-            المشار إليه
+        - description: الطابع الزمني Unix (توقيت UTC) لآخر مرة تم فيها تحديث السجل.
+            سيُجبِر ذلك ترتيب الفرز على أن يكون أكبر من أو يساوي الطابع الزمني
+            المُشار إليه
           in: query
           name: updated_since
           schema:
             type: integer
-        - description: التاريخ بالصيغة YYYY-MM-DD
+        - description: تاريخ بصيغة YYYY-MM-DD
           in: query
           name: date
           schema:
             type: string
             format: date
-        - description: غرفة
+        - description: الغرفة
           in: query
           name: chamber
           schema:
@@ -2816,7 +2828,7 @@ paths:
           name: fields
           schema:
             type: string
-        - description: نوع مفاتيح البحث
+        - description: نوع مفاتيح البحث المستخدمة
           in: query
           name: search_keys_type
           schema:
@@ -2831,7 +2843,7 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: عرض
+        - description: العرض
           in: query
           name: display
           schema:
@@ -2841,7 +2853,7 @@ paths:
               - nested
       responses:
         "200":
-          description: صاحب الصفقة الداخلية
+          description: مالك صفقة التداول الداخلي
           content:
             application/json:
               schema:
@@ -2860,7 +2872,7 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: صاحب التداول الداخلي
+      summary: مالك الصفقة الداخلية
       tags:
         - Insider Transaction
 components:
@@ -2886,14 +2898,19 @@ components:
     calendarapi.AggregateRating:
       properties:
         buy:
+          example: 10
           type: integer
         hold:
+          example: 3
           type: integer
         sell:
+          example: 1
           type: integer
         strong_buy:
+          example: 5
           type: integer
         strong_sell:
+          example: 0
           type: integer
       type: object
     calendarapi.AnalystInsightsJSON:
@@ -2933,22 +2950,31 @@ components:
         aggregate_ratings:
           $ref: "#/components/schemas/calendarapi.AggregateRating"
         aggregate_type:
+          example: 90D
           type: string
         consensus_price_target:
+          example: 195.5
           type: number
         consensus_rating:
+          example: Buy
           type: string
         consensus_rating_val:
+          example: 4.2
           type: number
         high_price_target:
+          example: 225
           type: number
         low_price_target:
+          example: 150
           type: number
         total_analyst_count:
+          example: 19
           type: integer
         unique_analyst_count:
+          example: 15
           type: integer
         updated_at:
+          example: 2024-01-09T16:00:00Z
           type: string
       type: object
     calendarapi.DividendJSON:
@@ -3034,40 +3060,53 @@ components:
     calendarapi.InsiderTransaction:
       properties:
         accession_number:
+          example: 0001127602-24-000123
           type: string
         company_cik:
+          example: "0000320193"
           type: string
         company_name:
+          example: Apple Inc.
           type: string
         company_symbol:
+          example: AAPL
           type: string
         filing_date:
+          example: 2024-01-09T00:00:00Z
           type: string
         footnotes:
           items:
             $ref: "#/components/schemas/calendarapi.SECFootnotes"
           type: array
         form_type:
+          example: "4"
           type: string
         html_url:
+          example: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000320193
           type: string
         id:
+          example: 64a1b2c3d4e5f6789012345
           type: string
         is_10b5:
+          example: true
           type: boolean
         owner:
           $ref: "#/components/schemas/calendarapi.Owner"
         remaining_shares:
+          example: "125000"
           type: string
         remaining_underlying_shares:
+          example: "50000"
           type: string
         traded_percentage:
+          example: "15.5"
           type: string
         transactions:
           items:
             $ref: "#/components/schemas/calendarapi.Transaction"
           type: array
         updated:
+          example: 1704758400
           type: integer
       type: object
     calendarapi.InsiderTransactionFilingDoc:
@@ -3104,18 +3143,25 @@ components:
     calendarapi.Owner:
       properties:
         insider_cik:
+          example: "0001234567"
           type: string
         insider_name:
+          example: Tim Cook
           type: string
         insider_title:
+          example: Chief Executive Officer
           type: string
         is_director:
+          example: true
           type: boolean
         is_officer:
+          example: true
           type: boolean
         is_ten_percent_owner:
+          example: false
           type: boolean
         raw_signature:
+          example: /s/ Tim Cook
           type: string
       type: object
     calendarapi.RatingJSON:
@@ -3161,8 +3207,10 @@ components:
     calendarapi.SECFootnotes:
       properties:
         id:
+          example: F1
           type: string
         text:
+          example: Shares were sold pursuant to a Rule 10b5-1 trading plan
           type: string
       type: object
     calendarapi.SplitJSON:
@@ -3176,42 +3224,57 @@ components:
     calendarapi.Transaction:
       properties:
         acquired_or_disposed:
+          example: D
           type: string
         conversion_exercise_price_derivative:
+          example: "150.25"
           type: string
         date_deemed_execution:
+          example: 2024-01-09T00:00:00Z
           type: string
         date_exercisable:
+          example: 2024-01-09T00:00:00Z
           type: string
         date_expiration:
+          example: 2025-01-09T00:00:00Z
           type: string
         date_transaction:
+          example: 2024-01-09T00:00:00Z
           type: string
         is_derivative:
+          example: false
           type: boolean
         ownership:
+          example: Direct
           type: string
         post_transaction_quantity:
+          example: "250000"
           type: string
         price_per_share:
+          example: "150.25"
           type: string
         remaining_underlying_shares:
+          example: "50000"
           type: string
         security_title:
+          example: Common Stock
           type: string
         shares:
+          example: "10000"
           type: string
         transaction_code:
+          example: S
           type: string
         transaction_id:
+          example: TXN-20240109-001
           type: string
         underlying_security_title:
+          example: Common Stock
           type: string
         underlying_shares:
+          example: "10000"
           type: string
         voluntarily_reported:
+          example: false
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: بيئة الإنتاج
