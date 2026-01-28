@@ -1,0 +1,320 @@
+---
+title: "컨센서스 등급 설명"
+description: "Benzinga가 개별 애널리스트의 추천을 기반으로 컨센서스 등급을 어떻게 계산하는지 알아봅니다"
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+컨센서스 평점은 개별 애널리스트 의견을 하나의 이해하기 쉬운 지표로 집계해, 특정 종목에 대한 애널리스트 심리를 통합적으로 보여 줍니다. 이 가이드는 정보에 기반한 투자 의사결정을 내릴 수 있도록, 컨센서스 평점이 어떻게 산출되는지 설명합니다.
+
+<div id="how-consensus-ratings-are-calculated">
+  ## 컨센서스 등급이 계산되는 방식
+</div>
+
+<div id="step-1-collecting-analyst-ratings">
+  ### 1단계: 애널리스트 의견 수집
+</div>
+
+특정 종목에 대해 이용 가능한 모든 애널리스트 투자의견을 수집합니다. 각 의견에는 다음 정보가 포함됩니다:
+
+* **애널리스트 이름** 및 **소속 기관명**
+* **투자의견 등급** (예: Strong Buy, Buy, Hold, Sell, Strong Sell)
+* **목표가** - 애널리스트가 제시한 목표 주가
+* **업데이트 날짜** - 해당 의견이 발표된 날짜
+
+<div id="step-2-filtering-for-unique-analysts">
+  ### 단계 2: 고유 애널리스트 필터링
+</div>
+
+정확성을 높이고 이중 집계를 방지하기 위해 각 고유 애널리스트-기관 조합에 대해 **가장 최근 등급**만 포함합니다.
+
+**예시:** 예를 들어, Morgan Stanley 소속 애널리스트 John Doe가 한 종목에 여러 번 등급을 부여한 경우, 계산에는 가장 최근 등급만 포함됩니다.
+
+<Note>
+  유효한 목표가가 없는 등급은 분석에서 제외됩니다.
+</Note>
+
+<div id="step-3-categorizing-ratings">
+  ### 3단계: 등급 분류
+</div>
+
+애널리스트 투자의견은 다섯 가지 표준 범주로 분류됩니다:
+
+| 범주 | 수치 값 |
+|----------|---------------|
+| **강력 매도** | 1 |
+| **매도** | 2 |
+| **보유** | 3 |
+| **매수** | 4 |
+| **강력 매수** | 5 |
+
+<div id="step-4-aggregating-ratings">
+  ### 단계 4: 투자의견 집계
+</div>
+
+각 카테고리에 속한 애널리스트 수를 집계합니다.
+
+**집계 예시:**
+
+* 강력 매수: 8명의 애널리스트
+* 매수: 12명의 애널리스트
+* 보유: 5명의 애널리스트
+* 매도: 2명의 애널리스트
+* 강력 매도: 1명의 애널리스트
+
+**총계:** 중복 없는 애널리스트 28명
+
+<div id="step-5-calculating-the-consensus-rating-value">
+  ### 5단계: 컨센서스 등급 값 계산
+</div>
+
+컨센서스 등급 값은 가중평균으로 계산합니다.
+
+```
+Consensus Value = (Strong Buy × 5 + Buy × 4 + Hold × 3 + Sell × 2 + Strong Sell × 1) / Total Analysts
+```
+
+**위의 예시를 기준으로 하면:**
+
+```
+Consensus Value = (8×5 + 12×4 + 5×3 + 2×2 + 1×1) / 28
+Consensus Value = (40 + 48 + 15 + 4 + 1) / 28
+Consensus Value = 108 / 28
+Consensus Value = 3.86
+```
+
+<div id="step-6-determining-the-consensus-rating">
+  ### 6단계: 컨센서스 등급 결정
+</div>
+
+컨센서스 값은 가장 가까운 정수로 반올림한 후, 다음 등급에 매핑됩니다:
+
+| 컨센서스 값 | 표준 등급 | 단순화 등급 |
+|----------------|-----------------|-------------------|
+| **1** | 강력 매도 | 매도 |
+| **2** | 매도 | 매도 |
+| **3** | 보유 | 보유 |
+| **4** | 매수 | 매수 |
+| **5** | 강력 매수 | 매수 |
+
+**이 예시에서:** 3.86은 **4**로 반올림되며, 이는 **&quot;매수&quot;** 컨센서스 등급에 해당합니다.
+
+***
+
+<div id="display-options">
+  ## 표시 옵션
+</div>
+
+<div id="standard-vs-simplified-ratings">
+  ### 표준형 vs. 단순형 Ratings
+</div>
+
+다음 두 가지 표시 형식을 제공합니다.
+
+**표준형 (5개 범주):**
+
+* Strong Sell, Sell, Hold, Buy, Strong Buy
+
+**단순형 (3개 범주):**
+
+* Sell (Strong Sell + Sell 통합)
+* Hold
+* Buy (Buy + Strong Buy 통합)
+
+<div id="count-vs-percentage-display">
+  ### 개수 vs. 백분율 표시
+</div>
+
+**개수 표시:**
+각 범주에 속한 애널리스트 수를 그대로 표시합니다.
+
+**백분율 표시:**
+각 범주에 속한 애널리스트 비율을 표시하며, 합계가 정확히 100%가 되도록 반올림된 정수 백분율로 제공합니다.
+
+**예시:**
+
+* 매수: 71% (애널리스트 20명)
+* 보유: 18% (애널리스트 5명)
+* 매도: 11% (애널리스트 3명)
+
+***
+
+<div id="price-target-calculations">
+  ## 목표 주가 산출
+</div>
+
+<div id="consensus-price-target">
+  ### 컨센서스 목표가
+</div>
+
+모든 애널리스트가 제시한 목표가의 평균:
+
+```
+Consensus PT = Sum of all Price Targets / Number of Analysts
+```
+
+<div id="low-and-high-price-targets">
+  ### 최저 및 최고 목표 주가
+</div>
+
+* **최저 목표 주가:** 모든 애널리스트가 제시한 목표 주가 중 가장 낮은 값
+* **최고 목표 주가:** 모든 애널리스트가 제시한 목표 주가 중 가장 높은 값
+
+이는 애널리스트들이 예상하는 가격의 범위를 나타냅니다.
+
+***
+
+<div id="understanding-the-metrics">
+  ## 지표 이해
+</div>
+
+<div id="total-analyst-count-vs-unique-analyst-count">
+  ### 전체 애널리스트 수 vs. 고유 애널리스트 수
+</div>
+
+* **전체 애널리스트 수:** 수집된 모든 투자의견/평가 수(동일 애널리스트의 여러 평가 포함 가능)
+* **고유 애널리스트 수:** 서로 다른 애널리스트-펌 조합의 개수(계산에 사용)
+
+고유 수치는 각 애널리스트의 의견이 한 번만 반영되도록 하여, 더 정확한 컨센서스를 산출하는 데 도움이 됩니다.
+
+***
+
+<div id="important-considerations">
+  ## 중요 사항
+</div>
+
+<div id="rating-freshness">
+  ### 투자의견 최신성
+</div>
+
+컨센서스 투자의견은 가장 최근 애널리스트 의견을 반영합니다. **Updated At** 타임스탬프는 컨센서스가 마지막으로 계산된 시점을 나타냅니다.
+
+<div id="coverage-depth">
+  ### 커버리지 깊이
+</div>
+
+컨센서스 레이팅은 서로 다른 애널리스트 수가 많을수록 신뢰성이 높습니다. 애널리스트 커버리지가 제한적인 종목(커버하는 애널리스트가 3–5명 미만인 경우)은 컨센서스 레이팅이 상대적으로 덜 안정적일 수 있습니다.
+
+<div id="rating-distribution">
+  ### 투자 의견 분포
+</div>
+
+컨센서스만 보지 말고, 투자 의견이 어떻게 분포되어 있는지도 함께 살펴봐야 합니다. 매수 의견이 50%, 매도 의견이 50%인 종목은 컨센서스가 &quot;보유&quot;로 표시되지만, 이는 애널리스트들 사이의 상당한 의견 차이를 가려버릴 수 있습니다.
+
+***
+
+<div id="example-calculation-walkthrough">
+  ## 예시 계산 과정 살펴보기
+</div>
+
+**XYZ Corporation**에 대한 예시를 단계별로 살펴보겠습니다:
+
+<div id="raw-data-10-analysts">
+  ### 원시 데이터 (애널리스트 10명)
+</div>
+
+| 애널리스트 | 회사 | 투자의견 | 목표가 |
+|---------|------|--------|--------------|
+| 애널리스트 A | Goldman Sachs | 매수 | $150 |
+| 애널리스트 B | JP Morgan | 강력 매수 | $165 |
+| 애널리스트 C | Morgan Stanley | 매수 | $155 |
+| 애널리스트 D | Bank of America | 보유 | $140 |
+| 애널리스트 E | Citigroup | 강력 매수 | $170 |
+| 애널리스트 F | Wells Fargo | 매수 | $152 |
+| 애널리스트 G | Deutsche Bank | 보유 | $145 |
+| 애널리스트 H | Barclays | 매도 | $130 |
+| 애널리스트 I | UBS | 매수 | $158 |
+| 애널리스트 J | Credit Suisse | 강력 매수 | $168 |
+
+<div id="step-by-step-calculation">
+  ### 단계별 계산
+</div>
+
+**1. 고유 애널리스트 필터링:** 10개 평점이 모두 서로 다른 애널리스트로부터 나온 것이므로, 고유 애널리스트 수는 10명입니다(애널리스트 10명 사용).
+
+**2. 개수 집계:**
+
+* Strong Buy: 3
+* Buy: 4
+* Hold: 2
+* Sell: 1
+* Strong Sell: 0
+
+**3. 컨센서스 값 계산:**
+
+```
+(3×5 + 4×4 + 2×3 + 1×2 + 0×1) / 10 = (15 + 16 + 6 + 2 + 0) / 10 = 3.9
+```
+
+**4. 컨센서스 결정:** 3.9를 반올림하면 **4 = &quot;Buy&quot;**
+
+**5. 목표가:**
+
+* 컨센서스 목표가: (150+165+155+140+170+152+145+130+158+168) / 10 = **$153.30**
+* 최저 목표가: **$130**
+* 최고 목표가: **$170**
+
+**6. 비율 분포:**
+
+* Buy: 70% (Strong Buy 30% + Buy 40%)
+* Hold: 20%
+* Sell: 10%
+
+<div id="final-consensus-rating-output">
+  ### 최종 컨센서스 등급 결과
+</div>
+
+```json
+{
+  "consensusRating": "BUY",
+  "consensusRatingValue": 3.9,
+  "consensusPriceTarget": 153.30,
+  "priceTargetLow": 130,
+  "priceTargetHigh": 170,
+  "totalAnalysts": 10,
+  "uniqueAnalysts": 10,
+  "lastUpdated": "2026-01-16T10:30:00Z"
+}
+```
+
+***
+
+<div id="frequently-asked-questions">
+  ## 자주 묻는 질문
+</div>
+
+<AccordionGroup>
+  <Accordion title="총 애널리스트 수와 고유 애널리스트 수가 다른 이유는 무엇인가요?">
+    동일한 기관에 속한 애널리스트가 투자의견을 여러 번 변경한 경우, 총 애널리스트 수에는 모든 변경 건이 포함되지만, 계산에는 가장 최근 투자의견만 사용됩니다(이는 고유 애널리스트 수에 반영됩니다).
+  </Accordion>
+
+  <Accordion title="컨센서스 투자의견은 얼마나 자주 업데이트되나요?">
+    컨센서스 투자의견은 새로운 애널리스트 투자의견이 게시되거나 기존 투자의견이 업데이트될 때마다 다시 계산됩니다.
+  </Accordion>
+
+  <Accordion title="애널리스트 투자의견이 없는 경우에는 어떻게 되나요?">
+    애널리스트 커버리지가 없으면 컨센서스 투자의견을 계산할 수 없습니다. 해당 종목에는 컨센서스 데이터가 표시되지 않습니다.
+  </Accordion>
+
+  <Accordion title="새로운 애널리스트 투자의견이 없어도 컨센서스가 변경될 수 있나요?">
+    아닙니다. 컨센서스는 애널리스트가 새 투자의견을 발행하거나 기존 투자의견을 업데이트할 때에만 변경됩니다.
+  </Accordion>
+</AccordionGroup>
+
+***
+
+<div id="related-endpoints">
+  ## 관련 엔드포인트
+</div>
+
+<CardGroup cols={2}>
+  <Card title="컨센서스 등급 API" icon="chart-bar" href="/ko/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data">
+    주식의 컨센서스 등급 데이터를 조회합니다
+  </Card>
+
+  <Card title="애널리스트 등급 API" icon="users" href="/ko/api-reference/calendar_api/ratings/returns-analyst-ratings-data">
+    개별 애널리스트 등급을 조회합니다
+  </Card>
+</CardGroup>
