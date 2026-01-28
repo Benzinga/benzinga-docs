@@ -1,62 +1,62 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: 이 REST API는 로고를 검색하고 로고 상세 정보를 조회하기 위한 엔드포인트를 제공합니다.
+  description: 이 REST API는 로고를 검색하고 로고 상세 정보를 조회할 수 있는 엔드포인트를 제공합니다.
   termsOfService: http://swagger.io/terms/
   title: NewsQuantified API
   version: 2.0.0
 paths:
   /api/v2/newsquantified:
     get:
-      description: 감성 점수, 연관성 메트릭, 시장 영향 지표를 포함한 정량화된 뉴스 분석 데이터를 조회합니다. 뉴스 보도의 정량적 특성을
-        분석한 구조화된 데이터를 반환하며, 여기에는 감성 극성, 기사 수, 트렌딩 점수, 티커별 메트릭 등이 포함됩니다. 이 엔드포인트를
-        사용하면 알고리즘 트레이딩 및 정량 리서치를 위한 기계가 읽을 수 있는(머신 리더블) 뉴스 분석 데이터에 액세스할 수 있습니다.
+      description: 감성 점수, 연관성 지표, 시장 영향 지표가 포함된 정량화된 뉴스 분석 데이터를 조회합니다. 감성 극성, 기사 수,
+        트렌딩 점수, 티커별 지표 등 뉴스 보도의 정량적 측면을 분석한 구조화된 데이터를 반환합니다. 이 엔드포인트를 사용해 알고리즘
+        트레이딩과 정량적 리서치를 위한 머신 리더블 뉴스 분석 데이터에 액세스할 수 있습니다.
       operationId: get-newsquantified-data
       parameters:
-        - description: "페이지네이션에 사용할 페이지 번호입니다. 0부터 시작하는 인덱스입니다(0 = 첫 번째 페이지, 1 = 두 번째 페이지
+        - description: "페이지네이션에 사용되는 페이지 번호입니다. 0부터 시작하는 인덱스입니다(0 = 첫 번째 페이지, 1 = 두 번째 페이지
             등). 기본값: 0"
           in: query
           name: page
           schema:
             type: integer
-        - description: "페이지당 반환할 결과 수입니다. 기본값: 1000. 최대값: 1000. 가장 최근 데이터를 먼저 반환합니다."
+        - description: "페이지당 반환할 결과 수입니다. 기본값: 1000, 최대값: 1000입니다. 가장 최근 데이터를 먼저 반환합니다."
           in: query
           name: pagesize
           schema:
             type: integer
-        - description: 초 단위의 Unix 타임스탬프(UTC)입니다. 이 타임스탬프 이후에 업데이트된 newsquantified 데이터를
-            반환합니다. 증분 업데이트용으로 사용합니다.
+        - description: 초 단위 Unix 타임스탬프(UTC)입니다. 이 타임스탬프 이후에 업데이트된 newsquantified 데이터를
+            반환합니다. 증분 업데이트용으로 사용하십시오.
           in: query
           name: updated_since
           schema:
             type: integer
-        - description: "결과를 필터링하기 위한 주식 티커 심볼의 쉼표(콤마) 구분 목록입니다(예: AAPL,MSFT,TSLA). 지정한 종목에
-            대한 분석 정보만 반환합니다."
+        - description: "결과를 필터링하기 위한 주식 티커 심볼의 쉼표로 구분된 목록입니다(예: AAPL, MSFT, TSLA). 지정한 종목에
+            대한 분석만 반환합니다."
           in: query
           name: symbols
           schema:
             type: string
         - description: "YYYY-MM-DD 형식의 단일 날짜(예: 2024-12-30)입니다. date_from과 date_to가 동일할 때
-            사용하는 단축형 필터입니다. 해당 날짜의 데이터만 반환합니다."
+            사용하는 축약형 필터입니다. 해당 날짜의 데이터만 반환합니다."
           in: query
           name: date
           schema:
             type: string
-        - description: "시작 날짜를 YYYY-MM-DD 형식으로 입력합니다(예: 2024-01-01). 이 날짜를 포함한 이후의 데이터가
-            반환됩니다. 날짜 범위 조회를 위해 date_to와 함께 사용하십시오."
+        - description: "YYYY-MM-DD 형식의 시작일(예: 2024-01-01)입니다. 이 날짜를 포함하여 이후의 데이터를 반환합니다.
+            날짜 범위 조회를 위해 date_to와 함께 사용하십시오."
           in: query
           name: date_from
           schema:
             type: string
-        - description: "종료일은 YYYY-MM-DD 형식입니다(예: 2024-12-31). 이 날짜를 포함하여 이 날짜까지의 데이터를
-            반환합니다. 날짜 범위 조회 시 date_from과 함께 사용하십시오."
+        - description: "YYYY-MM-DD 형식의 종료일입니다(예: 2024-12-31). 이 날짜까지(해당 날짜를 포함하여)의 데이터를
+            반환합니다. 날짜 범위 조회 시 date_from과 함께 사용합니다."
           in: query
           name: date_to
           schema:
             type: string
       responses:
         "200":
-          description: 감성 점수와 지표가 포함된 정량화된 뉴스 분석 배열
+          description: 감성 점수 및 각종 지표가 포함된 정량화된 뉴스 분석 배열
           content:
             application/json:
               schema:
@@ -64,7 +64,7 @@ paths:
                   $ref: "#/components/schemas/models.Newsquantified"
                 type: array
         "400":
-          description: 잘못된 요청 - 날짜 형식 또는 매개변수가 유효하지 않습니다
+          description: 잘못된 요청 - 잘못된 날짜 형식 또는 매개변수
           content:
             application/json:
               schema:
@@ -72,7 +72,7 @@ paths:
                   type: object
                 type: array
         "404":
-          description: "찾을 수 없음: 지정한 매개변수에 해당하는 데이터가 없습니다"
+          description: 찾을 수 없음 - 지정한 매개변수에 해당하는 데이터가 없습니다
           content:
             application/json:
               schema:
@@ -87,7 +87,7 @@ paths:
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: 정량적 뉴스 분석
+      summary: 뉴스 정량 분석
       tags:
         - News Analytics
 components:
@@ -108,8 +108,6 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
-        - unsupported_message_type
-        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -121,10 +119,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
+        - unsupported_message_type
+        - database_query_error
       type: string
       x-enum-varnames:
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -136,6 +134,8 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -439,6 +439,3 @@ components:
           example: "1.2"
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v2
-    description: V2
