@@ -141,6 +141,12 @@ paths:
           name: max_width
           schema:
             type: string
+        - description: true の場合、flutter_svg ライブラリとの互換性を保つために、SVG の URL にクエリパラメータ
+            flutter_compatible=true を追加します。
+          in: query
+          name: flutter_compatible
+          schema:
+            type: boolean
       responses:
         "200":
           description: data フィールドに LogoClientResponse オブジェクトの配列を含む成功したレスポンス
