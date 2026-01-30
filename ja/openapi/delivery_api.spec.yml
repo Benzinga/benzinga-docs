@@ -8,7 +8,8 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: 任意のフィルタリングおよびページングを指定して、コールの一覧を取得します
+      description: 任意のフィルタやページネーションを指定して、コールの一覧を取得します。デフォルトでは、ステータスが COMPLETED
+        のコールのみが返されます。すべてのステータスを取得するには、status=ALL を使用してください。
       operationId: get-conference-calls
       parameters:
         - description: ページネーション用のページ番号（1から始まります）
@@ -23,6 +24,12 @@ paths:
           schema:
             type: integer
             default: 10
+        - description: コールのステータスでフィルタします。デフォルトは COMPLETED です。すべてのステータスを返すには ALL を使用してください。
+          in: query
+          name: status
+          schema:
+            type: string
+            default: COMPLETED
       responses:
         "200":
           description: OK
@@ -68,12 +75,17 @@ paths:
           name: audio
           schema:
             type: boolean
-        - description: true の場合、よりシンプルで整理された出力形式を返します
+        - description: true の場合、PDF トランスクリプト用の事前署名済み URL を含めます。
+          in: query
+          name: pdf
+          schema:
+            type: boolean
+        - description: true の場合、よりクリーンで簡略化された出力フォーマットを返します。
           in: query
           name: clean
           schema:
             type: boolean
-        - description: レスポンス形式（例：'json' または 'html'）
+        - description: "レスポンスのフォーマット（例: 「json」または「html」）"
           in: query
           name: format
           schema:
@@ -249,8 +261,10 @@ components:
         period:
           example: Q3
           type: string
-        recording:
-          $ref: "#/components/schemas/domain.Recordings"
+        recordings:
+          items:
+            $ref: "#/components/schemas/domain.Recordings"
+          type: array
         securities:
           $ref: "#/components/schemas/pgtype.JSONB"
         start_time:
@@ -274,8 +288,8 @@ components:
           example: https://example.com/webcast
           type: string
         year:
-          example: "2023"
-          type: string
+          example: 2023
+          type: integer
       type: object
     domain.Participants:
       properties:
@@ -410,6 +424,3 @@ components:
         - Undefined
         - "Null"
         - Present
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: 本番
