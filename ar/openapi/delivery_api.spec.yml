@@ -9,8 +9,9 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: استرجاع قائمة بالمكالمات مع إمكانية استخدام عوامل التصفية وتقسيم
-        النتائج إلى صفحات اختياريًا
+      description: استرجاع قائمة بالمكالمات مع خيارات للتصفية والترقيم الصفحي. بشكل
+        افتراضي، تُعاد المكالمات ذات الحالة COMPLETED فقط. استخدم status=ALL
+        لإرجاع جميع الحالات.
       operationId: get-conference-calls
       parameters:
         - description: رقم الصفحة للاستخدام في ترقيم الصفحات (يبدأ من 1)
@@ -25,6 +26,13 @@ paths:
           schema:
             type: integer
             default: 10
+        - description: تصفية حسب حالة المكالمة. القيمة الافتراضية هي COMPLETED. استخدم ALL
+            لإرجاع جميع الحالات.
+          in: query
+          name: status
+          schema:
+            type: string
+            default: COMPLETED
       responses:
         "200":
           description: موافق
@@ -71,12 +79,18 @@ paths:
           name: audio
           schema:
             type: boolean
-        - description: إذا كانت القيمة true، فسيُرجِع تنسيق مخرجات أبسط وأنظف
+        - description: إذا كانت القيمة true، يتضمّن عناوين URL موقَّعة مسبقًا لمحضر الجلسة
+            بصيغة PDF
+          in: query
+          name: pdf
+          schema:
+            type: boolean
+        - description: إذا كانت القيمة true، يُرجِع مخرجات أنظف وأكثر تبسيطًا
           in: query
           name: clean
           schema:
             type: boolean
-        - description: "تنسيق الاستجابة (على سبيل المثال: 'json' أو 'html')"
+        - description: "صيغة الاستجابة (مثال: 'json' أو 'html')"
           in: query
           name: format
           schema:
@@ -252,8 +266,10 @@ components:
         period:
           example: Q3
           type: string
-        recording:
-          $ref: "#/components/schemas/domain.Recordings"
+        recordings:
+          items:
+            $ref: "#/components/schemas/domain.Recordings"
+          type: array
         securities:
           $ref: "#/components/schemas/pgtype.JSONB"
         start_time:
@@ -277,8 +293,8 @@ components:
           example: https://example.com/webcast
           type: string
         year:
-          example: "2023"
-          type: string
+          example: 2023
+          type: integer
       type: object
     domain.Participants:
       properties:
@@ -415,4 +431,4 @@ components:
         - Present
 servers:
   - url: https://api.benzinga.com/api/v1
-    description: الإنتاج
+    description: PROD

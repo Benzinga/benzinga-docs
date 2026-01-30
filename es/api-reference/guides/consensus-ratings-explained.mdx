@@ -1,0 +1,320 @@
+---
+title: "Calificaciones de consenso explicadas"
+description: "Aprende cómo Benzinga calcula las calificaciones de consenso a partir de las recomendaciones de analistas individuales"
+---
+
+<div id="overview">
+  ## Descripción general
+</div>
+
+Las calificaciones de consenso ofrecen una visión consolidada del sentimiento de los analistas sobre una acción, al combinar las calificaciones individuales de los analistas en una métrica única y fácil de entender. Esta guía explica cómo calculamos las calificaciones de consenso para ayudarle a tomar decisiones de inversión con fundamento.
+
+<div id="how-consensus-ratings-are-calculated">
+  ## Cómo se calculan las recomendaciones de consenso
+</div>
+
+<div id="step-1-collecting-analyst-ratings">
+  ### Paso 1: Recopilación de calificaciones de analistas
+</div>
+
+Recopilamos todas las calificaciones de analistas disponibles para una acción determinada. Cada calificación incluye:
+
+* **Nombre del analista** y **Nombre de la firma**
+* **Calificación** (p. ej., Strong Buy, Buy, Hold, Sell, Strong Sell)
+* **Precio objetivo** - El precio de la acción proyectado por el analista
+* **Fecha de actualización** - Cuándo se emitió la calificación
+
+<div id="step-2-filtering-for-unique-analysts">
+  ### Paso 2: Filtrado de analistas únicos
+</div>
+
+Para garantizar la precisión y evitar contar dos veces, solo incluimos la **calificación más reciente** de cada combinación única de analista y firma.
+
+**Ejemplo:** Si el analista de Morgan Stanley John Doe ha calificado una acción varias veces, solo se incluye su calificación más reciente en el cálculo.
+
+<Note>
+  Las calificaciones sin un precio objetivo válido se excluyen del análisis.
+</Note>
+
+<div id="step-3-categorizing-ratings">
+  ### Paso 3: Clasificación de recomendaciones
+</div>
+
+Las recomendaciones de los analistas se agrupan en cinco categorías estándar:
+
+| Categoría | Valor numérico |
+|----------|---------------|
+| **Venta fuerte** | 1 |
+| **Venta** | 2 |
+| **Mantener** | 3 |
+| **Compra** | 4 |
+| **Compra fuerte** | 5 |
+
+<div id="step-4-aggregating-ratings">
+  ### Paso 4: Agrupar las calificaciones
+</div>
+
+Contamos cuántos analistas entran en cada categoría.
+
+**Ejemplo de agregación:**
+
+* Compra fuerte: 8 analistas
+* Compra: 12 analistas
+* Mantener: 5 analistas
+* Venta: 2 analistas
+* Venta fuerte: 1 analista
+
+**Total:** 28 analistas únicos
+
+<div id="step-5-calculating-the-consensus-rating-value">
+  ### Paso 5: Calcular el valor de la calificación de consenso
+</div>
+
+El valor de la calificación de consenso se calcula como un promedio ponderado:
+
+```
+Consensus Value = (Strong Buy × 5 + Buy × 4 + Hold × 3 + Sell × 2 + Strong Sell × 1) / Total Analysts
+```
+
+**Con el ejemplo anterior:**
+
+```
+Consensus Value = (8×5 + 12×4 + 5×3 + 2×2 + 1×1) / 28
+Consensus Value = (40 + 48 + 15 + 4 + 1) / 28
+Consensus Value = 108 / 28
+Consensus Value = 3.86
+```
+
+<div id="step-6-determining-the-consensus-rating">
+  ### Paso 6: Determinar la calificación de consenso
+</div>
+
+El valor de consenso se redondea al entero más cercano y se asigna una calificación:
+
+| Valor de consenso | Calificación estándar | Calificación simplificada |
+|----------------|-----------------|-------------------|
+| **1** | Venta fuerte | Venta |
+| **2** | Venta | Venta |
+| **3** | Mantener | Mantener |
+| **4** | Compra | Compra |
+| **5** | Compra fuerte | Compra |
+
+**En nuestro ejemplo:** 3.86 se redondea a **4**, lo que da como resultado una calificación de consenso de **«Compra»**.
+
+***
+
+<div id="display-options">
+  ## Opciones de visualización
+</div>
+
+<div id="standard-vs-simplified-ratings">
+  ### Calificaciones estándar vs. simplificadas
+</div>
+
+Ofrecemos dos formatos de presentación:
+
+**Estándar (5 categorías):**
+
+* Venta fuerte, Venta, Mantener, Compra, Compra fuerte
+
+**Simplificado (3 categorías):**
+
+* Venta (combina Venta fuerte + Venta)
+* Mantener
+* Compra (combina Compra + Compra fuerte)
+
+<div id="count-vs-percentage-display">
+  ### Recuento frente a porcentaje
+</div>
+
+**Recuento:**
+Muestra el número exacto de analistas en cada categoría.
+
+**Porcentaje:**
+Muestra la proporción de analistas en cada categoría, redondeada a porcentajes enteros que suman exactamente el 100 %.
+
+**Ejemplo:**
+
+* Compra: 71 % (20 analistas)
+* Mantener: 18 % (5 analistas)
+* Venta: 11 % (3 analistas)
+
+***
+
+<div id="price-target-calculations">
+  ## Cálculo del precio objetivo
+</div>
+
+<div id="consensus-price-target">
+  ### Precio objetivo de consenso
+</div>
+
+La media de todos los precios objetivo de los analistas:
+
+```
+PO Consenso = Suma de todos los Precios Objetivo / Número de Analistas
+```
+
+<div id="low-and-high-price-targets">
+  ### Precios objetivo mínimo y máximo
+</div>
+
+* **Precio objetivo mínimo:** El precio objetivo más bajo entre todos los analistas
+* **Precio objetivo máximo:** El precio objetivo más alto entre todos los analistas
+
+Estos valores definen un rango que refleja el espectro de expectativas de los analistas.
+
+***
+
+<div id="understanding-the-metrics">
+  ## Cómo interpretar las métricas
+</div>
+
+<div id="total-analyst-count-vs-unique-analyst-count">
+  ### Recuento total de analistas vs. recuento único de analistas
+</div>
+
+* **Recuento total de analistas:** Todas las calificaciones recopiladas (puede incluir múltiples calificaciones del mismo analista)
+* **Recuento único de analistas:** El número de combinaciones únicas analista–firma (empleado para los cálculos)
+
+El recuento único garantiza que la opinión de cada analista se cuente solo una vez, lo que proporciona un consenso más preciso.
+
+***
+
+<div id="important-considerations">
+  ## Consideraciones importantes
+</div>
+
+<div id="rating-freshness">
+  ### Actualización de las calificaciones
+</div>
+
+Las calificaciones de consenso reflejan las opiniones más recientes de los analistas. La marca de tiempo **Updated At** indica cuándo se calculó por última vez el consenso.
+
+<div id="coverage-depth">
+  ### Profundidad de cobertura
+</div>
+
+Las calificaciones de consenso son más fiables cuando se basan en un mayor número de analistas distintos. Las acciones con cobertura limitada de analistas (por debajo de 3‑5 analistas) pueden tener calificaciones de consenso menos estables.
+
+<div id="rating-distribution">
+  ### Distribución de recomendaciones
+</div>
+
+Presta atención a la distribución de las recomendaciones, no solo al consenso. Una acción con 50% de recomendaciones de Compra y 50% de recomendaciones de Venta tendrá un consenso de &quot;Mantener&quot;, pero esto oculta un desacuerdo significativo entre los analistas.
+
+***
+
+<div id="example-calculation-walkthrough">
+  ## Ejemplo de cálculo paso a paso
+</div>
+
+Veamos un ejemplo completo con **XYZ Corporation**:
+
+<div id="raw-data-10-analysts">
+  ### Datos en bruto (10 analistas)
+</div>
+
+| Analista | Firma | Recomendación | Precio objetivo |
+|---------|------|--------|--------------|
+| Analista A | Goldman Sachs | Comprar | $150 |
+| Analista B | JP Morgan | Compra fuerte | $165 |
+| Analista C | Morgan Stanley | Comprar | $155 |
+| Analista D | Bank of America | Mantener | $140 |
+| Analista E | Citigroup | Compra fuerte | $170 |
+| Analista F | Wells Fargo | Comprar | $152 |
+| Analista G | Deutsche Bank | Mantener | $145 |
+| Analista H | Barclays | Vender | $130 |
+| Analista I | UBS | Comprar | $158 |
+| Analista J | Credit Suisse | Compra fuerte | $168 |
+
+<div id="step-by-step-calculation">
+  ### Cálculo paso a paso
+</div>
+
+**1. Filtrar por analistas únicos:** Las 10 calificaciones son distintas (se usan 10 analistas)
+
+**2. Agregar recuentos:**
+
+* Strong Buy: 3
+* Buy: 4
+* Hold: 2
+* Sell: 1
+* Strong Sell: 0
+
+**3. Calcular el valor de consenso:**
+
+```
+(3×5 + 4×4 + 2×3 + 1×2 + 0×1) / 10 = (15 + 16 + 6 + 2 + 0) / 10 = 3.9
+```
+
+**4. Determinar el consenso:** 3.9 se redondea a **4 = &quot;Compra&quot;**
+
+**5. Precios objetivo (PO):**
+
+* PO de consenso: (150+165+155+140+170+152+145+130+158+168) / 10 = **$153.30**
+* PO mínima: **$130**
+* PO máxima: **$170**
+
+**6. Desglose porcentual:**
+
+* Compra: 70% (Compra fuerte 30% + Compra 40%)
+* Mantener: 20%
+* Vender: 10%
+
+<div id="final-consensus-rating-output">
+  ### Salida de la calificación de consenso definitiva
+</div>
+
+```json
+{
+  "consensusRating": "BUY",
+  "consensusRatingValue": 3.9,
+  "consensusPriceTarget": 153.30,
+  "priceTargetLow": 130,
+  "priceTargetHigh": 170,
+  "totalAnalysts": 10,
+  "uniqueAnalysts": 10,
+  "lastUpdated": "2026-01-16T10:30:00Z"
+}
+```
+
+***
+
+<div id="frequently-asked-questions">
+  ## Preguntas frecuentes
+</div>
+
+<AccordionGroup>
+  <Accordion title="¿Por qué pueden diferir los conteos totales y únicos de analistas?">
+    Si un analista de la misma firma actualiza su calificación varias veces, el conteo total incluye todas las ocasiones, pero solo la más reciente se utiliza en los cálculos (reflejado en el conteo único).
+  </Accordion>
+
+  <Accordion title="¿Con qué frecuencia se actualizan las calificaciones de consenso?">
+    Las calificaciones de consenso se recalculan cada vez que se publican nuevas calificaciones de analistas o se actualizan las existentes.
+  </Accordion>
+
+  <Accordion title="¿Qué sucede si no hay calificaciones de analistas?">
+    Sin cobertura de analistas, no se puede calcular una calificación de consenso. La acción no mostrará datos de consenso.
+  </Accordion>
+
+  <Accordion title="¿Puede cambiar la calificación de consenso sin nuevas calificaciones de analistas?">
+    No. El consenso solo cambia cuando los analistas emiten nuevas calificaciones o actualizan las existentes.
+  </Accordion>
+</AccordionGroup>
+
+***
+
+<div id="related-endpoints">
+  ## Endpoints relacionados
+</div>
+
+<CardGroup cols={2}>
+  <Card title="API de Calificaciones de Consenso" icon="chart-bar" href="/es/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data">
+    Obtener datos de calificaciones de consenso para acciones
+  </Card>
+
+  <Card title="API de Calificaciones de Analistas" icon="users" href="/es/api-reference/calendar_api/ratings/returns-analyst-ratings-data">
+    Obtener las calificaciones individuales de los analistas
+  </Card>
+</CardGroup>

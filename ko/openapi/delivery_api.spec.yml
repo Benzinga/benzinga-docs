@@ -8,7 +8,8 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: 선택적 필터링과 페이지네이션을 사용하여 콜 목록을 조회합니다
+      description: 선택적 필터와 페이지네이션을 사용하여 콜 목록을 조회합니다. 기본적으로 COMPLETED 상태의 콜만 반환됩니다. 모든
+        상태의 콜을 반환받으려면 status=ALL을 사용합니다.
       operationId: get-conference-calls
       parameters:
         - description: 페이지네이션에 사용할 페이지 번호(1부터 시작)
@@ -23,6 +24,12 @@ paths:
           schema:
             type: integer
             default: 10
+        - description: 콜 상태별로 필터링합니다. 기본값은 COMPLETED입니다. 모든 상태의 콜을 반환받으려면 ALL을 사용합니다.
+          in: query
+          name: status
+          schema:
+            type: string
+            default: COMPLETED
       responses:
         "200":
           description: OK
@@ -68,12 +75,17 @@ paths:
           name: audio
           schema:
             type: boolean
-        - description: true이면 더 간결하고 단순한 출력 형식을 반환합니다
+        - description: true인 경우 PDF 텍스트 전문에 대한 사전 서명된 URL을 포함합니다.
+          in: query
+          name: pdf
+          schema:
+            type: boolean
+        - description: true인 경우 더 깔끔하고 단순화된 출력 형식을 반환합니다.
           in: query
           name: clean
           schema:
             type: boolean
-        - description: "응답 형식(예: 'json' 또는 'html')"
+        - description: "응답 형식(예: 'json' 또는 'html')입니다."
           in: query
           name: format
           schema:
@@ -249,8 +261,10 @@ components:
         period:
           example: Q3
           type: string
-        recording:
-          $ref: "#/components/schemas/domain.Recordings"
+        recordings:
+          items:
+            $ref: "#/components/schemas/domain.Recordings"
+          type: array
         securities:
           $ref: "#/components/schemas/pgtype.JSONB"
         start_time:
@@ -274,8 +288,8 @@ components:
           example: https://example.com/webcast
           type: string
         year:
-          example: "2023"
-          type: string
+          example: 2023
+          type: integer
       type: object
     domain.Participants:
       properties:
@@ -412,4 +426,4 @@ components:
         - Present
 servers:
   - url: https://api.benzinga.com/api/v1
-    description: 운영
+    description: PROD
