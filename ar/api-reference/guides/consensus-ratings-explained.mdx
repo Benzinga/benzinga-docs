@@ -1,0 +1,257 @@
+---
+title: "Consensus Ratings Explained"
+description: "Learn how Benzinga calculates consensus ratings from individual analyst recommendations"
+---
+
+## Overview
+
+Consensus ratings provide a consolidated view of analyst sentiment on a stock by aggregating individual analyst ratings into a single, easy-to-understand metric. This guide explains how we calculate consensus ratings to help you make informed investment decisions.
+
+## How Consensus Ratings Are Calculated
+
+### Step 1: Collecting Analyst Ratings
+
+We gather all available analyst ratings for a given stock. Each rating includes:
+
+- **Analyst Name** and **Firm Name**
+- **Rating** (e.g., Strong Buy, Buy, Hold, Sell, Strong Sell)
+- **Price Target** - The analyst's projected stock price
+- **Date Updated** - When the rating was issued
+
+### Step 2: Filtering for Unique Analysts
+
+To ensure accuracy and avoid double-counting, we only include the **most recent rating** from each unique analyst-firm combination.
+
+**Example:** If Morgan Stanley's analyst John Doe has rated a stock multiple times, only their latest rating is included in the calculation.
+
+<Note>
+Ratings without a valid price target are excluded from the analysis.
+</Note>
+
+### Step 3: Categorizing Ratings
+
+Analyst ratings are categorized into five standard categories:
+
+| Category | Numeric Value |
+|----------|---------------|
+| **Strong Sell** | 1 |
+| **Sell** | 2 |
+| **Hold** | 3 |
+| **Buy** | 4 |
+| **Strong Buy** | 5 |
+
+### Step 4: Aggregating Ratings
+
+We count how many analysts fall into each category.
+
+**Example Aggregate:**
+- Strong Buy: 8 analysts
+- Buy: 12 analysts
+- Hold: 5 analysts
+- Sell: 2 analysts
+- Strong Sell: 1 analyst
+
+**Total:** 28 unique analysts
+
+### Step 5: Calculating the Consensus Rating Value
+
+The consensus rating value is calculated as a weighted average:
+
+```
+Consensus Value = (Strong Buy × 5 + Buy × 4 + Hold × 3 + Sell × 2 + Strong Sell × 1) / Total Analysts
+```
+
+**Using the example above:**
+```
+Consensus Value = (8×5 + 12×4 + 5×3 + 2×2 + 1×1) / 28
+Consensus Value = (40 + 48 + 15 + 4 + 1) / 28
+Consensus Value = 108 / 28
+Consensus Value = 3.86
+```
+
+### Step 6: Determining the Consensus Rating
+
+The consensus value is rounded to the nearest whole number and mapped to a rating:
+
+| Consensus Value | Standard Rating | Simplified Rating |
+|----------------|-----------------|-------------------|
+| **1** | Strong Sell | Sell |
+| **2** | Sell | Sell |
+| **3** | Hold | Hold |
+| **4** | Buy | Buy |
+| **5** | Strong Buy | Buy |
+
+**In our example:** 3.86 rounds to **4**, which translates to a **"Buy"** consensus rating.
+
+---
+
+## Display Options
+
+### Standard vs. Simplified Ratings
+
+We offer two display formats:
+
+**Standard (5-category):**
+- Strong Sell, Sell, Hold, Buy, Strong Buy
+
+**Simplified (3-category):**
+- Sell (combines Strong Sell + Sell)
+- Hold
+- Buy (combines Buy + Strong Buy)
+
+### Count vs. Percentage Display
+
+**Count Display:**
+Shows the actual number of analysts in each category.
+
+**Percentage Display:**
+Shows the proportion of analysts in each category, rounded to whole percentages that sum to exactly 100%.
+
+**Example:**
+- Buy: 71% (20 analysts)
+- Hold: 18% (5 analysts)
+- Sell: 11% (3 analysts)
+
+---
+
+## Price Target Calculations
+
+### Consensus Price Target
+
+The average of all analyst price targets:
+
+```
+Consensus PT = Sum of all Price Targets / Number of Analysts
+```
+
+### Low and High Price Targets
+
+- **Low Price Target:** The lowest price target among all analysts
+- **High Price Target:** The highest price target among all analysts
+
+These provide a range showing the spectrum of analyst expectations.
+
+---
+
+## Understanding the Metrics
+
+### Total Analyst Count vs. Unique Analyst Count
+
+- **Total Analyst Count:** All ratings collected (may include multiple ratings from the same analyst)
+- **Unique Analyst Count:** The number of distinct analyst-firm combinations (used for calculations)
+
+The unique count ensures each analyst's voice is counted only once, providing a more accurate consensus.
+
+---
+
+## Important Considerations
+
+### Rating Freshness
+
+Consensus ratings reflect the most recent analyst opinions. The **Updated At** timestamp indicates when the consensus was last calculated.
+
+### Coverage Depth
+
+Consensus ratings are more reliable when based on a larger number of unique analysts. Stocks with limited analyst coverage (fewer than 3-5 analysts) may have less stable consensus ratings.
+
+### Rating Distribution
+
+Pay attention to the distribution of ratings, not just the consensus. A stock with 50% Buy and 50% Sell ratings will have a "Hold" consensus, but this masks significant disagreement among analysts.
+
+---
+
+## Example Calculation Walkthrough
+
+Let's walk through a complete example for **XYZ Corporation**:
+
+### Raw Data (10 analysts)
+| Analyst | Firm | Rating | Price Target |
+|---------|------|--------|--------------|
+| Analyst A | Goldman Sachs | Buy | $150 |
+| Analyst B | JP Morgan | Strong Buy | $165 |
+| Analyst C | Morgan Stanley | Buy | $155 |
+| Analyst D | Bank of America | Hold | $140 |
+| Analyst E | Citigroup | Strong Buy | $170 |
+| Analyst F | Wells Fargo | Buy | $152 |
+| Analyst G | Deutsche Bank | Hold | $145 |
+| Analyst H | Barclays | Sell | $130 |
+| Analyst I | UBS | Buy | $158 |
+| Analyst J | Credit Suisse | Strong Buy | $168 |
+
+### Step-by-Step Calculation
+
+**1. Filter for unique analysts:** All 10 ratings are unique (10 analysts used)
+
+**2. Aggregate counts:**
+- Strong Buy: 3
+- Buy: 4
+- Hold: 2
+- Sell: 1
+- Strong Sell: 0
+
+**3. Calculate consensus value:**
+```
+(3×5 + 4×4 + 2×3 + 1×2 + 0×1) / 10 = (15 + 16 + 6 + 2 + 0) / 10 = 3.9
+```
+
+**4. Determine consensus:** 3.9 rounds to **4 = "Buy"**
+
+**5. Price targets:**
+- Consensus PT: (150+165+155+140+170+152+145+130+158+168) / 10 = **$153.30**
+- Low PT: **$130**
+- High PT: **$170**
+
+**6. Percentage breakdown:**
+- Buy: 70% (Strong Buy 30% + Buy 40%)
+- Hold: 20%
+- Sell: 10%
+
+### Final Consensus Rating Output
+
+```json
+{
+  "consensusRating": "BUY",
+  "consensusRatingValue": 3.9,
+  "consensusPriceTarget": 153.30,
+  "priceTargetLow": 130,
+  "priceTargetHigh": 170,
+  "totalAnalysts": 10,
+  "uniqueAnalysts": 10,
+  "lastUpdated": "2026-01-16T10:30:00Z"
+}
+```
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Why might the total and unique analyst counts differ?">
+    If an analyst from the same firm updates their rating multiple times, the total count includes all instances, but only the most recent is used in calculations (reflected in the unique count).
+  </Accordion>
+
+  <Accordion title="How often are consensus ratings updated?">
+    Consensus ratings are recalculated whenever new analyst ratings are published or existing ratings are updated.
+  </Accordion>
+
+  <Accordion title="What happens if there are no analyst ratings?">
+    Without analyst coverage, a consensus rating cannot be calculated. The stock will show no consensus data.
+  </Accordion>
+
+  <Accordion title="Can the consensus rating change without new analyst ratings?">
+    No. The consensus only changes when analysts issue new ratings or update existing ones.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Consensus Ratings API" icon="chart-bar" href="/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data">
+    Get consensus rating data for stocks
+  </Card>
+  <Card title="Analyst Ratings API" icon="users" href="/api-reference/calendar_api/ratings/returns-analyst-ratings-data">
+    Get individual analyst ratings
+  </Card>
+</CardGroup>
