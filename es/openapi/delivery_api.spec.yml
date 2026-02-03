@@ -9,7 +9,9 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: Recuperar una lista de llamadas con filtrado y paginación opcionales
+      description: Recupera una lista de llamadas con filtrado y paginación
+        opcionales. De forma predeterminada, solo se devuelven llamadas con
+        estado COMPLETED. Usa status=ALL para devolver todos los estados.
       operationId: get-conference-calls
       parameters:
         - description: El número de página para la paginación (comienza en 1)
@@ -24,6 +26,13 @@ paths:
           schema:
             type: integer
             default: 10
+        - description: Filtra por estado de la llamada. De forma predeterminada, es
+            COMPLETED. Usa ALL para devolver todos los estados.
+          in: query
+          name: status
+          schema:
+            type: string
+            default: COMPLETED
       responses:
         "200":
           description: De acuerdo
@@ -70,12 +79,17 @@ paths:
           name: audio
           schema:
             type: boolean
-        - description: Si es true, devuelve un formato de salida más limpio y simplificado
+        - description: Si es true, incluye URL prefirmadas para la transcripción en PDF.
+          in: query
+          name: pdf
+          schema:
+            type: boolean
+        - description: Si es true, devuelve una salida más limpia y simplificada.
           in: query
           name: clean
           schema:
             type: boolean
-        - description: El formato de la respuesta (p. ej., «JSON» o «HTML»)
+        - description: El formato de la respuesta (por ejemplo, "json" o "html").
           in: query
           name: format
           schema:
@@ -251,8 +265,10 @@ components:
         period:
           example: Q3
           type: string
-        recording:
-          $ref: "#/components/schemas/domain.Recordings"
+        recordings:
+          items:
+            $ref: "#/components/schemas/domain.Recordings"
+          type: array
         securities:
           $ref: "#/components/schemas/pgtype.JSONB"
         start_time:
@@ -276,8 +292,8 @@ components:
           example: https://example.com/webcast
           type: string
         year:
-          example: "2023"
-          type: string
+          example: 2023
+          type: integer
       type: object
     domain.Participants:
       properties:

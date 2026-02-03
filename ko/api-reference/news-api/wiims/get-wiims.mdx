@@ -1,10 +1,10 @@
 ---
-title: "Why Is It Moving (WIIMs)"
+title: "왜 움직이고 있나 (Why Is It Moving, WIIMs)"
 openapi: /ko/openapi/news-api_api.spec.yml GET /api/v2/news
 ---
 
 <ResponseExample>
-```json 응답 (200 OK)
+```json Response (200 OK)
 [
   {
     "id": 36444586,
@@ -74,7 +74,7 @@ openapi: /ko/openapi/news-api_api.spec.yml GET /api/v2/news
   }
 ]
 ```
-```json 응답 (401 Unauthorized)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
@@ -86,7 +86,7 @@ openapi: /ko/openapi/news-api_api.spec.yml GET /api/v2/news
   ]
 }
 ```
-```json 응답 (404 Not Found)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -98,7 +98,7 @@ openapi: /ko/openapi/news-api_api.spec.yml GET /api/v2/news
   ]
 }
 ```
-```json 응답 (500 Internal Server Error)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
