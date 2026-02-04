@@ -1,10 +1,10 @@
 ---
-title: "مزامنة الشعارات بالجملة"
+title: "مزامنة الشعارات دفعة واحدة"
 openapi: /ar/openapi/logo-api_api.spec.yml GET /api/v2.1/logos/sync
 ---
 
 <ResponseExample>
-```json استجابة (200 OK)
+```json Response (200 OK)
 {
   "ok": true,
   "data": [
@@ -61,50 +61,50 @@ openapi: /ar/openapi/logo-api_api.spec.yml GET /api/v2.1/logos/sync
   ]
 }
 ```
-```json استجابة (400 طلب غير صالح)
+```json Response (400 Bad Request)
 {
   "ok": false,
   "errors": [
     {
       "code": "bad_request",
       "id": "invalid_parameter",
-      "value": "المعلمة search_keys_type غير صالحة"
+      "value": "Invalid search_keys_type parameter"
     }
   ]
 }
 ```
-```json استجابة (401 غير مصرح به)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز مصادقة غير صالح أو مفقود"
+      "value": "Invalid or missing authentication token"
     }
   ]
 }
 ```
-```json استجابة (404 لم يتم العثور على المورد)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "لم يتم العثور على أي شعارات لمفتاح البحث المحدد"
+      "value": "No logos found for the specified search key"
     }
   ]
 }
 ```
-```json استجابة (500 خطأ في الخادم الداخلي)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
+      "value": "An unexpected error occurred while processing your request"
     }
   ]
 }

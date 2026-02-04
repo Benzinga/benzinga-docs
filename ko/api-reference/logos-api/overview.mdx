@@ -1,38 +1,38 @@
 ---
 title: "개요"
-description: "다양한 식별자를 사용하여 기업, 펀드 및 암호화폐 로고를 검색하고 조회하는 방법을 다루는 종합 가이드"
+description: "다양한 식별자를 사용해 기업, 펀드, 암호화폐 로고를 검색 및 조회하는 종합 가이드"
 ---
 
 <div id="introduction">
   ## 소개
 </div>
 
-Benzinga Logos API는 기업, 펀드, 암호화폐의 고품질 로고에 대한 액세스를 제공합니다. 심볼, CIK 번호, 국제증권식별번호(ISIN) 코드, CUSIP, FIGI 등 다양한 식별자 유형을 사용해 로고를 검색할 수 있습니다.
+Benzinga Logos API는 기업, 펀드, 암호화폐에 대한 고품질 로고에 접근할 수 있는 기능을 제공합니다. 심볼, CIK 번호(SEC 기업 식별자), 국제증권식별번호(ISIN) 코드, CUSIP, FIGI 등 여러 종류의 식별자를 사용하여 로고를 검색할 수 있습니다.
 
 <div id="available-endpoints">
-  ## 지원 엔드포인트
+  ## 사용 가능한 엔드포인트
 </div>
 
 <div id="logossearch">
   ### `/logos/search`
 </div>
 
-여러 식별자를 사용해 로고를 검색합니다. 로고 URL, 종목 세부 정보, 메타데이터를 반환합니다.
+여러 식별자를 사용하여 로고를 검색합니다. 로고 URL, 종목 정보 및 메타데이터를 반환합니다.
 
 <div id="logossync">
   ### `/logos/sync`
 </div>
 
-여러 로고를 페이지네이션과 함께 조회하기 위한 대량 동기화용 엔드포인트입니다.
+페이지네이션을 지원하며 여러 로고를 대량으로 동기화할 수 있는 엔드포인트입니다.
 
 <div id="search-filters">
   ## 검색 필터
 </div>
 
-API는 다음 두 가지 주요 파라미터를 통해 유연한 검색을 지원합니다:
+API는 다음 두 가지 주요 매개변수를 통해 유연한 검색을 지원합니다:
 
 - `search_keys` - 검색하려는 식별자 값
-- `search_keys_type` - 식별자 유형 (선택 사항; 기본값은 `symbol`)
+- `search_keys_type` - 식별자 유형 (선택적; 기본값은 `symbol`)
 
 <div id="1-filter-by-symbol">
   ### 1. 심볼로 필터링
@@ -53,10 +53,10 @@ GET /api/v2/logos/search?search_keys=AAPL&search_keys_type=symbol&fields=logo_li
 
 
 <div id="2-filter-by-cik">
-  ### 2. CIK으로 필터링
+  ### 2. CIK로 필터링
 </div>
 
-SEC의 CIK(Central Index Key)를 사용해 검색합니다. 앞에 0이 포함된 값과 포함되지 않은 값 모두를 지원합니다.
+SEC의 Central Index Key(CIK)를 사용해 검색합니다. 패딩된 값과 패딩되지 않은 값을 모두 지원합니다.
 
 **파라미터:**
 
@@ -69,7 +69,7 @@ SEC의 CIK(Central Index Key)를 사용해 검색합니다. 앞에 0이 포함�
 GET /api/v2/logos/search?search_keys=320193&search_keys_type=cik&fields=logo_light,logo_dark
 ```
 
-**앞에 0을 채운 CIK 예시:**
+**패딩된 CIK 예시:**
 
 ```
 GET /api/v2/logos/search?search_keys=0000320193&search_keys_type=cik&fields=logo_light,logo_dark
@@ -80,9 +80,9 @@ GET /api/v2/logos/search?search_keys=0000320193&search_keys_type=cik&fields=logo
   ### 3. ISIN으로 필터링
 </div>
 
-국제증권식별번호(ISIN)로 검색합니다.
+국제증권식별번호(ISIN)를 사용하여 검색합니다.
 
-**매개변수:**
+**파라미터:**
 
 * `search_keys`: ISIN 코드 (예: `US0378331005`)
 * `search_keys_type`: `isin`
@@ -95,14 +95,14 @@ GET /api/v2/logos/search?search_keys=US0378331005&search_keys_type=isin&fields=l
 
 
 <div id="4-filter-by-figi-share-class">
-  ### 4. FIGI Share Class로 필터링
+  ### 4. FIGI 주식 클래스로 필터링
 </div>
 
-Bloomberg의 Financial Instrument Global Identifier(FIGI)를 사용해 주식 클래스를 검색합니다.
+블룸버그의 금융상품 글로벌 식별자(Financial Instrument Global Identifier, FIGI)를 사용해 주식 클래스를 검색합니다.
 
-**매개변수:**
+**파라미터:**
 
-* `search_keys`: FIGI Share Class ID (예: `BBG001SQKGD7`)
+* `search_keys`: FIGI 주식 클래스 ID (예: `BBG001SQKGD7`)
 * `search_keys_type`: `figi_share_class`
 
 **예시:**
@@ -116,14 +116,14 @@ GET /api/v2/logos/search?search_keys=BBG001SQKGD7&search_keys_type=figi_share_cl
   ### 5. CUSIP으로 필터링
 </div>
 
-Committee on Uniform Securities Identification Procedures 번호로 검색합니다.
+Committee on Uniform Securities Identification Procedures 번호를 사용하여 검색합니다.
 
 **매개변수:**
 
 * `search_keys`: CUSIP 번호 (예: `88160R101`)
 * `search_keys_type`: `cusip`
 
-**예제:**
+**예시:**
 
 ```
 GET /api/v2/logos/search?search_keys=88160R101&search_keys_type=cusip&fields=logo_light,logo_dark
@@ -131,14 +131,14 @@ GET /api/v2/logos/search?search_keys=88160R101&search_keys_type=cusip&fields=log
 
 
 <div id="6-filter-by-symbol-with-currency-country">
-  ### 6. 통화 및 국가별 심볼 필터링
+  ### 6. 통화 &amp; 국가로 심볼 필터링
 </div>
 
-콜론(`:`) 또는 마침표(`.`)를 구분자로 사용하여 심볼에 국가 코드 또는 통화 코드를 함께 지정합니다.
+콜론 (`:`) 또는 마침표 (`.`)를 구분자로 사용하여 심볼에 국가 코드 또는 통화 코드를 추가합니다.
 
 **파라미터:**
 
-* `search_keys`: 한정자를 포함한 심볼(예: `AAPL:US`, `AAPL:USD`, `AAPL.US`)
+* `search_keys`: 한정자가 포함된 심볼(예: `AAPL:US`, `AAPL:USD`, `AAPL.US`)
 * `search_keys_type`: `symbol`
 
 **예시:**
@@ -151,17 +151,17 @@ GET /api/v2/logos/search?search_keys=AAPL.US&search_keys_type=symbol&fields=logo
 
 
 <div id="7-filter-by-exchange-and-symbol">
-  ### 7. 거래소와 심볼로 필터링
+  ### 7. 거래소 및 심볼로 필터링
 </div>
 
-거래소 코드와 심볼을 조합하여 검색합니다. 블룸버그 스타일(레거시)과 LSEG 스타일 형식을 모두 지원합니다.
+거래소 코드와 심볼을 조합해 검색합니다. Bloomberg 스타일(레거시)과 LSEG 스타일 형식 모두를 지원합니다.
 
-**블룸버그 스타일 매핑(레거시):**
+**Bloomberg 스타일 매핑(레거시):**
 
 * `search_keys`: 거래소와 심볼 (예: `NASDAQ:AAPL`)
 * `search_keys_type`: `symbol`
 
-**LSEG 3자 코드(현재):**
+**LSEG 3자리 코드(현재):**
 
 * `search_keys`: 거래소 코드와 심볼 (예: `NSQ:AAPL`)
 * `search_keys_type`: `symbol`
@@ -178,7 +178,7 @@ GET /api/v2/logos/search?search_keys=NSQ:AAPL&search_keys_type=symbol&fields=log
   ### 8. ISO MIC 및 심볼로 필터링
 </div>
 
-ISO Market Identifier Code와 심볼을 함께 사용해 검색합니다.
+ISO Market Identifier Code와 심볼을 조합하여 검색합니다.
 
 **매개변수:**
 
@@ -193,10 +193,10 @@ GET /api/v2/logos/search?search_keys=XYNS:AAPL&search_keys_type=symbol&fields=lo
 
 
 <div id="9-crypto-logo-filters">
-  ### 9. 크립토 로고 필터
+  ### 9. 암호화폐 로고 필터
 </div>
 
-여러 형식으로 암호화폐 로고를 검색할 수 있습니다. `search_keys_type`을 지정하지 않아도 API는 암호화폐 형식을 자동으로 인식합니다.
+여러 형식을 사용하여 암호화폐 로고를 검색할 수 있습니다. `search_keys_type`를 지정하지 않아도 API는 암호화폐 형식을 자동으로 인식합니다.
 
 **지원 형식:**
 
@@ -219,7 +219,7 @@ GET /api/v2/logos/search?search_keys=BTC/USD&fields=logo_light,logo_dark
   ## 사용 가능한 필드
 </div>
 
-`fields` 파라미터를 사용하여 특정 로고 유형을 요청할 수 있습니다. 사용 가능한 필드는 다음과 같습니다.
+`fields` 매개변수를 사용해 특정 로고 유형을 요청할 수 있습니다. 사용 가능한 필드는 다음과 같습니다:
 
 * `logo_light` - 라이트 테마 로고 (PNG)
 * `logo_dark` - 다크 테마 로고 (PNG)
@@ -229,12 +229,12 @@ GET /api/v2/logos/search?search_keys=BTC/USD&fields=logo_light,logo_dark
 * `mark_dark` - 다크 테마 마크/아이콘 (PNG)
 * `mark_vector_light` - 라이트 테마 벡터 마크 (SVG)
 * `mark_vector_dark` - 라이트 테마 벡터 마크 (SVG)
-* `mark_composite_light` - 라이트 테마 복합 마크 (PNG)
-* `mark_composite_dark` - 다크 테마 복합 마크 (PNG)
-* `mark_vector_composite_light` - 라이트 테마 벡터 복합 마크 (SVG)
-* `mark_vector_composite_dark` - 라이트 테마 벡터 복합 마크 (SVG)
+* `mark_composite_light` - 라이트 테마 합성 마크 (PNG)
+* `mark_composite_dark` - 다크 테마 합성 마크 (PNG)
+* `mark_vector_composite_light` - 라이트 테마 벡터 합성 마크 (SVG)
+* `mark_vector_composite_dark` - 라이트 테마 벡터 합성 마크 (SVG)
 
-**여러 필드를 동시에 요청하는 예:**
+**여러 필드를 한 번에 요청하는 예:**
 
 ```
 GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vector_composite_light
@@ -246,27 +246,27 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
 </div>
 
 <div id="image-customization">
-  ### 이미지 설정
+  ### 이미지 사용자 지정
 </div>
 
 - `scale` - 이미지 크기 비율 (예: `100x100`, `300x300`)
 - `max_width` - 반환되는 이미지의 최대 너비
 - `composite_radius` - 합성 이미지의 모서리 반경 (정수, 범위 `0-50`)
-- `composite_auto` - 합성 이미지 자동 생성 여부 (boolean)
+- `composite_auto` - 합성 이미지를 자동으로 생성할지 여부를 나타내는 불리언 값
 
 <div id="pagination-bulk-sync-only">
-  ### 페이지네이션 (bulk-sync 전용)
+  ### 페이지네이션(대량 동기화 전용)
 </div>
 
 - `page` - 페이지 번호(정수)
-- `pagesize` - 페이지당 결과 개수(정수)
-- `updated_since` - 업데이트 시각 기준 필터(ISO 8601 형식)
+- `pagesize` - 페이지당 결과 수(정수)
+- `updated_since` - 업데이트 시각 기준 필터링(ISO 8601 형식)
 
 <div id="security-details">
-  ### 증권 세부 정보
+  ### 증권 상세 정보
 </div>
 
-- `securities` - 응답에 상세한 증권 정보를 포함할지 여부(boolean)
+- `securities` - 응답에 증권 상세 정보를 포함할지 여부 (boolean)
 
 <div id="response-examples">
   ## 응답 예시
@@ -312,7 +312,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
 
 
 <div id="401-unauthorized-response">
-  ### 401 Unauthorized 응답
+  ### 401 권한 없음 응답
 </div>
 
 ```json
@@ -358,7 +358,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "요청 처리 중 예기치 않은 오류가 발생했습니다"
+      "value": "요청을 처리하는 중 예기치 않은 오류가 발생했습니다"
     }
   ]
 }
@@ -369,7 +369,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
   ## 인증
 </div>
 
-모든 Logos API 엔드포인트는 API 키 기반 인증이 필요합니다. 토큰을 쿼리 매개변수로 포함하세요:
+모든 Logos API 엔드포인트는 API 키 인증이 필요합니다. 토큰을 쿼리 매개변수로 포함하세요:
 
 ```
 ?token=YOUR_API_KEY
@@ -380,20 +380,20 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
   ## 모범 사례
 </div>
 
-1. **search_keys_type을 지정하세요** - API의 기본값은 `symbol`이지만, 명시적으로 유형을 지정하면 가독성과 성능이 향상됩니다
-2. **필요한 필드만 요청하세요** - 응답 크기를 최소화하고 성능을 개선하기 위해 필요한 로고 유형만 요청하세요
-3. **대용량 데이터셋에는 bulk-sync를 사용하세요** - 여러 로고를 조회할 때는 페이지네이션과 함께 `/logos/bulk-sync` 엔드포인트를 사용하세요
-4. **응답을 캐시하세요** - 로고 URL에는 만료 타임스탬프가 포함되므로, 적절히 캐시하여 API 호출을 줄이세요
-5. **오류를 적절히 처리하세요** - 항상 응답의 `ok` 필드를 확인하고 오류 상황을 적절히 처리하세요
+1. **search_keys_type를 지정** - API의 기본값은 `symbol`이지만, 유형을 명시적으로 지정하면 가독성과 성능이 향상됩니다
+2. **필요한 필드만 요청** - 응답 크기를 최소화하고 성능을 향상하기 위해 필요한 로고 유형만 요청하십시오
+3. **대용량 데이터셋에는 `bulk-sync` 사용** - 여러 로고를 조회할 때는 페이지네이션과 함께 `/logos/bulk-sync` 엔드포인트를 사용하십시오
+4. **응답 캐싱** - 로고 url에는 만료 타임스탬프가 포함되어 있으므로, 적절히 캐싱하여 API 호출을 줄이십시오
+5. **오류를 안정적으로 처리** - 항상 응답에서 `ok` 필드를 확인하고 오류 케이스를 적절히 처리하십시오
 
 <div id="rate-limits">
   ## 요청 한도
 </div>
 
-요청 한도에 대한 자세한 내용은 사용 중인 API 구독 플랜을 참고하세요. 애플리케이션에 더 높은 요청 한도가 필요하다면 지원팀에 문의하세요.
+요청 한도에 대한 자세한 내용은 사용 중인 API 구독 플랜을 참조하십시오. 애플리케이션에 더 높은 요청 한도가 필요한 경우 지원팀에 문의하십시오.
 
 <div id="support">
   ## 지원
 </div>
 
-Logos API에 대해 추가적인 도움이 필요하거나 문의 사항이 있는 경우 Benzinga API 지원팀에 연락하시거나 엔드포인트에 대한 자세한 문서를 참조하세요.
+Logos API에 대해 추가적인 도움이 필요하시거나 질문이 있는 경우 Benzinga API 지원팀에 문의하거나 상세 엔드포인트 문서를 참고하세요.

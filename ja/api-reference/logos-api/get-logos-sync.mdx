@@ -68,7 +68,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /api/v2.1/logos/sync
     {
       "code": "bad_request",
       "id": "invalid_parameter",
-      "value": "Invalid search_keys_type parameter"
+      "value": "無効な search_keys_type パラメータです"
     }
   ]
 }
@@ -80,7 +80,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /api/v2.1/logos/sync
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "認証トークンが無効であるか、指定されていません"
     }
   ]
 }
@@ -92,7 +92,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /api/v2.1/logos/sync
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No logos found for the specified search key"
+      "value": "指定された検索キーに該当するロゴが見つかりません"
     }
   ]
 }
@@ -104,7 +104,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /api/v2.1/logos/sync
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "リクエストの処理中に予期しないエラーが発生しました"
     }
   ]
 }

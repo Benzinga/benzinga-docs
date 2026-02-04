@@ -1,5 +1,5 @@
 ---
-title: "Obtener transcripción por ID"
+title: "Obtener la transcripción por ID"
 openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
 ---
 
@@ -7,10 +7,10 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
   ```json Response (200 OK)
   {
     "call_id": "68c1684993d1da0001953084",
-    "call_title": "TotalEnergies reporta un sólido crecimiento en el tercer trimestre y aumenta los dividendos a pesar de los desafíos del mercado",
-    "description": "Llamada de resultados del cuarto trimestre de 2025 de TotalEnergies (TTE)",
+    "call_title": "TotalEnergies reporta un sólido crecimiento en el T3 y aumenta los dividendos a pesar de los desafíos del mercado",
+    "description": "Llamada de resultados del T4 2025 de TotalEnergies (TTE)",
     "webcast_url": "https://edge.media-server.com/mmc/p/zfnjs6iz/",
-    "headline": "TotalEnergies mejora los retornos para los accionistas con un crecimiento del 4% en el flujo de efectivo a medida que la producción se incrementa y la estrategia cobra impulso en medio de precios del petróleo fluctuantes.",
+    "headline": "TotalEnergies mejora los retornos para los accionistas con un crecimiento del 4% en el flujo de efectivo a medida que la producción aumenta y la estrategia gana impulso en medio de precios del petróleo fluctuantes.",
     "symbol": "TTE",
     "exchange": "NYSE",
     "figis": [
@@ -26,7 +26,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
     "transcripts": [
       {
         "transcript_id": "df8fa7e2-37ec-4981-8e86-6715f9207ff2",
-        "text": "Good afternoon. Good morning everyone. Before Jean Pierre goes through the details of the third quarter results, I would like to make a few opening comments ..{{truncated}}.. And frankly, board of directors and myself as you, we are quite pleased with the results of this quarter because that demonstrates and again that all what we explain you quarter and year after year is on the delivery mode and that free cash flow will increase. Thank you for your attendance.",
+        "text": "Buenas tardes. Buenos días a todos. Antes de que Jean Pierre repase los detalles de los resultados del tercer trimestre, me gustaría hacer algunos comentarios iniciales ..{{truncado}}.. Y francamente, la junta directiva y yo, al igual que ustedes, estamos muy satisfechos con los resultados de este trimestre porque eso demuestra una vez más que todo lo que les explicamos trimestre tras trimestre y año tras año se está cumpliendo y que el flujo de efectivo libre aumentará. Gracias por su asistencia.",
         "language": "en-US",
         "confidence_score": 0.948344884949495,
         "segments": [
@@ -36,7 +36,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
             "start_time": "00:00:01",
             "end_time": "00:08:06",
             "confidence": 0.95141685,
-            "text": "Buenas tardes. Buenos días a todos. Antes de que Jean Pierre repase los detalles de los resultados del tercer trimestre ..{{truncado}}.. Ahora le cedo la llamada a Jean Pierre, quien repasará los detalles de sus finanzas del primer trimestre.",
+            "text": "Buenas tardes. Buenos días a todos. Antes de que Jean Pierre repase los detalles de los resultados del tercer trimestre ..{{truncado}}.. Ahora cederé la llamada a Jean Pierre, quien repasará los detalles de sus resultados financieros del primer trimestre.",
             "sentiment": 0.45
           },
           {
@@ -54,7 +54,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
             "start_time": "00:19:18",
             "end_time": "00:19:49",
             "confidence": 0.9713833,
-            "text": "Gracias damas y caballeros. Ahora comenzaremos la sesión de preguntas y respuestas. Como recordatorio, si desea hacer una pregunta, por favor presione asterisco n1 en su teléfono y espere a que se anuncie su nombre. Por favor silencie cualquier fuente de audio al hacer una pregunta. Si desea cancelar su solicitud, por favor presione la tecla numeral. Una vez más, por favor presione N1 si desea hacer una pregunta. La primera pregunta es de Lydia Rainforth, Barclays. Por favor adelante.",
+            "text": "Gracias damas y caballeros. Ahora comenzaremos la sesión de preguntas y respuestas. Como recordatorio, si desea hacer una pregunta, por favor presione estrella n1 en su teléfono y espere a que se anuncie su nombre. Por favor silencie cualquier fuente de audio al hacer una pregunta. Si desea cancelar su solicitud, por favor presione la tecla numeral. Una vez más, por favor presione N1 si desea hacer una pregunta. La primera pregunta es de Lydia Rainforth, Barclays. Por favor adelante.",
             "sentiment": 0
           },
           {
@@ -63,7 +63,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
             "start_time": "00:19:51",
             "end_time": "00:20:26",
             "confidence": 0.9671036,
-            "text": "Gracias y buenas tardes a ambos y gracias por la presentación. Entonces, cuando piensan en 2026, ¿pueden darnos una indicación de cuánto más podría crecer el flujo de efectivo que la producción para el próximo año? ¿Y solo recordarnos eso?",
+            "text": "Gracias y buenas tardes a ambos y gracias por la presentación. Entonces, cuando piensan en 2026, ¿pueden darnos una indicación de cuánto más podría crecer el flujo de efectivo en comparación con la producción para el próximo año? ¿Y solo recordarnos eso?",
             "sentiment": 0.1
           },
           {....},
@@ -77,7 +77,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
             "sentiment": 0.5
           }
         ],
-        "type": "NO_EN_VIVO"
+        "type": "NON_LIVE"
       },
       {
         "transcript_id": "b4dee433-51e2-40c5-8bac-d9508b30de1a",
@@ -85,7 +85,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
         "language": "en-US",
         "confidence_score": 0,
         "segments": null,
-        "type": "EN_VIVO"
+        "type": "LIVE"
       }
     ],
     "recording": {
@@ -111,7 +111,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
       "summary_id": "d3a9f050-dcfe-4baf-b5d2-5abf3a4cd0fc",
       "transcript_id": "",
       "call_id": "68c1684993d1da0001953084",
-      "summary": "TotalEnergies reportó un aumento del 4% en el flujo de efectivo para el tercer trimestre a pesar de una caída de $10 por barril en los precios del petróleo interanual.\nLos nuevos proyectos de hidrocarburos en Brasil y Estados Unidos han contribuido significativamente al flujo de efectivo de la compañía, agregando $400 millones interanuales.\nEl consejo ha aumentado el tercer dividendo provisional en cerca del 8% en euros y más del 10% en dólares en comparación con 2024.\nLa compañía ha autorizado un programa de recompra de acciones de hasta $1.5 mil millones para el cuarto trimestre de 2025.\nSe pronostica que la producción upstream crecerá más del 4% interanual, con inversiones netas que se espera disminuyan.\nLa compañía planea comenzar a cotizar acciones ordinarias en la Bolsa de Valores de Nueva York a partir del 8 de diciembre.\nEl segmento downstream experimentó un aumento en el flujo de efectivo de casi $500 millones debido a mejores márgenes de refinación.\nLa compañía tiene como objetivo mantener el apalancamiento en 15-16% para fin de año, respaldado por desinversiones y mejoras en el capital de trabajo.\nLa gerencia destacó la resiliencia en el desempeño financiero, atribuyéndolo a iniciativas estratégicas y crecimiento de producción incremental.",
+      "summary": "TotalEnergies reportó un aumento del 4% en el flujo de efectivo para el tercer trimestre a pesar de una caída de $10 por barril en los precios del petróleo interanual.\nLos nuevos proyectos de hidrocarburos en Brasil y Estados Unidos han contribuido significativamente al flujo de efectivo de la compañía, agregando $400 millones interanuales.\nLa junta ha aumentado el tercer dividendo provisional en cerca del 8% en euros y más del 10% en dólares en comparación con 2024.\nLa compañía ha autorizado un programa de recompra de acciones de hasta $1.5 mil millones para el cuarto trimestre de 2025.\nSe pronostica que la producción upstream crecerá más del 4% interanual, con inversiones netas que se espera disminuyan.\nLa compañía planea comenzar a cotizar acciones ordinarias en la Bolsa de Valores de Nueva York a partir del 8 de diciembre.\nEl segmento downstream experimentó un aumento en el flujo de efectivo de casi $500 millones debido a mejores márgenes de refinación.\nLa compañía tiene como objetivo mantener el apalancamiento en 15-16% para fin de año, respaldado por desinversiones y mejoras en el capital de trabajo.\nLa gerencia destacó la resiliencia en el desempeño financiero, atribuyéndola a iniciativas estratégicas y crecimiento de producción incremental.",
       "symbol": "",
       "sentiment": 0.78,
       "language": "",
@@ -123,7 +123,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
         "participant_id": "b819ea94-8ada-4d02-b7b8-dd1f013443de",
         "call_id": "68c1684993d1da0001953084",
         "name": "Patrick Pouyanné",
-        "role": "Presidente y Director Ejecutivo",
+        "role": "Presidente y CEO",
         "organization": "TotalEnergies",
         "mentions": 11,
         "human_verified": false
@@ -183,11 +183,11 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
   ```json Response (404 Not Found)
   {
     "ok": false,
-    "errors": [
+    "errores": [
       {
         "code": "no_data_found",
         "id": "not_found",
-        "value": "No se encontraron logotipos para la clave de búsqueda especificada"
+        "value": "No se encontraron logos para la clave de búsqueda especificada"
       }
     ]
   }

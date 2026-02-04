@@ -1,48 +1,48 @@
 ---
 title: "نظرة عامة"
-description: "دليل شامل للبحث عن شعارات الشركات والصناديق والعملات المشفّرة واسترجاعها باستخدام معرّفات متعددة"
+description: "دليل شامل للبحث عن شعارات الشركات والصناديق والعملات المشفرة واسترجاعها باستخدام معرّفات مختلفة"
 ---
 
 <div id="introduction">
   ## المقدمة
 </div>
 
-توفر واجهة برمجة التطبيقات API لشعارات Benzinga إمكانية الوصول إلى شعارات عالية الجودة للشركات والصناديق والعملات المشفّرة. يمكنك البحث عن الشعارات باستخدام عدة أنواع من المعرّفات بما في ذلك الرموز، وأرقام CIK، وأكواد رقم التعريف الدولي للأوراق المالية ISIN، وCUSIP، وFIGI، وغيرها.
+توفر واجهة برمجة التطبيقات API لشعارات Benzinga إمكانية الوصول إلى شعارات عالية الجودة للشركات والصناديق والعملات المشفرة. يمكنك البحث عن الشعارات باستخدام عدة أنواع من المعرّفات، بما في ذلك الرموز، وأرقام CIK، وأكواد رقم التعريف الدولي للأوراق المالية ISIN، وCUSIP، وFIGI، وغيرها.
 
 <div id="available-endpoints">
-  ## نقاط النهاية المتاحة
+  ## نقاط النهاية المتوفرة
 </div>
 
 <div id="logossearch">
   ### `/logos/search`
 </div>
 
-يتيح البحث عن الشعارات باستخدام معرّفات مختلفة. يُرجع عناوين URL للشعارات، وتفاصيل الأوراق المالية، والبيانات الوصفية.
+ابحث عن الشعارات باستخدام معرفات متعددة. تُرجِع عناوين url الخاصة بالشعارات وتفاصيل الأوراق المالية والبيانات الوصفية.
 
 <div id="logossync">
   ### `/logos/sync`
 </div>
 
-واجهة مزامنة جماعية لاسترجاع شعارات متعددة مع دعم تقسيم النتائج إلى صفحات (pagination).
+نقطة نهاية للمزامنة المجمّعة لاسترجاع عدة شعارات مع دعم ترقيم الصفحات (pagination).
 
 <div id="search-filters">
-  ## عوامل البحث
+  ## عوامل تصفية البحث
 </div>
 
-تتيح واجهة برمجة التطبيقات API بحثًا مرنًا من خلال معاملين رئيسيين:
+تدعم واجهة برمجة التطبيقات API بحثًا مرنًا باستخدام معاملين رئيسيين:
 
-- `search_keys` - قيمة المعرّف الذي تريد البحث باستخدامه
-- `search_keys_type` - نوع المعرّف (اختياري؛ القيمة الافتراضية `symbol`)
+- `search_keys` - قيمة المعرّف التي تريد البحث عنها
+- `search_keys_type` - نوع المعرّف (اختياري؛ القيمة الافتراضية هي `symbol`)
 
 <div id="1-filter-by-symbol">
-  ### 1. التصفية حسب الرمز
+  ### 1. التصفية حسب رمز التداول
 </div>
 
-ابحث عن الشعارات باستخدام رموز تداول الأسهم.
+ابحث عن الشعارات باستخدام رموز التداول للأسهم.
 
-**المعلمات:**
+**المعاملات:**
 
-* `search_keys`: رمز التداول (على سبيل المثال: `AAPL`, `TSLA`, `MSFT`)
+* `search_keys`: رمز التداول (مثلًا: `AAPL`، `TSLA`، `MSFT`)
 * `search_keys_type`: `symbol` (اختياري، وهو الإعداد الافتراضي)
 
 **مثال:**
@@ -56,7 +56,7 @@ GET /api/v2/logos/search?search_keys=AAPL&search_keys_type=symbol&fields=logo_li
   ### 2. التصفية حسب CIK
 </div>
 
-ابحث باستخدام مفتاح الفهرس المركزي (Central Index Key) الخاص بـ SEC. يدعم القيم ذات الأصفار البادئة ومن دونها.
+ابحث باستخدام مفتاح الفهرس المركزي (Central Index Key) الخاص بـ SEC. يدعم القيم مع الأصفار البادئة أو بدونها.
 
 **المعاملات:**
 
@@ -69,7 +69,7 @@ GET /api/v2/logos/search?search_keys=AAPL&search_keys_type=symbol&fields=logo_li
 GET /api/v2/logos/search?search_keys=320193&search_keys_type=cik&fields=logo_light,logo_dark
 ```
 
-**مثال على CIK بأصفار بادئة:**
+**مثال على CIK مع أصفار بادئة:**
 
 ```
 GET /api/v2/logos/search?search_keys=0000320193&search_keys_type=cik&fields=logo_light,logo_dark
@@ -84,7 +84,7 @@ GET /api/v2/logos/search?search_keys=0000320193&search_keys_type=cik&fields=logo
 
 **المعاملات:**
 
-* `search_keys`: رمز رقم التعريف الدولي للأوراق المالية ISIN (مثال: `US0378331005`)
+* `search_keys`: رمز رقم التعريف الدولي للأوراق المالية ISIN (مثلًا، `US0378331005`)
 * `search_keys_type`: `isin`
 
 **مثال:**
@@ -95,10 +95,10 @@ GET /api/v2/logos/search?search_keys=US0378331005&search_keys_type=isin&fields=l
 
 
 <div id="4-filter-by-figi-share-class">
-  ### 4. التصفية حسب فئة أسهم FIGI
+  ### 4. تصفية البحث حسب فئة أسهم FIGI
 </div>
 
-ابحث باستخدام معرّف Bloomberg العالمي للأداة المالية (Financial Instrument Global Identifier) لفئات الأسهم.
+ابحث باستخدام المعرّف العالمي للأداة المالية (FIGI) من Bloomberg لفئة الأسهم.
 
 **المعاملات:**
 
@@ -116,11 +116,11 @@ GET /api/v2/logos/search?search_keys=BBG001SQKGD7&search_keys_type=figi_share_cl
   ### 5. التصفية حسب CUSIP
 </div>
 
-ابحث باستخدام رقم CUSIP (اختصارًا لـ Committee on Uniform Securities Identification Procedures).
+ابحث باستخدام رقم لجنة إجراءات توحيد تعريف الأوراق المالية (Committee on Uniform Securities Identification Procedures).
 
-**المعاملات:**
+**المعلمات:**
 
-* `search_keys`: رقم CUSIP (مثلًا، `88160R101`)
+* `search_keys`: رقم CUSIP (مثلًا: `88160R101`)
 * `search_keys_type`: `cusip`
 
 **مثال:**
@@ -131,14 +131,14 @@ GET /api/v2/logos/search?search_keys=88160R101&search_keys_type=cusip&fields=log
 
 
 <div id="6-filter-by-symbol-with-currency-country">
-  ### 6. التصفية حسب الرمز مع العملة والبلد
+  ### 6. التصفية حسب الرمز مع العملة والدولة
 </div>
 
 قيِّد الرموز برموز الدولة أو العملة باستخدام النقطتين (`:`) أو النقطة (`.`) كفاصل.
 
 **المعاملات:**
 
-* `search_keys`: الرمز مع المحدِّد (مثلًا، `AAPL:US`، `AAPL:USD`، `AAPL.US`)
+* `search_keys`: الرمز مع المحدِّد (مثل: `AAPL:US`، `AAPL:USD`، `AAPL.US`)
 * `search_keys_type`: `symbol`
 
 **أمثلة:**
@@ -151,19 +151,19 @@ GET /api/v2/logos/search?search_keys=AAPL.US&search_keys_type=symbol&fields=logo
 
 
 <div id="7-filter-by-exchange-and-symbol">
-  ### 7. التصفية حسب الـ Exchange والرمز
+  ### 7. التصفية حسب البورصة والرمز
 </div>
 
-ابحث عن طريق الجمع بين رمز الـ exchange والرمز. يدعم كلًا من تنسيق Bloomberg-style (قديم) وتنسيق LSEG-style.
+ابحث عن طريق الجمع بين رمز الـ exchange مع الرمز. يدعم كلًا من تنسيق Bloomberg (قديم) وتنسيق LSEG الحالي.
 
-**مطابقة بأسلوب Bloomberg-style (قديم):**
+**مطابقة بأسلوب Bloomberg (قديم):**
 
-* `search_keys`: الـ exchange والرمز (مثلًا `NASDAQ:AAPL`)
+* `search_keys`: exchange والرمز (مثلًا: `NASDAQ:AAPL`)
 * `search_keys_type`: `symbol`
 
-**رمز LSEG المكوَّن من 3 أحرف (الحالي):**
+**رمز LSEG مكوّن من 3 أحرف (حالي):**
 
-* `search_keys`: رمز الـ exchange والرمز (مثلًا `NSQ:AAPL`)
+* `search_keys`: رمز الـ exchange والرمز (مثلًا: `NSQ:AAPL`)
 * `search_keys_type`: `symbol`
 
 **أمثلة:**
@@ -175,14 +175,14 @@ GET /api/v2/logos/search?search_keys=NSQ:AAPL&search_keys_type=symbol&fields=log
 
 
 <div id="8-filter-by-iso-mic-and-symbol">
-  ### 8. التصفية حسب رمز ISO MIC والرمز
+  ### 8. التصفية حسب ISO MIC والرمز
 </div>
 
-ابحث باستخدام رمز معرّف السوق وفق معيار ISO (ISO Market Identifier Code - MIC) مع الرمز (symbol).
+ابحث باستخدام رمز معرّف السوق وفق معيار ISO (ISO Market Identifier Code) مع الرمز.
 
-**المعاملات:**
+**المعلمات:**
 
-* `search_keys`: رمز MIC والرمز (مثلًا: `XYNS:AAPL`)
+* `search_keys`: رمز MIC والرمز (على سبيل المثال، `XYNS:AAPL`)
 * `search_keys_type`: `symbol`
 
 **مثال:**
@@ -193,10 +193,10 @@ GET /api/v2/logos/search?search_keys=XYNS:AAPL&search_keys_type=symbol&fields=lo
 
 
 <div id="9-crypto-logo-filters">
-  ### 9. مرشحات شعارات العملات الرقمية
+  ### 9. عوامل تصفية شعارات العملات المشفّرة
 </div>
 
-ابحث عن شعارات العملات الرقمية باستخدام تنسيقات متعددة. تتعرّف واجهة برمجة التطبيقات API تلقائيًا على تنسيقات العملات الرقمية حتى في حال عدم تحديد `search_keys_type`.
+ابحث عن شعارات العملات المشفّرة باستخدام تنسيقات متعدّدة. تتعرّف واجهة برمجة التطبيقات API تلقائيًا على تنسيقات العملات المشفّرة حتى إذا لم يتم تحديد `search_keys_type`.
 
 **التنسيقات المدعومة:**
 
@@ -219,20 +219,20 @@ GET /api/v2/logos/search?search_keys=BTC/USD&fields=logo_light,logo_dark
   ## الحقول المتاحة
 </div>
 
-يمكنك طلب أنواع شعارات محددة باستخدام معلمة `fields`. تتضمن الحقول المتاحة ما يلي:
+يمكنك طلب أنواع محددة من الشعارات باستخدام معامل `fields`. تتضمن الحقول المتاحة:
 
-* `logo_light` - شعار لسمة واجهة فاتحة (PNG)
-* `logo_dark` - شعار لسمة واجهة داكنة (PNG)
-* `logo_vector_light` - شعار متجهي لسمة واجهة فاتحة (SVG)
-* `logo_vector_dark` - شعار متجهي لسمة واجهة داكنة (SVG)
-* `mark_light` - علامة/أيقونة لسمة واجهة فاتحة (PNG)
-* `mark_dark` - علامة/أيقونة لسمة واجهة داكنة (PNG)
-* `mark_vector_light` - علامة/أيقونة متجهية لسمة واجهة فاتحة (SVG)
-* `mark_vector_dark` - علامة/أيقونة متجهية لسمة واجهة داكنة (SVG)
-* `mark_composite_light` - علامة مركّبة لسمة واجهة فاتحة (PNG)
-* `mark_composite_dark` - علامة مركّبة لسمة واجهة داكنة (PNG)
-* `mark_vector_composite_light` - علامة مركّبة متجهية لسمة واجهة فاتحة (SVG)
-* `mark_vector_composite_dark` - علامة مركّبة متجهية لسمة واجهة داكنة (SVG)
+* `logo_light` - شعار للوضع الفاتح (PNG)
+* `logo_dark` - شعار للوضع الداكن (PNG)
+* `logo_vector_light` - شعار متجه للوضع الفاتح (SVG)
+* `logo_vector_dark` - شعار متجه للوضع الداكن (SVG)
+* `mark_light` - علامة/أيقونة للوضع الفاتح (PNG)
+* `mark_dark` - علامة/أيقونة للوضع الداكن (PNG)
+* `mark_vector_light` - علامة متجهة للوضع الفاتح (SVG)
+* `mark_vector_dark` - علامة متجهة للوضع الداكن (SVG)
+* `mark_composite_light` - علامة مركّبة للوضع الفاتح (PNG)
+* `mark_composite_dark` - علامة مركّبة للوضع الداكن (PNG)
+* `mark_vector_composite_light` - علامة متجهة مركّبة للوضع الفاتح (SVG)
+* `mark_vector_composite_dark` - علامة متجهة مركّبة للوضع الداكن (SVG)
 
 **مثال على طلب عدة حقول:**
 
@@ -249,27 +249,27 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
   ### تخصيص الصورة
 </div>
 
-- `scale` - تغيير مقياس الصورة (مثلًا: `100x100`, `300x300`)
-- `max_width` - أقصى عرض للصورة المُرجَعة
-- `composite_radius` - نصف قطر الزوايا للصور المركّبة (عدد صحيح، النطاق `0-50`)
+- `scale` - تغيير حجم الصورة (مثلًا، `100x100`، `300x300`)
+- `max_width` - الحد الأقصى لعرض الصورة المُعادة
+- `composite_radius` - نصف قطر حواف الصور المركّبة (عدد صحيح، النطاق `0-50`)
 - `composite_auto` - إنشاء الصور المركّبة تلقائيًا (قيمة منطقية)
 
 <div id="pagination-bulk-sync-only">
-  ### ترقيم الصفحات (للمزامنة المجمّعة فقط)
+  ### ترقيم الصفحات (bulk-sync فقط)
 </div>
 
 - `page` - رقم الصفحة (عدد صحيح)
 - `pagesize` - عدد النتائج لكل صفحة (عدد صحيح)
-- `updated_since` - التصفية حسب الطابع الزمني لآخر تحديث (صيغة ISO 8601)
+- `updated_since` - تصفية النتائج حسب طابع زمن آخر تحديث (صيغة ISO 8601)
 
 <div id="security-details">
   ### تفاصيل الأوراق المالية
 </div>
 
-- `securities` - تضمين معلومات تفصيلية عن الأوراق المالية في الاستجابة (boolean)
+- `securities` - تضمين معلومات تفصيلية عن الأوراق المالية في الاستجابة (قيمة منطقية)
 
 <div id="response-examples">
-  ## أمثلة على الاستجابات
+  ## أمثلة على الاستجابة
 </div>
 
 <div id="200-success-response">
@@ -312,7 +312,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
 
 
 <div id="401-unauthorized-response">
-  ### استجابة 401 غير المصرح بها
+  ### استجابة 401 غير مصرح بها
 </div>
 
 ```json
@@ -322,7 +322,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز وصول غير صالح أو مفقود"
+      "value": "رمز المصادقة غير صالح أو مفقود"
     }
   ]
 }
@@ -330,7 +330,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
 
 
 <div id="404-not-found-response">
-  ### استجابة 404 لم يتم العثور عليها
+  ### استجابة 404 لم يتم العثور على المورد
 </div>
 
 ```json
@@ -348,7 +348,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
 
 
 <div id="500-internal-server-error-response">
-  ### استجابة خطأ 500 للخادم الداخلي
+  ### استجابة خطأ خادم داخلي 500
 </div>
 
 ```json
@@ -358,7 +358,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "حدث خطأ غير متوقع أثناء معالجة الطلب"
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
     }
   ]
 }
@@ -369,7 +369,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
   ## المصادقة
 </div>
 
-تتطلب جميع نقاط نهاية Logos API إجراء مصادقة باستخدام مفتاح واجهة برمجة التطبيقات API. تضمين رمز الوصول الخاص بك كمعامل في سلسلة الاستعلام:
+تتطلب جميع نقاط نهاية واجهة برمجة التطبيقات API الخاصة بـ Logos مصادقة باستخدام مفتاح واجهة برمجة التطبيقات API. قم بتضمين رمز الوصول الخاص بك كمعامل استعلام:
 
 ```
 ?token=YOUR_API_KEY
@@ -380,20 +380,20 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
   ## أفضل الممارسات
 </div>
 
-1. **حدد search_keys_type** - رغم أن واجهة برمجة التطبيقات API تستخدم افتراضيًا القيمة `symbol`، فإن تحديد النوع صراحةً يحسّن الوضوح والأداء
-2. **اطلب الحقول المطلوبة فقط** - اطلب فقط أنواع الشعارات التي تحتاجها لتقليل حجم الاستجابة وتحسين الأداء
-3. **استخدم bulk-sync لمجموعات البيانات الكبيرة** - عند جلب عدة شعارات، استخدم نقطة النهاية `/logos/bulk-sync` مع الترقيم الصفحي (pagination)
-4. **خزّن الاستجابات مؤقتًا** - عناوين url الخاصة بالشعارات تتضمن طوابع زمنية لانتهاء الصلاحية؛ خزّنها مؤقتًا بشكل مناسب لتقليل عدد استدعاءات واجهة برمجة التطبيقات API
-5. **تعامل مع الأخطاء بسلاسة** - تحقَّق دائمًا من الحقل `ok` في الاستجابات وتعامل مع حالات الخطأ بالشكل المناسب
+1. **حدِّد search_keys_type** - بالرغم من أن واجهة برمجة التطبيقات API تستخدم القيمة الافتراضية `symbol`، فإن تحديد النوع صراحةً يحسِّن الوضوح والأداء
+2. **اطلب الحقول اللازمة فقط** - اطلب فقط أنواع الشعارات التي تحتاجها لتقليل حجم الاستجابة وتحسين الأداء
+3. **استخدم bulk-sync لمجموعات البيانات الكبيرة** - عند استرجاع عدة شعارات، استخدم نقطة النهاية `/logos/bulk-sync` مع ترقيم الصفحات
+4. **خزِّن الاستجابات مؤقتًا** - عناوين URL الخاصة بالشعارات تتضمن طوابع زمنية لانتهاء الصلاحية؛ خزِّنها بالشكل المناسب لتقليل عدد استدعاءات واجهة برمجة التطبيقات API
+5. **تعامَل مع الأخطاء بسلاسة** - تحقَّق دائمًا من الحقل `ok` في الاستجابات وتعامل مع حالات الخطأ بالشكل المناسب
 
 <div id="rate-limits">
-  ## حدود المعدل
+  ## حدود معدل الطلبات
 </div>
 
-يرجى مراجعة خطة اشتراكك في واجهة برمجة التطبيقات API للاطلاع على تفاصيل حدود المعدل. تواصل مع فريق الدعم إذا كنت بحاجة إلى حدود معدل أعلى لتطبيقك.
+راجع خطة اشتراكك في واجهة برمجة التطبيقات API للاطلاع على تفاصيل حدود معدل الطلبات. تواصل مع فريق الدعم إذا كنت بحاجة إلى حدود معدل طلبات أعلى لتطبيقك.
 
 <div id="support">
   ## الدعم
 </div>
 
-للحصول على مساعدة إضافية أو لطرح أسئلة حول Logos API، تواصل مع دعم واجهة برمجة التطبيقات لدى Benzinga أو راجع التوثيق التفصيلي لنقاط النهاية.
+للحصول على مساعدة إضافية أو لطرح أسئلة حول واجهة برمجة التطبيقات API للشعارات Logos، تواصل مع دعم واجهة برمجة التطبيقات API لدى Benzinga أو راجع توثيق نقاط النهاية المفصل.

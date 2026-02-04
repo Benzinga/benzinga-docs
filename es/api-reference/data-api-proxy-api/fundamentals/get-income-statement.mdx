@@ -5,13 +5,13 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET
 ---
 
 <ResponseExample>
-```json Respuesta (200 OK)
+```json Response (200 OK)
 {
   "ok": "true",
   "data": []
 }
 ```
-```json Respuesta (401 Unauthorized)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
@@ -23,7 +23,7 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET
   ]
 }
 ```
-```json Respuesta (404 Not Found)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -35,7 +35,7 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET
   ]
 }
 ```
-```json Respuesta (500 Internal Server Error)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
