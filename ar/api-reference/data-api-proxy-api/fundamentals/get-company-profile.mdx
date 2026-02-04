@@ -5,7 +5,7 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET
 ---
 
 <ResponseExample>
-```json استجابة (200 OK)
+```json Response (200 OK)
 {
   "result": [
     {
@@ -40,7 +40,7 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET
         "province": "CA",
         "totalEmployees": 166000,
         "legalName": "Apple Inc",
-        "longDescription": "Apple is among the largest companies in the world, with a broad portfolio of hardware and software products targeted at consumers and businesses. Apple's iPhone makes up a majority of the firm sales, and Apple's other products like Mac, iPad, and Watch are designed around the iPhone as the focal point of an expansive software ecosystem. Apple has progressively worked to add new applications, like streaming video, subscription bundles, and augmented reality. The firm designs its own software and semiconductors while working with subcontractors like Foxconn and TSMC to build its products and chips. Slightly less than half of Apple's sales come directly through its flagship stores, with a majority of sales coming indirectly through partnerships and distribution."
+        "longDescription": "تُعَد Apple واحدة من أكبر الشركات في العالم، وتمتلك مجموعة واسعة من منتجات الأجهزة والبرمجيات الموجّهة للمستهلكين والشركات. يشكّل iPhone من Apple الجزء الأكبر من مبيعات الشركة، كما أن منتجات Apple الأخرى مثل Mac و iPad و Watch مصمَّمة حول iPhone بوصفه نقطة الارتكاز ضمن منظومة برمجية واسعة. عملت Apple تدريجيًا على إضافة تطبيقات وخدمات جديدة، مثل بث الفيديو، وباقات الاشتراك، والواقع المعزَّز. تصمم الشركة برمجياتها وأشباه الموصلات الخاصة بها، بينما تعمل مع متعاقدين من الباطن مثل Foxconn و TSMC لتصنيع منتجاتها ورقاقاتها. يأتي أقل بقليل من نصف مبيعات Apple مباشرة من متاجرها الرئيسية، بينما يأتي الجزء الأكبر من المبيعات بشكل غير مباشر عبر الشراكات وقنوات التوزيع."
       },
       "symbol": "AAPL",
       "idType": "SYMBOL",
@@ -49,38 +49,38 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET
   ]
 }
 ```
-```json استجابة (401 غير مصرح به)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json استجابة (404 غير موجود)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No data found for the specified parameters"
+      "value": "لم يتم العثور على بيانات للمعلمات المحددة"
     }
   ]
 }
 ```
-```json استجابة (500 خطأ داخلي في الخادم)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
     }
   ]
 }

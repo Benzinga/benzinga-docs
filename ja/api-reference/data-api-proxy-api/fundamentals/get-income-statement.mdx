@@ -18,7 +18,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "認証トークンが無効であるか指定されていません"
     }
   ]
 }
@@ -30,7 +30,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No data found for the specified parameters"
+      "value": "指定されたパラメータに一致するデータが見つかりませんでした"
     }
   ]
 }
@@ -42,7 +42,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "リクエストの処理中に予期しないエラーが発生しました"
     }
   ]
 }

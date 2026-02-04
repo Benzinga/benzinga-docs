@@ -95,7 +95,7 @@ openapi: /es/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
   ```json Response (404 Not Found)
   {
     "ok": false,
-    "errors": [
+    "errores": [
       {
         "code": "no_data_found",
         "id": "not_found",
@@ -112,7 +112,7 @@ openapi: /es/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
       {
         "code": "internal_server_error",
         "id": "server_error",
-        "value": "Ocurrió un error inesperado al procesar tu solicitud"
+        "value": "Ocurrió un error inesperado al procesar su solicitud"
       }
     ]
   }

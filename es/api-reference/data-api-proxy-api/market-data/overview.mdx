@@ -7,43 +7,43 @@ description: "Descripción general de las API de datos de mercado"
   ## Introducción
 </div>
 
-Las APIs de datos de mercado proporcionan información de mercado integral, incluyendo cotizaciones diferidas, principales variaciones del mercado y datos sobre posiciones cortas en valores.
+Las API de datos de mercado proporcionan información de mercado completa, incluidas cotizaciones en diferido, valores más activos (market movers) y datos sobre posiciones cortas para valores.
 
 <div id="market-movers">
   ## Market Movers
 </div>
 
-La API de Market Movers proporciona datos en tiempo real sobre los valores con mayores subidas, caídas y los más negociados activamente. Usa este endpoint para identificar:
+La API de Market Movers proporciona datos en tiempo real sobre los valores con mayores subidas, mayores bajadas y los más activamente negociados. Utiliza este endpoint para identificar:
 
-* **Gainers** - Valores con el mayor cambio positivo de precio
-* **Losers** - Valores con el mayor cambio negativo de precio
+* **Gainers** - Valores con la mayor variación positiva en el precio
+* **Losers** - Valores con la mayor variación negativa en el precio
 * **Volume Leaders** - Valores con el mayor volumen de negociación
 
-Cada resultado incluye precio, cambio porcentual, volumen, capitalización de mercado, sector y datos sobre el float.
+Cada resultado incluye precio, porcentaje de cambio, volumen, capitalización bursátil, sector y datos de free float.
 
 <div id="get-market-movers">
   ### [Obtener principales movimientos del mercado](/es/api-reference/data-api-proxy_api/market-data/market-movers)
 </div>
 
-Obtén los principales valores en movimiento del mercado, incluidos los de mayores subidas, mayores caídas y los líderes por volumen.
+Obtenga los principales movimientos del mercado, incluidos los mayores ganadores, los mayores perdedores y los líderes por volumen.
 
 ***
 
 <div id="short-interest-data">
-  ## Datos de Short Interest
+  ## Datos de posición corta
 </div>
 
-La API de Short Interest proporciona datos sobre la actividad de ventas en corto de valores. Estos datos son valiosos para comprender el sentimiento del mercado e identificar posibles candidatos a un short squeeze.
+La API Short Interest proporciona datos sobre la actividad de ventas en corto para valores. Estos datos son valiosos para comprender el sentimiento del mercado e identificar posibles candidatos a short squeeze.
 
 Las métricas clave incluyen:
 
 * **Total Short Interest** - Número de acciones vendidas en corto
-* **Days to Cover** - Días estimados para cubrir las posiciones cortas en función del volumen promedio
-* **Short % of Float** - Porcentaje del float de acciones vendido en corto
-* **Month-over-Month Change** - Cambio en el short interest con respecto al mes anterior
+* **Days to Cover** - Días estimados necesarios para cubrir las posiciones cortas en función del volumen promedio
+* **Short % of Float** - Porcentaje de las acciones en circulación vendidas en corto
+* **Month-over-Month Change** - Cambio intermensual en el short interest con respecto al mes anterior
 
 <div id="get-short-interest-data">
-  ### [Obtener datos de posiciones cortas](/es/api-reference/data-api-proxy_api/market-data/short-interest-data)
+  ### [Obtener datos de interés en corto](/es/api-reference/data-api-proxy_api/market-data/short-interest-data)
 </div>
 
-Obtenga datos de posiciones cortas para valores.
+Obtenga datos de interés en corto para valores.
