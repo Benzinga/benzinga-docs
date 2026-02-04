@@ -40,7 +40,7 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET
         "province": "CA",
         "totalEmployees": 166000,
         "legalName": "Apple Inc",
-        "longDescription": "Apple is among the largest companies in the world, with a broad portfolio of hardware and software products targeted at consumers and businesses. Apple's iPhone makes up a majority of the firm sales, and Apple's other products like Mac, iPad, and Watch are designed around the iPhone as the focal point of an expansive software ecosystem. Apple has progressively worked to add new applications, like streaming video, subscription bundles, and augmented reality. The firm designs its own software and semiconductors while working with subcontractors like Foxconn and TSMC to build its products and chips. Slightly less than half of Apple's sales come directly through its flagship stores, with a majority of sales coming indirectly through partnerships and distribution."
+        "longDescription": "Apple se encuentra entre las empresas más grandes del mundo, con una amplia cartera de productos de hardware y software dirigidos a consumidores y empresas. El iPhone de Apple representa la mayor parte de las ventas de la firma, y otros productos de Apple como Mac, iPad y Watch están diseñados en torno al iPhone como punto focal de un amplio ecosistema de software. Apple ha trabajado progresivamente para añadir nuevas aplicaciones, como vídeo en streaming, paquetes de suscripción y realidad aumentada. La empresa diseña su propio software y sus propios semiconductores mientras colabora con subcontratistas como Foxconn y TSMC para fabricar sus productos y chips. Algo menos de la mitad de las ventas de Apple proviene directamente de sus tiendas insignia, mientras que la mayoría de las ventas se realiza indirectamente a través de asociaciones y distribución."
       },
       "symbol": "AAPL",
       "idType": "SYMBOL",
@@ -49,19 +49,19 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET
   ]
 }
 ```
-```json Respuesta (401 Unauthorized)
+```json Respuesta (401 No autorizado)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Token de autenticación no válido o ausente"
+      "value": "Token de autenticación no válido o faltante"
     }
   ]
 }
 ```
-```json Respuesta (404 Not Found)
+```json Respuesta (404 No encontrado)
 {
   "ok": false,
   "errors": [
@@ -73,7 +73,7 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET
   ]
 }
 ```
-```json Respuesta (500 Internal Server Error)
+```json Respuesta (500 Error interno del servidor)
 {
   "ok": false,
   "errors": [

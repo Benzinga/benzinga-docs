@@ -4,7 +4,7 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals/comp
 ---
 
 <ResponseExample>
-```json استجابة (200 OK)
+```json Response (200 OK)
 {
   "result": [
     {
@@ -30,19 +30,19 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals/comp
   ]
 }
 ```
-```json استجابة (401 Unauthorized)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز الوصول للمصادقة مفقود أو غير صالح"
+      "value": "رمز وصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -54,7 +54,7 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals/comp
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [

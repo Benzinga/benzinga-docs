@@ -4,14 +4,14 @@ openapi: /ar/openapi/news-api_api.spec.yml GET /api/v2/news
 ---
 
 <ResponseExample>
-```json استجابة (200 OK)
+```json Response (200 OK)
 [
   {
     "id": 36444586,
     "author": "GlobeNewswire",
     "created": "Mon, 01 Jan 2024 13:35:14 -0400",
     "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
-    "title": "شركة XYZ تعلن عن نتائج أرباح الربع الرابع لعام 2023 والمبادرات الاستراتيجية",
+    "title": "تعلن Company XYZ عن نتائج أرباح الربع الرابع لعام 2023 والمبادرات الاستراتيجية",
     "teaser": "",
     "body": "",
     "url": "https://www.benzinga.com/pressreleases/24/01/g36444586/company-xyz-announces-q4-2023-earnings-results-and-strategic-initiatives",
@@ -50,7 +50,7 @@ openapi: /ar/openapi/news-api_api.spec.yml GET /api/v2/news
   }
 ]
 ```
-```json استجابة (401 Unauthorized)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
@@ -62,19 +62,19 @@ openapi: /ar/openapi/news-api_api.spec.yml GET /api/v2/news
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "لم يتم العثور على أي بيانات للمعلمات المحددة"
+      "value": "لم يتم العثور على بيانات للمعلمات المحددة"
     }
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [

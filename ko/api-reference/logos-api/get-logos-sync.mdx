@@ -4,7 +4,7 @@ openapi: /ko/openapi/logo-api_api.spec.yml GET /api/v2.1/logos/sync
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json 응답 (200 OK)
 {
   "ok": true,
   "data": [
@@ -61,50 +61,50 @@ openapi: /ko/openapi/logo-api_api.spec.yml GET /api/v2.1/logos/sync
   ]
 }
 ```
-```json Response (400 Bad Request)
+```json 응답 (400 잘못된 요청)
 {
   "ok": false,
   "errors": [
     {
       "code": "bad_request",
       "id": "invalid_parameter",
-      "value": "Invalid search_keys_type parameter"
+      "value": "유효하지 않은 search_keys_type 파라미터입니다."
     }
   ]
 }
 ```
-```json Response (401 Unauthorized)
+```json 응답 (401 권한 없음)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "인증 토큰이 없거나 올바르지 않습니다."
     }
   ]
 }
 ```
-```json Response (404 Not Found)
+```json 응답 (404 찾을 수 없음)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No logos found for the specified search key"
+      "value": "지정된 검색 키에 대한 로고를 찾을 수 없습니다."
     }
   ]
 }
 ```
-```json Response (500 Internal Server Error)
+```json 응답 (500 내부 서버 오류)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "요청을 처리하는 중 예기치 않은 오류가 발생했습니다."
     }
   ]
 }
