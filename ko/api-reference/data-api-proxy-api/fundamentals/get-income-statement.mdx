@@ -11,19 +11,19 @@ openapi: /ko/openapi/data-api-proxy_api.spec.yml GET
   "data": []
 }
 ```
-```json 응답 (401 인증 실패)
+```json 응답 (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "인증 토큰이 잘못되었거나 누락되었습니다"
+      "value": "잘못되었거나 누락된 인증 토큰입니다"
     }
   ]
 }
 ```
-```json 응답 (404 찾을 수 없음)
+```json 응답 (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -35,7 +35,7 @@ openapi: /ko/openapi/data-api-proxy_api.spec.yml GET
   ]
 }
 ```
-```json 응답 (500 내부 서버 오류)
+```json 응답 (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
