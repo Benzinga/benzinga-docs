@@ -521,7 +521,7 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
           "naics": "334220",
           "naicsName": "البث الإذاعي والتلفزيوني والمعدات اللاسلكية",
           "msSuperSectorCode": 3,
-          "msSuperSectorName": "حساس",
+          "msSuperSectorName": "حساسة",
           "msSectorCode": 311,
           "msSectorName": "التقنية",
           "msGroupCode": 31120,
@@ -546,7 +546,7 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
   ```json Response (401 Unauthorized)
   {
     "ok": false,
-    "errors": [
+    "الأخطاء": [
       {
         "code": "auth_failed",
         "id": "unauthorized",
@@ -559,11 +559,11 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
   ```json Response (404 Not Found)
   {
     "ok": false,
-    "errors": [
+    "الأخطاء": [
       {
         "code": "no_data_found",
         "id": "not_found",
-        "value": "لم يتم العثور على بيانات للمعاملات المحددة"
+        "value": "لم يتم العثور على بيانات للمعلمات المحددة"
       }
     ]
   }
@@ -572,7 +572,7 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
   ```json Response (500 Internal Server Error)
   {
     "ok": false,
-    "errors": [
+    "الأخطاء": [
       {
         "code": "internal_server_error",
         "id": "server_error",

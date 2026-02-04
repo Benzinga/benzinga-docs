@@ -4,15 +4,15 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json Respuesta (200 OK)
 {
   "data": [
     {
       "call_id": "694bf432dd7f23000124626c",
-      "call_title": "Aritzia alcanza unos ingresos récord de 1.000 millones de dólares, impulsados por el crecimiento digital y la expansión de boutiques",
-      "description": "Q1 2026 Aritzia (ATZ) llamada de resultados",
+      "call_title": "Aritzia alcanza un récord de ingresos de 1.000 millones de dólares, impulsado por el crecimiento digital y la expansión de boutiques",
+      "description": "Q1 2026 Aritzia (ATZ) Earnings Conference Call",
       "webcast_url": "https://events.q4inc.com/attendee/476349537",
-      "headline": "Aritzia registra un crecimiento de los ingresos del 43 % hasta 1.040 millones de dólares en el 3T, impulsado por un sólido comercio electrónico en EE. UU. y la apertura estratégica de boutiques",
+      "headline": "Aritzia registra un crecimiento de ingresos del 43 % hasta 1,04 mil millones de dólares en el 3T, impulsado por un sólido comercio electrónico en EE. UU. y aperturas estratégicas de boutiques",
       "symbol": "ATZ",
       "exchange": "TSX",
       "figis": [
@@ -28,7 +28,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
       "transcripts": [
         {
           "transcript_id": "053c48c4-17f2-48a8-8216-68513c5c54c2",
-          "text": "Gracias por mantenerse en línea, este es el operador de la conferencia... ahora puede desconectar sus líneas",
+          "text": "Gracias por mantenerse en la línea, le habla el operador de la conferencia... ahora pueden desconectar sus líneas",
           "language": "en-US",
           "confidence_score": 0.41074312812500047,
           "segments": null,
@@ -36,7 +36,7 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
         },
         {
           "transcript_id": "c10f465c-f09e-4661-b029-c1092b2b9d40",
-          "text": "Gracias por mantenerse en línea... Gracias por acompañarnos y que tenga un buen día. Ahora puede desconectar sus líneas.",
+          "text": "Gracias por mantenerse en la línea... Gracias por unirse y que tengan un buen día. Ahora pueden desconectar sus líneas.",
           "language": "en-US",
           "confidence_score": 0.9678800193700792,
           "segments": null,
@@ -66,19 +66,19 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
   }
 }
 ```
-```json Response (400 Bad Request)
+```json Respuesta (400 Bad Request)
 {
   "ok": false,
   "errors": [
     {
       "code": "bad_request",
       "id": "invalid_parameter",
-      "value": "Parámetro \"search_keys_type\" no válido"
+      "value": "Parámetro search_keys_type no válido"
     }
   ]
 }
 ```
-```json Response (401 Unauthorized)
+```json Respuesta (401 Unauthorized)
 {
   "ok": false,
   "errors": [
@@ -90,19 +90,19 @@ openapi: /es/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
   ]
 }
 ```
-```json Response (404 Not Found)
+```json Respuesta (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No se encontraron logos para la clave de búsqueda especificada"
+      "value": "No se encontraron logotipos para la clave de búsqueda especificada"
     }
   ]
 }
 ```
-```json Response (500 Internal Server Error)
+```json Respuesta (500 Internal Server Error)
 {
   "ok": false,
   "errors": [

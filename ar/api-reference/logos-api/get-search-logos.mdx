@@ -44,7 +44,7 @@ openapi: /ar/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
             "country": "US",
             "figi_share_class": "BBG001SQKGD7",
             "figi": "BBG000N9MNX3",
-            "security_type": "Common Stock"
+            "security_type": "أسهم عادية"
           },
           {
             "symbol": "TL0",
@@ -58,7 +58,7 @@ openapi: /ar/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
             "country": "DE",
             "figi_share_class": "BBG001SQKGD7",
             "figi": "BBG000WGWVP7",
-            "security_type": "Common Stock"
+            "security_type": "أسهم عادية"
           }
         ]
       }
@@ -82,7 +82,7 @@ openapi: /ar/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
   ```json Response (401 Unauthorized)
   {
     "ok": false,
-    "errors": [
+    "الأخطاء": [
       {
         "code": "auth_failed",
         "id": "unauthorized",
@@ -95,11 +95,11 @@ openapi: /ar/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
   ```json Response (404 Not Found)
   {
     "ok": false,
-    "errors": [
+    "الأخطاء": [
       {
         "code": "no_data_found",
         "id": "not_found",
-        "value": "لم يتم العثور على شعارات للمفتاح المحدد"
+        "value": "لم يتم العثور على شعارات لمفتاح البحث المُحدد"
       }
     ]
   }
@@ -108,7 +108,7 @@ openapi: /ar/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
   ```json Response (500 Internal Server Error)
   {
     "ok": false,
-    "errors": [
+    "الأخطاء": [
       {
         "code": "internal_server_error",
         "id": "server_error",

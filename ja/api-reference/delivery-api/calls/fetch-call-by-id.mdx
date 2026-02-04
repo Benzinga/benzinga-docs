@@ -1,5 +1,5 @@
 ---
-title: "トランスクリプトを ID で取得"
+title: "ID でトランスクリプトを取得"
 openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
 ---
 
@@ -7,10 +7,10 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
   ```json Response (200 OK)
   {
     "call_id": "68c1684993d1da0001953084",
-    "call_title": "TotalEnergies、市場の課題にもかかわらず第3四半期の好調な成長を報告、配当を増額",
-    "description": "2025年第4四半期 TotalEnergies (TTE) 決算説明会",
+    "call_title": "TotalEnergies reports strong Q3 growth, boosts dividends despite market challenges",
+    "description": "Q4 2025 TotalEnergies (TTE) Earnings Conference Call",
     "webcast_url": "https://edge.media-server.com/mmc/p/zfnjs6iz/",
-    "headline": "TotalEnergies、生産拡大と戦略の進展により4%のキャッシュフロー成長を達成し、変動する原油価格の中で株主還元を強化。",
+    "headline": "TotalEnergies enhances shareholder returns with 4% cash flow growth as production ramps up and strategy gains traction amid fluctuating oil prices.",
     "symbol": "TTE",
     "exchange": "NYSE",
     "figis": [
@@ -20,23 +20,23 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
     "start_time": "2025-10-30T10:59:03Z",
     "end_time": "2025-11-02T19:56:03Z",
     "duration": 5427,
-    "status": "完了",
+    "status": "COMPLETED",
     "created_at": "2025-10-30T10:59:03.695748Z",
     "updated_at": "2025-11-02T19:56:03Z",
     "transcripts": [
       {
         "transcript_id": "df8fa7e2-37ec-4981-8e86-6715f9207ff2",
-        "text": "こんにちは。皆さん、おはようございます。Jean Pierreが第3四半期の業績詳細を説明する前に、冒頭のコメントをさせていただきます..{{truncated}}..率直に申し上げて、取締役会と私自身、皆さんと同様に今四半期の業績に大変満足しています。これは、四半期ごと、年ごとに皆さんに説明してきたことすべてが実行段階にあり、フリーキャッシュフローが増加することを改めて実証しているからです。ご参加いただきありがとうございました。",
+        "text": "Good afternoon. Good morning everyone. Before Jean Pierre goes through the details of the third quarter results, I would like to make a few opening comments ..{{truncated}}.. And frankly, board of directors and myself as you, we are quite pleased with the results of this quarter because that demonstrates and again that all what we explain you quarter and year after year is on the delivery mode and that free cash flow will increase. Thank you for your attendance.",
         "language": "en-US",
         "confidence_score": 0.948344884949495,
         "segments": [
           {
             "segment_id": 0,
-            "speaker": "オペレーター",
+            "speaker": "OPERATOR",
             "start_time": "00:00:01",
             "end_time": "00:08:06",
             "confidence": 0.95141685,
-            "text": "こんにちは。皆さん、おはようございます。Jean Pierreが第3四半期の業績詳細を説明する前に..{{truncated}}..それでは、第1四半期の財務詳細を説明するJean Pierreに電話をお繋ぎします。",
+            "text": "Good afternoon. Good morning everyone. Before Jean Pierre goes through the details of the third quarter results ..{{truncated}}.. I will now turn the call over to Jean Pierre who will go through the details of his first quarter financials.",
             "sentiment": 0.45
           },
           {
@@ -45,16 +45,16 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
             "start_time": "00:08:07",
             "end_time": "00:19:16",
             "confidence": 0.95684206,
-            "text": "ありがとうございます、Patrick。まず、第3四半期と第2四半期の価格環境についてコメントします。第3四半期のブレント原油は1バレル平均69ドルで、第2四半期の68ドルに対して..{{truncated}}..それでは、質問のために回線を開放してください。",
+            "text": "Thank you Patrick. I will start by commenting on the price environment in the third quarter versus the second quarter. Brent averaged $69 per barrel during the third quarter versus $68 per barrel in the second quarter ..{{truncated}}.. so please open up the line for questions.",
             "sentiment": 0.2
           },
           {
             "segment_id": 2,
-            "speaker": "オペレーター",
+            "speaker": "OPERATOR",
             "start_time": "00:19:18",
             "end_time": "00:19:49",
             "confidence": 0.9713833,
-            "text": "ありがとうございます、皆様。これより質疑応答セッションを開始いたします。念のため申し上げますが、ご質問をされたい場合は、お電話でスター n1 を押して、お名前が呼ばれるまでお待ちください。ご質問の際は、音声ソースをミュートにしてください。リクエストをキャンセルされたい場合は、ハッシュキーを押してください。もう一度申し上げます、ご質問をされたい場合は N1 を押してください。最初の質問は、BarclaysのLydia Rainforthさんからです。どうぞお願いします。",
+            "text": "Thank you ladies and gentlemen. We will now begin the question and answer session. As a reminder, if you wish to ask a question, please press star n1 on your telephone and wait for your name to be announced. Please kindly mute any audio sources by asking a question. If you wish to cancel your request, please press the hash key. Once Again, please press N1 if you wish to ask a question. The first question is from Lydia Rainforth, Barclays. Please go ahead.",
             "sentiment": 0
           },
           {
@@ -63,7 +63,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
             "start_time": "00:19:51",
             "end_time": "00:20:26",
             "confidence": 0.9671036,
-            "text": "ありがとうございます。お二人ともこんにちは、そしてプレゼンテーションをありがとうございます。2026年について考えるとき、来年の生産量に比べてキャッシュフローがどれだけ多く成長する可能性があるか、その目安を教えていただけますか?そして、それについて再度ご説明いただけますか?",
+            "text": "Thank you and good afternoon to both of you and thank you for the presentation. So when you're thinking about 2026, can you just, can you give us an indication as to how much more cash flow might grow than production for next year? And just remind us of that?",
             "sentiment": 0.1
           },
           {....},
@@ -73,11 +73,11 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
             "start_time": "01:29:45",
             "end_time": "01:30:25",
             "confidence": 0.9567434,
-            "text": "わかりました。皆様、ご参加いただきありがとうございました。皆様が行った分析がすべて株価に反映されることを願っていますが、今朝はそうではありませんでした。ご参加いただきありがとうございました。",
+            "text": "Okay. So thank you to all of you for your attendance. I hope that all the analysis you've done will be reflected in the stock price was not the case this morning. Thank you for your attendance.",
             "sentiment": 0.5
           }
         ],
-        "type": "録画済み",
+        "type": "NON_LIVE"
       },
       {
         "transcript_id": "b4dee433-51e2-40c5-8bac-d9508b30de1a",
@@ -85,7 +85,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
         "language": "en-US",
         "confidence_score": 0,
         "segments": null,
-        "type": "ライブ",
+        "type": "LIVE"
       }
     ],
     "recording": {
@@ -111,7 +111,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
       "summary_id": "d3a9f050-dcfe-4baf-b5d2-5abf3a4cd0fc",
       "transcript_id": "",
       "call_id": "68c1684993d1da0001953084",
-      "summary": "TotalEnergiesは、原油価格が前年比で1バレル当たり10ドル下落したにもかかわらず、第3四半期のキャッシュフローが4%増加したと報告しました。\nブラジルと米国における新しい炭化水素プロジェクトが同社のキャッシュフローに大きく貢献し、前年比で4億ドルを追加しました。\n取締役会は、2024年と比較して第3回中間配当をユーロで約8%、ドルで10%以上増額しました。\n同社は、2025年第4四半期に最大15億ドルの自社株買いプログラムを承認しました。\n上流部門の生産量は前年比で4%以上成長すると予測されており、純投資は減少する見込みです。\n同社は、12月8日からニューヨーク証券取引所で普通株式の取引を開始する予定です。\n下流部門では、精製マージンの改善により、キャッシュフローが約5億ドル増加しました。\n同社は、資産売却と運転資本の改善に支えられ、年末までにギアリングを15〜16%に維持することを目指しています。\n経営陣は、戦略的イニシアチブと付加価値の高い生産成長に起因する財務パフォーマンスの強靭性を強調しました。",
+      "summary": "TotalEnergiesは、原油価格が前年比で1バレル当たり10ドル下落したにもかかわらず、第3四半期のキャッシュフローが4%増加したと報告しました。\nブラジルと米国における新しい炭化水素プロジェクトが同社のキャッシュフローに大きく貢献し、前年比で4億ドルを追加しました。\n取締役会は、2024年と比較して第3回中間配当をユーロで約8%、ドルで10%以上増額しました。\n同社は、2025年第4四半期に最大15億ドルの自社株買いプログラムを承認しました。\n上流部門の生産は前年比で4%以上成長すると予測されており、純投資は減少する見込みです。\n同社は、12月8日からニューヨーク証券取引所で普通株式の取引を開始する予定です。\n下流部門は、精製マージンの改善により、キャッシュフローがほぼ5億ドル増加しました。\n同社は、資産売却と運転資本の改善に支えられ、年末までにギアリングを15〜16%に維持することを目指しています。\n経営陣は、財務パフォーマンスの回復力を強調し、それを戦略的イニシアチブと付加価値のある生産成長に起因するとしました。",
       "symbol": "",
       "sentiment": 0.78,
       "language": "",
@@ -123,7 +123,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
         "participant_id": "b819ea94-8ada-4d02-b7b8-dd1f013443de",
         "call_id": "68c1684993d1da0001953084",
         "name": "Patrick Pouyanné",
-        "role": "会長兼CEO",
+        "role": "Chairman and CEO",
         "organization": "TotalEnergies",
         "mentions": 11,
         "human_verified": false
@@ -133,7 +133,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
         "participant_id": "8f82b104-01fb-47f6-8554-d15fc282be4e",
         "call_id": "68c1684993d1da0001953084",
         "name": "Jean-Pierre Sbraire",
-        "role": "最高財務責任者",
+        "role": "Chief Financial Officer",
         "organization": "TotalEnergies",
         "mentions": 4,
         "human_verified": false
@@ -170,11 +170,11 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
   ```json Response (401 Unauthorized)
   {
     "ok": false,
-    "errors": [
+    "エラー": [
       {
         "code": "auth_failed",
         "id": "unauthorized",
-        "value": "認証トークンが無効または存在しません"
+        "value": "認証トークンが無効または欠落しています"
       }
     ]
   }
@@ -187,7 +187,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_i
       {
         "code": "no_data_found",
         "id": "not_found",
-        "value": "指定された検索キーのロゴが見つかりませんでした"
+        "value": "指定された検索キーに該当するロゴが見つかりませんでした"
       }
     ]
   }
