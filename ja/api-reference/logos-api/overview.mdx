@@ -1,13 +1,13 @@
 ---
 title: "概要"
-description: "各種識別子を使用して企業、ファンド、暗号資産のロゴを検索・取得するための包括的ガイド"
+description: "各種識別子を使用して、企業・ファンド・暗号資産のロゴを検索および取得するための包括的なガイド"
 ---
 
 <div id="introduction">
   ## はじめに
 </div>
 
-Benzinga Logos API は、企業、ファンド、暗号資産の高品質なロゴ画像へのアクセスを提供しています。シンボル、CIK 番号、ISIN コード、CUSIP、FIGI など、複数種類の識別子を使ってロゴを検索できます。
+Benzinga Logos API は、企業、ファンド、暗号資産の高品質なロゴにアクセスできる API です。シンボル、CIK 番号、ISIN（国際証券識別番号）コード、CUSIP、FIGI など、複数の識別子の種類を使ってロゴを検索できます。
 
 <div id="available-endpoints">
   ## 利用可能なエンドポイント
@@ -17,33 +17,33 @@ Benzinga Logos API は、企業、ファンド、暗号資産の高品質なロ�
   ### `/logos/search`
 </div>
 
-各種識別子でロゴを検索します。ロゴのURL、証券の詳細、およびメタデータを返します。
+各種識別子を使用してロゴを検索します。ロゴのURL、証券の詳細、およびメタデータを返します。
 
 <div id="logossync">
   ### `/logos/sync`
 </div>
 
-ページネーション対応の複数ロゴ一括取得用同期エンドポイント。
+複数のロゴをページネーション付きで取得するための一括同期エンドポイントです。
 
 <div id="search-filters">
   ## 検索フィルター
 </div>
 
-API は、次の 2 つの主なパラメーターによる柔軟な検索をサポートしています。
+API は、次の 2 つの主なパラメータによる柔軟な検索をサポートしています。
 
 - `search_keys` - 検索対象とする識別子の値
-- `search_keys_type` - 識別子の種類（オプション。省略時は `symbol` が使用されます）
+- `search_keys_type` - 識別子の種類（省略可能。省略時は `symbol` が既定値）
 
 <div id="1-filter-by-symbol">
-  ### 1. シンボルでフィルタリング
+  ### 1. シンボルでフィルタリングする
 </div>
 
-株式tickerシンボルを使用してロゴを検索します。
+株式のティッカーシンボルを使ってロゴを検索します。
 
 **パラメータ:**
 
 * `search_keys`: シンボル（例: `AAPL`, `TSLA`, `MSFT`）
-* `search_keys_type`: `symbol`（任意、省略時はこれがデフォルト）
+* `search_keys_type`: `symbol`（省略可。指定しない場合のデフォルト値）
 
 **例:**
 
@@ -53,10 +53,10 @@ GET /api/v2/logos/search?search_keys=AAPL&search_keys_type=symbol&fields=logo_li
 
 
 <div id="2-filter-by-cik">
-  ### 2. CIK でフィルターする
+  ### 2. CIK でフィルタリングする
 </div>
 
-SEC の Central Index Key（CIK）を使用して検索します。ゼロ埋めあり／なしの値の両方をサポートします。
+SEC の Central Index Key（CIK）を使って検索します。ゼロ埋めあり／なし両方の形式の値をサポートします。
 
 **パラメータ:**
 
@@ -69,7 +69,7 @@ SEC の Central Index Key（CIK）を使用して検索します。ゼロ埋め�
 GET /api/v2/logos/search?search_keys=320193&search_keys_type=cik&fields=logo_light,logo_dark
 ```
 
-**ゼロ埋めCIKの例:**
+**ゼロ埋めされた CIK の例：**
 
 ```
 GET /api/v2/logos/search?search_keys=0000320193&search_keys_type=cik&fields=logo_light,logo_dark
@@ -77,10 +77,10 @@ GET /api/v2/logos/search?search_keys=0000320193&search_keys_type=cik&fields=logo
 
 
 <div id="3-filter-by-isin">
-  ### 3. ISIN でフィルタリング
+  ### 3. ISIN でフィルタリングする
 </div>
 
-ISIN（国際証券識別番号）を指定して検索します。
+国際証券識別番号（ISIN）を使用して検索します。
 
 **パラメータ:**
 
@@ -95,14 +95,14 @@ GET /api/v2/logos/search?search_keys=US0378331005&search_keys_type=isin&fields=l
 
 
 <div id="4-filter-by-figi-share-class">
-  ### 4. FIGIシェアクラスでフィルタリング
+  ### 4. FIGI株式クラスでフィルタリング
 </div>
 
-Bloomberg の Financial Instrument Global Identifier（FIGI）を使用してシェアクラスを検索します。
+BloombergのFinancial Instrument Global Identifier（FIGI）の株式クラスを使用して検索します。
 
 **パラメータ:**
 
-* `search_keys`: FIGIシェアクラスID（例: `BBG001SQKGD7`）
+* `search_keys`: FIGI株式クラスID（例: `BBG001SQKGD7`）
 * `search_keys_type`: `figi_share_class`
 
 **例:**
@@ -116,7 +116,7 @@ GET /api/v2/logos/search?search_keys=BBG001SQKGD7&search_keys_type=figi_share_cl
   ### 5. CUSIP で絞り込み
 </div>
 
-Committee on Uniform Securities Identification Procedures（CUSIP）の番号を使って検索します。
+Committee on Uniform Securities Identification Procedures（CUSIP）番号を使用して検索します。
 
 **パラメータ:**
 
@@ -131,10 +131,10 @@ GET /api/v2/logos/search?search_keys=88160R101&search_keys_type=cusip&fields=log
 
 
 <div id="6-filter-by-symbol-with-currency-country">
-  ### 6. シンボルを通貨・国コードでフィルタリングする
+  ### 6. シンボルを通貨・国コードでフィルタする
 </div>
 
-シンボルに国コードまたは通貨コードを、コロン（`:`）またはピリオド（`.`）を区切り文字として付けて指定します。
+コロン（`:`）またはピリオド（`.`）を区切り文字として使用して、シンボルに国コードまたは通貨コードを付与します。
 
 **パラメータ:**
 
@@ -154,14 +154,14 @@ GET /api/v2/logos/search?search_keys=AAPL.US&search_keys_type=symbol&fields=logo
   ### 7. 取引所とシンボルでフィルタリング
 </div>
 
-取引所コードとシンボルを組み合わせて検索します。Bloomberg 形式（レガシー）と LSEG 形式の両方をサポートします。
+取引所コードとシンボルを組み合わせて検索します。Bloomberg スタイル（レガシー）と LSEG スタイルの両方の形式をサポートしています。
 
-**Bloomberg 形式のマッピング（レガシー）：**
+**Bloomberg スタイルのマッピング（レガシー）：**
 
-* `search_keys`: 取引所とシンボル（例: `NASDAQ:AAPL`）
+* `search_keys`: 取引所コードとシンボル（例: `NASDAQ:AAPL`）
 * `search_keys_type`: `symbol`
 
-**LSEG 3文字コード（現行）：**
+**LSEG 3 文字コード（現行）：**
 
 * `search_keys`: 取引所コードとシンボル（例: `NSQ:AAPL`）
 * `search_keys_type`: `symbol`
@@ -175,10 +175,10 @@ GET /api/v2/logos/search?search_keys=NSQ:AAPL&search_keys_type=symbol&fields=log
 
 
 <div id="8-filter-by-iso-mic-and-symbol">
-  ### 8. ISO MIC とシンボルによるフィルタ
+  ### 8. ISO MIC とシンボルでフィルター
 </div>
 
-ISO Market Identifier Code とシンボルを組み合わせて検索します。
+ISO MIC（Market Identifier Code）とシンボルの組み合わせで検索します。
 
 **パラメータ:**
 
@@ -193,12 +193,12 @@ GET /api/v2/logos/search?search_keys=XYNS:AAPL&search_keys_type=symbol&fields=lo
 
 
 <div id="9-crypto-logo-filters">
-  ### 9. 暗号資産ロゴフィルター
+  ### 9. 暗号資産ロゴのフィルター
 </div>
 
-さまざまな形式を使用して暗号資産のロゴを検索します。`search_keys_type` を指定しなくても、API は暗号資産の形式を自動的に認識します。
+さまざまな形式で暗号資産のロゴを検索できます。`search_keys_type` が指定されていない場合でも、API は自動的に暗号資産形式を認識します。
 
-**サポートされる形式:**
+**サポートされている形式:**
 
 * `CRYPTO:BTC`
 * `CRYPTO/BTC`
@@ -219,22 +219,22 @@ GET /api/v2/logos/search?search_keys=BTC/USD&fields=logo_light,logo_dark
   ## 利用可能なフィールド
 </div>
 
-`fields` パラメータを使用して、取得するロゴの種類を指定できます。利用可能なフィールドは次のとおりです。
+`fields` パラメータを使用して、特定のロゴ種別をリクエストできます。利用可能なフィールドは次のとおりです。
 
 * `logo_light` - ライトテーマのロゴ (PNG)
 * `logo_dark` - ダークテーマのロゴ (PNG)
-* `logo_vector_light` - ライトテーマのベクター形式ロゴ (SVG)
-* `logo_vector_dark` - ダークテーマのベクター形式ロゴ (SVG)
+* `logo_vector_light` - ライトテーマのベクターロゴ (SVG)
+* `logo_vector_dark` - ダークテーマのベクターロゴ (SVG)
 * `mark_light` - ライトテーマのマーク/アイコン (PNG)
 * `mark_dark` - ダークテーマのマーク/アイコン (PNG)
-* `mark_vector_light` - ライトテーマのベクター形式マーク (SVG)
-* `mark_vector_dark` - ダークテーマのベクター形式マーク (SVG)
-* `mark_composite_light` - ライトテーマの複合マーク (PNG)
-* `mark_composite_dark` - ダークテーマの複合マーク (PNG)
-* `mark_vector_composite_light` - ライトテーマのベクター形式複合マーク (SVG)
-* `mark_vector_composite_dark` - ダークテーマのベクター形式複合マーク (SVG)
+* `mark_vector_light` - ライトテーマのベクターマーク (SVG)
+* `mark_vector_dark` - ダークテーマのベクターマーク (SVG)
+* `mark_composite_light` - ライトテーマの合成マーク (PNG)
+* `mark_composite_dark` - ダークテーマの合成マーク (PNG)
+* `mark_vector_composite_light` - ライトテーマのベクター形式の合成マーク (SVG)
+* `mark_vector_composite_dark` - ライトテーマのベクター形式の合成マーク (SVG)
 
-**複数フィールドを指定する例:**
+**複数のフィールドをリクエストする例:**
 
 ```
 GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vector_composite_light
@@ -249,24 +249,24 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
   ### 画像カスタマイズ
 </div>
 
-- `scale` - 画像サイズ（例: `100x100`、`300x300`）
-- `max_width` - 返される画像の最大幅
-- `composite_radius` - 合成画像のボーダーの角丸半径（整数、範囲 `0-50`）
+- `scale` - 画像のスケール（例：`100x100`、`300x300`）
+- `max_width` - レスポンスで返される画像の最大幅
+- `composite_radius` - 合成画像の角丸半径（整数、`0-50` の範囲）
 - `composite_auto` - 合成画像を自動生成するかどうかを指定（真偽値）
 
 <div id="pagination-bulk-sync-only">
-  ### ページネーション（バルク同期時のみ）
+  ### ページネーション（バルク同期専用）
 </div>
 
 - `page` - ページ番号（整数）
 - `pagesize` - 1ページあたりの結果数（整数）
-- `updated_since` - 更新タイムスタンプによるフィルタ（ISO 8601 形式）
+- `updated_since` - 更新日時によるフィルタリング（ISO 8601 形式）
 
 <div id="security-details">
   ### 証券の詳細
 </div>
 
-- `securities` - レスポンスに詳細な証券情報を含める（ブール値）
+- `securities` - レスポンスに証券の詳細情報を含めるかどうかを指定します（boolean）
 
 <div id="response-examples">
   ## レスポンス例
@@ -322,7 +322,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "認証トークンが無効または欠落しています"
     }
   ]
 }
@@ -340,7 +340,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "指定された検索キーのロゴが見つかりませんでした"
+      "value": "No logos found for the specified search key"
     }
   ]
 }
@@ -369,7 +369,7 @@ GET /api/v2/logos/search?search_keys=TSLA&fields=logo_light,logo_dark,mark_vecto
   ## 認証
 </div>
 
-Logos API の全エンドポイントでは、API キーによる認証が必要です。トークンをクエリパラメータとして指定してください。
+すべての Logos API エンドポイントは、API キーによる認証が必要です。クエリパラメータとしてトークンを指定してください。
 
 ```
 ?token=YOUR_API_KEY
@@ -381,19 +381,19 @@ Logos API の全エンドポイントでは、API キーによる認証が必要
 </div>
 
 1. **search_keys_type を指定する** - API のデフォルトは `symbol` ですが、種類を明示的に指定することで可読性とパフォーマンスが向上します
-2. **必要なフィールドのみをリクエストする** - 必要なロゴタイプだけをリクエストして、レスポンスサイズを最小化し、パフォーマンスを向上させます
-3. **大規模データセットには bulk-sync を使用する** - 複数のロゴを取得する場合は、ページネーション付きの `/logos/bulk-sync` エンドポイントを使用します
-4. **レスポンスをキャッシュする** - ロゴの URL には有効期限のタイムスタンプが含まれているため、適切にキャッシュして API コールを削減します
-5. **エラーを適切に処理する** - レスポンス内の `ok` フィールドを常に確認し、エラーケースを適切に処理してください
+2. **必要なフィールドのみをリクエストする** - レスポンスサイズを最小限に抑え、パフォーマンスを向上させるために、必要なロゴ種別のみをリクエストします
+3. **大規模データセットには bulk-sync を使用する** - 複数のロゴを取得する場合は、ページネーション付きで `/logos/bulk-sync` エンドポイントを使用します
+4. **レスポンスをキャッシュする** - ロゴの URL には有効期限のタイムスタンプが含まれるため、API 呼び出しを減らすよう適切にキャッシュします
+5. **エラーを適切に処理する** - 常にレスポンス内の `ok` フィールドを確認し、エラーケースを適切に処理します
 
 <div id="rate-limits">
   ## レート制限
 </div>
 
-レート制限の詳細については、ご契約の API サブスクリプションプランをご確認ください。アプリケーションでより高いレート制限が必要な場合は、サポートまでご連絡ください。
+レート制限の詳細は、ご利用の API サブスクリプションプランをご確認ください。アプリケーションでより高いレート上限が必要な場合は、サポートまでお問い合わせください。
 
 <div id="support">
   ## サポート
 </div>
 
-Logos API の利用に関してさらにサポートが必要な場合やご不明点がある場合は、Benzinga API サポートまでお問い合わせいただくか、各エンドポイントの詳細なドキュメントを参照してください。
+Logos API についてさらにサポートが必要な場合やご不明な点がある場合は、Benzinga の API サポートまでお問い合わせいただくか、各エンドポイントの詳細なドキュメントを参照してください。

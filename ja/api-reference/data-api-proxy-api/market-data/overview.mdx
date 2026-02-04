@@ -1,31 +1,31 @@
 ---
 title: "概要"
-description: "マーケットデータAPIの概要"
+description: "Market Data API の概要"
 ---
 
 <div id="introduction">
   ## はじめに
 </div>
 
-Market Data API は、遅延気配、マーケットムーバー情報、証券の空売り残高データなど、包括的な市場情報を提供します。
+Market Data API 群は、遅延株価、マーケットムーバー、証券の空売り残高データを含む網羅的な市場情報を提供します。
 
 <div id="market-movers">
   ## マーケットムーバー
 </div>
 
-Market Movers API は、値上がり率上位、値下がり率上位、出来高上位の銘柄に関するリアルタイムデータを提供します。このエンドポイントを使用すると、次の項目を特定できます。
+Market Movers API は、最も値上がりしている銘柄、値下がりしている銘柄、最も活発に取引されている銘柄に関するリアルタイムデータを提供します。このエンドポイントを使用すると、次の種類の銘柄を特定できます：
 
-* **Gainers** - 価格上昇率が最も高い銘柄
-* **Losers** - 価格下落率が最も高い銘柄
+* **Gainers** - 価格の上昇率が最も大きい銘柄
+* **Losers** - 価格の下落率が最も大きい銘柄
 * **Volume Leaders** - 出来高が最も多い銘柄
 
-各結果には、価格、価格変動率、出来高、時価総額、セクター、浮動株数に関するデータが含まれます。
+各結果には、価格、変化率、出来高、時価総額、セクター、およびフロート（浮動株）に関するデータが含まれます。
 
 <div id="get-market-movers">
-  ### [マーケットムーバーを取得](/ja/api-reference/data-api-proxy_api/market-data/market-movers)
+  ### [マーケットムーバーの取得](/ja/api-reference/data-api-proxy_api/market-data/market-movers)
 </div>
 
-値上がり銘柄、値下がり銘柄、出来高上位など、主要なマーケットムーバーを取得します。
+上昇銘柄、下落銘柄、出来高上位銘柄など、トップのマーケットムーバーを取得します。
 
 ***
 
@@ -33,17 +33,17 @@ Market Movers API は、値上がり率上位、値下がり率上位、出来�
   ## 空売り残高データ
 </div>
 
-Short Interest API は、有価証券の空売り取引データを提供します。このデータは、市場センチメントを把握し、ショート・スクイーズの候補銘柄を特定するうえで有用です。
+Short Interest API は、有価証券の空売り取引に関するデータを提供します。このデータは、市場センチメントを把握し、ショートスクイーズ候補を特定するうえで有用です。
 
 主な指標は以下のとおりです。
 
-* **Total Short Interest** - 空売り残高（株数）
-* **Days to Cover** - 平均出来高に基づいて空売りポジションを解消するまでに必要と推定される日数
-* **Short % of Float** - 流通株数に対する空売り株数の割合
-* **Month-over-Month Change** - 前月からの空売り残高の変化
+* **Total Short Interest** - 空売りされた株式数
+* **Days to Cover** - 平均出来高に基づいて空売りポジションを解消するのに必要と推定される日数
+* **Short % of Float** - フロート株（流通株）のうち空売りされている割合
+* **Month-over-Month Change** - 前月からの空売り残高の増減
 
 <div id="get-short-interest-data">
-  ### [空売り残高データを取得](/ja/api-reference/data-api-proxy_api/market-data/short-interest-data)
+  ### [空売り残高データの取得](/ja/api-reference/data-api-proxy_api/market-data/short-interest-data)
 </div>
 
 証券の空売り残高データを取得します。

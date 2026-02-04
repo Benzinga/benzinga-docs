@@ -44,7 +44,7 @@ openapi: /ko/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
             "country": "US",
             "figi_share_class": "BBG001SQKGD7",
             "figi": "BBG000N9MNX3",
-            "security_type": "Common Stock"
+            "security_type": "보통주"
           },
           {
             "symbol": "TL0",
@@ -58,7 +58,7 @@ openapi: /ko/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
             "country": "DE",
             "figi_share_class": "BBG001SQKGD7",
             "figi": "BBG000WGWVP7",
-            "security_type": "Common Stock"
+            "security_type": "보통주"
           }
         ]
       }
@@ -82,7 +82,7 @@ openapi: /ko/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
   ```json Response (401 Unauthorized)
   {
     "ok": false,
-    "errors": [
+    "오류": [
       {
         "code": "auth_failed",
         "id": "unauthorized",
@@ -95,7 +95,7 @@ openapi: /ko/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
   ```json Response (404 Not Found)
   {
     "ok": false,
-    "errors": [
+    "오류": [
       {
         "code": "no_data_found",
         "id": "not_found",

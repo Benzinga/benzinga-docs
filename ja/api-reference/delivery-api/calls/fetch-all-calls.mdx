@@ -1,5 +1,5 @@
 ---
-title: "トランスクリプトを取得する"
+title: "トランスクリプトの取得"
 openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
 ---
 
@@ -9,10 +9,10 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
   "data": [
     {
       "call_id": "694bf432dd7f23000124626c",
-      "call_title": "Aritzia achieves record $1 billion revenue, driven by digital growth and boutique expansion",
-      "description": "Q1 2026 Aritzia (ATZ) Earnings Conference Call",
+      "call_title": "Aritzia、デジタル成長とブティック拡大により過去最高となる10億ドルの売上を達成",
+      "description": "2026年第1四半期 Aritzia (ATZ) 決算説明会",
       "webcast_url": "https://events.q4inc.com/attendee/476349537",
-      "headline": "Aritzia posts 43% revenue growth to $1.04 billion in Q3, fueled by strong U.S. e-commerce and strategic boutique openings",
+      "headline": "Aritzia、米国の強いeコマースと戦略的なブティック新規出店により、第3四半期の売上高が43%増の10億4000万ドルを記録",
       "symbol": "ATZ",
       "exchange": "TSX",
       "figis": [
@@ -28,7 +28,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
       "transcripts": [
         {
           "transcript_id": "053c48c4-17f2-48a8-8216-68513c5c54c2",
-          "text": "Thank you for standing by this is the conference operator .. day you may now disconnect your lines",
+          "text": "お待ちいただきありがとうございます。こちらはカンファレンスオペレーターです。…本日はこれで終了となります。回線をお切りください。",
           "language": "en-US",
           "confidence_score": 0.41074312812500047,
           "segments": null,
@@ -36,7 +36,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
         },
         {
           "transcript_id": "c10f465c-f09e-4661-b029-c1092b2b9d40",
-          "text": "Thank you for standing by... Thank you for joining and have a pleasant day. You may now disconnect your lines.",
+          "text": "お待ちいただきありがとうございます…ご参加いただきありがとうございました。良い一日をお過ごしください。回線をお切りください。",
           "language": "en-US",
           "confidence_score": 0.9678800193700792,
           "segments": null,
@@ -57,7 +57,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
       ]
     }
   ],
-  "message": "Successfully fetched calls",
+  "message": "コールの取得に成功しました",
   "pagination": {
     "hits": 15686,
     "page": 1,
@@ -73,7 +73,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
     {
       "code": "bad_request",
       "id": "invalid_parameter",
-      "value": "Invalid search_keys_type parameter"
+      "value": "search_keys_type パラメータが無効です"
     }
   ]
 }
@@ -85,7 +85,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "認証トークンが無効か、指定されていません"
     }
   ]
 }
@@ -97,7 +97,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No logos found for the specified search key"
+      "value": "指定された検索キーに対するロゴが見つかりませんでした"
     }
   ]
 }
@@ -109,7 +109,7 @@ openapi: /ja/openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "リクエストの処理中に予期しないエラーが発生しました"
     }
   ]
 }

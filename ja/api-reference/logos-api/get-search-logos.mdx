@@ -1,5 +1,5 @@
 ---
-title: "ロゴ検索"
+title: "ロゴの検索"
 openapi: /ja/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
 ---
 
@@ -73,7 +73,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
       {
         "code": "bad_request",
         "id": "invalid_parameter",
-        "value": "無効な search_keys_type パラメータ"
+        "value": "search_keys_typeパラメータが無効です"
       }
     ]
   }
@@ -99,7 +99,7 @@ openapi: /ja/openapi/logo-api_api.spec.yml GET /api/v2/logos/search
       {
         "code": "no_data_found",
         "id": "not_found",
-        "value": "指定された検索キーのロゴが見つかりませんでした"
+        "value": "指定された検索キーに該当するロゴが見つかりませんでした"
       }
     ]
   }

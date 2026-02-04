@@ -1,5 +1,5 @@
 ---
-title: "ファンダメンタルズ V21"
+title: "ファンダメンタルズ v2.1"
 openapi: /ja/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
 ---
 
@@ -141,7 +141,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
           "province": "CA",
           "totalEmployees": 166000,
           "legalName": "Apple Inc",
-          "longDescription": "Appleは世界最大級の企業の一つであり、消費者および企業向けのハードウェアおよびソフトウェア製品の幅広いポートフォリオを有しています。AppleのiPhoneは同社売上の大部分を占めており、Mac、iPad、Watchなどの他製品は、広範なソフトウェアエコシステムの中心としてiPhoneを軸に設計されています。Appleはストリーミング動画、サブスクリプションバンドル、拡張現実などの新しいアプリケーションを段階的に追加してきました。同社は独自のソフトウェアと半導体を設計する一方で、FoxconnやTSMCなどの下請け業者と協力して製品とチップを製造しています。Appleの売上の半分弱は直営店を通じて直接行われ、売上の大部分はパートナーシップや流通を通じて間接的に行われています。"
+          "longDescription": "Apple is among the largest companies in the world, with a broad portfolio of hardware and software products targeted at consumers and businesses. Apple's iPhone makes up a majority of the firm sales, and Apple's other products like Mac, iPad, and Watch are designed around the iPhone as the focal point of an expansive software ecosystem. Apple has progressively worked to add new applications, like streaming video, subscription bundles, and augmented reality. The firm designs its own software and semiconductors while working with subcontractors like Foxconn and TSMC to build its products and chips. Slightly less than half of Apple's sales come directly through its flagship stores, with a majority of sales coming indirectly through partnerships and distribution."
         },
         "shareClass": {
           "shareClassId": "0P000000GY",
@@ -527,7 +527,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
           "msGroupCode": 31120,
           "msGroupName": "ハードウェア",
           "msIndustryCode": 31120030,
-          "msIndustryName": "民生用電子機器"
+          "msIndustryName": "家電"
         },
         "shareClassProfile": {
           "asOf": "2025-11-30",
@@ -546,7 +546,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
   ```json Response (401 Unauthorized)
   {
     "ok": false,
-    "errors": [
+    "エラー": [
       {
         "code": "auth_failed",
         "id": "unauthorized",
@@ -563,7 +563,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
       {
         "code": "no_data_found",
         "id": "not_found",
-        "value": "指定されたパラメータのデータが見つかりません"
+        "value": "指定されたパラメータのデータが見つかりませんでした"
       }
     ]
   }

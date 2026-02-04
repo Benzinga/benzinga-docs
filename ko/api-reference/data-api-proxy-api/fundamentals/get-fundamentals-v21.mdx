@@ -141,7 +141,7 @@ openapi: /ko/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
           "province": "CA",
           "totalEmployees": 166000,
           "legalName": "Apple Inc",
-          "longDescription": "Apple은 소비자와 기업을 대상으로 하는 광범위한 하드웨어 및 소프트웨어 제품 포트폴리오를 보유한 세계 최대 기업 중 하나입니다. Apple의 iPhone은 회사 매출의 대부분을 차지하며, Mac, iPad, Watch와 같은 Apple의 다른 제품들은 광범위한 소프트웨어 생태계의 중심점인 iPhone을 중심으로 설계되었습니다. Apple은 스트리밍 비디오, 구독 번들, 증강 현실과 같은 새로운 애플리케이션을 점진적으로 추가해 왔습니다. 이 회사는 자체 소프트웨어와 반도체를 설계하는 동시에 Foxconn 및 TSMC와 같은 하청업체와 협력하여 제품과 칩을 제조합니다. Apple 매출의 절반 미만이 플래그십 스토어를 통해 직접 발생하며, 대부분의 매출은 파트너십 및 유통을 통해 간접적으로 발생합니다."
+          "longDescription": "Apple is among the largest companies in the world, with a broad portfolio of hardware and software products targeted at consumers and businesses. Apple's iPhone makes up a majority of the firm sales, and Apple's other products like Mac, iPad, and Watch are designed around the iPhone as the focal point of an expansive software ecosystem. Apple has progressively worked to add new applications, like streaming video, subscription bundles, and augmented reality. The firm designs its own software and semiconductors while working with subcontractors like Foxconn and TSMC to build its products and chips. Slightly less than half of Apple's sales come directly through its flagship stores, with a majority of sales coming indirectly through partnerships and distribution."
         },
         "shareClass": {
           "shareClassId": "0P000000GY",
@@ -521,7 +521,7 @@ openapi: /ko/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
           "naics": "334220",
           "naicsName": "라디오 및 텔레비전 방송 및 무선 장비",
           "msSuperSectorCode": 3,
-          "msSuperSectorName": "경기민감",
+          "msSuperSectorName": "민감",
           "msSectorCode": 311,
           "msSectorName": "기술",
           "msGroupCode": 31120,
@@ -546,7 +546,7 @@ openapi: /ko/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
   ```json Response (401 Unauthorized)
   {
     "ok": false,
-    "errors": [
+    "오류": [
       {
         "code": "auth_failed",
         "id": "unauthorized",
@@ -563,7 +563,7 @@ openapi: /ko/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals
       {
         "code": "no_data_found",
         "id": "not_found",
-        "value": "지정된 매개변수에 해당하는 데이터를 찾을 수 없습니다"
+        "value": "지정된 매개변수에 대한 데이터를 찾을 수 없습니다"
       }
     ]
   }
