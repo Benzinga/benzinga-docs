@@ -1,3 +1,85 @@
 ---
-openapi: get /api/v1/signal/halt_resume
+title: "Haltresume"
+openapi: /openapi/calendar_api.spec.yml GET /api/v1/signal/halt_resume
 ---
+
+<ResponseExample>
+    ```json Response (200 OK)
+    {
+      "halt_resume": [
+        {
+          "count": 1,
+          "date": "2026-01-28",
+          "description": "Trading Halt: Halt status updated at 3:04:51 AM ET: Trading Halt: Reason Not Available",
+          "exchange": "NASDAQ",
+          "halt_type": "UPDATED",
+          "id": "6979c32524a26100013b72a7",
+          "name": "Applied Therapeutics",
+          "ticker": "APLT",
+          "time": "03:04:53",
+          "updated": 1769587493
+        },
+        {
+          "count": 1,
+          "date": "2026-01-28",
+          "description": "Trading Halt: Halt status updated at 3:04:51 AM ET: Trading Halt: Reason Not Available",
+          "exchange": "NASDAQ",
+          "halt_type": "UPDATED",
+          "id": "6979c32524a26100013b72a8",
+          "name": "Revelation Biosciences",
+          "ticker": "REVBW",
+          "time": "03:04:53",
+          "updated": 1769587493
+        },
+        {
+          "count": 0,
+          "date": "2026-01-28",
+          "description": "Trading Halt: Resumed at 3:04:51 AM ET",
+          "exchange": "",
+          "halt_type": "RESUMED",
+          "id": "6979c32524a26100013b72a9",
+          "name": "",
+          "ticker": "FEMD",
+          "time": "03:04:53",
+          "updated": 1769587493
+        }
+      ]
+    }
+    ```
+    ```json Response (401 Unauthorized)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "auth_failed",
+          "id": "unauthorized",
+          "value": "Invalid or missing authentication token"
+        }
+      ]
+    }
+    ```
+    ```json Response (404 Not Found)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "no_data_found",
+          "id": "not_found",
+          "value": "No data found for the specified parameters"
+        }
+      ]
+    }
+    ```
+    ```json Response (500 Internal Server Error)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "internal_server_error",
+          "id": "server_error",
+          "value": "An unexpected error occurred while processing your request"
+        }
+      ]
+    }
+    ```
+</ResponseExample>

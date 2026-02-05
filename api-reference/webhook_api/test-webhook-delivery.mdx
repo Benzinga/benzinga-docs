@@ -1,3 +1,114 @@
 ---
-openapi: get /api/v1/webhook/test
+title: "Test Webhook Delivery"
+openapi: /openapi/webhook_api.spec.yml GET /api/v1/webhook/test
 ---
+
+## Overview
+
+Use this endpoint to trigger a test webhook delivery to your configured endpoint. This allows you to verify that your webhook integration is working correctly before receiving live production data.
+
+## Testing Your Integration
+
+When you call this endpoint, Benzinga will send a test webhook payload to your configured `destination` URL. This test delivery follows the same format and retry logic as production webhook deliveries.
+
+### What to Expect
+
+1. **Immediate Response**: The API returns a `200` status code if the test delivery was triggered successfully
+2. **Test Payload**: Your webhook endpoint receives a test payload in the same format as production data
+3. **Delivery Headers**: The test delivery includes the `X-BZ-Delivery` header just like production deliveries
+
+### Verify Your Integration
+
+Use this endpoint to confirm:
+
+- Your webhook endpoint is publicly accessible
+- Your endpoint can parse the webhook payload format correctly
+- Your endpoint responds with appropriate status codes (2xx for success)
+- Your endpoint responds within the 30-second timeout
+- Your idempotency logic correctly handles the `X-BZ-Delivery` header and payload `id` field
+
+## Best Practices
+
+- Test with non-production webhook endpoints first
+- Verify your endpoint responds with `200` or `204` status codes
+- Confirm your logging and monitoring capture the test delivery
+- Check that your deduplication logic works with the test delivery ID
+- Test error scenarios by temporarily returning error status codes
+
+## Troubleshooting
+
+### 424 Delivery Error
+
+If you receive a `424` status code, the system could not deliver the test payload to your destination endpoint. Common causes:
+
+- Destination URL is not publicly accessible
+- Destination endpoint is returning error status codes
+- Network connectivity issues
+- SSL/TLS certificate errors on the destination endpoint
+
+### 400 Invalid Request
+
+Verify that all required parameters are provided and correctly formatted:
+
+- `destination` must be a valid HTTPS URL
+- `version` must be `webhook/v1`
+- `kind` must be one of the supported event kinds (e.g., `News/v1`, `Earnings/v1`, `Ratings/v1`, etc.)
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "status": "success"
+}
+```
+
+```json Response (400 Bad Request)
+{
+  "error": "Invalid destination URL"
+}
+```
+
+```json Response (424 Failed Dependency)
+{
+  "error": "Failed to deliver test payload to destination"
+}
+```
+
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+
+```json Response (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No data found for the specified parameters"
+    }
+  ]
+}
+```
+
+```json Response (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>
