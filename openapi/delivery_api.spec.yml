@@ -8,8 +8,8 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: Retrieve a list of calls with optional filtering and pagination. By
-        default, only COMPLETED calls are returned. Use status=ALL to return all
+      description: Retrieve a list of calls with optional filtering and pagination.
+        By default, only COMPLETED calls are returned. Use status=ALL to return all
         statuses.
       operationId: get-conference-calls
       parameters:
@@ -25,22 +25,22 @@ paths:
           schema:
             type: integer
             default: 10
-        - description: Filter by call status. Defaults to COMPLETED. Use ALL to return all
-            statuses.
+        - description: Filter by call status. Defaults to COMPLETED. Use ALL to return
+            all statuses.
           in: query
           name: status
           schema:
             type: string
             default: COMPLETED
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -48,7 +48,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -61,7 +61,7 @@ paths:
       summary: Fetch all calls
       tags:
         - calls
-  "/api/v1/transcripts/calls/{call_id}":
+  /api/v1/transcripts/calls/{call_id}:
     get:
       description: Retrieve detailed information about a specific call by its ID
       operationId: get-conference-call-by-id
@@ -93,13 +93,13 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/domain.Calls"
-        "400":
+                $ref: '#/components/schemas/domain.Calls'
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -107,7 +107,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "404":
+        '404':
           description: Not Found
           content:
             application/json:
@@ -115,7 +115,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -146,14 +146,14 @@ paths:
             type: integer
             default: 10
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -161,7 +161,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -174,7 +174,7 @@ paths:
       summary: Fetch summaries
       tags:
         - summaries
-  "/api/v1/transcripts/summaries/{call_id}":
+  /api/v1/transcripts/summaries/{call_id}:
     get:
       description: Retrieve summary details for a specific call ID
       operationId: get-summary-by-call-id
@@ -186,13 +186,13 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/domain.Summaries"
-        "404":
+                $ref: '#/components/schemas/domain.Summaries'
+        '404':
           description: Not Found
           content:
             application/json:
@@ -200,7 +200,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -239,7 +239,7 @@ components:
           example: 60
           type: integer
         end_time:
-          example: 2023-10-25T15:00:00Z
+          example: '2023-10-25T15:00:00Z'
           type: string
         exchange:
           example: NASDAQ
@@ -258,31 +258,31 @@ components:
           type: string
         participants:
           items:
-            $ref: "#/components/schemas/domain.Participants"
+            $ref: '#/components/schemas/domain.Participants'
           type: array
         period:
           example: Q3
           type: string
         recordings:
           items:
-            $ref: "#/components/schemas/domain.Recordings"
+            $ref: '#/components/schemas/domain.Recordings'
           type: array
         securities:
-          $ref: "#/components/schemas/pgtype.JSONB"
+          $ref: '#/components/schemas/pgtype.JSONB'
         start_time:
-          example: 2023-10-25T14:00:00Z
+          example: '2023-10-25T14:00:00Z'
           type: string
         status:
           example: completed
           type: string
         summary:
-          $ref: "#/components/schemas/domain.Summaries"
+          $ref: '#/components/schemas/domain.Summaries'
         symbol:
           example: AAPL
           type: string
         transcripts:
           items:
-            $ref: "#/components/schemas/domain.Transcripts"
+            $ref: '#/components/schemas/domain.Transcripts'
           type: array
         updated_at:
           type: string
@@ -321,7 +321,7 @@ components:
         duration:
           type: integer
         formats:
-          $ref: "#/components/schemas/pgtype.JSONB"
+          $ref: '#/components/schemas/pgtype.JSONB'
         language:
           type: string
         location:
@@ -390,14 +390,14 @@ components:
           type: string
         segments:
           items:
-            $ref: "#/components/schemas/domain.TranscriptSegments"
+            $ref: '#/components/schemas/domain.TranscriptSegments'
           type: array
         text:
           type: string
         transcript_id:
           type: string
         type:
-          $ref: "#/components/schemas/domain.TranscriptsType"
+          $ref: '#/components/schemas/domain.TranscriptsType'
       type: object
     domain.TranscriptsType:
       enum:
@@ -414,7 +414,7 @@ components:
             type: integer
           type: array
         status:
-          $ref: "#/components/schemas/pgtype.Status"
+          $ref: '#/components/schemas/pgtype.Status'
       type: object
     pgtype.Status:
       enum:
@@ -424,5 +424,8 @@ components:
       type: integer
       x-enum-varnames:
         - Undefined
-        - "Null"
+        - 'Null'
         - Present
+servers:
+  - url: https://api.benzinga.com/api/v1
+    description: PROD
