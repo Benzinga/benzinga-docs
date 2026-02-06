@@ -72,12 +72,12 @@ public class Application {
   ### Parámetros
 </div>
 
-| Parámetro                       | Tipo                            | Obligatorio                     | Descripción                             |
-| ------------------------------- | ------------------------------- | ------------------------------- | --------------------------------------- |
-| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista separada por comas de símbolos    |
-| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de corte                          |
-| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                                 |
-| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                         |
+| Parámetro                       | Tipo                            | Obligatorio                     | Descripción                     |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de referencia             |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                         |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                 |
 
 <div id="response">
   ### Respuesta
@@ -266,7 +266,7 @@ public class Application {
 
 | Parámetro                       | Tipo                            | Obligatorio                     | Descripción                     |
 | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos, separados por comas |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas |
 | `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de referencia             |
 | `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                         |
 | `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                 |
@@ -330,7 +330,7 @@ public class Application {
 
 | Parámetro                       | Tipo                            | Obligatorio                     | Descripción                     |
 | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos, separados por comas |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas |
 | `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de referencia             |
 | `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                         |
 | `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                 |
@@ -394,7 +394,7 @@ public class Application {
 
 | Parámetro                       | Tipo                            | Obligatorio                     | Descripción                     |
 | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos, separados por comas |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas |
 | `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de referencia             |
 | `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                         |
 | `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                 |
@@ -456,12 +456,12 @@ public class Application {
   ### Parámetros
 </div>
 
-| Parámetro                       | Tipo                            | Obligatorio                     | Descripción                                      |
-| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------------------------ |
-| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas           |
-| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de referencia                              |
-| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                                          |
-| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                                  |
+| Parámetro                       | Tipo                            | Obligatorio                     | Descripción                     |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de referencia             |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                         |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                 |
 
 <div id="response">
   ### Respuesta
@@ -473,7 +473,7 @@ public class Application {
   ### Errores
 </div>
 
-| Tipo de error              | Código de estado HTTP      | Tipo de contenido          |
+| Tipo de error              | Código de estado           | Tipo de contenido          |
 | -------------------------- | -------------------------- | -------------------------- |
 | models/errors/APIException | 4XX, 5XX                   | */*                      |
 
@@ -520,12 +520,12 @@ public class Application {
   ### Parámetros
 </div>
 
-| Parámetro                       | Tipo                            | Obligatorio                     | Descripción                          |
-| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------------ |
+| Parámetro                       | Tipo                            | Obligatorio                     | Descripción                     |
+| ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
 | `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas |
-| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de corte                      |
-| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                             |
-| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de reporte                     |
+| `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de referencia             |
+| `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                         |
+| `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                 |
 
 <div id="response">
   ### Respuesta
@@ -586,7 +586,7 @@ public class Application {
 
 | Parámetro                       | Tipo                            | Obligatorio                     | Descripción                     |
 | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separada por comas |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas |
 | `asOf`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de referencia             |
 | `period`                        | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Período                         |
 | `reportType`                    | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                 |
@@ -716,7 +716,7 @@ public class Application {
 
 | Parámetro                       | Tipo                            | Obligatorio                     | Descripción                     |
 | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos, separados por comas |
 | `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de inicio                 |
 | `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de fin                    |
 | `date`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                 |
@@ -847,9 +847,9 @@ public class Application {
 
 | Parámetro                       | Tipo                            | Obligatorio                     | Descripción                     |
 | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos separados por comas |
-| `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha inicial                   |
-| `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha final                     |
+| `symbols`                       | *String*                        | :heavy&#95;check&#95;mark:              | Lista de símbolos, separados por comas |
+| `from`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de inicio                 |
+| `to`                            | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Fecha de fin                    |
 | `date`                          | *Optional&lt;String&gt;*             | :heavy&#95;minus&#95;sign:              | Tipo de informe                 |
 
 <div id="response">
