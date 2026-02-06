@@ -4,7 +4,7 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/dividends
 ---
 
 <ResponseExample>
-    ```json Response (200 OK)
+    ```json レスポンス (200 OK)
     {
         "dividends": [
     {
@@ -32,38 +32,38 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/dividends
         ]
     }
     ```
-    ```json Response (401 Unauthorized)
+    ```json レスポンス (401 Unauthorized)
     {
       "ok": false,
       "errors": [
         {
           "code": "auth_failed",
           "id": "unauthorized",
-          "value": "認証トークンが無効であるか、指定されていません"
+          "value": "Invalid or missing authentication token"
         }
       ]
     }
     ```
-    ```json Response (404 Not Found)
+    ```json レスポンス (404 Not Found)
     {
       "ok": false,
       "errors": [
         {
           "code": "no_data_found",
           "id": "not_found",
-          "value": "指定されたパラメータに該当するデータが見つかりません"
+          "value": "No data found for the specified parameters"
         }
       ]
     }
     ```
-    ```json Response (500 Internal Server Error)
+    ```json レスポンス (500 Internal Server Error)
     {
       "ok": false,
       "errors": [
         {
           "code": "internal_server_error",
           "id": "server_error",
-          "value": "リクエストの処理中に予期しないエラーが発生しました"
+          "value": "An unexpected error occurred while processing your request"
         }
       ]
     }

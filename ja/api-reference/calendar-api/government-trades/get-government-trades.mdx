@@ -4,41 +4,41 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v1/government_trades
 ---
 
 <ResponseExample>
-    ```json レスポンス (200 OK)
+    ```json Response (200 OK)
     {}
     ```
-    ```json レスポンス (401 Unauthorized)
+    ```json Response (401 Unauthorized)
     {
       "ok": false,
       "errors": [
         {
           "code": "auth_failed",
           "id": "unauthorized",
-          "value": "Invalid or missing authentication token"
+          "value": "認証トークンが無効であるか、指定されていません"
         }
       ]
     }
     ```
-    ```json レスポンス (404 Not Found)
+    ```json Response (404 Not Found)
     {
       "ok": false,
       "errors": [
         {
           "code": "no_data_found",
           "id": "not_found",
-          "value": "No data found for the specified parameters"
+          "value": "指定されたパラメーターに一致するデータが見つかりませんでした"
         }
       ]
     }
     ```
-    ```json レスポンス (500 Internal Server Error)
+    ```json Response (500 Internal Server Error)
     {
       "ok": false,
       "errors": [
         {
           "code": "internal_server_error",
           "id": "server_error",
-          "value": "An unexpected error occurred while processing your request"
+          "value": "リクエストの処理中に予期しないエラーが発生しました"
         }
       ]
     }

@@ -1,67 +1,83 @@
 ---
-title: "Consensus Ratings Explained"
-description: "Learn how Benzinga calculates consensus ratings from individual analyst recommendations"
+title: "コンセンサスレーティングの仕組み"
+description: "個々のアナリスト推奨から Benzinga がコンセンサスレーティングをどのように算出するかを解説します"
 ---
 
-## Overview
+<div id="overview">
+  ## 概要
+</div>
 
-Consensus ratings provide a consolidated view of analyst sentiment on a stock by aggregating individual analyst ratings into a single, easy-to-understand metric. This guide explains how we calculate consensus ratings to help you make informed investment decisions.
+コンセンサスレーティングは、個々のアナリストのレーティングを集約し、特定銘柄に対するアナリストの見方を単一の分かりやすい指標として示すものです。本ガイドでは、コンセンサスレーティングをどのように算出しているかを説明し、適切な投資判断に役立てることを目的としています。
 
-## How Consensus Ratings Are Calculated
+<div id="how-consensus-ratings-are-calculated">
+  ## コンセンサス・レーティングの算出方法
+</div>
 
-### Step 1: Collecting Analyst Ratings
+<div id="step-1-collecting-analyst-ratings">
+  ### ステップ 1: アナリスト・レーティングの収集
+</div>
 
-We gather all available analyst ratings for a given stock. Each rating includes:
+特定の銘柄について、利用可能なすべてのアナリスト・レーティングを収集します。各レーティングには以下が含まれます：
 
-- **Analyst Name** and **Firm Name**
-- **Rating** (e.g., Strong Buy, Buy, Hold, Sell, Strong Sell)
-- **Price Target** - The analyst's projected stock price
-- **Date Updated** - When the rating was issued
+* **アナリスト名** と **所属機関名**
+* **レーティング**（例：Strong Buy、Buy、Hold、Sell、Strong Sell）
+* **目標株価** - アナリストが予測する株価
+* **更新日** - レーティングが発行された日
 
-### Step 2: Filtering for Unique Analysts
+<div id="step-2-filtering-for-unique-analysts">
+  ### ステップ 2: 一意のアナリストごとのフィルタリング
+</div>
 
-To ensure accuracy and avoid double-counting, we only include the **most recent rating** from each unique analyst-firm combination.
+精度を確保し二重計上を防ぐため、各アナリストと証券会社の一意な組み合わせごとに、**最新のレーティングのみ**を集計対象とします。
 
-**Example:** If Morgan Stanley's analyst John Doe has rated a stock multiple times, only their latest rating is included in the calculation.
+**例:** Morgan Stanley のアナリスト John Doe が同じ銘柄を複数回レーティングしている場合でも、計算に含まれるのは最新のレーティングのみです。
 
 <Note>
-Ratings without a valid price target are excluded from the analysis.
+  有効な目標株価が設定されていないレーティングは分析対象から除外されます。
 </Note>
 
-### Step 3: Categorizing Ratings
+<div id="step-3-categorizing-ratings">
+  ### ステップ3: レーティングの分類
+</div>
 
-Analyst ratings are categorized into five standard categories:
+アナリスト・レーティングは、次の5つの標準的なカテゴリに分類されます。
 
-| Category | Numeric Value |
+| カテゴリ | 数値 |
 |----------|---------------|
-| **Strong Sell** | 1 |
-| **Sell** | 2 |
-| **Hold** | 3 |
-| **Buy** | 4 |
-| **Strong Buy** | 5 |
+| **強い売り推奨** | 1 |
+| **売り** | 2 |
+| **ホールド** | 3 |
+| **買い** | 4 |
+| **強い買い推奨** | 5 |
 
-### Step 4: Aggregating Ratings
+<div id="step-4-aggregating-ratings">
+  ### ステップ 4: レーティングの集計
+</div>
 
-We count how many analysts fall into each category.
+各カテゴリーごとのアナリスト数を数えます。
 
-**Example Aggregate:**
-- Strong Buy: 8 analysts
-- Buy: 12 analysts
-- Hold: 5 analysts
-- Sell: 2 analysts
-- Strong Sell: 1 analyst
+**集計例:**
 
-**Total:** 28 unique analysts
+* Strong Buy: アナリスト 8人
+* Buy: アナリスト 12人
+* Hold: アナリスト 5人
+* Sell: アナリスト 2人
+* Strong Sell: アナリスト 1人
 
-### Step 5: Calculating the Consensus Rating Value
+**合計:** 重複を除くアナリスト 28人
 
-The consensus rating value is calculated as a weighted average:
+<div id="step-5-calculating-the-consensus-rating-value">
+  ### ステップ5: コンセンサスレーティング値の計算
+</div>
+
+コンセンサスレーティング値は、加重平均で計算されます。
 
 ```
 Consensus Value = (Strong Buy × 5 + Buy × 4 + Hold × 3 + Sell × 2 + Strong Sell × 1) / Total Analysts
 ```
 
-**Using the example above:**
+**先ほどの例を用いると：**
+
 ```
 Consensus Value = (8×5 + 12×4 + 5×3 + 2×2 + 1×1) / 28
 Consensus Value = (40 + 48 + 15 + 4 + 1) / 28
@@ -69,144 +85,186 @@ Consensus Value = 108 / 28
 Consensus Value = 3.86
 ```
 
-### Step 6: Determining the Consensus Rating
+<div id="step-6-determining-the-consensus-rating">
+  ### ステップ 6: コンセンサス評価の判定
+</div>
 
-The consensus value is rounded to the nearest whole number and mapped to a rating:
+コンセンサス値は最も近い整数に四捨五入され、以下の評価にマッピングされます:
 
-| Consensus Value | Standard Rating | Simplified Rating |
-|----------------|-----------------|-------------------|
-| **1** | Strong Sell | Sell |
-| **2** | Sell | Sell |
-| **3** | Hold | Hold |
-| **4** | Buy | Buy |
-| **5** | Strong Buy | Buy |
+| コンセンサス値 | 標準評価 | 簡易評価 |
+|----------------|----------|----------|
+| **1** | 強い売り | 売り |
+| **2** | 売り | 売り |
+| **3** | ホールド | ホールド |
+| **4** | 買い | 買い |
+| **5** | 強い買い | 買い |
 
-**In our example:** 3.86 rounds to **4**, which translates to a **"Buy"** consensus rating.
+**この例では:** 3.86 は **4** に四捨五入され、コンセンサス評価は **「買い」** になります。
 
----
+***
 
-## Display Options
+<div id="display-options">
+  ## 表示設定
+</div>
 
-### Standard vs. Simplified Ratings
+<div id="standard-vs-simplified-ratings">
+  ### 標準レーティングと簡略レーティング
+</div>
 
-We offer two display formats:
+表示形式は次の 2 種類があります。
 
-**Standard (5-category):**
-- Strong Sell, Sell, Hold, Buy, Strong Buy
+**標準（5 区分）:**
 
-**Simplified (3-category):**
-- Sell (combines Strong Sell + Sell)
-- Hold
-- Buy (combines Buy + Strong Buy)
+* Strong Sell、Sell、Hold、Buy、Strong Buy
 
-### Count vs. Percentage Display
+**簡略（3 区分）:**
 
-**Count Display:**
-Shows the actual number of analysts in each category.
+* Sell（Strong Sell と Sell をまとめたもの）
+* Hold
+* Buy（Buy と Strong Buy をまとめたもの）
 
-**Percentage Display:**
-Shows the proportion of analysts in each category, rounded to whole percentages that sum to exactly 100%.
+<div id="count-vs-percentage-display">
+  ### 件数表示と割合表示
+</div>
 
-**Example:**
-- Buy: 71% (20 analysts)
-- Hold: 18% (5 analysts)
-- Sell: 11% (3 analysts)
+**件数表示:**
+各カテゴリに属するアナリストの実人数を表示します。
 
----
+**割合表示:**
+各カテゴリに属するアナリストの比率を、合計が100%になるように整数（パーセント）に丸めて表示します。
 
-## Price Target Calculations
+**例:**
 
-### Consensus Price Target
+* Buy: 71%（アナリスト20人）
+* Hold: 18%（アナリスト5人）
+* Sell: 11%（アナリスト3人）
 
-The average of all analyst price targets:
+***
+
+<div id="price-target-calculations">
+  ## 目標株価の計算
+</div>
+
+<div id="consensus-price-target">
+  ### コンセンサス目標株価
+</div>
+
+全アナリストの目標株価の平均値:
 
 ```
 Consensus PT = Sum of all Price Targets / Number of Analysts
 ```
 
-### Low and High Price Targets
+<div id="low-and-high-price-targets">
+  ### 最低および最高目標株価
+</div>
 
-- **Low Price Target:** The lowest price target among all analysts
-- **High Price Target:** The highest price target among all analysts
+* **最低目標株価:** すべてのアナリストの中で最も低い目標株価
+* **最高目標株価:** すべてのアナリストの中で最も高い目標株価
 
-These provide a range showing the spectrum of analyst expectations.
+これらにより、アナリスト予想のレンジ（幅）を把握できます。
 
----
+***
 
-## Understanding the Metrics
+<div id="understanding-the-metrics">
+  ## 指標の概要
+</div>
 
-### Total Analyst Count vs. Unique Analyst Count
+<div id="total-analyst-count-vs-unique-analyst-count">
+  ### アナリスト総数 vs. ユニークアナリスト数
+</div>
 
-- **Total Analyst Count:** All ratings collected (may include multiple ratings from the same analyst)
-- **Unique Analyst Count:** The number of distinct analyst-firm combinations (used for calculations)
+* **アナリスト総数:** 収集されたすべてのレーティング（同一アナリストからの複数レーティングを含む場合があります）
+* **ユニークアナリスト数:** アナリストとファームの一意な組み合わせ数（計算に使用）
 
-The unique count ensures each analyst's voice is counted only once, providing a more accurate consensus.
+ユニーク数を用いることで、各アナリストの意見が一度だけカウントされ、より正確なコンセンサスが得られます。
 
----
+***
 
-## Important Considerations
+<div id="important-considerations">
+  ## 重要な考慮事項
+</div>
 
-### Rating Freshness
+<div id="rating-freshness">
+  ### レーティングの最新性
+</div>
 
-Consensus ratings reflect the most recent analyst opinions. The **Updated At** timestamp indicates when the consensus was last calculated.
+コンセンサス・レーティングは、最新のアナリストの見解を反映しています。**Updated At** タイムスタンプは、コンセンサスが最後に算出された時刻を示します。
 
-### Coverage Depth
+<div id="coverage-depth">
+  ### カバレッジの深さ
+</div>
 
-Consensus ratings are more reliable when based on a larger number of unique analysts. Stocks with limited analyst coverage (fewer than 3-5 analysts) may have less stable consensus ratings.
+コンセンサスレーティングは、より多くの異なるアナリストによる評価に基づいているほど信頼性が高くなります。担当アナリストが 3～5 名に満たない銘柄は、コンセンサスレーティングが相対的に不安定になる可能性があります。
 
-### Rating Distribution
+<div id="rating-distribution">
+  ### レーティング分布
+</div>
 
-Pay attention to the distribution of ratings, not just the consensus. A stock with 50% Buy and 50% Sell ratings will have a "Hold" consensus, but this masks significant disagreement among analysts.
+コンセンサスだけでなく、レーティングの分布にも目を向けてください。半数が Buy、半数が Sell の銘柄はコンセンサスとしては「Hold」になりますが、これはアナリスト間に大きな見解の相違があることを覆い隠してしまいます。
 
----
+***
 
-## Example Calculation Walkthrough
+<div id="example-calculation-walkthrough">
+  ## 計算例のウォークスルー
+</div>
 
-Let's walk through a complete example for **XYZ Corporation**:
+**XYZ Corporation** を題材に、計算の一連の手順を順を追って見ていきます。
 
-### Raw Data (10 analysts)
-| Analyst | Firm | Rating | Price Target |
+<div id="raw-data-10-analysts">
+  ### 元データ（アナリスト10名）
+</div>
+
+| アナリスト | 会社 | レーティング | 目標株価 |
 |---------|------|--------|--------------|
-| Analyst A | Goldman Sachs | Buy | $150 |
-| Analyst B | JP Morgan | Strong Buy | $165 |
-| Analyst C | Morgan Stanley | Buy | $155 |
-| Analyst D | Bank of America | Hold | $140 |
-| Analyst E | Citigroup | Strong Buy | $170 |
-| Analyst F | Wells Fargo | Buy | $152 |
-| Analyst G | Deutsche Bank | Hold | $145 |
-| Analyst H | Barclays | Sell | $130 |
-| Analyst I | UBS | Buy | $158 |
-| Analyst J | Credit Suisse | Strong Buy | $168 |
+| Analyst A | Goldman Sachs | 買い | $150 |
+| Analyst B | JP Morgan | 強い買い | $165 |
+| Analyst C | Morgan Stanley | 買い | $155 |
+| Analyst D | Bank of America | 中立 | $140 |
+| Analyst E | Citigroup | 強い買い | $170 |
+| Analyst F | Wells Fargo | 買い | $152 |
+| Analyst G | Deutsche Bank | 中立 | $145 |
+| Analyst H | Barclays | 売り | $130 |
+| Analyst I | UBS | 買い | $158 |
+| Analyst J | Credit Suisse | 強い買い | $168 |
 
-### Step-by-Step Calculation
+<div id="step-by-step-calculation">
+  ### ステップごとの計算
+</div>
 
-**1. Filter for unique analysts:** All 10 ratings are unique (10 analysts used)
+**1. アナリストを一意なものに絞り込み:** 10件すべてのレーティングがユニーク（10人のアナリストがそれぞれ1件ずつ評価）
 
-**2. Aggregate counts:**
-- Strong Buy: 3
-- Buy: 4
-- Hold: 2
-- Sell: 1
-- Strong Sell: 0
+**2. 件数を集計:**
 
-**3. Calculate consensus value:**
+* Strong Buy: 3
+* Buy: 4
+* Hold: 2
+* Sell: 1
+* Strong Sell: 0
+
+**3. コンセンサス値を算出:**
+
 ```
 (3×5 + 4×4 + 2×3 + 1×2 + 0×1) / 10 = (15 + 16 + 6 + 2 + 0) / 10 = 3.9
 ```
 
-**4. Determine consensus:** 3.9 rounds to **4 = "Buy"**
+**4. コンセンサス評価を算出:** 3.9 を四捨五入すると **4 = 「Buy（買い）」**
 
-**5. Price targets:**
-- Consensus PT: (150+165+155+140+170+152+145+130+158+168) / 10 = **$153.30**
-- Low PT: **$130**
-- High PT: **$170**
+**5. 目標株価:**
 
-**6. Percentage breakdown:**
-- Buy: 70% (Strong Buy 30% + Buy 40%)
-- Hold: 20%
-- Sell: 10%
+* コンセンサス目標株価: (150+165+155+140+170+152+145+130+158+168) / 10 = **$153.30**
+* 最低目標株価: **$130**
+* 最高目標株価: **$170**
 
-### Final Consensus Rating Output
+**6. 割合の内訳:**
+
+* Buy（買い）: 70%（Strong Buy（強い買い）30% + Buy（買い）40%）
+* Hold（中立）: 20%
+* Sell（売り）: 10%
+
+<div id="final-consensus-rating-output">
+  ### 最終コンセンサスレーティングの出力
+</div>
 
 ```json
 {
@@ -221,37 +279,42 @@ Let's walk through a complete example for **XYZ Corporation**:
 }
 ```
 
----
+***
 
-## Frequently Asked Questions
+<div id="frequently-asked-questions">
+  ## よくある質問
+</div>
 
 <AccordionGroup>
-  <Accordion title="Why might the total and unique analyst counts differ?">
-    If an analyst from the same firm updates their rating multiple times, the total count includes all instances, but only the most recent is used in calculations (reflected in the unique count).
+  <Accordion title="合計アナリスト数とユニークアナリスト数が異なるのはなぜですか？">
+    同じ証券会社のアナリストがレーティングを複数回更新した場合、合計数にはそのすべての更新が含まれますが、計算には最新のもののみが使用されます（ユニーク数に反映されます）。
   </Accordion>
 
-  <Accordion title="How often are consensus ratings updated?">
-    Consensus ratings are recalculated whenever new analyst ratings are published or existing ratings are updated.
+  <Accordion title="コンセンサスレーティングはどのくらいの頻度で更新されますか？">
+    コンセンサスレーティングは、新しいアナリストレーティングが公開されるか、既存のレーティングが更新されるたびに再計算されます。
   </Accordion>
 
-  <Accordion title="What happens if there are no analyst ratings?">
-    Without analyst coverage, a consensus rating cannot be calculated. The stock will show no consensus data.
+  <Accordion title="アナリストレーティングがない場合はどうなりますか？">
+    アナリストによるカバレッジがない場合、コンセンサスレーティングは算出できません。その銘柄にはコンセンサスデータは表示されません。
   </Accordion>
 
-  <Accordion title="Can the consensus rating change without new analyst ratings?">
-    No. The consensus only changes when analysts issue new ratings or update existing ones.
+  <Accordion title="新しいアナリストレーティングがなくてもコンセンサスレーティングが変わることはありますか？">
+    いいえ。コンセンサスは、アナリストが新しいレーティングを出すか、既存のレーティングを更新したときにのみ変化します。
   </Accordion>
 </AccordionGroup>
 
----
+***
 
-## Related Endpoints
+<div id="related-endpoints">
+  ## 関連エンドポイント
+</div>
 
 <CardGroup cols={2}>
-  <Card title="Consensus Ratings API" icon="chart-bar" href="/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data">
-    Get consensus rating data for stocks
+  <Card title="Consensus Ratings API" icon="chart-bar" href="/ja/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data">
+    株式のコンセンサスレーティングデータを取得します
   </Card>
-  <Card title="Analyst Ratings API" icon="users" href="/api-reference/calendar_api/ratings/returns-analyst-ratings-data">
-    Get individual analyst ratings
+
+  <Card title="Analyst Ratings API" icon="users" href="/ja/api-reference/calendar_api/ratings/returns-analyst-ratings-data">
+    個々のアナリストによるレーティングを取得します
   </Card>
 </CardGroup>

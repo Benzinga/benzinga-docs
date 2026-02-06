@@ -11,7 +11,7 @@ openapi: /ar/openapi/news-api_api.spec.yml GET /api/v2/news
     "author": "Benzinga Insights",
     "created": "Mon, 01 Jan 2024 13:35:14 -0400",
     "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
-    "title": "10 Information Technology Stocks With Whale Alerts In Today's Session",
+    "title": "10 أسهم في قطاع تكنولوجيا المعلومات مع تنبيهات صفقات ضخمة في جلسة اليوم",
     "teaser": "",
     "body": "",
     "url": "https://www.benzinga.com/markets/options/24/01/36444586/10-information-technology-stocks-with-whale-alerts-in-todays-session",
@@ -74,38 +74,38 @@ openapi: /ar/openapi/news-api_api.spec.yml GET /api/v2/news
   }
 ]
 ```
-```json استجابة (401 Unauthorized)
+```json استجابة (401 غير مصرح به)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json استجابة (404 غير موجود)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No data found for the specified parameters"
+      "value": "لم يتم العثور على بيانات للمعاملات المحددة"
     }
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json استجابة (500 خطأ داخلي في الخادم)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
     }
   ]
 }
