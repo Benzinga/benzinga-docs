@@ -151,6 +151,13 @@ paths:
           name: max_width
           schema:
             type: string
+        - description: إذا كانت القيمة true، فسيُضاف معامل الاستعلام
+            flutter_compatible=true إلى عناوين URL لملفات SVG لضمان التوافق مع
+            مكتبة flutter_svg
+          in: query
+          name: flutter_compatible
+          schema:
+            type: boolean
       responses:
         "200":
           description: استجابة ناجحة تتضمن مصفوفة من كائنات LogoClientResponse ضمن الحقل
@@ -240,6 +247,3 @@ components:
         ok:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD

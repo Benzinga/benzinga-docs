@@ -58,12 +58,14 @@ public class Application {
 }
 ```
 
-### 매개변수
+<div id="parameters">
+  ### Parameters
+</div>
 
-| 매개변수           | 타입               | 필수 여부          | 설명               |
+| Parameter          | Type               | Required           | Description        |
 | ------------------ | ------------------ | ------------------ | ------------------ |
 | `tickers`          | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | 티커               |
-| `callId`           | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | 콜 ID              |
+| `callId`           | List&lt;*String*&gt;    | :heavy&#95;minus&#95;sign: | Call ID            |
 | `page`             | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | 페이지             |
 | `pagesize`         | *Optional&lt;Long&gt;*  | :heavy&#95;minus&#95;sign: | 페이지 크기        |
 
@@ -77,7 +79,7 @@ public class Application {
   ### 오류
 </div>
 
-| 오류 유형                  | 상태 코드                  | 콘텐츠 유형                |
+| 오류 유형                  | 상태 코드                  | 콘텐츠 타입                |
 | -------------------------- | -------------------------- | -------------------------- |
 | models/errors/APIException | 4XX, 5XX                   | */*                      |
 
