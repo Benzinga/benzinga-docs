@@ -9,8 +9,9 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: استرجاع قائمة بالمكالمات مع إمكانية استخدام عوامل التصفية وتقسيم
-        النتائج إلى صفحات اختياريًا
+      description: استرجاع قائمة بالمكالمات مع خيارات للتصفية والترقيم الصفحي. بشكل
+        افتراضي، تُعاد المكالمات ذات الحالة COMPLETED فقط. استخدم status=ALL
+        لإرجاع جميع الحالات.
       operationId: get-conference-calls
       parameters:
         - description: رقم الصفحة للاستخدام في ترقيم الصفحات (يبدأ من 1)
@@ -25,6 +26,13 @@ paths:
           schema:
             type: integer
             default: 10
+        - description: تصفية حسب حالة المكالمة. القيمة الافتراضية هي COMPLETED. استخدم ALL
+            لإرجاع جميع الحالات.
+          in: query
+          name: status
+          schema:
+            type: string
+            default: COMPLETED
       responses:
         "200":
           description: موافق
@@ -55,6 +63,46 @@ paths:
       tags:
         - calls
   /api/v1/transcripts/calls/{call_id}:
+    delete:
+      description: حذف مكالمة معيّنة بالمعرّف الخاص بها
+      operationId: delete-conference-call-by-id
+      parameters:
+        - description: المعرّف الفريد لنص المكالمة
+          in: path
+          name: call_id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ناجح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: حذف مكالمة بالمعرّف
+      tags:
+        - calls
     get:
       description: استرجِع معلومات تفصيلية حول استدعاء معيّن عبر معرّفه
       operationId: get-conference-call-by-id
@@ -71,12 +119,18 @@ paths:
           name: audio
           schema:
             type: boolean
-        - description: إذا كانت القيمة true، فسيُرجِع تنسيق مخرجات أبسط وأنظف
+        - description: إذا كانت القيمة true، يتضمّن عناوين URL موقَّعة مسبقًا لمحضر الجلسة
+            بصيغة PDF
+          in: query
+          name: pdf
+          schema:
+            type: boolean
+        - description: إذا كانت القيمة true، يُرجِع مخرجات أنظف وأكثر تبسيطًا
           in: query
           name: clean
           schema:
             type: boolean
-        - description: "تنسيق الاستجابة (على سبيل المثال: 'json' أو 'html')"
+        - description: "صيغة الاستجابة (مثال: 'json' أو 'html')"
           in: query
           name: format
           schema:
@@ -117,6 +171,264 @@ paths:
       summary: جلب الاستدعاء بالمعرّف
       tags:
         - calls
+    put:
+      description: حدّث تفاصيل نص مكالمة معيّنة باستخدام معرّفها
+      operationId: update-conference-call-by-id
+      parameters:
+        - description: المعرّف الفريد لنص المكالمة
+          in: path
+          name: call_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain.UpdateCallReq"
+        description: بيانات تحديث نص المكالمة
+        required: true
+      responses:
+        "200":
+          description: ناجح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: تحديث مكالمة بالمعرّف
+      tags:
+        - calls
+  /api/v1/transcripts/participants/{participant_id}:
+    delete:
+      description: حذف مشارك معيّن باستخدام معرّفه
+      operationId: delete-participant-by-id
+      parameters:
+        - description: المعرّف الفريد للمشارك
+          in: path
+          name: participant_id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: نجاح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: حذف مشارك بالمعرّف
+      tags:
+        - participants
+    put:
+      description: تحديث تفاصيل مشارك معيّن باستخدام معرّفه
+      operationId: update-participant-by-id
+      parameters:
+        - description: المعرّف الفريد للمشارك
+          in: path
+          name: participant_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain.UpdateParticipantReq"
+        description: تفاصيل تحديث المشارك
+        required: true
+      responses:
+        "200":
+          description: نجاح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: تحديث مشارك بالمعرّف
+      tags:
+        - participants
+  /api/v1/transcripts/status:
+    get:
+      description: الاستعلام عن عرض معيّن مع عوامل تصفية وترقيم صفحات (pagination).
+        يدعم طريقتي GET (بمعلمات استعلام) وPOST (بجسم JSON).
+      operationId: query-status-view
+      parameters:
+        - description: اسم العرض (لطلبات GET)
+          in: query
+          name: view_name
+          schema:
+            type: string
+        - description: شرط ‎where‎ مُرمَّز بتنسيق JSON (لطلبات GET)
+          in: query
+          name: where
+          schema:
+            type: string
+        - description: قيمة ‎order_by‎ مُرمَّزة بتنسيق JSON (لطلبات GET)
+          in: query
+          name: order_by
+          schema:
+            type: string
+        - description: رقم الصفحة
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: حجم الصفحة
+          in: query
+          name: page_size
+          schema:
+            type: integer
+      requestBody:
+        $ref: "#/components/requestBodies/api.QueryRequest"
+      responses:
+        "200":
+          description: ناجح
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: استرجاع حالة الاستعلام
+      tags:
+        - status
+    post:
+      description: استعلام عن منظور معيّن مع عوامل تصفية وترقيم للصفحات. يدعم كلًّا من
+        طلبات GET (معاملات الاستعلام) وطلبات POST (هيكل JSON في جسم الطلب).
+      operationId: query-status-view
+      parameters:
+        - description: اسم المنظور (لطلبات GET)
+          in: query
+          name: view_name
+          schema:
+            type: string
+        - description: شرط WHERE مُشفَّر بصيغة JSON (لطلبات GET)
+          in: query
+          name: where
+          schema:
+            type: string
+        - description: حقل order_by مُشفَّر بصيغة JSON (لطلبات GET)
+          in: query
+          name: order_by
+          schema:
+            type: string
+        - description: رقم الصفحة
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: حجم الصفحة
+          in: query
+          name: page_size
+          schema:
+            type: integer
+      requestBody:
+        $ref: "#/components/requestBodies/api.QueryRequest"
+      responses:
+        "200":
+          description: ناجح
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: خطأ خادم داخلي
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: استرجاع حالة الاستعلام
+      tags:
+        - status
   /api/v1/transcripts/summaries:
     get:
       description: استرجاع قائمة بالملخصات مع دعم تقسيم الصفحات
@@ -202,13 +514,169 @@ paths:
       summary: استرجاع الملخص باستخدام معرّف المكالمة
       tags:
         - summaries
+    put:
+      description: تحديث تفاصيل الملخّص لمعرّف اتصال معيّن
+      operationId: update-summary-by-call-id
+      parameters:
+        - description: المعرّف الفريد للمكالمة
+          in: path
+          name: call_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain.UpdateSummaryReq"
+        description: تفاصيل تحديث الملخّص
+        required: true
+      responses:
+        "200":
+          description: نجاح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: تحديث الملخّص حسب معرّف المكالمة
+      tags:
+        - summaries
+  /api/v1/transcripts/transcripts/{transcript_id}/segment/{segment_id}:
+    delete:
+      description: حذف مقطع نصي محدّد
+      operationId: delete-transcript-segments-by-id
+      parameters:
+        - description: المعرّف الفريد للنص
+          in: path
+          name: transcript_id
+          required: true
+          schema:
+            type: string
+        - description: المعرّف الفريد للمقطع النصي
+          in: path
+          name: segment_id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: نجاح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: حذف مقطع من نص المكالمة بالمعرّف
+      tags:
+        - transcripts
+    put:
+      description: تحديث بيانات مقطع محدد من النص المُفرَّغ
+      operationId: update-transcript-segments-by-id
+      parameters:
+        - description: المعرّف الفريد للنص المُفرَّغ
+          in: path
+          name: transcript_id
+          required: true
+          schema:
+            type: string
+        - description: المعرّف الفريد للمقطع
+          in: path
+          name: segment_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain.UpdateTranscriptSegmentsReq"
+        description: تفاصيل تحديث المقطع
+        required: true
+      responses:
+        "200":
+          description: ناجح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: طلب غير صالح
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: تحديث مقطع من نص المكالمة بالمعرّف
+      tags:
+        - transcripts
 components:
+  requestBodies:
+    api.QueryRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/api.QueryRequest"
+      description: تفاصيل الاستعلام (لطلب POST)
   securitySchemes:
     ApiKeyAuth:
       in: query
       name: token
       type: apiKey
   schemas:
+    api.QueryRequest:
+      type: object
     domain.Calls:
       properties:
         call_id:
@@ -252,8 +720,10 @@ components:
         period:
           example: Q3
           type: string
-        recording:
-          $ref: "#/components/schemas/domain.Recordings"
+        recordings:
+          items:
+            $ref: "#/components/schemas/domain.Recordings"
+          type: array
         securities:
           $ref: "#/components/schemas/pgtype.JSONB"
         start_time:
@@ -277,8 +747,8 @@ components:
           example: https://example.com/webcast
           type: string
         year:
-          example: "2023"
-          type: string
+          example: 2023
+          type: integer
       type: object
     domain.Participants:
       properties:
@@ -394,6 +864,87 @@ components:
       x-enum-varnames:
         - LiveTranscripts
         - NonLiveTranscripts
+    domain.UpdateCallReq:
+      properties:
+        call_title:
+          example: Q3 2023 Earnings Call
+          type: string
+        cusip:
+          example: "037833100"
+          type: string
+        duration:
+          example: 60
+          type: integer
+        end_time:
+          example: 2023-10-25T15:00:00Z
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        headline:
+          example: Company X Reports Strong Q3 Results
+          type: string
+        isin:
+          example: US0378331005
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        start_time:
+          example: 2023-10-25T14:00:00Z
+          type: string
+        status:
+          example: completed
+          type: string
+        symbol:
+          example: AAPL
+          type: string
+      type: object
+    domain.UpdateParticipantReq:
+      properties:
+        human_verified:
+          example: true
+          type: boolean
+        mentions:
+          example: 5
+          type: integer
+        name:
+          example: Tim Cook
+          type: string
+        organization:
+          example: Apple Inc.
+          type: string
+        role:
+          example: CEO
+          type: string
+      type: object
+    domain.UpdateSummaryReq:
+      properties:
+        language:
+          example: en
+          type: string
+        summary:
+          example: Overall, the quarter was strong with 5% revenue growth...
+          type: string
+        symbol:
+          example: AAPL
+          type: string
+      type: object
+    domain.UpdateTranscriptSegmentsReq:
+      properties:
+        end_time:
+          example: 00:05:30
+          type: string
+        speaker:
+          example: Elon Musk
+          type: string
+        start_time:
+          example: 00:00:10
+          type: string
+        text:
+          example: Welcome everyone to the Q3 earnings call.
+          type: string
+      type: object
     pgtype.JSONB:
       properties:
         bytes:
@@ -413,6 +964,3 @@ components:
         - Undefined
         - "Null"
         - Present
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: الإنتاج

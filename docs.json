@@ -354,7 +354,7 @@
             "tab": "التوثيق",
             "groups": [
               {
-                "group": "مقدمة",
+                "group": "نظرة عامة",
                 "pages": [
                   "ar/introduction/welcome",
                   "ar/introduction/introduction",
@@ -382,7 +382,7 @@
                 ]
               },
               {
-                "group": "أدلة",
+                "group": "الأدلة",
                 "pages": [
                   "ar/api-reference/guides/consensus-ratings-explained"
                 ]
@@ -395,14 +395,14 @@
                 ]
               },
               {
-                "group": "الشموع السعرية",
+                "group": "بيانات الشريط",
                 "pages": [
                   "ar/api-reference/data-api-proxy-api/bars/overview",
                   "ar/api-reference/data-api-proxy-api/bars/get-bars"
                 ]
               },
               {
-                "group": "ما يقوله المتفائلون (الثيران) وما يقوله المتشائمون (الدببة)",
+                "group": "تقييمات الثيران والدببة",
                 "pages": [
                   "ar/api-reference/calendar-api/bulls-say-bears-say/overview",
                   "ar/api-reference/calendar-api/bulls-say-bears-say/get-bulls-say-bears-say"
@@ -435,7 +435,7 @@
                 ]
               },
               {
-                "group": "الأساسيات المالية للشركة",
+                "group": "الأساسيات المالية للشركات",
                 "pages": [
                   "ar/api-reference/data-api-proxy-api/fundamentals/overview",
                   "ar/api-reference/data-api-proxy-api/fundamentals/get-alpha-beta",
@@ -466,7 +466,7 @@
                 ]
               },
               {
-                "group": "نصوص مكالمات المؤتمرات الهاتفية",
+                "group": "نصوص مكالمات الأرباح",
                 "pages": [
                   "ar/api-reference/delivery-api/overview",
                   "ar/api-reference/delivery-api/calls/fetch-all-calls",
@@ -476,7 +476,7 @@
                 ]
               },
               {
-                "group": "أسعار متأخرة",
+                "group": "عروض الأسعار المتأخرة",
                 "pages": [
                   "ar/api-reference/data-api-proxy-api/quotedelayed/overview",
                   "ar/api-reference/data-api-proxy-api/quotedelayed/get-delayed-quotes"
@@ -507,7 +507,7 @@
                 ]
               },
               {
-                "group": "تغذية الأخبار",
+                "group": "موجز الأخبار",
                 "pages": [
                   "ar/api-reference/news-api/overview",
                   "ar/api-reference/news-api/get-news-items",
@@ -559,7 +559,7 @@
                 ]
               },
               {
-                "group": "تحليلات المحللين",
+                "group": "رؤى المحللين",
                 "pages": [
                   "ar/ws-reference/data-websocket/get-analyst-insights-stream"
                 ]
@@ -585,7 +585,7 @@
                 ]
               },
               {
-                "group": "التفريغات النصية (Transcripts)",
+                "group": "النصوص الحرفية",
                 "pages": [
                   "ar/ws-reference/data-websocket/get-transcripts-stream"
                 ]
@@ -593,17 +593,17 @@
             ]
           },
           {
-            "tab": "مرجع Webhook",
+            "tab": "مرجع الويب هوك",
             "groups": [
               {
-                "group": "ويب هوكس",
+                "group": "خطافات الويب",
                 "pages": [
                   "ar/webhook-reference/overview",
                   "ar/webhook-reference/webhook-engine"
                 ]
               },
               {
-                "group": "واجهة برمجة التطبيقات API للويب هوك",
+                "group": "واجهة برمجة التطبيقات API لخطافات الويب",
                 "pages": [
                   "ar/api-reference/webhook-api/test-webhook-delivery"
                 ]
@@ -614,7 +614,7 @@
             "tab": "مرجع TCP",
             "groups": [
               {
-                "group": "بث عبر TCP",
+                "group": "البث عبر بروتوكول TCP",
                 "pages": [
                   "ar/tcp-reference/introduction",
                   "ar/tcp-reference/connection",
@@ -622,7 +622,7 @@
                 ]
               },
               {
-                "group": "مكتبات العميل البرمجية",
+                "group": "مكتبات العميل",
                 "pages": [
                   "ar/tcp-reference/go-client",
                   "ar/tcp-reference/python-client"
@@ -631,10 +631,10 @@
             ]
           },
           {
-            "tab": "الودجات",
+            "tab": "الويدجتات",
             "groups": [
               {
-                "group": "الودجات",
+                "group": "الويدجات",
                 "pages": [
                   "ar/widgets/overview",
                   "ar/widgets/authorization"
@@ -646,13 +646,13 @@
             "tab": "عدة تطوير البرمجيات SDK",
             "groups": [
               {
-                "group": "حزم عِدّة تطوير البرمجيات SDK",
+                "group": "عدة تطوير البرمجيات SDK",
                 "pages": [
                   "ar/sdks/overview"
                 ]
               },
               {
-                "group": "حزم عِدّة تطوير البرمجيات SDK",
+                "group": "عدة تطوير البرمجيات SDK",
                 "pages": [
                   "ar/sdks/languages/java",
                   "ar/sdks/languages/node",
@@ -668,6 +668,17 @@
                 "group": "سجل التغييرات",
                 "pages": [
                   "ar/changelog/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "خريطة الطريق",
+            "groups": [
+              {
+                "group": "خريطة الطريق",
+                "pages": [
+                  "ar/changelog/roadmap"
                 ]
               }
             ]
@@ -715,7 +726,7 @@
                 ]
               },
               {
-                "group": "Información de analistas",
+                "group": "Opiniones de analistas",
                 "pages": [
                   "es/api-reference/calendar-api/analyst-insights/overview",
                   "es/api-reference/calendar-api/analyst-insights/get-analyst-insights"
@@ -729,7 +740,7 @@
                 ]
               },
               {
-                "group": "Bulls Say Bears Say",
+                "group": "Alcistas y bajistas",
                 "pages": [
                   "es/api-reference/calendar-api/bulls-say-bears-say/overview",
                   "es/api-reference/calendar-api/bulls-say-bears-say/get-bulls-say-bears-say"
@@ -810,7 +821,7 @@
                 ]
               },
               {
-                "group": "Transacciones gubernamentales",
+                "group": "Operaciones del gobierno",
                 "pages": [
                   "es/api-reference/calendar-api/government-trades/overview",
                   "es/api-reference/calendar-api/government-trades/get-government-trade-reports",
@@ -818,7 +829,7 @@
                 ]
               },
               {
-                "group": "Transacciones de iniciados",
+                "group": "Operaciones de insiders",
                 "pages": [
                   "es/api-reference/calendar-api/insider-transaction/overview",
                   "es/api-reference/calendar-api/insider-transaction/get-insider-transaction-filing",
@@ -834,7 +845,7 @@
                 ]
               },
               {
-                "group": "Newsfeed",
+                "group": "Feed de noticias",
                 "pages": [
                   "es/api-reference/news-api/overview",
                   "es/api-reference/news-api/get-news-items",
@@ -886,7 +897,7 @@
                 ]
               },
               {
-                "group": "Opiniones de analistas",
+                "group": "Información de analistas",
                 "pages": [
                   "es/ws-reference/data-websocket/get-analyst-insights-stream"
                 ]
@@ -900,7 +911,7 @@
                 ]
               },
               {
-                "group": "Sentimiento del mercado",
+                "group": "Sentimiento de mercado",
                 "pages": [
                   "es/ws-reference/data-websocket/get-bulls-bears-say-stream"
                 ]
@@ -920,7 +931,7 @@
             ]
           },
           {
-            "tab": "Referencia de Webhooks",
+            "tab": "Referencia de Webhook",
             "groups": [
               {
                 "group": "Webhooks",
@@ -930,7 +941,7 @@
                 ]
               },
               {
-                "group": "API de webhooks",
+                "group": "API de Webhooks",
                 "pages": [
                   "es/api-reference/webhook-api/test-webhook-delivery"
                 ]
@@ -941,7 +952,7 @@
             "tab": "Referencia de TCP",
             "groups": [
               {
-                "group": "Transmisión vía TCP",
+                "group": "Streaming por TCP",
                 "pages": [
                   "es/tcp-reference/introduction",
                   "es/tcp-reference/connection",
@@ -949,7 +960,7 @@
                 ]
               },
               {
-                "group": "Librerías de cliente",
+                "group": "Bibliotecas de cliente",
                 "pages": [
                   "es/tcp-reference/go-client",
                   "es/tcp-reference/python-client"
@@ -973,13 +984,13 @@
             "tab": "Kits de desarrollo de software (SDK)",
             "groups": [
               {
-                "group": "SDKs",
+                "group": "Kits de desarrollo de software",
                 "pages": [
                   "es/sdks/overview"
                 ]
               },
               {
-                "group": "SDKs",
+                "group": "Kits de desarrollo de software",
                 "pages": [
                   "es/sdks/languages/java",
                   "es/sdks/languages/node",
@@ -995,6 +1006,17 @@
                 "group": "Registro de cambios",
                 "pages": [
                   "es/changelog/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Hoja de ruta",
+            "groups": [
+              {
+                "group": "Hoja de ruta",
+                "pages": [
+                  "es/changelog/roadmap"
                 ]
               }
             ]
@@ -1025,7 +1047,7 @@
             ]
           },
           {
-            "tab": "APIリファレンス",
+            "tab": "API リファレンス",
             "groups": [
               {
                 "group": "APIドキュメント",
@@ -1056,14 +1078,14 @@
                 ]
               },
               {
-                "group": "強気／弱気",
+                "group": "Bulls Say Bears Say",
                 "pages": [
                   "ja/api-reference/calendar-api/bulls-say-bears-say/overview",
                   "ja/api-reference/calendar-api/bulls-say-bears-say/get-bulls-say-bears-say"
                 ]
               },
               {
-                "group": "カレンダー",
+                "group": "calendar",
                 "pages": [
                   "ja/api-reference/calendar-api/overview",
                   "ja/api-reference/calendar-api/get-blocktrade",
@@ -1120,7 +1142,7 @@
                 ]
               },
               {
-                "group": "カンファレンスコール・トランスクリプト",
+                "group": "カンファレンスコールの書き起こし",
                 "pages": [
                   "ja/api-reference/delivery-api/overview",
                   "ja/api-reference/delivery-api/calls/fetch-all-calls",
@@ -1130,14 +1152,14 @@
                 ]
               },
               {
-                "group": "遅延気配値",
+                "group": "遅延気配情報",
                 "pages": [
                   "ja/api-reference/data-api-proxy-api/quotedelayed/overview",
                   "ja/api-reference/data-api-proxy-api/quotedelayed/get-delayed-quotes"
                 ]
               },
               {
-                "group": "政府関係者による取引",
+                "group": "政府関係者の取引",
                 "pages": [
                   "ja/api-reference/calendar-api/government-trades/overview",
                   "ja/api-reference/calendar-api/government-trades/get-government-trade-reports",
@@ -1153,7 +1175,7 @@
                 ]
               },
               {
-                "group": "市場データ",
+                "group": "マーケットデータ",
                 "pages": [
                   "ja/api-reference/data-api-proxy-api/market-data/overview",
                   "ja/api-reference/data-api-proxy-api/market-data/get-market-movers",
@@ -1184,7 +1206,7 @@
                 ]
               },
               {
-                "group": "ティッカー・トレンド",
+                "group": "tickerトレンド",
                 "pages": [
                   "ja/api-reference/ticker-trends-api/overview",
                   "ja/api-reference/ticker-trends-api/get-ticker-trend-data",
@@ -1213,7 +1235,7 @@
                 ]
               },
               {
-                "group": "アナリストインサイト",
+                "group": "アナリスト・インサイト",
                 "pages": [
                   "ja/ws-reference/data-websocket/get-analyst-insights-stream"
                 ]
@@ -1257,7 +1279,7 @@
                 ]
               },
               {
-                "group": "Webhook API",
+                "group": "ウェブフック API",
                 "pages": [
                   "ja/api-reference/webhook-api/test-webhook-delivery"
                 ]
@@ -1265,10 +1287,10 @@
             ]
           },
           {
-            "tab": "TCPリファレンス",
+            "tab": "TCP リファレンス",
             "groups": [
               {
-                "group": "TCPストリーミング",
+                "group": "TCP ストリーミング",
                 "pages": [
                   "ja/tcp-reference/introduction",
                   "ja/tcp-reference/connection",
@@ -1325,6 +1347,17 @@
                 ]
               }
             ]
+          },
+          {
+            "tab": "未定義",
+            "groups": [
+              {
+                "group": "未定義",
+                "pages": [
+                  "ja/changelog/roadmap"
+                ]
+              }
+            ]
           }
         ],
         "language": "ja"
@@ -1352,7 +1385,7 @@
             ]
           },
           {
-            "tab": "API 참조",
+            "tab": "API 레퍼런스",
             "groups": [
               {
                 "group": "API 문서",
@@ -1376,7 +1409,7 @@
                 ]
               },
               {
-                "group": "Bar 데이터",
+                "group": "가격 표시 바",
                 "pages": [
                   "ko/api-reference/data-api-proxy-api/bars/overview",
                   "ko/api-reference/data-api-proxy-api/bars/get-bars"
@@ -1390,7 +1423,7 @@
                 ]
               },
               {
-                "group": "calendar",
+                "group": "캘린더",
                 "pages": [
                   "ko/api-reference/calendar-api/overview",
                   "ko/api-reference/calendar-api/get-blocktrade",
@@ -1416,7 +1449,7 @@
                 ]
               },
               {
-                "group": "기초 재무 지표",
+                "group": "기업 기초 재무 지표",
                 "pages": [
                   "ko/api-reference/data-api-proxy-api/fundamentals/overview",
                   "ko/api-reference/data-api-proxy-api/fundamentals/get-alpha-beta",
@@ -1447,7 +1480,7 @@
                 ]
               },
               {
-                "group": "컨퍼런스 콜 녹취록",
+                "group": "컨퍼런스 콜 통화록",
                 "pages": [
                   "ko/api-reference/delivery-api/overview",
                   "ko/api-reference/delivery-api/calls/fetch-all-calls",
@@ -1464,7 +1497,7 @@
                 ]
               },
               {
-                "group": "정부 매매",
+                "group": "정부 거래",
                 "pages": [
                   "ko/api-reference/calendar-api/government-trades/overview",
                   "ko/api-reference/calendar-api/government-trades/get-government-trade-reports",
@@ -1472,7 +1505,7 @@
                 ]
               },
               {
-                "group": "내부자 매매",
+                "group": "내부자 거래",
                 "pages": [
                   "ko/api-reference/calendar-api/insider-transaction/overview",
                   "ko/api-reference/calendar-api/insider-transaction/get-insider-transaction-filing",
@@ -1504,14 +1537,14 @@
                 ]
               },
               {
-                "group": "보도자료",
+                "group": "보도 자료",
                 "pages": [
                   "ko/api-reference/news-api/press-releases/overview",
                   "ko/api-reference/news-api/press-releases/get-press-releases"
                 ]
               },
               {
-                "group": "티커 트렌드",
+                "group": "티커 동향",
                 "pages": [
                   "ko/api-reference/ticker-trends-api/overview",
                   "ko/api-reference/ticker-trends-api/get-ticker-trend-data",
@@ -1528,7 +1561,7 @@
             ]
           },
           {
-            "tab": "웹소켓 참조",
+            "tab": "웹소켓 레퍼런스",
             "groups": [
               {
                 "group": "웹소켓",
@@ -1574,17 +1607,17 @@
             ]
           },
           {
-            "tab": "웹훅 참조",
+            "tab": "웹훅 레퍼런스",
             "groups": [
               {
-                "group": "웹훅",
+                "group": "웹후크",
                 "pages": [
                   "ko/webhook-reference/overview",
                   "ko/webhook-reference/webhook-engine"
                 ]
               },
               {
-                "group": "웹훅 API",
+                "group": "웹후크 API",
                 "pages": [
                   "ko/api-reference/webhook-api/test-webhook-delivery"
                 ]
@@ -1592,7 +1625,7 @@
             ]
           },
           {
-            "tab": "TCP 참조",
+            "tab": "TCP 레퍼런스",
             "groups": [
               {
                 "group": "TCP 스트리밍",
@@ -1643,12 +1676,23 @@
             ]
           },
           {
-            "tab": "변경 내역",
+            "tab": "변경 로그",
             "groups": [
               {
-                "group": "변경 내역",
+                "group": "변경 로그",
                 "pages": [
                   "ko/changelog/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "로드맵",
+            "groups": [
+              {
+                "group": "로드맵",
+                "pages": [
+                  "ko/changelog/roadmap"
                 ]
               }
             ]
