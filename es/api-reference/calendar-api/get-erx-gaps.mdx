@@ -1,44 +1,44 @@
 ---
-title: "Brechas de ERX"
+title: "Brechas ERX"
 openapi: /es/openapi/calendar_api.spec.yml GET /api/v1/erx-gaps
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json Respuesta (200 OK)
 {}
 ```
-```json Response (401 Unauthorized)
+```json Respuesta (401 No autorizado)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "token de autenticación inválido o ausente"
+      "value": "Token de autenticación no válido o faltante"
     }
   ]
 }
 ```
-```json Response (404 Not Found)
+```json Respuesta (404 No encontrado)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No se encontraron datos para los parámetros especificados"
+      "value": "No se encontraron datos para los parámetros indicados"
     }
   ]
 }
 ```
-```json Response (500 Internal Server Error)
+```json Respuesta (500 Error interno del servidor)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "Se produjo un error inesperado al procesar su solicitud"
+      "value": "Se produjo un error inesperado al procesar la solicitud"
     }
   ]
 }

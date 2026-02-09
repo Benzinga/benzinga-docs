@@ -1,6 +1,6 @@
 ---
 title: "معاملات المطلعين"
-openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/sec/insider_transactions/filings
+openapi: /openapi/calendar_api.spec.yml GET /api/v1/sec/insider_transactions/filings
 ---
 
 <ResponseExample>
@@ -63,7 +63,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/sec/insider_transactions/
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
@@ -75,7 +75,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/sec/insider_transactions/
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No data found for the specified parameters"
+      "value": "لم يتم العثور على بيانات للمعلمات المحددة"
     }
   ]
 }
@@ -87,7 +87,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/sec/insider_transactions/
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
     }
   ]
 }

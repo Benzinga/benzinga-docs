@@ -4,22 +4,22 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/erx-gaps
 ---
 
 <ResponseExample>
-```json استجابة (200 OK)
+```json Response (200 OK)
 {}
 ```
-```json استجابة (401 غير مصرح به)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
+      "value": "رمز وصول المصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json استجابة (404 غير موجود)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -31,7 +31,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/erx-gaps
   ]
 }
 ```
-```json استجابة (500 خطأ داخلي في الخادم)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
