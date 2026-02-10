@@ -1,5 +1,5 @@
 ---
-title: "주식 클래스 프로필"
+title: "주식 종류 프로필"
 openapi: /ko/openapi/data-api-proxy_api.spec.yml GET
   /api/v2.1/fundamentals/shareClassProfile
 ---
@@ -44,7 +44,7 @@ openapi: /ko/openapi/data-api-proxy_api.spec.yml GET
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "인증 토큰이 없거나 유효하지 않습니다"
     }
   ]
 }
@@ -56,7 +56,7 @@ openapi: /ko/openapi/data-api-proxy_api.spec.yml GET
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No data found for the specified parameters"
+      "value": "지정한 매개변수에 해당하는 데이터를 찾을 수 없습니다"
     }
   ]
 }
@@ -68,7 +68,7 @@ openapi: /ko/openapi/data-api-proxy_api.spec.yml GET
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "요청을 처리하는 동안 예기치 않은 오류가 발생했습니다"
     }
   ]
 }
