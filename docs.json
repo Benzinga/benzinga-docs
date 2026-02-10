@@ -334,17 +334,6 @@
                 ]
               }
             ]
-          },
-          {
-            "tab": "Roadmap",
-            "groups": [
-              {
-                "group": "Roadmap",
-                "pages": [
-                  "changelog/roadmap"
-                ]
-              }
-            ]
           }
         ],
         "language": "en"
