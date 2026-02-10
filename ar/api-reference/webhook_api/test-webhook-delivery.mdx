@@ -1,0 +1,130 @@
+---
+title: "اختبار تسليم Webhook"
+openapi: /ar/openapi/webhook_api.spec.yml GET /api/v1/webhook/test
+---
+
+<div id="overview">
+  ## نظرة عامة
+</div>
+
+استخدم نقطة النهاية هذه لاستدعاء إرسال Webhook تجريبي إلى نقطة النهاية التي قمت بإعدادها. يتيح لك ذلك التحقق من أن تكامل Webhook الخاص بك يعمل بشكل صحيح قبل البدء في تلقي بيانات الإنتاج المباشرة.
+
+<div id="testing-your-integration">
+  ## اختبار التكامل الخاص بك
+</div>
+
+عند استدعاء نقطة النهاية هذه، سترسل Benzinga حمولة Webhook تجريبية إلى عنوان URL الوجهة `destination` الذي قمت بإعداده. يتبع هذا التسليم التجريبي نفس التنسيق ومنطق إعادة المحاولة المستخدم في عمليات تسليم Webhook في بيئة الإنتاج.
+
+<div id="what-to-expect">
+  ### ما الذي يجب توقّعه
+</div>
+
+1. **استجابة فورية**: تُرجِع واجهة برمجة التطبيقات API رمز حالة `200` إذا تم تشغيل التسليم الاختباري بنجاح
+2. **حمولة اختبارية**: تتلقى نقطة webhook النهائية لديك حمولة اختبارية بنفس تنسيق بيانات بيئة الإنتاج
+3. **ترويسات التسليم**: يتضمّن التسليم الاختباري الترويسة `X-BZ-Delivery` تمامًا كما في عمليات التسليم في بيئة الإنتاج
+
+<div id="verify-your-integration">
+  ### التحقق من تكاملك
+</div>
+
+استخدم نقطة النهاية هذه للتأكد مما يلي:
+
+- أن نقطة نهاية Webhook لديك متاحة للوصول إليها من الإنترنت بشكل عام
+- أن نقطة النهاية الخاصة بك يمكنها معالجة تنسيق حمولة Webhook بشكل صحيح
+- أن نقطة النهاية الخاصة بك تستجيب برموز الحالة المناسبة (2xx للنجاح)
+- أن نقطة النهاية الخاصة بك تستجيب خلال مهلة 30 ثانية
+- أن منطق idempotency لديك يتعامل بشكل صحيح مع ترويسة `X-BZ-Delivery` وحقل `id` في الحمولة
+
+<div id="best-practices">
+  ## أفضل الممارسات
+</div>
+
+- اختبر أولاً باستخدام نقاط نهاية webhook غير الخاصة ببيئة الإنتاج
+- تحقق من أن نقطة النهاية تستجيب برموز الحالة `200` أو `204`
+- تأكد من أن التسجيل والمراقبة لديك يلتقطان عملية التسليم التجريبية
+- تحقق من أن منطق إزالة التكرار لديك يعمل مع معرّف التسليم التجريبي
+- اختبر سيناريوهات الأخطاء عن طريق إرجاع رموز حالة خطأ بشكل مؤقت
+
+<div id="troubleshooting">
+  ## استكشاف الأخطاء وإصلاحها
+</div>
+
+<div id="424-delivery-error">
+  ### 424 خطأ في التسليم
+</div>
+
+إذا تلقيت رمز حالة `424`، فهذا يعني أن النظام لم يتمكن من تسليم الحمولة الاختبارية إلى نقطة النهاية الوجهة. من الأسباب الشائعة:
+
+- عنوان URL للوجهة غير متاح للوصول العام
+- نقطة نهاية الوجهة تُرجع رموز حالة خطأ
+- مشكلات في اتصال الشبكة
+- أخطاء في شهادة SSL/TLS على نقطة نهاية الوجهة
+
+<div id="400-invalid-request">
+  ### 400 طلب غير صالح
+</div>
+
+تحقَّق من توفير جميع المعلمات المطلوبة وتنسيقها بشكل صحيح:
+
+- يجب أن يكون `destination` عنوان URL صالحًا عبر HTTPS
+- يجب أن تكون قيمة `version` هي `webhook/v1`
+- يجب أن تكون قيمة `kind` أحد أنواع الأحداث المدعومة (مثلًا، `News/v1`، `Earnings/v1`، `Ratings/v1`، إلخ)
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "status": "success"
+}
+```
+
+```json Response (400 Bad Request)
+{
+  "error": "Invalid destination URL"
+}
+```
+
+```json Response (424 Failed Dependency)
+{
+  "error": "Failed to deliver test payload to destination"
+}
+```
+
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+
+```json Response (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No data found for the specified parameters"
+    }
+  ]
+}
+```
+
+```json Response (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>
