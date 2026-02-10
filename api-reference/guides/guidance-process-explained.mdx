@@ -1,0 +1,235 @@
+---
+title: "Guidance Process Explained"
+description: "Learn how company guidance works and how to use the Guidance API for forward-looking financial analysis"
+---
+
+## Overview
+
+- What company guidance represents
+- Difference between guidance vs. analyst estimates
+- Why guidance matters for forward-looking analysis
+- Data source: company management disclosures
+
+---
+
+## What Company Guidance Represents
+
+Company guidance represents forward-looking financial expectations issued directly by a company's management. It typically includes projected ranges or estimates for key performance metrics such as earnings per share (EPS) and revenue for a specific fiscal period. Guidance reflects management's internal forecasts, assumptions, and strategic outlook at the time it is issued.
+
+<Note>
+Unlike historical financial results, guidance is prospective and subject to change based on market conditions, business performance, and external factors.
+</Note>
+
+---
+
+## Difference Between Guidance vs. Analyst Estimates
+
+| Aspect | Company Guidance | Analyst Estimates |
+|--------|------------------|-------------------|
+| **Source** | Company management | Independent financial analysts |
+| **Basis** | Internal forecasts and operational insight | External research models and assumptions |
+| **Perspective** | Management's expected performance | Market consensus expectations |
+| **Update Frequency** | Issued periodically or when outlook changes | Updated continuously |
+| **Intent** | Communicate outlook and set expectations | Evaluate and forecast company performance |
+
+---
+
+## Why Guidance Matters for Forward-Looking Analysis
+
+Guidance is a critical input for forward-looking analysis because it:
+
+- **Anchors market expectations** to management's outlook
+- **Signals confidence or caution** about future performance
+- **Provides context** for interpreting earnings results
+- **Helps assess directional changes** such as raised, lowered, or reaffirmed outlooks
+
+<Tip>
+Investors and analysts often compare guidance against prior guidance and analyst expectations to evaluate momentum, execution risk, and strategic direction.
+</Tip>
+
+---
+
+## Data Source: Company Management Disclosures
+
+Guidance data is sourced directly from official company communications, including:
+
+- Earnings calls
+- Earnings press releases
+- Investor presentations
+- Regulatory filings
+
+<Note>
+All guidance reflects information explicitly disclosed by company management and is structured to preserve the original ranges, estimates, and timing provided at the time of announcement.
+</Note>
+
+---
+
+## Guidance API – Developer Guide
+
+### Overview
+
+The Guidance API provides structured company-issued forward-looking guidance, including EPS and revenue projections. Guidance reflects management's expectations for a specific fiscal period and is critical for forward-looking analysis, comparison, and event-driven workflows.
+
+---
+
+## Guidance Metrics
+
+### EPS Guidance
+
+Each guidance record may include:
+
+| Field | Description |
+|-------|-------------|
+| `eps_guidance_min` | Minimum EPS projection |
+| `eps_guidance_max` | Maximum EPS projection |
+| `eps_guidance_est` | Estimates midpoint EPS |
+| `eps_type` | Accounting basis (GAAP or Adjusted) |
+
+### Revenue Guidance
+
+Each guidance record may include:
+
+| Field | Description |
+|-------|-------------|
+| `revenue_guidance_min` | Minimum revenue projection |
+| `revenue_guidance_max` | Maximum revenue projection |
+| `revenue_guidance_est` | Estimates midpoint revenue |
+| `revenue_type` | Accounting basis (GAAP or Adjusted) |
+
+### Prior vs Current Guidance
+
+| Field | Description |
+|-------|-------------|
+| `eps_guidance_prior_min` | Prior minimum EPS projection |
+| `eps_guidance_prior_max` | Prior maximum EPS projection |
+| `revenue_guidance_prior_min` | Prior minimum revenue projection |
+| `revenue_guidance_prior_max` | Prior maximum revenue projection |
+
+<Tip>
+Compare current guidance with prior projections to see if management has raised, lowered, or reaffirmed expectations.
+</Tip>
+
+---
+
+## Timing and Period
+
+| Field | Description |
+|-------|-------------|
+| `period` | Fiscal scope (e.g., Q1, FY) |
+| `period_year` | Fiscal year |
+| `date` and `time` | Announcement date and time |
+| `updated` | Last update timestamp (Unix UTC) |
+| `prelim` | Preliminary indicator |
+
+---
+
+## Record Classification
+
+### Primary Guidance
+
+| Field | Description |
+|-------|-------------|
+| `is_primary` | Y/N – Marks the default record when multiple guidance entries exist for the same company/date |
+
+<Note>
+Adjusted guidance is prioritized over GAAP for primary selection.
+</Note>
+
+### Confirmation Status
+
+| Field | Description |
+|-------|-------------|
+| `confirmed` | Y/N – Y indicates official company guidance; N indicates expected (unconfirmed) guidance |
+
+**Confirmed guidance** (`Y`) represents official company disclosure.
+
+**Unconfirmed guidance** (`N`) is automatically created for upcoming earnings, updated daily, and may include:
+- Expected announcement timing
+- Predicted metrics
+- Primary/secondary classification
+
+---
+
+## Security Identification
+
+Each record is associated with:
+
+| Field | Description |
+|-------|-------------|
+| `ticker` | Stock symbol |
+| `name` | Company name |
+| `cusip` | CUSIP identifier |
+| `exchange` | Exchange where the security trades |
+
+This ensures accurate mapping of guidance to the correct company and security.
+
+---
+
+## Display & Interpretation Guidelines
+
+- Use **primary guidance** (`is_primary = Y`) for default views
+- Display full ranges when available; fallback to estimates when necessary
+- **Confirmed guidance** represents official disclosure; **unconfirmed guidance** is indicative only
+- Guidance should be interpreted alongside analyst estimates and historical performance
+
+---
+
+## Error Handling
+
+| Scenario | Behavior |
+|----------|----------|
+| No data returned | Empty guidance array |
+| Missing min/max values | Estimate-only guidance |
+| Multiple records without a primary flag | Resolve using `is_primary` |
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="What is unconfirmed guidance?">
+    Expected guidance before official company disclosure. It is updated daily and may change.
+
+    **Expected Guidance Records deliver several key advantages:**
+    - Automatically populate as soon as upcoming earnings dates are confirmed
+    - Identify the expected date and time of the guidance announcement
+    - Predict the type of guidance (EPS or revenue), including GAAP versus adjusted metrics
+    - Distinguish between primary and secondary guidance within a fiscal period
+    - Include continuously updated estimates, refreshed daily until the official guidance announcement
+  </Accordion>
+
+  <Accordion title="Which record should I use by default?">
+    The record with `is_primary = Y`.
+  </Accordion>
+
+  <Accordion title="Why are there multiple guidance records for the same date?">
+    Companies may issue GAAP and adjusted guidance, or guidance for multiple metrics.
+  </Accordion>
+
+  <Accordion title="Can guidance be revised after confirmation?">
+    Yes, companies may update or withdraw guidance in later announcements.
+  </Accordion>
+
+  <Accordion title="Why might guidance be missing for some companies?">
+    Not all companies provide formal guidance.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related APIs
+
+<CardGroup cols={2}>
+  <Card title="Earnings Calendar API" icon="calendar" href="/api-reference/calendar-api/get-earnings">
+    Track upcoming earnings events
+  </Card>
+  <Card title="Guidance Calendar API" icon="compass" href="/api-reference/calendar-api/get-guidance">
+    Get company guidance data
+  </Card>
+  <Card title="Analyst Ratings API" icon="users" href="/api-reference/calendar-api/get-ratings">
+    Compare guidance to analyst expectations
+  </Card>
+  <Card title="Fundamentals API" icon="building" href="/api-reference/data-api-proxy-api/fundamentals/overview">
+    Validate guidance against historical performance
+  </Card>
+</CardGroup>

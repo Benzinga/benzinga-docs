@@ -46,7 +46,8 @@
               {
                 "group": "Guides",
                 "pages": [
-                  "api-reference/guides/consensus-ratings-explained"
+                  "api-reference/guides/consensus-ratings-explained",
+                  "api-reference/guides/guidance-process-explained"
                 ]
               },
               {
