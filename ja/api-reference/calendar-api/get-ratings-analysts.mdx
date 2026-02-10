@@ -1,5 +1,5 @@
 ---
-title: "レーティング担当アナリスト"
+title: "レーティングアナリスト"
 openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings/analysts
 ---
 
@@ -64,7 +64,7 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings/analys
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "認証トークンが無効であるか、指定されていません"
+      "value": "Invalid or missing authentication token"
     }
   ]
 }
@@ -76,7 +76,7 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings/analys
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "指定されたパラメータに対するデータが見つかりませんでした"
+      "value": "No data found for the specified parameters"
     }
   ]
 }
@@ -88,7 +88,7 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings/analys
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "リクエストの処理中に予期しないエラーが発生しました"
+      "value": "An unexpected error occurred while processing your request"
     }
   ]
 }
