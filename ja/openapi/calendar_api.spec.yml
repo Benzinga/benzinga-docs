@@ -94,7 +94,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.AnalystInsightsJSON"
+                $ref: "#/components/schemas/api.AnalystInsightsResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -149,7 +149,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.BullsSayBearsSayJSON"
+                $ref: "#/components/schemas/api.BullsSayBearsSayResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -243,19 +243,19 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/api.ErrorResponse"
         "400":
           description: 不正なリクエスト
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/api.ErrorResponse"
         "500":
           description: 内部エラー
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
       summary: アナリストレーティングのコンセンサスデータを返します
@@ -310,10 +310,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
+                $ref: "#/components/schemas/calendarapi.ErxGaps"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.ErxGapJSON"
+                $ref: "#/components/schemas/calendarapi.ErxGaps"
         "400":
           description: 不正なリクエスト
           content:
@@ -518,19 +518,21 @@ paths:
       summary: 政府関係者による取引
       tags:
         - Government Trades
-  /api/v1/sec/insider_transactions/filings:
+  /api/v1/sec/insider_transactions/{view_type}:
     get:
-      description: SEC Form 4 に基づく、会社内部者による株式の購入・売却およびオプション行使を含むインサイダー取引情報を返します
-      operationId: get-insider-transaction-filing
+      description: SEC Form 4 の提出書類に基づくインサイダー取引データを返します。/filings
+        エンドポイントでは、提出書類ごとに取引がネストされたグループ化ビューを取得できます。/transactions
+        エンドポイントでは、個々の取引ごとのフラットなビューを取得できます。どちらのエンドポイントも同じクエリパラメータをサポートします。
+      operationId: get-insider-transaction
       parameters:
-        - description: ページオフセット。最適化・パフォーマンス・技術的な理由から、ページオフセットは 0～100000
-            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは 0 です。
+        - description: ページのオフセット。最適化・パフォーマンス・技術的な理由から、ページオフセットは 0～100,000
+            に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは 0 です。
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: 返される結果の数。最大 1000 件
+        - description: 返される結果数。最大値は 1000 です。
           in: query
           name: pagesize
           schema:
@@ -548,8 +550,8 @@ paths:
           schema:
             type: string
             format: date
-        - description: レコードが最後に更新された日時を表す Unix
-            タイムスタンプ（UTC）。この値を指定すると、ソート順は指定したタイムスタンプ以上（>=）のものに強制されます。
+        - description: レコードの最終更新日時を表す Unix タイムスタンプ（UTC）。並び順を、指定したタイムスタンプ以上（greater than or
+            equal）となるように強制します
           in: query
           name: updated_since
           schema:
@@ -560,7 +562,7 @@ paths:
           schema:
             type: string
             format: date
-        - description: 部屋
+        - description: 議院
           in: query
           name: chamber
           schema:
@@ -573,7 +575,7 @@ paths:
           name: fields
           schema:
             type: string
-        - description: 検索キータイプ
+        - description: 検索キーの種類
           in: query
           name: search_keys_type
           schema:
@@ -588,7 +590,7 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: 表示
+        - description: 表示形式
           in: query
           name: display
           schema:
@@ -596,9 +598,20 @@ paths:
             enum:
               - flat
               - nested
+        - description: レスポンス形式：'filings' は取引を入れ子にしたファイリング単位のグループ化ビューを返し、'transactions'
+            は各取引をフラットにしたビューを返します
+          in: path
+          name: view_type
+          required: true
+          schema:
+            type: string
+            enum:
+              - filings
+              - transactions
       responses:
         "200":
-          description: インサイダー取引
+          description: インサイダー取引データ。レスポンス構造はエンドポイントによって異なります。/filings
+            は入れ子構造のファイリングデータを返し、/transactions はフラットな取引データを返します。
           content:
             application/json:
               schema:
@@ -617,7 +630,109 @@ paths:
                 $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
-      summary: インサイダー取引届出書
+      summary: インサイダー取引
+      tags:
+        - Insider Transaction
+  /api/v1/sec/insider_transactions/owners:
+    get:
+      description: インサイダー取引の所有者情報を返します。会社役員、取締役、および実質株主（ベネフィシャルオーナー）を含みます。
+      operationId: get-insider-transaction-owner
+      parameters:
+        - description: ページオフセット。最適化・パフォーマンス・技術的な理由により、ページオフセットは 0 ～ 100000
+            に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。デフォルトは 0 です。
+          in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+        - description: 返される結果数。上限は 1000 件です。
+          in: query
+          name: pagesize
+          schema:
+            type: integer
+            default: 100
+        - description: YYYY-MM-DD 形式の開始日。
+          in: query
+          name: date_from
+          schema:
+            type: string
+            format: date
+        - description: 終了日（YYYY-MM-DD 形式）
+          in: query
+          name: date_to
+          schema:
+            type: string
+            format: date
+        - description: レコードの最終更新日時を表す Unix
+            タイムスタンプ（UTC）。この値を指定すると、結果は指定したタイムスタンプ以上のレコードに限定されます。
+          in: query
+          name: updated_since
+          schema:
+            type: integer
+        - description: 日付（YYYY-MM-DD 形式）
+          in: query
+          name: date
+          schema:
+            type: string
+            format: date
+        - description: 議院
+          in: query
+          name: chamber
+          schema:
+            type: string
+            enum:
+              - House
+              - Senate
+        - description: フィールド
+          in: query
+          name: fields
+          schema:
+            type: string
+        - description: 検索キーの種類
+          in: query
+          name: search_keys_type
+          schema:
+            type: string
+            enum:
+              - symbol
+              - cik
+              - name_fuzzy
+              - name_starts_with
+        - description: 検索キー
+          in: query
+          name: search_keys
+          schema:
+            type: string
+        - description: 表示
+          in: query
+          name: display
+          schema:
+            type: string
+            enum:
+              - flat
+              - nested
+      responses:
+        "200":
+          description: インサイダー取引の当事者
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingDoc"
+        "400":
+          description: 無効なリクエスト
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/api.ErrorResponse"
+      security:
+        - ApiKeyAuth: []
+      summary: インサイダー保有者
       tags:
         - Insider Transaction
   /api/v1/signal/block_trade:
@@ -668,7 +783,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.BlockTradeJSON"
+                $ref: "#/components/schemas/api.BlockTradeResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -735,7 +850,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.HaltResumeJSON"
+                $ref: "#/components/schemas/calendarapi.HaltResume"
         "400":
           description: 不正なリクエスト
           content:
@@ -820,7 +935,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.OptionActivityJSON"
+                $ref: "#/components/schemas/calendarapi.OptionActivity"
         "400":
           description: 不正なリクエスト
           content:
@@ -894,10 +1009,10 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/api.ErrorResponse"
             text/xml:
               schema:
-                type: string
+                $ref: "#/components/schemas/api.ErrorResponse"
       security:
         - ApiKeyAuth: []
       summary: 削除済み (v2)
@@ -965,10 +1080,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.ConferenceJSON"
+                $ref: "#/components/schemas/api.ConferenceResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.ConferenceJSON"
+                $ref: "#/components/schemas/api.ConferenceResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -1095,10 +1210,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.DividendJSON"
+                $ref: "#/components/schemas/api.DividendResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.DividendJSON"
+                $ref: "#/components/schemas/api.DividendResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -1204,10 +1319,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.EarningJSON"
+                $ref: "#/components/schemas/api.EarningResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.EarningJSON"
+                $ref: "#/components/schemas/api.EarningResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -1311,10 +1426,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.EconomicJSON"
+                $ref: "#/components/schemas/api.EconomicResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.EconomicJSON"
+                $ref: "#/components/schemas/api.EconomicResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -1420,10 +1535,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.FDAJSON"
+                $ref: "#/components/schemas/api.FDAResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.FDAJSON"
+                $ref: "#/components/schemas/api.FDAResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -1533,10 +1648,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+                $ref: "#/components/schemas/api.GuidanceResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.GuidanceJSON"
+                $ref: "#/components/schemas/api.GuidanceResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -1621,10 +1736,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
+                $ref: "#/components/schemas/api.IPOResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
+                $ref: "#/components/schemas/api.IPOResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -1733,10 +1848,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.AcquisitionJSON"
+                $ref: "#/components/schemas/api.AcquisitionResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.AcquisitionJSON"
+                $ref: "#/components/schemas/api.AcquisitionResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -1837,10 +1952,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.OfferingJSON"
+                $ref: "#/components/schemas/api.OfferingResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.OfferingJSON"
+                $ref: "#/components/schemas/api.OfferingResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -1998,10 +2113,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.RatingJSON"
+                $ref: "#/components/schemas/api.RatingResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.RatingJSON"
+                $ref: "#/components/schemas/api.RatingResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -2080,10 +2195,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.RatingsAnalystJSON"
+                $ref: "#/components/schemas/calendarapi.RatingsAnalyst"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.RatingsAnalystJSON"
+                $ref: "#/components/schemas/calendarapi.RatingsAnalyst"
         "400":
           description: 不正なリクエスト
           content:
@@ -2147,10 +2262,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.RatingsFirmJSON"
+                $ref: "#/components/schemas/calendarapi.RatingsFirm"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.RatingsFirmJSON"
+                $ref: "#/components/schemas/calendarapi.RatingsFirm"
         "400":
           description: 不正なリクエスト
           content:
@@ -2258,10 +2373,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.SplitJSON"
+                $ref: "#/components/schemas/api.SplitResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.SplitJSON"
+                $ref: "#/components/schemas/api.SplitResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -2390,10 +2505,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.DividendJSON"
+                $ref: "#/components/schemas/api.DividendResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.DividendJSON"
+                $ref: "#/components/schemas/api.DividendResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -2496,10 +2611,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.EventsJSON"
+                $ref: "#/components/schemas/api.EventsResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.EventsJSON"
+                $ref: "#/components/schemas/api.EventsResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -2597,10 +2712,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
+                $ref: "#/components/schemas/api.IPOResponse"
             text/xml:
               schema:
-                $ref: "#/components/schemas/calendarapi.IPOJSON"
+                $ref: "#/components/schemas/api.IPOResponse"
         "400":
           description: 不正なリクエスト
           content:
@@ -2624,108 +2739,6 @@ paths:
       summary: IPOデータを返します
       tags:
         - ipos
-  /sec/insider_transactions/owners:
-    get:
-      description: 企業の役員、取締役、主要株主などのインサイダー取引当事者に関する情報を返します
-      operationId: get-insider-transaction-owner
-      parameters:
-        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由により、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータを使用してクエリ結果を絞り込んでください。デフォルトは 0 です。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果数。上限は 1000 件
-          in: query
-          name: pagesize
-          schema:
-            type: integer
-            default: 100
-        - description: 開始日（YYYY-MM-DD 形式）
-          in: query
-          name: date_from
-          schema:
-            type: string
-            format: date
-        - description: 終了日（YYYY-MM-DD 形式）
-          in: query
-          name: date_to
-          schema:
-            type: string
-            format: date
-        - description: レコードの最終更新日時を表す Unix タイムスタンプ（UTC）。これにより、ソート順は指定したタイムスタンプ以上（Greater
-            Than or Equal）となるように強制されます。
-          in: query
-          name: updated_since
-          schema:
-            type: integer
-        - description: 日付（YYYY-MM-DD 形式）
-          in: query
-          name: date
-          schema:
-            type: string
-            format: date
-        - description: 議院
-          in: query
-          name: chamber
-          schema:
-            type: string
-            enum:
-              - House
-              - Senate
-        - description: フィールド
-          in: query
-          name: fields
-          schema:
-            type: string
-        - description: 検索キーのタイプ
-          in: query
-          name: search_keys_type
-          schema:
-            type: string
-            enum:
-              - symbol
-              - cik
-              - name_fuzzy
-              - name_starts_with
-        - description: 検索キー
-          in: query
-          name: search_keys
-          schema:
-            type: string
-        - description: 表示
-          in: query
-          name: display
-          schema:
-            type: string
-            enum:
-              - flat
-              - nested
-      responses:
-        "200":
-          description: インサイダー取引当事者
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/calendarapi.InsiderTransactionFilingJSON"
-        "400":
-          description: 不正なリクエスト
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-      security:
-        - ApiKeyAuth: []
-      summary: インサイダー取引者
-      tags:
-        - Insider Transaction
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -2733,134 +2746,1077 @@ components:
       name: token
       type: apiKey
   schemas:
+    api.AcquisitionResponse:
+      description: M&A レコードの配列を含む API レスポンス
+      properties:
+        ma:
+          items:
+            $ref: "#/components/schemas/calendarapi.Acquisition"
+          type: array
+      type: object
+    api.AnalystInsightsResponse:
+      description: アナリスト・インサイト・レコードの配列を含む API レスポンス
+      properties:
+        analyst-insights:
+          items:
+            $ref: "#/components/schemas/calendarapi.AnalystInsights"
+          type: array
+      type: object
+    api.BlockTradeResponse:
+      description: ブロックトレード・レコードの配列を含む API レスポンス
+      properties:
+        block-trade:
+          items:
+            $ref: "#/components/schemas/calendarapi.BlockTrade"
+          type: array
+      type: object
+    api.BullsSayBearsSayResponse:
+      description: Bulls Say Bears Say レコードの配列を含む API レスポンス
+      properties:
+        bulls-say-bears-say:
+          items:
+            $ref: "#/components/schemas/calendarapi.BullsSayBearsSay"
+          type: array
+      type: object
+    api.ConferenceResponse:
+      description: カンファレンスコール・レコードの配列を含む API レスポンス
+      properties:
+        conference-calls:
+          items:
+            $ref: "#/components/schemas/calendarapi.Conference"
+          type: array
+      type: object
+    api.DividendResponse:
+      description: 配当レコードの配列を含む API レスポンス
+      properties:
+        dividends:
+          items:
+            $ref: "#/components/schemas/calendarapi.Dividend"
+          type: array
+      type: object
+    api.EarningResponse:
+      description: 決算レコードの配列を含む API レスポンス
+      properties:
+        earnings:
+          items:
+            $ref: "#/components/schemas/calendarapi.Earning"
+          type: array
+      type: object
+    api.EconomicResponse:
+      description: 経済イベント・レコードの配列を含む API レスポンス
+      properties:
+        economics:
+          items:
+            $ref: "#/components/schemas/calendarapi.Economic"
+          type: array
+      type: object
     api.ErrorResponse:
       properties:
         text:
           type: string
       type: object
-    calendarapi.AcquisitionJSON:
+    api.EventsResponse:
+      description: イベントレコードの配列を含む API レスポンス
       properties:
-        ma:
+        events:
           items:
-            additionalProperties: true
-            type: object
+            $ref: "#/components/schemas/calendarapi.Events"
           type: array
+      type: object
+    api.FDAResponse:
+      description: FDAイベントレコードの配列を含むAPIレスポンス
+      properties:
+        fda:
+          items:
+            $ref: "#/components/schemas/calendarapi.FDA"
+          type: array
+      type: object
+    api.GuidanceResponse:
+      description: ガイダンスレコードの配列を含むAPIレスポンス
+      properties:
+        guidance:
+          items:
+            $ref: "#/components/schemas/calendarapi.Guidance"
+          type: array
+      type: object
+    api.IPOResponse:
+      description: IPOレコードの配列を含むAPIレスポンス
+      properties:
+        ipos:
+          items:
+            $ref: "#/components/schemas/calendarapi.IPO"
+          type: array
+      type: object
+    api.OfferingResponse:
+      description: オファリングレコードの配列を含むAPIレスポンス
+      properties:
+        offerings:
+          items:
+            $ref: "#/components/schemas/calendarapi.Offering"
+          type: array
+      type: object
+    api.RatingResponse:
+      description: アナリストレーティングの配列を含むAPIレスポンス
+      properties:
+        ratings:
+          items:
+            $ref: "#/components/schemas/calendarapi.Rating"
+          type: array
+      type: object
+    api.SplitResponse:
+      description: 株式分割レコードの配列を含むAPIレスポンス
+      properties:
+        splits:
+          items:
+            $ref: "#/components/schemas/calendarapi.Split"
+          type: array
+      type: object
+    calendarapi.Acquisition:
+      properties:
+        acquirer_cusip:
+          example: "594918104"
+          type: string
+        acquirer_exchange:
+          example: NASDAQ
+          type: string
+        acquirer_isin:
+          example: US5949181045
+          type: string
+        acquirer_name:
+          example: Microsoft Corporation
+          type: string
+        acquirer_ticker:
+          example: MSFT
+          type: string
+        currency:
+          example: USD
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        date_completed:
+          example: 2024-06-15
+          type: string
+        date_expected:
+          example: 2024-06-30
+          type: string
+        deal_payment_type:
+          example: Cash
+          type: string
+        deal_size:
+          example: "68700000000"
+          type: string
+        deal_status:
+          example: Completed
+          type: string
+        deal_terms_extra:
+          example: All-cash transaction
+          type: string
+        deal_type:
+          example: Merger
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5ac
+          type: string
+        importance:
+          example: 5
+          type: integer
+        notes:
+          example: Subject to regulatory approval
+          type: string
+        target_cusip:
+          example: 00507V109
+          type: string
+        target_exchange:
+          example: NASDAQ
+          type: string
+        target_isin:
+          example: US00507V1098
+          type: string
+        target_name:
+          example: Activision Blizzard Inc.
+          type: string
+        target_ticker:
+          example: ATVI
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
       type: object
     calendarapi.AggregateRating:
       properties:
         buy:
+          example: 10
           type: integer
         hold:
+          example: 3
           type: integer
         sell:
+          example: 1
           type: integer
         strong_buy:
+          example: 5
           type: integer
         strong_sell:
+          example: 0
           type: integer
       type: object
-    calendarapi.AnalystInsightsJSON:
+    calendarapi.AnalystInsights:
       properties:
-        analyst-insights:
+        action:
+          example: Maintains
+          type: string
+        analyst_id:
+          example: 60a7f5e8e4b0f5a3c8e9f5b8
+          type: string
+        analyst_insights:
+          example: Strong fundamentals support higher valuation
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        firm:
+          example: Goldman Sachs
+          type: string
+        firm_id:
+          example: 60a7f5e8e4b0f5a3c8e9f5b7
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5b6
+          type: string
+        pt:
+          example: "200.00"
+          type: string
+        rating:
+          example: Buy
+          type: string
+        rating_id:
+          example: 60a7f5e8e4b0f5a3c8e9f5b9
+          type: string
+        security:
+          $ref: "#/components/schemas/calendarapi.AnalystInsightsSecurity"
+        updated:
+          example: 1704819600
+          type: integer
+      type: object
+    calendarapi.AnalystInsightsSecurity:
+      properties:
+        cik:
+          example: "320193"
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        isin:
+          example: US0378331005
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        symbol:
+          example: AAPL
+          type: string
+      type: object
+    calendarapi.BlockTrade:
+      properties:
+        ask:
+          example: "185.44"
+          type: string
+        bid:
+          example: "185.40"
+          type: string
+        count:
+          example: 1
+          type: integer
+        cusip:
+          example: 37833100
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        description:
+          example: Large institutional trade
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        executing_exchange:
+          example: Q
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5b4
+          type: string
+        importance:
+          example: 4
+          type: integer
+        isin:
+          example: US0378331005
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        price:
+          example: "185.42"
+          type: string
+        sale_conditions:
+          example: "@"
+          type: string
+        size:
+          example: "500000"
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+        time:
+          example: 15:45:30
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
+      type: object
+    calendarapi.BullsSayBearsSay:
+      properties:
+        analyst_firms_referenced:
+          example: 12
+          type: integer
+        bear_case:
+          example: Market saturation and competitive pressures
+          type: string
+        bull_case:
+          example: Strong product pipeline and ecosystem lock-in effect
+          type: string
+        created:
+          example: 1704819000
+          type: integer
+        exchange:
+          example: NASDAQ
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5c0
+          type: string
+        latest:
+          example: true
+          type: boolean
+        securities:
           items:
-            additionalProperties: true
+            properties:
+              cik:
+                example: "320193"
+                type: string
+              exchange:
+                example: NASDAQ
+                type: string
+              isin:
+                example: US0378331005
+                type: string
+              name:
+                example: Apple Inc.
+                type: string
+              symbol:
+                example: AAPL
+                type: string
             type: object
+          type: array
+        ticker:
+          example: AAPL
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
+      type: object
+    calendarapi.ClosingRangeAlert:
+      properties:
+        alert_date:
+          example: 2024-01-09
+          type: string
+        alert_type:
+          example: Upper Third Close
+          type: string
+        closing_id:
+          example: 4001
+          type: integer
+        closing_range_percentage:
+          example: 85.5
+          type: number
+        day_high:
+          example: 157.5
+          type: number
+        day_low:
+          example: 153.25
+          type: number
+        description:
+          example: Stock closed in the upper third of the day's range
+          type: string
+        gap_id:
+          example: 500
+          type: integer
+        symbol:
+          example: AAPL
+          type: string
+        title:
+          example: Upper Third Close
+          type: string
+      type: object
+    calendarapi.Company:
+      properties:
+        cik:
+          example: "1682852"
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5be
+          type: string
+        name:
+          example: Moderna Inc.
+          type: string
+        securities:
+          items:
+            $ref: "#/components/schemas/calendarapi.Security"
           type: array
       type: object
-    calendarapi.BlockTradeJSON:
+    calendarapi.Conference:
       properties:
-        block_trade:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    calendarapi.BullsSayBearsSayJSON:
-      properties:
-        bulls_say_bears_say:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    calendarapi.ConferenceJSON:
-      properties:
-        conference:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        access_code:
+          example: "123456"
+          type: string
+        confirmed:
+          example: true
+          type: boolean
+        cusip:
+          example: 37833100
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5ae
+          type: string
+        importance:
+          example: 4
+          type: integer
+        international_num:
+          example: 1-201-389-0918
+          type: string
+        isin:
+          example: US0378331005
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        notes:
+          example: Q1 2024 Earnings Conference Call
+          type: string
+        period:
+          example: Q1
+          type: string
+        period_year:
+          example: 2025
+          type: integer
+        phone_num:
+          example: 1-877-407-0890
+          type: string
+        reservation_num:
+          example: "13744123"
+          type: string
+        start_time:
+          example: 16:30:00
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+        time:
+          example: 16:30:00
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
+        webcast_url:
+          example: https://event.webcasts.com/example
+          type: string
       type: object
     calendarapi.ConsensusRating:
       properties:
         aggregate_ratings:
           $ref: "#/components/schemas/calendarapi.AggregateRating"
         aggregate_type:
+          example: 90D
           type: string
         consensus_price_target:
+          example: 195.5
           type: number
         consensus_rating:
+          example: Buy
           type: string
         consensus_rating_val:
+          example: 4.2
           type: number
         high_price_target:
+          example: 225
           type: number
         low_price_target:
+          example: 150
           type: number
         total_analyst_count:
+          example: 19
           type: integer
         unique_analyst_count:
+          example: 15
           type: integer
         updated_at:
+          example: 2024-01-09T16:00:00Z
           type: string
       type: object
-    calendarapi.DividendJSON:
+    calendarapi.DayAlert:
       properties:
-        dividends:
+        alert_date:
+          type: string
+        alert_type:
+          type: string
+        day:
+          type: integer
+        day_alert_id:
+          type: integer
+        description:
+          type: string
+        gap_id:
+          type: integer
+        price:
+          type: number
+        price_type:
+          type: string
+        title:
+          type: string
+      type: object
+    calendarapi.Dividend:
+      properties:
+        confirmed:
+          example: true
+          type: boolean
+        currency:
+          example: USD
+          type: string
+        cusip:
+          example: 37833100
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        dividend:
+          example: "0.25"
+          type: string
+        dividend_prior:
+          example: "0.24"
+          type: string
+        dividend_type:
+          example: Cash
+          type: string
+        dividend_yield:
+          example: "0.55"
+          type: string
+        end_regular_dividend:
+          example: false
+          type: boolean
+        ex_dividend_date:
+          example: 2024-01-12
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        frequency:
+          example: 4
+          type: integer
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5a7
+          type: string
+        importance:
+          example: 3
+          type: integer
+        isin:
+          example: US0378331005
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        notes:
+          example: Regular quarterly dividend
+          type: string
+        payable_date:
+          example: 2024-02-15
+          type: string
+        period:
+          example: Q1
+          type: string
+        record_date:
+          example: 2024-01-15
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
+        year:
+          example: 2024
+          type: integer
+      type: object
+    calendarapi.Drug:
+      properties:
+        generic:
+          example: false
+          type: boolean
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5bf
+          type: string
+        indication_symptom:
+          example:
+            - '["COVID-19"]'
           items:
-            additionalProperties: true
-            type: object
+            type: string
+          type: array
+        name:
+          example: Spikevax
+          type: string
+      type: object
+    calendarapi.Earning:
+      properties:
+        currency:
+          example: USD
+          type: string
+        cusip:
+          example: 37833100
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        date_confirmed:
+          example: 1
+          type: integer
+        eps:
+          example: "2.18"
+          type: string
+        eps_est:
+          example: "2.10"
+          type: string
+        eps_prior:
+          example: "1.88"
+          type: string
+        eps_surprise:
+          example: "0.08"
+          type: string
+        eps_surprise_percent:
+          example: "3.81"
+          type: string
+        eps_type:
+          example: GAAP
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5a3
+          type: string
+        importance:
+          example: 5
+          type: integer
+        isin:
+          example: US0378331005
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        notes:
+          example: Beat on EPS and revenue
+          type: string
+        period:
+          example: Q1
+          type: string
+        period_year:
+          example: 2024
+          type: integer
+        revenue:
+          example: "89537000000"
+          type: string
+        revenue_est:
+          example: "88500000000"
+          type: string
+        revenue_prior:
+          example: "81800000000"
+          type: string
+        revenue_surprise:
+          example: "1037000000"
+          type: string
+        revenue_surprise_percent:
+          example: "1.17"
+          type: string
+        revenue_type:
+          example: GAAP
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+        time:
+          example: amc
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
+      type: object
+    calendarapi.Economic:
+      properties:
+        actual:
+          example: "216000"
+          type: string
+        actual_t:
+          example: 216K
+          type: string
+        confirmed:
+          example: true
+          type: boolean
+        consensus:
+          example: "170000"
+          type: string
+        consensus_t:
+          example: 170K
+          type: string
+        country:
+          example: United States
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        description:
+          example: The change in the number of employed people
+          type: string
+        event_category:
+          example: Employment
+          type: string
+        event_name:
+          example: Nonfarm Payrolls
+          type: string
+        event_period:
+          example: December
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5af
+          type: string
+        importance:
+          example: 5
+          type: integer
+        notes:
+          example: Nonfarm payrolls beat expectations
+          type: string
+        period_year:
+          example: 2023
+          type: integer
+        prior:
+          example: "199000"
+          type: string
+        prior_t:
+          example: 199K
+          type: string
+        time:
+          example: 08:30:00
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
+      type: object
+    calendarapi.EmaCrossover:
+      properties:
+        crossover_date:
+          example: 2024-01-12
+          type: string
+        crossover_id:
+          example: 6001
+          type: integer
+        crossover_price:
+          example: 154.75
+          type: number
+        crossover_type:
+          example: EMA21
+          type: string
+        days_from_gap:
+          example: "3"
+          type: string
+        description:
+          example: Price crossed above EMA21
+          type: string
+        gap_id:
+          example: 500
+          type: integer
+        title:
+          example: EMA21 Crossover
+          type: string
+      type: object
+    calendarapi.ErxGaps:
+      properties:
+        closing_range_alerts:
+          items:
+            $ref: "#/components/schemas/calendarapi.ClosingRangeAlert"
+          type: array
+        day:
+          example: 5
+          type: integer
+        day_alerts:
+          items:
+            $ref: "#/components/schemas/calendarapi.DayAlert"
+          type: array
+        day1_valid:
+          example: true
+          type: boolean
+        earnings_surprise:
+          example: 0.15
+          type: number
+        ema_crossovers:
+          items:
+            $ref: "#/components/schemas/calendarapi.EmaCrossover"
+          type: array
+        ema_status:
+          example: Above EMA21
+          type: string
+        ema_status_updated:
+          example: 2024-01-09T10:30:00Z
+          type: string
+        fibonacci_alerts:
+          items:
+            $ref: "#/components/schemas/calendarapi.FibonacciAlert"
+          type: array
+        fibonacci_status:
+          example: Above 50%
+          type: string
+        fibonacci_status_updated:
+          example: 2024-01-09T10:30:00Z
+          type: string
+        first_13min_close:
+          example: 155.75
+          type: number
+        gap_date:
+          example: 2024-01-09
+          type: string
+        gap_day_high:
+          example: 157.5
+          type: number
+        gap_day_low:
+          example: 153.25
+          type: number
+        gap_percentage:
+          example: 3.75
+          type: number
+        hvc_price:
+          example: 156
+          type: number
+        hvc_undercut:
+          example: 155.5
+          type: number
+        id:
+          example: 64a1b2c3d4e5f6789012345
+          type: string
+        market_session_alerts:
+          items:
+            $ref: "#/components/schemas/calendarapi.MarketSessionAlert"
+          type: array
+        milestone_measurements:
+          items:
+            $ref: "#/components/schemas/calendarapi.MilestoneMeasurement"
+          type: array
+        monster_gap:
+          example: true
+          type: boolean
+        monster_power_earning_gap:
+          example: false
+          type: boolean
+        next_ms_date:
+          example: 2024-01-19
+          type: string
+        next_ms_day:
+          example: 10
+          type: integer
+        oel_gap:
+          example: true
+          type: boolean
+        open:
+          example: 154.5
+          type: number
+        power_earning_gap:
+          example: true
+          type: boolean
+        previous_close:
+          example: 150.25
+          type: number
+        price:
+          example: 156.25
+          type: number
+        price_alerts:
+          items:
+            $ref: "#/components/schemas/calendarapi.PriceAlert"
+          type: array
+        status:
+          example: true
+          type: boolean
+        symbol:
+          example: AAPL
+          type: string
+        triggered_date:
+          example: 2024-01-09
+          type: string
+        updated:
+          example: 1704758400
+          type: integer
+        volume:
+          example: 12500000
+          type: integer
+        volume_50d:
+          example: 8500000
+          type: integer
+        volume_alerts:
+          items:
+            $ref: "#/components/schemas/calendarapi.VolumeAlert"
           type: array
       type: object
-    calendarapi.EarningJSON:
+    calendarapi.Events:
       properties:
-        earnings:
+        date_end:
+          example: 2024-01-11
+          type: string
+        date_start:
+          example: 2024-01-09
+          type: string
+        event_name:
+          example: CES 2024
+          type: string
+        event_type:
+          example: Conference
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5bc
+          type: string
+        importance:
+          example: 3
+          type: integer
+        international_number:
+          example: +1-212-555-0100
+          type: string
+        location:
+          example: Las Vegas Convention Center
+          type: string
+        phone_number:
+          example: 1-800-555-0100
+          type: string
+        securities:
           items:
-            additionalProperties: true
-            type: object
+            $ref: "#/components/schemas/calendarapi.Securities"
           type: array
+        source_link:
+          example: https://www.example.com/event-details
+          type: string
+        start_time:
+          example: 09:00:00
+          type: string
+        tags:
+          example:
+            - '["Technology"'
+            - '"Innovation"]'
+          items:
+            type: string
+          type: array
+        updated:
+          example: 1704819600
+          type: integer
+        webcast_link:
+          example: https://webcast.example.com/event123
+          type: string
       type: object
-    calendarapi.EconomicJSON:
+    calendarapi.FDA:
       properties:
-        economics:
+        commentary:
+          example: Approval was expected based on positive Phase 3 results
+          type: string
+        companies:
           items:
-            additionalProperties: true
-            type: object
+            $ref: "#/components/schemas/calendarapi.Company"
           type: array
+        created:
+          example: 1704819000
+          type: integer
+        date:
+          example: 2024-01-09
+          type: string
+        drug:
+          $ref: "#/components/schemas/calendarapi.Drug"
+        event_type:
+          example: PDUFA
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5bd
+          type: string
+        nic_number:
+          example: "022527"
+          type: string
+        notes:
+          example: Breakthrough therapy designation
+          type: string
+        outcome:
+          example: FDA approved the drug for treatment of condition X
+          type: string
+        outcome_brief:
+          example: Approved
+          type: string
+        source_link:
+          example: https://www.fda.gov/drugs/news-events
+          type: string
+        source_type:
+          example: FDA
+          type: string
+        status:
+          example: Pending
+          type: string
+        target_date:
+          example: 2024-03-15
+          type: string
+        time:
+          example: 00:00:00
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
       type: object
-    calendarapi.ErxGapJSON:
+    calendarapi.FibonacciAlert:
       properties:
-        erx_gap:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    calendarapi.EventsJSON:
-      properties:
-        events:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
-      type: object
-    calendarapi.FDAJSON:
-      properties:
-        fda:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        alert_date:
+          example: 2024-01-09
+          type: string
+        alert_type:
+          example: Fibonacci Retracement
+          type: string
+        description:
+          example: Price reached 50% Fibonacci retracement level
+          type: string
+        fib_id:
+          example: 2001
+          type: integer
+        fibonacci_level:
+          example: 50%
+          type: string
+        gap_id:
+          example: 500
+          type: integer
+        level_price:
+          example: 153.5
+          type: number
+        open:
+          example: 154.5
+          type: number
+        prev_close:
+          example: 150.25
+          type: number
+        symbol:
+          example: AAPL
+          type: string
+        title:
+          example: 50% Fibonacci Retracement
+          type: string
       type: object
     calendarapi.GovernmentTradeJSON:
       properties:
@@ -2870,67 +3826,319 @@ components:
             type: object
           type: array
       type: object
-    calendarapi.GuidanceJSON:
+    calendarapi.Guidance:
       properties:
-        guidance:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        confirmed:
+          type: boolean
+        currency:
+          example: USD
+          type: string
+        cusip:
+          example: 37833100
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        eps_guidance_est:
+          example: "1.55"
+          type: string
+        eps_guidance_max:
+          example: "1.60"
+          type: string
+        eps_guidance_min:
+          example: "1.50"
+          type: string
+        eps_guidance_prior_max:
+          example: "1.45"
+          type: string
+        eps_guidance_prior_min:
+          example: "1.35"
+          type: string
+        eps_type:
+          example: GAAP
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5b1
+          type: string
+        importance:
+          example: 4
+          type: integer
+        is_primary:
+          example: "true"
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        notes:
+          example: Raised guidance above analyst expectations
+          type: string
+        period:
+          example: Q2
+          type: string
+        period_year:
+          example: 2024
+          type: integer
+        prelim:
+          example: "false"
+          type: string
+        revenue_guidance_est:
+          example: "93000000000"
+          type: string
+        revenue_guidance_max:
+          example: "95000000000"
+          type: string
+        revenue_guidance_min:
+          example: "91000000000"
+          type: string
+        revenue_guidance_prior_max:
+          example: "89000000000"
+          type: string
+        revenue_guidance_prior_min:
+          example: "87000000000"
+          type: string
+        revenue_type:
+          example: GAAP
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+        time:
+          example: 16:05:00
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
       type: object
-    calendarapi.HaltResumeJSON:
+    calendarapi.HaltResume:
       properties:
-        halt_resume:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        count:
+          example: 1
+          type: integer
+        cusip:
+          example: 88160R101
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        description:
+          example: Trading halted due to news pending
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        halt_type:
+          example: News Pending
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5b3
+          type: string
+        importance:
+          example: 4
+          type: integer
+        isin:
+          example: US88160R1014
+          type: string
+        name:
+          example: Tesla Inc.
+          type: string
+        ticker:
+          example: TSLA
+          type: string
+        time:
+          example: 14:25:00
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
       type: object
-    calendarapi.IPOJSON:
+    calendarapi.IPO:
       properties:
-        ipos:
+        currency:
+          example: USD
+          type: string
+        cusip:
+          example: 38744101
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        deal_status:
+          example: Priced
+          type: string
+        description:
+          example: Online marketplace for lodging and tourism experiences
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5a9
+          type: string
+        initial_filing_date:
+          example: 2023-11-15
+          type: string
+        insider_lockup_date:
+          example: 2024-07-07
+          type: string
+        insider_lockup_days:
+          example: 180
+          type: integer
+        ipo_type:
+          example: IPO
+          type: string
+        last_yr_income:
+          example: -674000000
+          type: integer
+        last_yr_income_year:
+          example: 2023
+          type: integer
+        last_yr_revenue:
+          example: 4805000000
+          type: integer
+        last_yr_revenue_year:
+          example: 2023
+          type: integer
+        lead_underwriters:
+          example:
+            - '[{"name":"Morgan Stanley"}]'
           items:
-            additionalProperties: true
-            type: object
+            type: string
           type: array
+        market_cap_at_offer:
+          example: 47000000000
+          type: integer
+        name:
+          example: Airbnb Inc.
+          type: string
+        notes:
+          example: Strong first day trading
+          type: string
+        offering_shares:
+          example: 51500000
+          type: integer
+        offering_shares_ord_adr:
+          example: 51500000
+          type: integer
+        offering_value:
+          example: 3500000000
+          type: integer
+        open_date_verified:
+          example: true
+          type: boolean
+        ord_shares_out_after_offer:
+          example: 615000000
+          type: integer
+        other_underwriters:
+          example:
+            - '[{"name":"Goldman Sachs"}]'
+          items:
+            type: string
+          type: array
+        price_max:
+          example: "50.00"
+          type: string
+        price_min:
+          example: "44.00"
+          type: string
+        price_open:
+          example: "146.00"
+          type: string
+        price_public_offering:
+          example: "68.00"
+          type: string
+        pricing_date:
+          example: 2024-01-08
+          type: string
+        pricing_date_verified:
+          example: true
+          type: boolean
+        sec_accession_number:
+          example: 0001559720-20-000079
+          type: string
+        sec_filing_url:
+          example: https://www.sec.gov/cgi-bin/browse-edgar
+          type: string
+        shares_outstanding:
+          example: 615000000
+          type: integer
+        sic:
+          example: 7389
+          type: integer
+        spac_converted_to_target:
+          example: false
+          type: boolean
+        state_location:
+          example: Delaware
+          type: string
+        ticker:
+          example: ABNB
+          type: string
+        time:
+          example: 09:30:00
+          type: string
+        underwriter_quiet_expiration_date:
+          example: 2024-02-03
+          type: string
+        underwriter_quiet_expiration_days:
+          example: 25
+          type: integer
+        updated:
+          example: 1704819600
+          type: integer
       type: object
     calendarapi.InsiderTransaction:
       properties:
         accession_number:
+          example: 0001127602-24-000123
           type: string
         company_cik:
+          example: 320193
           type: string
         company_name:
+          example: Apple Inc.
           type: string
         company_symbol:
+          example: AAPL
           type: string
         filing_date:
+          example: 2024-01-09T00:00:00Z
           type: string
         footnotes:
           items:
             $ref: "#/components/schemas/calendarapi.SECFootnotes"
           type: array
         form_type:
+          example: "4"
           type: string
         html_url:
+          example: https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000320193
           type: string
         id:
+          example: 64a1b2c3d4e5f6789012345
           type: string
         is_10b5:
+          example: true
           type: boolean
         owner:
           $ref: "#/components/schemas/calendarapi.Owner"
         remaining_shares:
+          example: "125000"
           type: string
         remaining_underlying_shares:
+          example: "50000"
           type: string
         traded_percentage:
+          example: "15.5"
           type: string
         transactions:
           items:
             $ref: "#/components/schemas/calendarapi.Transaction"
           type: array
         updated:
+          example: 1704758400
           type: integer
       type: object
     calendarapi.InsiderTransactionFilingDoc:
@@ -2940,70 +4148,573 @@ components:
             $ref: "#/components/schemas/calendarapi.InsiderTransaction"
           type: array
       type: object
-    calendarapi.InsiderTransactionFilingJSON:
+    calendarapi.MarketSessionAlert:
       properties:
-        data:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        description:
+          example: Price broke above first 15-minute high
+          type: string
+        first_5min_close:
+          example: 155.25
+          type: number
+        first_5min_high:
+          example: 155.5
+          type: number
+        first_15min_close:
+          example: 155.75
+          type: number
+        first_15min_high:
+          example: 156
+          type: number
+        gap_id:
+          example: 500
+          type: integer
+        session_date:
+          example: 2024-01-09
+          type: string
+        session_high:
+          example: 157.5
+          type: number
+        session_id:
+          example: 5001
+          type: integer
+        session_type:
+          example: Regular
+          type: string
+        session_volume:
+          example: 12500000
+          type: integer
+        symbol:
+          example: AAPL
+          type: string
+        title:
+          example: First 15 Min Breakout
+          type: string
       type: object
-    calendarapi.OfferingJSON:
+    calendarapi.MilestoneMeasurement:
       properties:
-        offerings:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        above_hvc_pct:
+          example: 1.6
+          type: number
+        above_milestone_avg_pct:
+          example: 0.79
+          type: number
+        alert_type:
+          example: Milestone Day 10
+          type: string
+        close_price:
+          example: 158.5
+          type: number
+        description:
+          example: Stock held above HVC on Day 10
+          type: string
+        gap_id:
+          example: 500
+          type: integer
+        milestone_avg:
+          example: 157.25
+          type: number
+        milestone_date:
+          example: 2024-01-19
+          type: string
+        milestone_day:
+          example: 10
+          type: integer
+        milestone_id:
+          example: 7001
+          type: integer
+        price_type:
+          example: Close
+          type: string
+        title:
+          example: Day 10 Milestone
+          type: string
       type: object
-    calendarapi.OptionActivityJSON:
+    calendarapi.Offering:
       properties:
-        option_activity:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        currency:
+          example: USD
+          type: string
+        cusip:
+          example: 88160R101
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        dollar_shares:
+          example: "5000000000"
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5ab
+          type: string
+        importance:
+          example: 4
+          type: integer
+        name:
+          example: Tesla Inc.
+          type: string
+        notes:
+          example: Common stock offering
+          type: string
+        number_shares:
+          example: 20592018
+          type: integer
+        offering_type:
+          example: Follow-on
+          type: string
+        price:
+          example: "242.84"
+          type: string
+        proceeds:
+          example: "5000000000"
+          type: string
+        shelf:
+          example: false
+          type: boolean
+        ticker:
+          example: TSLA
+          type: string
+        time:
+          example: 09:30:00
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
+        url:
+          example: https://www.benzinga.com/offering/123456
+          type: string
+      type: object
+    calendarapi.OptionActivity:
+      properties:
+        aggressor_ind:
+          example: "1"
+          type: string
+        ask:
+          example: "4.35"
+          type: string
+        bid:
+          example: "4.25"
+          type: string
+        cost_basis:
+          example: "2156000"
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        date_expiration:
+          example: 2024-01-19
+          type: string
+        description:
+          example: Trade
+          type: string
+        description_extended:
+          example: Sweep | Bullish | Above Ask
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        execution_estimate:
+          example: Above Ask
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5ad
+          type: string
+        midpoint:
+          example: "4.30"
+          type: string
+        open_interest:
+          example: "1523"
+          type: string
+        option_activity_type:
+          example: Sweep
+          type: string
+        option_symbol:
+          example: AAPL240119C00195000
+          type: string
+        price:
+          example: "4.31"
+          type: string
+        put_call:
+          example: Call
+          type: string
+        sentiment:
+          example: Bullish
+          type: string
+        size:
+          example: "500"
+          type: string
+        strike_price:
+          example: "195.00"
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+        time:
+          example: 14:35:22
+          type: string
+        trade_count:
+          example: 1
+          type: integer
+        underlying_price:
+          example: "185.92"
+          type: string
+        underlying_type:
+          example: Common Stock
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
+        volume:
+          example: "2845"
+          type: string
       type: object
     calendarapi.Owner:
       properties:
         insider_cik:
+          example: "0001234567"
           type: string
         insider_name:
+          example: Tim Cook
           type: string
         insider_title:
+          example: Chief Executive Officer
           type: string
         is_director:
+          example: true
           type: boolean
         is_officer:
+          example: true
           type: boolean
         is_ten_percent_owner:
+          example: false
           type: boolean
         raw_signature:
+          example: /s/ Tim Cook
           type: string
       type: object
-    calendarapi.RatingJSON:
+    calendarapi.PriceAlert:
       properties:
-        ratings:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        description:
+          example: Price moved above High Volume Close level
+          type: string
+        direction:
+          example: Above
+          type: string
+        gap_id:
+          example: 500
+          type: integer
+        level_name:
+          example: HVC
+          type: string
+        level_price:
+          example: 156
+          type: number
+        price:
+          example: 156.25
+          type: number
+        price_alert_id:
+          example: 3001
+          type: integer
+        title:
+          example: Price Above HVC
+          type: string
       type: object
-    calendarapi.RatingsAnalystJSON:
+    calendarapi.Rank:
       properties:
-        analyst_ratings_analyst:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        rank:
+          example: 15
+          type: integer
+        total:
+          example: 500
+          type: integer
       type: object
-    calendarapi.RatingsFirmJSON:
+    calendarapi.Rating:
       properties:
-        analyst_ratings_firm:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        action_company:
+          example: Goldman Sachs
+          type: string
+        action_pt:
+          example: Raises
+          type: string
+        adjusted_pt_current:
+          example: "200.00"
+          type: string
+        adjusted_pt_prior:
+          example: "185.00"
+          type: string
+        analyst:
+          example: Goldman Sachs
+          type: string
+        analyst_id:
+          example: 60a7f5e8e4b0f5a3c8e9f5a6
+          type: string
+        analyst_name:
+          example: John Smith
+          type: string
+        currency:
+          example: USD
+          type: string
+        cusip:
+          example: 37833100
+          type: string
+        date:
+          example: 2024-01-09
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        firm_id:
+          example: 60a7f5e8e4b0f5a3c8e9f5a5
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5a4
+          type: string
+        importance:
+          example: 3
+          type: integer
+        isin:
+          example: US0378331005
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        notes:
+          example: Upgraded due to strong quarterly performance
+          type: string
+        pt_current:
+          example: "200.00"
+          type: string
+        pt_prior:
+          example: "185.00"
+          type: string
+        rating_current:
+          example: Buy
+          type: string
+        rating_prior:
+          example: Neutral
+          type: string
+        ticker:
+          example: AAPL
+          type: string
+        time:
+          example: 09:30:00
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
+        url:
+          example: https://www.benzinga.com/ratings/123456
+          type: string
+        url_calendar:
+          example: https://www.benzinga.com/calendar/ratings/123456
+          type: string
+        url_news:
+          example: https://www.benzinga.com/news/123456
+          type: string
+      type: object
+    calendarapi.RatingsAccuracy:
+      properties:
+        1m_average_return:
+          example: "3.5"
+          type: string
+        1m_gain_count:
+          example: 52
+          type: integer
+        1m_loss_count:
+          example: 28
+          type: integer
+        1m_smart_score:
+          example: "82.5"
+          type: string
+        1m_stdev:
+          example: "2.5"
+          type: string
+        1m_success_rate:
+          example: "65.0"
+          type: string
+        1y_average_return:
+          example: "18.5"
+          type: string
+        1y_gain_count:
+          example: 57
+          type: integer
+        1y_loss_count:
+          example: 23
+          type: integer
+        1y_smart_score:
+          example: "87.0"
+          type: string
+        1y_stdev:
+          example: "9.5"
+          type: string
+        1y_success_rate:
+          example: "71.5"
+          type: string
+        2y_average_return:
+          example: "22.5"
+          type: string
+        2y_gain_count:
+          example: 55
+          type: integer
+        2y_loss_count:
+          example: 25
+          type: integer
+        2y_smart_score:
+          example: "85.5"
+          type: string
+        2y_stdev:
+          example: "11.5"
+          type: string
+        2y_success_rate:
+          example: "69.0"
+          type: string
+        3m_average_return:
+          example: "7.5"
+          type: string
+        3m_gain_count:
+          example: 54
+          type: integer
+        3m_loss_count:
+          example: 26
+          type: integer
+        3m_smart_score:
+          example: "84.0"
+          type: string
+        3m_stdev:
+          example: "4.5"
+          type: string
+        3m_success_rate:
+          example: "67.5"
+          type: string
+        3y_average_return:
+          example: "25.5"
+          type: string
+        3y_gain_count:
+          example: 53
+          type: integer
+        3y_loss_count:
+          example: 27
+          type: integer
+        3y_smart_score:
+          example: "84.0"
+          type: string
+        3y_stdev:
+          example: "13.5"
+          type: string
+        3y_success_rate:
+          example: "68.5"
+          type: string
+        9m_average_return:
+          example: "15.5"
+          type: string
+        9m_gain_count:
+          example: 56
+          type: integer
+        9m_loss_count:
+          example: 24
+          type: integer
+        9m_smart_score:
+          example: "86.5"
+          type: string
+        9m_stdev:
+          example: "7.5"
+          type: string
+        9m_success_rate:
+          example: "70.0"
+          type: string
+        overall_average_return:
+          example: "12.5"
+          type: string
+        overall_avg_return_percentile:
+          example: "72.3"
+          type: string
+        overall_gain_count:
+          example: 168
+          type: integer
+        overall_loss_count:
+          example: 77
+          type: integer
+        overall_stdev:
+          example: "8.5"
+          type: string
+        overall_success_rate:
+          example: "68.5"
+          type: string
+        smart_score:
+          example: "85.5"
+          type: string
+        total_ratings:
+          example: 245
+          type: integer
+        total_ratings_percentile:
+          example: "85.0"
+          type: string
+        updated:
+          example: 1704758400
+          type: integer
+      type: object
+    calendarapi.RatingsAnalyst:
+      properties:
+        firm_id:
+          example: FIRM-123456
+          type: string
+        firm_name:
+          example: Goldman Sachs
+          type: string
+        id:
+          example: 64a1b2c3d4e5f6789012345
+          type: string
+        name_first:
+          example: John
+          type: string
+        name_full:
+          example: John Smith
+          type: string
+        name_last:
+          example: Smith
+          type: string
+        rank:
+          properties:
+            1m_smart_score_rank:
+              $ref: "#/components/schemas/calendarapi.Rank"
+            1y_smart_score_rank:
+              $ref: "#/components/schemas/calendarapi.Rank"
+            2y_smart_score_rank:
+              $ref: "#/components/schemas/calendarapi.Rank"
+            3m_smart_score_rank:
+              $ref: "#/components/schemas/calendarapi.Rank"
+            3y_smart_score_rank:
+              $ref: "#/components/schemas/calendarapi.Rank"
+            9m_smart_score_rank:
+              $ref: "#/components/schemas/calendarapi.Rank"
+            overall_smart_score_rank:
+              $ref: "#/components/schemas/calendarapi.Rank"
+          type: object
+        ratings_accuracy:
+          $ref: "#/components/schemas/calendarapi.RatingsAccuracy"
+        updated:
+          example: 1704758400
+          type: integer
+      type: object
+    calendarapi.RatingsFirm:
+      properties:
+        currency:
+          example: USD
+          type: string
+        homepage:
+          example: https://www.goldmansachs.com
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5ba
+          type: string
+        name:
+          example: Goldman Sachs
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
       type: object
     calendarapi.Removed:
       properties:
@@ -3024,57 +4735,177 @@ components:
     calendarapi.SECFootnotes:
       properties:
         id:
+          example: F1
           type: string
         text:
+          example: Shares were sold pursuant to a Rule 10b5-1 trading plan
           type: string
       type: object
-    calendarapi.SplitJSON:
+    calendarapi.Securities:
       properties:
-        splits:
-          items:
-            additionalProperties: true
-            type: object
-          type: array
+        country:
+          example: US
+          type: string
+        cusip:
+          example: 37833100
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        isin:
+          example: US0378331005
+          type: string
+        symbol:
+          example: AAPL
+          type: string
+      type: object
+    calendarapi.Security:
+      properties:
+        exchange:
+          example: NASDAQ
+          type: string
+        symbol:
+          example: MRNA
+          type: string
+      type: object
+    calendarapi.Split:
+      properties:
+        cusip:
+          example: 88160R101
+          type: string
+        date_announced:
+          example: 2024-01-09
+          type: string
+        date_distribution:
+          example: 2024-02-15
+          type: string
+        date_ex:
+          example: 2024-02-14
+          type: string
+        date_recorded:
+          example: 2024-02-10
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        id:
+          example: 60a7f5e8e4b0f5a3c8e9f5a8
+          type: string
+        importance:
+          example: 4
+          type: integer
+        name:
+          example: Tesla Inc.
+          type: string
+        notes:
+          example: Forward stock split
+          type: string
+        optionable:
+          example: true
+          type: boolean
+        ratio:
+          example: 3-1
+          type: string
+        split_type:
+          example: Split
+          type: string
+        ticker:
+          example: TSLA
+          type: string
+        updated:
+          example: 1704819600
+          type: integer
       type: object
     calendarapi.Transaction:
       properties:
         acquired_or_disposed:
+          example: D
           type: string
         conversion_exercise_price_derivative:
+          example: "150.25"
           type: string
         date_deemed_execution:
+          example: 2024-01-09T00:00:00Z
           type: string
         date_exercisable:
+          example: 2024-01-09T00:00:00Z
           type: string
         date_expiration:
+          example: 2025-01-09T00:00:00Z
           type: string
         date_transaction:
+          example: 2024-01-09T00:00:00Z
           type: string
         is_derivative:
+          example: false
           type: boolean
         ownership:
+          example: Direct
           type: string
         post_transaction_quantity:
+          example: "250000"
           type: string
         price_per_share:
+          example: "150.25"
           type: string
         remaining_underlying_shares:
+          example: "50000"
           type: string
         security_title:
+          example: Common Stock
           type: string
         shares:
+          example: "10000"
           type: string
         transaction_code:
+          example: S
           type: string
         transaction_id:
+          example: TXN-20240109-001
           type: string
         underlying_security_title:
+          example: Common Stock
           type: string
         underlying_shares:
+          example: "10000"
           type: string
         voluntarily_reported:
+          example: false
           type: boolean
+      type: object
+    calendarapi.VolumeAlert:
+      properties:
+        alert_date:
+          example: 2024-01-09
+          type: string
+        alert_id:
+          example: 1001
+          type: integer
+        alert_type:
+          example: High Volume
+          type: string
+        average_volume_50d:
+          example: 8500000
+          type: integer
+        description:
+          example: Volume exceeded 1.5x the 50-day average
+          type: string
+        gap_id:
+          example: 500
+          type: integer
+        symbol:
+          example: AAPL
+          type: string
+        title:
+          example: Volume Spike Alert
+          type: string
+        volume:
+          example: 15000000
+          type: integer
+        volume_ratio:
+          example: 1.76
+          type: number
       type: object
 servers:
   - url: https://api.benzinga.com
-    description: 本番
+    description: PROD
