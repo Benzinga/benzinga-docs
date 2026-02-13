@@ -4,25 +4,25 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v3/fundamentals/balanc
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json استجابة (200 OK)
 {
   "ok": "true",
   "data": []
 }
 ```
-```json Response (401 Unauthorized)
+```json استجابة (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز مصادقة مفقود أو غير صالح"
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json Response (404 Not Found)
+```json استجابة (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -34,7 +34,7 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v3/fundamentals/balanc
   ]
 }
 ```
-```json Response (500 Internal Server Error)
+```json استجابة (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
