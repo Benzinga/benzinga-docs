@@ -1,0 +1,62 @@
+---
+title: "بيانات الأخبار المحذوفة"
+openapi: /ar/openapi/news-api_api.spec.yml GET /api/v2/news-removed
+---
+
+<ResponseExample>
+    ```json Response (200 OK)
+    [
+      {"id": 50176702, "updated": "Tue, 27 Jan 2026 18:07:26 -0400"},
+      {"id": 50156114, "updated": "Tue, 27 Jan 2026 15:05:20 -0400"},
+      {"id": 50151282, "updated": "Tue, 27 Jan 2026 13:02:14 -0400"},
+      {"id": 50153142, "updated": "Tue, 27 Jan 2026 11:52:43 -0400"},
+      {"id": 50157732, "updated": "Tue, 27 Jan 2026 10:51:31 -0400"},
+      {"id": 50155935, "updated": "Tue, 27 Jan 2026 10:41:33 -0400"},
+      {"id": 50153292, "updated": "Tue, 27 Jan 2026 09:17:21 -0400"},
+      {"id": 50125962, "updated": "Mon, 26 Jan 2026 15:37:47 -0400"},
+      {"id": 50129359, "updated": "Mon, 26 Jan 2026 11:07:47 -0400"},
+      {"id": 50124354, "updated": "Mon, 26 Jan 2026 09:21:31 -0400"},
+      {"id": 50123902, "updated": "Mon, 26 Jan 2026 09:07:07 -0400"},
+      {"id": 50122577, "updated": "Mon, 26 Jan 2026 08:18:52 -0400"},
+      {"id": 50116287, "updated": "Sat, 24 Jan 2026 09:03:53 -0400"},
+      {"id": 50116274, "updated": "Sat, 24 Jan 2026 08:58:31 -0400"},
+      {"id": 50116267, "updated": "Sat, 24 Jan 2026 08:54:25 -0400"}
+    ]
+    ```
+    ```json Response (401 Unauthorized)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "auth_failed",
+          "id": "unauthorized",
+          "value": "Invalid or missing authentication token"
+        }
+      ]
+    }
+    ```
+    ```json Response (404 Not Found)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "no_data_found",
+          "id": "not_found",
+          "value": "No data found for the specified parameters"
+        }
+      ]
+    }
+    ```
+    ```json Response (500 Internal Server Error)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "internal_server_error",
+          "id": "server_error",
+          "value": "An unexpected error occurred while processing your request"
+        }
+      ]
+    }
+    ```
+</ResponseExample>
