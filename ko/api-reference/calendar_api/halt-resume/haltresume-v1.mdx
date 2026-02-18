@@ -1,0 +1,85 @@
+---
+title: "거래 중단/재개"
+openapi: /ko/openapi/calendar_api.spec.yml GET /api/v1/signal/halt_resume
+---
+
+<ResponseExample>
+    ```json Response (200 OK)
+    {
+      "halt_resume": [
+        {
+          "count": 1,
+          "date": "2026-01-28",
+          "description": "거래 중단: 거래 중단 상태가 ET 기준 오전 3:04:51에 업데이트됨: 거래 중단: 사유 제공되지 않음",
+          "exchange": "NASDAQ",
+          "halt_type": "UPDATED",
+          "id": "6979c32524a26100013b72a7",
+          "name": "Applied Therapeutics",
+          "ticker": "APLT",
+          "time": "03:04:53",
+          "updated": 1769587493
+        },
+        {
+          "count": 1,
+          "date": "2026-01-28",
+          "description": "거래 중단: 거래 중단 상태가 ET 기준 오전 3:04:51에 업데이트됨: 거래 중단: 사유 제공되지 않음",
+          "exchange": "NASDAQ",
+          "halt_type": "UPDATED",
+          "id": "6979c32524a26100013b72a8",
+          "name": "Revelation Biosciences",
+          "ticker": "REVBW",
+          "time": "03:04:53",
+          "updated": 1769587493
+        },
+        {
+          "count": 0,
+          "date": "2026-01-28",
+          "description": "거래 중단: ET 기준 오전 3:04:51에 거래 재개",
+          "exchange": "",
+          "halt_type": "RESUMED",
+          "id": "6979c32524a26100013b72a9",
+          "name": "",
+          "ticker": "FEMD",
+          "time": "03:04:53",
+          "updated": 1769587493
+        }
+      ]
+    }
+    ```
+    ```json Response (401 Unauthorized)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "auth_failed",
+          "id": "unauthorized",
+          "value": "인증 토큰이 없거나 올바르지 않습니다"
+        }
+      ]
+    }
+    ```
+    ```json Response (404 Not Found)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "no_data_found",
+          "id": "not_found",
+          "value": "지정된 매개변수에 해당하는 데이터를 찾을 수 없습니다"
+        }
+      ]
+    }
+    ```
+    ```json Response (500 Internal Server Error)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "internal_server_error",
+          "id": "server_error",
+          "value": "요청을 처리하는 동안 예기치 않은 오류가 발생했습니다"
+        }
+      ]
+    }
+    ```
+</ResponseExample>
