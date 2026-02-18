@@ -1,0 +1,278 @@
+---
+title: "Explicación del proceso de guidance"
+description: "Aprenda cómo funciona el guidance de las empresas y cómo usar la Guidance API para análisis financiero a futuro"
+---
+
+## Descripción general
+
+* Qué representa el company guidance
+* Diferencia entre el guidance y las estimaciones de los analistas
+* Por qué el guidance es importante para el análisis prospectivo
+* Fuente de datos: divulgaciones de la dirección de la empresa
+
+***
+
+<div id="what-company-guidance-represents">
+  ## Qué representa la guía de la empresa
+</div>
+
+La guía de la empresa representa las expectativas financieras a futuro emitidas directamente por la dirección de una compañía. Normalmente incluye rangos proyectados o estimaciones para métricas clave de desempeño, como las ganancias por acción (earnings per share, EPS) y los ingresos para un período fiscal específico. La guía refleja los pronósticos internos de la dirección, sus supuestos y su perspectiva estratégica en el momento en que se emite.
+
+<Note>
+  A diferencia de los resultados financieros históricos, la guía es prospectiva y está sujeta a cambios según las condiciones del mercado, el desempeño del negocio y factores externos.
+</Note>
+
+***
+
+<div id="difference-between-guidance-vs-analyst-estimates">
+  ## Diferencia entre la guidance y las estimaciones de analistas
+</div>
+
+| Aspecto | Guidance de la empresa | Estimaciones de analistas |
+|--------|------------------------|---------------------------|
+| **Fuente** | Dirección de la empresa | Analistas financieros independientes |
+| **Base** | Proyecciones internas y conocimiento operativo | Modelos de investigación externos y supuestos |
+| **Perspectiva** | Desempeño esperado por la dirección | Expectativas de consenso del mercado |
+| **Frecuencia de actualización** | Emitida periódicamente o cuando cambia la perspectiva | Actualizadas de forma continua |
+| **Objetivo** | Comunicar la perspectiva y fijar expectativas | Evaluar y proyectar el desempeño de la empresa |
+
+***
+
+<div id="why-guidance-matters-for-forward-looking-analysis">
+  ## Por qué el guidance es importante para el análisis prospectivo
+</div>
+
+El guidance de la dirección es un insumo fundamental para el análisis prospectivo porque:
+
+* **Ancla las expectativas del mercado** a la perspectiva de la dirección
+* **Señala confianza o cautela** sobre el desempeño futuro
+* **Proporciona contexto** para interpretar los resultados de beneficios
+* **Ayuda a evaluar cambios en la trayectoria** como revisiones al alza, a la baja o la reafirmación de las perspectivas
+
+<Tip>
+  Los inversores y analistas suelen comparar el guidance con el guidance previo y con las expectativas de los analistas para evaluar el impulso, el riesgo de ejecución y la dirección estratégica.
+</Tip>
+
+***
+
+<div id="data-source-company-management-disclosures">
+  ## Fuente de datos: Divulgaciones de la dirección de la empresa
+</div>
+
+Los datos de guidance se obtienen directamente de comunicaciones oficiales de la empresa, que incluyen:
+
+* Conferencias de resultados
+* Comunicados de prensa de resultados
+* Presentaciones para inversores
+* Documentos regulatorios
+
+<Note>
+  Todo el guidance refleja información divulgada explícitamente por la dirección de la empresa y está estructurado para preservar los rangos, las estimaciones y las fechas originales proporcionados en el momento del anuncio.
+</Note>
+
+***
+
+<div id="guidance-api-developer-guide">
+  ## Guidance API – Guía del desarrollador
+</div>
+
+<div id="overview">
+  ### Descripción general
+</div>
+
+La Guidance API proporciona guidance estructurado emitido por las empresas, incluido beneficio por acción (EPS) y proyecciones de ingresos. El guidance refleja las expectativas de la dirección para un período fiscal específico y es fundamental para el análisis a futuro, la comparación y los flujos de trabajo basados en eventos.
+
+***
+
+<div id="guidance-metrics">
+  ## Métricas de previsión
+</div>
+
+<div id="eps-guidance">
+  ### Proyección del beneficio por acción (EPS)
+</div>
+
+Cada registro de proyección puede incluir:
+
+| Campo | Descripción |
+|-------|-------------|
+| `eps_guidance_min` | Proyección mínima del beneficio por acción (EPS) |
+| `eps_guidance_max` | Proyección máxima del beneficio por acción (EPS) |
+| `eps_guidance_est` | Punto medio estimado del beneficio por acción (EPS) |
+| `eps_type` | Base contable (GAAP o ajustada) |
+
+<div id="revenue-guidance">
+  ### Proyección de ingresos
+</div>
+
+Cada registro de proyección puede incluir:
+
+| Campo | Descripción |
+|-------|-------------|
+| `revenue_guidance_min` | Proyección mínima de ingresos |
+| `revenue_guidance_max` | Proyección máxima de ingresos |
+| `revenue_guidance_est` | Estima los ingresos en el punto medio |
+| `revenue_type` | Base contable (GAAP o ajustada) |
+
+<div id="prior-vs-current-guidance">
+  ### Guía previa vs actual
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `eps_guidance_prior_min` | Proyección mínima previa de beneficio por acción (EPS) |
+| `eps_guidance_prior_max` | Proyección máxima previa de beneficio por acción (EPS) |
+| `revenue_guidance_prior_min` | Proyección mínima previa de ingresos |
+| `revenue_guidance_prior_max` | Proyección máxima previa de ingresos |
+
+<Tip>
+  Compara la guía actual con las proyecciones previas para ver si la gerencia ha aumentado, reducido o reafirmado las expectativas.
+</Tip>
+
+***
+
+<div id="timing-and-period">
+  ## Fechas y período
+</div>
+
+| Campo | Descripción |
+|-------|-------------|
+| `period` | Ámbito fiscal (p. ej., Q1, FY) |
+| `period_year` | Año fiscal |
+| `date` y `time` | Fecha y hora del anuncio |
+| `updated` | Marca de tiempo de la última actualización (Unix, UTC) |
+| `prelim` | Indicador preliminar |
+
+***
+
+<div id="record-classification">
+  ## Clasificación de registros
+</div>
+
+<div id="primary-guidance">
+  ### Previsión principal
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `is_primary` | Y/N – Marca el registro predeterminado cuando existen múltiples registros de previsiones para la misma empresa/fecha |
+
+<Note>
+  La previsión ajustada tiene prioridad sobre la GAAP para la selección principal.
+</Note>
+
+<div id="confirmation-status">
+  ### Estado de confirmación
+</div>
+
+| Campo | Descripción |
+|-------|-------------|
+| `confirmed` | Y/N – Y indica previsión oficial de la empresa; N indica previsión esperada (no confirmada) |
+
+La **previsión confirmada** (`Y`) representa una divulgación oficial de la empresa.
+
+La **previsión no confirmada** (`N`) se genera automáticamente para próximos reportes de ganancias, se actualiza diariamente y puede incluir:
+
+* Momento esperado del anuncio
+* Métricas previstas
+* Clasificación primaria/secundaria
+
+***
+
+<div id="security-identification">
+  ## Identificación de valores
+</div>
+
+Cada registro se asocia con:
+
+| Field | Description |
+|-------|-------------|
+| `ticker` | Símbolo bursátil |
+| `name` | Nombre de la empresa |
+| `cusip` | Identificador CUSIP |
+| `exchange` | Mercado donde se negocia el valor |
+
+Esto garantiza la asignación precisa de estas pautas a la empresa y al valor correctos.
+
+***
+
+<div id="display-interpretation-guidelines">
+  ## Directrices para la visualización y la interpretación
+</div>
+
+* Usa la **guidance primaria** (`is_primary = Y`) para las vistas predeterminadas
+* Muestra los rangos completos cuando estén disponibles; en caso contrario, recurre a estimaciones
+* La **guidance confirmada** representa una divulgación oficial; la **guidance no confirmada** es solo indicativa
+* La guidance debe interpretarse junto con las estimaciones de los analistas y el rendimiento histórico
+
+***
+
+<div id="error-handling">
+  ## Manejo de errores
+</div>
+
+| Escenario | Comportamiento |
+|----------|----------|
+| No se devuelven datos | Array de guidance vacío |
+| Faltan valores mínimo/máximo | Guidance solo con estimaciones |
+| Múltiples registros sin indicador primario | Resolver usando `is_primary` |
+
+***
+
+<div id="frequently-asked-questions">
+  ## Preguntas frecuentes
+</div>
+
+<AccordionGroup>
+  <Accordion title="¿Qué es la guía no confirmada?">
+    Guía prevista antes de la divulgación oficial por parte de la empresa. Se actualiza diariamente y puede cambiar.
+
+    **Los registros de guía prevista ofrecen varias ventajas clave:**
+
+    * Se completan automáticamente tan pronto como se confirman las próximas fechas de resultados
+    * Identifican la fecha y la hora previstas del anuncio de la guía
+    * Predicen el tipo de guía (ganancias por acción (EPS) o ingresos), incluyendo métricas GAAP frente a ajustadas
+    * Distinguen entre guía primaria y secundaria dentro de un período fiscal
+    * Incluyen estimaciones actualizadas de forma continua, renovadas diariamente hasta el anuncio oficial de la guía
+  </Accordion>
+
+  <Accordion title="¿Qué registro debo usar de manera predeterminada?">
+    El registro con `is_primary = Y`.
+  </Accordion>
+
+  <Accordion title="¿Por qué hay varios registros de guía para la misma fecha?">
+    Las empresas pueden emitir guía GAAP y ajustada, o guía para múltiples métricas.
+  </Accordion>
+
+  <Accordion title="¿Se puede revisar la guía después de la confirmación?">
+    Sí, las empresas pueden actualizar o retirar la guía en anuncios posteriores.
+  </Accordion>
+
+  <Accordion title="¿Por qué podría faltar la guía para algunas empresas?">
+    No todas las empresas proporcionan una guía formal.
+  </Accordion>
+</AccordionGroup>
+
+***
+
+<div id="related-apis">
+  ## APIs relacionadas
+</div>
+
+<CardGroup cols={2}>
+  <Card title="API de calendario de resultados" icon="calendar" href="/es/api-reference/calendar-api/get-earnings">
+    Realiza un seguimiento de los próximos eventos de resultados
+  </Card>
+
+  <Card title="API de calendario de proyecciones" icon="compass" href="/es/api-reference/calendar-api/get-guidance">
+    Obtén datos de proyecciones de la empresa
+  </Card>
+
+  <Card title="API de calificaciones de analistas" icon="users" href="/es/api-reference/calendar-api/get-ratings">
+    Compara las proyecciones con las expectativas de los analistas
+  </Card>
+
+  <Card title="API de fundamentos" icon="building" href="/es/api-reference/data-api-proxy-api/fundamentals/overview">
+    Valida las proyecciones frente al desempeño histórico
+  </Card>
+</CardGroup>
