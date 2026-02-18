@@ -1,5 +1,5 @@
 ---
-title: "Ratios del precio de la acción"
+title: "Ratios de precio de la acción"
 openapi: /es/openapi/data-api-proxy_api.spec.yml GET
   /api/v3/fundamentals/share-price-ratios
 ---
@@ -123,11 +123,11 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET
   ```json Response (404 Not Found)
   {
     "ok": false,
-    "errors": [
+    "errores": [
       {
         "code": "no_data_found",
         "id": "not_found",
-        "value": "No data found for the specified parameters"
+        "value": "No se encontraron datos para los parámetros especificados"
       }
     ]
   }
@@ -140,7 +140,7 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET
       {
         "code": "internal_server_error",
         "id": "server_error",
-        "value": "An unexpected error occurred while processing your request"
+        "value": "Ocurrió un error inesperado al procesar su solicitud"
       }
     ]
   }
