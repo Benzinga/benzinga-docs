@@ -54,7 +54,7 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
                 ;;
             "newsquantified-api_api.spec.yml")
                 servers='[
-                  {"url": "https://api.benzinga.com/api/v2", "description": "V2"}
+                  {"url": "https://api.benzinga.com", "description": "PROD"}
                 ]'
                 ;;
             "ticker-trends-api_api.spec.yml")
