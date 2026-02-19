@@ -14,8 +14,8 @@ openapi: /ko/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
       "consensus_t": "",
       "country": "USA",
       "date": "2026-03-08",
-      "description": "Challenger Job Cuts (YoY) 보고서는 특정 월에 고용주가 보고한 정리해고 건수가 전년 동월 대비 몇 퍼센트 변화했는지를 추적합니다. 이 보고서는 투자자와 애널리스트가 노동 시장의 상황을 평가하고 합리적인 투자 의사결정을 내리는 데 활용됩니다. 또한 이 보고서의 데이터는 미 달러화 가치에도 영향을 줄 수 있으며, 예상보다 높은 수치는 부정적으로, 예상보다 낮은 수치는 긍정적으로 인식되는 경향이 있습니다.",
-      "event_category": "고용",
+      "description": "Challenger Job Cuts (YoY) report tracks the percentage change in layoffs reported by employers during a given month compared to the same month of the previous year. This report is used by investors and analysts to gauge the strength of the labor market and make informed decisions about their investments. The data in this report can also impact the value of the US dollar, with higher than expected numbers being seen as negative and lower than expected numbers being seen as positive.",
+      "event_category": "Employment",
       "event_name": "Challenger Job Cuts (YoY)",
       "event_period": "",
       "id": "6745790147f2830001365a27",
@@ -37,7 +37,7 @@ openapi: /ko/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "인증 토큰이 없거나 유효하지 않습니다"
+      "value": "Invalid or missing authentication token"
     }
   ]
 }
@@ -49,7 +49,7 @@ openapi: /ko/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "지정된 파라미터에 해당하는 데이터를 찾을 수 없습니다"
+      "value": "No data found for the specified parameters"
     }
   ]
 }
@@ -61,7 +61,7 @@ openapi: /ko/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "요청을 처리하는 동안 예기치 않은 오류가 발생했습니다"
+      "value": "An unexpected error occurred while processing your request"
     }
   ]
 }
