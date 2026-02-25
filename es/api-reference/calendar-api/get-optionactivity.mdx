@@ -4,7 +4,7 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
 ---
 
 <ResponseExample>
-```json Respuesta (200 OK)
+```json Response (200 OK)
 {
   "option_activity": [
     {
@@ -14,8 +14,8 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
       "cost_basis": "336000.0",
       "date": "2025-12-29",
       "date_expiration": "2026-09-18",
-      "description": "Freeport-McMoRan Option Alert: Sep 18 $50 Puts at the Ask: 600 vs 636 OI; Earnings 1/22 Before Open [est] ",
-      "description_extended": "Freeport-McMoRan Option Alert: Sep 18 $50 Puts at the Ask: 600 @ $5.6 vs 636 OI; Earnings 1/22 Before Open [est] Ref=$51.4",
+      "description": "Alerta de opciones de Freeport-McMoRan: puts de 50 $ con vencimiento el 18 de septiembre al precio de venta (ask): 600 frente a 636 de OI; resultados el 22/1 antes de la apertura [est] ",
+      "description_extended": "Alerta de opciones de Freeport-McMoRan: puts de 50 $ con vencimiento el 18 de septiembre al precio de venta (ask): 600 @ 5,6 $ frente a 636 de OI; resultados el 22/1 antes de la apertura [est] Ref=51,4 $",
       "exchange": "NYSE",
       "execution_estimate": "AT_ASK",
       "id": "6952ef7b6ab0a40001b39586",
@@ -39,19 +39,19 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
   ]
 }
 ```
-```json Respuesta (401 Unauthorized)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Token de autenticación no válido o ausente"
+      "value": "Token de autenticación no válido o faltante"
     }
   ]
 }
 ```
-```json Respuesta (404 Not Found)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -63,7 +63,7 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
   ]
 }
 ```
-```json Respuesta (500 Internal Server Error)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
