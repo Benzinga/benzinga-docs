@@ -8,7 +8,8 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: 任意のフィルタリングおよびページングを指定して、コールの一覧を取得します
+      description: 任意のフィルタやページネーションを指定して、コールの一覧を取得します。デフォルトでは、ステータスが COMPLETED
+        のコールのみが返されます。すべてのステータスを取得するには、status=ALL を使用してください。
       operationId: get-conference-calls
       parameters:
         - description: ページネーション用のページ番号（1から始まります）
@@ -23,6 +24,12 @@ paths:
           schema:
             type: integer
             default: 10
+        - description: コールのステータスでフィルタします。デフォルトは COMPLETED です。すべてのステータスを返すには ALL を使用してください。
+          in: query
+          name: status
+          schema:
+            type: string
+            default: COMPLETED
       responses:
         "200":
           description: OK
@@ -53,6 +60,46 @@ paths:
       tags:
         - calls
   /api/v1/transcripts/calls/{call_id}:
+    delete:
+      description: ID で特定のコールを削除
+      operationId: delete-conference-call-by-id
+      parameters:
+        - description: トランスクリプトコールを一意に識別する ID
+          in: path
+          name: call_id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: ID でコールを削除
+      tags:
+        - calls
     get:
       description: コール ID を指定して、その詳細情報を取得します
       operationId: get-conference-call-by-id
@@ -68,12 +115,17 @@ paths:
           name: audio
           schema:
             type: boolean
-        - description: true の場合、よりシンプルで整理された出力形式を返します
+        - description: true の場合、PDF トランスクリプト用の事前署名済み URL を含めます。
+          in: query
+          name: pdf
+          schema:
+            type: boolean
+        - description: true の場合、よりクリーンで簡略化された出力フォーマットを返します。
           in: query
           name: clean
           schema:
             type: boolean
-        - description: レスポンス形式（例：'json' または 'html'）
+        - description: "レスポンスのフォーマット（例: 「json」または「html」）"
           in: query
           name: format
           schema:
@@ -114,6 +166,263 @@ paths:
       summary: ID でコールを取得
       tags:
         - calls
+    put:
+      description: ID で特定のコールの詳細を更新
+      operationId: update-conference-call-by-id
+      parameters:
+        - description: トランスクリプトコールを一意に識別する ID
+          in: path
+          name: call_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain.UpdateCallReq"
+        description: コール更新の詳細情報
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: ID でコールを更新
+      tags:
+        - calls
+  /api/v1/transcripts/participants/{participant_id}:
+    delete:
+      description: ID を指定して参加者を削除します
+      operationId: delete-participant-by-id
+      parameters:
+        - description: 参加者の一意の識別子
+          in: path
+          name: participant_id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: ID で参加者を削除
+      tags:
+        - participants
+    put:
+      description: ID を指定して参加者の詳細を更新します
+      operationId: update-participant-by-id
+      parameters:
+        - description: 参加者の一意の識別子
+          in: path
+          name: participant_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain.UpdateParticipantReq"
+        description: 参加者更新内容
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: ID で参加者を更新
+      tags:
+        - participants
+  /api/v1/transcripts/status:
+    get:
+      description: フィルターとページネーションを指定して特定のビューを取得します。GET（クエリパラメータ）とPOST（JSONボディ）の両方をサポートします。
+      operationId: query-status-view
+      parameters:
+        - description: ビュー名（GET 用）
+          in: query
+          name: view_name
+          schema:
+            type: string
+        - description: JSON エンコードされた where 句（GET 用）
+          in: query
+          name: where
+          schema:
+            type: string
+        - description: JSON エンコードされた order_by（GET 用）
+          in: query
+          name: order_by
+          schema:
+            type: string
+        - description: ページ番号
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: ページサイズ
+          in: query
+          name: page_size
+          schema:
+            type: integer
+      requestBody:
+        $ref: "#/components/requestBodies/api.QueryRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: ステータスビューを取得
+      tags:
+        - status
+    post:
+      description: 特定のビューに対して、フィルターとページネーションを指定してクエリを実行します。GET（クエリパラメータ）および POST（JSON
+        ボディ）の両方をサポートします。
+      operationId: query-status-view
+      parameters:
+        - description: ビュー名（GET 用）
+          in: query
+          name: view_name
+          schema:
+            type: string
+        - description: JSON エンコードされた where 句（GET 用）
+          in: query
+          name: where
+          schema:
+            type: string
+        - description: JSON エンコードされた order_by（GET 用）
+          in: query
+          name: order_by
+          schema:
+            type: string
+        - description: ページ番号
+          in: query
+          name: page
+          schema:
+            type: integer
+        - description: ページサイズ
+          in: query
+          name: page_size
+          schema:
+            type: integer
+      requestBody:
+        $ref: "#/components/requestBodies/api.QueryRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: ステータスビューを取得
+      tags:
+        - status
   /api/v1/transcripts/summaries:
     get:
       description: 要約一覧をページネーション付きで取得する
@@ -199,13 +508,169 @@ paths:
       summary: Call ID でサマリーを取得する
       tags:
         - summaries
+    put:
+      description: 特定のコール ID の要約情報を更新します
+      operationId: update-summary-by-call-id
+      parameters:
+        - description: コールの一意識別子
+          in: path
+          name: call_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain.UpdateSummaryReq"
+        description: サマリー更新の詳細
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: コール ID でサマリーを更新
+      tags:
+        - summaries
+  /api/v1/transcripts/transcripts/{transcript_id}/segment/{segment_id}:
+    delete:
+      description: 特定のトランスクリプトセグメントを削除します
+      operationId: delete-transcript-segments-by-id
+      parameters:
+        - description: トランスクリプトの一意識別子
+          in: path
+          name: transcript_id
+          required: true
+          schema:
+            type: string
+        - description: セグメントの一意識別子
+          in: path
+          name: segment_id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: ID でトランスクリプトセグメントを削除
+      tags:
+        - transcripts
+    put:
+      description: 特定のトランスクリプトセグメントの詳細を更新
+      operationId: update-transcript-segments-by-id
+      parameters:
+        - description: トランスクリプトの一意のID
+          in: path
+          name: transcript_id
+          required: true
+          schema:
+            type: string
+        - description: セグメントの一意のID
+          in: path
+          name: segment_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/domain.UpdateTranscriptSegmentsReq"
+        description: セグメント更新の詳細
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "400":
+          description: 不正なリクエスト
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+        "500":
+          description: 内部サーバーエラー
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+      security:
+        - ApiKeyAuth: []
+      summary: ID でトランスクリプトセグメントを更新
+      tags:
+        - transcripts
 components:
+  requestBodies:
+    api.QueryRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/api.QueryRequest"
+      description: POST用クエリの詳細
   securitySchemes:
     ApiKeyAuth:
       in: query
       name: token
       type: apiKey
   schemas:
+    api.QueryRequest:
+      type: object
     domain.Calls:
       properties:
         call_id:
@@ -249,8 +714,10 @@ components:
         period:
           example: Q3
           type: string
-        recording:
-          $ref: "#/components/schemas/domain.Recordings"
+        recordings:
+          items:
+            $ref: "#/components/schemas/domain.Recordings"
+          type: array
         securities:
           $ref: "#/components/schemas/pgtype.JSONB"
         start_time:
@@ -274,8 +741,8 @@ components:
           example: https://example.com/webcast
           type: string
         year:
-          example: "2023"
-          type: string
+          example: 2023
+          type: integer
       type: object
     domain.Participants:
       properties:
@@ -391,6 +858,87 @@ components:
       x-enum-varnames:
         - LiveTranscripts
         - NonLiveTranscripts
+    domain.UpdateCallReq:
+      properties:
+        call_title:
+          example: Q3 2023 Earnings Call
+          type: string
+        cusip:
+          example: "037833100"
+          type: string
+        duration:
+          example: 60
+          type: integer
+        end_time:
+          example: 2023-10-25T15:00:00Z
+          type: string
+        exchange:
+          example: NASDAQ
+          type: string
+        headline:
+          example: Company X Reports Strong Q3 Results
+          type: string
+        isin:
+          example: US0378331005
+          type: string
+        name:
+          example: Apple Inc.
+          type: string
+        start_time:
+          example: 2023-10-25T14:00:00Z
+          type: string
+        status:
+          example: completed
+          type: string
+        symbol:
+          example: AAPL
+          type: string
+      type: object
+    domain.UpdateParticipantReq:
+      properties:
+        human_verified:
+          example: true
+          type: boolean
+        mentions:
+          example: 5
+          type: integer
+        name:
+          example: Tim Cook
+          type: string
+        organization:
+          example: Apple Inc.
+          type: string
+        role:
+          example: CEO
+          type: string
+      type: object
+    domain.UpdateSummaryReq:
+      properties:
+        language:
+          example: en
+          type: string
+        summary:
+          example: Overall, the quarter was strong with 5% revenue growth...
+          type: string
+        symbol:
+          example: AAPL
+          type: string
+      type: object
+    domain.UpdateTranscriptSegmentsReq:
+      properties:
+        end_time:
+          example: 00:05:30
+          type: string
+        speaker:
+          example: Elon Musk
+          type: string
+        start_time:
+          example: 00:00:10
+          type: string
+        text:
+          example: Welcome everyone to the Q3 earnings call.
+          type: string
+      type: object
     pgtype.JSONB:
       properties:
         bytes:
@@ -410,6 +958,3 @@ components:
         - Undefined
         - "Null"
         - Present
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: 本番

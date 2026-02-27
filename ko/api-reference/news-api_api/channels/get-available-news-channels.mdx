@@ -1,0 +1,175 @@
+---
+title: "지원되는 뉴스 채널"
+openapi: /ko/openapi/news-api_api.spec.yml GET /api/v2.1/news/channels
+---
+
+<ResponseExample>
+  ```json Response (200 OK)
+  {
+    "ok": true,
+    "data": [
+      {"id": 68, "parent": 67, "channel": "애널리스트 코멘트", "weight": 0},
+      {"id": 831968, "parent": 2, "channel": "아시아", "weight": 0},
+      {"id": 132653, "parent": 2, "channel": "바이너리 옵션", "weight": 0},
+      {"id": 19868, "parent": 18467, "channel": "바이오테크", "weight": 0},
+      {"id": 123430, "parent": 2, "channel": "대마초", "weight": 0},
+      {"id": 135733, "parent": 2, "channel": "암호화폐", "weight": 0},
+      {"id": 16888, "parent": 57, "channel": "실적", "weight": 0},
+      {"id": 862672, "parent": 16888, "channel": "실적 상회", "weight": 0},
+      {"id": 862673, "parent": 16888, "channel": "실적 하회", "weight": 0},
+      {"id": 831970, "parent": 18467, "channel": "엔터테인먼트", "weight": 0},
+      {"id": 24769, "parent": 2, "channel": "주식", "weight": 0},
+      {"id": 831969, "parent": 2, "channel": "ESG", "weight": 0},
+      {"id": 38929, "parent": 17834, "channel": "재무 자문가", "weight": 0},
+      {"id": 144421, "parent": 0, "channel": "핀테크", "weight": 0},
+      {"id": 831973, "parent": 18467, "channel": "게임", "weight": 0},
+      {"id": 26029, "parent": 0, "channel": "정부", "weight": 0},
+      {"id": 831976, "parent": 57, "channel": "대형주", "weight": 0},
+      {"id": 831967, "parent": 2, "channel": "라틴 아메리카", "weight": 0},
+      {"id": 38, "parent": 22, "channel": "매수 아이디어", "weight": 0},
+      {"id": 64, "parent": 0, "channel": "인수합병", "weight": 0},
+      {"id": 862546, "parent": 17375, "channel": "거시경제 이벤트", "weight": 0},
+      {"id": 927213, "parent": 18467, "channel": "거시경제 알림", "weight": 0},
+      {"id": 927212, "parent": 18467, "channel": "시장 요약", "weight": 0},
+      {"id": 831977, "parent": 57, "channel": "중형주", "weight": 0},
+      {"id": 17043, "parent": 2, "channel": "뮤추얼 펀드", "weight": 0},
+      {"id": 57, "parent": 0, "channel": "뉴스", "weight": 0},
+      {"id": 22681, "parent": 2, "channel": "페니 스톡", "weight": 0},
+      {"id": 919406, "parent": 2, "channel": "예측 시장", "weight": 0},
+      {"id": 692385, "parent": 2, "channel": "사모 시장", "weight": 0},
+      {"id": 748887, "parent": 2, "channel": "사이키델릭", "weight": 0},
+      {"id": 144213, "parent": 26029, "channel": "규제", "weight": 0},
+      {"id": 142059, "parent": 142057, "channel": "리츠", "weight": 0},
+      {"id": 49, "parent": 47, "channel": "섹터 ETF", "weight": 0},
+      {"id": 32789, "parent": 0, "channel": "공매도 투자자", "weight": 0},
+      {"id": 831971, "parent": 18467, "channel": "소셜 미디어", "weight": 0},
+      {"id": 45040, "parent": 18467, "channel": "우주", "weight": 0},
+      {"id": 831972, "parent": 18467, "channel": "스포츠 베팅", "weight": 0},
+      {"id": 726669, "parent": 0, "channel": "WIIM", "weight": 0},
+      {"id": 85, "parent": 2, "channel": "채권", "weight": 1},
+      {"id": 50, "parent": 47, "channel": "광범위 미국 주식 ETF", "weight": 1},
+      {"id": 125556, "parent": 18467, "channel": "교육", "weight": 1},
+      {"id": 16889, "parent": 57, "channel": "가이던스", "weight": 1},
+      {"id": 39, "parent": 22, "channel": "매도 아이디어", "weight": 1},
+      {"id": 66318, "parent": 67, "channel": "커버리지 중단", "weight": 1},
+      {"id": 41, "parent": 22, "channel": "배당", "weight": 2},
+      {"id": 61, "parent": 57, "channel": "배당", "weight": 2},
+      {"id": 125558, "parent": 2, "channel": "신흥 시장", "weight": 2},
+      {"id": 17412, "parent": 18467, "channel": "기업가정신", "weight": 2},
+      {"id": 52, "parent": 47, "channel": "특수 ETF", "weight": 2},
+      {"id": 69, "parent": 67, "channel": "등급 상향", "weight": 2},
+      {"id": 70, "parent": 67, "channel": "등급 하향", "weight": 3},
+      {"id": 125557, "parent": 2, "channel": "유로존", "weight": 3},
+      {"id": 140295, "parent": 18467, "channel": "헬스케어", "weight": 3},
+      {"id": 40009, "parent": 47, "channel": "신규 ETF", "weight": 3},
+      {"id": 17374, "parent": 57, "channel": "루머", "weight": 3},
+      {"id": 42, "parent": 22, "channel": "소형주 분석", "weight": 3},
+      {"id": 55, "parent": 47, "channel": "신흥 시장 ETF", "weight": 4},
+      {"id": 34989, "parent": 57, "channel": "자금 조달", "weight": 4},
+      {"id": 86, "parent": 2, "channel": "선물", "weight": 4},
+      {"id": 44, "parent": 18467, "channel": "헤지펀드", "weight": 4},
+      {"id": 72, "parent": 67, "channel": "목표가", "weight": 4},
+      {"id": 16890, "parent": 22, "channel": "기술적 분석", "weight": 4},
+      {"id": 36240, "parent": 2, "channel": "원자재", "weight": 5},
+      {"id": 54, "parent": 47, "channel": "통화 ETF", "weight": 5},
+      {"id": 71, "parent": 67, "channel": "커버리지 개시", "weight": 5},
+      {"id": 34, "parent": 18467, "channel": "주요 변동 종목", "weight": 5},
+      {"id": 65, "parent": 57, "channel": "공모", "weight": 5},
+      {"id": 39090, "parent": 22, "channel": "미리보기", "weight": 5},
+      {"id": 87, "parent": 57, "channel": "계약", "weight": 6},
+      {"id": 16784, "parent": 2, "channel": "옵션", "weight": 6},
+      {"id": 16779, "parent": 18467, "channel": "정치", "weight": 6},
+      {"id": 39823, "parent": 67, "channel": "등급 재확인", "weight": 6},
+      {"id": 3, "parent": 2, "channel": "외환", "weight": 7},
+      {"id": 37760, "parent": 18467, "channel": "심리", "weight": 7},
+      {"id": 30777, "parent": 57, "channel": "소매 판매", "weight": 7},
+      {"id": 63, "parent": 57, "channel": "자사주 매입", "weight": 8},
+      {"id": 17, "parent": 18467, "channel": "주제", "weight": 8},
+      {"id": 34992, "parent": 57, "channel": "자산 매각", "weight": 9},
+      {"id": 18468, "parent": 18467, "channel": "여행", "weight": 9},
+      {"id": 39620, "parent": 18467, "channel": "레스토랑", "weight": 10},
+      {"id": 46411, "parent": 57, "channel": "소형주", "weight": 10},
+      {"id": 38928, "parent": 18467, "channel": "크라우드소싱", "weight": 11},
+      {"id": 59, "parent": 57, "channel": "FDA", "weight": 11},
+      {"id": 29619, "parent": 57, "channel": "법률", "weight": 12},
+      {"id": 413389, "parent": 18467, "channel": "스포츠", "weight": 12},
+      {"id": 60, "parent": 57, "channel": "경영진", "weight": 13},
+      {"id": 62, "parent": 57, "channel": "내부자 거래", "weight": 14},
+      {"id": 66, "parent": 57, "channel": "주식 분할", "weight": 15},
+      {"id": 34991, "parent": 57, "channel": "기업공개", "weight": 17},
+      {"id": 34990, "parent": 57, "channel": "국채", "weight": 18},
+      {"id": 29618, "parent": 57, "channel": "이벤트", "weight": 19},
+      {"id": 17027, "parent": 57, "channel": "글로벌", "weight": 20},
+      {"id": 35794, "parent": 57, "channel": "경제 지표", "weight": 21},
+      {"id": 146540, "parent": 0, "channel": "오피니언", "weight": 23},
+      {"id": 138079, "parent": 0, "channel": "주요 뉴스", "weight": 24},
+      {"id": 17375, "parent": 0, "channel": "경제", "weight": 25},
+      {"id": 125743, "parent": 0, "channel": "연방준비제도", "weight": 26},
+      {"id": 38926, "parent": 0, "channel": "성공 사례", "weight": 27},
+      {"id": 38927, "parent": 0, "channel": "스타트업", "weight": 29},
+      {"id": 40436, "parent": 0, "channel": "중소기업", "weight": 30},
+      {"id": 165347, "parent": 0, "channel": "시장 영향 단독 기사", "weight": 31},
+      {"id": 145889, "parent": 0, "channel": "단독 기사", "weight": 32},
+      {"id": 171552, "parent": 0, "channel": "SEC", "weight": 33},
+      {"id": 171557, "parent": 0, "channel": "시그널", "weight": 34},
+      {"id": 38925, "parent": 0, "channel": "인기", "weight": 35},
+      {"id": 23, "parent": 0, "channel": "장전 전망", "weight": 36},
+      {"id": 25, "parent": 0, "channel": "장중 업데이트", "weight": 37},
+      {"id": 26, "parent": 0, "channel": "시간외 거래 센터", "weight": 38},
+      {"id": 2, "parent": 0, "channel": "시장", "weight": 39},
+      {"id": 67, "parent": 0, "channel": "애널리스트 평가", "weight": 48},
+      {"id": 24, "parent": 22, "channel": "급등락주", "weight": 56},
+      {"id": 6, "parent": 0, "channel": "기술", "weight": 57},
+      {"id": 5, "parent": 0, "channel": "미디어", "weight": 58},
+      {"id": 17834, "parent": 0, "channel": "개인 금융", "weight": 64},
+      {"id": 22, "parent": 0, "channel": "트레이딩 아이디어", "weight": 66},
+      {"id": 31781, "parent": 0, "channel": "리뷰", "weight": 73},
+      {"id": 125566, "parent": 0, "channel": "인터뷰", "weight": 74},
+      {"id": 26330, "parent": 0, "channel": "보험", "weight": 75},
+      {"id": 16777, "parent": 0, "channel": "보도자료", "weight": 75},
+      {"id": 47, "parent": 0, "channel": "ETF", "weight": 76},
+      {"id": 18467, "parent": 0, "channel": "일반", "weight": 83},
+      {"id": 142057, "parent": 0, "channel": "부동산", "weight": 97}
+    ]
+  }
+  ```
+
+  ```json Response (401 Unauthorized)
+  {
+    "ok": false,
+    "오류": [
+      {
+        "code": "auth_failed",
+        "id": "unauthorized",
+        "value": "인증 토큰이 유효하지 않거나 누락되었습니다"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (404 Not Found)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "no_data_found",
+        "id": "not_found",
+        "value": "지정된 매개변수에 대한 데이터를 찾을 수 없습니다"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (500 Internal Server Error)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "internal_server_error",
+        "id": "server_error",
+        "value": "요청 처리 중 예기치 않은 오류가 발생했습니다"
+      }
+    ]
+  }
+  ```
+</ResponseExample>
