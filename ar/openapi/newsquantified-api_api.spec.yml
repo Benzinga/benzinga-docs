@@ -448,5 +448,5 @@ components:
           type: string
       type: object
 servers:
-  - url: https://api.benzinga.com/api/v2
-    description: v2
+  - url: https://api.benzinga.com
+    description: undefined
