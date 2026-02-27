@@ -4,13 +4,13 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/analyst/insights
 ---
 
 <ResponseExample>
-```json استجابة (200 OK)
+```json Response (200 OK)
 {
   "analyst-insights": [
     {
       "action": "Upgrades",
       "analyst_id": "669ea49c3f2d7e0001303664",
-      "analyst_insights": "BWS Financial upgraded Innodata's stock to Top Pick with a price target of $110.00.  \n\n **Strong Financial Performance and Growth Prospects**: Innodata has demonstrated significant financial growth and potential, particularly highlighted by the announcement of $68 million in pretraining deals on its last earnings call. This reflects the company's ability to secure large contracts and its strong positioning within the rapidly evolving AI landscape, which is likely to drive further revenue growth and investor confidence.\n\n**Strategic Government Contract Win**: The acquisition of a government contract entering the fourth quarter of 2025 positions Innodata for substantial expansion into new business areas by 2026. This move is expected to contribute significantly to the company's revenue towards the end of the year, showcasing its strategic growth initiatives and enhancing its market value.",
+      "analyst_insights": "رفعت BWS Financial تصنيف سهم Innodata إلى Top Pick مع سعر مستهدف قدره 110.00 دولار.  \n\n **أداء مالي قوي وآفاق نمو واعدة**: أظهرت Innodata نمواً مالياً ملحوظاً وإمكانات قوية، ويتجلى ذلك بشكل خاص في الإعلان عن صفقات تدريب مسبق بقيمة 68 مليون دولار خلال آخر مكالمة لأرباحها. يعكس ذلك قدرة الشركة على تأمين عقود كبيرة وتموضعها القوي ضمن مشهد الذكاء الاصطناعي سريع التطور، ما يرجَّح أن يدفع بمزيد من نمو الإيرادات ويعزز ثقة المستثمرين.\n\n**فوز استراتيجي بعقد حكومي**: يضع حصول الشركة على عقد حكومي عند دخول الربع الرابع من عام 2025 شركة Innodata في موقع يسمح لها بالتوسع الكبير في مجالات أعمال جديدة بحلول 2026. من المتوقع أن يسهم هذا التحرك بشكل ملحوظ في إيرادات الشركة نحو نهاية العام، مما يبرز مبادراتها الاستراتيجية للنمو ويعزز قيمتها السوقية.",
       "date": "2026-01-05",
       "firm": "BWS Financial",
       "firm_id": "57f832d56b87f600016fa43f",
@@ -30,7 +30,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/analyst/insights
     {
       "action": "Maintains",
       "analyst_id": "669ea49c3f2d7e0001303664",
-      "analyst_insights": "BWS Financial maintained their Buy rating on Innodata's stock with a price target of $110.00.  \n\n **Strong Revenue Growth Potential**: Innodata has demonstrated a robust financial trajectory by securing $68 million in pretraining deals, indicating a substantial demand for its AI data preparation and engineering services. This growth is a clear indicator of the company's ability to attract significant contracts, thereby bolstering investor confidence in its revenue prospects and operational strength.\n\n**Strategic Government Contract**: The company's entrance into the fourth quarter of 2025 with a government contract positions it for expanded business opportunities in 2026. This strategic move not only diversifies Innodata's revenue streams but also sets the stage for greater financial benefits towards the end of the year, showcasing the company's potential for increased market share and profitability.",
+      "analyst_insights": "أبقت BWS Financial على تصنيف Buy لسهم Innodata مع سعر مستهدف قدره 110.00 دولار.  \n\n **إمكانات قوية لنمو الإيرادات**: أظهرت Innodata مساراً مالياً قوياً من خلال إبرام صفقات تدريب مسبق بقيمة 68 مليون دولار، ما يشير إلى طلب كبير على خدماتها في إعداد البيانات وهندستها للذكاء الاصطناعي. هذا النمو مؤشر واضح على قدرة الشركة على جذب عقود كبيرة، مما يعزز ثقة المستثمرين بآفاق إيراداتها وقوة عملياتها.\n\n**عقد حكومي استراتيجي**: إن دخول الشركة إلى الربع الرابع من عام 2025 مع عقد حكومي يضعها في موقع يمكّنها من توسيع فرص الأعمال في عام 2026. لا يسهم هذا التحرك الاستراتيجي في تنويع مصادر إيرادات Innodata فحسب، بل يمهد أيضاً لتحقيق مكاسب مالية أكبر نحو نهاية العام، مما يبرز قدرة الشركة على زيادة حصتها السوقية وربحيتها.",
       "date": "2026-01-05",
       "firm": "BWS Financial",
       "firm_id": "57f832d56b87f600016fa43f",
@@ -50,38 +50,38 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/analyst/insights
   ]
 }
 ```
-```json استجابة (401 غير مُصرَّح به)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "رمز الوصول المستخدم للمصادقة غير صالح أو غير موجود"
     }
   ]
 }
 ```
-```json استجابة (404 غير موجود)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No data found for the specified parameters"
+      "value": "لم يتم العثور على بيانات للمعلمات المحددة"
     }
   ]
 }
 ```
-```json استجابة (500 خطأ داخلي في الخادم)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "حدث خطأ غير متوقع أثناء معالجة الطلب الخاص بك"
     }
   ]
 }
