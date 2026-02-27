@@ -4,7 +4,7 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
 ---
 
 <ResponseExample>
-```json レスポンス (200 OK)
+```json Response (200 OK)
 {
   "fda": [
     {
@@ -32,14 +32,14 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
         ],
         "name": "Alpha DaRT"
       },
-      "event_type": "最新情報の提供",
+      "event_type": "Provided Update",
       "id": "695bc49183cac20001bec514",
       "nic_number": "",
       "notes": "",
-      "outcome": "Alpha Tau Medical Ltd.は、米国食品医薬品局（FDA）が同社に対して、より柔軟なモジュラー方式の使用を認めるという以前の決定を受けて、市販前承認（PMA）申請の第1モジュールをFDAに提出したと発表しました。",
+      "outcome": "Alpha Tau Medical Ltd.  announced the submission of the first module of its pre-market approval (PMA) application to the U.S. Food and Drug Administration (FDA), following the FDA's previous decision to allow the Company to use the more flexible modular approach.",
       "outcome_brief": "",
       "source_link": "https://www.benzinga.com/pressreleases/26/01/g49690927/alpha-tau-submits-first-pre-market-approval-module-to-the-fda-for-alpha-dart-for-the-treatment-of-",
-      "source_type": "プレスリリース",
+      "source_type": "Press Release",
       "status": "",
       "target_date": "",
       "time": "09:00:00",
@@ -48,38 +48,38 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
   ]
 }
 ```
-```json レスポンス (401 Unauthorized)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "認証トークンが無効であるか、指定されていません"
+      "value": "Invalid or missing authentication token"
     }
   ]
 }
 ```
-```json レスポンス (404 Not Found)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "指定されたパラメータに該当するデータが見つかりませんでした"
+      "value": "No data found for the specified parameters"
     }
   ]
 }
 ```
-```json レスポンス (500 Internal Server Error)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "リクエストの処理中に予期しないエラーが発生しました"
+      "value": "An unexpected error occurred while processing your request"
     }
   ]
 }

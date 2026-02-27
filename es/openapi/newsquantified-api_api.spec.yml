@@ -453,5 +453,5 @@ components:
           type: string
       type: object
 servers:
-  - url: https://api.benzinga.com/api/v2
-    description: V2
+  - url: https://api.benzinga.com
+    description: PROD
