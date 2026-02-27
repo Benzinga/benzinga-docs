@@ -1,0 +1,260 @@
+---
+title: "가이던스 프로세스 설명"
+description: "기업 가이던스의 동작 방식과 미래 지향적 재무 분석을 위한 Guidance API 사용 방법을 설명합니다"
+---
+
+<div id="overview">
+  ## 개요
+</div>
+
+* 기업 가이던스의 의미
+* 가이던스와 애널리스트 추정치의 차이점
+* 미래 전망 분석에서 가이던스가 중요한 이유
+* 데이터 소스: 기업 경영진 공시
+
+***
+
+<div id="what-company-guidance-represents">
+  ## 회사 가이던스의 의미
+</div>
+
+회사 가이던스는 회사 경영진이 직접 제시하는 미래 재무 전망을 말합니다. 일반적으로 특정 회계 기간에 대한 주당순이익(EPS), 매출 등 핵심 성과 지표의 예상 범위나 추정치를 포함합니다. 가이던스는 공시 시점의 경영진 내부 전망, 가정, 전략적 관점을 반영합니다.
+
+<Note>
+  과거 재무 실적과 달리 가이던스는 미래 지향적인 정보이며, 시장 상황, 사업 성과, 외부 요인에 따라 변경될 수 있습니다.
+</Note>
+
+***
+
+<div id="difference-between-guidance-vs-analyst-estimates">
+  ## 가이던스와 애널리스트 추정치의 차이
+</div>
+
+| 측면 | 회사 가이던스 | 애널리스트 추정치 |
+|--------|------------------|-------------------|
+| **출처** | 회사 경영진 | 독립적인 금융 애널리스트 |
+| **근거** | 내부 전망과 운영 인사이트 | 외부 리서치 models 및 가정 |
+| **관점** | 경영진이 예상하는 실적 | 시장 컨센서스 기대치 |
+| **업데이트 주기** | 정기적으로 또는 전망이 변경될 때 발표 | 지속적으로 업데이트됨 |
+| **의도** | 전망을 제시하고 기대치를 설정 | 회사 성과를 평가하고 예측 |
+----------------------------------------------
+
+<div id="data-source-company-management-disclosures">
+  ## 미래 전망 분석에서 가이던스가 중요한 이유
+</div>
+
+가이던스는 미래 전망 분석을 위한 핵심 입력 요소입니다. 그 이유는 다음과 같습니다:
+
+* **시장 기대를 경영진의 전망에 맞춰 기준점으로 삼게** 합니다.
+* **미래 실적에 대한 자신감 또는 신중한 태도를 드러내는 신호를** 제공합니다.
+* **실적 발표 결과를 해석하기 위한 맥락을** 제공합니다.
+* **전망 상향, 하향, 재확인과 같은 방향성 변화를 평가하는 데 도움을** 줍니다.
+
+<Tip>
+  투자자와 애널리스트는 종종 가이던스를 이전 가이던스와 애널리스트 컨센서스와 비교하여 모멘텀, 실행 리스크, 전략적 방향을 평가합니다.
+</Tip>
+
+***
+
+<div id="guidance-api-developer-guide">
+  ## 데이터 소스: 기업 경영진 가이던스 공시
+</div>
+
+가이던스 데이터는 다음을 포함한 기업의 공식 커뮤니케이션에서 직접 수집됩니다:
+
+* 실적 발표 컨퍼런스 콜
+* 실적 보도자료
+* 투자자 대상 프레젠테이션
+* 규제 공시 문서
+
+<Note>
+  모든 가이던스 데이터는 기업 경영진이 명시적으로 공시한 정보를 반영하며, 공시 시점에 제시된 원래의 범위, 추정치, 시점을 그대로 유지하도록 구조화되어 있습니다.
+</Note>
+
+***
+
+## Guidance API – 개발자용 가이드
+
+### 개요
+
+Guidance API는 회사가 공시한 구조화된 미래 실적 가이던스를 제공하며, 여기에는 주당순이익(EPS) 및 매출 전망이 포함됩니다. 이 가이던스는 특정 회계 기간에 대한 경영진의 기대를 반영하며, 미래 지향적 분석, 비교, 이벤트 기반 워크플로에 필수적입니다.
+
+***
+
+## 가이던스 지표
+
+<div id="revenue-guidance">
+  ### 주당순이익(EPS) 가이던스
+</div>
+
+각 가이던스 레코드에는 다음 필드가 포함될 수 있습니다:
+
+| Field | Description |
+|-------|-------------|
+| `eps_guidance_min` | 예상 주당순이익(EPS) 하한 |
+| `eps_guidance_max` | 예상 주당순이익(EPS) 상한 |
+| `eps_guidance_est` | 예상 주당순이익(EPS) 중간값 |
+| `eps_type` | 회계 기준(GAAP 또는 Adjusted) |
+
+<div id="prior-vs-current-guidance">
+  ### 매출 가이던스
+</div>
+
+각 가이던스 레코드는 다음 필드를 포함할 수 있습니다:
+
+| Field | Description |
+|-------|-------------|
+| `revenue_guidance_min` | 최소 매출 전망치 |
+| `revenue_guidance_max` | 최대 매출 전망치 |
+| `revenue_guidance_est` | 예상 매출의 중간값 |
+| `revenue_type` | 회계 기준 (GAAP 또는 조정 기준) |
+
+### 이전 가이던스와 현재 가이던스
+
+| Field | Description |
+|-------|-------------|
+| `eps_guidance_prior_min` | 이전 최소 주당순이익(EPS) 전망 |
+| `eps_guidance_prior_max` | 이전 최대 주당순이익(EPS) 전망 |
+| `revenue_guidance_prior_min` | 이전 최소 매출 전망 |
+| `revenue_guidance_prior_max` | 이전 최대 매출 전망 |
+
+<Tip>
+  현재 가이던스를 이전 전망과 비교해 경영진이 기대치를 상향, 하향 또는 재확인했는지 확인하십시오.
+</Tip>
+
+***
+
+<div id="record-classification">
+  ## 시기 및 기간
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `period` | 회계 기간 범위(예: Q1, FY) |
+| `period_year` | 회계 연도 |
+| `date` and `time` | 발표 날짜 및 시간 |
+| `updated` | 마지막 업데이트 시각(Unix UTC 타임스탬프) |
+| `prelim` | 잠정 여부 표시 |
+
+## 레코드 분류
+
+<div id="confirmation-status">
+  ### 주요 가이던스
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `is_primary` | Y/N – 동일한 회사/날짜에 여러 가이던스 항목이 있는 경우 기본 레코드를 표시합니다 |
+
+<Note>
+  기본 레코드를 선택할 때는 GAAP보다 조정(Adjusted) 가이던스를 우선합니다.
+</Note>
+
+### 확정 상태
+
+| Field | Description |
+|-------|-------------|
+| `confirmed` | Y/N – Y는 공식적인 기업 가이던스를 의미하며, N은 예상(미확정) 가이던스를 의미합니다 |
+
+**확정된 가이던스**(`Y`)는 기업에서 공식적으로 공시한 내용을 의미합니다.
+
+**미확정 가이던스**(`N`)는 다가오는 실적 발표에 대해 시스템에서 자동으로 생성되며, 매일 업데이트되고, 다음을 포함할 수 있습니다:
+
+* 예상 발표 시점
+* 예측 지표
+* 1차/2차 분류
+
+***
+
+<div id="display-interpretation-guidelines">
+  ## 증권 식별
+</div>
+
+각 레코드는 다음 정보와 연관됩니다:
+
+| Field | Description |
+|-------|-------------|
+| `ticker` | 티커(주식 심볼) |
+| `name` | 회사명 |
+| `cusip` | CUSIP 식별자 |
+| `exchange` | 해당 증권이 거래되는 exchange |
+
+이를 통해 가이던스를 올바른 회사와 증권에 정확하게 매핑할 수 있습니다.
+
+***
+
+<div id="error-handling">
+  ## 표시 및 해석 가이드라인
+</div>
+
+* 기본 뷰에서는 **기본 가이던스(primary guidance)**(`is_primary = Y`)를 사용합니다
+* 전체 범위가 제공되는 경우 전체 구간을 표시하고, 필요 시 추정값으로 대체합니다
+* **확정 가이던스(confirmed guidance)**는 공식 공시를 의미하며, **미확정 가이던스(unconfirmed guidance)**는 참고용 지표에 불과합니다
+* 가이던스는 애널리스트 추정치 및 과거 실적과 함께 해석해야 합니다
+
+***
+
+<div id="frequently-asked-questions">
+  ## 오류 처리
+</div>
+
+| 시나리오 | 동작 |
+|----------|----------|
+| 데이터가 반환되지 않음 | 빈 가이던스(guidance) 배열 |
+| 최소/최대 값 누락 | 추정치 전용 가이던스 |
+| 기본(primary) 플래그 없는 여러 레코드 | `is_primary`로 판별 |
+------------------------------------------------
+
+## 자주 묻는 질문
+
+<AccordionGroup>
+  <Accordion title="확정되지 않은 가이던스란 무엇인가요?">
+    기업의 공식 공시 전에 예상되는 가이던스를 말합니다. 매일 업데이트되며 변경될 수 있습니다.
+
+    **예상 가이던스 레코드는 다음과 같은 주요 이점이 있습니다:**
+
+    * 다가오는 실적 발표일이 확정되는 즉시 자동으로 생성됩니다
+    * 가이던스 발표의 예상 일자와 시간을 파악할 수 있습니다
+    * GAAP 대비 조정 지표를 포함하여, 가이던스 유형(주당순이익(EPS) 또는 매출)을 예측합니다
+    * 회계 기간 내에서 1차(primary) 가이던스와 2차(secondary) 가이던스를 구분합니다
+    * 공식 가이던스 발표 전까지 매일 갱신되는, 지속적으로 업데이트되는 추정치를 포함합니다
+  </Accordion>
+
+  <Accordion title="기본적으로 어떤 레코드를 사용해야 하나요?">
+    `is_primary = Y` 인 레코드를 사용하세요.
+  </Accordion>
+
+  <Accordion title="같은 날짜에 가이던스 레코드가 여러 개인 이유는 무엇인가요?">
+    기업이 GAAP 및 조정 가이던스를 함께 제공하거나, 여러 지표에 대한 가이던스를 제공할 수 있기 때문입니다.
+  </Accordion>
+
+  <Accordion title="확정된 후에도 가이던스가 수정될 수 있나요?">
+    네, 기업은 이후 공시에서 가이던스를 수정하거나 철회할 수 있습니다.
+  </Accordion>
+
+  <Accordion title="일부 기업에 가이던스가 없는 이유는 무엇인가요?">
+    모든 기업이 공식 가이던스를 제공하는 것은 아닙니다.
+  </Accordion>
+</AccordionGroup>
+
+***
+
+## 관련 API
+
+<CardGroup cols={2}>
+  <Card title="실적 캘린더 API" icon="calendar" href="/ko/api-reference/calendar-api/get-earnings">
+    다가오는 실적 발표 일정을 추적합니다
+  </Card>
+
+  <Card title="가이던스 캘린더 API" icon="compass" href="/ko/api-reference/calendar-api/get-guidance">
+    기업 가이던스 데이터를 조회합니다
+  </Card>
+
+  <Card title="애널리스트 등급 API" icon="users" href="/ko/api-reference/calendar-api/get-ratings">
+    가이던스를 애널리스트 예상치와 비교합니다
+  </Card>
+
+  <Card title="기초 재무 지표 API" icon="building" href="/ko/api-reference/data-api-proxy-api/fundamentals/overview">
+    가이던스를 과거 실적과 비교하여 검증합니다
+  </Card>
+</CardGroup>

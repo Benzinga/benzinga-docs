@@ -4,7 +4,7 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json Respuesta (200 OK)
 {
   "fda": [
     {
@@ -32,14 +32,14 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
         ],
         "name": "Alpha DaRT"
       },
-      "event_type": "Actualización proporcionada",
+      "event_type": "Provided Update",
       "id": "695bc49183cac20001bec514",
       "nic_number": "",
       "notes": "",
-      "outcome": "Alpha Tau Medical Ltd. anunció la presentación del primer módulo de su solicitud de aprobación previa a la comercialización (PMA) ante la Administración de Alimentos y Medicamentos de EE. UU. (FDA), tras la decisión previa de la FDA de permitir que la compañía utilice el enfoque modular más flexible.",
+      "outcome": "Alpha Tau Medical Ltd.  announced the submission of the first module of its pre-market approval (PMA) application to the U.S. Food and Drug Administration (FDA), following the FDA's previous decision to allow the Company to use the more flexible modular approach.",
       "outcome_brief": "",
       "source_link": "https://www.benzinga.com/pressreleases/26/01/g49690927/alpha-tau-submits-first-pre-market-approval-module-to-the-fda-for-alpha-dart-for-the-treatment-of-",
-      "source_type": "Comunicado de prensa",
+      "source_type": "Press Release",
       "status": "",
       "target_date": "",
       "time": "09:00:00",
@@ -48,38 +48,38 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
   ]
 }
 ```
-```json Response (401 No autorizado)
+```json Respuesta (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Token de autenticación no válido o ausente"
+      "value": "Invalid or missing authentication token"
     }
   ]
 }
 ```
-```json Response (404 No encontrado)
+```json Respuesta (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No se encontraron datos para los parámetros especificados"
+      "value": "No data found for the specified parameters"
     }
   ]
 }
 ```
-```json Response (500 Error interno del servidor)
+```json Respuesta (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "Se produjo un error inesperado al procesar su solicitud"
+      "value": "An unexpected error occurred while processing your request"
     }
   ]
 }

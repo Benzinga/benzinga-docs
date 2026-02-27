@@ -1,10 +1,10 @@
 ---
-title: "التدفق النقدي"
+title: "التدفقات النقدية"
 openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v3/fundamentals/cash-flow
 ---
 
 <ResponseExample>
-```json استجابة (200 موافق)
+```json استجابة (200 OK)
 {
   "ok": "true",
   "data": []
@@ -29,12 +29,12 @@ openapi: /ar/openapi/data-api-proxy_api.spec.yml GET /api/v3/fundamentals/cash-f
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "لم يتم العثور على بيانات للمعاملات المحددة"
+      "value": "لم يتم العثور على بيانات للمعلمات المحددة"
     }
   ]
 }
 ```
-```json استجابة (500 خطأ في الخادم الداخلي)
+```json استجابة (500 خطأ داخلي في الخادم)
 {
   "ok": false,
   "errors": [
