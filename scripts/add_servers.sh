@@ -69,7 +69,7 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
                 ;;
             "earnings-call-transcripts-api_api.spec.yml")
                 servers='[
-                  {"url": "https://api.benzinga.com/api/v1", "description": "V1"}
+                  {"url": "https://api.benzinga.com", "description": "PROD"}
                 ]'
                 ;;
             "analyst-reports-raw-text-api_api.spec.yml")
@@ -84,13 +84,13 @@ find "$OPENAPI_DIR" -type f \( -name "*.yaml" -o -name "*.yml" -o -name "*.json"
                 ;;
             "delivery_api.spec.yml")
                 servers='[
-                  {"url": "https://api.benzinga.com/api/v1", "description": "PROD"}
+                  {"url": "https://api.benzinga.com", "description": "PROD"}
                 ]'
                 ;;
             *)
                 # Default servers if filename doesn't match
                 servers='[
-                  {"url": "https://api.benzinga.com", "description": "Default"}
+                  {"url": "https://api.benzinga.com", "description": "PROD"}
                 ]'
                 ;;
         esac

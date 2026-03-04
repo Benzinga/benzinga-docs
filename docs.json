@@ -215,6 +215,7 @@
               {
                 "group": "Websockets",
                 "pages": [
+                  "ws-reference/overview",
                   "ws-reference/introduction",
                   "ws-reference/authentication",
                   "ws-reference/errors",
@@ -542,6 +543,7 @@
               {
                 "group": "اتصالات ويب سوكيت",
                 "pages": [
+                  "ar/ws-reference/overview",
                   "ar/ws-reference/introduction",
                   "ar/ws-reference/authentication",
                   "ar/ws-reference/errors",
@@ -869,6 +871,7 @@
               {
                 "group": "WebSockets",
                 "pages": [
+                  "es/ws-reference/overview",
                   "es/ws-reference/introduction",
                   "es/ws-reference/authentication",
                   "es/ws-reference/errors",
@@ -1196,6 +1199,7 @@
               {
                 "group": "ウェブソケット",
                 "pages": [
+                  "ja/ws-reference/overview",
                   "ja/ws-reference/introduction",
                   "ja/ws-reference/authentication",
                   "ja/ws-reference/errors",
@@ -1523,6 +1527,7 @@
               {
                 "group": "웹소켓",
                 "pages": [
+                  "ko/ws-reference/overview",
                   "ko/ws-reference/introduction",
                   "ko/ws-reference/authentication",
                   "ko/ws-reference/errors",
