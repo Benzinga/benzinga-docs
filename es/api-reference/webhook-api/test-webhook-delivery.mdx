@@ -7,42 +7,42 @@ openapi: /es/openapi/webhook_api.spec.yml GET /api/v1/webhook/test
   ## Descripción general
 </div>
 
-Utiliza este endpoint para enviar un webhook de prueba a tu endpoint configurado. Esto te permite comprobar que tu integración de webhooks funciona correctamente antes de empezar a recibir datos de producción en tiempo real.
+Use este endpoint para activar el envío de un webhook de prueba a su endpoint configurado. Esto le permite verificar que su integración de webhook esté funcionando correctamente antes de recibir datos de producción en tiempo real.
 
 <div id="testing-your-integration">
   ## Probar tu integración
 </div>
 
-Cuando invoques este endpoint, Benzinga enviará una carga útil de webhook de prueba a la URL configurada en `destination`. Esta entrega de prueba utiliza el mismo formato y la misma lógica de reintentos que las entregas de webhooks en producción.
+Cuando invoques este endpoint, Benzinga enviará un payload de webhook de prueba a la URL de `destination` que hayas configurado. Esta entrega de prueba sigue el mismo formato y la misma lógica de reintentos que las entregas de webhooks en producción.
 
 <div id="what-to-expect">
-  ### Qué puedes esperar
+  ### Qué esperar
 </div>
 
-1. **Respuesta inmediata**: La API devuelve un código de estado `200` si se activó correctamente la entrega de prueba.
-2. **Payload de prueba**: Tu endpoint de webhook recibe un payload de prueba en el mismo formato que los datos de producción.
+1. **Respuesta inmediata**: La API devuelve un código de estado `200` si la entrega de prueba se activó correctamente.
+2. **Payload de prueba**: Tu endpoint de webhook recibe un payload de prueba con el mismo formato que los datos de producción.
 3. **Encabezados de entrega**: La entrega de prueba incluye el encabezado `X-BZ-Delivery`, igual que las entregas de producción.
 
 <div id="verify-your-integration">
   ### Verifica tu integración
 </div>
 
-Usa este endpoint para confirmar:
+Usa este endpoint para confirmar lo siguiente:
 
-- Que tu endpoint de webhook sea accesible públicamente
-- Que tu endpoint pueda procesar correctamente el formato del payload del webhook
-- Que tu endpoint responda con los códigos de estado apropiados (2xx para indicar éxito)
+- Que tu endpoint de webhook sea públicamente accesible
+- Que tu endpoint pueda analizar correctamente el formato del payload del webhook
+- Que tu endpoint responda con los códigos de estado apropiados (2xx para una respuesta satisfactoria)
 - Que tu endpoint responda dentro del tiempo de espera de 30 segundos
-- Que tu lógica de idempotencia gestione correctamente el encabezado `X-BZ-Delivery` y el campo `id` del payload
+- Que tu lógica de idempotencia maneje correctamente el encabezado `X-BZ-Delivery` y el campo `id` del payload
 
 <div id="best-practices">
   ## Mejores prácticas
 </div>
 
-- Realiza primero pruebas con endpoints de webhook no productivos
-- Verifica que tu endpoint responda con códigos de estado `200` o `204`
-- Confirma que tu sistema de logging y monitoreo captura la entrega de prueba
-- Comprueba que tu lógica de desduplicación funciona con el ID de entrega de prueba
+- Prueba primero con endpoints de webhook que no sean de producción
+- Verifica que tu endpoint responda con los códigos de estado `200` o `204`
+- Confirma que tu registro y monitoreo capturen la entrega de prueba
+- Comprueba que tu lógica de desduplicación funcione con el ID de entrega de prueba
 - Prueba escenarios de error devolviendo temporalmente códigos de estado de error
 
 <div id="troubleshooting">
@@ -53,7 +53,7 @@ Usa este endpoint para confirmar:
   ### 424 Error de entrega
 </div>
 
-Si recibes un código de estado `424`, significa que el sistema no pudo entregar el payload de prueba a tu endpoint de destino. Causas comunes:
+Si recibes un código de estado `424`, el sistema no pudo entregar la carga de prueba a tu endpoint de destino. Causas habituales:
 
 - La URL de destino no es accesible públicamente
 - El endpoint de destino está devolviendo códigos de estado de error
@@ -64,32 +64,32 @@ Si recibes un código de estado `424`, significa que el sistema no pudo entregar
   ### 400 Solicitud no válida
 </div>
 
-Verifique que todos los parámetros obligatorios se hayan proporcionado y tengan el formato correcto:
+Asegúrate de que todos los parámetros obligatorios se hayan proporcionado y tengan el formato correcto:
 
 - `destination` debe ser una URL HTTPS válida
 - `version` debe ser `webhook/v1`
 - `kind` debe ser `News/v1`
 
 <ResponseExample>
-```json Response (200 OK)
+```json Respuesta (200 OK)
 {
   "status": "success"
 }
 ```
 
-```json Response (400 Bad Request)
+```json Respuesta (400 Bad Request)
 {
   "error": "Invalid destination URL"
 }
 ```
 
-```json Response (424 Failed Dependency)
+```json Respuesta (424 Failed Dependency)
 {
   "error": "Failed to deliver test payload to destination"
 }
 ```
 
-```json Response (401 Unauthorized)
+```json Respuesta (401 Unauthorized)
 {
   "ok": false,
   "errors": [
@@ -102,7 +102,7 @@ Verifique que todos los parámetros obligatorios se hayan proporcionado y tengan
 }
 ```
 
-```json Response (404 Not Found)
+```json Respuesta (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -115,7 +115,7 @@ Verifique que todos los parámetros obligatorios se hayan proporcionado y tengan
 }
 ```
 
-```json Response (500 Internal Server Error)
+```json Respuesta (500 Internal Server Error)
 {
   "ok": false,
   "errors": [

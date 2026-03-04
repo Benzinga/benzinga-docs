@@ -4,7 +4,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar-removed/
 ---
 
 <ResponseExample>
-```json استجابة (200 OK)
+```json استجابة (200 موافق)
 {
   "removed": [
     {
@@ -35,19 +35,19 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar-removed/
   ]
 }
 ```
-```json استجابة (401 Unauthorized)
+```json استجابة (401 غير مصرح به)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز المصادقة غير صالح أو مفقود"
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json استجابة (404 غير موجود)
 {
   "ok": false,
   "errors": [
@@ -59,7 +59,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar-removed/
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json استجابة (500 خطأ خادم داخلي)
 {
   "ok": false,
   "errors": [
