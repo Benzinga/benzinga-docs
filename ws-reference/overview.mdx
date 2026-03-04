@@ -1,0 +1,91 @@
+---
+title: "Overview"
+description: "A high-level guide to Benzinga's real-time WebSocket data streams."
+---
+
+Benzinga's WebSocket API delivers low-latency, push-based financial data directly to your application. Instead of repeatedly polling a REST endpoint, you open a single persistent connection and receive events the moment they're available — analyst ratings, earnings results, news, transcripts, and more.
+
+All streams share the same base endpoint, authentication model, and message envelope, so the patterns you learn on one stream apply everywhere.
+
+## How it works
+
+<Steps>
+  <Step title="Authenticate">
+    Obtain a Benzinga API token from the [Benzinga Console](https://www.api.benzinga.com/token) and append it as a `token` query parameter when opening the connection.
+  </Step>
+  <Step title="Connect">
+    Open a WebSocket connection to the stream URL for the data you need — for example `wss://api.benzinga.com/api/v1/analyst/insights/stream?token=YOUR_TOKEN`.
+  </Step>
+  <Step title="Receive events">
+    Messages arrive as JSON objects with a consistent envelope: an `id`, `api_version`, `kind`, and a `data` block that carries the action (`created`, `updated`, or `deleted`) and the payload.
+  </Step>
+  <Step title="Keep the connection alive">
+    Send a `ping` plain-text frame periodically (every 30–60 s). The server responds with `pong`. The server also sends its own ping every 10 s — most WebSocket libraries handle this automatically.
+  </Step>
+</Steps>
+
+## Available streams
+
+<CardGroup cols={2}>
+  <Card title="Analyst Insights" icon="chart-line" href="/ws-reference/data-websocket/get-analyst-insights-stream">
+    Real-time analyst ratings, price targets, and detailed recommendations as they're published.
+  </Card>
+  <Card title="Ratings" icon="star" href="/ws-reference/data-websocket/get-calendar-ratings-stream">
+    Analyst rating changes and price target updates from major firms.
+  </Card>
+  <Card title="Consensus Ratings" icon="scale-balanced" href="/ws-reference/data-websocket/get-consensus-ratings-stream">
+    Aggregated consensus ratings and price targets across all tracked analysts.
+  </Card>
+  <Card title="Earnings" icon="sack-dollar" href="/ws-reference/data-websocket/get-calendar-earnings-stream">
+    Earnings announcements with EPS, revenue, estimates, and surprise metrics.
+  </Card>
+  <Card title="Bulls/Bears Say" icon="comments" href="/ws-reference/data-websocket/get-bulls-bears-say-stream">
+    Bull and bear case scenarios for securities, published in real time.
+  </Card>
+  <Card title="News" icon="newspaper" href="/ws-reference/data-websocket/get-news-stream">
+    Breaking news articles and market updates from Benzinga's editorial team.
+  </Card>
+  <Card title="Earnings Call Transcripts" icon="microphone" href="/ws-reference/data-websocket/get-transcripts-stream">
+    Live earnings call transcripts delivered sentence-by-sentence as they're spoken.
+  </Card>
+</CardGroup>
+
+## Message envelope
+
+Every stream message follows the same top-level structure:
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "<stream-type>",
+  "data": {
+    "action": "created",
+    "id": "<record-id>",
+    "timestamp": "2024-10-08T10:00:00Z",
+    "content": { ... }
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `id` | Unique message ID — use this to deduplicate on reconnect |
+| `api_version` | Protocol version of the message |
+| `kind` | Identifies which stream the message came from |
+| `data.action` | One of `created`, `updated`, or `deleted` |
+| `data.content` | Stream-specific payload |
+
+## Reference pages
+
+<CardGroup cols={3}>
+  <Card title="Authentication" icon="key" href="/ws-reference/authentication">
+    How to obtain and use your API token.
+  </Card>
+  <Card title="Supported Actions" icon="bolt" href="/ws-reference/actions">
+    `ping` and `replay` commands you can send on any stream.
+  </Card>
+  <Card title="Errors" icon="triangle-exclamation" href="/ws-reference/errors">
+    Error codes and how to handle connection failures.
+  </Card>
+</CardGroup>
