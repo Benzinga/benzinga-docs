@@ -1,0 +1,278 @@
+---
+title: "ガイダンスプロセスの解説"
+description: "企業ガイダンスの仕組みと、将来予測に基づく財務分析に Guidance API を活用する方法を解説します"
+---
+
+## 概要
+
+* 企業ガイダンスが何を意味するか
+* ガイダンスとアナリスト予想の違い
+* 将来志向の分析においてガイダンスが重要となる理由
+* データソース：企業経営陣による開示情報
+
+***
+
+<div id="what-company-guidance-represents">
+  ## 企業ガイダンスが示すもの
+</div>
+
+企業ガイダンスは、企業の経営陣が直接提示する将来の財務見通しを指します。通常、特定の会計期間における1株当たり利益（EPS）や売上高など、主要な業績指標に関する予想レンジや見積りが含まれます。ガイダンスは、発表時点における経営陣の社内予測、前提条件、戦略的な見通しを反映したものです。
+
+<Note>
+  過去の財務実績とは異なり、ガイダンスは将来予測であり、市場環境、事業業績、外部要因に応じて変更される可能性があります。
+</Note>
+
+***
+
+<div id="difference-between-guidance-vs-analyst-estimates">
+  ## ガイダンスとアナリスト予想の違い
+</div>
+
+| 項目 | 企業ガイダンス | アナリスト予想 |
+|--------|------------------|-------------------|
+| **情報源** | 企業経営陣 | 独立系金融アナリスト |
+| **根拠** | 社内の予測と業務上の知見 | 外部リサーチに基づくモデルと前提条件 |
+| **視点** | 経営陣が想定する業績 | 市場コンセンサスとしての期待値 |
+| **更新頻度** | 定期的、または見通しが変化した際に提示 | 継続的に見直し・更新 |
+| **目的** | 見通しを伝達し、期待水準を示す | 企業業績を評価・予測する |
+
+***
+
+<div id="why-guidance-matters-for-forward-looking-analysis">
+  ## 将来予測分析においてガイダンスが重要な理由
+</div>
+
+ガイダンスは将来予測分析における重要なインプットです。その理由は次のとおりです。
+
+* 市場の期待を経営陣の見通しに**結び付ける基準となる**
+* 将来の業績に対する **自信または慎重姿勢を示す**
+* 決算結果を解釈するための **文脈を提供する**
+* 見通しの上方修正・下方修正・据え置きといった **方向性の変化を評価するのに役立つ**
+
+<Tip>
+  投資家やアナリストは、一般的に、ガイダンスを過去のガイダンスやアナリスト予想と比較し、モメンタム、実行リスク、および戦略的方向性を評価します。
+</Tip>
+
+***
+
+<div id="data-source-company-management-disclosures">
+  ## データソース：企業経営陣による開示情報
+</div>
+
+ガイダンスデータは、以下を含む企業の公式なコミュニケーションから直接取得されています：
+
+* 決算説明会（earnings call）
+* 決算プレスリリース
+* 投資家向けプレゼンテーション
+* 規制当局への提出書類
+
+<Note>
+  すべてのガイダンスは、企業経営陣が明示的に開示した情報に基づいており、発表時点で提示された元のレンジ、見積もり、およびタイミングが保持されるように構造化されています。
+</Note>
+
+***
+
+<div id="guidance-api-developer-guide">
+  ## Guidance API – 開発者ガイド
+</div>
+
+<div id="overview">
+  ### 概要
+</div>
+
+Guidance API は、企業が発行する将来の業績ガイダンスを構造化された形式で提供し、1株当たり利益（EPS）および売上高の予測を含みます。Guidance は、特定の会計期間に対する経営陣の見通しを反映しており、将来見通しに基づく分析や比較、イベントドリブンなワークフローにとって重要なデータです。
+
+***
+
+<div id="guidance-metrics">
+  ## ガイダンス指標
+</div>
+
+<div id="eps-guidance">
+  ### EPS（1株当たり利益）ガイダンス
+</div>
+
+各ガイダンスレコードには、以下が含まれている場合があります。
+
+| Field | Description |
+|-------|-------------|
+| `eps_guidance_min` | EPS（1株当たり利益）の予想最小値 |
+| `eps_guidance_max` | EPS（1株当たり利益）の予想最大値 |
+| `eps_guidance_est` | EPS（1株当たり利益）の予想中央値 |
+| `eps_type` | 会計基準（GAAP または調整後） |
+
+<div id="revenue-guidance">
+  ### 売上高ガイダンス
+</div>
+
+各ガイダンスレコードには以下が含まれる場合があります：
+
+| Field | Description |
+|-------|-------------|
+| `revenue_guidance_min` | 売上高予想の最小値 |
+| `revenue_guidance_max` | 売上高予想の最大値 |
+| `revenue_guidance_est` | 売上高予想の中央値（推計値） |
+| `revenue_type` | 会計ベース（GAAP または Adjusted） |
+
+<div id="prior-vs-current-guidance">
+  ### 前回ガイダンスと今回ガイダンスの比較
+</div>
+
+| Field | 説明 |
+|-------|-------------|
+| `eps_guidance_prior_min` | 前回の最小1株当たり利益（EPS）見通し |
+| `eps_guidance_prior_max` | 前回の最大1株当たり利益（EPS）見通し |
+| `revenue_guidance_prior_min` | 前回の最小売上高見通し |
+| `revenue_guidance_prior_max` | 前回の最大売上高見通し |
+
+<Tip>
+  今回のガイダンスと前回の見通しを比較して、経営陣が期待値を引き上げたのか、引き下げたのか、あるいは据え置いたのかを確認してください。
+</Tip>
+
+***
+
+<div id="timing-and-period">
+  ## タイミングと会計期間
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `period` | 会計期間（例: Q1, FY） |
+| `period_year` | 会計年度 |
+| `date` and `time` | 発表日と時刻 |
+| `updated` | 最終更新のタイムスタンプ (Unix UTC) |
+| `prelim` | 速報値フラグ |
+
+***
+
+<div id="record-classification">
+  ## レコードの分類
+</div>
+
+<div id="primary-guidance">
+  ### 主要ガイダンス
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `is_primary` | Y/N – 同一の企業/日付に複数のガイダンスエントリが存在する場合に、既定のレコードであることを示します |
+
+<Note>
+  プライマリの選定においては、GAAP よりも調整後ガイダンスが優先されます。
+</Note>
+
+<div id="confirmation-status">
+  ### 確定状況
+</div>
+
+| Field | Description |
+|-------|-------------|
+| `confirmed` | Y/N – Y は公式な企業ガイダンスを示し、N は予想（未確認）のガイダンスを示します |
+
+**確定ガイダンス**（`Y`）は、企業による公式な開示を表します。
+
+**未確定ガイダンス**（`N`）は、今後予定されている決算に対して自動的に生成され、毎日更新され、次の内容を含む場合があります:
+
+* 予想される発表タイミング
+* 予測指標
+* プライマリ／セカンダリ区分
+
+***
+
+<div id="security-identification">
+  ## 証券の識別
+</div>
+
+各レコードには次の情報が紐づきます:
+
+| Field | Description |
+|-------|-------------|
+| `ticker` | 株式の銘柄コード |
+| `name` | 企業名 |
+| `cusip` | CUSIP 識別子 |
+| `exchange` | その証券が取引されている取引所 |
+
+これにより、ガイダンスを正しい企業および証券に正確にマッピングできます。
+
+***
+
+<div id="display-interpretation-guidelines">
+  ## 表示と解釈のガイドライン
+</div>
+
+* デフォルト表示には **主要ガイダンス**（`is_primary = Y`）を使用する
+* 利用可能な場合は範囲全体を表示し、必要に応じて予想値に切り替える
+* **確定ガイダンス** は公式な開示を表し、**未確定ガイダンス** は参考情報にとどまる
+* ガイダンスはアナリスト予想および過去実績と合わせて解釈すること
+
+***
+
+<div id="error-handling">
+  ## エラー処理
+</div>
+
+| シナリオ | 挙動 |
+|----------|----------|
+| データが返されない場合 | 空の guidance 配列 |
+| min/max 値が欠落している場合 | 推定値のみの guidance |
+| primary フラグなしで複数レコードが存在する場合 | `is_primary` を使用して解決 |
+
+***
+
+<div id="frequently-asked-questions">
+  ## よくある質問
+</div>
+
+<AccordionGroup>
+  <Accordion title="未確定ガイダンスとは何ですか？">
+    企業による公式な開示前に予想されるガイダンスです。日次で更新され、内容が変更される可能性があります。
+
+    **Expected Guidance Records には次のような主な利点があります。**
+
+    * 今後の決算発表予定日が確定するとすぐに自動的に反映される
+    * ガイダンス発表の想定日時を特定できる
+    * GAAP ベースか調整後かを含め、ガイダンスの種類（EPS または売上高）を予測できる
+    * 会計期間内で、プライマリガイダンスとセカンダリガイダンスを区別できる
+    * 公式ガイダンス発表まで、継続的に更新される推計値が毎日更新される
+  </Accordion>
+
+  <Accordion title="デフォルトではどのレコードを使うべきですか？">
+    `is_primary = Y` のレコードを使用してください。
+  </Accordion>
+
+  <Accordion title="同じ日に複数のガイダンスレコードがあるのはなぜですか？">
+    企業が GAAP と調整後のガイダンス、または複数の指標に対するガイダンスを発表する場合があるためです。
+  </Accordion>
+
+  <Accordion title="ガイダンスは確定後に修正されることがありますか？">
+    はい、企業は後続の発表でガイダンスを更新または撤回する場合があります。
+  </Accordion>
+
+  <Accordion title="一部の企業でガイダンスが存在しないのはなぜですか？">
+    すべての企業が正式なガイダンスを提供しているわけではありません。
+  </Accordion>
+</AccordionGroup>
+
+***
+
+<div id="related-apis">
+  ## 関連API
+</div>
+
+<CardGroup cols={2}>
+  <Card title="決算カレンダーAPI" icon="calendar" href="/ja/api-reference/calendar-api/get-earnings">
+    今後の決算イベントを追跡する
+  </Card>
+
+  <Card title="ガイダンスカレンダーAPI" icon="compass" href="/ja/api-reference/calendar-api/get-guidance">
+    企業ガイダンスデータを取得する
+  </Card>
+
+  <Card title="アナリストレーティングAPI" icon="users" href="/ja/api-reference/calendar-api/get-ratings">
+    ガイダンスをアナリスト予想と比較する
+  </Card>
+
+  <Card title="ファンダメンタルズAPI" icon="building" href="/ja/api-reference/data-api-proxy-api/fundamentals/overview">
+    ガイダンスを過去の実績と比較して検証する
+  </Card>
+</CardGroup>

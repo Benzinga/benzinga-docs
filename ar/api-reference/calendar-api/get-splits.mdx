@@ -1,10 +1,10 @@
 ---
-title: "تجزئة الأسهم"
+title: "تقسيمات الأسهم"
 openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/splits
 ---
 
 <ResponseExample>
-```json استجابة (200 OK)
+```json Response (200 OK)
 {
   "splits": [
     {
@@ -27,19 +27,19 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/splits
   ]
 }
 ```
-```json استجابة (401 Unauthorized)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز المصادقة غير صالح أو مفقود"
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -51,14 +51,14 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/splits
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "حدث خطأ غير متوقَّع أثناء معالجة طلبك"
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
     }
   ]
 }

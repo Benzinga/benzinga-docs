@@ -1,0 +1,110 @@
+---
+title: "Descripción general"
+description: "Una guía de alto nivel sobre los flujos de datos en tiempo real mediante WebSocket de Benzinga."
+---
+
+La API WebSocket de Benzinga entrega datos financieros de baja latencia mediante push directamente a tu aplicación. En lugar de consultar repetidamente un endpoint REST, abres una única conexión persistente y recibes eventos en el momento en que están disponibles: calificaciones de analistas, resultados de ganancias, noticias, transcripciones y más.
+
+Todos los flujos comparten el mismo endpoint base, modelo de autenticación y envoltura de mensajes, por lo que los patrones que aprendes en un flujo se aplican en todas partes.
+
+<div id="how-it-works">
+  ## Cómo funciona
+</div>
+
+<Steps>
+  <Step title="Autenticar">
+    Obtén un token de la API de Benzinga desde la [Benzinga Console](https://www.api.benzinga.com/token) y añádelo como parámetro de consulta `token` al abrir la conexión.
+  </Step>
+
+  <Step title="Conectar">
+    Abre una conexión WebSocket a la URL de streaming de los datos que necesitas — por ejemplo, `wss://api.benzinga.com/api/v1/analyst/insights/stream?token=YOUR_TOKEN`.
+  </Step>
+
+  <Step title="Recibir eventos">
+    Los mensajes llegan como objetos JSON con una envoltura coherente: un `id`, `api_version`, `kind` y un bloque `data` que incluye la acción (`created`, `updated` o `deleted`) y el payload (carga útil).
+  </Step>
+
+  <Step title="Mantener viva la conexión">
+    Envía periódicamente un frame de texto plano `ping` (cada 30–60 segundos). El servidor responde con `pong`. El servidor también envía su propio ping cada 10 segundos — la mayoría de las bibliotecas WebSocket manejan esto automáticamente.
+  </Step>
+</Steps>
+
+<div id="available-streams">
+  ## Streams disponibles
+</div>
+
+<CardGroup cols={2}>
+  <Card title="Perspectivas de analistas" icon="chart-line" href="/es/ws-reference/data-websocket/get-analyst-insights-stream">
+    Calificaciones de analistas en tiempo real, precios objetivo y recomendaciones detalladas a medida que se publican.
+  </Card>
+
+  <Card title="Calificaciones" icon="star" href="/es/ws-reference/data-websocket/get-calendar-ratings-stream">
+    Cambios en las calificaciones de analistas y actualizaciones de precios objetivo de las principales firmas.
+  </Card>
+
+  <Card title="Calificaciones de consenso" icon="scale-balanced" href="/es/ws-reference/data-websocket/get-consensus-ratings-stream">
+    Calificaciones de consenso agregadas y precios objetivo de todos los analistas seguidos.
+  </Card>
+
+  <Card title="Resultados" icon="sack-dollar" href="/es/ws-reference/data-websocket/get-calendar-earnings-stream">
+    Anuncios de resultados con EPS (beneficio por acción), ingresos, estimaciones y métricas de sorpresa.
+  </Card>
+
+  <Card title="Bulls/Bears Say" icon="comments" href="/es/ws-reference/data-websocket/get-bulls-bears-say-stream">
+    Escenarios alcistas y bajistas para valores, publicados en tiempo real.
+  </Card>
+
+  <Card title="Noticias" icon="newspaper" href="/es/ws-reference/data-websocket/get-news-stream">
+    Noticias de última hora y actualizaciones del mercado del equipo editorial de Benzinga.
+  </Card>
+
+  <Card title="Transcripciones de conferencias de resultados" icon="microphone" href="/es/ws-reference/data-websocket/get-transcripts-stream">
+    Transcripciones en vivo de conferencias de resultados proporcionadas frase por frase a medida que se pronuncian.
+  </Card>
+</CardGroup>
+
+<div id="message-envelope">
+  ## Envoltorio del mensaje
+</div>
+
+Cada mensaje de streaming sigue la misma estructura de nivel superior:
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "<stream-type>",
+  "data": {
+    "action": "created",
+    "id": "<record-id>",
+    "timestamp": "2024-10-08T10:00:00Z",
+    "content": { ... }
+  }
+}
+```
+
+| Field          | Description                                                       |
+| -------------- | ----------------------------------------------------------------- |
+| `id`           | ID de mensaje único; úsalo para eliminar duplicados al reconectar |
+| `api_version`  | Versión de protocolo del mensaje                                  |
+| `kind`         | Identifica desde qué flujo proviene el mensaje                    |
+| `data.action`  | Es uno de `created`, `updated` o `deleted`                        |
+| `data.content` | Carga útil específica del flujo                                   |
+
+<div id="reference-pages">
+  ## Páginas de referencia
+</div>
+
+<CardGroup cols={3}>
+  <Card title="Autenticación" icon="key" href="/es/ws-reference/authentication">
+    Cómo obtener y usar tu token de la API.
+  </Card>
+
+  <Card title="Acciones compatibles" icon="bolt" href="/es/ws-reference/actions">
+    Comandos `ping` y `replay` que puedes enviar en cualquier flujo.
+  </Card>
+
+  <Card title="Errores" icon="triangle-exclamation" href="/es/ws-reference/errors">
+    Códigos de error y cómo gestionar errores de conexión.
+  </Card>
+</CardGroup>

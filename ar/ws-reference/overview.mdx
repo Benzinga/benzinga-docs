@@ -1,0 +1,110 @@
+---
+title: "نظرة عامة"
+description: "دليل عالي المستوى لتدفقات بيانات ويب سوكيت الفورية من Benzinga."
+---
+
+توفّر واجهة برمجة التطبيقات API الخاصة بـ Benzinga عبر ويب سوكيت بيانات مالية منخفضة الكمون وقائمة على الدفع مباشرة إلى تطبيقك. بدلًا من الاستعلام المتكرر عن نقطة نهاية REST، تقوم بفتح اتصال واحد مستمر وتتلقى الأحداث فور توفّرها — تقييمات المحلّلين، نتائج الأرباح، الأخبار، نصوص المكالمات، والمزيد.
+
+تستخدم جميع التدفقات نفس نقطة النهاية الأساسية، ونموذج المصادقة، وغلاف الرسائل، لذا فإن الأنماط التي تتعلّمها في تدفّق واحد تنطبق في كل مكان.
+
+<div id="how-it-works">
+  ## كيف يعمل
+</div>
+
+<Steps>
+  <Step title="المصادقة">
+    احصل على رمز وصول واجهة برمجة التطبيقات API من [Benzinga Console](https://www.api.benzinga.com/token) وألحِقه كمعامل استعلام `token` عند فتح الاتصال.
+  </Step>
+
+  <Step title="الاتصال">
+    افتح اتصال ويب سوكيت إلى عنوان تدفق البيانات الذي تحتاجه — على سبيل المثال `wss://api.benzinga.com/api/v1/analyst/insights/stream?token=YOUR_TOKEN`.
+  </Step>
+
+  <Step title="استقبال الأحداث">
+    تصل الرسائل ككائنات JSON ذات غلاف ثابت البنية: يحتوي على `id` و `api_version` و `kind` وكتلة `data` التي تحمل الحقل `action` (`created` أو `updated` أو `deleted`) وبيانات الحمولة.
+  </Step>
+
+  <Step title="الحفاظ على الاتصال فعالًا">
+    أرسل إطار نصي عادي `ping` بشكل دوري (كل 30–60 ثانية). يستجيب الخادم بـ `pong`. يرسل الخادم أيضًا طلبات ping خاصة به كل 10 ثوانٍ — تتولى معظم مكتبات ويب سوكيت التعامل مع ذلك تلقائيًا.
+  </Step>
+</Steps>
+
+<div id="available-streams">
+  ## التدفقات المتاحة
+</div>
+
+<CardGroup cols={2}>
+  <Card title="رؤى المحللين" icon="chart-line" href="/ar/ws-reference/data-websocket/get-analyst-insights-stream">
+    تصنيفات المحللين في الوقت الفعلي، والأسعار المستهدفة، والتوصيات التفصيلية عند نشرها.
+  </Card>
+
+  <Card title="التصنيفات" icon="star" href="/ar/ws-reference/data-websocket/get-calendar-ratings-stream">
+    تغييرات تصنيفات المحللين وتحديثات الأسعار المستهدفة من الشركات الكبرى.
+  </Card>
+
+  <Card title="تصنيفات الإجماع" icon="scale-balanced" href="/ar/ws-reference/data-websocket/get-consensus-ratings-stream">
+    التصنيفات التوافقية المجمَّعة والأسعار المستهدفة عبر جميع المحللين الذين تتم متابعتهم.
+  </Card>
+
+  <Card title="الأرباح" icon="sack-dollar" href="/ar/ws-reference/data-websocket/get-calendar-earnings-stream">
+    إعلانات الأرباح مع بيانات ربحية السهم (EPS)، والإيرادات، والتقديرات، ومؤشرات المفاجأة.
+  </Card>
+
+  <Card title="ما يقوله المتفائلون/المتشائمون" icon="comments" href="/ar/ws-reference/data-websocket/get-bulls-bears-say-stream">
+    سيناريوهات الحالة المتفائلة والحالة المتشائمة للأوراق المالية، تُنشَر في الوقت الفعلي.
+  </Card>
+
+  <Card title="الأخبار" icon="newspaper" href="/ar/ws-reference/data-websocket/get-news-stream">
+    مقالات الأخبار العاجلة وتحديثات السوق من فريق التحرير في Benzinga.
+  </Card>
+
+  <Card title="نصوص مكالمات الأرباح" icon="microphone" href="/ar/ws-reference/data-websocket/get-transcripts-stream">
+    نصوص حية لمكالمات الأرباح تُنقَل جملةً بجملة أثناء النطق بها.
+  </Card>
+</CardGroup>
+
+<div id="message-envelope">
+  ## غلاف الرسالة
+</div>
+
+كل رسالة في الدفق تتبع نفس البنية على المستوى الأعلى:
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "<stream-type>",
+  "data": {
+    "action": "created",
+    "id": "<record-id>",
+    "timestamp": "2024-10-08T10:00:00Z",
+    "content": { ... }
+  }
+}
+```
+
+| الحقل          | الوصف                                                             |
+| -------------- | ----------------------------------------------------------------- |
+| `id`           | المعرّف الفريد للرسالة — استخدمه لإلغاء التكرار عند إعادة الاتصال |
+| `api_version`  | إصدار بروتوكول الرسالة                                            |
+| `kind`         | يحدد أي تدفق جاءت منه الرسالة                                     |
+| `data.action`  | إحدى القيم `created` أو `updated` أو `deleted`                    |
+| `data.content` | حمولة خاصة بالتدفق                                                |
+
+<div id="reference-pages">
+  ## صفحات مرجعية
+</div>
+
+<CardGroup cols={3}>
+  <Card title="المصادقة" icon="key" href="/ar/ws-reference/authentication">
+    كيفية الحصول على رمز الوصول لواجهة برمجة التطبيقات API الخاصة بك واستخدامه.
+  </Card>
+
+  <Card title="الإجراءات المدعومة" icon="bolt" href="/ar/ws-reference/actions">
+    أوامر `ping` و`replay` التي يمكنك إرسالها على أي تدفق.
+  </Card>
+
+  <Card title="الأخطاء" icon="triangle-exclamation" href="/ar/ws-reference/errors">
+    رموز الأخطاء وكيفية معالجة حالات فشل الاتصال.
+  </Card>
+</CardGroup>

@@ -157,6 +157,13 @@ paths:
           name: max_width
           schema:
             type: string
+        - description: Si es true, agrega el parámetro de consulta flutter_compatible=true
+            a las URL SVG para garantizar la compatibilidad con la biblioteca
+            flutter_svg.
+          in: query
+          name: flutter_compatible
+          schema:
+            type: boolean
       responses:
         "200":
           description: Respuesta exitosa con un array de objetos LogoClientResponse en el
@@ -207,6 +214,8 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
+        - unsupported_message_type
+        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -218,10 +227,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
-        - unsupported_message_type
-        - database_query_error
       type: string
       x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -233,8 +242,6 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
