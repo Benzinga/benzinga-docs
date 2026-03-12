@@ -145,7 +145,7 @@ paths:
           name: content_types
           schema:
             type: string
-            default: newswire_pressreleases
+            default: accesswire_story,accesswire_pr,businesswire_story,newswire_pressreleases,newswire_story,globenewswire_story,newsfile_story
         - description: Specify the desired format for the api response
           in: query
           name: format
