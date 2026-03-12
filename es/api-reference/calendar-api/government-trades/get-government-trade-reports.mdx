@@ -4,41 +4,41 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v1/government_trade_reports
 ---
 
 <ResponseExample>
-    ```json Respuesta (200 OK)
+    ```json Response (200 OK)
     {}
     ```
-    ```json Respuesta (401 No autorizado)
+    ```json Response (401 No autorizado)
     {
       "ok": false,
       "errors": [
         {
           "code": "auth_failed",
           "id": "unauthorized",
-          "value": "Invalid or missing authentication token"
+          "value": "Token de autenticación no válido o faltante"
         }
       ]
     }
     ```
-    ```json Respuesta (404 No encontrado)
+    ```json Response (404 No encontrado)
     {
       "ok": false,
       "errors": [
         {
           "code": "no_data_found",
           "id": "not_found",
-          "value": "No data found for the specified parameters"
+          "value": "No se encontraron datos para los parámetros indicados"
         }
       ]
     }
     ```
-    ```json Respuesta (500 Error interno del servidor)
+    ```json Response (500 Error interno del servidor)
     {
       "ok": false,
       "errors": [
         {
           "code": "internal_server_error",
           "id": "server_error",
-          "value": "An unexpected error occurred while processing your request"
+          "value": "Se produjo un error inesperado al procesar su solicitud"
         }
       ]
     }

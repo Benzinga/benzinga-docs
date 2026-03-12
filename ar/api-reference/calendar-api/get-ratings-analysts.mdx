@@ -1,5 +1,5 @@
 ---
-title: "تقييمات المحللين"
+title: "محللو التقييمات"
 openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings/analysts
 ---
 
@@ -57,7 +57,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings/analys
   ]
 }
 ```
-```json استجابة (401 Unauthorized)
+```json استجابة (401 غير مخوَّل)
 {
   "ok": false,
   "errors": [
@@ -69,19 +69,19 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings/analys
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json استجابة (404 غير موجود)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "لم يتم العثور على بيانات للمعلمات المعينة"
+      "value": "لم يتم العثور على بيانات للمعلمات المحددة"
     }
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json استجابة (500 خطأ داخلي في الخادم)
 {
   "ok": false,
   "errors": [

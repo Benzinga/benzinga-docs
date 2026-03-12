@@ -1,6 +1,6 @@
 ---
-title: "الاكتتابات العامة الأولية V2"
-openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2/calendar/ipos
+title: "الطروحات العامة الأولية IPOs"
+openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ipos
 ---
 
 <ResponseExample>
@@ -56,14 +56,14 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2/calendar/ipos
   ]
 }
 ```
-```json استجابة (401 غير مصرح به)
+```json استجابة (401 غير مخوَّل)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز المصادقة غير صالح أو مفقود"
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
@@ -75,12 +75,12 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2/calendar/ipos
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "لم يتم العثور على بيانات للمعاملات المحددة"
+      "value": "لم يتم العثور على بيانات وفق المعلمات المحددة"
     }
   ]
 }
 ```
-```json استجابة (500 خطأ خادم داخلي)
+```json استجابة (500 خطأ داخلي في الخادم)
 {
   "ok": false,
   "errors": [

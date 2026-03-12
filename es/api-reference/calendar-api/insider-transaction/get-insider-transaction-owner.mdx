@@ -1,6 +1,6 @@
 ---
-title: "Titular de operaciones con información privilegiada"
-openapi: /es/openapi/calendar_api.spec.yml GET /sec/insider_transactions/owners
+title: "Propietario de transacciones de insiders"
+openapi: /es/openapi/calendar_api.spec.yml GET /api/v1/sec/insider_transactions/owners
 ---
 
 <ResponseExample>
@@ -14,19 +14,19 @@ openapi: /es/openapi/calendar_api.spec.yml GET /sec/insider_transactions/owners
   ]
 }
 ```
-```json Respuesta (401 No autorizado)
+```json Respuesta (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Token de autenticación no válido o faltante"
+      "value": "Token de autenticación no válido o ausente"
     }
   ]
 }
 ```
-```json Respuesta (404 No encontrado)
+```json Respuesta (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -38,7 +38,7 @@ openapi: /es/openapi/calendar_api.spec.yml GET /sec/insider_transactions/owners
   ]
 }
 ```
-```json Respuesta (500 Error interno del servidor)
+```json Respuesta (500 Internal Server Error)
 {
   "ok": false,
   "errors": [

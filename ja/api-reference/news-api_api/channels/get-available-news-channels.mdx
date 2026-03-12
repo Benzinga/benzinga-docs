@@ -1,0 +1,175 @@
+---
+title: "利用可能なニュースチャンネル"
+openapi: /ja/openapi/news-api_api.spec.yml GET /api/v2.1/news/channels
+---
+
+<ResponseExample>
+  ```json Response (200 OK)
+  {
+    "ok": true,
+    "data": [
+      {"id": 68, "parent": 67, "channel": "アナリストコメント", "weight": 0},
+      {"id": 831968, "parent": 2, "channel": "アジア", "weight": 0},
+      {"id": 132653, "parent": 2, "channel": "バイナリーオプション", "weight": 0},
+      {"id": 19868, "parent": 18467, "channel": "バイオテクノロジー", "weight": 0},
+      {"id": 123430, "parent": 2, "channel": "大麻", "weight": 0},
+      {"id": 135733, "parent": 2, "channel": "暗号資産", "weight": 0},
+      {"id": 16888, "parent": 57, "channel": "決算", "weight": 0},
+      {"id": 862672, "parent": 16888, "channel": "決算上振れ", "weight": 0},
+      {"id": 862673, "parent": 16888, "channel": "決算下振れ", "weight": 0},
+      {"id": 831970, "parent": 18467, "channel": "エンターテインメント", "weight": 0},
+      {"id": 24769, "parent": 2, "channel": "株式", "weight": 0},
+      {"id": 831969, "parent": 2, "channel": "ESG", "weight": 0},
+      {"id": 38929, "parent": 17834, "channel": "ファイナンシャルアドバイザー", "weight": 0},
+      {"id": 144421, "parent": 0, "channel": "フィンテック", "weight": 0},
+      {"id": 831973, "parent": 18467, "channel": "ゲーム", "weight": 0},
+      {"id": 26029, "parent": 0, "channel": "政府", "weight": 0},
+      {"id": 831976, "parent": 57, "channel": "大型株", "weight": 0},
+      {"id": 831967, "parent": 2, "channel": "中南米", "weight": 0},
+      {"id": 38, "parent": 22, "channel": "ロングアイデア", "weight": 0},
+      {"id": 64, "parent": 0, "channel": "M&A", "weight": 0},
+      {"id": 862546, "parent": 17375, "channel": "マクロ経済イベント", "weight": 0},
+      {"id": 927213, "parent": 18467, "channel": "マクロ通知", "weight": 0},
+      {"id": 927212, "parent": 18467, "channel": "市場サマリー", "weight": 0},
+      {"id": 831977, "parent": 57, "channel": "中型株", "weight": 0},
+      {"id": 17043, "parent": 2, "channel": "投資信託", "weight": 0},
+      {"id": 57, "parent": 0, "channel": "ニュース", "weight": 0},
+      {"id": 22681, "parent": 2, "channel": "低位株", "weight": 0},
+      {"id": 919406, "parent": 2, "channel": "予測市場", "weight": 0},
+      {"id": 692385, "parent": 2, "channel": "プライベート市場", "weight": 0},
+      {"id": 748887, "parent": 2, "channel": "サイケデリクス", "weight": 0},
+      {"id": 144213, "parent": 26029, "channel": "規制", "weight": 0},
+      {"id": 142059, "parent": 142057, "channel": "REIT", "weight": 0},
+      {"id": 49, "parent": 47, "channel": "セクターETF", "weight": 0},
+      {"id": 32789, "parent": 0, "channel": "ショートセラー", "weight": 0},
+      {"id": 831971, "parent": 18467, "channel": "ソーシャルメディア", "weight": 0},
+      {"id": 45040, "parent": 18467, "channel": "宇宙", "weight": 0},
+      {"id": 831972, "parent": 18467, "channel": "スポーツベッティング", "weight": 0},
+      {"id": 726669, "parent": 0, "channel": "WIIM", "weight": 0},
+      {"id": 85, "parent": 2, "channel": "債券", "weight": 1},
+      {"id": 50, "parent": 47, "channel": "米国株式総合ETF", "weight": 1},
+      {"id": 125556, "parent": 18467, "channel": "教育", "weight": 1},
+      {"id": 16889, "parent": 57, "channel": "ガイダンス", "weight": 1},
+      {"id": 39, "parent": 22, "channel": "ショートアイデア", "weight": 1},
+      {"id": 66318, "parent": 67, "channel": "カバレッジ終了", "weight": 1},
+      {"id": 41, "parent": 22, "channel": "配当", "weight": 2},
+      {"id": 61, "parent": 57, "channel": "配当", "weight": 2},
+      {"id": 125558, "parent": 2, "channel": "新興市場", "weight": 2},
+      {"id": 17412, "parent": 18467, "channel": "起業", "weight": 2},
+      {"id": 52, "parent": 47, "channel": "特化型ETF", "weight": 2},
+      {"id": 69, "parent": 67, "channel": "格上げ", "weight": 2},
+      {"id": 70, "parent": 67, "channel": "格下げ", "weight": 3},
+      {"id": 125557, "parent": 2, "channel": "ユーロ圏", "weight": 3},
+      {"id": 140295, "parent": 18467, "channel": "ヘルスケア", "weight": 3},
+      {"id": 40009, "parent": 47, "channel": "新規ETF", "weight": 3},
+      {"id": 17374, "parent": 57, "channel": "噂", "weight": 3},
+      {"id": 42, "parent": 22, "channel": "小型株分析", "weight": 3},
+      {"id": 55, "parent": 47, "channel": "新興市場ETF", "weight": 4},
+      {"id": 34989, "parent": 57, "channel": "資金調達", "weight": 4},
+      {"id": 86, "parent": 2, "channel": "先物", "weight": 4},
+      {"id": 44, "parent": 18467, "channel": "ヘッジファンド", "weight": 4},
+      {"id": 72, "parent": 67, "channel": "目標株価", "weight": 4},
+      {"id": 16890, "parent": 22, "channel": "テクニカル分析", "weight": 4},
+      {"id": 36240, "parent": 2, "channel": "商品", "weight": 5},
+      {"id": 54, "parent": 47, "channel": "通貨ETF", "weight": 5},
+      {"id": 71, "parent": 67, "channel": "カバレッジ開始", "weight": 5},
+      {"id": 34, "parent": 18467, "channel": "注目銘柄", "weight": 5},
+      {"id": 65, "parent": 57, "channel": "公募増資", "weight": 5},
+      {"id": 39090, "parent": 22, "channel": "プレビュー", "weight": 5},
+      {"id": 87, "parent": 57, "channel": "契約", "weight": 6},
+      {"id": 16784, "parent": 2, "channel": "オプション", "weight": 6},
+      {"id": 16779, "parent": 18467, "channel": "政治", "weight": 6},
+      {"id": 39823, "parent": 67, "channel": "レーティング据え置き", "weight": 6},
+      {"id": 3, "parent": 2, "channel": "外国為替", "weight": 7},
+      {"id": 37760, "parent": 18467, "channel": "心理学", "weight": 7},
+      {"id": 30777, "parent": 57, "channel": "小売売上高", "weight": 7},
+      {"id": 63, "parent": 57, "channel": "自社株買い", "weight": 8},
+      {"id": 17, "parent": 18467, "channel": "トピック", "weight": 8},
+      {"id": 34992, "parent": 57, "channel": "資産売却", "weight": 9},
+      {"id": 18468, "parent": 18467, "channel": "旅行", "weight": 9},
+      {"id": 39620, "parent": 18467, "channel": "レストラン", "weight": 10},
+      {"id": 46411, "parent": 57, "channel": "小型株", "weight": 10},
+      {"id": 38928, "parent": 18467, "channel": "クラウドソーシング", "weight": 11},
+      {"id": 59, "parent": 57, "channel": "FDA", "weight": 11},
+      {"id": 29619, "parent": 57, "channel": "法務", "weight": 12},
+      {"id": 413389, "parent": 18467, "channel": "スポーツ", "weight": 12},
+      {"id": 60, "parent": 57, "channel": "経営", "weight": 13},
+      {"id": 62, "parent": 57, "channel": "インサイダー取引", "weight": 14},
+      {"id": 66, "parent": 57, "channel": "株式分割", "weight": 15},
+      {"id": 34991, "parent": 57, "channel": "IPO", "weight": 17},
+      {"id": 34990, "parent": 57, "channel": "国債", "weight": 18},
+      {"id": 29618, "parent": 57, "channel": "イベント", "weight": 19},
+      {"id": 17027, "parent": 57, "channel": "グローバル", "weight": 20},
+      {"id": 35794, "parent": 57, "channel": "経済指標", "weight": 21},
+      {"id": 146540, "parent": 0, "channel": "オピニオン", "weight": 23},
+      {"id": 138079, "parent": 0, "channel": "トップニュース", "weight": 24},
+      {"id": 17375, "parent": 0, "channel": "経済", "weight": 25},
+      {"id": 125743, "parent": 0, "channel": "連邦準備制度", "weight": 26},
+      {"id": 38926, "parent": 0, "channel": "成功事例", "weight": 27},
+      {"id": 38927, "parent": 0, "channel": "スタートアップ", "weight": 29},
+      {"id": 40436, "parent": 0, "channel": "中小企業", "weight": 30},
+      {"id": 165347, "parent": 0, "channel": "市場を動かす独占記事", "weight": 31},
+      {"id": 145889, "parent": 0, "channel": "独占記事", "weight": 32},
+      {"id": 171552, "parent": 0, "channel": "SEC", "weight": 33},
+      {"id": 171557, "parent": 0, "channel": "シグナル", "weight": 34},
+      {"id": 38925, "parent": 0, "channel": "注目", "weight": 35},
+      {"id": 23, "parent": 0, "channel": "プレマーケット見通し", "weight": 36},
+      {"id": 25, "parent": 0, "channel": "日中アップデート", "weight": 37},
+      {"id": 26, "parent": 0, "channel": "時間外取引センター", "weight": 38},
+      {"id": 2, "parent": 0, "channel": "市場", "weight": 39},
+      {"id": 67, "parent": 0, "channel": "アナリスト評価", "weight": 48},
+      {"id": 24, "parent": 22, "channel": "値動き銘柄", "weight": 56},
+      {"id": 6, "parent": 0, "channel": "テクノロジー", "weight": 57},
+      {"id": 5, "parent": 0, "channel": "メディア", "weight": 58},
+      {"id": 17834, "parent": 0, "channel": "パーソナルファイナンス", "weight": 64},
+      {"id": 22, "parent": 0, "channel": "トレーディングアイデア", "weight": 66},
+      {"id": 31781, "parent": 0, "channel": "レビュー", "weight": 73},
+      {"id": 125566, "parent": 0, "channel": "インタビュー", "weight": 74},
+      {"id": 26330, "parent": 0, "channel": "保険", "weight": 75},
+      {"id": 16777, "parent": 0, "channel": "プレスリリース", "weight": 75},
+      {"id": 47, "parent": 0, "channel": "ETF", "weight": 76},
+      {"id": 18467, "parent": 0, "channel": "一般", "weight": 83},
+      {"id": 142057, "parent": 0, "channel": "不動産", "weight": 97}
+    ]
+  }
+  ```
+
+  ```json Response (401 Unauthorized)
+  {
+    "ok": false,
+    "エラー": [
+      {
+        "code": "auth_failed",
+        "id": "unauthorized",
+        "value": "認証トークンが無効または欠落しています"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (404 Not Found)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "no_data_found",
+        "id": "not_found",
+        "value": "指定されたパラメータのデータが見つかりませんでした"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (500 Internal Server Error)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "internal_server_error",
+        "id": "server_error",
+        "value": "リクエストの処理中に予期しないエラーが発生しました"
+      }
+    ]
+  }
+  ```
+</ResponseExample>
