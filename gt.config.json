@@ -48,6 +48,7 @@
           "./openapi/logo-api_api.spec.yml",
           "./openapi/news-api_api.spec.yml",
           "./openapi/newsquantified-api_api.spec.yml",
+          "./openapi/press-releases_api.spec.yml",
           "./openapi/ticker-trends-api_api.spec.yml",
           "./openapi/webhook_api.spec.yml"
         ]
@@ -82,6 +83,9 @@
         "preset": "openapi"
       },
       "./openapi/delivery_api.spec.yml": {
+        "preset": "openapi"
+      },
+      "./openapi/press-releases_api.spec.yml": {
         "preset": "openapi"
       }
     }
@@ -125,7 +129,8 @@
         "./openapi/news-api_api.spec.yml",
         "./openapi/newsquantified-api_api.spec.yml",
         "./openapi/ticker-trends-api_api.spec.yml",
-        "./openapi/webhook_api.spec.yml"
+        "./openapi/webhook_api.spec.yml",
+        "./openapi/press-releases_api.spec.yml"
       ],
       "transform": [
         {
@@ -159,6 +164,10 @@
         {
           "match": "^openapi/newsquantified-api_api.spec.yml$",
           "replace": "{locale}/openapi/newsquantified-api_api.spec.yml"
+        },
+        {
+          "match": "^openapi/press-releases_api.spec.yml$",
+          "replace": "{locale}/openapi/press-releases_api.spec.yml"
         },
         {
           "match": "^openapi/ticker-trends-api_api.spec.yml$",

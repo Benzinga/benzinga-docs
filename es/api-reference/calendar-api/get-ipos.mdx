@@ -1,10 +1,10 @@
 ---
-title: "OPIs V2"
-openapi: /es/openapi/calendar_api.spec.yml GET /api/v2/calendar/ipos
+title: "IPOs"
+openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ipos
 ---
 
 <ResponseExample>
-```json Respuesta (200 OK)
+```json Response (200 OK)
 {
   "ipos": [
     {
@@ -56,38 +56,38 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v2/calendar/ipos
   ]
 }
 ```
-```json Respuesta (401 No autorizado)
+```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Token de autenticación no válido o ausente"
+      "value": "Invalid or missing authentication token"
     }
   ]
 }
 ```
-```json Respuesta (404 No encontrado)
+```json Response (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No se encontraron datos para los parámetros especificados"
+      "value": "No data found for the specified parameters"
     }
   ]
 }
 ```
-```json Respuesta (500 Error interno del servidor)
+```json Response (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "Se produjo un error inesperado al procesar su solicitud"
+      "value": "An unexpected error occurred while processing your request"
     }
   ]
 }

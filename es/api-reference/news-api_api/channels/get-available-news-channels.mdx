@@ -1,0 +1,175 @@
+---
+title: "Canales de noticias disponibles"
+openapi: /es/openapi/news-api_api.spec.yml GET /api/v2.1/news/channels
+---
+
+<ResponseExample>
+  ```json Response (200 OK)
+  {
+    "ok": true,
+    "data": [
+      {"id": 68, "parent": 67, "channel": "Comentarios de Analistas", "weight": 0},
+      {"id": 831968, "parent": 2, "channel": "Asia", "weight": 0},
+      {"id": 132653, "parent": 2, "channel": "Opciones Binarias", "weight": 0},
+      {"id": 19868, "parent": 18467, "channel": "Biotecnología", "weight": 0},
+      {"id": 123430, "parent": 2, "channel": "Cannabis", "weight": 0},
+      {"id": 135733, "parent": 2, "channel": "Criptomonedas", "weight": 0},
+      {"id": 16888, "parent": 57, "channel": "Resultados", "weight": 0},
+      {"id": 862672, "parent": 16888, "channel": "Resultados por Encima de Expectativas", "weight": 0},
+      {"id": 862673, "parent": 16888, "channel": "Resultados por Debajo de Expectativas", "weight": 0},
+      {"id": 831970, "parent": 18467, "channel": "Entretenimiento", "weight": 0},
+      {"id": 24769, "parent": 2, "channel": "Acciones", "weight": 0},
+      {"id": 831969, "parent": 2, "channel": "ESG", "weight": 0},
+      {"id": 38929, "parent": 17834, "channel": "Asesores Financieros", "weight": 0},
+      {"id": 144421, "parent": 0, "channel": "Fintech", "weight": 0},
+      {"id": 831973, "parent": 18467, "channel": "Juegos", "weight": 0},
+      {"id": 26029, "parent": 0, "channel": "Gobierno", "weight": 0},
+      {"id": 831976, "parent": 57, "channel": "Gran Capitalización", "weight": 0},
+      {"id": 831967, "parent": 2, "channel": "América Latina", "weight": 0},
+      {"id": 38, "parent": 22, "channel": "Ideas de Posición Larga", "weight": 0},
+      {"id": 64, "parent": 0, "channel": "F&A", "weight": 0},
+      {"id": 862546, "parent": 17375, "channel": "Eventos Macroeconómicos", "weight": 0},
+      {"id": 927213, "parent": 18467, "channel": "Notificación Macroeconómica", "weight": 0},
+      {"id": 927212, "parent": 18467, "channel": "Resumen de Mercado", "weight": 0},
+      {"id": 831977, "parent": 57, "channel": "Mediana Capitalización", "weight": 0},
+      {"id": 17043, "parent": 2, "channel": "Fondos Mutuos", "weight": 0},
+      {"id": 57, "parent": 0, "channel": "Noticias", "weight": 0},
+      {"id": 22681, "parent": 2, "channel": "Acciones de Centavo", "weight": 0},
+      {"id": 919406, "parent": 2, "channel": "Mercados de Predicción", "weight": 0},
+      {"id": 692385, "parent": 2, "channel": "Mercados Privados", "weight": 0},
+      {"id": 748887, "parent": 2, "channel": "Psicodélicos", "weight": 0},
+      {"id": 144213, "parent": 26029, "channel": "Regulaciones", "weight": 0},
+      {"id": 142059, "parent": 142057, "channel": "REIT", "weight": 0},
+      {"id": 49, "parent": 47, "channel": "ETFs Sectoriales", "weight": 0},
+      {"id": 32789, "parent": 0, "channel": "Vendedores en Corto", "weight": 0},
+      {"id": 831971, "parent": 18467, "channel": "Redes Sociales", "weight": 0},
+      {"id": 45040, "parent": 18467, "channel": "ESPACIO", "weight": 0},
+      {"id": 831972, "parent": 18467, "channel": "Apuestas Deportivas", "weight": 0},
+      {"id": 726669, "parent": 0, "channel": "WIIM", "weight": 0},
+      {"id": 85, "parent": 2, "channel": "Bonos", "weight": 1},
+      {"id": 50, "parent": 47, "channel": "ETFs de Renta Variable Amplia de EE.UU.", "weight": 1},
+      {"id": 125556, "parent": 18467, "channel": "Educación", "weight": 1},
+      {"id": 16889, "parent": 57, "channel": "Guía", "weight": 1},
+      {"id": 39, "parent": 22, "channel": "Ideas de Posición Corta", "weight": 1},
+      {"id": 66318, "parent": 67, "channel": "Terminación", "weight": 1},
+      {"id": 41, "parent": 22, "channel": "Dividendos", "weight": 2},
+      {"id": 61, "parent": 57, "channel": "Dividendos", "weight": 2},
+      {"id": 125558, "parent": 2, "channel": "Mercados Emergentes", "weight": 2},
+      {"id": 17412, "parent": 18467, "channel": "Emprendimiento", "weight": 2},
+      {"id": 52, "parent": 47, "channel": "ETFs Especializados", "weight": 2},
+      {"id": 69, "parent": 67, "channel": "Mejoras de Calificación", "weight": 2},
+      {"id": 70, "parent": 67, "channel": "Rebajas de Calificación", "weight": 3},
+      {"id": 125557, "parent": 2, "channel": "Eurozona", "weight": 3},
+      {"id": 140295, "parent": 18467, "channel": "Salud", "weight": 3},
+      {"id": 40009, "parent": 47, "channel": "Nuevos ETFs", "weight": 3},
+      {"id": 17374, "parent": 57, "channel": "Rumores", "weight": 3},
+      {"id": 42, "parent": 22, "channel": "Análisis de Pequeña Capitalización", "weight": 3},
+      {"id": 55, "parent": 47, "channel": "ETFs de Mercados Emergentes", "weight": 4},
+      {"id": 34989, "parent": 57, "channel": "Financiamiento", "weight": 4},
+      {"id": 86, "parent": 2, "channel": "Futuros", "weight": 4},
+      {"id": 44, "parent": 18467, "channel": "Fondos de Cobertura", "weight": 4},
+      {"id": 72, "parent": 67, "channel": "Precio Objetivo", "weight": 4},
+      {"id": 16890, "parent": 22, "channel": "Análisis Técnico", "weight": 4},
+      {"id": 36240, "parent": 2, "channel": "Materias Primas", "weight": 5},
+      {"id": 54, "parent": 47, "channel": "ETFs de Divisas", "weight": 5},
+      {"id": 71, "parent": 67, "channel": "Inicio de Cobertura", "weight": 5},
+      {"id": 34, "parent": 18467, "channel": "Movimientos Destacados", "weight": 5},
+      {"id": 65, "parent": 57, "channel": "Ofertas", "weight": 5},
+      {"id": 39090, "parent": 22, "channel": "Vistas Previas", "weight": 5},
+      {"id": 87, "parent": 57, "channel": "Contratos", "weight": 6},
+      {"id": 16784, "parent": 2, "channel": "Opciones", "weight": 6},
+      {"id": 16779, "parent": 18467, "channel": "Política", "weight": 6},
+      {"id": 39823, "parent": 67, "channel": "Reiteración", "weight": 6},
+      {"id": 3, "parent": 2, "channel": "Divisas", "weight": 7},
+      {"id": 37760, "parent": 18467, "channel": "Psicología", "weight": 7},
+      {"id": 30777, "parent": 57, "channel": "Ventas Minoristas", "weight": 7},
+      {"id": 63, "parent": 57, "channel": "Recompras", "weight": 8},
+      {"id": 17, "parent": 18467, "channel": "Temas", "weight": 8},
+      {"id": 34992, "parent": 57, "channel": "Ventas de Activos", "weight": 9},
+      {"id": 18468, "parent": 18467, "channel": "Viajes", "weight": 9},
+      {"id": 39620, "parent": 18467, "channel": "Restaurantes", "weight": 10},
+      {"id": 46411, "parent": 57, "channel": "Pequeña Capitalización", "weight": 10},
+      {"id": 38928, "parent": 18467, "channel": "Crowdfunding", "weight": 11},
+      {"id": 59, "parent": 57, "channel": "FDA", "weight": 11},
+      {"id": 29619, "parent": 57, "channel": "Legal", "weight": 12},
+      {"id": 413389, "parent": 18467, "channel": "Deportes", "weight": 12},
+      {"id": 60, "parent": 57, "channel": "Gestión", "weight": 13},
+      {"id": 62, "parent": 57, "channel": "Operaciones con Información Privilegiada", "weight": 14},
+      {"id": 66, "parent": 57, "channel": "División de Acciones", "weight": 15},
+      {"id": 34991, "parent": 57, "channel": "OPIs", "weight": 17},
+      {"id": 34990, "parent": 57, "channel": "Bonos del Tesoro", "weight": 18},
+      {"id": 29618, "parent": 57, "channel": "Eventos", "weight": 19},
+      {"id": 17027, "parent": 57, "channel": "Global", "weight": 20},
+      {"id": 35794, "parent": 57, "channel": "Datos Económicos", "weight": 21},
+      {"id": 146540, "parent": 0, "channel": "Opinión", "weight": 23},
+      {"id": 138079, "parent": 0, "channel": "Noticias Destacadas", "weight": 24},
+      {"id": 17375, "parent": 0, "channel": "Economía", "weight": 25},
+      {"id": 125743, "parent": 0, "channel": "Reserva Federal", "weight": 26},
+      {"id": 38926, "parent": 0, "channel": "Historias de Éxito", "weight": 27},
+      {"id": 38927, "parent": 0, "channel": "Startups", "weight": 29},
+      {"id": 40436, "parent": 0, "channel": "Pequeñas Empresas", "weight": 30},
+      {"id": 165347, "parent": 0, "channel": "Exclusivas que Mueven el Mercado", "weight": 31},
+      {"id": 145889, "parent": 0, "channel": "Exclusivas", "weight": 32},
+      {"id": 171552, "parent": 0, "channel": "SEC", "weight": 33},
+      {"id": 171557, "parent": 0, "channel": "Señales", "weight": 34},
+      {"id": 38925, "parent": 0, "channel": "Tendencia", "weight": 35},
+      {"id": 23, "parent": 0, "channel": "Perspectiva Premercado", "weight": 36},
+      {"id": 25, "parent": 0, "channel": "Actualización Intradía", "weight": 37},
+      {"id": 26, "parent": 0, "channel": "Centro Fuera de Horario", "weight": 38},
+      {"id": 2, "parent": 0, "channel": "Mercados", "weight": 39},
+      {"id": 67, "parent": 0, "channel": "Calificaciones de Analistas", "weight": 48},
+      {"id": 24, "parent": 22, "channel": "Valores en Movimiento", "weight": 56},
+      {"id": 6, "parent": 0, "channel": "Tecnología", "weight": 57},
+      {"id": 5, "parent": 0, "channel": "Medios", "weight": 58},
+      {"id": 17834, "parent": 0, "channel": "Finanzas Personales", "weight": 64},
+      {"id": 22, "parent": 0, "channel": "Ideas de Trading", "weight": 66},
+      {"id": 31781, "parent": 0, "channel": "Reseñas", "weight": 73},
+      {"id": 125566, "parent": 0, "channel": "Entrevista", "weight": 74},
+      {"id": 26330, "parent": 0, "channel": "Seguros", "weight": 75},
+      {"id": 16777, "parent": 0, "channel": "Comunicados de Prensa", "weight": 75},
+      {"id": 47, "parent": 0, "channel": "ETFs", "weight": 76},
+      {"id": 18467, "parent": 0, "channel": "General", "weight": 83},
+      {"id": 142057, "parent": 0, "channel": "Bienes Raíces", "weight": 97}
+    ]
+  }
+  ```
+
+  ```json Response (401 Unauthorized)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "auth_failed",
+        "id": "unauthorized",
+        "value": "Token de autenticación inválido o ausente"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (404 Not Found)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "no_data_found",
+        "id": "not_found",
+        "value": "No se encontraron datos para los parámetros especificados"
+      }
+    ]
+  }
+  ```
+
+  ```json Response (500 Internal Server Error)
+  {
+    "ok": false,
+    "errors": [
+      {
+        "code": "internal_server_error",
+        "id": "server_error",
+        "value": "Ocurrió un error inesperado al procesar su solicitud"
+      }
+    ]
+  }
+  ```
+</ResponseExample>

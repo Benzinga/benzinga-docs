@@ -1,5 +1,5 @@
 ---
-title: "株価比率"
+title: "株価指標"
 openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
   /api/v3/fundamentals/share-price-ratios
 ---
@@ -11,7 +11,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
     "data": [
       {
         "share_price_ratios": {
-          "type": "common",
+          "type": "普通株式",
           "data": [
             {
               "id": 17790258,
@@ -110,11 +110,11 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
   ```json Response (401 Unauthorized)
   {
     "ok": false,
-    "errors": [
+    "エラー": [
       {
         "code": "auth_failed",
         "id": "unauthorized",
-        "value": "認証トークンが無効または存在しません"
+        "value": "認証トークンが無効または欠落しています"
       }
     ]
   }
@@ -127,7 +127,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
       {
         "code": "no_data_found",
         "id": "not_found",
-        "value": "指定されたパラメータに該当するデータが見つかりませんでした"
+        "value": "指定されたパラメータのデータが見つかりませんでした"
       }
     ]
   }
@@ -140,7 +140,7 @@ openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
       {
         "code": "internal_server_error",
         "id": "server_error",
-        "value": "An unexpected error occurred while processing your request"
+        "value": "リクエストの処理中に予期しないエラーが発生しました"
       }
     ]
   }

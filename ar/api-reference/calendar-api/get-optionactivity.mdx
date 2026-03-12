@@ -1,5 +1,5 @@
 ---
-title: "نشاط الخيارات غير الاعتيادي"
+title: "نشاط خيارات غير اعتيادي"
 openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
 ---
 
@@ -39,7 +39,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
   ]
 }
 ```
-```json استجابة (401 غير مُصرَّح به)
+```json استجابة (401 Unauthorized)
 {
   "ok": false,
   "errors": [
@@ -51,7 +51,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
   ]
 }
 ```
-```json استجابة (404 غير موجود)
+```json استجابة (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -63,7 +63,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/signal/option_activity
   ]
 }
 ```
-```json استجابة (500 خطأ داخلي في الخادم)
+```json استجابة (500 Internal Server Error)
 {
   "ok": false,
   "errors": [

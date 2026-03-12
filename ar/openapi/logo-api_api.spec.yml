@@ -151,6 +151,13 @@ paths:
           name: max_width
           schema:
             type: string
+        - description: إذا كانت القيمة true، فسيُضاف معامل الاستعلام
+            flutter_compatible=true إلى عناوين URL لملفات SVG لضمان التوافق مع
+            مكتبة flutter_svg
+          in: query
+          name: flutter_compatible
+          schema:
+            type: boolean
       responses:
         "200":
           description: استجابة ناجحة تتضمن مصفوفة من كائنات LogoClientResponse ضمن الحقل
@@ -200,6 +207,8 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
+        - unsupported_message_type
+        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -211,10 +220,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
-        - unsupported_message_type
-        - database_query_error
       type: string
       x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -226,8 +235,6 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
