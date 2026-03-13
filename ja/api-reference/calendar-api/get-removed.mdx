@@ -4,7 +4,7 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar-removed/
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json レスポンス (200 OK)
 {
   "removed": [
     {
@@ -35,7 +35,7 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar-removed/
   ]
 }
 ```
-```json Response (401 Unauthorized)
+```json レスポンス (401 Unauthorized)
 {
   "ok": false,
   "errors": [
@@ -47,19 +47,19 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar-removed/
   ]
 }
 ```
-```json Response (404 Not Found)
+```json レスポンス (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "指定されたパラメータに対するデータが見つかりませんでした"
+      "value": "指定されたパラメータに対するデータが見つかりません"
     }
   ]
 }
 ```
-```json Response (500 Internal Server Error)
+```json レスポンス (500 Internal Server Error)
 {
   "ok": false,
   "errors": [

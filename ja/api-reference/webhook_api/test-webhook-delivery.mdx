@@ -1,0 +1,130 @@
+---
+title: "Webhook 配信のテスト"
+openapi: /ja/openapi/webhook_api.spec.yml GET /api/v1/webhook/test
+---
+
+<div id="overview">
+  ## 概要
+</div>
+
+このエンドポイントを使用すると、設定済みのエンドポイントにテスト用の webhook 配信を発生させることができます。これにより、本番環境のライブデータを受信する前に、webhook 連携が正しく動作していることを確認できます。
+
+<div id="testing-your-integration">
+  ## 連携のテスト
+</div>
+
+このエンドポイントを呼び出すと、Benzinga は設定済みの `destination` URL にテスト用の webhook ペイロードを送信します。このテスト配信は、本番環境の webhook 配信と同じ形式および再試行ロジックで行われます。
+
+<div id="what-to-expect">
+  ### 想定される結果
+</div>
+
+1. **即時レスポンス**: テスト配信が正常にトリガーされると、API はステータスコード `200` を返します
+2. **テストペイロード**: Webhook エンドポイントには、本番データと同じ形式のテストペイロードが送信されます
+3. **配信ヘッダー**: テスト配信には、本番配信と同様に `X-BZ-Delivery` ヘッダーが含まれます
+
+<div id="verify-your-integration">
+  ### 統合を検証する
+</div>
+
+このエンドポイントを使用して、次の点を確認します:
+
+- Webhook エンドポイントがインターネットからアクセス可能であること
+- エンドポイントが Webhook ペイロード形式を正しくパースできること
+- エンドポイントが適切なステータスコード（成功時は 2xx）で応答すること
+- エンドポイントが 30 秒のタイムアウト以内に応答すること
+- 冪等性ロジックが `X-BZ-Delivery` ヘッダーとペイロードの `id` フィールドを正しく処理すること
+
+<div id="best-practices">
+  ## ベストプラクティス
+</div>
+
+- まずは本番環境ではない webhook エンドポイントでテストする
+- エンドポイントが `200` または `204` のステータスコードで応答することを確認する
+- ログおよび監視でテスト配信が記録されていることを確認する
+- 重複排除ロジックがテスト配信 ID で正しく動作することを確認する
+- 一時的にエラーのステータスコードを返してエラーシナリオをテストする
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+<div id="424-delivery-error">
+  ### 424 配信エラー
+</div>
+
+`424` ステータスコードを受け取った場合、システムがテストペイロードを宛先エンドポイントに配信できなかったことを意味します。よくある原因は次のとおりです。
+
+- 宛先URLが外部からアクセスできない
+- 宛先エンドポイントがエラーステータスコードを返している
+- ネットワーク接続の問題
+- 宛先エンドポイントでの SSL/TLS 証明書エラー
+
+<div id="400-invalid-request">
+  ### 400 無効なリクエスト
+</div>
+
+必須パラメータがすべて指定されており、形式が正しいことを確認してください:
+
+- `destination` は有効な HTTPS URL である必要があります
+- `version` は `webhook/v1` である必要があります
+- `kind` はサポートされているイベント種別のいずれかである必要があります (例: `News/v1`, `Earnings/v1`, `Ratings/v1` など)
+
+<ResponseExample>
+```json レスポンス (200 OK)
+{
+  "status": "success"
+}
+```
+
+```json レスポンス (400 Bad Request)
+{
+  "error": "Invalid destination URL"
+}
+```
+
+```json レスポンス (424 Failed Dependency)
+{
+  "error": "Failed to deliver test payload to destination"
+}
+```
+
+```json レスポンス (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "auth_failed",
+      "id": "unauthorized",
+      "value": "Invalid or missing authentication token"
+    }
+  ]
+}
+```
+
+```json レスポンス (404 Not Found)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "no_data_found",
+      "id": "not_found",
+      "value": "No data found for the specified parameters"
+    }
+  ]
+}
+```
+
+```json レスポンス (500 Internal Server Error)
+{
+  "ok": false,
+  "errors": [
+    {
+      "code": "internal_server_error",
+      "id": "server_error",
+      "value": "An unexpected error occurred while processing your request"
+    }
+  ]
+}
+```
+</ResponseExample>

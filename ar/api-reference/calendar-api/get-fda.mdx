@@ -1,5 +1,5 @@
 ---
-title: "FDA"
+title: "هيئة الغذاء والدواء (FDA)"
 openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
 ---
 
@@ -32,14 +32,14 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
         ],
         "name": "Alpha DaRT"
       },
-      "event_type": "تحديث مقدَّم",
+      "event_type": "Provided Update",
       "id": "695bc49183cac20001bec514",
       "nic_number": "",
       "notes": "",
-      "outcome": "أعلنت شركة Alpha Tau Medical Ltd. عن تقديمها الوحدة الأولى من طلبها للحصول على موافقة ما قبل التسويق (PMA) إلى إدارة الغذاء والدواء الأميركية (FDA)، وذلك عقب قرار إدارة الغذاء والدواء السابق بالسماح للشركة باستخدام النهج المعياري الأكثر مرونة (modular approach).",
+      "outcome": "أعلنت شركة Alpha Tau Medical Ltd. عن تقديم الوحدة الأولى من طلب موافقتها قبل التسويق (PMA) إلى إدارة الغذاء والدواء الأميركية (FDA)، وذلك عقب قرار إدارة الغذاء والدواء (FDA) السابق بالسماح للشركة باستخدام النهج المعياري الأكثر مرونة.",
       "outcome_brief": "",
       "source_link": "https://www.benzinga.com/pressreleases/26/01/g49690927/alpha-tau-submits-first-pre-market-approval-module-to-the-fda-for-alpha-dart-for-the-treatment-of-",
-      "source_type": "بيان صحفي",
+      "source_type": "Press Release",
       "status": "",
       "target_date": "",
       "time": "09:00:00",
@@ -48,19 +48,19 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
   ]
 }
 ```
-```json استجابة (401 Unauthorized)
+```json استجابة (401 غير مصرح به)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز المصادقة غير صالح أو مفقود"
+      "value": "رمز وصول غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json استجابة (404 غير موجود)
 {
   "ok": false,
   "errors": [
@@ -72,7 +72,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json استجابة (500 خطأ خادم داخلي)
 {
   "ok": false,
   "errors": [
