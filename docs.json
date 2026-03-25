@@ -60,8 +60,8 @@
               {
                 "group": "Bars",
                 "pages": [
-                  "api-reference/data-api-proxy-api/bars/overview",
-                  "api-reference/data-api-proxy-api/bars/get-bars"
+                  "api-reference/bars/overview",
+                  "api-reference/bars/get-bars"
                 ]
               },
               {
@@ -100,24 +100,24 @@
               {
                 "group": "Company Fundamentals",
                 "pages": [
-                  "api-reference/data-api-proxy-api/fundamentals/overview",
-                  "api-reference/data-api-proxy-api/fundamentals/get-alpha-beta",
-                  "api-reference/data-api-proxy-api/fundamentals/get-asset-classification",
-                  "api-reference/data-api-proxy-api/fundamentals/get-balance-sheet",
-                  "api-reference/data-api-proxy-api/fundamentals/get-cash-flow",
-                  "api-reference/data-api-proxy-api/fundamentals/get-company",
-                  "api-reference/data-api-proxy-api/fundamentals/get-company-profile",
-                  "api-reference/data-api-proxy-api/fundamentals/get-earnings-reports",
-                  "api-reference/data-api-proxy-api/fundamentals/get-financials",
-                  "api-reference/data-api-proxy-api/fundamentals/get-fundamentals",
-                  "api-reference/data-api-proxy-api/fundamentals/get-income-statement",
-                  "api-reference/data-api-proxy-api/fundamentals/get-share-class",
-                  "api-reference/data-api-proxy-api/fundamentals/get-share-class-profile",
-                  "api-reference/data-api-proxy-api/fundamentals/get-share-price-ratios",
-                  "api-reference/data-api-proxy-api/valuationratios/get-valuation-ratios",
-                  "api-reference/data-api-proxy-api/operationratios/get-operation-ratios",
-                  "api-reference/data-api-proxy-api/earningratios/get-earning-ratios",
-                  "api-reference/data-api-proxy-api/derivedfiguresandratios/get-derived"
+                  "api-reference/fundamentals/overview",
+                  "api-reference/fundamentals/get-alpha-beta",
+                  "api-reference/fundamentals/get-asset-classification",
+                  "api-reference/fundamentals/get-balance-sheet",
+                  "api-reference/fundamentals/get-cash-flow",
+                  "api-reference/fundamentals/get-company",
+                  "api-reference/fundamentals/get-company-profile",
+                  "api-reference/fundamentals/get-derived",
+                  "api-reference/fundamentals/get-earnings-reports",
+                  "api-reference/fundamentals/get-financials",
+                  "api-reference/fundamentals/get-fundamentals",
+                  "api-reference/fundamentals/get-income-statement",
+                  "api-reference/fundamentals/get-share-class",
+                  "api-reference/fundamentals/get-share-class-profile",
+                  "api-reference/fundamentals/get-share-price-ratios",
+                  "api-reference/valuationratios/get-valuation-ratios",
+                  "api-reference/operationratios/get-operation-ratios",
+                  "api-reference/earningratios/get-earning-ratios"
                 ]
               },
               {
@@ -141,8 +141,8 @@
               {
                 "group": "Delayed Quotes",
                 "pages": [
-                  "api-reference/data-api-proxy-api/quotedelayed/overview",
-                  "api-reference/data-api-proxy-api/quotedelayed/get-delayed-quotes"
+                  "api-reference/quotedelayed/overview",
+                  "api-reference/quotedelayed/get-delayed-quotes"
                 ]
               },
               {
@@ -164,9 +164,9 @@
               {
                 "group": "Market Data",
                 "pages": [
-                  "api-reference/data-api-proxy-api/market-data/overview",
-                  "api-reference/data-api-proxy-api/market-data/get-market-movers",
-                  "api-reference/data-api-proxy-api/market-data/get-short-interest-data"
+                  "api-reference/market-data/overview",
+                  "api-reference/market-data/get-market-movers",
+                  "api-reference/market-data/get-short-interest-data"
                 ]
               },
               {
@@ -388,8 +388,8 @@
               {
                 "group": "الشموع السعرية",
                 "pages": [
-                  "ar/api-reference/data-api-proxy-api/bars/overview",
-                  "ar/api-reference/data-api-proxy-api/bars/get-bars"
+                  "ar/api-reference/bars/overview",
+                  "ar/api-reference/bars/get-bars"
                 ]
               },
               {
@@ -428,24 +428,24 @@
               {
                 "group": "الأساسيات المالية للشركة",
                 "pages": [
-                  "ar/api-reference/data-api-proxy-api/fundamentals/overview",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-alpha-beta",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-asset-classification",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-balance-sheet",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-cash-flow",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-company",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-company-profile",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-earnings-reports",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-financials",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-fundamentals",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-income-statement",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-share-class",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-share-class-profile",
-                  "ar/api-reference/data-api-proxy-api/fundamentals/get-share-price-ratios",
-                  "ar/api-reference/data-api-proxy-api/valuationratios/get-valuation-ratios",
-                  "ar/api-reference/data-api-proxy-api/operationratios/get-operation-ratios",
-                  "ar/api-reference/data-api-proxy-api/earningratios/get-earning-ratios",
-                  "ar/api-reference/data-api-proxy-api/derivedfiguresandratios/get-derived"
+                  "ar/api-reference/fundamentals/overview",
+                  "ar/api-reference/fundamentals/get-alpha-beta",
+                  "ar/api-reference/fundamentals/get-asset-classification",
+                  "ar/api-reference/fundamentals/get-balance-sheet",
+                  "ar/api-reference/fundamentals/get-cash-flow",
+                  "ar/api-reference/fundamentals/get-company",
+                  "ar/api-reference/fundamentals/get-company-profile",
+                  "ar/api-reference/fundamentals/get-derived",
+                  "ar/api-reference/fundamentals/get-earnings-reports",
+                  "ar/api-reference/fundamentals/get-financials",
+                  "ar/api-reference/fundamentals/get-fundamentals",
+                  "ar/api-reference/fundamentals/get-income-statement",
+                  "ar/api-reference/fundamentals/get-share-class",
+                  "ar/api-reference/fundamentals/get-share-class-profile",
+                  "ar/api-reference/fundamentals/get-share-price-ratios",
+                  "ar/api-reference/valuationratios/get-valuation-ratios",
+                  "ar/api-reference/operationratios/get-operation-ratios",
+                  "ar/api-reference/earningratios/get-earning-ratios"
                 ]
               },
               {
@@ -469,8 +469,8 @@
               {
                 "group": "أسعار متأخرة",
                 "pages": [
-                  "ar/api-reference/data-api-proxy-api/quotedelayed/overview",
-                  "ar/api-reference/data-api-proxy-api/quotedelayed/get-delayed-quotes"
+                  "ar/api-reference/quotedelayed/overview",
+                  "ar/api-reference/quotedelayed/get-delayed-quotes"
                 ]
               },
               {
@@ -492,9 +492,9 @@
               {
                 "group": "بيانات السوق",
                 "pages": [
-                  "ar/api-reference/data-api-proxy-api/market-data/overview",
-                  "ar/api-reference/data-api-proxy-api/market-data/get-market-movers",
-                  "ar/api-reference/data-api-proxy-api/market-data/get-short-interest-data"
+                  "ar/api-reference/market-data/overview",
+                  "ar/api-reference/market-data/get-market-movers",
+                  "ar/api-reference/market-data/get-short-interest-data"
                 ]
               },
               {
@@ -716,8 +716,8 @@
               {
                 "group": "Barras",
                 "pages": [
-                  "es/api-reference/data-api-proxy-api/bars/overview",
-                  "es/api-reference/data-api-proxy-api/bars/get-bars"
+                  "es/api-reference/bars/overview",
+                  "es/api-reference/bars/get-bars"
                 ]
               },
               {
@@ -756,24 +756,24 @@
               {
                 "group": "Fundamentos de la empresa",
                 "pages": [
-                  "es/api-reference/data-api-proxy-api/fundamentals/overview",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-alpha-beta",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-asset-classification",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-balance-sheet",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-cash-flow",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-company",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-company-profile",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-earnings-reports",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-financials",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-fundamentals",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-income-statement",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-share-class",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-share-class-profile",
-                  "es/api-reference/data-api-proxy-api/fundamentals/get-share-price-ratios",
-                  "es/api-reference/data-api-proxy-api/valuationratios/get-valuation-ratios",
-                  "es/api-reference/data-api-proxy-api/operationratios/get-operation-ratios",
-                  "es/api-reference/data-api-proxy-api/earningratios/get-earning-ratios",
-                  "es/api-reference/data-api-proxy-api/derivedfiguresandratios/get-derived"
+                  "es/api-reference/fundamentals/overview",
+                  "es/api-reference/fundamentals/get-alpha-beta",
+                  "es/api-reference/fundamentals/get-asset-classification",
+                  "es/api-reference/fundamentals/get-balance-sheet",
+                  "es/api-reference/fundamentals/get-cash-flow",
+                  "es/api-reference/fundamentals/get-company",
+                  "es/api-reference/fundamentals/get-company-profile",
+                  "es/api-reference/fundamentals/get-derived",
+                  "es/api-reference/fundamentals/get-earnings-reports",
+                  "es/api-reference/fundamentals/get-financials",
+                  "es/api-reference/fundamentals/get-fundamentals",
+                  "es/api-reference/fundamentals/get-income-statement",
+                  "es/api-reference/fundamentals/get-share-class",
+                  "es/api-reference/fundamentals/get-share-class-profile",
+                  "es/api-reference/fundamentals/get-share-price-ratios",
+                  "es/api-reference/valuationratios/get-valuation-ratios",
+                  "es/api-reference/operationratios/get-operation-ratios",
+                  "es/api-reference/earningratios/get-earning-ratios"
                 ]
               },
               {
@@ -797,8 +797,8 @@
               {
                 "group": "Cotizaciones en diferido",
                 "pages": [
-                  "es/api-reference/data-api-proxy-api/quotedelayed/overview",
-                  "es/api-reference/data-api-proxy-api/quotedelayed/get-delayed-quotes"
+                  "es/api-reference/quotedelayed/overview",
+                  "es/api-reference/quotedelayed/get-delayed-quotes"
                 ]
               },
               {
@@ -820,9 +820,9 @@
               {
                 "group": "Datos de mercado",
                 "pages": [
-                  "es/api-reference/data-api-proxy-api/market-data/overview",
-                  "es/api-reference/data-api-proxy-api/market-data/get-market-movers",
-                  "es/api-reference/data-api-proxy-api/market-data/get-short-interest-data"
+                  "es/api-reference/market-data/overview",
+                  "es/api-reference/market-data/get-market-movers",
+                  "es/api-reference/market-data/get-short-interest-data"
                 ]
               },
               {
@@ -1044,8 +1044,8 @@
               {
                 "group": "バー",
                 "pages": [
-                  "ja/api-reference/data-api-proxy-api/bars/overview",
-                  "ja/api-reference/data-api-proxy-api/bars/get-bars"
+                  "ja/api-reference/bars/overview",
+                  "ja/api-reference/bars/get-bars"
                 ]
               },
               {
@@ -1084,24 +1084,24 @@
               {
                 "group": "企業ファンダメンタルズ",
                 "pages": [
-                  "ja/api-reference/data-api-proxy-api/fundamentals/overview",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-alpha-beta",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-asset-classification",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-balance-sheet",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-cash-flow",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-company",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-company-profile",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-earnings-reports",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-financials",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-fundamentals",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-income-statement",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-share-class",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-share-class-profile",
-                  "ja/api-reference/data-api-proxy-api/fundamentals/get-share-price-ratios",
-                  "ja/api-reference/data-api-proxy-api/valuationratios/get-valuation-ratios",
-                  "ja/api-reference/data-api-proxy-api/operationratios/get-operation-ratios",
-                  "ja/api-reference/data-api-proxy-api/earningratios/get-earning-ratios",
-                  "ja/api-reference/data-api-proxy-api/derivedfiguresandratios/get-derived"
+                  "ja/api-reference/fundamentals/overview",
+                  "ja/api-reference/fundamentals/get-alpha-beta",
+                  "ja/api-reference/fundamentals/get-asset-classification",
+                  "ja/api-reference/fundamentals/get-balance-sheet",
+                  "ja/api-reference/fundamentals/get-cash-flow",
+                  "ja/api-reference/fundamentals/get-company",
+                  "ja/api-reference/fundamentals/get-company-profile",
+                  "ja/api-reference/fundamentals/get-derived",
+                  "ja/api-reference/fundamentals/get-earnings-reports",
+                  "ja/api-reference/fundamentals/get-financials",
+                  "ja/api-reference/fundamentals/get-fundamentals",
+                  "ja/api-reference/fundamentals/get-income-statement",
+                  "ja/api-reference/fundamentals/get-share-class",
+                  "ja/api-reference/fundamentals/get-share-class-profile",
+                  "ja/api-reference/fundamentals/get-share-price-ratios",
+                  "ja/api-reference/valuationratios/get-valuation-ratios",
+                  "ja/api-reference/operationratios/get-operation-ratios",
+                  "ja/api-reference/earningratios/get-earning-ratios"
                 ]
               },
               {
@@ -1125,8 +1125,8 @@
               {
                 "group": "遅延気配値",
                 "pages": [
-                  "ja/api-reference/data-api-proxy-api/quotedelayed/overview",
-                  "ja/api-reference/data-api-proxy-api/quotedelayed/get-delayed-quotes"
+                  "ja/api-reference/quotedelayed/overview",
+                  "ja/api-reference/quotedelayed/get-delayed-quotes"
                 ]
               },
               {
@@ -1148,9 +1148,9 @@
               {
                 "group": "市場データ",
                 "pages": [
-                  "ja/api-reference/data-api-proxy-api/market-data/overview",
-                  "ja/api-reference/data-api-proxy-api/market-data/get-market-movers",
-                  "ja/api-reference/data-api-proxy-api/market-data/get-short-interest-data"
+                  "ja/api-reference/market-data/overview",
+                  "ja/api-reference/market-data/get-market-movers",
+                  "ja/api-reference/market-data/get-short-interest-data"
                 ]
               },
               {
@@ -1372,8 +1372,8 @@
               {
                 "group": "Bar 데이터",
                 "pages": [
-                  "ko/api-reference/data-api-proxy-api/bars/overview",
-                  "ko/api-reference/data-api-proxy-api/bars/get-bars"
+                  "ko/api-reference/bars/overview",
+                  "ko/api-reference/bars/get-bars"
                 ]
               },
               {
@@ -1412,24 +1412,24 @@
               {
                 "group": "기초 재무 지표",
                 "pages": [
-                  "ko/api-reference/data-api-proxy-api/fundamentals/overview",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-alpha-beta",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-asset-classification",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-balance-sheet",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-cash-flow",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-company",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-company-profile",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-earnings-reports",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-financials",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-fundamentals",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-income-statement",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-share-class",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-share-class-profile",
-                  "ko/api-reference/data-api-proxy-api/fundamentals/get-share-price-ratios",
-                  "ko/api-reference/data-api-proxy-api/valuationratios/get-valuation-ratios",
-                  "ko/api-reference/data-api-proxy-api/operationratios/get-operation-ratios",
-                  "ko/api-reference/data-api-proxy-api/earningratios/get-earning-ratios",
-                  "ko/api-reference/data-api-proxy-api/derivedfiguresandratios/get-derived"
+                  "ko/api-reference/fundamentals/overview",
+                  "ko/api-reference/fundamentals/get-alpha-beta",
+                  "ko/api-reference/fundamentals/get-asset-classification",
+                  "ko/api-reference/fundamentals/get-balance-sheet",
+                  "ko/api-reference/fundamentals/get-cash-flow",
+                  "ko/api-reference/fundamentals/get-company",
+                  "ko/api-reference/fundamentals/get-company-profile",
+                  "ko/api-reference/fundamentals/get-derived",
+                  "ko/api-reference/fundamentals/get-earnings-reports",
+                  "ko/api-reference/fundamentals/get-financials",
+                  "ko/api-reference/fundamentals/get-fundamentals",
+                  "ko/api-reference/fundamentals/get-income-statement",
+                  "ko/api-reference/fundamentals/get-share-class",
+                  "ko/api-reference/fundamentals/get-share-class-profile",
+                  "ko/api-reference/fundamentals/get-share-price-ratios",
+                  "ko/api-reference/valuationratios/get-valuation-ratios",
+                  "ko/api-reference/operationratios/get-operation-ratios",
+                  "ko/api-reference/earningratios/get-earning-ratios"
                 ]
               },
               {
@@ -1453,8 +1453,8 @@
               {
                 "group": "지연 시세",
                 "pages": [
-                  "ko/api-reference/data-api-proxy-api/quotedelayed/overview",
-                  "ko/api-reference/data-api-proxy-api/quotedelayed/get-delayed-quotes"
+                  "ko/api-reference/quotedelayed/overview",
+                  "ko/api-reference/quotedelayed/get-delayed-quotes"
                 ]
               },
               {
@@ -1476,9 +1476,9 @@
               {
                 "group": "시장 데이터",
                 "pages": [
-                  "ko/api-reference/data-api-proxy-api/market-data/overview",
-                  "ko/api-reference/data-api-proxy-api/market-data/get-market-movers",
-                  "ko/api-reference/data-api-proxy-api/market-data/get-short-interest-data"
+                  "ko/api-reference/market-data/overview",
+                  "ko/api-reference/market-data/get-market-movers",
+                  "ko/api-reference/market-data/get-short-interest-data"
                 ]
               },
               {
