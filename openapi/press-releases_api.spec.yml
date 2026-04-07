@@ -140,12 +140,6 @@ paths:
           name: authors
           schema:
             type: string
-        - description: "One or more content types separated by a comma. Format: csv"
-          in: query
-          name: content_types
-          schema:
-            type: string
-            default: accesswire_story,accesswire_pr,businesswire_story,newswire_pressreleases,newswire_story,globenewswire_story,newsfile_story
         - description: Specify the desired format for the api response
           in: query
           name: format
