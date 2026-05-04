@@ -144,6 +144,12 @@ paths:
           name: max_width
           schema:
             type: string
+        - description: true인 경우 flutter_svg 라이브러리와의 호환성을 위해 SVG URL에
+            flutter_compatible=true 쿼리 매개변수를 추가합니다.
+          in: query
+          name: flutter_compatible
+          schema:
+            type: boolean
       responses:
         "200":
           description: data 필드에 LogoClientResponse 객체 배열을 포함하는 성공 응답
@@ -232,6 +238,3 @@ components:
         ok:
           type: boolean
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD

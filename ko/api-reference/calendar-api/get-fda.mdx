@@ -4,7 +4,7 @@ openapi: /ko/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json 응답 (200 OK)
 {
   "fda": [
     {
@@ -32,14 +32,14 @@ openapi: /ko/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
         ],
         "name": "Alpha DaRT"
       },
-      "event_type": "업데이트 제공",
+      "event_type": "Provided Update",
       "id": "695bc49183cac20001bec514",
       "nic_number": "",
       "notes": "",
-      "outcome": "Alpha Tau Medical Ltd.는 미국 식품의약국(FDA)에 사전 시판 승인(PMA) 신청의 첫 번째 모듈을 제출했다고 발표했습니다. 이는 회사가 보다 유연한 모듈식 접근 방식을 사용할 수 있도록 허용한 FDA의 이전 결정에 따른 것입니다.",
+      "outcome": "Alpha Tau Medical Ltd.는 미국 식품의약국(FDA)에 사전 시판 승인(PMA) 신청의 첫 번째 모듈을 제출했다고 발표했으며, 이는 앞서 FDA가 회사가 보다 유연한 모듈식 접근 방식을 사용할 수 있도록 허용하기로 결정한 데 따른 것입니다.",
       "outcome_brief": "",
       "source_link": "https://www.benzinga.com/pressreleases/26/01/g49690927/alpha-tau-submits-first-pre-market-approval-module-to-the-fda-for-alpha-dart-for-the-treatment-of-",
-      "source_type": "보도 자료",
+      "source_type": "Press Release",
       "status": "",
       "target_date": "",
       "time": "09:00:00",
@@ -48,19 +48,19 @@ openapi: /ko/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
   ]
 }
 ```
-```json Response (401 Unauthorized)
+```json 응답 (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "유효하지 않거나 누락된 인증 토큰입니다"
+      "value": "인증 토큰이 없거나 유효하지 않습니다"
     }
   ]
 }
 ```
-```json Response (404 Not Found)
+```json 응답 (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -72,14 +72,14 @@ openapi: /ko/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/fda
   ]
 }
 ```
-```json Response (500 Internal Server Error)
+```json 응답 (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "요청을 처리하는 중 예기치 않은 오류가 발생했습니다"
+      "value": "요청을 처리하는 동안 예기치 않은 오류가 발생했습니다"
     }
   ]
 }
