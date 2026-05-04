@@ -8,35 +8,35 @@ info:
 paths:
   /analyst/reports/raw-text:
     get:
-      description: Retrieves raw text content from professional analyst research reports.
-        Returns full-text analyst reports, research notes, and investment recommendations
-        from financial institutions. Includes report metadata, rating changes, price
-        targets, and detailed analysis. Essential for accessing institutional research
-        and analyst sentiment.
+      description: Retrieves raw text content from professional analyst research
+        reports. Returns full-text analyst reports, research notes, and
+        investment recommendations from financial institutions. Includes report
+        metadata, rating changes, price targets, and detailed analysis.
+        Essential for accessing institutional research and analyst sentiment.
       operationId: get-analyst-reports-raw-text-data
       parameters:
-        - description: 'Page number for pagination. Zero-indexed (0 = first page,
-            1 = second page, etc.). Default: 0'
+        - description: "Page number for pagination. Zero-indexed (0 = first page, 1 =
+            second page, etc.). Default: 0"
           in: query
           name: page
           schema:
             type: integer
-        - description: 'Number of results per page. Default: 100. Maximum: 100. Returns
-            most recent reports first.'
+        - description: "Number of results per page. Default: 100. Maximum: 100. Returns
+            most recent reports first."
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: Array of analyst reports with full text content and metadata
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/models.AnalystReportRawText'
+                  $ref: "#/components/schemas/models.AnalystReportRawText"
                 type: array
-        '400':
+        "400":
           description: Bad request - invalid parameters
           content:
             application/json:
@@ -44,7 +44,7 @@ paths:
                 items:
                   type: string
                 type: array
-        '500':
+        "500":
           description: Internal server error
           content:
             application/json:
@@ -67,7 +67,7 @@ components:
     models.AnalystReportRawText:
       properties:
         date:
-          example: '2024-01-09'
+          example: 2024-01-09
           type: string
         exchange:
           example: NASDAQ
@@ -86,6 +86,3 @@ components:
           example: AAPL
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
