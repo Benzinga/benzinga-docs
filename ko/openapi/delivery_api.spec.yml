@@ -120,12 +120,17 @@ paths:
           name: pdf
           schema:
             type: boolean
-        - description: true인 경우 더 깔끔하고 단순화된 출력 형식을 반환합니다.
+        - description: "true인 경우 외부 자산(예: 슬라이드 자료 PDF)에 대한 사전 서명 URL을 포함합니다"
+          in: query
+          name: assets
+          schema:
+            type: boolean
+        - description: true인 경우 더 깔끔하고 단순화된 출력 형식으로 반환합니다
           in: query
           name: clean
           schema:
             type: boolean
-        - description: "응답 형식(예: 'json' 또는 'html')입니다."
+        - description: "응답 형식(예: 'json' 또는 'html')"
           in: query
           name: format
           schema:
@@ -672,6 +677,8 @@ components:
       type: object
     domain.Calls:
       properties:
+        assets:
+          $ref: "#/components/schemas/pgtype.JSONB"
         call_id:
           example: 80753086-444f-4dcf-961d-15509ba09dc7
           type: string
@@ -742,6 +749,8 @@ components:
         year:
           example: 2023
           type: integer
+        youtube_url:
+          type: string
       type: object
     domain.Participants:
       properties:
@@ -863,7 +872,7 @@ components:
           example: Q3 2023 Earnings Call
           type: string
         cusip:
-          example: 37833100
+          example: "037833100"
           type: string
         duration:
           example: 60
@@ -957,6 +966,3 @@ components:
         - Undefined
         - "Null"
         - Present
-servers:
-  - url: https://api.benzinga.com
-    description: PROD

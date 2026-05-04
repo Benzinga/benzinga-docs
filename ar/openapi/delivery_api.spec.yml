@@ -125,12 +125,18 @@ paths:
           name: pdf
           schema:
             type: boolean
-        - description: إذا كانت القيمة true، يُرجِع مخرجات أنظف وأكثر تبسيطًا
+        - description: إذا كانت القيمة true، فستتضمن عناوين URL موقَّعة مسبقًا للموارد
+            الخارجية (مثل ملفات PDF لعروض الشرائح)
+          in: query
+          name: assets
+          schema:
+            type: boolean
+        - description: إذا كانت القيمة true، فتُرجِع تنسيق إخراج أكثر وضوحًا وبساطة
           in: query
           name: clean
           schema:
             type: boolean
-        - description: "صيغة الاستجابة (مثال: 'json' أو 'html')"
+        - description: تنسيق الاستجابة (مثل 'json' أو 'html')
           in: query
           name: format
           schema:
@@ -679,6 +685,8 @@ components:
       type: object
     domain.Calls:
       properties:
+        assets:
+          $ref: "#/components/schemas/pgtype.JSONB"
         call_id:
           example: 80753086-444f-4dcf-961d-15509ba09dc7
           type: string
@@ -749,6 +757,8 @@ components:
         year:
           example: 2023
           type: integer
+        youtube_url:
+          type: string
       type: object
     domain.Participants:
       properties:
@@ -870,7 +880,7 @@ components:
           example: Q3 2023 Earnings Call
           type: string
         cusip:
-          example: 37833100
+          example: "037833100"
           type: string
         duration:
           example: 60
@@ -964,6 +974,3 @@ components:
         - Undefined
         - "Null"
         - Present
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
