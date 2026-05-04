@@ -260,6 +260,3 @@ components:
           example: Thank you for joining us today...
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1

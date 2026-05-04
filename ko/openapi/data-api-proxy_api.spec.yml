@@ -1,18 +1,18 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: 이 REST API는 기초 재무 지표를 검색하고 해당 지표의 상세 정보를 조회할 수 있는 엔드포인트를 제공합니다.
+  description: 이 REST API는 기초 재무 지표를 검색하고 개별 기초 재무 지표의 세부 정보를 조회할 수 있는 엔드포인트를 제공합니다.
   termsOfService: http://swagger.io/terms/
   title: Data API Proxy
   version: 2.0.0
 paths:
   /api/v1/market/movers:
     get:
-      description: 지정한 필터를 기반으로 market movers 데이터를 조회합니다. 지정된 세션과 시간 범위 동안 큰 폭으로 움직인
+      description: 지정한 필터를 기준으로 market movers 데이터를 조회합니다. 지정한 세션과 시간 범위 동안 큰 폭으로 변동한
         종목을 반환합니다. 고급 필터링을 위해 사용자 정의 스크리너 및 movers 쿼리를 지원합니다.
       operationId: get-movers
       parameters:
-        - description: 반환할 결과의 최대 개수입니다. 응답의 크기를 결정합니다.
+        - description: 반환할 결과의 최대 개수입니다. 응답 크기를 제어합니다.
           in: query
           name: maxResults
           schema:
@@ -27,25 +27,24 @@ paths:
           name: to
           schema:
             type: string
-        - description: "상승/하락 종목(movers)을 필터링하는 데 사용되는 거래 세션입니다. 예: PRE_MARKET, REGULAR,
-            AFTER_MARKET"
+        - description: "급등락 종목을 필터링할 거래 세션입니다. 예: PRE_MARKET, REGULAR, AFTER_MARKET"
           in: query
           name: session
           schema:
             type: string
-        - description: 특정 기준에 따라 종목을 필터링하기 위한 사용자 정의 스크리너 쿼리 문자열
+        - description: 특정 기준에 따라 증권을 필터링하기 위한 사용자 지정 스크리너 쿼리 문자열
           in: query
           name: screenerQuery
           schema:
             type: string
-        - description: 특정 움직임 패턴이나 임계값을 정의하는 데 사용하는 맞춤형 movers 쿼리 string
+        - description: 특정 변동 패턴이나 임계값을 정의하기 위한 Custom Movers용 쿼리 string
           in: query
           name: moversQuery
           schema:
             type: string
       responses:
         "200":
-          description: 시장 변동 주도 종목 데이터
+          description: 시장의 주요 변동종목 데이터
           content:
             application/json:
               schema:
@@ -64,34 +63,33 @@ paths:
                 type: object
       security:
         - ApiKeyAuth: []
-      summary: 시장 급등·급락 종목
+      summary: 시장 주도주
       tags:
         - Market Data
   /api/v1/quoteDelayed:
     get:
-      description: 심볼, 국제증권식별번호(ISIN), CIK 목록에 대한 지연 시세를 가져옵니다
+      description: 심볼, 국제증권식별번호(ISIN) 또는 CIK 목록의 지연 시세를 가져옵니다
       operationId: get-quote-delayed-v1
       parameters:
-        - description: 콤마(,)로 구분된 주식 티커 심볼 목록입니다. symbols, isin, cik 중 하나 이상은 반드시 지정해야 합니다.
+        - description: 쉼표로 구분된 주식 티커 목록입니다. symbols, isin 또는 cik 중에서 최소 하나는 필수입니다.
           in: query
           name: symbols
           schema:
             type: string
-        - description: 국제증권식별번호(ISIN) 식별자의 쉼표로 구분된 목록입니다. 최대 50개까지 지정할 수 있습니다. symbols,
-            isin, cik 중 하나 이상은 필수입니다.
+        - description: 국제증권식별번호(ISIN)들의 쉼표로 구분된 목록입니다. 최대 50개까지 가능합니다. symbols, isin, cik
+            중에서 하나 이상은 반드시 지정해야 합니다.
           in: query
           name: isin
           schema:
             type: string
-        - description: 콤마로 구분된 CIK 식별자 목록입니다. symbols(심볼), isin(국제증권식별번호(ISIN)), cik 중 최소
-            하나는 반드시 지정해야 합니다.
+        - description: 쉼표로 구분된 CIK 식별자 목록입니다. symbols, isin, cik 중 하나 이상은 반드시 지정해야 합니다.
           in: query
           name: cik
           schema:
             type: string
       responses:
         "200":
-          description: 지연된 시세가 포함된 JSON 객체를 반환합니다
+          description: 지연된 시세 정보가 들어 있는 JSON 객체를 반환합니다
           content:
             application/json:
               schema:
@@ -110,37 +108,37 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: V1 지연 시세 가져오기
+      summary: 지연 시세 V1 가져오기
       tags:
         - QuoteDelayed
   /api/v1/shortinterest:
     get:
-      description: 지정한 종목의 공매도 데이터를 조회합니다. 공매도 주식 수, 상환 소요 일수(days to cover), 공매도 비율
-        정보를 포함합니다. 선택적 FINRA 보고서 데이터와 날짜 범위 필터링을 지원합니다.
+      description: 지정한 종목의 공매도 데이터를 조회합니다. 공매도된 주식 수, 청산까지 필요한 일수(days to cover), 공매도
+        비율 등의 정보를 포함합니다. 선택적으로 FINRA 보고서 데이터와 날짜 범위 필터를 지원합니다.
       operationId: get-short-interest
       parameters:
-        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL, MSFT, TSLA). 필수 값입니다."
+        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL, MSFT, TSLA). 필수 항목입니다."
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "FINRA 공매도 잔고 보고서 데이터를 포함할지 여부. 기본값: false"
+        - description: "FINRA 공매도 잔고 보고서 데이터를 포함할지 여부입니다. 기본값: false"
           in: query
           name: finraReport
           schema:
             type: boolean
-        - description: 페이지네이션에 사용되는 페이지 번호입니다. pageSize 매개변수와 함께 사용합니다.
+        - description: 페이지네이션 시 사용할 페이지 번호입니다. pageSize 매개변수와 함께 사용합니다.
           in: query
           name: page
           schema:
             type: integer
-        - description: 페이지당 반환되는 결과 수입니다. 기본값은 엔드포인트 구성에 따라 달라집니다.
+        - description: 페이지당 결과 수입니다. 기본값은 엔드포인트 구성에 따라 달라집니다.
           in: query
           name: pageSize
           schema:
             type: integer
-        - description: "공매도 잔고 데이터의 시작일. 형식: YYYY-MM-DD"
+        - description: "공매도 잔고 데이터의 시작일입니다. 형식: YYYY-MM-DD"
           in: query
           name: from
           schema:
@@ -152,19 +150,19 @@ paths:
             type: string
       responses:
         "200":
-          description: 요청한 심볼의 공매도 잔고 데이터
+          description: 요청한 심볼의 공매도 잔량 데이터
           content:
             application/json:
               schema:
                 type: object
         "400":
-          description: 잘못된 요청 - symbols 매개변수가 없거나 유효하지 않습니다
+          description: 잘못된 요청 - symbols 매개변수가 누락되었거나 유효하지 않습니다
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/bzhttp.Resp"
         "500":
-          description: 내부 서버 오류
+          description: 서버 내부 오류
           content:
             application/json:
               schema:
@@ -176,42 +174,42 @@ paths:
         - Market Data
   /api/v2.1/fundamentals:
     get:
-      description: 지정된 종목에 대한 강화된 기초 재무 지표 데이터를 조회합니다. 이는 추가 데이터 필드와 향상된 성능을 제공하는 v2
-        엔드포인트의 개선 버전입니다. 업데이트된 데이터 소스에서 종합적인 재무 지표, 재무 비율 및 기업 정보를 반환합니다.
+      description: 지정한 종목에 대한 고도화된 기초 재무 지표 데이터를 조회합니다. 이는 추가 데이터 필드와 향상된 성능을 제공하는 v2
+        엔드포인트의 개선 버전입니다. 업데이트된 데이터 소스를 기반으로 포괄적인 재무 지표, 비율, 기업 정보를 반환합니다.
       operationId: get-fundamentals-v21
       parameters:
-        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL,MSFT,GOOGL). 필수 항목입니다."
+        - description: "쉼표로 구분된 주식 티커 심볼 목록(예: AAPL,MSFT,GOOGL). 필수 항목입니다."
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "이 날짜와 같거나 이후인 날짜의 결과만 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
+        - description: "이 날짜와 같거나 이후인 날짜의 결과만 포함합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
           in: query
           name: asOf
           schema:
             type: string
-        - description: "재무 보고 기간을 위한 기간 필터입니다. 사용 가능한 값: Q1(1분기), Q2(2분기), Q3(3분기),
-            Q4(4분기), FY(회계연도), TTM(직전 12개월)"
+        - description: "재무 보고 기간을 위한 필터입니다. 지원되는 값: Q1(1분기), Q2(2분기), Q3(3분기), Q4(4분기),
+            FY(회계연도), TTM(최근 12개월)"
           in: query
           name: period
           schema:
             type: string
-        - description: "가져올 재무 보고서 유형입니다. 지원되는 값: TTM(최근 12개월), A(최초 공시 기준), R(정정 공시 기준),
-            P(잠정 실적 공시 기준)"
+        - description: "가져올 재무 보고서 유형입니다. 지원되는 값은 다음과 같습니다: TTM(최근 12개월), A(최초 보고 기준),
+            R(수정·정정된 값), P(잠정 실적 발표)"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: 추가 지표와 비율이 포함된 확장형 기초 재무 지표 데이터
+          description: 추가 지표와 재무 비율이 포함된 향상된 기초 재무 지표 데이터
           content:
             application/json:
               schema:
                 type: object
         "400":
-          description: 잘못된 요청 - 심볼(symbols) 매개변수가 누락되었거나 유효하지 않습니다
+          description: 잘못된 요청 - symbols 매개변수가 누락되었거나 유효하지 않습니다
           content:
             application/json:
               schema:
@@ -229,10 +227,10 @@ paths:
         - Fundamentals
   /api/v2.1/fundamentals/alphaBeta:
     get:
-      description: 지정한 심볼에 대한 Alpha 및 Beta 지표를 조회합니다. 해당 지표는 시장 대비 변동성과 성과를 나타냅니다.
+      description: 지정된 심볼에 대한 알파 및 베타 지표를 조회합니다. 이 지표는 시장 대비 변동성과 성과를 나타냅니다.
       operationId: get-alpha-beta-v21
       parameters:
-        - description: "심볼을 쉼표로 구분한 목록 (예: AAPL, MSFT)"
+        - description: "쉼표로 구분된 심볼 목록(예: AAPL, MSFT)"
           in: query
           name: symbols
           required: true
@@ -243,19 +241,19 @@ paths:
           name: asOf
           schema:
             type: string
-        - description: "반환 결과의 기간을 지정합니다(예: Q1, 2023)"
+        - description: "반환 결과의 기간을 지정합니다(예: Q1, 2023)."
           in: query
           name: period
           schema:
             type: string
-        - description: "Report type: TTM (직전 12개월), A (당초 공시 기준), R (정정 공시 기준), P (잠정치)"
+        - description: "보고서 유형: TTM(직전 12개월), A(원래 공시 기준), R(재작성), P(잠정치)"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: Alpha Beta 데이터
+          description: 알파·베타 데이터
           content:
             application/json:
               schema:
@@ -274,32 +272,33 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: Alpha Beta v2.1 가져오기
+      summary: Alpha Beta V2.1 가져오기
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/assetClassification:
     get:
-      description: 지정한 심볼에 대한 자산 분류 세부 정보를 조회합니다. 섹터, 업종 및 기타 분류 메타데이터를 포함합니다. 포트폴리오
-        분류 및 분석에 유용합니다.
+      description: 섹터, 업종 및 기타 분류 메타데이터를 포함해 지정한 심볼에 대한 자산 분류 정보를 조회합니다. 포트폴리오 분류 및
+        분석에 활용할 수 있습니다.
       operationId: get-asset-classification-v21
       parameters:
-        - description: "쉼표로 구분된 심볼 목록 (예: AAPL, MSFT)"
+        - description: "심볼들의 쉼표로 구분된 목록 (예: AAPL, MSFT)"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: 이 파라미터에 지정된 날짜(YYYY-MM-DD)와 같거나 이후 날짜의 결과를 반환합니다.
+        - description: 이 매개변수에 지정한 날짜(YYYY-MM-DD)와 같거나 이후 날짜의 결과를 반환합니다
           in: query
           name: asOf
           schema:
             type: string
-        - description: "반환 결과의 기간을 지정합니다(예: Q1, 2023)."
+        - description: "반환되는 결과의 기간을 지정합니다(예: Q1, 2023)"
           in: query
           name: period
           schema:
             type: string
-        - description: "보고 유형: TTM (최근 12개월), A (원보고 기준), R (수정 재작성), P (잠정치)"
+        - description: "보고서 유형: TTM (직전 12개월, Trailing Twelve Months), A (최초 보고 기준, As
+            originally reported), R (정정 보고, Restated), P (잠정치, Preliminary)"
           in: query
           name: reportType
           schema:
@@ -330,29 +329,29 @@ paths:
         - Fundamentals
   /api/v2.1/fundamentals/company:
     get:
-      description: 핵심 지표, 운영 통계, 과거 재무 실적을 포함한 기업별 상세 재무 데이터를 조회합니다. 기본적인 기초 재무 지표를
-        넘어서는 기업 재무 전반에 대한 종합적인 뷰를 제공합니다.
+      description: 주요 지표, 운영 통계, 과거 재무 실적을 포함한 기업별 상세 재무 데이터를 조회합니다. 단순한 기초 재무 지표를 넘어
+        기업의 재무 상태를 포괄적으로 보여 줍니다.
       operationId: get-company-v21
       parameters:
-        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL, MSFT, GOOGL). 필수입니다."
+        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL,MSFT,GOOGL). 필수입니다."
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "이 날짜와 같거나 이후인 날짜만 포함하도록 결과를 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
+        - description: "이 날짜와 같거나 이후 날짜로 결과를 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
           in: query
           name: asOf
           schema:
             type: string
-        - description: "재무 보고 기간을 위한 기간 필터입니다. 허용되는 값: Q1, Q2, Q3, Q4(분기), FY(회계연도),
-            TTM(최근 12개월)"
+        - description: "재무 보고 기간 필터입니다. 지원되는 값: Q1, Q2, Q3, Q4 (분기), FY (회계연도), TTM (최근
+            12개월)"
           in: query
           name: period
           schema:
             type: string
-        - description: "재무 보고서의 유형입니다. 지원되는 값: TTM (최근 12개월), A (원래 보고 기준), R (정정된 값), P
-            (잠정치)"
+        - description: "재무보고서 유형입니다. 지원되는 값은 다음과 같습니다: TTM(직전 12개월), A(최초 보고 기준), R(수정 보고
+            기준), P(잠정 실적 공시)"
           in: query
           name: reportType
           schema:
@@ -360,162 +359,6 @@ paths:
       responses:
         "200":
           description: 기업 재무 데이터
-          content:
-            application/json:
-              schema:
-                type: object
-        "400":
-          description: 잘못된 요청 - 심볼 매개변수가 누락되었거나 유효하지 않습니다
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
-          description: 내부 서버 오류
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-      security:
-        - ApiKeyAuth: []
-      summary: 기업 재무 데이터 v2.1
-      tags:
-        - Fundamentals
-  /api/v2.1/fundamentals/companyProfile:
-    get:
-      description: 사업 내용, 업종 분류, 섹터 세부 정보, 본사 위치, 주요 경영진 및 기타 기업 메타데이터를 포함한 포괄적인 기업
-        프로필 정보를 조회합니다. 기업의 배경과 조직 구조를 이해하는 데 필수적입니다.
-      operationId: get-company-profile-v21
-      parameters:
-        - description: "주식 티커 심볼의 쉼표(,)로 구분된 목록입니다(예: AAPL,MSFT,GOOGL). 필수 항목입니다."
-          in: query
-          name: symbols
-          required: true
-          schema:
-            type: string
-        - description: "이 날짜와 같거나 이후인 날짜의 결과만 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
-          in: query
-          name: asOf
-          schema:
-            type: string
-        - description: "재무 보고 기간 필터입니다. 지원되는 값: Q1, Q2, Q3, Q4 (분기), FY (회계연도), TTM (지난
-            12개월)"
-          in: query
-          name: period
-          schema:
-            type: string
-        - description: "재무 보고서 유형입니다. 지원되는 값: TTM(최근 12개월), A(최초 보고 기준), R(재작성 기준), P(잠정
-            공시)"
-          in: query
-          name: reportType
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 기업 프로필 데이터
-          content:
-            application/json:
-              schema:
-                type: object
-        "400":
-          description: 잘못된 요청 - 심볼 매개변수가 누락되었거나 유효하지 않습니다
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
-          description: 내부 서버 오류
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-      security:
-        - ApiKeyAuth: []
-      summary: 기업 프로필 정보 v2.1
-      tags:
-        - Fundamentals
-  /api/v2.1/fundamentals/earningRatios:
-    get:
-      description: 심볼 목록에 대한 이익 관련 비율을 조회합니다. P/E 비율, 주당순이익(EPS) 및 기타 실적 관련 비율 지표가 포함됩니다.
-      operationId: get-earning-ratios-v21
-      parameters:
-        - description: "쉼표로 구분된 심볼 목록 (예: AAPL, MSFT)"
-          in: query
-          name: symbols
-          required: true
-          schema:
-            type: string
-        - description: 이 매개변수에 지정한 날짜(YYYY-MM-DD)와 같거나 이후 날짜의 결과를 반환합니다
-          in: query
-          name: asOf
-          schema:
-            type: string
-        - description: "반환되는 결과의 기간을 지정합니다(예: Q1, 2023)."
-          in: query
-          name: period
-          schema:
-            type: string
-        - description: "보고서 유형: TTM(최근 12개월), A(최초 보고 기준), R(재작성 기준), P(잠정치)"
-          in: query
-          name: reportType
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 수익성 비율 데이터
-          content:
-            application/json:
-              schema:
-                type: string
-        "400":
-          description: 잘못된 요청
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
-          description: 내부 서버 오류
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-      security:
-        - ApiKeyAuth: []
-      summary: 수익 비율 v2.1 가져오기
-      tags:
-        - Fundamentals
-  /api/v2.1/fundamentals/earningReports:
-    get:
-      description: 지정한 종목에 대해 분기 및 연간 보고서에서 매출, 주당순이익(EPS), EBITDA, 순이익 및 기타 핵심 재무 지표를
-        포함한 상세 실적 보고를 조회합니다. 기업의 재무 성과와 실적 추세를 시간에 따라 분석하는 데 필수적입니다.
-      operationId: get-earnings-reports-v21
-      parameters:
-        - description: "주식 티커 심볼을 콤마(,)로 구분한 목록입니다(예: AAPL,MSFT,GOOGL). 필수 값입니다."
-          in: query
-          name: symbols
-          required: true
-          schema:
-            type: string
-        - description: "이 날짜와 같거나 이후 날짜의 결과를 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
-          in: query
-          name: asOf
-          schema:
-            type: string
-        - description: "재무 보고 기간을 위한 기간 필터입니다. 지원되는 값: Q1, Q2, Q3, Q4 (분기), FY (회계연도), TTM
-            (최근 12개월)"
-          in: query
-          name: period
-          schema:
-            type: string
-        - description: "재무 보고서 유형입니다. 지원되는 값: TTM(최근 12개월 누적), A(최초 공시 기준), R(정정된 값), P(잠정
-            공시)"
-          in: query
-          name: reportType
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 실적 보고 데이터
           content:
             application/json:
               schema:
@@ -534,12 +377,168 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
+      summary: 기업 재무 데이터 v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/companyProfile:
+    get:
+      description: 사업 내용, 업종 분류, 섹터 정보, 본사 위치, 주요 임원, 기타 기업 메타데이터를 포함한 포괄적인 기업 프로필 정보를
+        조회합니다. 기업의 배경과 조직 구조를 파악하는 데 필수적입니다.
+      operationId: get-company-profile-v21
+      parameters:
+        - description: "쉼표(,)로 구분된 주식 티커 심볼 목록입니다(예: AAPL,MSFT,GOOGL). 필수입니다."
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "이 날짜와 같거나 이후 날짜의 결과만 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "재무 보고 기간을 위한 기간 필터입니다. 지원되는 값은 다음과 같습니다: Q1, Q2, Q3, Q4(분기),
+            FY(회계연도), TTM(직전 12개월)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "재무보고 유형입니다. 지원되는 값은 다음과 같습니다: TTM(최근 12개월), A(최초 공시 기준), R(정정 후
+            값), P(잠정 공시)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 기업 프로필 데이터
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: 잘못된 요청 - symbols 파라미터가 누락되었거나 유효하지 않습니다
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 기업 프로필 정보 v2.1
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/earningRatios:
+    get:
+      description: 심볼 목록에 대한 실적 비율을 조회합니다. 여기에는 주가수익비율(PER), 주당순이익(EPS), 기타 실적 관련 비율이 포함됩니다.
+      operationId: get-earning-ratios-v21
+      parameters:
+        - description: "쉼표로 구분된 심볼 목록 (예: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 이 매개변수에 지정된 날짜(YYYY-MM-DD)보다 크거나 같은 날짜의 결과만 반환합니다.
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "반환되는 결과의 기간을 지정합니다 (예: Q1 2023)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "보고서 유형: TTM(직전 12개월), A(당초 보고 기준), R(재작성), P(잠정치)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 수익성 지표 데이터
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 이익 비율 v2.1 가져오기
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/earningReports:
+    get:
+      description: 지정한 종목에 대해 분기 및 연간 보고서에 포함된 매출, 주당순이익(EPS), EBITDA, 순이익 및 기타 핵심 재무
+        지표를 포함한 상세한 실적 보고서를 조회합니다. 기업의 재무 성과와 실적 추이를 시간 경과에 따라 분석하는 데 필수적입니다.
+      operationId: get-earnings-reports-v21
+      parameters:
+        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL, MSFT, GOOGL). 필수 값입니다."
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: "이 날짜와 같거나 이후 날짜의 결과만 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "재무 보고 기간을 위한 기간 필터입니다. 지원되는 값은 다음과 같습니다: Q1, Q2, Q3, Q4 (분기), FY
+            (회계연도), TTM (최근 12개월)"
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "재무 보고서의 유형입니다. 지원되는 값은 다음과 같습니다: TTM(최근 12개월), A(최초 공시 기준),
+            R(정정(수정) 값 기준), P(잠정 공시 기준)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 실적 보고서 데이터
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: 잘못된 요청 - 'symbols' 매개변수가 없거나 유효하지 않습니다
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
       summary: 분기 및 연간 실적 보고서 V2.1
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/financials:
     get:
-      description: 지정된 심볼의 재무제표를 조회합니다. 대차대조표, 손익계산서, 현금흐름표 데이터가 포함됩니다.
+      description: 지정한 심볼의 재무제표를 조회합니다. 재무상태표, 손익계산서 및 현금흐름표 데이터를 포함합니다.
       parameters:
         - description: "쉼표로 구분된 심볼 목록(예: AAPL, MSFT)"
           in: query
@@ -557,7 +556,7 @@ paths:
           name: period
           schema:
             type: string
-        - description: "보고서 유형: TTM(직전 12개월), A(최초 공시 기준), R(재작성), P(잠정)"
+        - description: "보고서 유형: TTM(최근 12개월), A(당초 공시 기준), R(수정 보고), P(잠정치)"
           in: query
           name: reportType
           schema:
@@ -585,38 +584,38 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 재무제표 v2.1 조회
+      summary: Financials v2.1 가져오기
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/operationRatios:
     get:
-      description: 심볼 목록에 대한 영업 관련 재무 비율을 조회합니다. 영업이익률, 순이익률, ROA, ROE 등의 지표를 포함합니다.
+      description: 심볼 목록에 대한 영업 관련 비율 지표를 조회합니다. 영업이익률, 순이익률, ROA, ROE 등의 지표가 포함됩니다.
       operationId: get-operation-ratios-v21
       parameters:
-        - description: "쉼표로 구분된 심볼 목록(예: AAPL, MSFT)"
+        - description: "쉼표로 구분된 심볼 목록 (예: AAPL, MSFT)"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: 이 매개변수에 지정된 날짜(YYYY-MM-DD)와 같거나 이후 날짜에 대한 결과를 반환합니다
+        - description: 이 매개변수에 지정한 날짜(YYYY-MM-DD)와 같거나 이후인 날짜의 결과를 반환합니다.
           in: query
           name: asOf
           schema:
             type: string
-        - description: "반환 결과가 포함하는 기간을 지정합니다(예: Q1, 2023)."
+        - description: "반환 결과의 기간을 지정합니다(예: Q1, 2023)."
           in: query
           name: period
           schema:
             type: string
-        - description: "보고서 유형: TTM (직전 12개월), A (최초 공시 기준), R (정정·재작성), P (잠정)"
+        - description: "보고서 유형: TTM(최근 12개월), A(최초 공시 기준), R(정정 공시 기준), P(잠정치)"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: 운영 비율 지표 데이터
+          description: 운영비율 데이터
           content:
             application/json:
               schema:
@@ -635,38 +634,38 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 운영 비율 v2.1 가져오기
+      summary: Operation Ratios V2.1 가져오기
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/shareClass:
     get:
-      description: 특정 심볼의 주식 종류 정보를 조회합니다. 주식 종류 ID, 통화, 기타 관련 메타데이터가 포함된 상세한 주식 구조
-        데이터를 반환합니다.
+      description: 특정 심볼에 대한 주식 클래스 정보를 조회합니다. 주식 클래스 ID, 통화 및 기타 관련 메타데이터를 포함한 상세한 지분
+        구조 데이터를 반환합니다.
       parameters:
-        - description: "쉼표로 구분된 심볼 목록(예: AAPL, MSFT)"
+        - description: "쉼표로 구분된 심볼 목록 (예: AAPL, MSFT)"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: 이 매개변수에 지정된 날짜(YYYY-MM-DD)와 같거나 이후 날짜의 결과만 반환합니다.
+        - description: 이 매개변수에 지정한 날짜(YYYY-MM-DD)와 같거나 이후 날짜의 결과를 반환합니다.
           in: query
           name: asOf
           schema:
             type: string
-        - description: 반환 결과의 기간을 지정합니다(Q1, 2023 등).
+        - description: "반환되는 결과의 기간을 지정합니다(예: Q1, 2023)"
           in: query
           name: period
           schema:
             type: string
-        - description: "보고서 유형: TTM(최근 12개월), A(원래 공시 기준), R(정정 공시), P(잠정치)"
+        - description: "보고서 유형: TTM(최근 12개월), A(최초 공시 기준), R(정정/재작성), P(잠정치)"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: 주식 클래스 데이터
+          description: 주식 종류 데이터
           content:
             application/json:
               schema:
@@ -685,12 +684,12 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: Share Class V2.1 가져오기
+      summary: Share Class v2.1 가져오기
       tags:
         - Fundamentals
   /api/v2.1/fundamentals/shareClassProfile:
     get:
-      description: 주식 클래스의 특성과 관련 메타데이터에 대한 세부 프로필 정보를 조회합니다.
+      description: 주식 종류의 특성과 관련 메타데이터에 대한 세부 정보를 포함하는 주식 종류 프로필 정보를 조회합니다.
       parameters:
         - description: "쉼표로 구분된 심볼 목록 (예: AAPL, MSFT)"
           in: query
@@ -698,58 +697,7 @@ paths:
           required: true
           schema:
             type: string
-        - description: 이 매개변수에 지정된 날짜(YYYY-MM-DD)와 같거나 이후 날짜의 결과만 반환합니다.
-          in: query
-          name: asOf
-          schema:
-            type: string
-        - description: "반환되는 결과의 기간을 지정합니다(예: Q1 2023)"
-          in: query
-          name: period
-          schema:
-            type: string
-        - description: "보고서 유형: TTM(최근 12개월), A(최초 공시 기준), R(재작성/정정), P(잠정치)"
-          in: query
-          name: reportType
-          schema:
-            type: string
-      responses:
-        "200":
-          description: 주식 클래스 프로필 데이터
-          content:
-            application/json:
-              schema:
-                type: string
-        "400":
-          description: 잘못된 요청
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-        "500":
-          description: 내부 서버 오류
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/bzhttp.Resp"
-      security:
-        - ApiKeyAuth: []
-      summary: v2.1 주식 종류 프로필 가져오기
-      tags:
-        - Fundamentals
-  /api/v2.1/fundamentals/valuationRatios:
-    get:
-      description: 심볼 목록에 대한 밸류에이션 비율을 조회합니다. P/E, P/B, P/S와 같은 지표를 비롯해 투자 분석에 필수적인 기타
-        밸류에이션 지표를 포함합니다.
-      operationId: get-valuation-ratios-v21
-      parameters:
-        - description: "쉼표로 구분된 심볼 목록 (예: AAPL, MSFT)"
-          in: query
-          name: symbols
-          required: true
-          schema:
-            type: string
-        - description: 이 매개변수에 지정한 날짜(YYYY-MM-DD)와 그 이후 날짜의 결과를 반환합니다.
+        - description: 이 매개변수에 지정한 날짜(YYYY-MM-DD)와 같거나 이후 날짜의 결과를 반환합니다.
           in: query
           name: asOf
           schema:
@@ -759,7 +707,58 @@ paths:
           name: period
           schema:
             type: string
-        - description: "보고 유형: TTM(직전 12개월), A(최초 공시 기준), R(정정·재작성), P(잠정치)"
+        - description: "Report type: TTM (최근 12개월), A (최초 보고 기준), R (정정 보고), P (잠정치)"
+          in: query
+          name: reportType
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 주식 종류별 프로필 데이터
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+        "500":
+          description: 내부 서버 오류
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/bzhttp.Resp"
+      security:
+        - ApiKeyAuth: []
+      summary: 주식 클래스 프로필 v2.1 가져오기
+      tags:
+        - Fundamentals
+  /api/v2.1/fundamentals/valuationRatios:
+    get:
+      description: 심볼 목록에 대한 밸류에이션 비율을 조회합니다. P/E, P/B, P/S 등을 비롯해 투자 분석에 필수적인 기타
+        밸류에이션 지표를 포함합니다.
+      operationId: get-valuation-ratios-v21
+      parameters:
+        - description: "쉼표(,)로 구분된 심볼 목록 (예: AAPL, MSFT)"
+          in: query
+          name: symbols
+          required: true
+          schema:
+            type: string
+        - description: 이 매개변수에 지정한 날짜(YYYY-MM-DD) 이상인 날짜의 결과를 반환합니다.
+          in: query
+          name: asOf
+          schema:
+            type: string
+        - description: "반환되는 결과의 기간을 지정합니다 (예: Q1 2023)."
+          in: query
+          name: period
+          schema:
+            type: string
+        - description: "보고서 유형: TTM (최근 12개월), A (최초 공시 기준), R (재작성(정정) 기준), P (잠정치)"
           in: query
           name: reportType
           schema:
@@ -785,49 +784,49 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 가치평가 비율 V2.1 가져오기
+      summary: v2.1 가치평가 비율 가져오기
       tags:
         - Fundamentals
   /api/v2/bars:
     get:
-      description: 지정된 종목에 대한 과거 OHLCV(시가, 고가, 저가, 종가, 거래량) 가격 바 데이터를 조회합니다. 지정한 간격에
-        따라 집계된 가격 데이터를 반환합니다. 복수 티커 심볼과 상대 날짜를 포함한 다양한 기간을 지원합니다.
+      description: 지정한 종목에 대한 과거 OHLCV (시가, 고가, 저가, 종가, 거래량) 가격 바 데이터를 조회합니다. 지정한 간격에
+        따라 집계된 가격 데이터를 반환합니다. 여러 티커와 상대 날짜를 포함한 다양한 기간 지정 방식을 지원합니다.
       operationId: get-bars-v2
       parameters:
-        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL, MSFT, TSLA). 필수 값입니다."
+        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL, MSFT, TSLA). 필수."
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: 바의 시작 날짜/시간입니다. 형식은 YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS, YTD(연초 이후), 또는
-            1MONTH/1m/1M, 1WEEK/1w/1W, 1DAY/1d/1D 같은 상대값입니다. 필수 항목입니다.
+        - description: "봉의 시작 날짜/시간입니다. 형식: YYYY-MM-DD, YYYY-MM-DDTHH:MM:SS, YTD(연초 이후),
+            또는 1MONTH/1m/1M, 1WEEK/1w/1W, 1DAY/1d/1D와 같은 상대 기간 값입니다. 필수 항목입니다."
           in: query
           name: from
           required: true
           schema:
             type: string
-        - description: "바 데이터의 종료 일시입니다. 형식: YYYY-MM-DD 또는 YYYY-MM-DDTHH:MM:SS. 지정하지 않으면
-            현재 일시가 사용됩니다."
+        - description: 봉의 종료 일시입니다. 형식은 YYYY-MM-DD 또는 YYYY-MM-DDTHH:MM:SS입니다. 지정하지 않으면 현재
+            일시가 기본값으로 사용됩니다.
           in: query
           name: to
           schema:
             type: string
-        - description: "가격 바를 집계할 때 사용할 시간 구간입니다. 지원되는 값: 1m (1분), 5m (5분), 15m (15분), 30m
-            (30분), 1h (1시간), 1d (1일), 1w (1주), 1M (1개월). 기본값: 1d"
+        - description: "가격 바를 집계하기 위한 시간 버킷 간격입니다. 지원되는 값: 1m (1분), 5m (5분), 15m (15분),
+            30m (30분), 1h (1시간), 1d (1일), 1w (1주), 1M (1개월). 기본값: 1d"
           in: query
           name: interval
           schema:
             type: string
-        - description: "거래 세션 필터입니다. 지원되는 값: ANY(모든 세션), PRE_MARKET(개장 전 거래), REGULAR(정규장
-            거래), AFTER_MARKET(시간외 거래). 기본값: ANY"
+        - description: "거래 세션 필터입니다. 지원되는 값: ANY (모든 세션), PRE_MARKET (프리마켓 거래), REGULAR
+            (정규장 거래), AFTER_MARKET (애프터마켓 거래). 기본값: ANY"
           in: query
           name: session
           schema:
             type: string
       responses:
         "200":
-          description: 각 심볼별 OHLCV 바가 포함된 차트 데이터 배열
+          description: 각 심볼별 OHLCV 바 차트 데이터 배열
           content:
             application/json:
               schema:
@@ -835,7 +834,7 @@ paths:
                   $ref: "#/components/schemas/httpapi.Chart"
                 type: array
         "400":
-          description: 잘못된 요청 - 필수 매개변수가 누락되었거나 유효하지 않습니다
+          description: 잘못된 요청 - 필수 매개변수가 누락되었거나 잘못되었습니다
           content:
             application/json:
               schema:
@@ -848,48 +847,47 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 과거 시세 바
+      summary: 과거 가격 바
       tags:
         - Market Data
   /api/v2/fundamentals:
     get:
-      description: 지정한 종목에 대한 포괄적인 기초 재무 지표 데이터를 조회합니다. Morningstar 데이터 소스에서 제공하는 주요
-        재무 지표, 재무 비율, 기업 정보를 반환합니다. 이 엔드포인트를 사용하여 손익계산서, 대차대조표, 현금흐름표 데이터를 조회할 수
-        있습니다.
+      description: 지정된 종목에 대한 포괄적인 기초 재무 지표 데이터를 조회합니다. Morningstar 데이터 소스에서 주요 재무 지표,
+        재무 비율, 기업 정보를 반환합니다. 손익계산서, 대차대조표, 현금흐름표 데이터를 조회할 때 이 엔드포인트를 사용하십시오.
       operationId: get-fundamentals-v2
       parameters:
-        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL,MSFT,GOOGL). 필수입니다."
+        - description: "주식 티커 심볼을 쉼표로 구분한 목록입니다(예: AAPL,MSFT,GOOGL). 필수입니다."
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "이 날짜를 포함한 이후 날짜의 결과만 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
+        - description: "이 날짜와 같거나 이후인 날짜에 대한 결과만 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
           in: query
           name: asOf
           schema:
             type: string
-        - description: "재무 보고 기간을 위한 기간 필터입니다. 지원되는 값은 다음과 같습니다: Q1(1분기), Q2(2분기),
-            Q3(3분기), Q4(4분기), FY(회계연도), TTM(최근 12개월)"
+        - description: "재무 보고 기간에 대한 필터입니다. 지원되는 값: Q1(1분기), Q2(2분기), Q3(3분기), Q4(4분기),
+            FY(회계연도), TTM(최근 12개월)"
           in: query
           name: period
           schema:
             type: string
-        - description: "조회할 재무제표 유형입니다. 지원되는 값: TTM(최근 12개월), A(최초 보고 기준), R(재작성 기준), P(잠정
-            공시)"
+        - description: "가져올 재무보고서 유형입니다. 지원되는 값: TTM(최근 12개월), A(최초 보고 기준), R(정정 반영 값),
+            P(잠정 공시)"
           in: query
           name: reportType
           schema:
             type: string
       responses:
         "200":
-          description: 재무제표 및 각종 지표를 포함하는 기초 재무 지표 데이터
+          description: 재무제표와 각종 재무 지표를 포함한 기초 재무 지표 데이터
           content:
             application/json:
               schema:
                 type: object
         "400":
-          description: 잘못된 요청 - 심볼(symbols) 매개변수가 없거나 유효하지 않습니다
+          description: 잘못된 요청 - symbols 파라미터가 누락되었거나 유효하지 않습니다
           content:
             application/json:
               schema:
@@ -907,30 +905,29 @@ paths:
         - Fundamentals
   /api/v2/fundamentals/operationRatios:
     get:
-      description: 지정한 종목에 대한 운영 효율성 관련 비율과 지표를 조회합니다. 자산 회전율, 재고 회전율, 매출채권 회전율, 매입채무
-        기간 등 회사가 자산을 얼마나 효율적으로 활용하고 영업 활동을 관리하는지를 측정하는 핵심 성과 지표와 기타 운영 지표를
-        포함합니다.
+      description: 지정된 증권에 대한 운영 효율성 비율과 지표를 조회합니다. 자산 회전율, 재고 회전율, 매출채권 회전율, 매입채무
+        회전기간 등 기업이 자산을 얼마나 효율적으로 활용하고 운영을 얼마나 효과적으로 관리하는지를 측정하는 핵심 성과 지표와 기타 운영
+        지표를 포함합니다.
       operationId: get-operation-ratios-v2
       parameters:
-        - description: "쉼표로 구분된 주식 티커 심볼 목록(예: AAPL, MSFT, GOOGL). 필수."
+        - description: "쉼표(,)로 구분된 주식 티커 심볼 목록입니다(예: AAPL,MSFT,GOOGL). 필수 항목입니다."
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "이 날짜와 같거나 이후인 날짜의 결과를 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
+        - description: "이 날짜와 같거나 이후 날짜의 결과만 필터링합니다. 형식: YYYY-MM-DD (예: 2024-01-01)"
           in: query
           name: asOf
           schema:
             type: string
-        - description: "재무 보고 기간을 위한 기간 필터입니다. 지원되는 값: Q1, Q2, Q3, Q4 (분기), FY (회계연도), TTM
-            (직전 12개월)"
+        - description: "재무 보고 기간 필터입니다. 지원되는 값: Q1, Q2, Q3, Q4(분기), FY(회계연도), TTM(최근 12개월)"
           in: query
           name: period
           schema:
             type: string
-        - description: "재무보고 유형입니다. 지원되는 값은 다음과 같습니다: TTM(최근 12개월), A(최초 공시 기준), R(정정된 값),
-            P(잠정 공시)"
+        - description: "재무 보고서의 유형입니다. 지원되는 값: TTM(최근 12개월), A(최초 공시 기준), R(정정·수정된 값),
+            P(잠정 공시치)"
           in: query
           name: reportType
           schema:
@@ -943,7 +940,7 @@ paths:
               schema:
                 type: object
         "400":
-          description: 잘못된 요청 - 누락되었거나 유효하지 않은 심볼 매개변수
+          description: 잘못된 요청 - symbols(심볼) 파라미터가 누락되었거나 유효하지 않습니다
           content:
             application/json:
               schema:
@@ -956,33 +953,34 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 영업 효율성 비율 V2
+      summary: 운영 효율성 비율 v2
       tags:
         - Fundamentals
   /api/v2/quoteDelayed:
     get:
-      description: 심볼 목록의 지연 시세 가져오기
+      description: 여러 심볼의 지연 시세 가져오기
       operationId: get-quote-delayed-v2
       parameters:
-        - description: 쉼표(,)로 구분된 주식 티커 목록입니다. symbols, isin, cik 중에서 최소 하나는 반드시 지정해야 합니다.
+        - description: 주식 티커 심볼의 쉼표(,)로 구분된 목록입니다. symbols, isin, cik 중 적어도 하나는 반드시 지정해야
+            합니다.
           in: query
           name: symbols
           schema:
             type: string
-        - description: 콤마(,)로 구분된 국제증권식별번호(ISIN) 목록입니다. 최대 50개까지 가능합니다. symbols, isin, cik
-            중 적어도 하나는 반드시 지정해야 합니다.
+        - description: 국제증권식별번호(ISIN)의 쉼표로 구분된 목록입니다. 최대 50개까지 가능합니다. symbols, isin, cik 중
+            최소 하나는 반드시 지정해야 합니다.
           in: query
           name: isin
           schema:
             type: string
-        - description: CIK 식별자를 쉼표로 구분한 목록입니다. symbols, isin, cik 중 하나 이상을 지정해야 합니다.
+        - description: 쉼표로 구분된 CIK 식별자 목록입니다. symbols, isin, cik 중 최소 하나는 반드시 지정해야 합니다.
           in: query
           name: cik
           schema:
             type: string
       responses:
         "200":
-          description: 지연 시세가 포함된 JSON 객체를 반환합니다.
+          description: 지연된 시세를 담은 JSON 객체를 반환합니다
           content:
             application/json:
               schema:
@@ -1001,50 +999,50 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: 지연 시세 V2 가져오기
+      summary: V2 지연 시세 가져오기
       tags:
         - QuoteDelayed
   /api/v3/fundamentals:
     get:
-      description: Benzinga의 향상된 데이터 파이프라인을 기반으로 한 최신 세대 기초 재무 지표 데이터를 조회합니다. 개선된 데이터
-        품질과 커버리지를 갖춘 포괄적인 재무제표, 지표, 비율 데이터를 제공합니다. 유연한 날짜 범위 조회와 상대적 날짜 지정 방식을
-        지원합니다.
+      description: Benzinga의 고도화된 데이터 파이프라인 기반으로 제공되는 최신 세대의 기초 재무 지표 데이터를 조회합니다.
+        재무제표, 지표 및 비율 정보를 포괄적으로 제공하며, 데이터 품질과 커버리지가 향상되었습니다. 유연한 날짜 범위 조회와 상대적
+        날짜 지정 방식을 지원합니다.
       operationId: get-fundamentals-v3
       parameters:
-        - description: "쉼표로 구분된 주식 티커 심볼 목록 (예: AAPL, MSFT, GOOGL). 필수 항목입니다."
+        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL,MSFT,GOOGL). 필수 값입니다."
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "쿼리의 시작일입니다. 다음과 같은 여러 형식을 지원합니다: YYYY-MM-DD(예: 2024-01-01),
-            YTD(연초부터 현재까지, 기준일: 1월 1일), 또는 1MONTH/1m/1M(1개월 전), 1WEEK/1w/1W(1주
-            전), 1DAY/1d/1D(1일 전)과 같은 상대 날짜 형식"
+        - description: "쿼리의 시작일입니다. 다음과 같은 여러 형식을 지원합니다: YYYY-MM-DD(예: 2024-01-01), YTD(해당
+            연도 1월 1일부터 현재까지), 또는 1MONTH/1m/1M(1개월 전), 1WEEK/1w/1W(1주 전),
+            1DAY/1d/1D(1일 전)과 같은 상대 날짜"
           in: query
           name: from
           schema:
             type: string
-        - description: "조회 종료일입니다. 형식: YYYY-MM-DD (예: 2024-12-31). 이 날짜까지(해당 날짜 포함)의 데이터를
-            반환합니다. 지정하지 않으면 현재 날짜가 기본값입니다."
+        - description: "쿼리의 종료일입니다. 형식: YYYY-MM-DD (예: 2024-12-31). 이 날짜를 포함하여 해당 날짜까지의
+            데이터를 반환합니다. 지정하지 않으면 기본값은 현재 날짜입니다."
           in: query
           name: to
           schema:
             type: string
-        - description: "재무제표 보고 유형 필터입니다. 지원되는 값은 다음과 같습니다: TTM(최근 12개월), A(당초 보고 기준),
-            R(수정 재작성 값), P(잠정 공시)"
+        - description: "재무제표 보고 유형을 위한 필터입니다. 지원되는 값: TTM (최근 12개월), A (최초 공시 기준), R (정정된
+            값), P (잠정 공시)"
           in: query
           name: date
           schema:
             type: string
       responses:
         "200":
-          description: 향상된 커버리지와 품질을 제공하는 최신 기초 재무 지표 데이터
+          description: 더 넓은 커버리지와 높은 품질의 최신 기초 재무 지표 데이터
           content:
             application/json:
               schema:
                 type: object
         "400":
-          description: 잘못된 요청 - symbols 매개변수가 없거나 유효하지 않습니다
+          description: 잘못된 요청 - 심볼 매개변수가 누락되었거나 유효하지 않습니다
           content:
             application/json:
               schema:
@@ -1057,32 +1055,32 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 기업 기초 재무 지표 V3
+      summary: 기업 기초 재무 지표 v3
       tags:
         - Fundamentals
   /api/v3/fundamentals/balance-sheet:
     get:
-      description: 지정된 심볼에 대한 대차대조표 데이터를 조회합니다. 자산, 부채 및 자본에 대한 세부 정보를 포함합니다.
+      description: 지정한 심볼의 대차대조표 데이터를 조회합니다. 자산, 부채, 자본 세부 정보가 포함됩니다.
       operationId: get-balance-sheet-v3
       parameters:
-        - description: "쉼표(,)로 구분된 주식 티커 심볼 목록 (예: AAPL, MSFT)"
+        - description: "쉼표로 구분된 주식 티커 심볼 목록(예: AAPL, MSFT)"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "쿼리 시작일을 YYYY-MM-DD 형식으로 지정합니다. 지원 형식: YYYY-MM-DD, YTD(연초 이후 현재까지),
-            1MONTH/1m/1M(1개월 전)"
+        - description: "쿼리 시작일을 YYYY-MM-DD 형식으로 지정합니다. 지원 형식: YYYY-MM-DD, YTD(연초 이후),
+            1MONTH/1m/1M(현재 기준 1개월 전)"
           in: query
           name: from
           schema:
             type: string
-        - description: 쿼리의 종료일을 YYYY-MM-DD 형식으로 지정합니다. 이 날짜(포함)까지의 데이터를 반환합니다.
+        - description: 쿼리의 종료일을 YYYY-MM-DD 형식으로 입력합니다. 이 날짜까지(포함하여) 데이터를 반환합니다.
           in: query
           name: to
           schema:
             type: string
-        - description: "보고서 유형 필터입니다. 값: TTM(최근 12개월), A(보고 기준), R(정정), P(잠정치)"
+        - description: "보고 유형 필터입니다. 값: TTM(최근 12개월), A(보고 기준), R(정정), P(잠정)"
           in: query
           name: date
           schema:
@@ -1110,31 +1108,31 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: v3 재무상태표 가져오기
+      summary: V3 재무상태표 가져오기
       tags:
         - Fundamentals
   /api/v3/fundamentals/cash-flow:
     get:
-      description: 지정한 심볼에 대한 상세한 현금 흐름표 데이터를 조회합니다. 영업활동, 투자활동, 재무활동으로 인한 현금 흐름을 포함합니다.
+      description: 지정한 심볼에 대한 상세 현금 흐름표 데이터를 조회합니다. 영업활동, 투자활동, 재무활동의 현금흐름이 포함됩니다.
       parameters:
-        - description: "쉼표로 구분된 심볼 목록(예: AAPL, MSFT)"
+        - description: "쉼표로 구분된 심볼 목록 (예: AAPL, MSFT)"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "쿼리의 시작 날짜를 YYYY-MM-DD 형식으로 지정합니다. 지원 값: YYYY-MM-DD, YTD(연초 이후
-            현재까지), 1MONTH/1m/1M(1개월 전)"
+        - description: "쿼리의 시작일을 YYYY-MM-DD 형식으로 지정합니다. 지원되는 형식: YYYY-MM-DD, YTD(연초 이후),
+            1MONTH/1m/1M(1개월 전)"
           in: query
           name: from
           schema:
             type: string
-        - description: 쿼리 종료일을 YYYY-MM-DD 형식으로 지정합니다. 이 날짜를 포함하여 해당 날짜까지의 데이터를 반환합니다.
+        - description: 쿼리 종료일을 YYYY-MM-DD 형식으로 지정합니다. 이 날짜를 포함해 해당일까지의 데이터를 반환합니다.
           in: query
           name: to
           schema:
             type: string
-        - description: "보고서 유형 필터입니다. 값: TTM(직전 12개월), A(보고 기준), R(정정), P(잠정치)"
+        - description: "보고서 유형 필터입니다. 값: TTM(최근 12개월), A(발표 기준), R(정정 반영), P(잠정치)"
           in: query
           name: date
           schema:
@@ -1160,32 +1158,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/bzhttp.Resp"
-      summary: v3 현금흐름 가져오기
+      summary: 현금흐름 v3 가져오기
       tags:
         - Fundamentals
   /api/v3/fundamentals/derived:
     get:
-      description: 심볼 목록에 대한 파생 재무 수치 및 비율을 조회합니다. 재무 분석에 필수적인 계산 지표가 포함됩니다.
+      description: 심볼 목록에 대한 파생 재무 지표와 비율을 조회합니다. 재무 분석에 필수적인 계산 지표를 포함합니다.
       operationId: get-derived-figures-and-ratios-v3
       parameters:
-        - description: "쉼표(콤마)로 구분된 심볼 목록 (예: AAPL, MSFT)"
+        - description: "심볼을 쉼표(,)로 구분한 목록 (예: AAPL, MSFT)"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "쿼리의 시작일을 YYYY-MM-DD 형식으로 지정합니다. 지원 형식: YYYY-MM-DD, YTD(연초부터 현재까지),
-            1MONTH/1m/1M(1개월 전)"
+        - description: "쿼리의 시작일을 YYYY-MM-DD 형식으로 지정합니다. 지원 형식: YYYY-MM-DD, YTD(연초 이후
+            현재까지), 1MONTH/1m/1M(1개월 전)"
           in: query
           name: from
           schema:
             type: string
-        - description: 쿼리의 종료일을 YYYY-MM-DD 형식으로 지정합니다. 이 날짜를 포함해 해당 일자까지의 데이터를 반환합니다.
+        - description: 쿼리 종료일로, YYYY-MM-DD 형식을 사용합니다. 이 날짜를 포함하여 그 이전까지의 데이터를 반환합니다.
           in: query
           name: to
           schema:
             type: string
-        - description: "보고서 유형 필터입니다. 값: TTM(직전 12개월), A(보고 기준), R(재작성), P(잠정치)"
+        - description: "보고 유형 필터입니다. 값: TTM(최근 12개월), A(보고 기준), R(정정 보고), P(잠정 보고)"
           in: query
           name: date
           schema:
@@ -1211,34 +1209,35 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 파생 지표 및 비율 V3 가져오기
+      summary: 파생 수치 및 비율 v3 가져오기
       tags:
         - Fundamentals
   /api/v3/fundamentals/income-statement:
     get:
       description: 지정한 종목에 대한 포괄손익계산서 데이터를 조회합니다. 매출, 매출원가, 영업비용, 영업이익, 이자비용, 법인세,
-        당기순이익, 주당순이익(EPS)을 포함합니다. 기업의 수익성과 시간 경과에 따른 영업 성과를 분석하는 데 필수적입니다.
+        당기순이익, 주당순이익(EPS)을 포함합니다. 기업의 수익성과 영업 실적을 기간별로 분석하는 데 필수적입니다.
       operationId: get-income-statement-v3
       parameters:
-        - description: "쉼표(,)로 구분된 주식 티커 심볼 목록입니다(예: AAPL, MSFT, GOOGL). 필수 값입니다."
+        - description: "쉼표로 구분된 주식 티커 심볼 목록입니다(예: AAPL, MSFT, GOOGL). 필수입니다."
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "쿼리의 시작 날짜입니다. 다음과 같은 여러 형식을 지원합니다: YYYY-MM-DD(예: 2024-01-01),
-            YTD(해당 연도 1월 1일부터 현재까지), 또는 1MONTH/1m/1M(1개월 전)과 같은 상대적 날짜 표현입니다."
+        - description: "쿼리의 시작일입니다. 다음과 같은 여러 형식을 지원합니다: YYYY-MM-DD(예: 2024-01-01), YTD
+            (연초(1월 1일)부터 현재까지), 또는 1MONTH/1m/1M (1개월 전)과 같은 상대 날짜입니다."
           in: query
           name: from
           schema:
             type: string
-        - description: "쿼리의 종료일입니다. 형식: YYYY-MM-DD (예: 2024-12-31). 이 날짜까지(포함) 데이터를 반환합니다."
+        - description: "쿼리의 종료일입니다. 형식은 YYYY-MM-DD (예: 2024-12-31)입니다. 이 날짜까지(해당 날짜 포함)의
+            데이터를 반환합니다."
           in: query
           name: to
           schema:
             type: string
-        - description: "재무제표 보고 유형에 대한 필터입니다. 지원 값: TTM(최근 12개월), A(최초 보고 기준), R(재작성 값),
-            P(잠정 발표)"
+        - description: "재무제표 보고서 유형 필터입니다. 지원되는 값: TTM(최근 12개월), A(최초 보고 기준), R(재작성 값),
+            P(잠정 공시)"
           in: query
           name: date
           schema:
@@ -1251,7 +1250,7 @@ paths:
               schema:
                 type: object
         "400":
-          description: 잘못된 요청 - 심볼(symbols) 매개변수가 누락되었거나 유효하지 않습니다
+          description: 잘못된 요청 - 심볼 매개변수가 누락되었거나 유효하지 않습니다
           content:
             application/json:
               schema:
@@ -1269,35 +1268,34 @@ paths:
         - Fundamentals
   /api/v3/fundamentals/share-price-ratios:
     get:
-      description: 지정한 심볼의 주가 관련 비율 지표를 조회합니다. 주가수익비율(Price-to-Earnings),
-        주가매출비율(Price-to-Sales) 및 기타 주가 기반 비율을 포함합니다.
+      description: 지정한 심볼의 주가 비율을 조회합니다. 주가수익비율, 주가매출비율 등 주가 기반의 다양한 비율 지표를 포함합니다.
       operationId: get-share-price-ratios-v3
       parameters:
-        - description: "쉼표로 구분된 주식 티커 심볼 목록(예: AAPL, MSFT)"
+        - description: "쉼표로 구분된 주식 티커 목록 (예: AAPL, MSFT)"
           in: query
           name: symbols
           required: true
           schema:
             type: string
-        - description: "쿼리의 시작일을 YYYY-MM-DD 형식으로 지정합니다. 지원 형식: YYYY-MM-DD, YTD(연초 이후),
-            1MONTH/1m/1M(1개월 전)"
+        - description: "쿼리 시작일을 YYYY-MM-DD 형식으로 지정합니다. 다음 값을 지원합니다: YYYY-MM-DD, YTD(연초
+            이후), 1MONTH/1m/1M(1개월 전)"
           in: query
           name: from
           schema:
             type: string
-        - description: 쿼리의 종료일을 YYYY-MM-DD 형식으로 지정합니다. 이 날짜를 포함해 이 날짜까지의 데이터를 반환합니다.
+        - description: 쿼리 종료일을 YYYY-MM-DD 형식으로 지정합니다. 이 날짜를 포함하여 이 날짜까지의 데이터를 반환합니다.
           in: query
           name: to
           schema:
             type: string
-        - description: "보고서 유형 필터입니다. 값: TTM(직전 12개월), A(보고 기준), R(재작성), P(잠정)"
+        - description: "보고서 유형 필터입니다. 값: TTM (직전 12개월), A (보고 기준), R (정정 재작성), P (잠정치)"
           in: query
           name: date
           schema:
             type: string
       responses:
         "200":
-          description: 주가 비율 데이터
+          description: 주가 비율 지표 데이터
           content:
             application/json:
               schema:
@@ -1318,7 +1316,7 @@ paths:
                 $ref: "#/components/schemas/bzhttp.Resp"
       security:
         - ApiKeyAuth: []
-      summary: 주가 비율 v3 가져오기
+      summary: v3 주가 비율 가져오기
       tags:
         - Fundamentals
 components:
@@ -1405,6 +1403,3 @@ components:
         symbol:
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD

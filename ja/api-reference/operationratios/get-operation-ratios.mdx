@@ -1,5 +1,85 @@
 ---
-title: "経営比率"
+title: "営業比率"
 openapi: /ja/openapi/data-api-proxy_api.spec.yml GET
-  /api/v2/fundamentals/operationRatios
+  /api/v2.1/fundamentals/operationRatios
 ---
+
+<ResponseExample>
+  ```json レスポンス (200 OK)
+  {
+    "result": [
+      {
+        "company": {
+          "primarySymbol": "AAPL",
+          "primaryExchange": "NAS",
+          "cik": "320193",
+          "isin": "CA03785Y1007",
+          "cusip": "03785Y100",
+          "standardName": "Apple",
+          "countryId": "USA",
+          "isReit": false,
+          "industryTemplateCode": "N",
+          "businessCountryId": "USA",
+          "isLimitedPartnership": false,
+          "yearofEstablishment": 1977,
+          "isLimitedLiabilityCompany": false
+        },
+        "operationRatios": [
+          {
+            "id": {
+              "companyId": "0C00000ADA",
+              "asOf": "2025-12-31",
+              "reportType": "R",
+              "period": "3M",
+              "aorOrRestate": "RESTATE"
+            },
+            "fiscalYearEnd": 9,
+            "isCalculated": false,
+            "revenueGrowth": 0.156525,
+            "operationIncomeGrowth": 0.187243,
+            "netIncomeGrowth": 0.158739,
+            "netIncomeContOpsGrowth": 0.158739,
+            "operationRevenueGrowth3MonthAvg": 0.156525,
+            "grossMargin": 0.481587,
+            "operationMargin": 0.353738,
+            "pretaxMargin": 0.354782,
+            "netMargin": 0.292836,
+            "taxRate": 0.174601,
+            "ebitMargin": 0.353738,
+            "ebitdaMargin": 0.376096,
+            "salesPerEmployee": 866000.000000,
+            "currentRatio": 0.973745,
+            "quickRatio": 0.845166,
+            "longTermDebtTotalCapitalRatio": 0.465110,
+            "longTermDebtEquityRatio": 0.869543,
+            "financialLeverage": 4.300907,
+            "totalDebtEquityRatio": 1.026295,
+            "normalizedNetProfitMargin": 0.292836,
+            "daysInSales": 25.294396,
+            "daysInInventory": 7.097358,
+            "daysInPayment": 85.983152,
+            "cashConversionCycle": -53.591397,
+            "receivableTurnover": 3.607518,
+            "inventoryTurnover": 12.856896,
+            "paymentTurnover": 1.061254,
+            "fixAssetsTuronver": 2.875321,
+            "assetsTurnover": 0.389299,
+            "roe": 0.519963,
+            "roa": 0.114001,
+            "roic": 0.239808,
+            "debttoAssets": 0.238623,
+            "commonEquityToAssets": 0.232509,
+            "normalizedRoic": 0.239808,
+            "cashRatio": 0.412073,
+            "cashToTotalAssets": 0.176397,
+            "netIncomePerEmployee": 253596.385542
+          }
+        ],
+        "symbol": "AAPL",
+        "idType": "SYMBOL",
+        "id": "AAPL"
+      }
+    ]
+  }
+  ```
+</ResponseExample>

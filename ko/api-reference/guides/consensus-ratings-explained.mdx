@@ -1,67 +1,83 @@
 ---
-title: "Consensus Ratings Explained"
-description: "Learn how Benzinga calculates consensus ratings from individual analyst recommendations"
+title: "컨센서스 등급 설명"
+description: "Benzinga가 개별 애널리스트의 추천을 기반으로 컨센서스 등급을 어떻게 계산하는지 알아봅니다"
 ---
 
-## Overview
+<div id="overview">
+  ## 개요
+</div>
 
-Consensus ratings provide a consolidated view of analyst sentiment on a stock by aggregating individual analyst ratings into a single, easy-to-understand metric. This guide explains how we calculate consensus ratings to help you make informed investment decisions.
+컨센서스 평점은 개별 애널리스트 의견을 하나의 이해하기 쉬운 지표로 집계해, 특정 종목에 대한 애널리스트 심리를 통합적으로 보여 줍니다. 이 가이드는 정보에 기반한 투자 의사결정을 내릴 수 있도록, 컨센서스 평점이 어떻게 산출되는지 설명합니다.
 
-## How Consensus Ratings Are Calculated
+<div id="how-consensus-ratings-are-calculated">
+  ## 컨센서스 등급이 계산되는 방식
+</div>
 
-### Step 1: Collecting Analyst Ratings
+<div id="step-1-collecting-analyst-ratings">
+  ### 1단계: 애널리스트 의견 수집
+</div>
 
-We gather all available analyst ratings for a given stock. Each rating includes:
+특정 종목에 대해 이용 가능한 모든 애널리스트 투자의견을 수집합니다. 각 의견에는 다음 정보가 포함됩니다:
 
-- **Analyst Name** and **Firm Name**
-- **Rating** (e.g., Strong Buy, Buy, Hold, Sell, Strong Sell)
-- **Price Target** - The analyst's projected stock price
-- **Date Updated** - When the rating was issued
+* **애널리스트 이름** 및 **소속 기관명**
+* **투자의견 등급** (예: Strong Buy, Buy, Hold, Sell, Strong Sell)
+* **목표가** - 애널리스트가 제시한 목표 주가
+* **업데이트 날짜** - 해당 의견이 발표된 날짜
 
-### Step 2: Filtering for Unique Analysts
+<div id="step-2-filtering-for-unique-analysts">
+  ### 단계 2: 고유 애널리스트 필터링
+</div>
 
-To ensure accuracy and avoid double-counting, we only include the **most recent rating** from each unique analyst-firm combination.
+정확성을 높이고 이중 집계를 방지하기 위해 각 고유 애널리스트-기관 조합에 대해 **가장 최근 등급**만 포함합니다.
 
-**Example:** If Morgan Stanley's analyst John Doe has rated a stock multiple times, only their latest rating is included in the calculation.
+**예시:** 예를 들어, Morgan Stanley 소속 애널리스트 John Doe가 한 종목에 여러 번 등급을 부여한 경우, 계산에는 가장 최근 등급만 포함됩니다.
 
 <Note>
-Ratings without a valid price target are excluded from the analysis.
+  유효한 목표가가 없는 등급은 분석에서 제외됩니다.
 </Note>
 
-### Step 3: Categorizing Ratings
+<div id="step-3-categorizing-ratings">
+  ### 3단계: 등급 분류
+</div>
 
-Analyst ratings are categorized into five standard categories:
+애널리스트 투자의견은 다섯 가지 표준 범주로 분류됩니다:
 
-| Category | Numeric Value |
+| 범주 | 수치 값 |
 |----------|---------------|
-| **Strong Sell** | 1 |
-| **Sell** | 2 |
-| **Hold** | 3 |
-| **Buy** | 4 |
-| **Strong Buy** | 5 |
+| **강력 매도** | 1 |
+| **매도** | 2 |
+| **보유** | 3 |
+| **매수** | 4 |
+| **강력 매수** | 5 |
 
-### Step 4: Aggregating Ratings
+<div id="step-4-aggregating-ratings">
+  ### 단계 4: 투자의견 집계
+</div>
 
-We count how many analysts fall into each category.
+각 카테고리에 속한 애널리스트 수를 집계합니다.
 
-**Example Aggregate:**
-- Strong Buy: 8 analysts
-- Buy: 12 analysts
-- Hold: 5 analysts
-- Sell: 2 analysts
-- Strong Sell: 1 analyst
+**집계 예시:**
 
-**Total:** 28 unique analysts
+* 강력 매수: 8명의 애널리스트
+* 매수: 12명의 애널리스트
+* 보유: 5명의 애널리스트
+* 매도: 2명의 애널리스트
+* 강력 매도: 1명의 애널리스트
 
-### Step 5: Calculating the Consensus Rating Value
+**총계:** 중복 없는 애널리스트 28명
 
-The consensus rating value is calculated as a weighted average:
+<div id="step-5-calculating-the-consensus-rating-value">
+  ### 5단계: 컨센서스 등급 값 계산
+</div>
+
+컨센서스 등급 값은 가중평균으로 계산합니다.
 
 ```
 Consensus Value = (Strong Buy × 5 + Buy × 4 + Hold × 3 + Sell × 2 + Strong Sell × 1) / Total Analysts
 ```
 
-**Using the example above:**
+**위의 예시를 기준으로 하면:**
+
 ```
 Consensus Value = (8×5 + 12×4 + 5×3 + 2×2 + 1×1) / 28
 Consensus Value = (40 + 48 + 15 + 4 + 1) / 28
@@ -69,144 +85,186 @@ Consensus Value = 108 / 28
 Consensus Value = 3.86
 ```
 
-### Step 6: Determining the Consensus Rating
+<div id="step-6-determining-the-consensus-rating">
+  ### 6단계: 컨센서스 등급 결정
+</div>
 
-The consensus value is rounded to the nearest whole number and mapped to a rating:
+컨센서스 값은 가장 가까운 정수로 반올림한 후, 다음 등급에 매핑됩니다:
 
-| Consensus Value | Standard Rating | Simplified Rating |
+| 컨센서스 값 | 표준 등급 | 단순화 등급 |
 |----------------|-----------------|-------------------|
-| **1** | Strong Sell | Sell |
-| **2** | Sell | Sell |
-| **3** | Hold | Hold |
-| **4** | Buy | Buy |
-| **5** | Strong Buy | Buy |
+| **1** | 강력 매도 | 매도 |
+| **2** | 매도 | 매도 |
+| **3** | 보유 | 보유 |
+| **4** | 매수 | 매수 |
+| **5** | 강력 매수 | 매수 |
 
-**In our example:** 3.86 rounds to **4**, which translates to a **"Buy"** consensus rating.
+**이 예시에서:** 3.86은 **4**로 반올림되며, 이는 **&quot;매수&quot;** 컨센서스 등급에 해당합니다.
 
----
+***
 
-## Display Options
+<div id="display-options">
+  ## 표시 옵션
+</div>
 
-### Standard vs. Simplified Ratings
+<div id="standard-vs-simplified-ratings">
+  ### 표준형 vs. 단순형 Ratings
+</div>
 
-We offer two display formats:
+다음 두 가지 표시 형식을 제공합니다.
 
-**Standard (5-category):**
-- Strong Sell, Sell, Hold, Buy, Strong Buy
+**표준형 (5개 범주):**
 
-**Simplified (3-category):**
-- Sell (combines Strong Sell + Sell)
-- Hold
-- Buy (combines Buy + Strong Buy)
+* Strong Sell, Sell, Hold, Buy, Strong Buy
 
-### Count vs. Percentage Display
+**단순형 (3개 범주):**
 
-**Count Display:**
-Shows the actual number of analysts in each category.
+* Sell (Strong Sell + Sell 통합)
+* Hold
+* Buy (Buy + Strong Buy 통합)
 
-**Percentage Display:**
-Shows the proportion of analysts in each category, rounded to whole percentages that sum to exactly 100%.
+<div id="count-vs-percentage-display">
+  ### 개수 vs. 백분율 표시
+</div>
 
-**Example:**
-- Buy: 71% (20 analysts)
-- Hold: 18% (5 analysts)
-- Sell: 11% (3 analysts)
+**개수 표시:**
+각 범주에 속한 애널리스트 수를 그대로 표시합니다.
 
----
+**백분율 표시:**
+각 범주에 속한 애널리스트 비율을 표시하며, 합계가 정확히 100%가 되도록 반올림된 정수 백분율로 제공합니다.
 
-## Price Target Calculations
+**예시:**
 
-### Consensus Price Target
+* 매수: 71% (애널리스트 20명)
+* 보유: 18% (애널리스트 5명)
+* 매도: 11% (애널리스트 3명)
 
-The average of all analyst price targets:
+***
+
+<div id="price-target-calculations">
+  ## 목표 주가 산출
+</div>
+
+<div id="consensus-price-target">
+  ### 컨센서스 목표가
+</div>
+
+모든 애널리스트가 제시한 목표가의 평균:
 
 ```
 Consensus PT = Sum of all Price Targets / Number of Analysts
 ```
 
-### Low and High Price Targets
+<div id="low-and-high-price-targets">
+  ### 최저 및 최고 목표 주가
+</div>
 
-- **Low Price Target:** The lowest price target among all analysts
-- **High Price Target:** The highest price target among all analysts
+* **최저 목표 주가:** 모든 애널리스트가 제시한 목표 주가 중 가장 낮은 값
+* **최고 목표 주가:** 모든 애널리스트가 제시한 목표 주가 중 가장 높은 값
 
-These provide a range showing the spectrum of analyst expectations.
+이는 애널리스트들이 예상하는 가격의 범위를 나타냅니다.
 
----
+***
 
-## Understanding the Metrics
+<div id="understanding-the-metrics">
+  ## 지표 이해
+</div>
 
-### Total Analyst Count vs. Unique Analyst Count
+<div id="total-analyst-count-vs-unique-analyst-count">
+  ### 전체 애널리스트 수 vs. 고유 애널리스트 수
+</div>
 
-- **Total Analyst Count:** All ratings collected (may include multiple ratings from the same analyst)
-- **Unique Analyst Count:** The number of distinct analyst-firm combinations (used for calculations)
+* **전체 애널리스트 수:** 수집된 모든 투자의견/평가 수(동일 애널리스트의 여러 평가 포함 가능)
+* **고유 애널리스트 수:** 서로 다른 애널리스트-펌 조합의 개수(계산에 사용)
 
-The unique count ensures each analyst's voice is counted only once, providing a more accurate consensus.
+고유 수치는 각 애널리스트의 의견이 한 번만 반영되도록 하여, 더 정확한 컨센서스를 산출하는 데 도움이 됩니다.
 
----
+***
 
-## Important Considerations
+<div id="important-considerations">
+  ## 중요 사항
+</div>
 
-### Rating Freshness
+<div id="rating-freshness">
+  ### 투자의견 최신성
+</div>
 
-Consensus ratings reflect the most recent analyst opinions. The **Updated At** timestamp indicates when the consensus was last calculated.
+컨센서스 투자의견은 가장 최근 애널리스트 의견을 반영합니다. **Updated At** 타임스탬프는 컨센서스가 마지막으로 계산된 시점을 나타냅니다.
 
-### Coverage Depth
+<div id="coverage-depth">
+  ### 커버리지 깊이
+</div>
 
-Consensus ratings are more reliable when based on a larger number of unique analysts. Stocks with limited analyst coverage (fewer than 3-5 analysts) may have less stable consensus ratings.
+컨센서스 레이팅은 서로 다른 애널리스트 수가 많을수록 신뢰성이 높습니다. 애널리스트 커버리지가 제한적인 종목(커버하는 애널리스트가 3–5명 미만인 경우)은 컨센서스 레이팅이 상대적으로 덜 안정적일 수 있습니다.
 
-### Rating Distribution
+<div id="rating-distribution">
+  ### 투자 의견 분포
+</div>
 
-Pay attention to the distribution of ratings, not just the consensus. A stock with 50% Buy and 50% Sell ratings will have a "Hold" consensus, but this masks significant disagreement among analysts.
+컨센서스만 보지 말고, 투자 의견이 어떻게 분포되어 있는지도 함께 살펴봐야 합니다. 매수 의견이 50%, 매도 의견이 50%인 종목은 컨센서스가 &quot;보유&quot;로 표시되지만, 이는 애널리스트들 사이의 상당한 의견 차이를 가려버릴 수 있습니다.
 
----
+***
 
-## Example Calculation Walkthrough
+<div id="example-calculation-walkthrough">
+  ## 예시 계산 과정 살펴보기
+</div>
 
-Let's walk through a complete example for **XYZ Corporation**:
+**XYZ Corporation**에 대한 예시를 단계별로 살펴보겠습니다:
 
-### Raw Data (10 analysts)
-| Analyst | Firm | Rating | Price Target |
+<div id="raw-data-10-analysts">
+  ### 원시 데이터 (애널리스트 10명)
+</div>
+
+| 애널리스트 | 회사 | 투자의견 | 목표가 |
 |---------|------|--------|--------------|
-| Analyst A | Goldman Sachs | Buy | $150 |
-| Analyst B | JP Morgan | Strong Buy | $165 |
-| Analyst C | Morgan Stanley | Buy | $155 |
-| Analyst D | Bank of America | Hold | $140 |
-| Analyst E | Citigroup | Strong Buy | $170 |
-| Analyst F | Wells Fargo | Buy | $152 |
-| Analyst G | Deutsche Bank | Hold | $145 |
-| Analyst H | Barclays | Sell | $130 |
-| Analyst I | UBS | Buy | $158 |
-| Analyst J | Credit Suisse | Strong Buy | $168 |
+| 애널리스트 A | Goldman Sachs | 매수 | $150 |
+| 애널리스트 B | JP Morgan | 강력 매수 | $165 |
+| 애널리스트 C | Morgan Stanley | 매수 | $155 |
+| 애널리스트 D | Bank of America | 보유 | $140 |
+| 애널리스트 E | Citigroup | 강력 매수 | $170 |
+| 애널리스트 F | Wells Fargo | 매수 | $152 |
+| 애널리스트 G | Deutsche Bank | 보유 | $145 |
+| 애널리스트 H | Barclays | 매도 | $130 |
+| 애널리스트 I | UBS | 매수 | $158 |
+| 애널리스트 J | Credit Suisse | 강력 매수 | $168 |
 
-### Step-by-Step Calculation
+<div id="step-by-step-calculation">
+  ### 단계별 계산
+</div>
 
-**1. Filter for unique analysts:** All 10 ratings are unique (10 analysts used)
+**1. 고유 애널리스트 필터링:** 10개 평점이 모두 서로 다른 애널리스트로부터 나온 것이므로, 고유 애널리스트 수는 10명입니다(애널리스트 10명 사용).
 
-**2. Aggregate counts:**
-- Strong Buy: 3
-- Buy: 4
-- Hold: 2
-- Sell: 1
-- Strong Sell: 0
+**2. 개수 집계:**
 
-**3. Calculate consensus value:**
+* Strong Buy: 3
+* Buy: 4
+* Hold: 2
+* Sell: 1
+* Strong Sell: 0
+
+**3. 컨센서스 값 계산:**
+
 ```
 (3×5 + 4×4 + 2×3 + 1×2 + 0×1) / 10 = (15 + 16 + 6 + 2 + 0) / 10 = 3.9
 ```
 
-**4. Determine consensus:** 3.9 rounds to **4 = "Buy"**
+**4. 컨센서스 결정:** 3.9를 반올림하면 **4 = &quot;Buy&quot;**
 
-**5. Price targets:**
-- Consensus PT: (150+165+155+140+170+152+145+130+158+168) / 10 = **$153.30**
-- Low PT: **$130**
-- High PT: **$170**
+**5. 목표가:**
 
-**6. Percentage breakdown:**
-- Buy: 70% (Strong Buy 30% + Buy 40%)
-- Hold: 20%
-- Sell: 10%
+* 컨센서스 목표가: (150+165+155+140+170+152+145+130+158+168) / 10 = **$153.30**
+* 최저 목표가: **$130**
+* 최고 목표가: **$170**
 
-### Final Consensus Rating Output
+**6. 비율 분포:**
+
+* Buy: 70% (Strong Buy 30% + Buy 40%)
+* Hold: 20%
+* Sell: 10%
+
+<div id="final-consensus-rating-output">
+  ### 최종 컨센서스 등급 결과
+</div>
 
 ```json
 {
@@ -221,37 +279,42 @@ Let's walk through a complete example for **XYZ Corporation**:
 }
 ```
 
----
+***
 
-## Frequently Asked Questions
+<div id="frequently-asked-questions">
+  ## 자주 묻는 질문
+</div>
 
 <AccordionGroup>
-  <Accordion title="Why might the total and unique analyst counts differ?">
-    If an analyst from the same firm updates their rating multiple times, the total count includes all instances, but only the most recent is used in calculations (reflected in the unique count).
+  <Accordion title="총 애널리스트 수와 고유 애널리스트 수가 다른 이유는 무엇인가요?">
+    동일한 기관에 속한 애널리스트가 투자의견을 여러 번 변경한 경우, 총 애널리스트 수에는 모든 변경 건이 포함되지만, 계산에는 가장 최근 투자의견만 사용됩니다(이는 고유 애널리스트 수에 반영됩니다).
   </Accordion>
 
-  <Accordion title="How often are consensus ratings updated?">
-    Consensus ratings are recalculated whenever new analyst ratings are published or existing ratings are updated.
+  <Accordion title="컨센서스 투자의견은 얼마나 자주 업데이트되나요?">
+    컨센서스 투자의견은 새로운 애널리스트 투자의견이 게시되거나 기존 투자의견이 업데이트될 때마다 다시 계산됩니다.
   </Accordion>
 
-  <Accordion title="What happens if there are no analyst ratings?">
-    Without analyst coverage, a consensus rating cannot be calculated. The stock will show no consensus data.
+  <Accordion title="애널리스트 투자의견이 없는 경우에는 어떻게 되나요?">
+    애널리스트 커버리지가 없으면 컨센서스 투자의견을 계산할 수 없습니다. 해당 종목에는 컨센서스 데이터가 표시되지 않습니다.
   </Accordion>
 
-  <Accordion title="Can the consensus rating change without new analyst ratings?">
-    No. The consensus only changes when analysts issue new ratings or update existing ones.
+  <Accordion title="새로운 애널리스트 투자의견이 없어도 컨센서스가 변경될 수 있나요?">
+    아닙니다. 컨센서스는 애널리스트가 새 투자의견을 발행하거나 기존 투자의견을 업데이트할 때에만 변경됩니다.
   </Accordion>
 </AccordionGroup>
 
----
+***
 
-## Related Endpoints
+<div id="related-endpoints">
+  ## 관련 엔드포인트
+</div>
 
 <CardGroup cols={2}>
-  <Card title="Consensus Ratings API" icon="chart-bar" href="/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data">
-    Get consensus rating data for stocks
+  <Card title="컨센서스 등급 API" icon="chart-bar" href="/ko/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data">
+    주식의 컨센서스 등급 데이터를 조회합니다
   </Card>
-  <Card title="Analyst Ratings API" icon="users" href="/api-reference/calendar_api/ratings/returns-analyst-ratings-data">
-    Get individual analyst ratings
+
+  <Card title="애널리스트 등급 API" icon="users" href="/ko/api-reference/calendar_api/ratings/returns-analyst-ratings-data">
+    개별 애널리스트 등급을 조회합니다
   </Card>
 </CardGroup>
