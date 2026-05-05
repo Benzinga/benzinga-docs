@@ -606,20 +606,12 @@ paths:
           schema:
             type: string
             format: date
-        - description: Cámara
-          in: query
-          name: chamber
-          schema:
-            type: string
-            enum:
-              - House
-              - Senate
         - description: Campos
           in: query
           name: fields
           schema:
             type: string
-        - description: Tipo de claves de búsqueda
+        - description: Tipo de clave de búsqueda
           in: query
           name: search_keys_type
           schema:
@@ -634,7 +626,7 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: Visualización
+        - description: Mostrar
           in: query
           name: display
           schema:
@@ -642,9 +634,9 @@ paths:
             enum:
               - flat
               - nested
-        - description: "Formato de la respuesta: «filings» devuelve una vista agrupada de
-            las presentaciones con las transacciones anidadas; «transactions»
-            devuelve una vista aplanada de transacciones individuales"
+        - description: "Formato de respuesta: 'filings' devuelve una vista agrupada de
+            presentaciones con las transacciones anidadas; 'transactions'
+            devuelve una vista consolidada de transacciones individuales"
           in: path
           name: view_type
           required: true

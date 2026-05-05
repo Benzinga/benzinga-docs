@@ -564,14 +564,6 @@ paths:
           schema:
             type: string
             format: date
-        - description: 의회
-          in: query
-          name: chamber
-          schema:
-            type: string
-            enum:
-              - House
-              - Senate
         - description: 필드
           in: query
           name: fields
@@ -600,8 +592,8 @@ paths:
             enum:
               - flat
               - nested
-        - description: 응답 형식입니다. 'filings'는 트랜잭션이 중첩된 형태로 그룹화된 filing 뷰를 반환하고,
-            'transactions'는 평탄화된 개별 트랜잭션 뷰를 반환합니다.
+        - description: "응답 형식: 'filings'는 트랜잭션이 중첩된 그룹화된 공시 보기를 반환하고, 'transactions'는 개별
+            트랜잭션을 펼쳐서 보여주는 보기를 반환합니다"
           in: path
           name: view_type
           required: true
