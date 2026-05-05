@@ -1,6 +1,6 @@
 ---
-title: "IPOs V2"
-openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2/calendar/ipos
+title: "IPO"
+openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ipos
 ---
 
 <ResponseExample>
@@ -63,7 +63,7 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2/calendar/ipos
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "認証トークンが無効であるか、指定されていないかです"
+      "value": "認証トークンが無効であるか、指定されていません"
     }
   ]
 }
@@ -75,7 +75,7 @@ openapi: /ja/openapi/calendar_api.spec.yml GET /api/v2/calendar/ipos
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "指定されたパラメータに該当するデータが見つかりません"
+      "value": "指定されたパラメータに該当するデータが見つかりませんでした"
     }
   ]
 }

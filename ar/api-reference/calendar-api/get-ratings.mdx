@@ -1,5 +1,5 @@
 ---
-title: "Ratings"
+title: "التقييمات"
 openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings
 ---
 
@@ -46,7 +46,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز مصادقة غير صالح أو مفقود"
+      "value": "Invalid or missing authentication token"
     }
   ]
 }
@@ -58,7 +58,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "لم يتم العثور على بيانات للمعاملات المحددة"
+      "value": "No data found for the specified parameters"
     }
   ]
 }
@@ -70,7 +70,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/ratings
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
+      "value": "An unexpected error occurred while processing your request"
     }
   ]
 }

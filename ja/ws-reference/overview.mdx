@@ -1,0 +1,110 @@
+---
+title: "概要"
+description: "Benzinga のリアルタイム・ウェブソケット・データストリームに関するハイレベルなガイド。"
+---
+
+Benzinga の ウェブソケット API は、低レイテンシのプッシュ型金融データをアプリケーションへ直接配信します。REST エンドポイントを繰り返しポーリングする代わりに、単一の永続接続を開いておくだけで、アナリストのレーティング、決算結果、ニュース、トランスクリプトなどのイベントを、利用可能になった瞬間に受信できます。
+
+すべてのストリームは同じベースエンドポイント、認証モデル、メッセージエンベロープを共有しているため、あるストリームで習得したパターンは他のすべてのストリームにも適用できます。
+
+<div id="how-it-works">
+  ## 動作概要
+</div>
+
+<Steps>
+  <Step title="認証">
+    [Benzinga Console](https://www.api.benzinga.com/token) から Benzinga API トークンを取得し、接続を開く際に `token` クエリパラメータとして付与します。
+  </Step>
+
+  <Step title="接続">
+    必要なデータ用のストリーム URL に対してウェブソケット接続を開きます。たとえば `wss://api.benzinga.com/api/v1/analyst/insights/stream?token=YOUR_TOKEN` などです。
+  </Step>
+
+  <Step title="イベントの受信">
+    メッセージは一貫した構造の JSON オブジェクトとして送信されます。`id`、`api_version`、`kind` と、アクション (`created`、`updated`、`deleted` のいずれか) およびペイロードを含む `data` ブロックで構成されます。
+  </Step>
+
+  <Step title="接続を維持する">
+    `ping` プレーンテキストフレームを定期的に (30～60 秒ごとに) 送信します。サーバーは `pong` で応答します。サーバー側からも 10 秒ごとに ping が送信されますが、ほとんどのウェブソケットライブラリが自動的に処理します。
+  </Step>
+</Steps>
+
+<div id="available-streams">
+  ## 利用可能なストリーム
+</div>
+
+<CardGroup cols={2}>
+  <Card title="Analyst Insights" icon="chart-line" href="/ja/ws-reference/data-websocket/get-analyst-insights-stream">
+    公開と同時に配信されるアナリストのレーティング、目標株価、詳細な推奨情報。
+  </Card>
+
+  <Card title="Ratings" icon="star" href="/ja/ws-reference/data-websocket/get-calendar-ratings-stream">
+    大手機関からのアナリストレーティングの変更および目標株価の更新。
+  </Card>
+
+  <Card title="Consensus Ratings" icon="scale-balanced" href="/ja/ws-reference/data-websocket/get-consensus-ratings-stream">
+    追跡対象のすべてのアナリストを集約したコンセンサスレーティングと目標株価。
+  </Card>
+
+  <Card title="Earnings" icon="sack-dollar" href="/ja/ws-reference/data-websocket/get-calendar-earnings-stream">
+    EPS、売上高、予想値、サプライズ指標を含む決算発表。
+  </Card>
+
+  <Card title="Bulls/Bears Say" icon="comments" href="/ja/ws-reference/data-websocket/get-bulls-bears-say-stream">
+    各銘柄に対する強気・弱気シナリオをリアルタイムに配信。
+  </Card>
+
+  <Card title="News" icon="newspaper" href="/ja/ws-reference/data-websocket/get-news-stream">
+    Benzingaの編集チームによる速報ニュース記事および市場アップデート。
+  </Card>
+
+  <Card title="Earnings Call Transcripts" icon="microphone" href="/ja/ws-reference/data-websocket/get-transcripts-stream">
+    発言と同時に文単位で配信される決算説明会のライブ書き起こし。
+  </Card>
+</CardGroup>
+
+<div id="message-envelope">
+  ## メッセージエンベロープ
+</div>
+
+すべてのストリームメッセージは、同一のトップレベル構造を持ちます。
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "<stream-type>",
+  "data": {
+    "action": "created",
+    "id": "<record-id>",
+    "timestamp": "2024-10-08T10:00:00Z",
+    "content": { ... }
+  }
+}
+```
+
+| Field          | Description                         |
+| -------------- | ----------------------------------- |
+| `id`           | 一意のメッセージ ID — 再接続時の重複排除に使用します       |
+| `api_version`  | メッセージのプロトコルのバージョン                   |
+| `kind`         | メッセージがどのストリームから来たかを識別します            |
+| `data.action`  | `created`、`updated`、`deleted` のいずれか |
+| `data.content` | ストリーム固有のペイロード                       |
+
+<div id="reference-pages">
+  ## リファレンスページ
+</div>
+
+<CardGroup cols={3}>
+  <Card title="認証" icon="key" href="/ja/ws-reference/authentication">
+    API トークンの取得および使用方法。
+  </Card>
+
+  <Card title="サポートされているアクション" icon="bolt" href="/ja/ws-reference/actions">
+    どのストリームにも送信できる `ping` および `replay` コマンド。
+  </Card>
+
+  <Card title="エラー" icon="triangle-exclamation" href="/ja/ws-reference/errors">
+    エラーコードと接続障害の対処方法。
+  </Card>
+</CardGroup>

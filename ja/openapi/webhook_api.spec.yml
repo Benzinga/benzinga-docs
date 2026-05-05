@@ -33,11 +33,28 @@ paths:
         - name: kind
           in: query
           required: true
-          description: メッセージのkindを識別します。現在の値は「News/v1」です。
+          description: テストペイロード内のメッセージ kind を識別します。
           schema:
             type: string
             enum:
               - News/v1
+              - Signals/v1
+              - Earnings/v1
+              - Ratings/v1
+              - Dividends/v1
+              - IPOs/v1
+              - Guidance/v1
+              - Splits/v1
+              - OptionActivity/v1
+              - Conference/v1
+              - Economics/v1
+              - Offerings/v1
+              - MA/v1
+              - Retail/v1
+              - FDA/v1
+              - WIIMs/v1
+              - SECInsiderTransaction/v1
+              - GovernmentTrade/v1
             default: News/v1
         - name: token
           in: query

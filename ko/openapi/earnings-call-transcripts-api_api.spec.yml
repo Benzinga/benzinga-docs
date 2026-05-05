@@ -268,5 +268,5 @@ components:
           type: string
       type: object
 servers:
-  - url: https://api.benzinga.com/api/v1
-    description: V1
+  - url: https://api.benzinga.com
+    description: 운영

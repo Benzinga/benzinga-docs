@@ -1,10 +1,10 @@
 ---
-title: "البيانات الاقتصادية"
+title: "الاقتصاد"
 openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json استجابة (200 OK)
 {
   "economics": [
     {
@@ -14,8 +14,8 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
       "consensus_t": "",
       "country": "USA",
       "date": "2026-03-08",
-      "description": "يتتبع تقرير \"Challenger Job Cuts (YoY)\" نسبة التغير في عمليات التسريح التي يعلن عنها أصحاب العمل خلال شهر معين مقارنة بالشهر نفسه من العام السابق. يستخدم المستثمرون والمحللون هذا التقرير لقياس قوة سوق العمل واتخاذ قرارات استثمارية مستنيرة. ويمكن لبيانات هذا التقرير أيضًا أن تؤثّر في قيمة الدولار الأمريكي، حيث تُعَدّ الأرقام الأعلى من المتوقع سلبية، في حين تُعَدّ الأرقام الأقل من المتوقع إيجابية.",
-      "event_category": "Employment",
+      "description": "يتتبع تقرير Challenger Job Cuts (على أساس سنوي YoY) نسبة التغير في عدد عمليات التسريح التي يعلن عنها أصحاب العمل خلال شهر معين مقارنةً بالشهر نفسه من العام السابق. يُستخدم هذا التقرير من قبل المستثمرين والمحللين لقياس قوة سوق العمل واتخاذ قرارات مستنيرة بشأن استثماراتهم. يمكن أن تؤثر البيانات الواردة في هذا التقرير أيضًا على قيمة الدولار الأمريكي، حيث تُعتبر الأرقام الأعلى من المتوقع سلبية، في حين تُعتبر الأرقام الأقل من المتوقع إيجابية.",
+      "event_category": "العمالة",
       "event_name": "Challenger Job Cuts (YoY)",
       "event_period": "",
       "id": "6745790147f2830001365a27",
@@ -30,7 +30,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
   ]
 }
 ```
-```json Response (401 Unauthorized)
+```json استجابة (401 غير مصرح)
 {
   "ok": false,
   "errors": [
@@ -42,19 +42,19 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/economics
   ]
 }
 ```
-```json Response (404 Not Found)
+```json استجابة (404 لم يتم العثور على بيانات)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "لم يتم العثور على بيانات للمعلمات المحددة"
+      "value": "لم يتم العثور على أي بيانات للمعلمات المحددة"
     }
   ]
 }
 ```
-```json Response (500 Internal Server Error)
+```json استجابة (500 خطأ داخلي في الخادم)
 {
   "ok": false,
   "errors": [

@@ -1,5 +1,5 @@
 ---
-title: "Alfa Beta"
+title: "Alpha Beta"
 openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals/alphaBeta
 ---
 
@@ -43,38 +43,38 @@ openapi: /es/openapi/data-api-proxy_api.spec.yml GET /api/v2.1/fundamentals/alph
   ]
 }
 ```
-```json Respuesta (401 Unauthorized)
+```json Respuesta (401 No autorizado)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Token de autenticación inválido o ausente"
+      "value": "Token de autenticación no válido o ausente"
     }
   ]
 }
 ```
-```json Respuesta (404 Not Found)
+```json Respuesta (404 No encontrado)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No se encontraron datos para los parámetros especificados"
+      "value": "No se encontraron datos para los parámetros indicados"
     }
   ]
 }
 ```
-```json Respuesta (500 Internal Server Error)
+```json Respuesta (500 Error interno del servidor)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "Se produjo un error inesperado al procesar su solicitud"
+      "value": "Se produjo un error inesperado al procesar la solicitud"
     }
   ]
 }

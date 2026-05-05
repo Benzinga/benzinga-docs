@@ -1,10 +1,10 @@
 ---
-title: "مالك تعاملات المطلعين"
-openapi: /ar/openapi/calendar_api.spec.yml GET /sec/insider_transactions/owners
+title: "مالك صفقة المطلعين"
+openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/sec/insider_transactions/owners
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json استجابة (200 OK)
 {
   "data": [
     {
@@ -14,31 +14,31 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /sec/insider_transactions/owners
   ]
 }
 ```
-```json Response (401 Unauthorized)
+```json استجابة (401 غير مصرح به)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "رمز وصول المصادقة غير صالح أو مفقود"
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json Response (404 Not Found)
+```json استجابة (404 غير موجود)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "لم يتم العثور على بيانات للمعلمات المحددة"
+      "value": "لم يتم العثور على بيانات للمعاملات المحددة"
     }
   ]
 }
 ```
-```json Response (500 Internal Server Error)
+```json استجابة (500 خطأ في الخادم الداخلي)
 {
   "ok": false,
   "errors": [

@@ -4,7 +4,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/earnings
 ---
 
 <ResponseExample>
-```json Response (200 OK)
+```json استجابة (200 OK)
 {
   "earnings": [
     {
@@ -39,38 +39,38 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/earnings
   ]
 }
 ```
-```json Response (401 Unauthorized)
+```json استجابة (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
+      "value": "رمز الوصول للمصادقة غير صالح أو مفقود"
     }
   ]
 }
 ```
-```json Response (404 Not Found)
+```json استجابة (404 Not Found)
 {
   "ok": false,
   "errors": [
     {
       "code": "no_data_found",
       "id": "not_found",
-      "value": "No data found for the specified parameters"
+      "value": "لم يتم العثور على بيانات للمعاملات المحددة"
     }
   ]
 }
 ```
-```json Response (500 Internal Server Error)
+```json استجابة (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "حدث خطأ غير متوقع أثناء معالجة طلبك"
     }
   ]
 }

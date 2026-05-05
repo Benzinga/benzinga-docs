@@ -1,0 +1,110 @@
+---
+title: "개요"
+description: "Benzinga의 실시간 웹소켓 데이터 스트림에 대한 고수준 가이드입니다."
+---
+
+Benzinga의 웹소켓 API는 저지연 푸시 기반 금융 데이터를 애플리케이션으로 직접 전송합니다. REST 엔드포인트를 반복적으로 폴링하는 대신, 하나의 지속적인 연결만 열어 두면 애널리스트 리서치, 실적 결과, 뉴스, 컨퍼런스콜 녹취록 등과 같은 이벤트를 생성되는 즉시 수신할 수 있습니다.
+
+모든 스트림은 동일한 기본 엔드포인트, 인증 모델, 메시지 Envelope 구조를 공유하므로, 한 스트림에서 익힌 패턴을 다른 곳에도 그대로 적용할 수 있습니다.
+
+<div id="how-it-works">
+  ## 동작 방식
+</div>
+
+<Steps>
+  <Step title="인증">
+    [Benzinga Console](https://www.api.benzinga.com/token)에서 Benzinga API 토큰을 발급받은 뒤, 연결을 열 때 `token` 쿼리 매개변수로 추가합니다.
+  </Step>
+
+  <Step title="연결">
+    필요한 데이터에 대한 스트림 URL로 웹소켓 연결을 엽니다. 예를 들어, `wss://api.benzinga.com/api/v1/analyst/insights/stream?token=YOUR_TOKEN`에 연결할 수 있습니다.
+  </Step>
+
+  <Step title="이벤트 수신">
+    메시지는 일관된 envelope 구조를 가진 JSON 객체로 도착합니다. `id`, `api_version`, `kind`와 함께, action(`created`, `updated`, `deleted` 중 하나)과 페이로드를 담은 `data` 블록이 포함됩니다.
+  </Step>
+
+  <Step title="연결 유지">
+    주기적으로(30–60초마다) `ping` 일반 텍스트 프레임을 전송합니다. 서버는 `pong`으로 응답합니다. 서버도 10초마다 자체 `ping`을 전송하며, 대부분의 웹소켓 라이브러리는 이를 자동으로 처리합니다.
+  </Step>
+</Steps>
+
+<div id="available-streams">
+  ## 사용 가능한 스트림
+</div>
+
+<CardGroup cols={2}>
+  <Card title="애널리스트 인사이트" icon="chart-line" href="/ko/ws-reference/data-websocket/get-analyst-insights-stream">
+    애널리스트 등급, 목표가, 상세 추천 내용을 게시되는 대로 실시간으로 제공합니다.
+  </Card>
+
+  <Card title="등급" icon="star" href="/ko/ws-reference/data-websocket/get-calendar-ratings-stream">
+    주요 기관의 애널리스트 등급 변경 및 목표가 업데이트를 제공합니다.
+  </Card>
+
+  <Card title="컨센서스 등급" icon="scale-balanced" href="/ko/ws-reference/data-websocket/get-consensus-ratings-stream">
+    추적 중인 모든 애널리스트의 컨센서스 등급과 목표가를 집계해 제공합니다.
+  </Card>
+
+  <Card title="실적" icon="sack-dollar" href="/ko/ws-reference/data-websocket/get-calendar-earnings-stream">
+    주당순이익(EPS), 매출, 추정치 및 서프라이즈 지표를 포함한 실적 발표 정보를 제공합니다.
+  </Card>
+
+  <Card title="Bulls/Bears Say" icon="comments" href="/ko/ws-reference/data-websocket/get-bulls-bears-say-stream">
+    실시간으로 게시되는 종목별 강세·약세 시나리오를 제공합니다.
+  </Card>
+
+  <Card title="뉴스" icon="newspaper" href="/ko/ws-reference/data-websocket/get-news-stream">
+    Benzinga 에디토리얼 팀에서 제공하는 속보 기사와 시장 업데이트를 제공합니다.
+  </Card>
+
+  <Card title="실적 발표 콜 녹취록" icon="microphone" href="/ko/ws-reference/data-websocket/get-transcripts-stream">
+    실적 발표 콜 내용을 발언되는 대로 문장 단위로 실시간 전송합니다.
+  </Card>
+</CardGroup>
+
+<div id="message-envelope">
+  ## 메시지 Envelope
+</div>
+
+모든 스트림 메시지는 동일한 최상위 구조를 가집니다.
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "api_version": "websocket/v1",
+  "kind": "<stream-type>",
+  "data": {
+    "action": "created",
+    "id": "<record-id>",
+    "timestamp": "2024-10-08T10:00:00Z",
+    "content": { ... }
+  }
+}
+```
+
+| Field          | Description                          |
+| -------------- | ------------------------------------ |
+| `id`           | 고유 메시지 ID — 재연결 시 중복 제거에 사용합니다       |
+| `api_version`  | 메시지의 프로토콜 버전                         |
+| `kind`         | 메시지가 어느 스트림에서 온 것인지 식별합니다            |
+| `data.action`  | `created`, `updated`, `deleted` 중 하나 |
+| `data.content` | 스트림별 전용 페이로드                         |
+
+<div id="reference-pages">
+  ## 참고 페이지
+</div>
+
+<CardGroup cols={3}>
+  <Card title="인증" icon="key" href="/ko/ws-reference/authentication">
+    API 토큰을 발급받고 사용하는 방법.
+  </Card>
+
+  <Card title="지원되는 액션" icon="bolt" href="/ko/ws-reference/actions">
+    모든 스트림에서 전송할 수 있는 `ping` 및 `replay` 명령.
+  </Card>
+
+  <Card title="오류" icon="triangle-exclamation" href="/ko/ws-reference/errors">
+    오류 코드와 연결 실패를 처리하는 방법.
+  </Card>
+</CardGroup>

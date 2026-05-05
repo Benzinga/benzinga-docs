@@ -4,7 +4,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/consensus-ratings
 ---
 
 <ResponseExample>
-```json استجابة (200 OK)
+```json استجابة (200 ناجحة)
 {
   "aggregate_ratings": {
     "strong_buy": 7,
@@ -23,7 +23,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/consensus-ratings
   "unique_analyst_count": 26
 }
 ```
-```json استجابة (401 Unauthorized)
+```json استجابة (401 غير مُخوَّل)
 {
   "ok": false,
   "errors": [
@@ -35,7 +35,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/consensus-ratings
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json استجابة (404 غير موجود)
 {
   "ok": false,
   "errors": [
@@ -47,7 +47,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v1/consensus-ratings
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json استجابة (500 خطأ داخلي في الخادم)
 {
   "ok": false,
   "errors": [

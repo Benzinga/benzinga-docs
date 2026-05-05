@@ -1,0 +1,120 @@
+---
+title: "ロードマップ"
+description: "今後の開発予定をご確認ください。"
+---
+
+<div className="space-y-8">
+  {/* 作業中 */}
+
+  <div>
+    <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-200 dark:border-gray-800">
+      <div className="w-2 h-2 rounded-full bg-blue-500" />
+
+      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">進行中</span>
+    </div>
+
+    <div className="space-y-3">
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+        <div className="font-medium">トランスクリプトの PDF 版</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">カンファレンスコールのトランスクリプトを、ダウンロード可能な PDF 形式で提供します。</div>
+      </div>
+
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+        <div className="font-medium">トランスクリプトのヒストリカルデータ拡充</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">カンファレンスコールのトランスクリプトについて、ヒストリカルデータの提供範囲を拡大します。</div>
+      </div>
+    </div>
+  </div>
+
+  {/* 計画中 */}
+
+  <div>
+    <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-200 dark:border-gray-800">
+      <div className="w-2 h-2 rounded-full bg-amber-500" />
+
+      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">計画中</span>
+    </div>
+
+    <div className="space-y-3">
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+        <div className="font-medium">監視ダッシュボードの拡張</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">すべてのサービス提供内容を監視するクライアント向けダッシュボードです。</div>
+      </div>
+
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+        <div className="font-medium">翻訳エンジンの最適化</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">翻訳サービスのパフォーマンスおよび品質を向上させます。</div>
+      </div>
+
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+        <div className="font-medium">ニュース向け Security Master 連携</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">社内の Security Master を統合し、クエリ機能を強化します。</div>
+      </div>
+    </div>
+  </div>
+
+  {/* バックログ */}
+
+  <div>
+    <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-200 dark:border-gray-800">
+      <div className="w-2 h-2 rounded-full bg-gray-400" />
+
+      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">バックログ</span>
+    </div>
+
+    <div className="space-y-3">
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+        <div className="font-medium">Go SDK</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">公式の Go クライアントライブラリです。</div>
+      </div>
+
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors">
+        <div className="font-medium">すべての calendar 用ウェブソケット</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">すべての calendar エンドポイント向けにリアルタイムストリーミングを提供します。</div>
+      </div>
+    </div>
+  </div>
+
+  {/* 完了 */}
+
+  <div>
+    <div className="flex items-center gap-2 mb-4 pb-2 border-b border-gray-200 dark:border-gray-800">
+      <div className="w-2 h-2 rounded-full bg-green-500" />
+
+      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">完了</span>
+    </div>
+
+    <div className="space-y-3">
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors opacity-75">
+        <div className="font-medium">自社セキュリティマスター</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">データ整合性を高めるための集中管理型セキュリティマスター。</div>
+      </div>
+
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors opacity-75">
+        <div className="font-medium">TCP ストリーミング</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">リアルタイムデータ向けの低遅延 TCP 接続。</div>
+      </div>
+
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors opacity-75">
+        <div className="font-medium">カンファレンスコールトランスクリプト</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">話者情報付きの完全なトランスクリプト。</div>
+      </div>
+
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors opacity-75">
+        <div className="font-medium">Webhook エンジン</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">プッシュ型のデータ配信。</div>
+      </div>
+
+      <div className="p-4 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 transition-colors opacity-75">
+        <div className="font-medium">Java SDK</div>
+        <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">公式の Java クライアントライブラリ。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+---
+
+<Note>
+新機能のご要望はありませんか？[GitHub で issue を作成](https://github.com/Benzinga/benzinga-docs/issues/new)するか、[こちらからお問い合わせ](mailto:licensing@benzinga.com)ください。
+</Note>

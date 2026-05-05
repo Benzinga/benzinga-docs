@@ -1,5 +1,5 @@
 ---
-title: "Previsiones"
+title: "Proyecciones"
 openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/guidance
 ---
 
@@ -39,19 +39,19 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/guidance
   ]
 }
 ```
-```json Respuesta (401 No autorizado)
+```json Respuesta (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
       "code": "auth_failed",
       "id": "unauthorized",
-      "value": "Token de autenticación no válido o ausente"
+      "value": "token de autenticación no válido o ausente"
     }
   ]
 }
 ```
-```json Respuesta (404 No encontrado)
+```json Respuesta (404 Not Found)
 {
   "ok": false,
   "errors": [
@@ -63,14 +63,14 @@ openapi: /es/openapi/calendar_api.spec.yml GET /api/v2.1/calendar/guidance
   ]
 }
 ```
-```json Respuesta (500 Error interno del servidor)
+```json Respuesta (500 Internal Server Error)
 {
   "ok": false,
   "errors": [
     {
       "code": "internal_server_error",
       "id": "server_error",
-      "value": "Se produjo un error inesperado al procesar su solicitud"
+      "value": "Se produjo un error inesperado durante el procesamiento de su solicitud"
     }
   ]
 }

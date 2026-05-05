@@ -38,7 +38,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2/calendar/events
 }
 
 ```
-```json استجابة (401 Unauthorized)
+```json استجابة (401 غير مصرح به)
 {
   "ok": false,
   "errors": [
@@ -50,7 +50,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2/calendar/events
   ]
 }
 ```
-```json استجابة (404 Not Found)
+```json استجابة (404 غير موجود)
 {
   "ok": false,
   "errors": [
@@ -62,7 +62,7 @@ openapi: /ar/openapi/calendar_api.spec.yml GET /api/v2/calendar/events
   ]
 }
 ```
-```json استجابة (500 Internal Server Error)
+```json استجابة (500 خطأ في الخادم الداخلي)
 {
   "ok": false,
   "errors": [

@@ -1,40 +1,17 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: Bearer トークン認証
-  title: Newsfeed & Why is it Moving v2
+  description: ベアラートークン認証
+  title: Press Releases v2
   version: 2.0.0
 paths:
-  /api/v2.1/news/channels:
-    get:
-      description: 利用可能なすべてのニュースチャンネルの一覧を返します。ニュース記事をフィルタリングするために使用できます。チャンネルにはサブチャンネルが存在する場合がありますが、いずれもそれぞれ独立した項目として一覧に含まれます。
-      operationId: get-channels
-      responses:
-        "200":
-          description: 成功
-          content:
-            application/json:
-              schema:
-                additionalProperties: true
-                type: object
-        "500":
-          description: 内部サーバーエラー
-          content:
-            application/json:
-              schema:
-                additionalProperties: true
-                type: object
-      summary: 利用可能なニュースチャネルの取得
-      tags:
-        - Channels
   /api/v2/news:
     get:
-      description: この REST API はニュースの構造化データを返します。最適なパフォーマンスを得るには、tickers、date、channels
-        などのパラメータでクエリの対象範囲を絞り込むか、差分取得には updatedSince を使用してください。ページオフセットは 0 ～
-        100000 の範囲に制限されています。
-      operationId: get-news
+      description: このREST
+        APIは、プレスリリースの構造化データを返します。最適なパフォーマンスを得るには、ティッカー、日付、チャネルなどのパラメータを使用してクエリ範囲を絞り込むか、差分取得にはupdatedSinceを使用してください。ページオフセットは0～100000に制限されています。
+      operationId: get-press-releases
       parameters:
-        - description: レスポンス形式を指定します
+        - description: 返却形式を指定
           in: header
           name: accept
           required: true
@@ -44,8 +21,7 @@ paths:
               - application/json
               - application/xml
             default: application/json
-        - description: ページオフセット。最適化、パフォーマンス、および技術的な理由から、ページオフセットは 0 ～ 100000
-            の範囲に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。
+        - description: ページオフセット。最適化、パフォーマンス、および技術上の理由により、ページオフセットは0～100000に制限されています。日付などの他のパラメータでクエリ結果を絞り込んでください。
           in: query
           name: page
           schema:
@@ -58,7 +34,7 @@ paths:
             type: integer
             maximum: 100
             default: 15
-        - description: ヘッドラインのみ（`headline`）、ヘッドライン＋要約（`abstract`）、またはヘッドライン＋全文（`full`）のいずれかを指定します
+        - description: 見出しのみ（headline）、見出し＋要約（abstract）、または見出し＋本文全文（full）を指定
           in: query
           name: displayOutput
           schema:
@@ -68,34 +44,33 @@ paths:
               - abstract
               - headline
             default: headline
-        - description: ニュース取得対象の日付。`dateFrom` と `dateTo` が同一の場合の省略形です。形式：yyyy-mm-dd
+        - description: "ニュースをクエリする日付。dateFromとdateToが同じ場合の省略指定です。形式: yyyy-mm-dd"
           in: query
           name: date
           schema:
             type: string
-        - description: "ある時点以降をクエリするための基準日。公開日でソートされます。形式: yyyy-mm-dd"
+        - description: "クエリ開始日。公開日でソートされます。形式: yyyy-mm-dd"
           in: query
           name: dateFrom
           schema:
             type: string
-        - description: "特定時点を指定してクエリするための日付。公開日順にソートされます。形式: yyyy-mm-dd"
+        - description: "クエリ終了日。公開日でソートされます。形式: yyyy-mm-dd"
           in: query
           name: dateTo
           schema:
             type: string
-        - description: 取得および並べ替えの基準とする最新の更新日時（UTC）の Unix タイムスタンプ
+        - description: 取得およびソートに使用する最終更新のUnixタイムスタンプ（UTC）
           in: query
           name: updatedSince
           schema:
             type: integer
-        - description: 取得およびソートの基準とする最後に公開された Unix タイムスタンプ（UTC）
+        - description: 取得およびソートに使用する最終公開のUnixタイムスタンプ（UTC）
           in: query
           name: publishedSince
           schema:
             type: integer
-        - description: "結果のソート順を制御します。デフォルトは created の降順 (DESC) です。形式:
-            field:direction。ソート可能なフィールド: id, created, updated。ソート順: asc (昇順),
-            desc (降順)。"
+        - description: "結果の並べ替えを制御できます。デフォルトはcreated, DESCです。形式: field:direction。ソート項目:
+            id, created, updated。ソート順: asc（昇順）、desc（降順）"
           in: query
           name: sort
           schema:
@@ -107,38 +82,37 @@ paths:
               - created:desc
               - updated:asc
               - updated:desc
-        - description: "カンマ区切りのISIN（国際証券識別番号）を1件以上指定します。最大50件。形式: csv"
+        - description: "カンマ区切りの1つ以上のISIN（国際証券識別番号）。最大50件。形式: csv"
           in: query
           name: isin
           schema:
             type: string
-        - description: "1つ以上のCUSIPをカンマ区切りで指定します。最大50件まで。ライセンス契約が必要です。形式: CSV"
+        - description: "カンマ区切りの1つ以上のCUSIP。最大50件。ライセンス契約が必要です。形式: csv"
           in: query
           name: cusips
           schema:
             type: string
-        - description: "カンマ区切りのtickerシンボルを1件以上指定します。最大50件。形式: CSV"
+        - description: "カンマ区切りの1つ以上のティッカーシンボル。最大50件。形式: csv"
           in: query
           name: tickers
           schema:
             type: string
-        - description: "1つ以上の主要tickerシンボルをカンマ区切りで指定します。主要tickerの関連付けに対してのみフィルターされます。形式: csv"
+        - description: "カンマ区切りの1つ以上のプライマリティッカーシンボル。プライマリティッカーへの関連付けのみで絞り込みます。形式: csv"
           in: query
           name: primaryTickers
           schema:
             type: string
-        - description: "カンマ区切りの1つ以上のチャンネル名またはID。形式: CSV"
+        - description: "カンマ区切りの1つ以上のチャネル名またはID。形式: csv"
           in: query
           name: channels
           schema:
             type: string
-        - description: "カンマ区切りの1つ以上の単語またはフレーズ。Title、Tags、Body の順に優先して検索します。形式: CSV"
+        - description: "カンマ区切りの1つ以上の単語またはフレーズ。優先順位に従ってタイトル、タグ、本文を検索します。形式: csv"
           in: query
           name: topics
           schema:
             type: string
-        - description: トピッククエリの論理演算子です。すべてのトピックを条件とする場合は `and`、いずれかのトピックが一致すればよい場合は `or`
-            を使用します。
+        - description: topicsクエリの論理演算子。すべてのtopicsを必須にするには'and'、いずれかのtopicを必須にするには'or'を使用します
           in: query
           name: topic_group_by
           schema:
@@ -147,25 +121,19 @@ paths:
               - and
               - or
             default: or
-        - description: カンマ区切りの1人以上の著者名。形式：CSV
+        - description: "カンマ区切りの1人以上の著者。形式: csv"
           in: query
           name: authors
           schema:
             type: string
-        - description: "カンマ区切りの 1 つ以上のコンテンツタイプ。フォーマット: csv"
-          in: query
-          name: content_types
-          schema:
-            type: string
-            default: newswire_pressreleases
-        - description: API レスポンスの出力形式を指定します
+        - description: APIレスポンスの形式を指定します
           in: query
           name: format
           schema:
             type: string
             enum:
               - text
-        - description: 重要度で絞り込む
+        - description: 重要度で絞り込みます
           in: query
           name: importance
           schema:
@@ -174,105 +142,32 @@ paths:
               - low
               - medium
               - high
-        - description: 地域でフィルタリングします（例：カナダ向けコンテンツの場合は 'ca' または 'canada'）。
+        - description: "地域で絞り込みます（例: カナダ向けコンテンツの場合は「ca」または「canada」）"
           in: query
           name: region
           schema:
             type: string
       responses:
         "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: "#/components/schemas/api.NewsItem"
-                type: array
-            text/xml:
-              schema:
-                items:
-                  $ref: "#/components/schemas/api.NewsItem"
-                type: array
-        "400":
-          description: 無効または不足しているクエリパラメーター
-          content:
-            application/json:
-              schema:
-                type: string
-            text/xml:
-              schema:
-                type: string
-        "499":
-          description: リクエストコンテキストのキャンセル
-          content:
-            application/json:
-              schema:
-                type: string
-            text/xml:
-              schema:
-                type: string
-        "500":
-          description: 内部エラー
-          content:
-            application/json:
-              schema:
-                type: string
-            text/xml:
-              schema:
-                type: string
-      security:
-        - ApiKeyAuth: []
-      summary: ニュースを取得
-      tags:
-        - News
-  /api/v2/news-removed:
-    get:
-      description: 削除されたニュースデータを返します。指定したタイムスタンプ以降に更新された項目のみが結果に含まれるようにフィルタリングします。
-      operationId: get-removed-news
-      parameters:
-        - description: 戻り値の形式を指定します
-          in: header
-          name: accept
-          required: true
-          schema:
-            type: string
-            enum:
-              - application/json
-            default: application/json
-        - description: ページオフセット。最適化やパフォーマンス、技術的な理由から、ページオフセットは 0 ～ 100,000
-            の範囲に制限されています。日付などの他のパラメータを使用してクエリ結果を絞り込んでください。
-          in: query
-          name: page
-          schema:
-            type: integer
-            default: 0
-        - description: 返される結果の数。最大100。
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-            maximum: 100
-            default: 15
-        - description: 結果を絞り込み、指定した Unix タイムスタンプ（UTC）以降に更新された項目のみを含めます
-          in: query
-          name: updatedSince
-          schema:
-            type: integer
-      responses:
-        "200":
           description: 成功
           content:
             application/json:
               schema:
-                additionalProperties:
-                  items:
-                    $ref: "#/components/schemas/api.NewsRemovedItem"
-                  type: array
-                type: object
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
+            text/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/api.NewsItem"
+                type: array
         "400":
-          description: 無効または未指定のクエリパラメーター
+          description: 無効または未指定のクエリパラメータ
           content:
             application/json:
+              schema:
+                type: string
+            text/xml:
               schema:
                 type: string
         "499":
@@ -281,34 +176,40 @@ paths:
             application/json:
               schema:
                 type: string
+            text/xml:
+              schema:
+                type: string
         "500":
           description: 内部エラー
           content:
             application/json:
               schema:
                 type: string
+            text/xml:
+              schema:
+                type: string
       security:
         - ApiKeyAuth: []
-      summary: 削除済みニュースデータを返します
+      summary: プレスリリース
       tags:
-        - News
+        - Press Releases
 components:
   securitySchemes:
     ApiKeyAuth:
-      description: APIキーによる認証。APIキーをクエリパラメータとして指定してください。
+      description: APIキー認証。APIキーをクエリパラメータとして指定してください。
       in: query
       name: token
       type: apiKey
   schemas:
     api.ChannelTag:
-      description: チャネルまたはタグ名
+      description: チャネル名またはタグ名
       properties:
         name:
           example: Technology
           type: string
       type: object
     api.Image:
-      description: 記事画像（サイズおよびURL）
+      description: サイズとurlを含む記事画像
       properties:
         size:
           example: large
@@ -318,7 +219,7 @@ components:
           type: string
       type: object
     api.NewsItem:
-      description: 完全なメタデータ付きニュース記事項目
+      description: 完全なメタデータを含むニュース記事アイテム
       properties:
         author:
           example: Benzinga Newsdesk
@@ -362,7 +263,7 @@ components:
           type: string
       type: object
     api.NewsRemovedItem:
-      description: 削除されたニュース記事（ID と更新タイムスタンプ付き）
+      description: ID と更新タイムスタンプを含む削除済みニュース記事
       properties:
         id:
           example: 123456
@@ -372,7 +273,7 @@ components:
           type: string
       type: object
     api.Stock:
-      description: tickerシンボルおよび各種識別子付きの株式情報
+      description: ティッカーシンボルと識別子を含む株式情報
       properties:
         cusip:
           example: "037833100"
@@ -389,4 +290,4 @@ components:
       type: object
 servers:
   - url: https://api.benzinga.com
-    description: 本番
+    description: PROD

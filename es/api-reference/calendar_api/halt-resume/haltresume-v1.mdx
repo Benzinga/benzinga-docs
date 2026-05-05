@@ -1,0 +1,85 @@
+---
+title: "Suspensión y reanudación"
+openapi: /es/openapi/calendar_api.spec.yml GET /api/v1/signal/halt_resume
+---
+
+<ResponseExample>
+    ```json Respuesta (200 OK)
+    {
+      "halt_resume": [
+        {
+          "count": 1,
+          "date": "2026-01-28",
+          "description": "Suspensión de cotización: estado de la suspensión actualizado a las 3:04:51 a. m. ET: Suspensión de cotización: motivo no disponible",
+          "exchange": "NASDAQ",
+          "halt_type": "UPDATED",
+          "id": "6979c32524a26100013b72a7",
+          "name": "Applied Therapeutics",
+          "ticker": "APLT",
+          "time": "03:04:53",
+          "updated": 1769587493
+        },
+        {
+          "count": 1,
+          "date": "2026-01-28",
+          "description": "Suspensión de cotización: estado de la suspensión actualizado a las 3:04:51 a. m. ET: Suspensión de cotización: motivo no disponible",
+          "exchange": "NASDAQ",
+          "halt_type": "UPDATED",
+          "id": "6979c32524a26100013b72a8",
+          "name": "Revelation Biosciences",
+          "ticker": "REVBW",
+          "time": "03:04:53",
+          "updated": 1769587493
+        },
+        {
+          "count": 0,
+          "date": "2026-01-28",
+          "description": "Suspensión de cotización: reanudación a las 3:04:51 a. m. ET",
+          "exchange": "",
+          "halt_type": "RESUMED",
+          "id": "6979c32524a26100013b72a9",
+          "name": "",
+          "ticker": "FEMD",
+          "time": "03:04:53",
+          "updated": 1769587493
+        }
+      ]
+    }
+    ```
+    ```json Respuesta (401 No autorizado)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "auth_failed",
+          "id": "unauthorized",
+          "value": "token de autenticación no válido o ausente"
+        }
+      ]
+    }
+    ```
+    ```json Respuesta (404 No encontrado)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "no_data_found",
+          "id": "not_found",
+          "value": "No se encontraron datos para los parámetros especificados"
+        }
+      ]
+    }
+    ```
+    ```json Respuesta (500 Error interno del servidor)
+    {
+      "ok": false,
+      "errors": [
+        {
+          "code": "internal_server_error",
+          "id": "server_error",
+          "value": "Se produjo un error inesperado al procesar su solicitud"
+        }
+      ]
+    }
+    ```
+</ResponseExample>

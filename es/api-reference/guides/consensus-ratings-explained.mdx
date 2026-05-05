@@ -1,67 +1,83 @@
 ---
-title: "Consensus Ratings Explained"
-description: "Learn how Benzinga calculates consensus ratings from individual analyst recommendations"
+title: "Calificaciones de consenso explicadas"
+description: "Aprende cómo Benzinga calcula las calificaciones de consenso a partir de las recomendaciones de analistas individuales"
 ---
 
-## Overview
+<div id="overview">
+  ## Descripción general
+</div>
 
-Consensus ratings provide a consolidated view of analyst sentiment on a stock by aggregating individual analyst ratings into a single, easy-to-understand metric. This guide explains how we calculate consensus ratings to help you make informed investment decisions.
+Las calificaciones de consenso ofrecen una visión consolidada del sentimiento de los analistas sobre una acción, al combinar las calificaciones individuales de los analistas en una métrica única y fácil de entender. Esta guía explica cómo calculamos las calificaciones de consenso para ayudarle a tomar decisiones de inversión con fundamento.
 
-## How Consensus Ratings Are Calculated
+<div id="how-consensus-ratings-are-calculated">
+  ## Cómo se calculan las recomendaciones de consenso
+</div>
 
-### Step 1: Collecting Analyst Ratings
+<div id="step-1-collecting-analyst-ratings">
+  ### Paso 1: Recopilación de calificaciones de analistas
+</div>
 
-We gather all available analyst ratings for a given stock. Each rating includes:
+Recopilamos todas las calificaciones de analistas disponibles para una acción determinada. Cada calificación incluye:
 
-- **Analyst Name** and **Firm Name**
-- **Rating** (e.g., Strong Buy, Buy, Hold, Sell, Strong Sell)
-- **Price Target** - The analyst's projected stock price
-- **Date Updated** - When the rating was issued
+* **Nombre del analista** y **Nombre de la firma**
+* **Calificación** (p. ej., Strong Buy, Buy, Hold, Sell, Strong Sell)
+* **Precio objetivo** - El precio de la acción proyectado por el analista
+* **Fecha de actualización** - Cuándo se emitió la calificación
 
-### Step 2: Filtering for Unique Analysts
+<div id="step-2-filtering-for-unique-analysts">
+  ### Paso 2: Filtrado de analistas únicos
+</div>
 
-To ensure accuracy and avoid double-counting, we only include the **most recent rating** from each unique analyst-firm combination.
+Para garantizar la precisión y evitar contar dos veces, solo incluimos la **calificación más reciente** de cada combinación única de analista y firma.
 
-**Example:** If Morgan Stanley's analyst John Doe has rated a stock multiple times, only their latest rating is included in the calculation.
+**Ejemplo:** Si el analista de Morgan Stanley John Doe ha calificado una acción varias veces, solo se incluye su calificación más reciente en el cálculo.
 
 <Note>
-Ratings without a valid price target are excluded from the analysis.
+  Las calificaciones sin un precio objetivo válido se excluyen del análisis.
 </Note>
 
-### Step 3: Categorizing Ratings
+<div id="step-3-categorizing-ratings">
+  ### Paso 3: Clasificación de recomendaciones
+</div>
 
-Analyst ratings are categorized into five standard categories:
+Las recomendaciones de los analistas se agrupan en cinco categorías estándar:
 
-| Category | Numeric Value |
+| Categoría | Valor numérico |
 |----------|---------------|
-| **Strong Sell** | 1 |
-| **Sell** | 2 |
-| **Hold** | 3 |
-| **Buy** | 4 |
-| **Strong Buy** | 5 |
+| **Venta fuerte** | 1 |
+| **Venta** | 2 |
+| **Mantener** | 3 |
+| **Compra** | 4 |
+| **Compra fuerte** | 5 |
 
-### Step 4: Aggregating Ratings
+<div id="step-4-aggregating-ratings">
+  ### Paso 4: Agrupar las calificaciones
+</div>
 
-We count how many analysts fall into each category.
+Contamos cuántos analistas entran en cada categoría.
 
-**Example Aggregate:**
-- Strong Buy: 8 analysts
-- Buy: 12 analysts
-- Hold: 5 analysts
-- Sell: 2 analysts
-- Strong Sell: 1 analyst
+**Ejemplo de agregación:**
 
-**Total:** 28 unique analysts
+* Compra fuerte: 8 analistas
+* Compra: 12 analistas
+* Mantener: 5 analistas
+* Venta: 2 analistas
+* Venta fuerte: 1 analista
 
-### Step 5: Calculating the Consensus Rating Value
+**Total:** 28 analistas únicos
 
-The consensus rating value is calculated as a weighted average:
+<div id="step-5-calculating-the-consensus-rating-value">
+  ### Paso 5: Calcular el valor de la calificación de consenso
+</div>
+
+El valor de la calificación de consenso se calcula como un promedio ponderado:
 
 ```
 Consensus Value = (Strong Buy × 5 + Buy × 4 + Hold × 3 + Sell × 2 + Strong Sell × 1) / Total Analysts
 ```
 
-**Using the example above:**
+**Con el ejemplo anterior:**
+
 ```
 Consensus Value = (8×5 + 12×4 + 5×3 + 2×2 + 1×1) / 28
 Consensus Value = (40 + 48 + 15 + 4 + 1) / 28
@@ -69,144 +85,186 @@ Consensus Value = 108 / 28
 Consensus Value = 3.86
 ```
 
-### Step 6: Determining the Consensus Rating
+<div id="step-6-determining-the-consensus-rating">
+  ### Paso 6: Determinar la calificación de consenso
+</div>
 
-The consensus value is rounded to the nearest whole number and mapped to a rating:
+El valor de consenso se redondea al entero más cercano y se asigna una calificación:
 
-| Consensus Value | Standard Rating | Simplified Rating |
+| Valor de consenso | Calificación estándar | Calificación simplificada |
 |----------------|-----------------|-------------------|
-| **1** | Strong Sell | Sell |
-| **2** | Sell | Sell |
-| **3** | Hold | Hold |
-| **4** | Buy | Buy |
-| **5** | Strong Buy | Buy |
+| **1** | Venta fuerte | Venta |
+| **2** | Venta | Venta |
+| **3** | Mantener | Mantener |
+| **4** | Compra | Compra |
+| **5** | Compra fuerte | Compra |
 
-**In our example:** 3.86 rounds to **4**, which translates to a **"Buy"** consensus rating.
+**En nuestro ejemplo:** 3.86 se redondea a **4**, lo que da como resultado una calificación de consenso de **«Compra»**.
 
----
+***
 
-## Display Options
+<div id="display-options">
+  ## Opciones de visualización
+</div>
 
-### Standard vs. Simplified Ratings
+<div id="standard-vs-simplified-ratings">
+  ### Calificaciones estándar vs. simplificadas
+</div>
 
-We offer two display formats:
+Ofrecemos dos formatos de presentación:
 
-**Standard (5-category):**
-- Strong Sell, Sell, Hold, Buy, Strong Buy
+**Estándar (5 categorías):**
 
-**Simplified (3-category):**
-- Sell (combines Strong Sell + Sell)
-- Hold
-- Buy (combines Buy + Strong Buy)
+* Venta fuerte, Venta, Mantener, Compra, Compra fuerte
 
-### Count vs. Percentage Display
+**Simplificado (3 categorías):**
 
-**Count Display:**
-Shows the actual number of analysts in each category.
+* Venta (combina Venta fuerte + Venta)
+* Mantener
+* Compra (combina Compra + Compra fuerte)
 
-**Percentage Display:**
-Shows the proportion of analysts in each category, rounded to whole percentages that sum to exactly 100%.
+<div id="count-vs-percentage-display">
+  ### Recuento frente a porcentaje
+</div>
 
-**Example:**
-- Buy: 71% (20 analysts)
-- Hold: 18% (5 analysts)
-- Sell: 11% (3 analysts)
+**Recuento:**
+Muestra el número exacto de analistas en cada categoría.
 
----
+**Porcentaje:**
+Muestra la proporción de analistas en cada categoría, redondeada a porcentajes enteros que suman exactamente el 100 %.
 
-## Price Target Calculations
+**Ejemplo:**
 
-### Consensus Price Target
+* Compra: 71 % (20 analistas)
+* Mantener: 18 % (5 analistas)
+* Venta: 11 % (3 analistas)
 
-The average of all analyst price targets:
+***
+
+<div id="price-target-calculations">
+  ## Cálculo del precio objetivo
+</div>
+
+<div id="consensus-price-target">
+  ### Precio objetivo de consenso
+</div>
+
+La media de todos los precios objetivo de los analistas:
 
 ```
-Consensus PT = Sum of all Price Targets / Number of Analysts
+PO Consenso = Suma de todos los Precios Objetivo / Número de Analistas
 ```
 
-### Low and High Price Targets
+<div id="low-and-high-price-targets">
+  ### Precios objetivo mínimo y máximo
+</div>
 
-- **Low Price Target:** The lowest price target among all analysts
-- **High Price Target:** The highest price target among all analysts
+* **Precio objetivo mínimo:** El precio objetivo más bajo entre todos los analistas
+* **Precio objetivo máximo:** El precio objetivo más alto entre todos los analistas
 
-These provide a range showing the spectrum of analyst expectations.
+Estos valores definen un rango que refleja el espectro de expectativas de los analistas.
 
----
+***
 
-## Understanding the Metrics
+<div id="understanding-the-metrics">
+  ## Cómo interpretar las métricas
+</div>
 
-### Total Analyst Count vs. Unique Analyst Count
+<div id="total-analyst-count-vs-unique-analyst-count">
+  ### Recuento total de analistas vs. recuento único de analistas
+</div>
 
-- **Total Analyst Count:** All ratings collected (may include multiple ratings from the same analyst)
-- **Unique Analyst Count:** The number of distinct analyst-firm combinations (used for calculations)
+* **Recuento total de analistas:** Todas las calificaciones recopiladas (puede incluir múltiples calificaciones del mismo analista)
+* **Recuento único de analistas:** El número de combinaciones únicas analista–firma (empleado para los cálculos)
 
-The unique count ensures each analyst's voice is counted only once, providing a more accurate consensus.
+El recuento único garantiza que la opinión de cada analista se cuente solo una vez, lo que proporciona un consenso más preciso.
 
----
+***
 
-## Important Considerations
+<div id="important-considerations">
+  ## Consideraciones importantes
+</div>
 
-### Rating Freshness
+<div id="rating-freshness">
+  ### Actualización de las calificaciones
+</div>
 
-Consensus ratings reflect the most recent analyst opinions. The **Updated At** timestamp indicates when the consensus was last calculated.
+Las calificaciones de consenso reflejan las opiniones más recientes de los analistas. La marca de tiempo **Updated At** indica cuándo se calculó por última vez el consenso.
 
-### Coverage Depth
+<div id="coverage-depth">
+  ### Profundidad de cobertura
+</div>
 
-Consensus ratings are more reliable when based on a larger number of unique analysts. Stocks with limited analyst coverage (fewer than 3-5 analysts) may have less stable consensus ratings.
+Las calificaciones de consenso son más fiables cuando se basan en un mayor número de analistas distintos. Las acciones con cobertura limitada de analistas (por debajo de 3‑5 analistas) pueden tener calificaciones de consenso menos estables.
 
-### Rating Distribution
+<div id="rating-distribution">
+  ### Distribución de recomendaciones
+</div>
 
-Pay attention to the distribution of ratings, not just the consensus. A stock with 50% Buy and 50% Sell ratings will have a "Hold" consensus, but this masks significant disagreement among analysts.
+Presta atención a la distribución de las recomendaciones, no solo al consenso. Una acción con 50% de recomendaciones de Compra y 50% de recomendaciones de Venta tendrá un consenso de &quot;Mantener&quot;, pero esto oculta un desacuerdo significativo entre los analistas.
 
----
+***
 
-## Example Calculation Walkthrough
+<div id="example-calculation-walkthrough">
+  ## Ejemplo de cálculo paso a paso
+</div>
 
-Let's walk through a complete example for **XYZ Corporation**:
+Veamos un ejemplo completo con **XYZ Corporation**:
 
-### Raw Data (10 analysts)
-| Analyst | Firm | Rating | Price Target |
+<div id="raw-data-10-analysts">
+  ### Datos en bruto (10 analistas)
+</div>
+
+| Analista | Firma | Recomendación | Precio objetivo |
 |---------|------|--------|--------------|
-| Analyst A | Goldman Sachs | Buy | $150 |
-| Analyst B | JP Morgan | Strong Buy | $165 |
-| Analyst C | Morgan Stanley | Buy | $155 |
-| Analyst D | Bank of America | Hold | $140 |
-| Analyst E | Citigroup | Strong Buy | $170 |
-| Analyst F | Wells Fargo | Buy | $152 |
-| Analyst G | Deutsche Bank | Hold | $145 |
-| Analyst H | Barclays | Sell | $130 |
-| Analyst I | UBS | Buy | $158 |
-| Analyst J | Credit Suisse | Strong Buy | $168 |
+| Analista A | Goldman Sachs | Comprar | $150 |
+| Analista B | JP Morgan | Compra fuerte | $165 |
+| Analista C | Morgan Stanley | Comprar | $155 |
+| Analista D | Bank of America | Mantener | $140 |
+| Analista E | Citigroup | Compra fuerte | $170 |
+| Analista F | Wells Fargo | Comprar | $152 |
+| Analista G | Deutsche Bank | Mantener | $145 |
+| Analista H | Barclays | Vender | $130 |
+| Analista I | UBS | Comprar | $158 |
+| Analista J | Credit Suisse | Compra fuerte | $168 |
 
-### Step-by-Step Calculation
+<div id="step-by-step-calculation">
+  ### Cálculo paso a paso
+</div>
 
-**1. Filter for unique analysts:** All 10 ratings are unique (10 analysts used)
+**1. Filtrar por analistas únicos:** Las 10 calificaciones son distintas (se usan 10 analistas)
 
-**2. Aggregate counts:**
-- Strong Buy: 3
-- Buy: 4
-- Hold: 2
-- Sell: 1
-- Strong Sell: 0
+**2. Agregar recuentos:**
 
-**3. Calculate consensus value:**
+* Strong Buy: 3
+* Buy: 4
+* Hold: 2
+* Sell: 1
+* Strong Sell: 0
+
+**3. Calcular el valor de consenso:**
+
 ```
 (3×5 + 4×4 + 2×3 + 1×2 + 0×1) / 10 = (15 + 16 + 6 + 2 + 0) / 10 = 3.9
 ```
 
-**4. Determine consensus:** 3.9 rounds to **4 = "Buy"**
+**4. Determinar el consenso:** 3.9 se redondea a **4 = &quot;Compra&quot;**
 
-**5. Price targets:**
-- Consensus PT: (150+165+155+140+170+152+145+130+158+168) / 10 = **$153.30**
-- Low PT: **$130**
-- High PT: **$170**
+**5. Precios objetivo (PO):**
 
-**6. Percentage breakdown:**
-- Buy: 70% (Strong Buy 30% + Buy 40%)
-- Hold: 20%
-- Sell: 10%
+* PO de consenso: (150+165+155+140+170+152+145+130+158+168) / 10 = **$153.30**
+* PO mínima: **$130**
+* PO máxima: **$170**
 
-### Final Consensus Rating Output
+**6. Desglose porcentual:**
+
+* Compra: 70% (Compra fuerte 30% + Compra 40%)
+* Mantener: 20%
+* Vender: 10%
+
+<div id="final-consensus-rating-output">
+  ### Salida de la calificación de consenso definitiva
+</div>
 
 ```json
 {
@@ -221,37 +279,42 @@ Let's walk through a complete example for **XYZ Corporation**:
 }
 ```
 
----
+***
 
-## Frequently Asked Questions
+<div id="frequently-asked-questions">
+  ## Preguntas frecuentes
+</div>
 
 <AccordionGroup>
-  <Accordion title="Why might the total and unique analyst counts differ?">
-    If an analyst from the same firm updates their rating multiple times, the total count includes all instances, but only the most recent is used in calculations (reflected in the unique count).
+  <Accordion title="¿Por qué pueden diferir los conteos totales y únicos de analistas?">
+    Si un analista de la misma firma actualiza su calificación varias veces, el conteo total incluye todas las ocasiones, pero solo la más reciente se utiliza en los cálculos (reflejado en el conteo único).
   </Accordion>
 
-  <Accordion title="How often are consensus ratings updated?">
-    Consensus ratings are recalculated whenever new analyst ratings are published or existing ratings are updated.
+  <Accordion title="¿Con qué frecuencia se actualizan las calificaciones de consenso?">
+    Las calificaciones de consenso se recalculan cada vez que se publican nuevas calificaciones de analistas o se actualizan las existentes.
   </Accordion>
 
-  <Accordion title="What happens if there are no analyst ratings?">
-    Without analyst coverage, a consensus rating cannot be calculated. The stock will show no consensus data.
+  <Accordion title="¿Qué sucede si no hay calificaciones de analistas?">
+    Sin cobertura de analistas, no se puede calcular una calificación de consenso. La acción no mostrará datos de consenso.
   </Accordion>
 
-  <Accordion title="Can the consensus rating change without new analyst ratings?">
-    No. The consensus only changes when analysts issue new ratings or update existing ones.
+  <Accordion title="¿Puede cambiar la calificación de consenso sin nuevas calificaciones de analistas?">
+    No. El consenso solo cambia cuando los analistas emiten nuevas calificaciones o actualizan las existentes.
   </Accordion>
 </AccordionGroup>
 
----
+***
 
-## Related Endpoints
+<div id="related-endpoints">
+  ## Endpoints relacionados
+</div>
 
 <CardGroup cols={2}>
-  <Card title="Consensus Ratings API" icon="chart-bar" href="/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data">
-    Get consensus rating data for stocks
+  <Card title="API de Calificaciones de Consenso" icon="chart-bar" href="/es/api-reference/calendar_api/consensus_ratings/returns-analyst-ratings-consensus-data">
+    Obtener datos de calificaciones de consenso para acciones
   </Card>
-  <Card title="Analyst Ratings API" icon="users" href="/api-reference/calendar_api/ratings/returns-analyst-ratings-data">
-    Get individual analyst ratings
+
+  <Card title="API de Calificaciones de Analistas" icon="users" href="/es/api-reference/calendar_api/ratings/returns-analyst-ratings-data">
+    Obtener las calificaciones individuales de los analistas
   </Card>
 </CardGroup>
