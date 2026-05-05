@@ -580,14 +580,6 @@ paths:
           schema:
             type: string
             format: date
-        - description: Chamber
-          in: query
-          name: chamber
-          schema:
-            type: string
-            enum:
-              - House
-              - Senate
         - description: Fields
           in: query
           name: fields
