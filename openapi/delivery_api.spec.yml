@@ -970,7 +970,4 @@ components:
       x-enum-varnames:
         - Undefined
         - "Null"
-        - Presen
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
+        - Present
