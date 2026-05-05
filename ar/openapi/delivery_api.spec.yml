@@ -973,4 +973,7 @@ components:
       x-enum-varnames:
         - Undefined
         - "Null"
-        - Present
+        - Presen
+servers:
+  - url: https://api.benzinga.com
+    description: الإنتاج
