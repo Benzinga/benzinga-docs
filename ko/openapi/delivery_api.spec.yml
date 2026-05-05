@@ -965,7 +965,4 @@ components:
       x-enum-varnames:
         - Undefined
         - "Null"
-        - Presen
-servers:
-  - url: https://api.benzinga.com
-    description: 운영
+        - Present
