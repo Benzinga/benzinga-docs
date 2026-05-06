@@ -1509,7 +1509,7 @@ components:
           type: integer
         symbol:
           type: string
-      type: objec
+      type: object
 servers:
   - url: https://api.benzinga.com
     description: PROD
