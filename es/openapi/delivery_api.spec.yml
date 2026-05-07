@@ -973,3 +973,6 @@ components:
         - Undefined
         - "Null"
         - Present
+servers:
+  - url: https://api.benzinga.com
+    description: PROD
