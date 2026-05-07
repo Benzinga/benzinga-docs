@@ -587,14 +587,6 @@ paths:
           schema:
             type: string
             format: date
-        - description: الغرفة
-          in: query
-          name: chamber
-          schema:
-            type: string
-            enum:
-              - House
-              - Senate
         - description: الحقول
           in: query
           name: fields
@@ -615,7 +607,7 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: نوع العرض
+        - description: العرض
           in: query
           name: display
           schema:
@@ -623,9 +615,9 @@ paths:
             enum:
               - flat
               - nested
-        - description: "صيغة الاستجابة: تعيد القيمة «filings» عرضًا مجمّعًا لملفات الإيداع
-            مع تضمين المعاملات، بينما تعيد القيمة «transactions» عرضًا مسطَّحًا
-            لكل معاملة منفردة"
+        - description: "تنسيق الاستجابة: تُرجِع 'filings' عرضًا مجمّعًا للإيداعات مع إدراج
+            المعاملات ضمنه، وتُرجِع 'transactions' عرضًا مسطّحًا للمعاملات
+            الفردية"
           in: path
           name: view_type
           required: true

@@ -562,14 +562,6 @@ paths:
           schema:
             type: string
             format: date
-        - description: 議院
-          in: query
-          name: chamber
-          schema:
-            type: string
-            enum:
-              - House
-              - Senate
         - description: フィールド
           in: query
           name: fields
@@ -590,7 +582,7 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: 表示形式
+        - description: 表示
           in: query
           name: display
           schema:
@@ -598,8 +590,9 @@ paths:
             enum:
               - flat
               - nested
-        - description: レスポンス形式：'filings' は取引を入れ子にしたファイリング単位のグループ化ビューを返し、'transactions'
-            は各取引をフラットにしたビューを返します
+        - description: "レスポンス形式: 'filings'
+            はトランザクションがネストされたグループ化済みの提出書類ビューを返し、'transactions'
+            はフラット化された個別トランザクションビューを返します"
           in: path
           name: view_type
           required: true
