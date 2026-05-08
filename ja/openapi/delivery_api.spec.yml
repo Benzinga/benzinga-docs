@@ -967,6 +967,3 @@ components:
         - Undefined
         - "Null"
         - Present
-servers:
-  - url: https://api.benzinga.com
-    description: 本番
