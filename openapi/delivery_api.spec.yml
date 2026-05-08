@@ -8,7 +8,9 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: Retrieve a list of calls with optional filtering and pagination. By default, only COMPLETED calls are returned. Use status=ALL to return all statuses.
+      description: Retrieve a list of calls with optional filtering and pagination. By
+        default, only COMPLETED calls are returned. Use status=ALL to return all
+        statuses.
       operationId: get-conference-calls
       parameters:
         - description: The page number for pagination (starts at 1)
@@ -23,7 +25,8 @@ paths:
           schema:
             type: integer
             default: 10
-        - description: Filter by call status. Defaults to COMPLETED. Use ALL to return all statuses.
+        - description: Filter by call status. Defaults to COMPLETED. Use ALL to return all
+            statuses.
           in: query
           name: status
           schema:
@@ -119,7 +122,8 @@ paths:
           name: pdf
           schema:
             type: boolean
-        - description: If true, includes pre-signed URLs for external assets (e.g. slide deck PDFs)
+        - description: If true, includes pre-signed URLs for external assets (e.g. slide
+            deck PDFs)
           in: query
           name: assets
           schema:
@@ -307,7 +311,8 @@ paths:
         - participants
   /api/v1/transcripts/status:
     get:
-      description: Query a specific view with filters and pagination. Supports both GET (query params) and POST (JSON body).
+      description: Query a specific view with filters and pagination. Supports both
+        GET (query params) and POST (JSON body).
       operationId: query-status-view
       parameters:
         - description: View name (for GET)
@@ -367,7 +372,8 @@ paths:
       tags:
         - status
     post:
-      description: Query a specific view with filters and pagination. Supports both GET (query params) and POST (JSON body).
+      description: Query a specific view with filters and pagination. Supports both
+        GET (query params) and POST (JSON body).
       operationId: query-status-view
       parameters:
         - description: View name (for GET)
@@ -965,6 +971,3 @@ components:
         - Undefined
         - "Null"
         - Present
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
