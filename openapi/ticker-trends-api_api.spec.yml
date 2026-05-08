@@ -1,40 +1,49 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API provides endpoints to search for trending tickers and get ticker details.
+  description: This REST API provides endpoints to search for trending tickers and
+    get ticker details.
   termsOfService: http://swagger.io/terms/
   title: TickerTrends API
   version: 2.1.0
 paths:
   /api/v1/trending-tickers:
     get:
-      description: Retrieve trending data for specific tickers, including rank and change. Returns aggregated trend scores and activity levels across different time intervals.
+      description: Retrieve trending data for specific tickers, including rank and
+        change. Returns aggregated trend scores and activity levels across
+        different time intervals.
       operationId: get-ticker-trend-data
       parameters:
-        - description: "Time interval for aggregating trend data. Supported values: 10m (10 minutes), 1h (1 hour), 1d (1 day). Required."
+        - description: "Time interval for aggregating trend data. Supported values: 10m
+            (10 minutes), 1h (1 hour), 1d (1 day). Required."
           in: query
           name: interval
           required: true
           schema:
             type: string
-        - description: Comma-separated list of stock ticker symbols (e.g., AAPL,MSFT,TSLA) to retrieve trend data for. Required.
+        - description: Comma-separated list of stock ticker symbols (e.g., AAPL,MSFT,TSLA)
+            to retrieve trend data for. Required.
           in: query
           name: tickers
           required: true
           schema:
             type: string
-        - description: "Data source filter for trend calculation. Supported values: all (all sources combined), clickstream (user interaction data), logo (logo request data). Required."
+        - description: "Data source filter for trend calculation. Supported values: all
+            (all sources combined), clickstream (user interaction data), logo
+            (logo request data). Required."
           in: query
           name: source
           required: true
           schema:
             type: string
-        - description: Time window for trend analysis. Optional custom timeframe specification for filtering results by specific date ranges.
+        - description: Time window for trend analysis. Optional custom timeframe
+            specification for filtering results by specific date ranges.
           in: query
           name: timeframe
           schema:
             type: string
-        - description: "Page number for pagination. Zero-indexed (0 = first page, 1 = second page, etc.). Default: 0"
+        - description: "Page number for pagination. Zero-indexed (0 = first page, 1 =
+            second page, etc.). Default: 0"
           in: query
           name: page
           schema:
@@ -52,7 +61,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/httpapi.tickerTrendAPIResponse"
         "400":
-          description: Bad request - missing or invalid required parameters (interval, tickers, or source)
+          description: Bad request - missing or invalid required parameters (interval,
+            tickers, or source)
           content:
             application/json:
               schema:
@@ -70,52 +80,64 @@ paths:
         - Ticker Trends
   /api/v1/trending-tickers/list:
     get:
-      description: Retrieve a list of trending tickers based on various metrics. Returns securities ordered by trending score across different time intervals.
+      description: Retrieve a list of trending tickers based on various metrics.
+        Returns securities ordered by trending score across different time
+        intervals.
       operationId: get-ticker-trend-list-data
       parameters:
-        - description: Deprecated. Use timeframe instead. Time interval for aggregating trend data.
+        - description: Deprecated. Use timeframe instead. Time interval for aggregating
+            trend data.
           in: query
           name: interval
           required: true
           schema:
             type: string
-        - description: Optional comma-separated list of ticker symbols to filter results. If omitted, returns all trending tickers.
+        - description: Optional comma-separated list of ticker symbols to filter results.
+            If omitted, returns all trending tickers.
           in: query
           name: tickers
           schema:
             type: string
-        - description: "Data source filter for trend calculation. Supported values: all (all sources combined), clickstream (user interaction data), logo (logo request data). Required."
+        - description: "Data source filter for trend calculation. Supported values: all
+            (all sources combined), clickstream (user interaction data), logo
+            (logo request data). Required."
           in: query
           name: source
           required: true
           schema:
             type: string
-        - description: "Time interval for trend aggregation. Supported values: 10m (10 minutes), 1h (1 hour), 1d (1 day). Default: 1d"
+        - description: "Time interval for trend aggregation. Supported values: 10m (10
+            minutes), 1h (1 hour), 1d (1 day). Default: 1d"
           in: query
           name: timeframe
           schema:
             type: string
-        - description: Start time filter in 24-hour format (e.g., 09:15, 14:30). Use with date_from for precise time ranges.
+        - description: Start time filter in 24-hour format (e.g., 09:15, 14:30). Use with
+            date_from for precise time ranges.
           in: query
           name: time_from
           schema:
             type: string
-        - description: End time filter in 24-hour format (e.g., 16:00, 22:30). Use with date_to for precise time ranges.
+        - description: End time filter in 24-hour format (e.g., 16:00, 22:30). Use with
+            date_to for precise time ranges.
           in: query
           name: time_to
           schema:
             type: string
-        - description: Start date filter in ISO 8601 format (e.g., 2024-12-30, 2024-01-15). Use with time_from for precise ranges.
+        - description: Start date filter in ISO 8601 format (e.g., 2024-12-30,
+            2024-01-15). Use with time_from for precise ranges.
           in: query
           name: date_from
           schema:
             type: string
-        - description: End date filter in ISO 8601 format (e.g., 2024-12-30, 2024-01-31). Use with time_to for precise ranges.
+        - description: End date filter in ISO 8601 format (e.g., 2024-12-30, 2024-01-31).
+            Use with time_to for precise ranges.
           in: query
           name: date_to
           schema:
             type: string
-        - description: "Page number for pagination. Zero-indexed (0 = first page, 1 = second page, etc.). Default: 0"
+        - description: "Page number for pagination. Zero-indexed (0 = first page, 1 =
+            second page, etc.). Default: 0"
           in: query
           name: page
           schema:
@@ -133,7 +155,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/models.TrendingTickersListAPIResponse"
         "400":
-          description: Bad request - missing or invalid source parameter, or invalid date/time format
+          description: Bad request - missing or invalid source parameter, or invalid
+            date/time format
           content:
             application/json:
               schema:
@@ -167,6 +190,8 @@ components:
       type: object
     bzhttp.ErrorCode:
       enum:
+        - unsupported_message_type
+        - database_query_error
         - json_unmarshaling_error
         - no_data_found
         - no_matching_endpoint
@@ -178,10 +203,10 @@ components:
         - failed_dependency
         - service_unavailable
         - upstream_api_error
-        - unsupported_message_type
-        - database_query_error
       type: string
       x-enum-varnames:
+        - ErrorUnsupportedMessageType
+        - ErrorDBQueryError
         - ErrorJSONUnmarshaling
         - ErrorNoDataFound
         - ErrorNoMatchingEndpoint
@@ -193,8 +218,6 @@ components:
         - ErrorFailedDependency
         - ErrorServiceUnavailable
         - ErrorUpstreamAPIError
-        - ErrorUnsupportedMessageType
-        - ErrorDBQueryError
     bzhttp.Resp:
       properties:
         data:
@@ -284,6 +307,3 @@ components:
         security:
           $ref: "#/components/schemas/models.Security"
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
