@@ -113,20 +113,20 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 items:
-                  $ref: "#/components/schemas/api.NewsItem"
+                  $ref: '#/components/schemas/api.NewsItem'
                 type: array
             text/xml:
               schema:
                 items:
-                  $ref: "#/components/schemas/api.NewsItem"
+                  $ref: '#/components/schemas/api.NewsItem'
                 type: array
-        "400":
+        '400':
           description: Invalid or Missing Query Parameters
           content:
             application/json:
@@ -135,7 +135,7 @@ paths:
             text/xml:
               schema:
                 type: string
-        "499":
+        '499':
           description: Request Context Cancelled
           content:
             application/json:
@@ -144,7 +144,7 @@ paths:
             text/xml:
               schema:
                 type: string
-        "500":
+        '500':
           description: Internal Error
           content:
             application/json:
@@ -179,20 +179,20 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 items:
-                  $ref: "#/components/schemas/api.NewsRemovedItem"
+                  $ref: '#/components/schemas/api.NewsRemovedItem'
                 type: array
             text/xml:
               schema:
                 items:
-                  $ref: "#/components/schemas/api.NewsRemovedItem"
+                  $ref: '#/components/schemas/api.NewsRemovedItem'
                 type: array
-        "400":
+        '400':
           description: Invalid or Missing Query Parameters
           content:
             application/json:
@@ -201,7 +201,7 @@ paths:
             text/xml:
               schema:
                 type: string
-        "499":
+        '499':
           description: Request Context Cancelled
           content:
             application/json:
@@ -210,7 +210,7 @@ paths:
             text/xml:
               schema:
                 type: string
-        "500":
+        '500':
           description: Internal Error
           content:
             application/json:
@@ -251,7 +251,7 @@ components:
           type: string
         channels:
           items:
-            $ref: "#/components/schemas/api.ChannelTag"
+            $ref: '#/components/schemas/api.ChannelTag'
           type: array
         created:
           type: string
@@ -259,17 +259,17 @@ components:
           type: integer
         image:
           items:
-            $ref: "#/components/schemas/api.Image"
+            $ref: '#/components/schemas/api.Image'
           type: array
         original_id:
           type: integer
         stocks:
           items:
-            $ref: "#/components/schemas/api.Stock"
+            $ref: '#/components/schemas/api.Stock'
           type: array
         tags:
           items:
-            $ref: "#/components/schemas/api.ChannelTag"
+            $ref: '#/components/schemas/api.ChannelTag'
           type: array
         teaser:
           type: string
@@ -298,3 +298,6 @@ components:
         name:
           type: string
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD
