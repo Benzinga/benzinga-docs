@@ -1,121 +1,192 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: تُرجِع واجهة برمجة التطبيقات REST هذه بيانات منظَّمة للمقالات
-    الإخبارية والبيانات الصحفية.
-  termsOfService: http://swagger.io/terms/
-  title: News API
-  version: 2.1.0
+  description: مصادقة Bearer باستخدام رمز الوصول
+  title: Newsfeed & Why is it Moving v2
+  version: 2.0.0
 paths:
+  /api/v2.1/news/channels:
+    get:
+      description: تُرجِع قائمة بجميع قنوات الأخبار المتاحة التي يمكن استخدامها لتصفية
+        عناصر الأخبار. وقد تحتوي القنوات على قنوات فرعية، ولكن ستُدرج جميعها
+        كعنصر مستقل.
+      operationId: get-channels
+      responses:
+        "200":
+          description: نجاح
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+        "500":
+          description: خطأ داخلي في الخادم
+          content:
+            application/json:
+              schema:
+                additionalProperties: true
+                type: object
+      summary: جلب قنوات الأخبار المتاحة
+      tags:
+        - Channels
   /api/v2/news:
     get:
-      description: جلب الأخبار
+      description: تُرجِع واجهة برمجة التطبيقات API هذه القائمة على REST بيانات
+        منظَّمة للأخبار. للحصول على أفضل أداء، قلِّص نطاق الاستعلام باستخدام
+        معلمات مثل رموز الأسهم والتاريخ والقنوات، أو استخدم updatedSince
+        للتحديثات التراكمية. إزاحات الصفحات محدودة بين 0 و100000.
       operationId: get-news
       parameters:
-        - description: رموز الأسهم
-          in: query
-          name: tickers
+        - description: حدِّد تنسيق الإرجاع
+          in: header
+          name: accept
+          required: true
           schema:
             type: string
-        - description: أرقام CUSIP
-          in: query
-          name: cusips
-          schema:
-            type: string
-        - description: أرقام التعريف الدولي للأوراق المالية ISIN
-          in: query
-          name: isins
-          schema:
-            type: string
-        - description: القنوات
-          in: query
-          name: channels
-          schema:
-            type: string
-        - description: الموضوعات
-          in: query
-          name: topics
-          schema:
-            type: string
-        - description: المؤلفون
-          in: query
-          name: authors
-          schema:
-            type: string
-        - description: أنواع المحتوى
-          in: query
-          name: contentTypes
-          schema:
-            type: string
-        - description: الفرز
-          in: query
-          name: sort
-          schema:
-            type: string
-        - description: التاريخ
-          in: query
-          name: date
-          schema:
-            type: string
-            format: date
-        - description: منشور منذ
-          in: query
-          name: publishedSince
-          schema:
-            type: string
-        - description: محدَّث منذ
-          in: query
-          name: updatedSince
-          schema:
-            type: string
-        - description: التاريخ من
-          in: query
-          name: dateFrom
-          schema:
-            type: string
-        - description: التاريخ إلى
-          in: query
-          name: dateTo
-          schema:
-            type: string
-        - description: حجم الصفحة
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-        - description: الصفحة
+            enum:
+              - application/json
+              - application/xml
+            default: application/json
+        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والجوانب التقنية، تكون
+            إزاحات الصفحات محدودة بين 0 و100000. قلِّص نتائج الاستعلام باستخدام
+            معلمات أخرى مثل التاريخ.
           in: query
           name: page
           schema:
             type: integer
-        - description: آخر معرّف
+            default: 0
+        - description: عدد النتائج المُعادة. الحد الأقصى 100.
           in: query
-          name: lastID
+          name: pageSize
           schema:
-            type: string
-        - description: عرض الناتج
+            type: integer
+            maximum: 100
+            default: 15
+        - description: حدِّد العنوان فقط (headline)، أو العنوان + الموجز (abstract)، أو
+            العنوان + النص الكامل (full)
           in: query
           name: displayOutput
           schema:
             type: string
-        - description: الضوضاء
+            enum:
+              - full
+              - abstract
+              - headline
+            default: headline
+        - description: "التاريخ المطلوب للاستعلام عن الأخبار. يُستخدم كصيغة مختصرة لكلٍّ
+            من dateFrom وdateTo إذا كانا متطابقين. التنسيق: yyyy-mm-dd"
           in: query
-          name: noise
+          name: date
           schema:
             type: string
-        - description: الأهمية
+        - description: "تاريخ بدء الاستعلام. يُرتَّب حسب تاريخ النشر. التنسيق: yyyy-mm-dd"
           in: query
-          name: importance
+          name: dateFrom
           schema:
             type: string
-        - description: التنسيق
+        - description: "تاريخ نهاية الاستعلام. يُرتَّب حسب تاريخ النشر. التنسيق: yyyy-mm-dd"
+          in: query
+          name: dateTo
+          schema:
+            type: string
+        - description: آخر طابع زمني Unix (UTC) للتحديث، للسحب والترتيب على أساسه
+          in: query
+          name: updatedSince
+          schema:
+            type: integer
+        - description: آخر طابع زمني Unix (UTC) للنشر، للسحب والترتيب على أساسه
+          in: query
+          name: publishedSince
+          schema:
+            type: integer
+        - description: "يتيح التحكم في فرز النتائج. القيمة الافتراضية هي created, DESC.
+            التنسيق: field:direction. حقول الفرز: id, created, updated. ترتيب
+            الفرز: asc (تصاعدي)، desc (تنازلي)"
+          in: query
+          name: sort
+          schema:
+            type: string
+            enum:
+              - id:asc
+              - id:desc
+              - created:asc
+              - created:desc
+              - updated:asc
+              - updated:desc
+        - description: "رقم التعريف الدولي للأوراق المالية ISIN واحد أو أكثر، مفصولة
+            بفاصلة. الحد الأقصى 50. التنسيق: csv"
+          in: query
+          name: isin
+          schema:
+            type: string
+        - description: "CUSIP واحد أو أكثر، مفصولة بفاصلة. الحد الأقصى 50. يتطلب اتفاقية
+            ترخيص. التنسيق: csv"
+          in: query
+          name: cusips
+          schema:
+            type: string
+        - description: "رمز تداول واحد أو أكثر، مفصولة بفاصلة. الحد الأقصى 50. التنسيق: csv"
+          in: query
+          name: tickers
+          schema:
+            type: string
+        - description: "رمز تداول أساسي واحد أو أكثر، مفصولة بفاصلة. تُطبَّق التصفية حسب
+            الارتباط برمز التداول الأساسي فقط. التنسيق: csv"
+          in: query
+          name: primaryTickers
+          schema:
+            type: string
+        - description: "اسم قناة واحد أو أكثر أو معرّفات، مفصولة بفاصلة. التنسيق: csv"
+          in: query
+          name: channels
+          schema:
+            type: string
+        - description: "كلمة أو عبارة واحدة أو أكثر، مفصولة بفاصلة؛ يبحث في العنوان
+            والوسوم والنص حسب ترتيب الأولوية. التنسيق: csv"
+          in: query
+          name: topics
+          schema:
+            type: string
+        - description: المعامل المنطقي لاستعلام الموضوعات. استخدم 'and' لاشتراط جميع
+            الموضوعات، و'or' لاشتراط أي موضوع
+          in: query
+          name: topic_group_by
+          schema:
+            type: string
+            enum:
+              - and
+              - or
+            default: or
+        - description: "مؤلف واحد أو أكثر، مفصول بفاصلة. التنسيق: csv"
+          in: query
+          name: authors
+          schema:
+            type: string
+        - description: "نوع محتوى واحد أو أكثر، مفصول بفاصلة. التنسيق: csv"
+          in: query
+          name: content_types
+          schema:
+            type: string
+        - description: حدِّد التنسيق المطلوب لاستجابة api
           in: query
           name: format
           schema:
             type: string
+            enum:
+              - text
+        - description: التصفية حسب مستوى الأهمية
+          in: query
+          name: importance
+          schema:
+            type: string
+        - description: التصفية حسب المنطقة (مثل 'ca' أو 'canada' للمحتوى الكندي)
+          in: query
+          name: region
+          schema:
+            type: string
       responses:
         "200":
-          description: موافق
+          description: نجاح
           content:
             application/json:
               schema:
@@ -156,50 +227,60 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: جلب الأخبار
+      summary: جلب عناصر الأخبار
       tags:
         - News
-  /api/v2/news/removed:
+  /api/v2/news-removed:
     get:
-      description: جلب الأخبار المحذوفة
+      description: تُرجِع بيانات الأخبار المحذوفة. وتُصفّي النتائج بحيث تشمل فقط
+        العناصر التي تم تحديثها منذ الطابع الزمني المحدد.
       operationId: get-removed-news
       parameters:
-        - description: محدَّث منذ
-          in: query
-          name: updatedSince
+        - description: يحدّد تنسيق الإرجاع
+          in: header
+          name: accept
+          required: true
           schema:
             type: string
-        - description: حجم الصفحة
-          in: query
-          name: pageSize
-          schema:
-            type: integer
-        - description: الصفحة
+            enum:
+              - application/json
+            default: application/json
+        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والجوانب التقنية، تقتصر
+            إزاحات الصفحات على النطاق من 0 إلى 100000. قيّد نتائج الاستعلام
+            باستخدام معلمات أخرى مثل التاريخ.
           in: query
           name: page
           schema:
             type: integer
+            default: 0
+        - description: عدد النتائج المُعادة. الحد الأقصى 100.
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+            maximum: 100
+            default: 15
+        - description: تُصفّي النتائج لتشمل فقط العناصر التي تم تحديثها منذ طابع زمني Unix
+            المحدد (UTC)
+          in: query
+          name: updatedSince
+          schema:
+            type: integer
       responses:
         "200":
-          description: موافق
+          description: نجاح
           content:
             application/json:
               schema:
-                items:
-                  $ref: "#/components/schemas/api.NewsRemovedItem"
-                type: array
-            text/xml:
-              schema:
-                items:
-                  $ref: "#/components/schemas/api.NewsRemovedItem"
-                type: array
+                additionalProperties:
+                  items:
+                    $ref: "#/components/schemas/api.NewsRemovedItem"
+                  type: array
+                type: object
         "400":
-          description: معلَمات الاستعلام غير صالحة أو مفقودة
+          description: معلمات الاستعلام غير صالحة أو مفقودة
           content:
             application/json:
-              schema:
-                type: string
-            text/xml:
               schema:
                 type: string
         "499":
@@ -208,45 +289,50 @@ paths:
             application/json:
               schema:
                 type: string
-            text/xml:
-              schema:
-                type: string
         "500":
           description: خطأ داخلي
           content:
             application/json:
               schema:
                 type: string
-            text/xml:
-              schema:
-                type: string
       security:
         - ApiKeyAuth: []
-      summary: جلب الأخبار المحذوفة
+      summary: تُرجِع بيانات الأخبار المحذوفة
       tags:
         - News
+servers:
+  - url: //api.benzinga.com/api/v2
 components:
   securitySchemes:
     ApiKeyAuth:
-      in: header
+      description: مصادقة مفتاح واجهة برمجة التطبيقات API. قدّم مفتاح API الخاص بك
+        كمعلمة استعلام.
+      in: query
       name: token
       type: apiKey
   schemas:
     api.ChannelTag:
+      description: اسم القناة أو الوسم
       properties:
         name:
+          example: Technology
           type: string
       type: object
     api.Image:
+      description: صورة الخبر مع الحجم وurl
       properties:
         size:
+          example: large
           type: string
         url:
+          example: https://cdn.benzinga.com/files/images/story/2024/example.jpg
           type: string
       type: object
     api.NewsItem:
+      description: عنصر خبر مع بيانات وصفية كاملة
       properties:
         author:
+          example: Benzinga Newsdesk
           type: string
         body:
           type: string
@@ -255,8 +341,10 @@ components:
             $ref: "#/components/schemas/api.ChannelTag"
           type: array
         created:
+          example: Wed, 17 May 2017 14:20:15 -0400
           type: string
         id:
+          example: 123456
           type: integer
         image:
           items:
@@ -275,30 +363,47 @@ components:
         teaser:
           type: string
         title:
+          example: Apple Announces New iPhone
           type: string
         updated:
+          example: Wed, 17 May 2017 14:20:15 -0400
           type: string
         url:
+          example: https://www.benzinga.com/news/123456
           type: string
       type: object
     api.NewsRemovedItem:
+      description: خبر محذوف يتضمن المعرّف والطابع الزمني للتحديث
       properties:
         id:
+          example: 123456
           type: integer
         updated:
+          example: Wed, 17 May 2017 14:20:15 -0400
           type: string
       type: object
     api.Stock:
+      description: معلومات السهم مع رمز التداول والمُعرّفات
       properties:
         cusip:
+          example: "037833100"
           type: string
         exchange:
+          example: NASDAQ
+          type: string
+        gics:
+          example: Semiconductors & Semiconductor Equipment
+          type: string
+        gics_code:
+          example: "45301020"
           type: string
         isin:
+          example: US0378331005
           type: string
         name:
+          example: AAPL
+          type: string
+        sector:
+          example: Equity
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
