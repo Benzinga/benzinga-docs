@@ -872,7 +872,7 @@ components:
           example: Q3 2023 Earnings Call
           type: string
         cusip:
-          example: "037833100"
+          example: 37833100
           type: string
         duration:
           example: 60
@@ -966,3 +966,6 @@ components:
         - Undefined
         - "Null"
         - Present
+servers:
+  - url: https://api.benzinga.com
+    description: 운영
