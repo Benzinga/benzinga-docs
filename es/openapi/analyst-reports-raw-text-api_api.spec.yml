@@ -9,30 +9,32 @@ info:
 paths:
   /analyst/reports/raw-text:
     get:
-      description: Recupera texto sin procesar de informes de investigación de
-        analistas profesionales. Devuelve informes de analistas en texto
-        completo, notas de investigación y recomendaciones de inversión de
-        instituciones financieras. Incluye metadatos del informe, cambios de
-        calificación, precios objetivo y análisis detallado. Es esencial para
-        acceder a la investigación institucional y al sentimiento de los
-        analistas.
+      description: Recupera contenido de texto sin procesar de informes de
+        investigación redactados por analistas profesionales. Devuelve informes
+        de analistas a texto completo, notas de investigación y recomendaciones
+        de inversión de instituciones financieras. Incluye metadatos del
+        informe, cambios de calificación, precios objetivo y análisis detallado.
+        Es esencial para acceder a la investigación institucional y al
+        sentimiento de los analistas.
       operationId: get-analyst-reports-raw-text-data
       parameters:
-        - description: "Número de página para la paginación. Indexada desde cero (0 =
-            primera página, 1 = segunda página, etc.). Valor predeterminado: 0"
+        - description: "Número de página para la paginación. El índice comienza en cero (0
+            = primera página, 1 = segunda página, etc.). Valor predeterminado:
+            0"
           in: query
           name: page
           schema:
             type: integer
-        - description: "Número de resultados por página. Valor predeterminado: 100.
-            Máximo: 100. Devuelve primero los informes más recientes."
+        - description: "Número de resultados por página. Predeterminado: 100. Máximo: 100.
+            Devuelve primero los informes más recientes."
           in: query
           name: pagesize
           schema:
             type: integer
       responses:
         "200":
-          description: Array de informes de analistas con texto íntegro y metadatos
+          description: Lista de informes de analistas con el texto completo en content y
+            los metadatos correspondientes.
           content:
             application/json:
               schema:
@@ -40,7 +42,7 @@ paths:
                   $ref: "#/components/schemas/models.AnalystReportRawText"
                 type: array
         "400":
-          description: Solicitud incorrecta - parámetros no válidos
+          description: "Solicitud incorrecta: parámetros no válidos"
           content:
             application/json:
               schema:
@@ -57,7 +59,7 @@ paths:
                 type: array
       security:
         - ApiKeyAuth: []
-      summary: Informes de analistas
+      summary: Informes de investigación de analistas
       tags:
         - Analyst Reports
 components:
@@ -89,3 +91,6 @@ components:
           example: AAPL
           type: string
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD
