@@ -289,3 +289,6 @@ components:
         security:
           $ref: "#/components/schemas/models.Security"
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD
