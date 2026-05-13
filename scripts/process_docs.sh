@@ -4,14 +4,14 @@ set -euo pipefail
 # Initialize a string for the mapping (key=value pairs separated by a delimiter)
 my_map="api-reference/analyst-reports-raw-text-api_api=Analyst Reports Raw Text|
 api-reference/calendar-api=Calendars|
-api-reference/data-api-proxy_api=Data API Proxy|
+api-reference/data-api-proxy=Data API Proxy|
 api-reference/delivery_api=Conference Call Transcripts|
-api-reference/earnings-call-transcripts-api_api=Earnings Call Transcripts|
-api-reference/logo-api_api=Logos|
-api-reference/newsquantified-api_api=NewsQuantified|
-api-reference/news-api_api=News|
+api-reference/earnings-call-transcripts-api=Earnings Call Transcripts|
+api-reference/logo-api=Logos|
+api-reference/newsquantified-api=NewsQuantified|
+api-reference/news-api=News|
 api-reference/press-releases_api=Press Releases|
-api-reference/ticker-trends-api_api=Ticker Trends|
+api-reference/ticker-trends-api=Ticker Trends|
 api-reference/webhook_api=Webhook API"
 
 # Array to store JSON output
