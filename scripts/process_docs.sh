@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Initialize a string for the mapping (key=value pairs separated by a delimiter)
-my_map="api-reference/analyst-reports-raw-text-api_api=Analyst Reports Raw Text|
+my_map="api-reference/analyst-reports-raw-text-api=Analyst Reports Raw Text|
 api-reference/calendar-api=Calendars|
 api-reference/data-api-proxy=Data API Proxy|
 api-reference/delivery_api=Conference Call Transcripts|
