@@ -41,7 +41,7 @@
       "openapi": {
         "files": [
           "./openapi/analyst-reports-raw-text-api_api.spec.yml",
-          "./openapi/calendar_api.spec.yml",
+          "./openapi/calendar-api.spec.yml",
           "./openapi/data-api-proxy_api.spec.yml",
           "./openapi/delivery_api.spec.yml",
           "./openapi/earnings-call-transcripts-api_api.spec.yml",
@@ -58,7 +58,7 @@
       "./openapi/analyst-reports-raw-text-api_api.spec.yml": {
         "preset": "openapi"
       },
-      "./openapi/calendar_api.spec.yml": {
+      "./openapi/calendar-api.spec.yml": {
         "preset": "openapi"
       },
       "./openapi/data-api-proxy_api.spec.yml": {
@@ -121,7 +121,7 @@
     "yaml": {
       "include": [
         "./openapi/analyst-reports-raw-text-api_api.spec.yml",
-        "./openapi/calendar_api.spec.yml",
+        "./openapi/calendar-api.spec.yml",
         "./openapi/data-api-proxy_api.spec.yml",
         "./openapi/delivery_api.spec.yml",
         "./openapi/earnings-call-transcripts-api_api.spec.yml",
@@ -138,8 +138,8 @@
           "replace": "{locale}/openapi/analyst-reports-raw-text-api_api.spec.yml"
         },
         {
-          "match": "^openapi/calendar_api.spec.yml$",
-          "replace": "{locale}/openapi/calendar_api.spec.yml"
+          "match": "^openapi/calendar-api.spec.yml$",
+          "replace": "{locale}/openapi/calendar-api.spec.yml"
         },
         {
           "match": "^openapi/data-api-proxy_api.spec.yml$",
