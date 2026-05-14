@@ -41,15 +41,15 @@
       "openapi": {
         "files": [
           "./openapi/analyst-reports-raw-text-api_api.spec.yml",
-          "./openapi/calendar_api.spec.yml",
-          "./openapi/data-api-proxy_api.spec.yml",
+          "./openapi/calendar-api.spec.yml",
+          "./openapi/data-api-proxy.spec.yml",
           "./openapi/delivery_api.spec.yml",
-          "./openapi/earnings-call-transcripts-api_api.spec.yml",
-          "./openapi/logo-api_api.spec.yml",
-          "./openapi/news-api_api.spec.yml",
-          "./openapi/newsquantified-api_api.spec.yml",
+          "./openapi/earnings-call-transcripts-api.spec.yml",
+          "./openapi/logo-api.spec.yml",
+          "./openapi/news-api.spec.yml",
+          "./openapi/newsquantified-api.spec.yml",
           "./openapi/press-releases_api.spec.yml",
-          "./openapi/ticker-trends-api_api.spec.yml",
+          "./openapi/ticker-trends-api.spec.yml",
           "./openapi/webhook_api.spec.yml"
         ]
       }
@@ -58,25 +58,25 @@
       "./openapi/analyst-reports-raw-text-api_api.spec.yml": {
         "preset": "openapi"
       },
-      "./openapi/calendar_api.spec.yml": {
+      "./openapi/calendar-api.spec.yml": {
         "preset": "openapi"
       },
-      "./openapi/data-api-proxy_api.spec.yml": {
+      "./openapi/data-api-proxy.spec.yml": {
         "preset": "openapi"
       },
-      "./openapi/earnings-call-transcripts-api_api.spec.yml": {
+      "./openapi/earnings-call-transcripts-api.spec.yml": {
         "preset": "openapi"
       },
-      "./openapi/logo-api_api.spec.yml": {
+      "./openapi/logo-api.spec.yml": {
         "preset": "openapi"
       },
-      "./openapi/news-api_api.spec.yml": {
+      "./openapi/news-api.spec.yml": {
         "preset": "openapi"
       },
-      "./openapi/newsquantified-api_api.spec.yml": {
+      "./openapi/newsquantified-api.spec.yml": {
         "preset": "openapi"
       },
-      "./openapi/ticker-trends-api_api.spec.yml": {
+      "./openapi/ticker-trends-api.spec.yml": {
         "preset": "openapi"
       },
       "./openapi/webhook_api.spec.yml": {
@@ -121,14 +121,14 @@
     "yaml": {
       "include": [
         "./openapi/analyst-reports-raw-text-api_api.spec.yml",
-        "./openapi/calendar_api.spec.yml",
-        "./openapi/data-api-proxy_api.spec.yml",
+        "./openapi/calendar-api.spec.yml",
+        "./openapi/data-api-proxy.spec.yml",
         "./openapi/delivery_api.spec.yml",
-        "./openapi/earnings-call-transcripts-api_api.spec.yml",
-        "./openapi/logo-api_api.spec.yml",
-        "./openapi/news-api_api.spec.yml",
-        "./openapi/newsquantified-api_api.spec.yml",
-        "./openapi/ticker-trends-api_api.spec.yml",
+        "./openapi/earnings-call-transcripts-api.spec.yml",
+        "./openapi/logo-api.spec.yml",
+        "./openapi/news-api.spec.yml",
+        "./openapi/newsquantified-api.spec.yml",
+        "./openapi/ticker-trends-api.spec.yml",
         "./openapi/webhook_api.spec.yml",
         "./openapi/press-releases_api.spec.yml"
       ],
@@ -138,40 +138,40 @@
           "replace": "{locale}/openapi/analyst-reports-raw-text-api_api.spec.yml"
         },
         {
-          "match": "^openapi/calendar_api.spec.yml$",
-          "replace": "{locale}/openapi/calendar_api.spec.yml"
+          "match": "^openapi/calendar-api.spec.yml$",
+          "replace": "{locale}/openapi/calendar-api.spec.yml"
         },
         {
-          "match": "^openapi/data-api-proxy_api.spec.yml$",
-          "replace": "{locale}/openapi/data-api-proxy_api.spec.yml"
+          "match": "^openapi/data-api-proxy.spec.yml$",
+          "replace": "{locale}/openapi/data-api-proxy.spec.yml"
         },
         {
           "match": "^openapi/delivery_api.spec.yml$",
           "replace": "{locale}/openapi/delivery_api.spec.yml"
         },
         {
-          "match": "^openapi/earnings-call-transcripts-api_api.spec.yml$",
-          "replace": "{locale}/openapi/earnings-call-transcripts-api_api.spec.yml"
+          "match": "^openapi/earnings-call-transcripts-api.spec.yml$",
+          "replace": "{locale}/openapi/earnings-call-transcripts-api.spec.yml"
         },
         {
-          "match": "^openapi/logo-api_api.spec.yml$",
-          "replace": "{locale}/openapi/logo-api_api.spec.yml"
+          "match": "^openapi/logo-api.spec.yml$",
+          "replace": "{locale}/openapi/logo-api.spec.yml"
         },
         {
-          "match": "^openapi/news-api_api.spec.yml$",
-          "replace": "{locale}/openapi/news-api_api.spec.yml"
+          "match": "^openapi/news-api.spec.yml$",
+          "replace": "{locale}/openapi/news-api.spec.yml"
         },
         {
-          "match": "^openapi/newsquantified-api_api.spec.yml$",
-          "replace": "{locale}/openapi/newsquantified-api_api.spec.yml"
+          "match": "^openapi/newsquantified-api.spec.yml$",
+          "replace": "{locale}/openapi/newsquantified-api.spec.yml"
         },
         {
           "match": "^openapi/press-releases_api.spec.yml$",
           "replace": "{locale}/openapi/press-releases_api.spec.yml"
         },
         {
-          "match": "^openapi/ticker-trends-api_api.spec.yml$",
-          "replace": "{locale}/openapi/ticker-trends-api_api.spec.yml"
+          "match": "^openapi/ticker-trends-api.spec.yml$",
+          "replace": "{locale}/openapi/ticker-trends-api.spec.yml"
         },
         {
           "match": "^openapi/webhook_api.spec.yml$",

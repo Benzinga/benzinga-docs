@@ -147,7 +147,7 @@
         "links": [
           {
             "label": "Calendar",
-            "url": "https://benzinga.com/api-reference/calendar_api"
+            "url": "https://benzinga.com/api-reference/calendar-api"
           },
           {
             "label": "Logos",
