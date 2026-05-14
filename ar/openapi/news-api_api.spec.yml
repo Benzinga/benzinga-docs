@@ -1,15 +1,15 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: المصادقة برمز وصول من نوع Bearer
+  description: مصادقة Bearer باستخدام رمز الوصول
   title: Newsfeed & Why is it Moving v2
   version: 2.0.0
 paths:
   /api/v2.1/news/channels:
     get:
-      description: يُرجِع قائمة بجميع قنوات الأخبار المتاحة التي يمكن استخدامها لتصفية
-        الأخبار. يمكن أن تحتوي القنوات على قنوات فرعية، لكنها ستُدرج جميعها
-        كعناصر مستقلة.
+      description: تُرجِع قائمة بجميع قنوات الأخبار المتاحة التي يمكن استخدامها لتصفية
+        عناصر الأخبار. وقد تحتوي القنوات على قنوات فرعية، ولكن ستُدرج جميعها
+        كعنصر مستقل.
       operationId: get-channels
       responses:
         "200":
@@ -26,18 +26,18 @@ paths:
               schema:
                 additionalProperties: true
                 type: object
-      summary: استرجاع القنوات الإخبارية المتاحة
+      summary: جلب قنوات الأخبار المتاحة
       tags:
         - Channels
   /api/v2/news:
     get:
-      description: تعيد واجهة برمجة التطبيقات REST هذه بيانات منظَّمة للأخبار. لتحقيق
-        أفضل أداء، حدِّد نطاق الاستعلام باستخدام معلمات مثل رموز الأسهم،
-        والتاريخ، والقنوات، أو استخدم updatedSince للحصول على البيانات المتغيرة
-        فقط. إزاحات الصفحات محدودة من 0 إلى 100000.
+      description: تُرجِع واجهة برمجة التطبيقات API هذه القائمة على REST بيانات
+        منظَّمة للأخبار. للحصول على أفضل أداء، قلِّص نطاق الاستعلام باستخدام
+        معلمات مثل رموز الأسهم والتاريخ والقنوات، أو استخدم updatedSince
+        للتحديثات التراكمية. إزاحات الصفحات محدودة بين 0 و100000.
       operationId: get-news
       parameters:
-        - description: حدد تنسيق الاستجابة
+        - description: حدِّد تنسيق الإرجاع
           in: header
           name: accept
           required: true
@@ -47,23 +47,23 @@ paths:
               - application/json
               - application/xml
             default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء ولأسباب تقنية، حُدِّدت
-            إزاحات الصفحات ضمن النطاق من 0 إلى 100000. قلِّص نتائج الاستعلام
-            باستخدام معلمات أخرى مثل التاريخ.
+        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والجوانب التقنية، تكون
+            إزاحات الصفحات محدودة بين 0 و100000. قلِّص نتائج الاستعلام باستخدام
+            معلمات أخرى مثل التاريخ.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: "عدد النتائج التي يتم إرجاعها. الحد الأقصى: 100."
+        - description: عدد النتائج المُعادة. الحد الأقصى 100.
           in: query
           name: pageSize
           schema:
             type: integer
             maximum: 100
             default: 15
-        - description: حدِّد ما إذا كنت تريد العنوان فقط (headline)، أو العنوان مع الموجز
-            (abstract)، أو العنوان مع النص الكامل (full)
+        - description: حدِّد العنوان فقط (headline)، أو العنوان + الموجز (abstract)، أو
+            العنوان + النص الكامل (full)
           in: query
           name: displayOutput
           schema:
@@ -73,38 +73,35 @@ paths:
               - abstract
               - headline
             default: headline
-        - description: "التاريخ المطلوب للاستعلام عن الأخبار. يُستخدم كاختصار للحقلين
-            dateFrom وdateTo إذا كانا متطابقين. التنسيق: yyyy-mm-dd"
+        - description: "التاريخ المطلوب للاستعلام عن الأخبار. يُستخدم كصيغة مختصرة لكلٍّ
+            من dateFrom وdateTo إذا كانا متطابقين. التنسيق: yyyy-mm-dd"
           in: query
           name: date
           schema:
             type: string
-        - description: "تاريخ بدء الاستعلام من نقطة زمنية معيّنة. يتم الفرز حسب تاريخ
-            النشر. التنسيق: yyyy-mm-dd"
+        - description: "تاريخ بدء الاستعلام. يُرتَّب حسب تاريخ النشر. التنسيق: yyyy-mm-dd"
           in: query
           name: dateFrom
           schema:
             type: string
-        - description: "تاريخ الاستعلام حتى نقطة زمنية معينة. يتم الفرز حسب تاريخ النشر.
-            التنسيق: yyyy-mm-dd"
+        - description: "تاريخ نهاية الاستعلام. يُرتَّب حسب تاريخ النشر. التنسيق: yyyy-mm-dd"
           in: query
           name: dateTo
           schema:
             type: string
-        - description: آخر طابع زمني محدَّث بنظام Unix (بتوقيت UTC) يُستخدم للسحب والفرز
-            بناءً عليه
+        - description: آخر طابع زمني Unix (UTC) للتحديث، للسحب والترتيب على أساسه
           in: query
           name: updatedSince
           schema:
             type: integer
-        - description: آخر طابع زمني منشور بنظام Unix (بتوقيت UTC) لاستخدامه في الجلب والفرز
+        - description: آخر طابع زمني Unix (UTC) للنشر، للسحب والترتيب على أساسه
           in: query
           name: publishedSince
           schema:
             type: integer
-        - description: "يتيح لك التحكّم في طريقة فرز النتائج. القيمة الافتراضية هي
-            created, DESC. التنسيق: field:direction. حقول الفرز: id، created،
-            محدَّث (updated). ترتيب الفرز: asc (تصاعدي)، desc (تنازلي)."
+        - description: "يتيح التحكم في فرز النتائج. القيمة الافتراضية هي created, DESC.
+            التنسيق: field:direction. حقول الفرز: id, created, updated. ترتيب
+            الفرز: asc (تصاعدي)، desc (تنازلي)"
           in: query
           name: sort
           schema:
@@ -116,44 +113,42 @@ paths:
               - created:desc
               - updated:asc
               - updated:desc
-        - description: "واحد أو أكثر من أرقام التعريف الدولية للأوراق المالية ISIN مفصولة
-            بفاصلة. الحد الأقصى: 50. التنسيق: CSV"
+        - description: "رقم التعريف الدولي للأوراق المالية ISIN واحد أو أكثر، مفصولة
+            بفاصلة. الحد الأقصى 50. التنسيق: csv"
           in: query
           name: isin
           schema:
             type: string
-        - description: "رمز أو أكثر من رموز CUSIP مفصولة بفاصلة. الحد الأقصى 50. يتطلب
-            اتفاقية ترخيص. الصيغة: CSV"
+        - description: "CUSIP واحد أو أكثر، مفصولة بفاصلة. الحد الأقصى 50. يتطلب اتفاقية
+            ترخيص. التنسيق: csv"
           in: query
           name: cusips
           schema:
             type: string
-        - description: "رمز واحد أو أكثر من رموز التداول مفصولة بفواصل. الحد الأقصى 50.
-            التنسيق: CSV"
+        - description: "رمز تداول واحد أو أكثر، مفصولة بفاصلة. الحد الأقصى 50. التنسيق: csv"
           in: query
           name: tickers
           schema:
             type: string
-        - description: "رمز تداول أساسي واحد أو أكثر، تفصل بينها فاصلة. يرشّح النتائج حسب
-            ارتباط رمز التداول الأساسي فقط. التنسيق: CSV"
+        - description: "رمز تداول أساسي واحد أو أكثر، مفصولة بفاصلة. تُطبَّق التصفية حسب
+            الارتباط برمز التداول الأساسي فقط. التنسيق: csv"
           in: query
           name: primaryTickers
           schema:
             type: string
-        - description: "اسم قناة واحدة أو أكثر أو معرّفات قنوات، مفصولة بفاصلة. التنسيق:
-            CSV"
+        - description: "اسم قناة واحد أو أكثر أو معرّفات، مفصولة بفاصلة. التنسيق: csv"
           in: query
           name: channels
           schema:
             type: string
-        - description: "كلمة أو أكثر أو عبارات مفصولة بفواصل؛ يُجرى البحث في العنوان،
-            والوسوم، والمتن حسب الترتيب من حيث الأولوية. الصيغة: csv"
+        - description: "كلمة أو عبارة واحدة أو أكثر، مفصولة بفاصلة؛ يبحث في العنوان
+            والوسوم والنص حسب ترتيب الأولوية. التنسيق: csv"
           in: query
           name: topics
           schema:
             type: string
-        - description: المعامل المنطقي في استعلام المواضيع. استخدم 'and' لاشتراط وجود جميع
-            المواضيع، و'or' لاشتراط وجود أيٍّ من المواضيع
+        - description: المعامل المنطقي لاستعلام الموضوعات. استخدم 'and' لاشتراط جميع
+            الموضوعات، و'or' لاشتراط أي موضوع
           in: query
           name: topic_group_by
           schema:
@@ -162,29 +157,29 @@ paths:
               - and
               - or
             default: or
-        - description: "مؤلف واحد أو أكثر، يفصل بينهم فاصلة. التنسيق: CSV"
+        - description: "مؤلف واحد أو أكثر، مفصول بفاصلة. التنسيق: csv"
           in: query
           name: authors
           schema:
             type: string
-        - description: "نوع محتوى واحد أو أكثر، تفصل بينها فاصلة. التنسيق: CSV"
+        - description: "نوع محتوى واحد أو أكثر، مفصول بفاصلة. التنسيق: csv"
           in: query
           name: content_types
           schema:
             type: string
-        - description: حدِّد الصيغة المطلوبة لاستجابة api
+        - description: حدِّد التنسيق المطلوب لاستجابة api
           in: query
           name: format
           schema:
             type: string
             enum:
               - text
-        - description: تصفية حسب مستوى الأهمية
+        - description: التصفية حسب مستوى الأهمية
           in: query
           name: importance
           schema:
             type: string
-        - description: "تصفية حسب المنطقة (مثلًا: 'ca' أو 'canada' للمحتوى الكندي)"
+        - description: التصفية حسب المنطقة (مثل 'ca' أو 'canada' للمحتوى الكندي)
           in: query
           name: region
           schema:
@@ -232,16 +227,16 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: جلب الأخبار
+      summary: جلب عناصر الأخبار
       tags:
         - News
   /api/v2/news-removed:
     get:
-      description: يُرجِع بيانات الأخبار المحذوفة. يرشِّح النتائج بحيث تقتصر على
-        العناصر التي تم تحديثها منذ الطابع الزمني المحدَّد.
+      description: تُرجِع بيانات الأخبار المحذوفة. وتُصفّي النتائج بحيث تشمل فقط
+        العناصر التي تم تحديثها منذ الطابع الزمني المحدد.
       operationId: get-removed-news
       parameters:
-        - description: يحدّد صيغة الإرجاع
+        - description: يحدّد تنسيق الإرجاع
           in: header
           name: accept
           required: true
@@ -250,23 +245,23 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والاعتبارات التقنية،
-            تكون إزاحات الصفحات مقيدة ضمن النطاق من 0 إلى 100000. قيّد نتائج
-            الاستعلام باستخدام معلمات أخرى مثل التاريخ.
+        - description: إزاحة الصفحة. لأسباب تتعلق بالتحسين والأداء والجوانب التقنية، تقتصر
+            إزاحات الصفحات على النطاق من 0 إلى 100000. قيّد نتائج الاستعلام
+            باستخدام معلمات أخرى مثل التاريخ.
           in: query
           name: page
           schema:
             type: integer
             default: 0
-        - description: عدد النتائج المُرجَعة. الحد الأقصى 100.
+        - description: عدد النتائج المُعادة. الحد الأقصى 100.
           in: query
           name: pageSize
           schema:
             type: integer
             maximum: 100
             default: 15
-        - description: يُرشِّح النتائج لتشمل فقط العناصر التي تم تحديثها منذ الطابع الزمني
-            (Unix) المحدد بتوقيت UTC
+        - description: تُصفّي النتائج لتشمل فقط العناصر التي تم تحديثها منذ طابع زمني Unix
+            المحدد (UTC)
           in: query
           name: updatedSince
           schema:
@@ -283,7 +278,7 @@ paths:
                   type: array
                 type: object
         "400":
-          description: معلمات استعلام غير صالحة أو مفقودة
+          description: معلمات الاستعلام غير صالحة أو مفقودة
           content:
             application/json:
               schema:
@@ -302,14 +297,16 @@ paths:
                 type: string
       security:
         - ApiKeyAuth: []
-      summary: يعيد بيانات الأخبار المحذوفة
+      summary: تُرجِع بيانات الأخبار المحذوفة
       tags:
         - News
+servers:
+  - url: //api.benzinga.com/api/v2
 components:
   securitySchemes:
     ApiKeyAuth:
-      description: المصادقة باستخدام مفتاح واجهة برمجة التطبيقات API. مرِّر مفتاح الـ
-        API الخاص بك كمعلمة استعلام (query parameter).
+      description: مصادقة مفتاح واجهة برمجة التطبيقات API. قدّم مفتاح API الخاص بك
+        كمعلمة استعلام.
       in: query
       name: token
       type: apiKey
@@ -322,7 +319,7 @@ components:
           type: string
       type: object
     api.Image:
-      description: صورة المقال مع الحجم وurl
+      description: صورة الخبر مع الحجم وurl
       properties:
         size:
           example: large
@@ -332,7 +329,7 @@ components:
           type: string
       type: object
     api.NewsItem:
-      description: عنصر مقالة إخبارية بكامل البيانات الوصفية
+      description: عنصر خبر مع بيانات وصفية كاملة
       properties:
         author:
           example: Benzinga Newsdesk
@@ -376,7 +373,7 @@ components:
           type: string
       type: object
     api.NewsRemovedItem:
-      description: تمت إزالة المقالة الإخبارية ذات المعرّف والطابع الزمني للتحديث
+      description: خبر محذوف يتضمن المعرّف والطابع الزمني للتحديث
       properties:
         id:
           example: 123456
@@ -386,7 +383,7 @@ components:
           type: string
       type: object
     api.Stock:
-      description: معلومات السهم بما في ذلك رمز التداول والمعرّفات
+      description: معلومات السهم مع رمز التداول والمُعرّفات
       properties:
         cusip:
           example: "037833100"
@@ -410,6 +407,3 @@ components:
           example: Equity
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: الإنتاج

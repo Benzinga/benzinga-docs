@@ -1,15 +1,15 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: Autenticación con token Bearer
+  description: Autenticación mediante token Bearer
   title: Newsfeed & Why is it Moving v2
   version: 2.0.0
 paths:
   /api/v2.1/news/channels:
     get:
       description: Devuelve una lista de todos los canales de noticias disponibles que
-        se pueden usar para filtrar las noticias. Los canales pueden tener
-        subcanales, pero todos aparecerán como elementos independientes.
+        se pueden utilizar para filtrar las noticias. Los canales pueden tener
+        subcanales, pero todos aparecerán listados como elementos individuales.
       operationId: get-channels
       responses:
         "200":
@@ -31,14 +31,14 @@ paths:
         - Channels
   /api/v2/news:
     get:
-      description: Esta API REST devuelve datos estructurados de noticias. Para
-        obtener un rendimiento óptimo, limita el alcance de la consulta usando
-        parámetros como `tickers`, `date` y `channels`, o usa `updatedSince`
-        para obtener solo los cambios. Los desplazamientos de página están
-        limitados al rango de 0 a 100000.
+      description: Esta API REST devuelve datos estructurados de noticias. Para un
+        rendimiento óptimo, limite el alcance de la consulta mediante parámetros
+        como símbolos bursátiles, fecha y canales, o use updatedSince para
+        obtener solo los cambios (deltas). Los offsets de página están limitados
+        al rango de 0 a 100000.
       operationId: get-news
       parameters:
-        - description: Especifique el formato de respuesta
+        - description: Especificar el formato de la respuesta
           in: header
           name: accept
           required: true
@@ -49,8 +49,8 @@ paths:
               - application/xml
             default: application/json
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y técnicos, los desplazamientos de página están acotados entre 0 y
-            100000. Limite los resultados de la consulta mediante otros
+            y razones técnicas, los desplazamientos de página están limitados de
+            0 a 100000. Limite los resultados de la consulta mediante otros
             parámetros, como la fecha.
           in: query
           name: page
@@ -64,8 +64,8 @@ paths:
             type: integer
             maximum: 100
             default: 15
-        - description: Especifique si desea solo el titular (headline), titular +
-            entradilla (abstract) o titular + cuerpo completo (full).
+        - description: Especifica si deseas solo el titular (headline), el titular +
+            resumen (abstract) o el titular + cuerpo completo (full) del texto
           in: query
           name: displayOutput
           schema:
@@ -75,39 +75,39 @@ paths:
               - abstract
               - headline
             default: headline
-        - description: "La fecha para consultar las noticias. Equivale de forma abreviada
-            a `dateFrom` y `dateTo` si son iguales. Formato: yyyy-mm-dd"
+        - description: "La fecha para consultar noticias. Equivale a usar dateFrom y
+            dateTo con el mismo valor. Formato: yyyy-mm-dd"
           in: query
           name: date
           schema:
             type: string
-        - description: "Fecha a partir de la cual realizar la consulta. Ordenados por
+        - description: "Fecha a partir de la cual se realiza la consulta. Ordenado por
             fecha de publicación. Formato: yyyy-mm-dd"
           in: query
           name: dateFrom
           schema:
             type: string
-        - description: "Fecha hasta la que se realiza la consulta (punto en el tiempo).
-            Ordenado por fecha de publicación. Formato: yyyy-mm-dd"
+        - description: "Fecha hasta la cual realizar la consulta. Ordenado por fecha de
+            publicación. Formato: aaaa-mm-dd"
           in: query
           name: dateTo
           schema:
             type: string
-        - description: La última marca de tiempo Unix (UTC) de actualización para extraer
-            y ordenar
+        - description: Última marca de tiempo Unix (UTC) de actualización para extraer y
+            ordenar
           in: query
           name: updatedSince
           schema:
             type: integer
-        - description: Última marca de tiempo Unix (UTC) publicada para obtener y ordenar
+        - description: Última marca de tiempo Unix (UTC) publicada para extraer y ordenar
             los datos
           in: query
           name: publishedSince
           schema:
             type: integer
-        - description: "Permite controlar la ordenación de los resultados. El valor
-            predeterminado es created, DESC. Formato: campo:orden. Campos de
-            ordenación: id, created, actualizado. Orden de ordenación: asc
+        - description: "Permite controlar cómo se ordenan los resultados. El valor
+            predeterminado es created, DESC. Formato: campo:sentido. Campos de
+            ordenación: id, created, updated. Orden de clasificación: asc
             (ascendente), desc (descendente)"
           in: query
           name: sort
@@ -120,43 +120,43 @@ paths:
               - created:desc
               - updated:asc
               - updated:desc
-        - description: "Uno o más ISIN, separados por comas. Máximo 50. Formato: csv"
+        - description: "Uno o más códigos ISIN separados por comas. Máximo 50. Formato: CSV"
           in: query
           name: isin
           schema:
             type: string
-        - description: "Uno o más CUSIP separados por comas. Máximo 50. Se requiere un
-            acuerdo de licencia. Formato: CSV"
+        - description: "Uno o más CUSIP separados por comas. Máximo 50. Requiere acuerdo
+            de licencia. Formato: CSV"
           in: query
           name: cusips
           schema:
             type: string
         - description: "Uno o más símbolos de ticker separados por comas. Máximo 50.
-            Formato: CSV"
+            Formato: csv"
           in: query
           name: tickers
           schema:
             type: string
-        - description: "Uno o más símbolos de ticker principales separados por comas.
-            Filtra solo por asociación con el ticker principal. Formato: CSV"
+        - description: "Uno o más símbolos de ticker primarios, separados por comas.
+            Filtra únicamente por asociación de ticker primario. Formato: CSV"
           in: query
           name: primaryTickers
           schema:
             type: string
-        - description: "Uno o más nombres o ID de canal, separados por comas. Formato: CSV"
+        - description: "Uno o varios nombres o ID de canal, separados por comas. Formato:
+            CSV"
           in: query
           name: channels
           schema:
             type: string
-        - description: "Una o varias palabras o frases separadas por comas; se buscan en
-            el título, las etiquetas y el cuerpo, en ese orden de prioridad.
-            Formato: csv"
+        - description: "Una o más palabras o frases separadas por comas; realiza la
+            búsqueda en Title, Tags y Body por orden de prioridad. Formato: CSV"
           in: query
           name: topics
           schema:
             type: string
-        - description: Operador lógico para la consulta de temas. Utilice 'and' para
-            requerir todos los temas y 'or' para requerir cualquiera de ellos
+        - description: Operador lógico para la consulta de temas. Usa 'and' para requerir
+            todos los temas y 'or' para requerir cualquiera de ellos
           in: query
           name: topic_group_by
           schema:
@@ -170,24 +170,24 @@ paths:
           name: authors
           schema:
             type: string
-        - description: "Uno o más tipos de contenido separados por una coma. Formato: csv"
+        - description: "Uno o más tipos de contenido separados por coma. Formato: CSV"
           in: query
           name: content_types
           schema:
             type: string
-        - description: Especifica el formato deseado para la respuesta de la api
+        - description: Especifique el formato deseado de la respuesta de la api
           in: query
           name: format
           schema:
             type: string
             enum:
               - text
-        - description: Filtrar por nivel de importancia
+        - description: Filtrar por importancia
           in: query
           name: importance
           schema:
             type: string
-        - description: Filtra por región (por ejemplo, 'ca' o 'canada' para contenido
+        - description: Filtrar por región (p. ej., 'ca' o 'canada' para contenido
             canadiense)
           in: query
           name: region
@@ -195,7 +195,7 @@ paths:
             type: string
       responses:
         "200":
-          description: Correcto
+          description: éxito
           content:
             application/json:
               schema:
@@ -217,7 +217,7 @@ paths:
               schema:
                 type: string
         "499":
-          description: Contexto de la solicitud cancelado
+          description: Contexto de solicitud cancelado
           content:
             application/json:
               schema:
@@ -241,9 +241,9 @@ paths:
         - News
   /api/v2/news-removed:
     get:
-      description: Devuelve los datos de noticias retiradas. Filtra los resultados
-        para incluir solo los elementos que se hayan actualizado desde la marca
-        de tiempo indicada.
+      description: Devuelve los datos de noticias eliminadas. Filtra los resultados
+        para incluir únicamente los elementos que se hayan actualizado desde la
+        marca de tiempo indicada.
       operationId: get-removed-news
       parameters:
         - description: Especifica el formato de respuesta
@@ -256,9 +256,9 @@ paths:
               - application/json
             default: application/json
         - description: Desplazamiento de página. Por motivos de optimización, rendimiento
-            y técnicos, los desplazamientos de página están limitados al rango
-            de 0 a 100000. Limite los resultados de la consulta mediante otros
-            parámetros, como la fecha.
+            y razones técnicas, los desplazamientos de página están acotados al
+            rango 0‑100000. Restringe los resultados de la consulta utilizando
+            otros parámetros, como la fecha.
           in: query
           name: page
           schema:
@@ -271,8 +271,8 @@ paths:
             type: integer
             maximum: 100
             default: 15
-        - description: Filtra los resultados para incluir solo los elementos que se hayan
-            actualizado desde la marca de tiempo Unix (UTC) especificada.
+        - description: Filtra los resultados para incluir únicamente los elementos que se
+            hayan actualizado desde la marca de tiempo Unix (UTC) especificada
           in: query
           name: updatedSince
           schema:
@@ -311,17 +311,19 @@ paths:
       summary: Devuelve los datos de noticias eliminadas
       tags:
         - News
+servers:
+  - url: //api.benzinga.com/api/v2
 components:
   securitySchemes:
     ApiKeyAuth:
-      description: Autenticación con clave de API. Proporcione su clave de API como
+      description: Autenticación con clave de API. Incluya su clave de API como
         parámetro de consulta.
       in: query
       name: token
       type: apiKey
   schemas:
     api.ChannelTag:
-      description: Nombre de canal o etiqueta
+      description: Nombre del canal o etiqueta
       properties:
         name:
           example: Technology
@@ -416,6 +418,3 @@ components:
           example: Equity
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
