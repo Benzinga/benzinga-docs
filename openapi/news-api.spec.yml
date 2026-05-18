@@ -7,7 +7,9 @@ info:
 paths:
   /api/v2.1/news/channels:
     get:
-      description: Returns a list of all available news channels that can be used to filter news items. Channels can have sub-channels, but they will all be listed as their own item.
+      description: Returns a list of all available news channels that can be used to
+        filter news items. Channels can have sub-channels, but they will all be
+        listed as their own item.
       operationId: get-channels
       responses:
         "200":
@@ -29,7 +31,10 @@ paths:
         - Channels
   /api/v2/news:
     get:
-      description: This REST API returns structured data for news. For optimal performance, limit the scope of the query using parameters such as tickers, date, and channels, or use updatedSince for deltas. Page offsets are limited from 0 - 100000.
+      description: This REST API returns structured data for news. For optimal
+        performance, limit the scope of the query using parameters such as
+        tickers, date, and channels, or use updatedSince for deltas. Page
+        offsets are limited from 0 - 100000.
       operationId: get-news
       parameters:
         - description: Specify return format
@@ -42,7 +47,9 @@ paths:
               - application/json
               - application/xml
             default: application/json
-        - description: Page offset. For optimization, performance and technical reasons, page offsets are limited from 0 - 100000. Limit the query results by other parameters such as date.
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date.
           in: query
           name: page
           schema:
@@ -55,7 +62,8 @@ paths:
             type: integer
             maximum: 100
             default: 15
-        - description: Specify headline only (headline), headline + teaser (abstract), or headline + full body (full) text
+        - description: Specify headline only (headline), headline + teaser (abstract), or
+            headline + full body (full) text
           in: query
           name: displayOutput
           schema:
@@ -65,17 +73,20 @@ paths:
               - abstract
               - headline
             default: headline
-        - description: "The date to query for news. Shorthand for dateFrom and dateTo if they are the same. Format: yyyy-mm-dd"
+        - description: "The date to query for news. Shorthand for dateFrom and dateTo if
+            they are the same. Format: yyyy-mm-dd"
           in: query
           name: date
           schema:
             type: string
-        - description: "Date to query from point in time. Sorted by published date. Format: yyyy-mm-dd"
+        - description: "Date to query from point in time. Sorted by published date.
+            Format: yyyy-mm-dd"
           in: query
           name: dateFrom
           schema:
             type: string
-        - description: "Date to query to point in time. Sorted by published date. Format: yyyy-mm-dd"
+        - description: "Date to query to point in time. Sorted by published date. Format:
+            yyyy-mm-dd"
           in: query
           name: dateTo
           schema:
@@ -90,7 +101,9 @@ paths:
           name: publishedSince
           schema:
             type: integer
-        - description: "Allows control of results sorting. Default is created, DESC. Format: field:direction. Sort Fields: id, created, updated. Sort Order: asc (ascending), desc (descending)"
+        - description: "Allows control of results sorting. Default is created, DESC.
+            Format: field:direction. Sort Fields: id, created, updated. Sort
+            Order: asc (ascending), desc (descending)"
           in: query
           name: sort
           schema:
@@ -107,17 +120,20 @@ paths:
           name: isin
           schema:
             type: string
-        - description: "One or more CUSIPs separated by a comma. Maximum 50. License agreement required. Format: csv"
+        - description: "One or more CUSIPs separated by a comma. Maximum 50. License
+            agreement required. Format: csv"
           in: query
           name: cusips
           schema:
             type: string
-        - description: "One or more ticker symbols separated by a comma. Maximum 50. Format: csv"
+        - description: "One or more ticker symbols separated by a comma. Maximum 50.
+            Format: csv"
           in: query
           name: tickers
           schema:
             type: string
-        - description: "One or more primary ticker symbols separated by a comma. Filters by primary ticker association only. Format: csv"
+        - description: "One or more primary ticker symbols separated by a comma. Filters
+            by primary ticker association only. Format: csv"
           in: query
           name: primaryTickers
           schema:
@@ -127,12 +143,14 @@ paths:
           name: channels
           schema:
             type: string
-        - description: "One or more words/phrases separated by a comma; searches Title, Tags, and Body in order of priority. Format: csv"
+        - description: "One or more words/phrases separated by a comma; searches Title,
+            Tags, and Body in order of priority. Format: csv"
           in: query
           name: topics
           schema:
             type: string
-        - description: Logical operator for topics query. Use 'and' to require all topics, 'or' to require any topic
+        - description: Logical operator for topics query. Use 'and' to require all topics,
+            'or' to require any topic
           in: query
           name: topic_group_by
           schema:
@@ -163,6 +181,11 @@ paths:
           name: importance
           schema:
             type: string
+        - description: Filter by importance rank (1-5)
+          in: query
+          name: importanceRank
+          schema:
+            type: integer
         - description: Filter by region (e.g., 'ca' or 'canada' for Canadian content)
           in: query
           name: region
@@ -216,7 +239,8 @@ paths:
         - News
   /api/v2/news-removed:
     get:
-      description: Returns the removed news data. Filters the results to only include items that have been updated since the specified timestamp.
+      description: Returns the removed news data. Filters the results to only include
+        items that have been updated since the specified timestamp.
       operationId: get-removed-news
       parameters:
         - description: Specifies return format
@@ -228,7 +252,9 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: Page offset. For optimization, performance and technical reasons, page offsets are limited from 0 - 100000. Limit the query results by other parameters such as date.
+        - description: Page offset. For optimization, performance and technical reasons,
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date.
           in: query
           name: page
           schema:
@@ -241,7 +267,8 @@ paths:
             type: integer
             maximum: 100
             default: 15
-        - description: Filters the results to only include items that have been updated since the specified Unix timestamp (UTC)
+        - description: Filters the results to only include items that have been updated
+            since the specified Unix timestamp (UTC)
           in: query
           name: updatedSince
           schema:
@@ -327,6 +354,9 @@ components:
           items:
             $ref: "#/components/schemas/api.Image"
           type: array
+        importance_rank:
+          example: 1
+          type: integer
         original_id:
           type: integer
         stocks:
@@ -384,6 +414,3 @@ components:
           example: Equity
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
