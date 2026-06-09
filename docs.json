@@ -1755,6 +1755,9 @@
   "integrations": {
     "ga4": {
       "measurementId": "G-S98KMZZZY1"
+    },
+    "segment": {
+        "key": "On5BFQAKsT2n0HnL6IWRCiJMusJmf7BY"
     }
   },
   "contextual": {
