@@ -15,15 +15,7 @@ You can view and manage your API Key in your [Benzinga Developer Console](https:
 
 The Benzinga API supports two methods for authentication. We strongly recommend using the **HTTP Header** method for production applications as it is more secure and prevents your key from appearing in URL logs.
 
-### 1. HTTP Header (Recommended)
-
-To authenticate via the header, include the `Authorization` header with the value `token <YOUR_API_KEY>`.
-
-```http
-Authorization: token <YOUR_API_KEY>
-```
-
-### 2. Query Parameter
+### 1. Query Parameter
 
 For quick testing or when header modification isn't possible, you can pass your key as a query parameter named `token`.
 
