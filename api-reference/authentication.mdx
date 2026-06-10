@@ -15,15 +15,7 @@ You can view and manage your API Key in your [Benzinga Developer Console](https:
 
 The Benzinga API supports two methods for authentication. We strongly recommend using the **HTTP Header** method for production applications as it is more secure and prevents your key from appearing in URL logs.
 
-### 1. HTTP Header (Recommended)
-
-To authenticate via the header, include the `Authorization` header with the value `token <YOUR_API_KEY>`.
-
-```http
-Authorization: token <YOUR_API_KEY>
-```
-
-### 2. Query Parameter
+### Query Parameter
 
 For quick testing or when header modification isn't possible, you can pass your key as a query parameter named `token`.
 
@@ -38,11 +30,6 @@ Here are production-ready examples for connecting to the Benzinga API in common 
 <CodeGroup>
 
 ```bash cURL
-# Recommended: Header Authentication
-curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1' \
--H 'Authorization: token YOUR_API_KEY' \
--H 'Accept: application/json'
-
 # Alternative: Query Parameter
 curl -L 'https://api.benzinga.com/api/v2/news?pageSize=1&token=YOUR_API_KEY'
 ```
@@ -60,6 +47,7 @@ headers = {
 }
 
 params = {
+	"token": YOUR_API_KEY
     "pageSize": 1
 }
 
@@ -76,14 +64,13 @@ except requests.exceptions.RequestException as e:
 ```javascript Node.js
 const axios = require('axios');
 
-const url = 'https://api.benzinga.com/api/v2/news';
+const url = 'https://api.benzinga.com/api/v2/news?token=YOUR_API_KEY';
 const apiKey = 'YOUR_API_KEY';
 
 async function getNews() {
   try {
     const response = await axios.get(url, {
       headers: {
-        'Authorization': `token ${apiKey}`,
         'Accept': 'application/json'
       },
       params: {
@@ -118,16 +105,13 @@ import (
 )
 
 func main() {
-	url := "https://api.benzinga.com/api/v2/news?pageSize=1"
-	apiKey := "YOUR_API_KEY"
+	url := "https://api.benzinga.com/api/v2/news?pageSize=1&apiKey=YOUR_API_KEY"
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		panic(err)
 	}
 
-	// Recommended: Header Authentication
-	req.Header.Add("Authorization", fmt.Sprintf("token %s", apiKey))
 	req.Header.Add("Accept", "application/json")
 
 	client := &http.Client{}
