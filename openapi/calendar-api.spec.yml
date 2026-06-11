@@ -440,7 +440,7 @@ paths:
       summary: Government Trade Reports
       tags:
         - Government Trade Reports
-  /api/v1/government_trades:
+  /api/v1/gov/usa/congress/trades:
     get:
       description: Returns government official trades including transactions by members
         of the US House and Senate
