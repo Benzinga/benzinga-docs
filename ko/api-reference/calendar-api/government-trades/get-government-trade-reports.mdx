@@ -1,11 +1,88 @@
 ---
 title: "정부 거래 보고서"
-openapi: /ko/openapi/calendar-api.spec.yml GET /api/v1/government_trade_reports
+openapi: /ko/openapi/calendar-api.spec.yml GET /api/v1/gov/usa/congress/trades/reports
 ---
 
 <ResponseExample>
     ```json 응답 (200 OK)
-    {}
+    {
+        "data": [
+            {
+                "amendment_number": 0,
+                "disclosure_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034767.pdf",
+                "filer_info": {
+                    "chamber": "House",
+                    "committees": {
+                        "Committee on Ways and Means": [
+                            "Health",
+                            "Tax"
+                        ]
+                    },
+                    "display_name": "Mike Kelly",
+                    "district": "16",
+                    "headshot": "https://clerk.house.gov/content/assets/img/members/K000376.jpg",
+                    "id": "63e7f79a7f74dda3e85f4708",
+                    "leadership_positions": [],
+                    "member_id": "K000376",
+                    "member_name": "Mike Kelly",
+                    "party": "R",
+                    "state": "PA",
+                    "status": "Member",
+                    "updated": 1781269366,
+                    "website": "https://kelly.house.gov"
+                },
+                "id": "",
+                "latest": true,
+                "report_date": "2026-06-11",
+                "report_id": "20034767",
+                "transactions": [
+                    {
+                        "amendment_number": 0,
+                        "amount": "$15,001 - $50,000",
+                        "chamber": "House",
+                        "description": "",
+                        "disclosure_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034767.pdf",
+                        "id": "6a2c0382e5e451d46951d38b",
+                        "notification_date": "2026-06-10",
+                        "ownership": "SP",
+                        "report_date": "2026-06-11",
+                        "report_id": "20034767",
+                        "security": {
+                            "name": "Bristol-Myers Squibb",
+                            "ticker": "BMY",
+                            "type": "STOCK"
+                        },
+                        "transaction_date": "2026-05-07",
+                        "transaction_id": "d5a2f4a3beaa8c33ffea76df6c6c95b7204c7d12",
+                        "transaction_type": "S",
+                        "updated": 1781269378
+                    },
+                    {
+                        "amendment_number": 0,
+                        "amount": "$1,001 - $15,000",
+                        "chamber": "House",
+                        "description": "",
+                        "disclosure_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034767.pdf",
+                        "id": "6a2c0382e5e451d46951d38c",
+                        "notification_date": "2026-06-10",
+                        "ownership": "SP",
+                        "report_date": "2026-06-11",
+                        "report_id": "20034767",
+                        "security": {
+                            "name": "Comcast",
+                            "ticker": "CMCSA",
+                            "type": "STOCK"
+                        },
+                        "transaction_date": "2026-05-07",
+                        "transaction_id": "a600b7f426dd085cf5d1bc0f756ecc9b61e2e059",
+                        "transaction_type": "S",
+                        "updated": 1781269378
+                    }
+                ],
+                "updated": 1781269378
+            }
+        ]
+    }
     ```
     ```json 응답 (401 Unauthorized)
     {
