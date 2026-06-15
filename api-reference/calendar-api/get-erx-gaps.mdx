@@ -5,7 +5,134 @@ openapi: /openapi/calendar-api.spec.yml GET /api/v1/erx-gaps
 
 <ResponseExample>
 ```json Response (200 OK)
-{}
+{
+    "erx_gap": [
+        {
+            "closing_range_alerts": [
+                {
+                    "alert_date": "2026-06-12T15:50:55.000Z",
+                    "alert_type": "CLOSING_RANGE_ALERT",
+                    "closing_id": 747,
+                    "closing_range_percentage": 95.44,
+                    "day_high": 4.13,
+                    "day_low": 3,
+                    "description": "",
+                    "gap_id": 5228,
+                    "symbol": "ZDGE",
+                    "title": ""
+                }
+            ],
+            "day": 3,
+            "day1_valid": true,
+            "day_alerts": [
+                {
+                    "alert_date": "2026-06-15T08:00:00.000Z",
+                    "alert_type": "DAY_3_DIP_BELOW_HVC_ABOVE_10PCT",
+                    "day": 3,
+                    "day_alert_id": 1076,
+                    "description": "ZDGE price dipped below 10% above HVC (Price: 4.10, HVC+10%: 4.58)",
+                    "gap_id": 5228,
+                    "price": 4.1,
+                    "price_type": "price",
+                    "title": "Day 3 Alert for ZDGE"
+                },
+                {
+                    "alert_date": "2026-06-15T08:00:00.000Z",
+                    "alert_type": "DAY_3_CROSS_FIBONACCI_LEVEL",
+                    "day": 3,
+                    "day_alert_id": 1077,
+                    "description": "ZDGE price crossed Fibonacci level (Price: 4.10, Fib Level: 4.48)",
+                    "gap_id": 5228,
+                    "price": 4.1,
+                    "price_type": "price",
+                    "title": "Day 3 Alert for ZDGE"
+                }
+            ],
+            "earnings_surprise": 40,
+            "ema_crossovers": [],
+            "ema_status": "Below HVC",
+            "ema_status_updated": "Jun 12, 2026, 8:15:28 PM",
+            "fibonacci_alerts": [],
+            "fibonacci_status": "",
+            "fibonacci_status_updated": "",
+            "first_13min_close": 3.52,
+            "gap_date": "2026-06-12",
+            "gap_day_high": 4.2,
+            "gap_day_low": 3,
+            "gap_percentage": 0,
+            "hvc_price": 4.16,
+            "hvc_undercut": 3.95,
+            "id": "5228",
+            "market_session_alerts": [],
+            "milestone_measurements": [],
+            "monster_gap": true,
+            "monster_power_earning_gap": true,
+            "next_ms_date": "2026-06-22",
+            "next_ms_day": 10,
+            "oel_gap": false,
+            "open": 3.31,
+            "power_earning_gap": true,
+            "previous_close": 3.31,
+            "price": 3.65,
+            "price_alerts": [
+                {
+                    "description": "ZDGE crossed above HVC",
+                    "direction": "above",
+                    "gap_id": 5228,
+                    "level_name": "HVC",
+                    "level_price": 4.16,
+                    "price": 4.16,
+                    "price_alert_id": 1238,
+                    "title": "ERX Price Alert for ZDGE"
+                }
+            ],
+            "status": false,
+            "symbol": "ZDGE",
+            "triggered_date": "2026-06-15",
+            "updated": 1781510400,
+            "volume": 211022,
+            "volume_50d": 104498,
+            "volume_alerts": [
+                {
+                    "alert_date": "2026-06-12T14:02:19.000Z",
+                    "alert_id": 2331,
+                    "alert_type": "VOLUME_RUN_RATE_100",
+                    "average_volume_50d": 104498,
+                    "description": "",
+                    "gap_id": 5228,
+                    "symbol": "ZDGE",
+                    "title": "",
+                    "volume": 133705,
+                    "volume_ratio": 1.28
+                },
+                {
+                    "alert_date": "2026-06-12T14:10:14.000Z",
+                    "alert_id": 2333,
+                    "alert_type": "VOLUME_RUN_RATE_200",
+                    "average_volume_50d": 104498,
+                    "description": "",
+                    "gap_id": 5228,
+                    "symbol": "ZDGE",
+                    "title": "",
+                    "volume": 224125,
+                    "volume_ratio": 2.14
+                },
+                {
+                    "alert_date": "2026-06-12T14:33:59.000Z",
+                    "alert_id": 2335,
+                    "alert_type": "VOLUME_RUN_RATE_300",
+                    "average_volume_50d": 104498,
+                    "description": "",
+                    "gap_id": 5228,
+                    "symbol": "ZDGE",
+                    "title": "",
+                    "volume": 342510,
+                    "volume_ratio": 3.28
+                }
+            ]
+        }
+    ]
+}
 ```
 ```json Response (401 Unauthorized)
 {
