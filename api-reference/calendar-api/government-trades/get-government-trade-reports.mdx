@@ -5,7 +5,92 @@ openapi: /openapi/calendar-api.spec.yml GET /api/v1/gov/usa/congress/trades/repo
 
 <ResponseExample>
     ```json Response (200 OK)
-    {}
+    {
+    "data": [
+        {
+            "amendment_number": 0,
+            "disclosure_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034706.pdf",
+            "filer_info": {
+                "chamber": "House",
+                "committees": {
+                    "Committee on Foreign Affairs": [
+                        "Europe",
+                        "South and Central Asia"
+                    ],
+                    "Committee on Homeland Security": [
+                        "Border Security and Enforcement",
+                        "Emergency Management and Technology"
+                    ],
+                    "Committee on House Administration": [
+                        "Elections"
+                    ],
+                    "Joint Committee on the Library": []
+                },
+                "display_name": "Julie Johnson",
+                "district": "32",
+                "headshot": "https://clerk.house.gov/content/assets/img/members/J000310.jpg",
+                "id": "6778260cd80c5daf69482e11",
+                "leadership_positions": [],
+                "member_id": "J000310",
+                "member_name": "Julie Johnson",
+                "party": "D",
+                "state": "TX",
+                "status": "Member",
+                "updated": 1781528560,
+                "website": ""
+            },
+            "id": "",
+            "latest": true,
+            "report_date": "2026-06-12",
+            "report_id": "20034706",
+            "transactions": [
+                {
+                    "amendment_number": 0,
+                    "amount": "$1,001 - $15,000",
+                    "chamber": "House",
+                    "description": "",
+                    "disclosure_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034706.pdf",
+                    "id": "6a2ff7fa4de33e76b7e75308",
+                    "notification_date": "2026-06-03",
+                    "ownership": "JT",
+                    "report_date": "2026-06-12",
+                    "report_id": "20034706",
+                    "security": {
+                        "name": "Abbott Laboratories",
+                        "ticker": "ABT",
+                        "type": "STOCK"
+                    },
+                    "transaction_date": "2026-05-12",
+                    "transaction_id": "78dce3b01cc8e6033fdbbf9643c0cd3414a04f8f",
+                    "transaction_type": "S",
+                    "updated": 1781528569
+                },
+                {
+                    "amendment_number": 0,
+                    "amount": "$1,001 - $15,000",
+                    "chamber": "House",
+                    "description": "",
+                    "disclosure_url": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034706.pdf",
+                    "id": "6a2ff7fa4de33e76b7e75309",
+                    "notification_date": "2026-06-03",
+                    "ownership": "JT",
+                    "report_date": "2026-06-12",
+                    "report_id": "20034706",
+                    "security": {
+                        "name": "Accenture",
+                        "ticker": "ACN",
+                        "type": "STOCK"
+                    },
+                    "transaction_date": "2026-05-12",
+                    "transaction_id": "68b0cefd47885574ac28a26c01dab70ce44f3ab6",
+                    "transaction_type": "S",
+                    "updated": 1781528569
+                }
+            ],
+            "updated": 1781528570
+        }
+    ]
+}
     ```
     ```json Response (401 Unauthorized)
     {
