@@ -1,0 +1,661 @@
+/*
+ * segment-tracking.js — Benzinga APIs docs (docs.benzinga.com)
+ * -------------------------------------------------------------------
+ * Sends Segment track events:
+ *   - button_event              → button/link clicks
+ *   - content_interaction_event → accordion / code / dropdown interactions
+ *   - page_event                → page load + client-side route changes
+ * Drop in your Mintlify content directory; auto-injected on every page (Pro).
+ *
+ * Requires window.analytics, loaded by Mintlify via docs.json:
+ *   { "integrations": { "segment": { "key": "YOUR_SEGMENT_WRITE_KEY" } } }
+ *
+ * Payload shape (per the 05/04/2026 event doc):
+ *   { type:"track", event:"button_event",
+ *     properties:{ action:"click", event_data:{ ...fields } } }
+ * -------------------------------------------------------------------
+ */
+(function () {
+  "use strict";
+
+  var VERSION = "1.0.0"; // release_version (universal field)
+  var SITE = "docs";     // site (universal field) — docs.benzinga.com
+
+  // Items in the "Copy page" split-button dropdown (docs.json "contextual":
+  // copy, view, cursor, chatgpt, claude). Used to scope the radix menu, which
+  // is portaled to <body> with no stable id of its own.
+  var PAGE_CONTEXT_LABELS = [
+    "copy page",
+    "view as markdown",
+    "connect to cursor",
+    "open in chatgpt",
+    "open in claude",
+  ];
+
+  function getUrlParams() {
+    var params = {};
+    try {
+      new URLSearchParams(window.location.search).forEach(function (v, k) {
+        params[k] = v;
+      });
+    } catch (e) {}
+    return params;
+  }
+
+  function clean(obj) {
+    return Object.fromEntries(
+      Object.entries(obj).filter(function (e) {
+        var v = e[1];
+        return v !== undefined && v !== null && v !== "";
+      })
+    );
+  }
+
+  function text(el) {
+    return (el.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+  // Runs cb once window.analytics exists. Segment's snippet usually creates a
+  // queueing stub synchronously, but guard against a slower async load so the
+  // initial page_event isn't dropped. Polls ~100ms up to ~5s, then gives up.
+  function whenAnalyticsReady(cb, tries) {
+    tries = tries == null ? 50 : tries;
+    if (window.analytics) return cb();
+    if (tries <= 0) return;
+    setTimeout(function () {
+      whenAnalyticsReady(cb, tries - 1);
+    }, 100);
+  }
+
+  // Lowercase snake_case slug: "Try it" → "try_it",
+  // "Feedback & Requests" → "feedback_requests".
+  function toSnake(s) {
+    return (s || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "");
+  }
+
+  // Visible text of a link, ignoring .sr-only; falls back to the .sr-only text
+  // (icon-only links like socials/logo expose their label that way).
+  function linkLabel(el) {
+    var clone = el.cloneNode(true);
+    var hidden = clone.querySelectorAll(".sr-only");
+    for (var i = 0; i < hidden.length; i++) hidden[i].remove();
+    var visible = (clone.textContent || "").replace(/\s+/g, " ").trim();
+    if (visible) return visible;
+    var sr = el.querySelector(".sr-only");
+    return (sr && sr.textContent.replace(/\s+/g, " ").trim()) ||
+      el.getAttribute("aria-label") || "";
+  }
+
+  /*
+   * Builds a dynamic button_id from the current URL + the button label, e.g.
+   *   /ws-reference/data-websocket/get-consensus-ratings-stream  +  "Connect"
+   *   → "consensus_ratings_stream_connect"
+   * Takes the last path segment, drops a leading HTTP-verb prefix
+   * (get|post|put|patch|delete), turns dashes into underscores, and appends
+   * the lowercased label (spaces → underscores).
+   */
+  function buildButtonId(label) {
+    var path = window.location.pathname.replace(/\/+$/, "");
+    var last = (path.split("/").pop() || "")
+      .replace(/^(get|post|put|patch|delete)-/i, "")
+      .replace(/-/g, "_")
+      .toLowerCase();
+    var lbl = (label || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "_");
+    return [last, lbl].filter(Boolean).join("_");
+  }
+
+  /*
+   * Built-in Mintlify elements you can't tag from MDX.
+   * Match by a stable selector and return the event_data for it.
+   * Add more entries here (sidebar nav, copy-page, etc.) the same way.
+   */
+  var BUILTIN_BUTTONS = [
+    {
+      // Mintlify reuses the same data-testid="try-it-button" / .tryit-button for
+      // BOTH playground actions:
+      //   - REST API playground  → aria-label "Try it"
+      //   - WebSocket playground → aria-label "Connect"
+      // We don't need to special-case them: button_type and button_id are both
+      // derived from the button's own label + the page URL.
+      selector: '[data-testid="try-it-button"], .tryit-button',
+      data: function (el) {
+        // Everything below is derived from the button's own label, so the same
+        // handler covers both the REST "Try it" and the WebSocket "Connect".
+        // Fall back to a visible sentinel (not "") so a failed label read isn't
+        // silently dropped by clean() — lets us spot it in Segment.
+        var name = (el.getAttribute("aria-label") || text(el) || "").trim() ||
+          "unknown";
+        return {
+          // NOTE: button_type is derived from the label ("Connect" → "connect",
+          // "Try it" → "try_it"). "try_it" isn't in the documented enum
+          // (navigation|connect|page_scroll|form_submit) — confirm w/ Data Science.
+          button_type: toSnake(name),
+          button_id: buildButtonId(name),
+          button_label: name,
+          // NOTE: confirm location enum (header|footer|sidebar|hero|modal|panel|
+          // code_block). Using "hero".
+          button_location: "hero",
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // The playground modal's action button (opened from "Try it"/"Connect").
+      // It has no id/testid of its own, so we scope to the modal container
+      // (data-testid="api-playground-modal") and use `match` to fire only for
+      // the connect/disconnect action button — not the other modal buttons
+      // (endpoint dropdown, "Security Schemes" expander, type selector, etc.).
+      selector: '[data-testid="api-playground-modal"] button',
+      match: function (el) {
+        return /^(connect|disconnect)$/i.test(text(el));
+      },
+      data: function (el) {
+        var name = (el.getAttribute("aria-label") || text(el) || "").trim() ||
+          "unknown";
+        return {
+          button_type: toSnake(name),
+          // Same button_id as the inline trigger (e.g. "consensus_ratings_stream_connect");
+          // button_location ("modal" vs "hero") is what distinguishes the two.
+          button_id: buildButtonId(name),
+          button_label: name,
+          button_location: "modal",
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // "Copy page" button in the page header (#page-context-menu-button).
+      // Targets only the main copy action, not the split-button dropdown caret.
+      selector: "#page-context-menu-button",
+      data: function (el) {
+        // Prefer aria-label: the visible text flips to "Copying…" on click.
+        var label =
+          (el.getAttribute("aria-label") || text(el) || "").trim() || "Copy page";
+        return {
+          button_type: toSnake(label), // "copy_page"
+          button_id: "docs_copy_page",
+          button_label: label,
+          button_location: "hero",
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // "Copy page" split-button dropdown options (View as Markdown, Connect to
+      // Cursor, Open in ChatGPT/Claude, etc.). The radix menu is portaled to
+      // <body> with no stable id, so we match role=menuitem whose title is one
+      // of the known page-context actions (PAGE_CONTEXT_LABELS).
+      selector: '[role="menuitem"]',
+      match: function (el) {
+        var titleEl = el.querySelector(".font-medium");
+        var t = ((titleEl && titleEl.textContent) || "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .toLowerCase();
+        return PAGE_CONTEXT_LABELS.indexOf(t) !== -1;
+      },
+      data: function (el) {
+        var titleEl = el.querySelector(".font-medium");
+        var label = (text(titleEl) || "").trim() || "unknown";
+        return {
+          button_type: toSnake(label),
+          button_id: "docs_page_context_" + (toSnake(label) || "unknown"),
+          button_label: label,
+          button_location: "hero",
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // Top navbar links (docs.json navbar.links + the primary CTA). Scoped to
+      // the navbar's <ul> via :has(#topbar-cta-button) so we DON'T also catch the
+      // same register/CTA URLs that appear in page body content. This one entry
+      // covers "Support" and the "Start for Free" CTA at both breakpoints
+      // (desktop #topbar-cta-button and its mobile .lg:hidden twin).
+      selector: 'ul:has(#topbar-cta-button) a',
+      data: function (el) {
+        var label = (text(el) || el.getAttribute("aria-label") || "").trim() ||
+          "unknown";
+        return {
+          button_type: "navigation",
+          button_id: "docs_header_" + toSnake(label),
+          button_label: label,
+          button_location: "header",
+          link_url: el.getAttribute("href") || undefined,
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // Left sidebar navigation links (ul.sidebar-group). Each <li> carries the
+      // page path as its id and the human title in data-title. We build the
+      // button_id from the path (unique) rather than the label, since labels
+      // like "Overview" repeat across many groups.
+      selector: "ul.sidebar-group a",
+      data: function (el) {
+        var li = el.closest("li");
+        var path = (li && li.id) || el.getAttribute("href") || "";
+        var label = (li && li.getAttribute("data-title")) || text(el) ||
+          "unknown";
+        var slug = toSnake(path.replace(/^\/+|\/+$/g, "").replace(/\//g, "_")) ||
+          "unknown";
+        return {
+          button_type: "navigation",
+          button_id: "docs_sidebar_" + slug,
+          button_label: label,
+          button_location: "sidebar",
+          link_url: el.getAttribute("href") || undefined,
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // "On this page" table-of-contents links (ul.toc / #table-of-contents-content).
+      // These jump to an in-page anchor, so button_type is "page_scroll".
+      selector: "ul.toc a",
+      data: function (el) {
+        var href = el.getAttribute("href") || "";
+        var anchor = toSnake(href.replace(/^#/, "")) || "unknown";
+        return {
+          button_type: "page_scroll",
+          button_id: "docs_toc_" + anchor,
+          button_label: text(el) || "unknown",
+          button_location: "sidebar",
+          link_url: href || undefined,
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // Top tab navigation (.nav-tabs) — Documentation, API Reference,
+      // WebSocket Reference, etc. Tab labels are unique, so id is label-based.
+      selector: ".nav-tabs a",
+      data: function (el) {
+        var label = (text(el) || el.getAttribute("aria-label") || "").trim() ||
+          "unknown";
+        return {
+          button_type: "navigation",
+          button_id: "docs_tab_" + toSnake(label),
+          button_label: label,
+          button_location: "header",
+          link_url: el.getAttribute("href") || undefined,
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // Footer links (#footer) — link columns (POPULAR / QUICK LINKS / SUPPORT),
+      // social icons, the logo, and "Powered by". Anchors only, so the theme
+      // toggle <button>s are excluded. Icon-only links get their label from the
+      // .sr-only span via linkLabel().
+      selector: "#footer a",
+      data: function (el) {
+        var label = linkLabel(el) || "unknown";
+        return {
+          button_type: "navigation",
+          button_id: "docs_footer_" + (toSnake(label) || "unknown"),
+          button_label: label,
+          button_location: "footer",
+          link_url: el.getAttribute("href") || undefined,
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // Inline body/content links (#content a.link) — links authored in MDX prose.
+      // Mintlify tags MDX links with the "link" class, which excludes the heading
+      // permalink anchors (aria-label="Navigate to header") and the copy-code button.
+      selector: "#content a.link",
+      data: function (el) {
+        var label = linkLabel(el) || "unknown";
+        return {
+          button_type: "navigation",
+          button_id: "docs_body_" + (toSnake(label) || "unknown"),
+          button_label: label,
+          // NOTE: enum (header|footer|sidebar|hero|modal|panel|code_block) has no
+          // "body"/"content" value; using "panel". Confirm with Data Science.
+          button_location: "panel",
+          link_url: el.getAttribute("href") || undefined,
+          opens_form: false,
+        };
+      },
+    },
+    {
+      // Prev/Next pagination at the bottom of the page (#pagination). Mintlify
+      // right-aligns the "next" link with the ml-auto class; "previous" has no
+      // ml-auto. button_label is the destination page title.
+      selector: "#pagination a",
+      data: function (el) {
+        var isNext = el.classList.contains("ml-auto");
+        var label = (text(el) || "").trim() || "unknown";
+        return {
+          button_type: "navigation",
+          button_id: "docs_pagination_" + (isNext ? "next" : "previous"),
+          button_label: label,
+          button_location: "footer",
+          link_url: el.getAttribute("href") || undefined,
+          opens_form: false,
+        };
+      },
+    },
+  ];
+
+  // Reads element_id + element_label off a Mintlify accordion (<details.accordion>).
+  // element_id comes from the authored <Accordion id="…"> (or Mintlify's title
+  // slug when none is set); element_label is the visible title (≤200 chars).
+  function accordionData(details) {
+    var anchor = details.querySelector("summary [id]");
+    var btn = details.querySelector('[data-component-part="accordion-button"]');
+    var id =
+      (anchor && anchor.id) ||
+      ((btn && btn.getAttribute("aria-controls")) || "")
+        .replace(/\s+accordion\s+children\s*$/, "")
+        .trim() ||
+      "unknown";
+    var titleEl = details.querySelector('[data-component-part="accordion-title"]');
+    var label = ((titleEl && titleEl.textContent) || "")
+      .replace(/\s+/g, " ")
+      .trim();
+    return {
+      interaction_type: "accordion",
+      element_id: id,
+      element_label: label.slice(0, 200) || "unknown",
+    };
+  }
+
+  // The currently-selected language of a code block / code group:
+  //  - code group (tabbed): the language pill text in the tab bar (e.g. "cURL")
+  //  - single code block: the `language` attribute (e.g. "text")
+  function currentCodeLang(block) {
+    var pill = block.querySelector(
+      '[data-component-part="code-group-tab-bar"] button[aria-haspopup="menu"] p'
+    );
+    if (pill && text(pill)) return text(pill);
+    var langEl = block.hasAttribute("language")
+      ? block
+      : block.querySelector("[language]");
+    return (langEl && langEl.getAttribute("language")) || "unknown";
+  }
+
+  // event_data for a code block. `action` is "copy" or "view".
+  //   element_id    → widgets_<lang>_<action>   (e.g. widgets_curl_copy)
+  //   element_label → the currently selected language
+  function codeData(block, action) {
+    var lang = currentCodeLang(block);
+    return {
+      interaction_type: "code_block",
+      element_id: "widgets_" + (toSnake(lang) || "unknown") + "_" + action,
+      element_label: lang.toLowerCase()
+    };
+  }
+
+  // event_data for the API/WS playground endpoint selector (#endpoints-menu-trigger).
+  //   element_label → the dropdown's current endpoint (trigger text)
+  //   element_id    → <label-slug>_dropdown   (matches the spec example shape)
+  //   dropdown_value → only for dropdown_select (the option that was picked)
+  function endpointData(extra) {
+    var trigger = document.getElementById("endpoints-menu-trigger");
+    var labelEl = trigger && trigger.querySelector(".truncate");
+    var label = ((labelEl && text(labelEl)) || "").trim() || "unknown";
+    var base = {
+      interaction_type: "dropdown",
+      element_id: (toSnake(label) || "unknown") + "_dropdown",
+      element_label: label,
+      dropdown_purpose: "endpoint_selection",
+    };
+    return extra ? Object.assign(base, extra) : base;
+  }
+
+  class TrackingManager {
+    constructor(urlParams) {
+      this.urlParams = urlParams;
+    }
+
+    emit(eventName, action, eventData) {
+      if (!window.analytics) return;
+      window.analytics.track(
+        eventName,
+        {
+          action: action,
+          event_data: clean(
+            Object.assign({ site: SITE, release_version: VERSION }, eventData)
+          ),
+        },
+        {
+          context: {
+            campaign: this.urlParams,
+            page: {
+              path: window.location.pathname,
+              url: window.location.href,
+            },
+          },
+        }
+      );
+    }
+
+    // Defer so Mintlify/React finishes first.
+    defer(fn) {
+      if (typeof window.requestIdleCallback === "function") requestIdleCallback(fn);
+      else setTimeout(fn, 0);
+    }
+
+    // button_event (action is always "click")
+    send(eventData) {
+      this.defer(this.emit.bind(this, "button_event", "click", eventData));
+    }
+
+    // content_interaction_event (accordion/dropdown/code actions)
+    sendContent(action, eventData) {
+      this.defer(this.emit.bind(this, "content_interaction_event", action, eventData));
+    }
+
+    // page_event (action is always "view"). event_data carries only the
+    // universal fields (site, release_version) added by emit().
+    sendPage() {
+      this.defer(this.emit.bind(this, "page_event", "view", {}));
+    }
+  }
+
+  // page_event (view): fires on initial load and on every client-side route
+  // change. Mintlify is a Next.js SPA, so navigation happens via history
+  // pushState/replaceState (and Back/Forward → popstate) without a full reload.
+  //
+  // A real browser refresh re-runs this whole script, so each reload already
+  // sends its own view. Within the SPA we also count a re-navigation to the
+  // SAME page (e.g. clicking the current page's link), so repeat views track —
+  // while still ignoring:
+  //   - in-page hash jumps (TOC anchor links): same path, only the # changed
+  //   - replaceState on the same path (Next.js hydration/URL normalization),
+  //     which would otherwise double-count the initial view
+  function setupPageViews(tm) {
+    var lastHref = null;
+    function pathOf(href) {
+      return href.split("#")[0]; // pathname + search, without the hash
+    }
+    function fire(method) {
+      var href = window.location.href;
+      if (lastHref !== null && pathOf(href) === pathOf(lastHref)) {
+        var hashOnly = href !== lastHref; // only the fragment changed
+        if (hashOnly || method === "replaceState") {
+          lastHref = href;
+          return;
+        }
+      }
+      lastHref = href;
+      tm.sendPage();
+    }
+
+    ["pushState", "replaceState"].forEach(function (method) {
+      var original = history[method];
+      if (typeof original !== "function") return;
+      history[method] = function () {
+        var result = original.apply(this, arguments);
+        window.dispatchEvent(
+          new CustomEvent("bz:locationchange", { detail: { method: method } })
+        );
+        return result;
+      };
+    });
+    window.addEventListener("popstate", function () {
+      window.dispatchEvent(
+        new CustomEvent("bz:locationchange", { detail: { method: "popstate" } })
+      );
+    });
+    window.addEventListener("bz:locationchange", function (e) {
+      fire((e.detail && e.detail.method) || "popstate");
+    });
+
+    // Initial view — wait for Segment to be ready so it isn't lost on first paint.
+    whenAnalyticsReady(function () {
+      fire();
+    });
+  }
+
+  function init() {
+    var tm = new TrackingManager(getUrlParams());
+    setupPageViews(tm);
+
+    // One delegated listener; survives Mintlify's client-side navigation.
+    document.addEventListener("click", function (e) {
+      // 0) Code block copy button → content_interaction_event (code_copy)
+      var copyBtn = e.target.closest('[data-testid="copy-code-button"]');
+      if (copyBtn) {
+        var copyBlock = copyBtn.closest(".code-group, .code-block");
+        if (copyBlock) tm.sendContent("code_copy", codeData(copyBlock, "copy"));
+        return;
+      }
+
+      // 0a) Endpoint selector dropdown trigger → dropdown_open (fires only when
+      // the click ends up opening it; the trigger toggles open/close).
+      var endpointTrigger = e.target.closest("#endpoints-menu-trigger");
+      if (endpointTrigger) {
+        setTimeout(function () {
+          if (endpointTrigger.getAttribute("aria-expanded") === "true") {
+            tm.sendContent("dropdown_open", endpointData());
+          }
+        }, 0);
+        return;
+      }
+
+      // 0b) Endpoint selector option → dropdown_select. Options are <a title=…>
+      // rows (with a .method-pill) inside the portaled radix menu.
+      var endpointOption = e.target.closest('[role="menu"] a[title][href]');
+      if (endpointOption && endpointOption.querySelector(".method-pill")) {
+        tm.sendContent(
+          "dropdown_select",
+          endpointData({
+            dropdown_value:
+              endpointOption.getAttribute("title") || text(endpointOption),
+          })
+        );
+        return;
+      }
+
+      // 1) Built-in Mintlify elements matched by selector (+ optional `match`)
+      for (var i = 0; i < BUILTIN_BUTTONS.length; i++) {
+        var entry = BUILTIN_BUTTONS[i];
+        var hit = e.target.closest(entry.selector);
+        if (hit && (!entry.match || entry.match(hit))) {
+          tm.send(entry.data(hit));
+          return;
+        }
+      }
+
+      // 2) Buttons/links you author in MDX, tagged with data-* attributes:
+      //   <a href="/apis/cloud-product/bz-why-is-it-moving/"
+      //      data-button-type="navigation"
+      //      data-button-id="docs_product_why_is_it_moving"
+      //      data-button-label="Why Is It Moving"
+      //      data-button-location="panel">Why Is It Moving</a>
+      var el = e.target.closest("[data-button-id]");
+      if (!el) return;
+
+      var opensForm = el.dataset.opensForm === "true";
+      tm.send({
+        button_type: el.dataset.buttonType,
+        button_id: el.dataset.buttonId,
+        button_label: el.dataset.buttonLabel || text(el),
+        button_location: el.dataset.buttonLocation,
+        link_url: el.getAttribute("href") || el.dataset.linkUrl,
+        opens_form: opensForm,
+        form_id: opensForm ? el.dataset.formId : undefined, // required when opens_form=true
+      });
+    });
+
+    // Accordion open/close (FAQs) → content_interaction_event. The `toggle`
+    // event doesn't bubble, so listen in the CAPTURE phase at document level;
+    // this still survives Mintlify's client-side navigation.
+    document.addEventListener(
+      "toggle",
+      function (e) {
+        var details = e.target;
+        if (!details || details.tagName !== "DETAILS") return;
+        if (!details.classList.contains("accordion")) return;
+        tm.sendContent(
+          details.open ? "accordion_open" : "accordion_close",
+          accordionData(details)
+        );
+      },
+      true
+    );
+
+    // code_view: fire once per code block/group when it scrolls into view.
+    if ("IntersectionObserver" in window) {
+      var seen = new WeakSet();
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var block = entry.target;
+            io.unobserve(block);
+            if (seen.has(block)) return;
+            seen.add(block);
+            tm.sendContent("code_view", codeData(block, "view"));
+          });
+        },
+        { threshold: 0.01 }
+      );
+
+      var observeBlocks = function (root) {
+        (root || document)
+          .querySelectorAll(".code-group, .code-block")
+          .forEach(function (b) {
+            io.observe(b);
+          });
+      };
+      observeBlocks(document);
+
+      // Re-observe code blocks added on Mintlify's client-side navigation.
+      if ("MutationObserver" in window) {
+        new MutationObserver(function (mutations) {
+          mutations.forEach(function (m) {
+            m.addedNodes.forEach(function (node) {
+              if (node.nodeType !== 1) return;
+              if (
+                node.classList &&
+                (node.classList.contains("code-group") ||
+                  node.classList.contains("code-block"))
+              ) {
+                io.observe(node);
+              }
+              if (node.querySelectorAll) observeBlocks(node);
+            });
+          });
+        }).observe(document.body, { childList: true, subtree: true });
+      }
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
