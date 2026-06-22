@@ -7,14 +7,67 @@
  *   - page_event                → page load + client-side route changes
  * Drop in your Mintlify content directory; auto-injected on every page (Pro).
  *
- * Requires window.analytics, loaded by Mintlify via docs.json:
- *   { "integrations": { "segment": { "key": "YOUR_SEGMENT_WRITE_KEY" } } }
+ * Loads Segment (analytics.js) itself — `integrations.segment` is intentionally
+ * removed from docs.json so Mintlify never emits its built-in `docs.*` events
+ * (docs.content.view, docs.navitem.click, …). Only the custom events below
+ * are sent to Segment.
  *
  * Payload shape (per the 05/04/2026 event doc):
  *   { type:"track", event:"button_event",
  *     properties:{ action:"click", event_data:{ ...fields } } }
  * -------------------------------------------------------------------
  */
+
+// Segment loader. We bootstrap analytics.js here instead of via docs.json's
+// `integrations.segment`, which keeps Mintlify from firing its built-in
+// `docs.*` events. Swap WRITE_KEY for local vs prod testing.
+(function () {
+  var WRITE_KEY = "On5BFQAKsT2n0HnL6IWRCiJMusJmf7BY"; // Segment write key (public)
+  var analytics = (window.analytics = window.analytics || []);
+  if (analytics.initialize) return;
+  if (analytics.invoked) {
+    window.console &&
+      console.error &&
+      console.error("Segment snippet included twice.");
+    return;
+  }
+  analytics.invoked = true;
+  analytics.methods = [
+    "trackSubmit", "trackClick", "trackLink", "trackForm", "pageview",
+    "identify", "reset", "group", "track", "ready", "alias", "debug",
+    "page", "screen", "once", "off", "on", "addSourceMiddleware",
+    "addIntegrationMiddleware", "setAnonymousId", "addDestinationMiddleware",
+    "register",
+  ];
+  analytics.factory = function (method) {
+    return function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(method);
+      analytics.push(args);
+      return analytics;
+    };
+  };
+  for (var i = 0; i < analytics.methods.length; i++) {
+    var key = analytics.methods[i];
+    analytics[key] = analytics.factory(key);
+  }
+  analytics.load = function (key, opts) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.async = true;
+    script.setAttribute("data-global-segment-analytics-key", "analytics");
+    script.src =
+      "https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";
+    var first = document.getElementsByTagName("script")[0];
+    first.parentNode.insertBefore(script, first);
+    analytics._loadOptions = opts;
+  };
+  analytics._writeKey = WRITE_KEY;
+  analytics.SNIPPET_VERSION = "5.2.0";
+  analytics.load(WRITE_KEY);
+  // Intentionally NOT calling analytics.page() — our page_event covers views.
+})();
+
 (function () {
   "use strict";
 
