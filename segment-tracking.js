@@ -20,9 +20,15 @@
 
 // Segment loader. We bootstrap analytics.js here instead of via docs.json's
 // `integrations.segment`, which keeps Mintlify from firing its built-in
-// `docs.*` events. Swap WRITE_KEY for local vs prod testing.
+// `docs.*` events. The write key is chosen by environment, so no manual swap
+// is needed before committing.
 (function () {
-  var WRITE_KEY = "On5BFQAKsT2n0HnL6IWRCiJMusJmf7BY"; // Segment write key (public)
+  // Production docs run on *.benzinga.com; everything else (localhost, preview
+  // tunnels, staging) uses the dev key.
+  var PROD_KEY = "On5BFQAKsT2n0HnL6IWRCiJMusJmf7BY";
+  var DEV_KEY = "LKtliGWgSpnpFdIYNHF6AlFWtcT1GirV";
+  var host = (window.location.hostname || "").toLowerCase();
+  var WRITE_KEY = /(^|\.)benzinga\.com$/.test(host) ? PROD_KEY : DEV_KEY;
   var analytics = (window.analytics = window.analytics || []);
   if (analytics.initialize) return;
   if (analytics.invoked) {
@@ -185,16 +191,21 @@
         // silently dropped by clean() — lets us spot it in Segment.
         var name = (el.getAttribute("aria-label") || text(el) || "").trim() ||
           "unknown";
+        // The same selector matches the inline hero trigger AND the in-popup
+        // execute button (REST "Send"). Report "modal" when it's inside the
+        // playground popup, otherwise "hero".
+        var inModal = !!el.closest(
+          '[data-testid="api-playground-modal"], [role="dialog"]'
+        );
         return {
           // NOTE: button_type is derived from the label ("Connect" → "connect",
-          // "Try it" → "try_it"). "try_it" isn't in the documented enum
-          // (navigation|connect|page_scroll|form_submit) — confirm w/ Data Science.
+          // "Try it" → "try_it", "Send" → "send"). Confirm enum w/ Data Science.
           button_type: toSnake(name),
           button_id: buildButtonId(name),
           button_label: name,
           // NOTE: confirm location enum (header|footer|sidebar|hero|modal|panel|
-          // code_block). Using "hero".
-          button_location: "hero",
+          // code_block).
+          button_location: inModal ? "modal" : "hero",
           opens_form: false,
         };
       },
@@ -466,6 +477,27 @@
     return extra ? Object.assign(base, extra) : base;
   }
 
+  // event_data for the code-block language selector (cURL/Python/PHP/…).
+  //   dropdown_open  → element_label = the currently selected language
+  //   dropdown_select → element_label = previous language (the open menu's
+  //                     [data-active] item), dropdown_value = the chosen one.
+  function codeLangData(extra) {
+    var base = {
+      interaction_type: "dropdown",
+      element_id: "widgets_language_dropdown",
+      element_label: "unknown",
+      dropdown_purpose: "language_selection",
+    };
+    return extra ? Object.assign(base, extra) : base;
+  }
+
+  // True for a menu item in the code-block language selector. Its icon is a
+  // devicon mask (…/devicon/php.svg), which distinguishes it from the
+  // copy-page menu items (also role=menuitem) and the endpoint options (<a>).
+  function isCodeLangItem(item) {
+    return !!(item && item.querySelector('svg[style*="/devicon/"]'));
+  }
+
   class TrackingManager {
     constructor(urlParams) {
       this.urlParams = urlParams;
@@ -576,6 +608,9 @@
     setupPageViews(tm);
 
     // One delegated listener; survives Mintlify's client-side navigation.
+    // Capture phase (3rd arg true): widgets like the API playground "Send"
+    // button call stopPropagation when they fire the request, so a bubble-phase
+    // listener never sees the click. Capturing catches it before that happens.
     document.addEventListener("click", function (e) {
       // 0) Code block copy button → content_interaction_event (code_copy)
       var copyBtn = e.target.closest('[data-testid="copy-code-button"]');
@@ -611,6 +646,47 @@
         return;
       }
 
+      // 0c) Code-block language selector trigger → dropdown_open (fires only
+      // when the click opens it; the pill toggles open/close).
+      var langTrigger = e.target.closest(
+        '[data-component-part="code-group-tab-bar"] button[aria-haspopup="menu"]'
+      );
+      if (langTrigger) {
+        setTimeout(function () {
+          if (langTrigger.getAttribute("aria-expanded") === "true") {
+            var p = langTrigger.querySelector("p");
+            tm.sendContent(
+              "dropdown_open",
+              codeLangData({
+                element_label: (p && text(p)) || "unknown",
+              })
+            );
+          }
+        }, 0);
+        return;
+      }
+
+      // 0d) Code-block language option → dropdown_select. element_label is the
+      // previously active language; dropdown_value is the chosen one.
+      var langItem = e.target.closest('[role="menuitem"]');
+      if (langItem && isCodeLangItem(langItem)) {
+        var menu = langItem.closest('[role="menu"]');
+        var activeEl =
+          menu &&
+          menu.querySelector('[role="menuitem"][data-active="true"] .font-medium');
+        var chosenEl = langItem.querySelector(".font-medium");
+        var chosen = (chosenEl && text(chosenEl)) || "unknown";
+        var prev = (activeEl && text(activeEl)) || chosen;
+        tm.sendContent(
+          "dropdown_select",
+          codeLangData({
+            element_label: prev,
+            dropdown_value: chosen,
+          })
+        );
+        return;
+      }
+
       // 1) Built-in Mintlify elements matched by selector (+ optional `match`)
       for (var i = 0; i < BUILTIN_BUTTONS.length; i++) {
         var entry = BUILTIN_BUTTONS[i];
@@ -640,7 +716,7 @@
         opens_form: opensForm,
         form_id: opensForm ? el.dataset.formId : undefined, // required when opens_form=true
       });
-    });
+    }, true);
 
     // Accordion open/close (FAQs) → content_interaction_event. The `toggle`
     // event doesn't bubble, so listen in the CAPTURE phase at document level;
