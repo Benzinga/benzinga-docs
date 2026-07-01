@@ -1,22 +1,175 @@
 ---
 title: "Overview"
-description: "Overview of the Conference Call Transcripts API"
+description: "Real-time and historical conference call transcripts, audio, summaries, and speaker data."
 ---
 
 ## Introduction
 
-This REST API provides endpoints to fetch conference calls and summaries.
+The Conference Call Transcripts API gives you programmatic access to corporate
+earnings and conference calls — the **full text transcript, the audio, an AI-generated
+summary, and structured speaker data** — for both **live calls as they happen** and
+**completed calls** from the archive.
 
-## Available Endpoints
+Every call is transcribed in real time. From the moment a call goes live you can:
 
-### [Fetch All Calls](/api-reference/delivery-api/calls/fetch-all-calls)
-Retrieve a list of calls with optional filtering and pagination.
+- **Read it as it's spoken** — sentence-by-sentence transcript chunks pushed over WebSocket.
+- **Listen to it live** — an HLS audio stream that becomes available at the call's start time.
+- **Fetch the finished product** — the complete transcript, MP3 audio, AI summary, sentiment,
+  and identified participants once the call ends.
 
-### [Fetch Call by ID](/api-reference/delivery-api/calls/fetch-call-by-id)
-Retrieve detailed information about a specific call by its ID.
+There are two ways to consume the data, and most integrations use both together:
 
-### [Fetch Summaries](/api-reference/delivery-api/summaries/fetch-summaries)
-Retrieve a list of summaries with pagination.
+<CardGroup cols={2}>
+  <Card title="WebSocket — live" icon="bolt">
+    Subscribe to tickers and receive live transcript sentences and the live audio link
+    the moment a call starts. Push-based, no polling.
+  </Card>
+  <Card title="REST — on demand" icon="server">
+    Fetch any call (live or completed) by ID or list them with filters. Returns the full
+    transcript, audio URLs, summary, sentiment, and participants.
+  </Card>
+</CardGroup>
 
-### [Fetch Summary by Call ID](/api-reference/delivery-api/summaries/fetch-summary-by-call-id)
-Retrieve summary details for a specific call ID.
+## The call lifecycle
+
+A single call moves through the same lifecycle whether you watch it live or pull it later.
+The data model is **the same object throughout** — nothing appears and then disappears; the
+completed call is simply the live call with more fields filled in.
+
+<Steps>
+  <Step title="Call starts">
+    The transcript stream begins emitting sentence chunks over WebSocket, and the **live HLS
+    audio stream becomes available** at the call's start time. Over REST the call appears with
+    `status: STARTED` / `IN_PROGRESS`.
+  </Step>
+  <Step title="Call is live">
+    Transcript sentences stream in continuously. The `recordings` object carries a single
+    **HLS** format (`application/vnd.apple.mpegurl`, `720p`) — the live, growing audio stream.
+  </Step>
+  <Step title="Call completes">
+    The transcript is finalized and the audio playlist is sealed. An **MP3** format is added
+    alongside the HLS one, so a completed call's `recordings` has two formats (HLS + MP3).
+  </Step>
+  <Step title="Call is enriched">
+    Post-processing adds the **AI summary**, **per-segment and overall sentiment**, **speaker
+    labels and identified participants**, and a downloadable **PDF** transcript.
+  </Step>
+</Steps>
+
+## What's in a call
+
+A fetched call is a single JSON object that bundles everything about the call:
+
+| Field | Description |
+| :-- | :-- |
+| `call_id` | Unique identifier for the call — the key you use everywhere. |
+| `symbol`, `name`, `exchange` | The company the call belongs to. |
+| `start_time`, `end_time`, `duration`, `status` | Call timing and lifecycle state. |
+| `transcripts[]` | The transcript text, broken into `segments` with `speaker`, timestamps, `confidence`, and per-segment `sentiment`. |
+| `recordings[].formats[]` | Audio files — HLS (live + recorded) and MP3 (recorded). Each has a `file_link`, `content_type`, and `quality`. |
+| `summary` | AI-generated summary of the call plus an overall `sentiment` score. |
+| `participants[]` | Identified speakers with their `name`, `role`, `organization`, and mention count. |
+
+<Note>
+  Audio URLs are only included when you request them — pass `audio=true` on the
+  [Fetch Call by ID](/api-reference/delivery-api/calls/fetch-call-by-id) endpoint. Without it,
+  the `recordings` block is omitted from the response.
+</Note>
+
+## Live audio (HLS)
+
+Live and recorded audio are served the same way: as a signed, time-limited **HLS**
+(`.m3u8`) stream from Benzinga's CDN. The HLS stream is available from the call's start
+time and simply stops growing when the call ends; the MP3 is added on completion. There are
+two ways to get the audio URL.
+
+<Tabs>
+  <Tab title="WebSocket (live)">
+    After you subscribe to a ticker, the **first message for that ticker is an `audio`
+    event** carrying the live HLS URL — you don't poll for it, it's pushed to you. Every
+    message after that is a transcript sentence.
+
+    ```jsonc
+    // 1. Connect: wss://api.benzinga.com/api/v1/transcripts/stream?token=YOUR_API_KEY
+    // → {"message":"Connected to the server","uid":"..."}
+
+    // 2. Subscribe
+    {"action":"subscribe","ticker":"MSM"}
+    // → "Subscribed to MSM"
+
+    // 3. The audio event — carries the live HLS link
+    {
+      "action":"audio",
+      "symbol":"MSM",
+      "call_id":"6a390146b856ac00017f8fe5",
+      "hls_url":"https://api.benzinga.com/api/v1/transcripts/calls/6a390146b856ac00017f8fe5/hls?Key-Pair-Id=...&Policy=...&Signature=..."
+    }
+
+    // 4. Then transcript sentences stream in
+    {"call_id":"6a390146b856ac00017f8fe5","symbol":"MSM","sentence":"...","status":"IN_PROGRESS", ...}
+    ```
+
+    Subscribe to all live calls with `{"action":"subscribe","ticker":"*"}` — you'll receive
+    an `audio` event for every call that currently has a live stream.
+  </Tab>
+  <Tab title="REST (on demand)">
+    Fetch the call with `audio=true`. The audio URL lives in the `recordings` block:
+
+    ```bash
+    GET https://api.benzinga.com/api/v1/transcripts/calls/{call_id}?token=YOUR_API_KEY&audio=true
+    ```
+
+    ```jsonc
+    // Audio lives at recordings[0].formats[]
+    "recordings": [
+      {
+        "formats": [
+          {
+            "file_link": "https://.../hls/index.m3u8?<signed>",
+            "content_type": "application/vnd.apple.mpegurl",
+            "quality": "720p"        // live + recorded
+          },
+          {
+            "file_link": "https://.../mp3/audio.mp3?<signed>",
+            "content_type": "audio/mpeg",
+            "quality": "192kbps"      // added when the call completes
+          }
+        ]
+      }
+    ]
+    ```
+
+    <Warning>
+      Without `audio=true` the `recordings` block is omitted entirely — no audio URLs are
+      returned. This is the most common reason audio appears "missing" from a response.
+    </Warning>
+  </Tab>
+</Tabs>
+
+### Playing the stream
+
+The audio URL is a signed, time-limited HLS stream. Open it in any HLS-capable player:
+
+- **Safari / Chrome** — play HLS natively; paste the URL straight into the address bar.
+- **VLC** — Media → Open Network Stream → paste the URL.
+- **In-browser** — use [hls.js](https://github.com/video-dev/hls.js).
+
+## Available endpoints
+
+<CardGroup cols={2}>
+  <Card title="Fetch All Calls" icon="list" href="/api-reference/delivery-api/calls/fetch-all-calls">
+    List calls with filtering and pagination — by ticker, date range, and status.
+  </Card>
+  <Card title="Fetch Call by ID" icon="file-lines" href="/api-reference/delivery-api/calls/fetch-call-by-id">
+    Retrieve one call in full: transcript, audio, summary, sentiment, and participants.
+  </Card>
+  <Card title="Fetch Summaries" icon="align-left" href="/api-reference/delivery-api/summaries/fetch-summaries">
+    List AI-generated call summaries with pagination.
+  </Card>
+  <Card title="Fetch Summary by Call ID" icon="wand-magic-sparkles" href="/api-reference/delivery-api/summaries/fetch-summary-by-call-id">
+    Retrieve the summary and overall sentiment for a specific call.
+  </Card>
+  <Card title="Transcripts Stream (WebSocket)" icon="bolt" href="/ws-reference/data-websocket/get-transcripts-stream">
+    Subscribe to live transcript sentences and live audio links as calls happen.
+  </Card>
+</CardGroup>
