@@ -23,15 +23,7 @@
                   "introduction/architecture",
                   "introduction/faq"
                 ]
-              },
-              {
-                "group": "Services",
-                "pages": [
-                  "services/overview"
-                ]
-              }
-            ]
-          },
+              },             
           {
             "tab": "API Reference",
             "groups": [
@@ -352,15 +344,7 @@
                   "ar/introduction/architecture",
                   "ar/introduction/faq"
                 ]
-              },
-              {
-                "group": "الخدمات",
-                "pages": [
-                  "ar/services/overview"
-                ]
-              }
-            ]
-          },
+              },           
           {
             "tab": "مرجع واجهة برمجة التطبيقات API",
             "groups": [
@@ -681,15 +665,7 @@
                   "es/introduction/architecture",
                   "es/introduction/faq"
                 ]
-              },
-              {
-                "group": "Servicios",
-                "pages": [
-                  "es/services/overview"
-                ]
-              }
-            ]
-          },
+              },            
           {
             "tab": "Referencia de la API",
             "groups": [
@@ -1010,15 +986,7 @@
                   "ja/introduction/architecture",
                   "ja/introduction/faq"
                 ]
-              },
-              {
-                "group": "サービス",
-                "pages": [
-                  "ja/services/overview"
-                ]
-              }
-            ]
-          },
+              },            
           {
             "tab": "API リファレンス",
             "groups": [
@@ -1339,15 +1307,7 @@
                   "ko/introduction/architecture",
                   "ko/introduction/faq"
                 ]
-              },
-              {
-                "group": "서비스",
-                "pages": [
-                  "ko/services/overview"
-                ]
-              }
-            ]
-          },
+              },          
           {
             "tab": "API 레퍼런스",
             "groups": [
