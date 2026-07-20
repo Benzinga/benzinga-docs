@@ -27,6 +27,45 @@ Benzinga webhooks eliminate polling by posting real-time market events directly 
   </Step>
 </Steps>
 
+## Verifying deliveries (HMAC-SHA256)
+
+Every delivery is signed so you can confirm it genuinely came from Benzinga and was not modified in transit. The signature is sent in the `X-Bz-Signature` header, formatted as `sha256=<hex digest>`:
+
+```http
+POST /webhook HTTP/1.1
+Content-Type: application/json
+X-BZ-Delivery: 3f1c2e4a-...-9b7d
+X-Bz-Signature: sha256=9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08
+
+{"id":"...","api_version":"webhook/v1","kind":"...","data":{...}}
+```
+
+- **Algorithm:** HMAC-SHA256.
+- **Secret:** your API key — the same key Benzinga issued you for this webhook. Keep it secret; anyone with it can forge deliveries.
+- **Signed content:** the **raw request body bytes**, exactly as received.
+- **Format:** `sha256=` followed by the lowercase hex digest.
+
+To verify a delivery:
+
+<Steps>
+  <Step title="Capture the raw body">
+    Read the raw request body **before** parsing or re-serializing the JSON. You must hash the exact bytes you received — a re-encoded copy will not match.
+  </Step>
+  <Step title="Compute the expected signature">
+    Compute `HMAC-SHA256(secret = your API key, message = raw body)` and hex-encode the result.
+  </Step>
+  <Step title="Compare in constant time">
+    Compare your value against the hex portion of `X-Bz-Signature` (after `sha256=`) using a constant-time comparison. Reject the delivery with a `4xx` if it does not match.
+  </Step>
+</Steps>
+
+
+<Note>
+  Capture the raw request body before your framework parses it. Many frameworks
+  buffer and re-serialize JSON, which changes the bytes and breaks verification.
+</Note>
+
+
 ## Best practices
 
 - Use HTTPS and authentication on your webhook endpoint.
