@@ -24,6 +24,38 @@ All streams share the same base endpoint, authentication model, and message enve
   </Step>
 </Steps>
 
+## One connection per API key
+
+Each API key may hold **one active connection per stream** at a time. The limit is per stream and enforced across all of Benzinga's servers. You **can** run connections to several different streams at once with the same key — but only **one** connection to any given stream. This keeps delivery ordering consistent for your key on each stream and prevents a single token from fanning out into unbounded concurrent connections to the same stream.
+
+<Warning>
+  If a connection to a stream is already active for your token, another connection to that **same** stream is rejected with HTTP **429 Too Many Requests**. The existing connection is **not** dropped — the new attempt is refused. Open one connection per stream per key and fan messages out inside your own application.
+</Warning>
+
+### What this means in practice
+
+- **Don't** open more than one connection to the **same** stream with a single key (per browser tab, worker, or server instance) — consolidate to one connection per stream and distribute messages internally.
+- Connecting to **different** streams with the same key is fine — each stream permits its own single connection.
+- If you need multiple concurrent consumers of the **same** stream, request additional API keys.
+- Treat a `429` on connect as "another session is already active for this key on this stream," not as a rate limit on message volume.
+
+### Reconnecting
+
+When a connection drops (network blip, deploy, or a missed keepalive ping), reconnect — but expect a brief hand-off window before the previous session's slot frees:
+
+<Steps>
+  <Step title="Reconnect with backoff">
+    Retry with exponential backoff (e.g. start at ~2 s, cap around 15 s). A `429` means your previous session for that stream is still considered active; keep backing off and retry until it succeeds.
+  </Step>
+  <Step title="Deduplicate">
+    Use the message `id` to drop any events you may see again around the reconnect boundary.
+  </Step>
+</Steps>
+
+<Note>
+  If your process exits without closing the socket cleanly, the slot is released automatically after a short server-side timeout — no manual cleanup is required. Just reconnect with backoff; a freshly dropped connection can take a few seconds to free.
+</Note>
+
 ## Available streams
 
 <CardGroup cols={2}>

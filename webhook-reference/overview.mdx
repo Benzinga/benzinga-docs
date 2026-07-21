@@ -27,6 +27,39 @@ Benzinga webhooks eliminate polling by posting real-time market events directly 
   </Step>
 </Steps>
 
+## Authenticating deliveries
+
+So your endpoint can confirm a request genuinely came from Benzinga, we can attach a credential you choose — an API key or shared token — to **every** delivery. Two placements are supported; pick whichever your stack validates most easily (or use both). These are configured per webhook when Benzinga provisions it, so share your preferred header/parameter and value with your Benzinga representative.
+
+### API key / token in a request header
+
+Benzinga attaches a custom header, exactly as configured, to every `POST`. Use any header name and value — for example an `Authorization` bearer token or a custom `X-API-Key`:
+
+```http
+POST /webhook HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer YOUR_SHARED_TOKEN
+X-BZ-Delivery: 3f1c2e4a-...-9b7d
+
+{"id":"...","api_version":"webhook/v1","kind":"...","data":{...}}
+```
+
+Validate the header on each request and reject mismatches with `401` or `403`. Benzinga **halts retries** on `401`–`403`, so only return those for genuine auth failures.
+
+### API key / token in a query parameter
+
+Register your delivery URL with the token baked into the query string. Benzinga posts to the exact URL you provide, so the parameter is sent on every delivery:
+
+```
+https://your-domain.com/webhook?token=YOUR_SHARED_TOKEN
+```
+
+Validate the `token` parameter (any name you choose) on each request.
+
+<Note>
+  Always use an **HTTPS** endpoint so the credential is never sent in cleartext, and treat it as a secret. A header/query token authenticates the sender; for cryptographic proof of authenticity **and** payload integrity, also verify the [HMAC signature](#verifying-deliveries-hmac-sha256) below.
+</Note>
+
 ## Verifying deliveries (HMAC-SHA256)
 
 Every delivery is signed so you can confirm it genuinely came from Benzinga and was not modified in transit. The signature is sent in the `X-Bz-Signature` header, formatted as `sha256=<hex digest>`:
