@@ -1,0 +1,10 @@
+User-agent: atlassian-bot
+Allow: /
+
+User-agent: *
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Disallow: /cdn-cgi/
+Allow: /_next/image
+Disallow: /_next/
+
+Sitemap: https://docs.benzinga.com/sitemap.xml
