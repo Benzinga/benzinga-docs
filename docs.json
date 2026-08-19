@@ -130,6 +130,7 @@
               },
               {
                 "group": "Conference Call Transcripts",
+                "tag": "Beta",
                 "pages": [
                   "api-reference/delivery-api/overview",
                   "api-reference/delivery-api/calls/fetch-all-calls",
@@ -459,6 +460,7 @@
               },
               {
                 "group": "نصوص مكالمات الأرباح",
+                "tag": "Beta",
                 "pages": [
                   "ar/api-reference/delivery-api/overview",
                   "ar/api-reference/delivery-api/calls/fetch-all-calls",
@@ -788,6 +790,7 @@
               },
               {
                 "group": "Transcripciones de conferencias telefónicas",
+                "tag": "Beta",
                 "pages": [
                   "es/api-reference/delivery-api/overview",
                   "es/api-reference/delivery-api/calls/fetch-all-calls",
@@ -1117,6 +1120,7 @@
               },
               {
                 "group": "カンファレンスコールの書き起こし",
+                "tag": "Beta",
                 "pages": [
                   "ja/api-reference/delivery-api/overview",
                   "ja/api-reference/delivery-api/calls/fetch-all-calls",
@@ -1446,6 +1450,7 @@
               },
               {
                 "group": "컨퍼런스 콜 통화록",
+                "tag": "Beta",
                 "pages": [
                   "ko/api-reference/delivery-api/overview",
                   "ko/api-reference/delivery-api/calls/fetch-all-calls",
