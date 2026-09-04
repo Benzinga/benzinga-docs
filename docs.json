@@ -325,17 +325,6 @@
                 ]
               }
             ]
-          },
-          {
-            "tab": "Changelog",
-            "groups": [
-              {
-                "group": "Changelog",
-                "pages": [
-                  "changelog/overview"
-                ]
-              }
-            ]
           }
         ],
         "language": "en"
@@ -652,17 +641,6 @@
                   "ar/sdks/languages/java",
                   "ar/sdks/languages/node",
                   "ar/sdks/languages/python"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "سجل التغييرات",
-            "groups": [
-              {
-                "group": "سجل التغييرات",
-                "pages": [
-                  "ar/changelog/overview"
                 ]
               }
             ]
@@ -985,17 +963,6 @@
                 ]
               }
             ]
-          },
-          {
-            "tab": "Registro de cambios",
-            "groups": [
-              {
-                "group": "Registro de cambios",
-                "pages": [
-                  "es/changelog/overview"
-                ]
-              }
-            ]
           }
         ],
         "language": "es"
@@ -1315,17 +1282,6 @@
                 ]
               }
             ]
-          },
-          {
-            "tab": "変更履歴",
-            "groups": [
-              {
-                "group": "変更履歴",
-                "pages": [
-                  "ja/changelog/overview"
-                ]
-              }
-            ]
           }
         ],
         "language": "ja"
@@ -1642,17 +1598,6 @@
                   "ko/sdks/languages/java",
                   "ko/sdks/languages/node",
                   "ko/sdks/languages/python"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "변경 로그",
-            "groups": [
-              {
-                "group": "변경 로그",
-                "pages": [
-                  "ko/changelog/overview"
                 ]
               }
             ]
