@@ -7,19 +7,19 @@ info:
 paths:
   /api/v2.1/news/channels:
     get:
-      description: Returns a list of all available news channels that can be used
-        to filter news items. Channels can have sub-channels, but they will all be
+      description: Returns a list of all available news channels that can be used to
+        filter news items. Channels can have sub-channels, but they will all be
         listed as their own item.
       operationId: get-channels
       responses:
-        '200':
+        "200":
           description: success
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -31,9 +31,10 @@ paths:
         - Channels
   /api/v2/news:
     get:
-      description: This REST API returns structured data for news. For optimal performance,
-        limit the scope of the query using parameters such as tickers, date, and channels,
-        or use updatedSince for deltas. Page offsets are limited from 0 - 100000.
+      description: This REST API returns structured data for news. For optimal
+        performance, limit the scope of the query using parameters such as
+        tickers, date, and channels, or use updatedSince for deltas. Page
+        offsets are limited from 0 - 100000.
       operationId: get-news
       parameters:
         - description: Specify return format
@@ -47,8 +48,8 @@ paths:
               - application/xml
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by other
-            parameters such as date.
+            page offsets are limited from 0 - 100000. Limit the query results by
+            other parameters such as date.
           in: query
           name: page
           schema:
@@ -61,8 +62,8 @@ paths:
             type: integer
             maximum: 100
             default: 15
-        - description: Specify headline only (headline), headline + teaser (abstract),
-            or headline + full body (full) text
+        - description: Specify headline only (headline), headline + teaser (abstract), or
+            headline + full body (full) text
           in: query
           name: displayOutput
           schema:
@@ -72,20 +73,20 @@ paths:
               - abstract
               - headline
             default: headline
-        - description: 'The date to query for news. Shorthand for dateFrom and dateTo
-            if they are the same. Format: yyyy-mm-dd'
+        - description: "The date to query for news. Shorthand for dateFrom and dateTo if
+            they are the same. Format: yyyy-mm-dd"
           in: query
           name: date
           schema:
             type: string
-        - description: 'Date to query from point in time. Sorted by published date.
-            Format: yyyy-mm-dd'
+        - description: "Date to query from point in time. Sorted by published date.
+            Format: yyyy-mm-dd"
           in: query
           name: dateFrom
           schema:
             type: string
-        - description: 'Date to query to point in time. Sorted by published date.
-            Format: yyyy-mm-dd'
+        - description: "Date to query to point in time. Sorted by published date. Format:
+            yyyy-mm-dd"
           in: query
           name: dateTo
           schema:
@@ -100,9 +101,9 @@ paths:
           name: publishedSince
           schema:
             type: integer
-        - description: 'Allows control of results sorting. Default is created, DESC.
-            Format: field:direction. Sort Fields: id, created, updated. Sort Order:
-            asc (ascending), desc (descending)'
+        - description: "Allows control of results sorting. Default is created, DESC.
+            Format: field:direction. Sort Fields: id, created, updated. Sort
+            Order: asc (ascending), desc (descending)"
           in: query
           name: sort
           schema:
@@ -114,44 +115,42 @@ paths:
               - created:desc
               - updated:asc
               - updated:desc
-        - description: 'One or more ISINs separated by a comma. Maximum 50. Format:
-            csv'
+        - description: "One or more ISINs separated by a comma. Maximum 50. Format: csv"
           in: query
           name: isin
           schema:
             type: string
-        - description: 'One or more CUSIPs separated by a comma. Maximum 50. License
-            agreement required. Format: csv'
+        - description: "One or more CUSIPs separated by a comma. Maximum 50. License
+            agreement required. Format: csv"
           in: query
           name: cusips
           schema:
             type: string
-        - description: 'One or more ticker symbols separated by a comma. Maximum 50.
-            Format: csv'
+        - description: "One or more ticker symbols separated by a comma. Maximum 50.
+            Format: csv"
           in: query
           name: tickers
           schema:
             type: string
-        - description: 'One or more primary ticker symbols separated by a comma. Filters
-            by primary ticker association only. Format: csv'
+        - description: "One or more primary ticker symbols separated by a comma. Filters
+            by primary ticker association only. Format: csv"
           in: query
           name: primaryTickers
           schema:
             type: string
-        - description: 'One or more channel names or IDs separated by a comma. Format:
-            csv'
+        - description: "One or more channel names or IDs separated by a comma. Format: csv"
           in: query
           name: channels
           schema:
             type: string
-        - description: 'One or more words/phrases separated by a comma; searches Title,
-            Tags, and Body in order of priority. Format: csv'
+        - description: "One or more words/phrases separated by a comma; searches Title,
+            Tags, and Body in order of priority. Format: csv"
           in: query
           name: topics
           schema:
             type: string
-        - description: Logical operator for topics query. Use 'and' to require all
-            topics, 'or' to require any topic
+        - description: Logical operator for topics query. Use 'and' to require all topics,
+            'or' to require any topic
           in: query
           name: topic_group_by
           schema:
@@ -160,12 +159,12 @@ paths:
               - and
               - or
             default: or
-        - description: 'One or more authors separated by a comma. Format: csv'
+        - description: "One or more authors separated by a comma. Format: csv"
           in: query
           name: authors
           schema:
             type: string
-        - description: 'One or more content types separated by a comma. Format: csv'
+        - description: "One or more content types separated by a comma. Format: csv"
           in: query
           name: content_types
           schema:
@@ -193,20 +192,20 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: success
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/api.NewsItem'
+                  $ref: "#/components/schemas/api.NewsItem"
                 type: array
             text/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/api.NewsItem'
+                  $ref: "#/components/schemas/api.NewsItem"
                 type: array
-        '400':
+        "400":
           description: Invalid or Missing Query Parameters
           content:
             application/json:
@@ -215,7 +214,7 @@ paths:
             text/xml:
               schema:
                 type: string
-        '499':
+        "499":
           description: Request Context Cancelled
           content:
             application/json:
@@ -224,7 +223,7 @@ paths:
             text/xml:
               schema:
                 type: string
-        '500':
+        "500":
           description: Internal Error
           content:
             application/json:
@@ -254,8 +253,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            pageSize x page may not exceed 10000. Limit the query results by other
-            parameters such as updatedSince.
+            pageSize x page may not exceed 10000. Limit the query results by
+            other parameters such as updatedSince.
           in: query
           name: page
           schema:
@@ -275,36 +274,36 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: success
           content:
             application/json:
               schema:
                 additionalProperties:
                   items:
-                    $ref: '#/components/schemas/api.NewsRemovedItem'
+                    $ref: "#/components/schemas/api.NewsRemovedItem"
                   type: array
                 type: object
-        '400':
+        "400":
           description: Invalid or Missing Query Parameters, or pagination beyond the
             maximum offset
           content:
             application/json:
               schema:
                 type: string
-        '499':
+        "499":
           description: Request Context Cancelled
           content:
             application/json:
               schema:
                 type: string
-        '500':
+        "500":
           description: Internal Error
           content:
             application/json:
               schema:
                 type: string
-        '504':
+        "504":
           description: Query Timeout
           content:
             application/json:
@@ -315,22 +314,16 @@ paths:
       summary: Returns the removed news data
       tags:
         - News
-  /api/v2/news/{nodeID}:
+  "/api/v2/news/{nodeID}":
     get:
-      description: 'Returns the news item matching the given node ID. The response
-        is
-
+      description: |-
+        Returns the news item matching the given node ID. The response is
         the same array shape as /api/v2/news, containing a single element.
-
         An unknown node ID, or one the API key is not entitled to, returns
-
         200 with an empty array rather than 404.
-
         Query parameters accepted by /api/v2/news are still applied as
-
         additional filters, so a filter that excludes the item (for example a
-
-        non-matching tickers or date value) yields an empty array.'
+        non-matching tickers or date value) yields an empty array.
       operationId: get-news-by-node-id
       parameters:
         - description: Specify return format
@@ -349,8 +342,8 @@ paths:
           required: true
           schema:
             type: integer
-        - description: Specify headline only (headline), headline + teaser (abstract),
-            or headline + full body (full) text
+        - description: Specify headline only (headline), headline + teaser (abstract), or
+            headline + full body (full) text
           in: query
           name: displayOutput
           schema:
@@ -368,20 +361,20 @@ paths:
             enum:
               - text
       responses:
-        '200':
+        "200":
           description: success
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/api.NewsItem'
+                  $ref: "#/components/schemas/api.NewsItem"
                 type: array
             text/xml:
               schema:
                 items:
-                  $ref: '#/components/schemas/api.NewsItem'
+                  $ref: "#/components/schemas/api.NewsItem"
                 type: array
-        '400':
+        "400":
           description: Invalid or Missing Query Parameters
           content:
             application/json:
@@ -390,7 +383,7 @@ paths:
             text/xml:
               schema:
                 type: string
-        '499':
+        "499":
           description: Request Context Cancelled
           content:
             application/json:
@@ -399,7 +392,7 @@ paths:
             text/xml:
               schema:
                 type: string
-        '500':
+        "500":
           description: Internal Error
           content:
             application/json:
@@ -425,6 +418,7 @@ components:
       description: Channel or tag name
       properties:
         name:
+          description: Name of the channel or tag
           example: Technology
           type: string
       type: object
@@ -432,12 +426,15 @@ components:
       description: Article image with size and URL
       properties:
         alt:
+          description: Alternative text describing the image for accessibility
           example: Apple logo on a storefront
           type: string
         size:
+          description: Image size (thumb, small, large)
           example: large
           type: string
         url:
+          description: URL of the image
           example: https://cdn.benzinga.com/files/images/story/2024/example.jpg
           type: string
       type: object
@@ -445,46 +442,89 @@ components:
       description: News article item with full metadata
       properties:
         author:
+          description: The author of the article. This could be a Benzinga journalist,
+            news desk analyst or contributor on benzinga.com
           example: Benzinga Newsdesk
           type: string
         body:
+          description: The article content. This field can contain HTML and HTML encoded
+            characters
           type: string
         channels:
+          description: >-
+            The topic(s) or categories that relate to the article. Channels can
+            have sub-channels, but they will all be listed
+
+            as their own item. For Why is it Moving (WIIM) data, use 'WIIM' as channel
           items:
-            $ref: '#/components/schemas/api.ChannelTag'
+            $ref: "#/components/schemas/api.ChannelTag"
           type: array
         created:
+          description: >-
+            The moment the article is created. The time zone is GMT-4 (EDT).
+            This timestamp will not change. Format: RFC 2822 /
+
+            RFC 1123
           example: Wed, 17 May 2017 14:20:15 -0400
           type: string
         id:
+          description: The unique identifier of the article. This identifier is also found
+            in the path of url on benzinga.com
           example: 123456
           type: integer
         image:
+          description: The featured image related to the article, if applicable. Benzinga
+            Pro headlines will not contain a featured image
           items:
-            $ref: '#/components/schemas/api.Image'
+            $ref: "#/components/schemas/api.Image"
           type: array
         importance_rank:
+          description: The importance rank of the article on a scale of 1 (Low) to 5
+            (High). Defaults to 1 when not set
           example: 1
           type: integer
         original_id:
+          description: Original article ID if this is a referenced or related article
           type: integer
         stocks:
+          description: >-
+            The stock symbols that are listed within the article body. This will
+            not display competitor symbols unless they are
+
+            specifically referenced in the article
           items:
-            $ref: '#/components/schemas/api.Stock'
+            $ref: "#/components/schemas/api.Stock"
           type: array
         tags:
+          description: >-
+            Additional tags that are not channels or categories, but are
+            recurring themes including analyst names, bills,
+
+            products, politicians, celebrities, stock movements
           items:
-            $ref: '#/components/schemas/api.ChannelTag'
+            $ref: "#/components/schemas/api.ChannelTag"
           type: array
         teaser:
+          description: >-
+            Depending on content source: for full articles, this is the first
+            sentence up to 256 characters; for Pro headlines,
+
+            provides additional context. This field can contain HTML and HTML encoded characters
           type: string
         title:
+          description: The headline of the article. This will only be plain text
           example: Apple Announces New iPhone
           type: string
         updated:
+          description: >-
+            The timestamp of the last update to the article. The time zone is
+            GMT-4 (EDT). This timestamp has the ability to
+
+            change one or many times. Format: RFC 2822 / RFC 1123
           example: Wed, 17 May 2017 14:20:15 -0400
           type: string
         url:
+          description: The url where the article lives on benzinga.com
           example: https://www.benzinga.com/news/123456
           type: string
       type: object
@@ -492,9 +532,12 @@ components:
       description: Removed news article with ID and update timestamp
       properties:
         id:
+          description: ID of removed news content
           example: 123456
           type: integer
         updated:
+          description: "The timestamp of when the article was removed. Format: RFC 2822 /
+            RFC 1123"
           example: Wed, 17 May 2017 14:20:15 -0400
           type: string
       type: object
@@ -502,27 +545,31 @@ components:
       description: Stock information with ticker symbol and identifiers
       properties:
         cusip:
-          example: 037833100
+          description: CUSIP identifier (requires license agreement)
+          example: "037833100"
           type: string
         exchange:
+          description: Exchange where the stock is traded
           example: NASDAQ
           type: string
         gics:
+          description: GICS industry classification
           example: Semiconductors & Semiconductor Equipment
           type: string
         gics_code:
-          example: '45301020'
+          description: GICS industry classification code
+          example: "45301020"
           type: string
         isin:
+          description: ISIN identifier
           example: US0378331005
           type: string
         name:
+          description: Stock ticker symbol
           example: AAPL
           type: string
         sector:
+          description: Market sector classification
           example: Equity
           type: string
       type: object
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
