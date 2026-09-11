@@ -1,10 +1,9 @@
 openapi: 3.0.0
 info:
   contact: {}
-  description: This REST API returns structured data for conference calls,
-    dividends, earnings (and future earnings dates), economics, pharmaceutical
-    announcements, guidance, IPOs, secondary offerings, ratings, M&A activity,
-    and splits.
+  description: This REST API returns structured data for conference calls, dividends,
+    earnings (and future earnings dates), economics, pharmaceutical announcements,
+    guidance, IPOs, secondary offerings, ratings, M&A activity, and splits.
   termsOfService: http://swagger.io/terms/
   title: Calendar API
   version: 2.1.0
@@ -16,8 +15,8 @@ paths:
       operationId: get-analyst-insights-v1
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -48,7 +47,8 @@ paths:
           schema:
             type: string
             format: date
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: symbols
           schema:
@@ -79,39 +79,39 @@ paths:
           name: search_keys
           schema:
             type: string
-        - description: "Field to sort by, format: field:order (e.g., date:asc). Defaults
-            to desc."
+        - description: 'Field to sort by, format: field:order (e.g., date:asc). Defaults
+            to desc.'
           in: query
           name: sort
           schema:
             type: string
             enum:
               - date
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Analyst Insights
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.AnalystInsightsResponse"
-        "400":
+                $ref: '#/components/schemas/api.AnalystInsightsResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Analyst Insights V1
@@ -120,8 +120,8 @@ paths:
   /api/v1/bulls_bears_say:
     get:
       description: Returns the latest bullish and bearish investment cases for a given
-        stock ticker symbol. Bull cases present positive arguments for buying a
-        stock, while bear cases present negative arguments against it.
+        stock ticker symbol. Bull cases present positive arguments for buying a stock,
+        while bear cases present negative arguments against it.
       operationId: get-bulls-say-bears-say-v1
       parameters:
         - description: Stock ticker symbol to query for bull/bear cases
@@ -131,8 +131,8 @@ paths:
           schema:
             type: string
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -145,43 +145,43 @@ paths:
             type: integer
             maximum: 200
             default: 100
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: An array of bull and bear cases for the requested ticker symbol
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.BullsSayBearsSayResponse"
-        "400":
+                $ref: '#/components/schemas/api.BullsSayBearsSayResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "401":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '401':
           description: Authentication information is missing or invalid
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "404":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '404':
           description: A bull/bear case for the provided ticker symbol was not found
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Latest bull and bear cases for a given ticker symbol
@@ -189,14 +189,13 @@ paths:
         - Bulls Say Bears Say
   /api/v1/consensus-ratings:
     get:
-      description: Returns aggregated consensus analyst ratings data for a given
-        ticker symbol. This endpoint provides consensus price targets, aggregate
-        ratings distribution, and analyst counts based on recent analyst
-        ratings.
+      description: Returns aggregated consensus analyst ratings data for a given ticker
+        symbol. This endpoint provides consensus price targets, aggregate ratings
+        distribution, and analyst counts based on recent analyst ratings.
       operationId: get-consensus-ratings-v1
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -227,8 +226,8 @@ paths:
           name: parameters[tickers]
           schema:
             type: string
-        - description: To simplify the aggregate ratings to only BUY, SELL, HOLD, default
-            will return all ratings (STRONG_BUY, BUY, HOLD, SELL, STRONG_SELL)
+        - description: To simplify the aggregate ratings to only BUY, SELL, HOLD,
+            default will return all ratings (STRONG_BUY, BUY, HOLD, SELL, STRONG_SELL)
           in: query
           name: simplify
           schema:
@@ -244,31 +243,30 @@ paths:
               - percentage
             default: number
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.ConsensusRating"
-        "204":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.ConsensusRating'
+        '204':
           description: No Content
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "400":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns analyst ratings consensus data
@@ -281,8 +279,8 @@ paths:
       operationId: get-erx-gaps
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -313,42 +311,40 @@ paths:
           schema:
             type: string
             format: date
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: updated
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: ERx Gaps
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.ErxGaps"
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.ErxGaps'
             text/xml:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.ErxGaps"
-        "400":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.ErxGaps'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: ERx Gaps
@@ -356,13 +352,13 @@ paths:
         - ERx Gaps
   /api/v1/gov/usa/congress/trades:
     get:
-      description: Returns government official trades including transactions by
-        members of the US House and Senate
+      description: Returns government official trades including transactions by members
+        of the US House and Senate
       operationId: get-government-trades
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -386,8 +382,8 @@ paths:
           schema:
             type: string
             format: date
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: updated_since
           schema:
@@ -425,25 +421,24 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Government Trades
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.GovernmentTradeJSON"
-        "400":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.GovernmentTradeJSON'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Government Trades
@@ -516,40 +511,40 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Government Trade Reports
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.GovernmentTradeReportsResponse"
-        "400":
+                $ref: '#/components/schemas/api.GovernmentTradeReportsResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Government Trade Reports
       tags:
         - Government Trade Reports
-  "/api/v1/sec/insider_transactions/{view_type}":
+  /api/v1/sec/insider_transactions/{view_type}:
     get:
-      description: Returns insider transaction data from SEC Form 4 filings. Use
-        /filings endpoint for grouped filing view (transactions nested under
-        each filing) or /transactions endpoint for flattened individual
-        transaction view. Both endpoints support the same query parameters.
+      description: Returns insider transaction data from SEC Form 4 filings. Use /filings
+        endpoint for grouped filing view (transactions nested under each filing) or
+        /transactions endpoint for flattened individual transaction view. Both endpoints
+        support the same query parameters.
       operationId: get-insider-transaction
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -573,8 +568,8 @@ paths:
           schema:
             type: string
             format: date
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: updated_since
           schema:
@@ -621,9 +616,9 @@ paths:
             enum:
               - flat
               - nested
-        - description: "Response format: 'filings' returns grouped filing view with
-            transactions nested, 'transactions' returns flattened individual
-            transaction view"
+        - description: 'Response format: ''filings'' returns grouped filing view with
+            transactions nested, ''transactions'' returns flattened individual transaction
+            view'
           in: path
           name: view_type
           required: true
@@ -633,27 +628,26 @@ paths:
               - filings
               - transactions
       responses:
-        "200":
-          description: "Insider Transaction data. Response structure varies by endpoint:
-            /filings returns nested filing data, /transactions returns flattened
-            transaction data"
+        '200':
+          description: 'Insider Transaction data. Response structure varies by endpoint:
+            /filings returns nested filing data, /transactions returns flattened transaction
+            data'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.InsiderTransactionFilingDoc"
-        "400":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.InsiderTransactionFilingDoc'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Insider Transactions
@@ -666,8 +660,8 @@ paths:
       operationId: get-insider-transaction-owner
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -691,8 +685,8 @@ paths:
           schema:
             type: string
             format: date
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: updated_since
           schema:
@@ -740,25 +734,24 @@ paths:
               - flat
               - nested
       responses:
-        "200":
+        '200':
           description: Insider Transaction Owner
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.InsiderTransactionFilingDoc"
-        "400":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.InsiderTransactionFilingDoc'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Insider Transaction Owner
@@ -771,8 +764,8 @@ paths:
       operationId: get-block-trade-v1
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -796,37 +789,38 @@ paths:
           schema:
             type: string
             format: date
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: tickers
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: updated
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Block Trade
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.BlockTradeResponse"
-        "400":
+                $ref: '#/components/schemas/api.BlockTradeResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: BlockTrade V1
@@ -834,13 +828,13 @@ paths:
         - Block Trade
   /api/v1/signal/halt_resume:
     get:
-      description: Returns trading halt and resume information for securities,
-        including halt reasons and expected resumption times
+      description: Returns trading halt and resume information for securities, including
+        halt reasons and expected resumption times
       operationId: get-halt-resume-v1
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -864,38 +858,38 @@ paths:
           schema:
             type: string
             format: date
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: tickers
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: updated
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Halt Resume
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.HaltResume"
-        "400":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.HaltResume'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: HaltResume V1
@@ -908,8 +902,8 @@ paths:
       operationId: get-option-activity-v1
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -947,7 +941,8 @@ paths:
             type: string
             enum:
               - date
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
@@ -958,32 +953,31 @@ paths:
           name: parameters[id]
           schema:
             type: string
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Option Activity
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.OptionActivity"
-        "400":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.OptionActivity'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: OptionActivity V1
@@ -996,8 +990,8 @@ paths:
       operationId: get-removed
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -1025,33 +1019,31 @@ paths:
               - guidance
               - ma
               - conference calls
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: updated
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Removed
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.RemovedJSON"
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.RemovedJSON'
             text/xml:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.RemovedJSON"
-        "500":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.RemovedJSON'
+        '500':
           description: Internal Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Removed (v2)
@@ -1060,13 +1052,13 @@ paths:
   /api/v2.1/calendar/conference-calls:
     get:
       description: Returns Conference call data for a selected period and/or security.
-        Conference calls are scheduled calls where company management discusses
-        quarterly or annual financial results, business updates, and answers
-        questions from analysts and investors.
+        Conference calls are scheduled calls where company management discusses quarterly
+        or annual financial results, business updates, and answers questions from
+        analysts and investors.
       operationId: get-conference-calls
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -1076,8 +1068,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -1107,46 +1099,47 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ConferenceResponse"
+                $ref: '#/components/schemas/api.ConferenceResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ConferenceResponse"
-        "400":
+                $ref: '#/components/schemas/api.ConferenceResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns Conference call data
@@ -1154,13 +1147,13 @@ paths:
         - conference_calls
   /api/v2.1/calendar/dividends:
     get:
-      description: Returns dividends data for a selected period and/or security.
-        Includes dividend amounts, ex-dividend dates, payment dates, dividend
-        yields, and other relevant dividend information for stocks.
+      description: Returns dividends data for a selected period and/or security. Includes
+        dividend amounts, ex-dividend dates, payment dates, dividend yields, and other
+        relevant dividend information for stocks.
       operationId: get-dividends
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -1170,8 +1163,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -1211,8 +1204,8 @@ paths:
               - ex
               - payable
               - record
-        - description: Specifies how to filter using dividend yield. gt = Greater Than,
-            gte = Greater Than Equal, eq = Equal, lt = Less Than, lte = Less
+        - description: Specifies how to filter using dividend yield. gt = Greater
+            Than, gte = Greater Than Equal, eq = Equal, lt = Less Than, lte = Less
             Than Equal
           in: query
           name: parameters[dividend_yield_operation]
@@ -1224,14 +1217,14 @@ paths:
               - eq
               - lte
               - lt
-        - description: The dividend yield amount to filter by. Defaults to using Equal To
-            the amount indicated. 1 = 100%
+        - description: The dividend yield amount to filter by. Defaults to using Equal
+            To the amount indicated. 1 = 100%
           in: query
           name: parameters[dividend_yield]
           schema:
             type: number
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -1243,46 +1236,47 @@ paths:
               - 3
               - 4
               - 5
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.DividendResponse"
+                $ref: '#/components/schemas/api.DividendResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.DividendResponse"
-        "400":
+                $ref: '#/components/schemas/api.DividendResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Dividends Events
@@ -1290,14 +1284,13 @@ paths:
         - Dividends
   /api/v2.1/calendar/earnings:
     get:
-      description: Returns earnings data for a selected period and/or security.
-        Includes actual EPS and revenue figures, estimates, surprises, and
-        historical comparisons. Earnings data is crucial for investors to assess
-        company performance.
+      description: Returns earnings data for a selected period and/or security. Includes
+        actual EPS and revenue figures, estimates, surprises, and historical comparisons.
+        Earnings data is crucial for investors to assess company performance.
       operationId: get-earnings
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -1307,8 +1300,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -1338,16 +1331,16 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: Field sort option for earnings calendar. Apply `:desc`, `:asc` for
-            sort order
+        - description: Field sort option for earnings calendar. Apply `:desc`, `:asc`
+            for sort order
           in: query
           name: parameters[date_sort]
           schema:
             type: string
             enum:
               - date
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -1359,46 +1352,47 @@ paths:
               - 3
               - 4
               - 5
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.EarningResponse"
+                $ref: '#/components/schemas/api.EarningResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.EarningResponse"
-        "400":
+                $ref: '#/components/schemas/api.EarningResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns the earnings data
@@ -1406,14 +1400,14 @@ paths:
         - earnings
   /api/v2.1/calendar/economics:
     get:
-      description: Returns economic calendar data including economic indicators,
-        releases, and reports from various countries. Includes actual values,
-        consensus estimates, and prior values for economic events such as GDP,
-        employment data, inflation metrics, and more.
+      description: Returns economic calendar data including economic indicators, releases,
+        and reports from various countries. Includes actual values, consensus estimates,
+        and prior values for economic events such as GDP, employment data, inflation
+        metrics, and more.
       operationId: get-economics
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -1423,8 +1417,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -1455,8 +1449,8 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -1465,8 +1459,8 @@ paths:
               - 1
               - 2
               - 3
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
@@ -1477,8 +1471,8 @@ paths:
           schema:
             type: string
             format: A-Z:3
-        - description: One or more event name prefixes separated by a comma (e.g., CPI
-            matches CPI, CPI (MoM), CPI (Mom) - Prelim)
+        - description: One or more event name prefixes separated by a comma (e.g.,
+            CPI matches CPI, CPI (MoM), CPI (Mom) - Prelim)
           in: query
           name: event_name
           schema:
@@ -1491,33 +1485,33 @@ paths:
             type: string
             format: csv
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.EconomicResponse"
+                $ref: '#/components/schemas/api.EconomicResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.EconomicResponse"
-        "400":
+                $ref: '#/components/schemas/api.EconomicResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns the economic calendar data
@@ -1526,13 +1520,13 @@ paths:
   /api/v2.1/calendar/fda:
     get:
       description: Returns FDA approvals, clinical trials, and PDUFA (Prescription
-        Drug User Fee Act) dates for pharmaceutical and biotech companies.
-        Includes information about drug development stages, trial results,
-        approval outcomes, and regulatory milestones.
+        Drug User Fee Act) dates for pharmaceutical and biotech companies. Includes
+        information about drug development stages, trial results, approval outcomes,
+        and regulatory milestones.
       operationId: get-fda
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -1542,8 +1536,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -1583,57 +1577,56 @@ paths:
               - target
             default: announced
         - description: Some date fields (such as the FDA calendar target date) include
-            fuzzy dates such as 2021-Q1. When filtering, you may choose to allow
-            fuzzy date matching, or strict date matching that searches for ONLY
-            dates that have an exact match within the given date period. Default
-            `TRUE`
+            fuzzy dates such as 2021-Q1. When filtering, you may choose to allow fuzzy
+            date matching, or strict date matching that searches for ONLY dates that
+            have an exact match within the given date period. Default `TRUE`
           in: query
           name: parameters[date_search_strict]
           schema:
             type: boolean
             default: true
-        - description: One or more security identifiers separated by a comma. Maximum 50
-            securities. Security identifiers must be in the format of ticker
-            symbols, only for US-listed equities
+        - description: One or more security identifiers separated by a comma. Maximum
+            50 securities. Security identifiers must be in the format of ticker symbols,
+            only for US-listed equities
           in: query
           name: parameters[securities]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.FDAResponse"
+                $ref: '#/components/schemas/api.FDAResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.FDAResponse"
-        "400":
+                $ref: '#/components/schemas/api.FDAResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: FDA approvals, clinical trials, and PDUFA dates
@@ -1642,14 +1635,14 @@ paths:
   /api/v2.1/calendar/guidance:
     get:
       description: Returns company guidance data including forward-looking earnings
-        and revenue projections provided by company management. Includes EPS
-        guidance ranges (min/max), revenue guidance ranges, and comparisons to
-        prior guidance. Guidance is crucial for understanding management's
-        expectations for future performance.
+        and revenue projections provided by company management. Includes EPS guidance
+        ranges (min/max), revenue guidance ranges, and comparisons to prior guidance.
+        Guidance is crucial for understanding management's expectations for future
+        performance.
       operationId: get-guidance
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -1659,8 +1652,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -1690,8 +1683,8 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -1714,46 +1707,47 @@ paths:
               - N
               - All
             default: Y
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.GuidanceResponse"
+                $ref: '#/components/schemas/api.GuidanceResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.GuidanceResponse"
-        "400":
+                $ref: '#/components/schemas/api.GuidanceResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns guidance data
@@ -1761,8 +1755,8 @@ paths:
         - guidance
   /api/v2.1/calendar/ipos:
     get:
-      description: Returns Initial Public Offering (IPO) data including pricing
-        information, underwriters, deal status, and offering details
+      description: Returns Initial Public Offering (IPO) data including pricing information,
+        underwriters, deal status, and offering details
       operationId: get-ipos-v21
       parameters:
         - description: Page number
@@ -1816,33 +1810,33 @@ paths:
             type: string
             format: int64
       responses:
-        "200":
+        '200':
           description: IPOs
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.IPOResponse"
+                $ref: '#/components/schemas/api.IPOResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.IPOResponse"
-        "400":
+                $ref: '#/components/schemas/api.IPOResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: IPOs V2.1
@@ -1850,14 +1844,14 @@ paths:
         - ipos
   /api/v2.1/calendar/ma:
     get:
-      description: Returns mergers and acquisitions (M&A) data including deal
-        announcements, completions, and details about acquiring and target
-        companies. Includes deal size, payment type, deal status, and
-        expected/completed dates for corporate consolidation activities.
+      description: Returns mergers and acquisitions (M&A) data including deal announcements,
+        completions, and details about acquiring and target companies. Includes deal
+        size, payment type, deal status, and expected/completed dates for corporate
+        consolidation activities.
       operationId: get-ma
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -1867,8 +1861,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -1898,8 +1892,8 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -1911,14 +1905,15 @@ paths:
               - 3
               - 4
               - 5
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
@@ -1934,33 +1929,33 @@ paths:
               - completed
               - announced
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.AcquisitionResponse"
+                $ref: '#/components/schemas/api.AcquisitionResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.AcquisitionResponse"
-        "400":
+                $ref: '#/components/schemas/api.AcquisitionResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns the mergers and acquisitions data
@@ -1968,14 +1963,14 @@ paths:
         - ma
   /api/v2.1/calendar/offerings:
     get:
-      description: Returns secondary offering data for public companies issuing
-        additional shares after their IPO. Includes offering price, proceeds,
-        number of shares, shelf offerings, and whether securities are sold in
-        portions over time or at the initial offering date.
+      description: Returns secondary offering data for public companies issuing additional
+        shares after their IPO. Includes offering price, proceeds, number of shares,
+        shelf offerings, and whether securities are sold in portions over time or
+        at the initial offering date.
       operationId: get-offerings
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -1985,8 +1980,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -2016,8 +2011,8 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -2029,46 +2024,47 @@ paths:
               - 3
               - 4
               - 5
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.OfferingResponse"
+                $ref: '#/components/schemas/api.OfferingResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.OfferingResponse"
-        "400":
+                $ref: '#/components/schemas/api.OfferingResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns Secondary Offering data
@@ -2076,14 +2072,14 @@ paths:
         - offerings
   /api/v2.1/calendar/ratings:
     get:
-      description: Returns analyst ratings data including upgrades, downgrades,
-        initiations, and price target changes from Wall Street analysts.
-        Includes current and prior ratings, price targets, analyst information,
-        and ratings accuracy metrics when available.
+      description: Returns analyst ratings data including upgrades, downgrades, initiations,
+        and price target changes from Wall Street analysts. Includes current and prior
+        ratings, price targets, analyst information, and ratings accuracy metrics
+        when available.
       operationId: get-ratings
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -2092,20 +2088,19 @@ paths:
             enum:
               - application/json
             default: application/json
-        - description: "Comma-separated list of fields to return. Available fields: id,
-            date, time, ticker, exchange, name, currency, action_pt,
-            action_company, rating_current, pt_current, rating_prior, pt_prior,
-            pt_pct_change, url, url_calendar, url_news, analyst, analyst_id,
-            analyst_name, firm_id, ratings_accuracy, importance, notes, updated.
-            Use * for all fields including ratings_accuracy"
+        - description: 'Comma-separated list of fields to return. Available fields:
+            id, date, time, ticker, exchange, name, currency, action_pt, action_company,
+            rating_current, pt_current, rating_prior, pt_prior, pt_pct_change, url,
+            url_calendar, url_news, analyst, analyst_id, analyst_name, firm_id, ratings_accuracy,
+            importance, notes, updated. Use * for all fields including ratings_accuracy'
           in: query
           name: fields
           schema:
             type: string
             format: csv
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -2135,8 +2130,8 @@ paths:
           schema:
             type: string
             format: YYYY-MM-DD
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -2148,14 +2143,15 @@ paths:
               - 3
               - 4
               - 5
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
@@ -2172,8 +2168,8 @@ paths:
           schema:
             type: string
             format: csv
-        - description: Filter by a specific action_company (action for rating). Note that
-            all of these terms are precisely defined
+        - description: Filter by a specific action_company (action for rating). Note
+            that all of these terms are precisely defined
           in: query
           name: parameters[action]
           schema:
@@ -2197,8 +2193,8 @@ paths:
           schema:
             type: string
             format: csv
-        - description: A comma separated list of analyst firm ID's to bring back. Omitting
-            will bring back all available firms
+        - description: A comma separated list of analyst firm ID's to bring back.
+            Omitting will bring back all available firms
           in: query
           name: firm
           schema:
@@ -2211,33 +2207,33 @@ paths:
             type: boolean
             default: false
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.RatingResponse"
+                $ref: '#/components/schemas/api.RatingResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.RatingResponse"
-        "400":
+                $ref: '#/components/schemas/api.RatingResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns analyst ratings data
@@ -2249,8 +2245,8 @@ paths:
       operationId: get-ratings-analysts
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -2287,42 +2283,40 @@ paths:
           name: firm_name
           schema:
             type: string
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: updated
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Ratings Analysts
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.RatingsAnalyst"
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.RatingsAnalyst'
             text/xml:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.RatingsAnalyst"
-        "400":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.RatingsAnalyst'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Ratings Analysts
@@ -2334,8 +2328,8 @@ paths:
       operationId: get-ratings-firms
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -2357,42 +2351,40 @@ paths:
           name: firm
           schema:
             type: string
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: updated
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Ratings Firms
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.RatingsFirm"
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.RatingsFirm'
             text/xml:
               schema:
-                $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                  r-api.RatingsFirm"
-        "400":
+                $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.RatingsFirm'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Ratings Firms
@@ -2400,15 +2392,14 @@ paths:
         - ratings_firms
   /api/v2.1/calendar/splits:
     get:
-      description: Returns stock split data including split ratios, announcement
-        dates, ex-dates, and distribution dates. Stock splits occur when a
-        company increases or decreases the number of outstanding shares to
-        adjust the stock price. Includes information about whether the stock is
-        optionable.
+      description: Returns stock split data including split ratios, announcement dates,
+        ex-dates, and distribution dates. Stock splits occur when a company increases
+        or decreases the number of outstanding shares to adjust the stock price. Includes
+        information about whether the stock is optionable.
       operationId: get-splits
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -2418,8 +2409,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -2458,8 +2449,8 @@ paths:
               - announced
               - ex
             default: announced
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -2471,46 +2462,47 @@ paths:
               - 3
               - 4
               - 5
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.SplitResponse"
+                $ref: '#/components/schemas/api.SplitResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.SplitResponse"
-        "400":
+                $ref: '#/components/schemas/api.SplitResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns the splits calendar data
@@ -2518,15 +2510,14 @@ paths:
         - splits
   /api/v2.2/calendar/dividends:
     get:
-      description: "Returns dividends data for a selected period and/or security,
-        including both confirmed and unconfirmed dividend dates. V2.2 includes
-        additional fields: confirmed, period, and year. This version provides
-        more detailed information about dividend confirmation status and
-        periodicity."
+      description: 'Returns dividends data for a selected period and/or security,
+        including both confirmed and unconfirmed dividend dates. V2.2 includes additional
+        fields: confirmed, period, and year. This version provides more detailed information
+        about dividend confirmation status and periodicity.'
       operationId: get-dividends-v22
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -2536,8 +2527,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -2577,8 +2568,8 @@ paths:
               - ex
               - payable
               - record
-        - description: Specifies how to filter using dividend yield. gt = Greater Than,
-            gte = Greater Than Equal, eq = Equal, lt = Less Than, lte = Less
+        - description: Specifies how to filter using dividend yield. gt = Greater
+            Than, gte = Greater Than Equal, eq = Equal, lt = Less Than, lte = Less
             Than Equal
           in: query
           name: parameters[dividend_yield_operation]
@@ -2590,14 +2581,14 @@ paths:
               - eq
               - lte
               - lt
-        - description: The dividend yield amount to filter by. Defaults to using Equal To
-            the amount indicated. 1 = 100%
+        - description: The dividend yield amount to filter by. Defaults to using Equal
+            To the amount indicated. 1 = 100%
           in: query
           name: parameters[dividend_yield]
           schema:
             type: number
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -2609,46 +2600,47 @@ paths:
               - 3
               - 4
               - 5
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.DividendResponse"
+                $ref: '#/components/schemas/api.DividendResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.DividendResponse"
-        "400":
+                $ref: '#/components/schemas/api.DividendResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Dividends Events V2.2
@@ -2661,8 +2653,8 @@ paths:
       operationId: get-events
       parameters:
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date. Default is 0
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date. Default is 0
           in: query
           name: page
           schema:
@@ -2693,8 +2685,8 @@ paths:
           schema:
             type: string
             format: date
-        - description: The importance level to filter by. Uses Greater Than or Equal To
-            the importance indicated
+        - description: The importance level to filter by. Uses Greater Than or Equal
+            To the importance indicated
           in: query
           name: parameters[importance]
           schema:
@@ -2706,14 +2698,15 @@ paths:
               - 3
               - 4
               - 5
-        - description: One or more ticker symbols separated by a comma. Maximum 50 tickers
+        - description: One or more ticker symbols separated by a comma. Maximum 50
+            tickers
           in: query
           name: parameters[tickers]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
@@ -2731,33 +2724,33 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Events
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.EventsResponse"
+                $ref: '#/components/schemas/api.EventsResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.EventsResponse"
-        "400":
+                $ref: '#/components/schemas/api.EventsResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Events
@@ -2765,17 +2758,16 @@ paths:
         - events
   /api/v2/calendar/ipos:
     get:
-      description: Returns Initial Public Offering (IPO) data including pricing
-        information, underwriters, deal status, and offering details. IPOs
-        represent when a private company first offers shares to the public. Note
-        that for the IPOs endpoint, new tickers may not return results right
-        away as they are not automatically linked to the underlying company's
-        data. To obtain the most recent rows, send queries without the tickers
-        parameter specified.
+      description: Returns Initial Public Offering (IPO) data including pricing information,
+        underwriters, deal status, and offering details. IPOs represent when a private
+        company first offers shares to the public. Note that for the IPOs endpoint,
+        new tickers may not return results right away as they are not automatically
+        linked to the underlying company's data. To obtain the most recent rows, send
+        queries without the tickers parameter specified.
       operationId: get-ipos-v2
       parameters:
-        - description: Specifies return format. Query parameters work the same for both
-            formats
+        - description: Specifies return format. Query parameters work the same for
+            both formats
           in: header
           name: accept
           required: true
@@ -2785,8 +2777,8 @@ paths:
               - application/json
             default: application/json
         - description: Page offset. For optimization, performance and technical reasons,
-            page offsets are limited from 0 - 100000. Limit the query results by
-            other parameters such as date
+            page offsets are limited from 0 - 100000. Limit the query results by other
+            parameters such as date
           in: query
           name: page
           schema:
@@ -2823,47 +2815,47 @@ paths:
           schema:
             type: string
             format: csv
-        - description: "One or more IPO types separated by a comma. Example: Ordinary
-            Shares,SPAC"
+        - description: 'One or more IPO types separated by a comma. Example: Ordinary
+            Shares,SPAC'
           in: query
           name: parameters[ipo_type]
           schema:
             type: string
             format: csv
-        - description: Records last Updated Unix timestamp (UTC). This will force the sort
-            order to be Greater Than or Equal to the timestamp indicated
+        - description: Records last Updated Unix timestamp (UTC). This will force
+            the sort order to be Greater Than or Equal to the timestamp indicated
           in: query
           name: parameters[updated]
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.IPOResponse"
+                $ref: '#/components/schemas/api.IPOResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.IPOResponse"
-        "400":
+                $ref: '#/components/schemas/api.IPOResponse'
+        '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
-        "500":
+                $ref: '#/components/schemas/api.ErrorResponse'
+        '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
             text/xml:
               schema:
-                $ref: "#/components/schemas/api.ErrorResponse"
+                $ref: '#/components/schemas/api.ErrorResponse'
       security:
         - ApiKeyAuth: []
       summary: Returns ipo data
@@ -2882,8 +2874,7 @@ components:
         ma:
           description: Array of M&A records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Acquisition"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Acquisition'
           type: array
       type: object
     api.AnalystInsightsResponse:
@@ -2892,8 +2883,7 @@ components:
         analyst-insights:
           description: Array of analyst insights records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.AnalystInsights"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.AnalystInsights'
           type: array
       type: object
     api.BlockTradeResponse:
@@ -2902,8 +2892,7 @@ components:
         block-trade:
           description: Array of block trade records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.BlockTrade"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.BlockTrade'
           type: array
       type: object
     api.BullsSayBearsSayResponse:
@@ -2912,8 +2901,7 @@ components:
         bulls-say-bears-say:
           description: Array of bulls say bears say records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.BullsSayBearsSay"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.BullsSayBearsSay'
           type: array
       type: object
     api.ConferenceResponse:
@@ -2922,8 +2910,7 @@ components:
         conference-calls:
           description: Array of conference call records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Conference"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Conference'
           type: array
       type: object
     api.DividendResponse:
@@ -2932,8 +2919,7 @@ components:
         dividends:
           description: Array of dividend records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Dividend"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Dividend'
           type: array
       type: object
     api.EarningResponse:
@@ -2942,8 +2928,7 @@ components:
         earnings:
           description: Array of earnings records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Earning"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Earning'
           type: array
       type: object
     api.EconomicResponse:
@@ -2952,8 +2937,7 @@ components:
         economics:
           description: Array of economic event records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Economic"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Economic'
           type: array
       type: object
     api.ErrorResponse:
@@ -2967,8 +2951,7 @@ components:
         events:
           description: Array of event records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Events"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Events'
           type: array
       type: object
     api.FDAResponse:
@@ -2977,8 +2960,7 @@ components:
         fda:
           description: Array of FDA event records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.FDA"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.FDA'
           type: array
       type: object
     api.GovernmentTradeReportsResponse:
@@ -2987,7 +2969,7 @@ components:
         data:
           description: Array of government trade report records
           items:
-            $ref: "#/components/schemas/api.SwaggerGovtTradeReport"
+            $ref: '#/components/schemas/api.SwaggerGovtTradeReport'
           type: array
       type: object
     api.GuidanceResponse:
@@ -2996,8 +2978,7 @@ components:
         guidance:
           description: Array of guidance records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Guidance"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Guidance'
           type: array
       type: object
     api.IPOResponse:
@@ -3006,8 +2987,7 @@ components:
         ipos:
           description: Array of IPO records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.IPO"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.IPO'
           type: array
       type: object
     api.OfferingResponse:
@@ -3016,8 +2996,7 @@ components:
         offerings:
           description: Array of offering records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Offering"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Offering'
           type: array
       type: object
     api.RatingResponse:
@@ -3026,8 +3005,7 @@ components:
         ratings:
           description: Array of analyst rating records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Rating"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Rating'
           type: array
       type: object
     api.SplitResponse:
@@ -3036,8 +3014,7 @@ components:
         splits:
           description: Array of stock split records
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Split"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Split'
           type: array
       type: object
     api.SwaggerGovtTradeReport:
@@ -3049,7 +3026,7 @@ components:
           example: https://disclosurespreview.house.gov/ld/ldxmlrelease/2024/RR/123456.xml
           type: string
         filer_info:
-          $ref: "#/components/schemas/api.SwaggerGovtTradeReportFilerInfo"
+          $ref: '#/components/schemas/api.SwaggerGovtTradeReportFilerInfo'
         id:
           example: 60a7f5e8e4b0f5a3c8e9f5c4
           type: string
@@ -3057,14 +3034,14 @@ components:
           example: true
           type: boolean
         report_date:
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         report_id:
           example: RPT-2024-5678
           type: string
         transactions:
           items:
-            $ref: "#/components/schemas/api.SwaggerGovtTradeReportTransaction"
+            $ref: '#/components/schemas/api.SwaggerGovtTradeReportTransaction'
           type: array
         updated:
           example: 1704819600
@@ -3083,7 +3060,7 @@ components:
           example: Pelosi, Nancy
           type: string
         district:
-          example: "11"
+          example: '11'
           type: string
         headshot:
           example: https://example.com/headshots/pelosi.jpg
@@ -3152,21 +3129,21 @@ components:
           example: 60a7f5e8e4b0f5a3c8e9f5c5
           type: string
         notification_date:
-          example: 2024-01-15
+          example: '2024-01-15'
           type: string
         ownership:
           example: Joint
           type: string
         report_date:
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         report_id:
           example: RPT-2024-5678
           type: string
         security:
-          $ref: "#/components/schemas/api.SwaggerGovtTradeReportSecurity"
+          $ref: '#/components/schemas/api.SwaggerGovtTradeReportSecurity'
         transaction_date:
-          example: 2024-01-05
+          example: '2024-01-05'
           type: string
         transaction_id:
           example: TXN-2024-001234
@@ -3182,7 +3159,7 @@ components:
       properties:
         acquirer_cusip:
           description: CUSIP of the acquiring company
-          example: "594918104"
+          example: '594918104'
           type: string
         acquirer_exchange:
           description: Exchange of the acquiring company
@@ -3206,15 +3183,15 @@ components:
           type: string
         date:
           description: Date of the acquisition announcement or completion
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         date_completed:
           description: Actual completion date of the acquisition
-          example: 2024-06-15
+          example: '2024-06-15'
           type: string
         date_expected:
           description: Expected completion date of the acquisition
-          example: 2024-06-30
+          example: '2024-06-30'
           type: string
         deal_payment_type:
           description: Payment type for the deal (Cash, Stock, Mixed)
@@ -3222,7 +3199,7 @@ components:
           type: string
         deal_size:
           description: Size of the deal in monetary value
-          example: "68700000000"
+          example: '68700000000'
           type: string
         deal_status:
           description: Status of the deal (Announced, Pending, Completed, Terminated)
@@ -3312,7 +3289,7 @@ components:
           type: string
         date:
           description: Date of the analyst insight
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         firm:
           description: Name of the analyst firm
@@ -3328,7 +3305,7 @@ components:
           type: string
         pt:
           description: Price target
-          example: "200.00"
+          example: '200.00'
           type: string
         rating:
           description: Analyst rating (Strong Buy, Buy, Hold, Sell, Strong Sell)
@@ -3340,8 +3317,7 @@ components:
           type: string
         security:
           allOf:
-            - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                r-api.AnalystInsightsSecurity"
+            - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.AnalystInsightsSecurity'
           description: Security information
         updated:
           description: Unix timestamp of last update
@@ -3352,7 +3328,7 @@ components:
       properties:
         cik:
           description: SEC Central Index Key
-          example: "320193"
+          example: '320193'
           type: string
         exchange:
           description: Stock exchange where the security is traded
@@ -3375,11 +3351,11 @@ components:
       properties:
         ask:
           description: Ask price at time of trade
-          example: "185.44"
+          example: '185.44'
           type: string
         bid:
           description: Bid price at time of trade
-          example: "185.40"
+          example: '185.40'
           type: string
         count:
           description: Number of block trades in this period
@@ -3387,11 +3363,11 @@ components:
           type: integer
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: "037833100"
+          example: 037833100
           type: string
         date:
           description: Date of the block trade
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         description:
           description: Description of the block trade
@@ -3423,15 +3399,15 @@ components:
           type: string
         price:
           description: Price per share of the block trade
-          example: "185.42"
+          example: '185.42'
           type: string
         sale_conditions:
           description: Sale condition codes
-          example: "@"
+          example: '@'
           type: string
         size:
           description: Number of shares in the block trade
-          example: "500000"
+          example: '500000'
           type: string
         ticker:
           description: Stock ticker symbol
@@ -3439,7 +3415,7 @@ components:
           type: string
         time:
           description: Time of the block trade (EST)
-          example: 15:45:30
+          example: '15:45:30'
           type: string
         updated:
           description: Unix timestamp of last update
@@ -3482,7 +3458,7 @@ components:
             properties:
               cik:
                 description: SEC Central Index Key
-                example: "320193"
+                example: '320193'
                 type: string
               exchange:
                 description: Stock exchange where the security is traded
@@ -3515,7 +3491,7 @@ components:
       properties:
         alert_date:
           description: Date when the alert was triggered
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         alert_type:
           description: Type of closing range alert
@@ -3558,7 +3534,7 @@ components:
       properties:
         cik:
           description: SEC Central Index Key
-          example: "1682852"
+          example: '1682852'
           type: string
         id:
           description: Unique identifier for the company
@@ -3571,15 +3547,14 @@ components:
         securities:
           description: Securities associated with the company
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Security"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Security'
           type: array
       type: object
     gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Conference:
       properties:
         access_code:
           description: Access code for the conference call
-          example: "123456"
+          example: '123456'
           type: string
         confirmed:
           description: Whether the conference call details are confirmed
@@ -3587,11 +3562,11 @@ components:
           type: boolean
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: "037833100"
+          example: 037833100
           type: string
         date:
           description: Date of the conference call
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         exchange:
           description: Stock exchange where the security is traded
@@ -3635,11 +3610,11 @@ components:
           type: string
         reservation_num:
           description: Reservation number for the conference call
-          example: "13744123"
+          example: '13744123'
           type: string
         start_time:
           description: Start time of the conference call
-          example: 16:30:00
+          example: '16:30:00'
           type: string
         ticker:
           description: Stock ticker symbol
@@ -3647,7 +3622,7 @@ components:
           type: string
         time:
           description: Time of the conference call (EST)
-          example: 16:30:00
+          example: '16:30:00'
           type: string
         updated:
           description: Unix timestamp of last update
@@ -3662,8 +3637,7 @@ components:
       properties:
         aggregate_ratings:
           allOf:
-            - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                r-api.AggregateRating"
+            - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.AggregateRating'
           description: Aggregate rating counts by category
         aggregate_type:
           description: Time period for aggregation (30D, 90D, 1Y)
@@ -3699,7 +3673,7 @@ components:
           type: integer
         updated_at:
           description: Timestamp when consensus was last updated
-          example: 2024-01-09T16:00:00Z
+          example: '2024-01-09T16:00:00Z'
           type: string
       type: object
     gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.DayAlert:
@@ -3735,19 +3709,19 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: "037833100"
+          example: 037833100
           type: string
         date:
           description: Date of dividend announcement
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         dividend:
           description: Dividend amount per share
-          example: "0.25"
+          example: '0.25'
           type: string
         dividend_prior:
           description: Prior dividend amount per share
-          example: "0.24"
+          example: '0.24'
           type: string
         dividend_type:
           description: Type of dividend (Cash, Stock, Special)
@@ -3755,7 +3729,7 @@ components:
           type: string
         dividend_yield:
           description: Dividend yield as a percentage
-          example: "0.55"
+          example: '0.55'
           type: string
         end_regular_dividend:
           description: Whether this is the end of regular dividends
@@ -3763,7 +3737,7 @@ components:
           type: boolean
         ex_dividend_date:
           description: Ex-dividend date
-          example: 2024-01-12
+          example: '2024-01-12'
           type: string
         exchange:
           description: Stock exchange where the security is traded
@@ -3795,7 +3769,7 @@ components:
           type: string
         payable_date:
           description: Date when dividend will be paid
-          example: 2024-02-15
+          example: '2024-02-15'
           type: string
         period:
           description: Dividend period (Q1, Q2, Q3, Q4)
@@ -3803,7 +3777,7 @@ components:
           type: string
         record_date:
           description: Record date for dividend eligibility
-          example: 2024-01-15
+          example: '2024-01-15'
           type: string
         ticker:
           description: Stock ticker symbol
@@ -3848,11 +3822,11 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: "037833100"
+          example: 037833100
           type: string
         date:
           description: Date of the earnings announcement
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         date_confirmed:
           description: Whether the earnings date is confirmed (1=confirmed, 0=tentative)
@@ -3860,23 +3834,23 @@ components:
           type: integer
         eps:
           description: Actual earnings per share reported
-          example: "2.18"
+          example: '2.18'
           type: string
         eps_est:
           description: Estimated earnings per share (analyst consensus)
-          example: "2.10"
+          example: '2.10'
           type: string
         eps_prior:
           description: Prior period earnings per share
-          example: "1.88"
+          example: '1.88'
           type: string
         eps_surprise:
           description: Difference between actual and estimated EPS
-          example: "0.08"
+          example: '0.08'
           type: string
         eps_surprise_percent:
           description: EPS surprise as a percentage of estimate
-          example: "3.81"
+          example: '3.81'
           type: string
         eps_type:
           description: Type of EPS calculation (GAAP, Non-GAAP)
@@ -3916,23 +3890,23 @@ components:
           type: integer
         revenue:
           description: Actual revenue reported
-          example: "89537000000"
+          example: '89537000000'
           type: string
         revenue_est:
           description: Estimated revenue (analyst consensus)
-          example: "88500000000"
+          example: '88500000000'
           type: string
         revenue_prior:
           description: Prior period revenue
-          example: "81800000000"
+          example: '81800000000'
           type: string
         revenue_surprise:
           description: Difference between actual and estimated revenue
-          example: "1037000000"
+          example: '1037000000'
           type: string
         revenue_surprise_percent:
           description: Revenue surprise as a percentage of estimate
-          example: "1.17"
+          example: '1.17'
           type: string
         revenue_type:
           description: Type of revenue calculation (GAAP, Non-GAAP)
@@ -3943,8 +3917,8 @@ components:
           example: AAPL
           type: string
         time:
-          description: Time of earnings release (bmo=before market open, amc=after market
-            close)
+          description: Time of earnings release (bmo=before market open, amc=after
+            market close)
           example: amc
           type: string
         updated:
@@ -3956,7 +3930,7 @@ components:
       properties:
         actual:
           description: Actual reported value
-          example: "216000"
+          example: '216000'
           type: string
         actual_t:
           description: Actual value with thousand/million abbreviation
@@ -3968,7 +3942,7 @@ components:
           type: boolean
         consensus:
           description: Consensus forecast value
-          example: "170000"
+          example: '170000'
           type: string
         consensus_t:
           description: Consensus value with thousand/million abbreviation
@@ -3980,7 +3954,7 @@ components:
           type: string
         date:
           description: Date of the economic event
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         description:
           description: Description of the economic indicator
@@ -4016,7 +3990,7 @@ components:
           type: integer
         prior:
           description: Prior period value
-          example: "199000"
+          example: '199000'
           type: string
         prior_t:
           description: Prior value with thousand/million abbreviation
@@ -4035,7 +4009,7 @@ components:
       properties:
         crossover_date:
           description: Date when the crossover occurred
-          example: 2024-01-12
+          example: '2024-01-12'
           type: string
         crossover_id:
           description: Unique identifier for the EMA crossover event
@@ -4051,7 +4025,7 @@ components:
           type: string
         days_from_gap:
           description: Number of days since gap occurred
-          example: "3"
+          example: '3'
           type: string
         description:
           description: Detailed crossover description
@@ -4071,8 +4045,7 @@ components:
         closing_range_alerts:
           description: Array of closing range alerts
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.ClosingRangeAlert"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.ClosingRangeAlert'
           type: array
         day:
           description: Number of days since gap occurred
@@ -4081,8 +4054,7 @@ components:
         day_alerts:
           description: Array of day-specific alerts
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.DayAlert"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.DayAlert'
           type: array
         day1_valid:
           description: Indicates if Day 1 criteria are valid
@@ -4095,8 +4067,7 @@ components:
         ema_crossovers:
           description: Array of EMA crossover events
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.EmaCrossover"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.EmaCrossover'
           type: array
         ema_status:
           description: Current EMA crossover status
@@ -4104,13 +4075,12 @@ components:
           type: string
         ema_status_updated:
           description: Last update timestamp for EMA status
-          example: 2024-01-09T10:30:00Z
+          example: '2024-01-09T10:30:00Z'
           type: string
         fibonacci_alerts:
           description: Array of Fibonacci level alerts
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.FibonacciAlert"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.FibonacciAlert'
           type: array
         fibonacci_status:
           description: Current Fibonacci retracement status
@@ -4118,7 +4088,7 @@ components:
           type: string
         fibonacci_status_updated:
           description: Last update timestamp for Fibonacci status
-          example: 2024-01-09T10:30:00Z
+          example: '2024-01-09T10:30:00Z'
           type: string
         first_13min_close:
           description: Closing price of first 13 minutes after market open
@@ -4126,7 +4096,7 @@ components:
           type: number
         gap_date:
           description: Date when the gap occurred
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         gap_day_high:
           description: Highest price on gap day
@@ -4155,14 +4125,12 @@ components:
         market_session_alerts:
           description: Array of market session alerts
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.MarketSessionAlert"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.MarketSessionAlert'
           type: array
         milestone_measurements:
           description: Array of milestone measurements
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.MilestoneMeasurement"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.MilestoneMeasurement'
           type: array
         monster_gap:
           description: Indicates if this is a monster gap (>10%)
@@ -4174,7 +4142,7 @@ components:
           type: boolean
         next_ms_date:
           description: Date of next milestone
-          example: 2024-01-19
+          example: '2024-01-19'
           type: string
         next_ms_day:
           description: Next milestone day
@@ -4203,8 +4171,7 @@ components:
         price_alerts:
           description: Array of price level alerts
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.PriceAlert"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.PriceAlert'
           type: array
         status:
           description: Active status of the gap
@@ -4216,7 +4183,7 @@ components:
           type: string
         triggered_date:
           description: Date when the gap was triggered
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         updated:
           description: Unix timestamp of last update
@@ -4233,19 +4200,18 @@ components:
         volume_alerts:
           description: Array of volume-based alerts
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.VolumeAlert"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.VolumeAlert'
           type: array
       type: object
     gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Events:
       properties:
         date_end:
           description: End date of the event
-          example: 2024-01-11
+          example: '2024-01-11'
           type: string
         date_start:
           description: Start date of the event
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         event_name:
           description: Name of the event
@@ -4278,8 +4244,7 @@ components:
         securities:
           description: List of securities associated with this event
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Securities"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Securities'
           type: array
         source_link:
           description: URL to event source or details
@@ -4315,8 +4280,7 @@ components:
         companies:
           description: Companies involved in the FDA event
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Company"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Company'
           type: array
         created:
           description: Unix timestamp when record was created
@@ -4324,12 +4288,11 @@ components:
           type: integer
         date:
           description: Date of the FDA event
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         drug:
           allOf:
-            - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                r-api.Drug"
+            - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Drug'
           description: Drug information
         event_type:
           description: Type of FDA event (PDUFA, AdComm, Approval, Rejection)
@@ -4340,9 +4303,9 @@ components:
           example: 60a7f5e8e4b0f5a3c8e9f5bd
           type: string
         nic_number:
-          description: New Drug Application (NDA) or Biologics License Application (BLA)
-            number
-          example: "022527"
+          description: New Drug Application (NDA) or Biologics License Application
+            (BLA) number
+          example: '022527'
           type: string
         notes:
           description: Additional notes
@@ -4370,7 +4333,7 @@ components:
           type: string
         target_date:
           description: FDA target action date (PDUFA date)
-          example: 2024-03-15
+          example: '2024-03-15'
           type: string
         time:
           description: Time of the FDA event (EST)
@@ -4385,7 +4348,7 @@ components:
       properties:
         alert_date:
           description: Date when the alert was triggered
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         alert_type:
           description: Type of Fibonacci alert
@@ -4446,31 +4409,31 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: "037833100"
+          example: 037833100
           type: string
         date:
           description: Date of guidance announcement
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         eps_guidance_est:
           description: Estimated EPS guidance
-          example: "1.55"
+          example: '1.55'
           type: string
         eps_guidance_max:
           description: Maximum EPS guidance range
-          example: "1.60"
+          example: '1.60'
           type: string
         eps_guidance_min:
           description: Minimum EPS guidance range
-          example: "1.50"
+          example: '1.50'
           type: string
         eps_guidance_prior_max:
           description: Prior maximum EPS guidance
-          example: "1.45"
+          example: '1.45'
           type: string
         eps_guidance_prior_min:
           description: Prior minimum EPS guidance
-          example: "1.35"
+          example: '1.35'
           type: string
         eps_type:
           description: Type of EPS (GAAP, Non-GAAP)
@@ -4490,7 +4453,7 @@ components:
           type: integer
         is_primary:
           description: Whether this is primary guidance
-          example: "true"
+          example: 'true'
           type: string
         name:
           description: Company name
@@ -4510,27 +4473,27 @@ components:
           type: integer
         prelim:
           description: Whether this is preliminary guidance
-          example: "false"
+          example: 'false'
           type: string
         revenue_guidance_est:
           description: Estimated revenue guidance
-          example: "93000000000"
+          example: '93000000000'
           type: string
         revenue_guidance_max:
           description: Maximum revenue guidance range
-          example: "95000000000"
+          example: '95000000000'
           type: string
         revenue_guidance_min:
           description: Minimum revenue guidance range
-          example: "91000000000"
+          example: '91000000000'
           type: string
         revenue_guidance_prior_max:
           description: Prior maximum revenue guidance
-          example: "89000000000"
+          example: '89000000000'
           type: string
         revenue_guidance_prior_min:
           description: Prior minimum revenue guidance
-          example: "87000000000"
+          example: '87000000000'
           type: string
         revenue_type:
           description: Type of revenue (GAAP, Non-GAAP)
@@ -4542,7 +4505,7 @@ components:
           type: string
         time:
           description: Time of guidance announcement (EST)
-          example: 16:05:00
+          example: '16:05:00'
           type: string
         updated:
           description: Unix timestamp of last update
@@ -4561,7 +4524,7 @@ components:
           type: string
         date:
           description: Date of halt or resumption
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         description:
           description: Description of halt/resume reason
@@ -4597,7 +4560,7 @@ components:
           type: string
         time:
           description: Time of halt or resumption (EST)
-          example: 14:25:00
+          example: '14:25:00'
           type: string
         updated:
           description: Unix timestamp of last update
@@ -4612,11 +4575,11 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: "038744101"
+          example: 038744101
           type: string
         date:
           description: Expected or actual IPO date
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         deal_status:
           description: Status of the IPO deal (Filed, Priced, Withdrawn, Postponed)
@@ -4636,11 +4599,11 @@ components:
           type: string
         initial_filing_date:
           description: Date of initial SEC filing
-          example: 2023-11-15
+          example: '2023-11-15'
           type: string
         insider_lockup_date:
           description: Date when insider lockup expires
-          example: 2024-07-07
+          example: '2024-07-07'
           type: string
         insider_lockup_days:
           description: Number of days for insider lockup period
@@ -4714,23 +4677,23 @@ components:
           type: array
         price_max:
           description: Maximum price range for IPO
-          example: "50.00"
+          example: '50.00'
           type: string
         price_min:
           description: Minimum price range for IPO
-          example: "44.00"
+          example: '44.00'
           type: string
         price_open:
           description: Opening trading price
-          example: "146.00"
+          example: '146.00'
           type: string
         price_public_offering:
           description: Final public offering price
-          example: "68.00"
+          example: '68.00'
           type: string
         pricing_date:
           description: Date when IPO pricing is determined
-          example: 2024-01-08
+          example: '2024-01-08'
           type: string
         pricing_date_verified:
           description: Whether the pricing date is verified
@@ -4770,7 +4733,7 @@ components:
           type: string
         underwriter_quiet_expiration_date:
           description: Date when underwriter quiet period expires
-          example: 2024-02-03
+          example: '2024-02-03'
           type: string
         underwriter_quiet_expiration_days:
           description: Days until underwriter quiet period expires
@@ -4789,7 +4752,7 @@ components:
           type: string
         company_cik:
           description: Central Index Key (CIK) assigned by the SEC
-          example: "0000320193"
+          example: 0000320193
           type: string
         company_name:
           description: Name of the company
@@ -4801,17 +4764,16 @@ components:
           type: string
         filing_date:
           description: Date when the Form 4 was filed with the SEC
-          example: 2024-01-09T00:00:00Z
+          example: '2024-01-09T00:00:00Z'
           type: string
         footnotes:
           description: Array of footnotes providing additional context
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.SECFootnotes"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.SECFootnotes'
           type: array
         form_type:
           description: SEC form type (typically Form 4 for insider transactions)
-          example: "4"
+          example: '4'
           type: string
         html_url:
           description: URL to the HTML version of the SEC filing
@@ -4827,26 +4789,24 @@ components:
           type: boolean
         owner:
           allOf:
-            - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                r-api.Owner"
+            - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Owner'
           description: Information about the insider making the transaction
         remaining_shares:
           description: Number of shares remaining after the transaction
-          example: "125000"
+          example: '125000'
           type: string
         remaining_underlying_shares:
           description: Number of underlying shares remaining after the transaction
-          example: "50000"
+          example: '50000'
           type: string
         traded_percentage:
           description: Percentage of total holdings traded
-          example: "15.5"
+          example: '15.5'
           type: string
         transactions:
           description: Array of individual transactions in this filing
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Transaction"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Transaction'
           type: array
         updated:
           description: Unix timestamp of last update
@@ -4857,8 +4817,7 @@ components:
       properties:
         data:
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.InsiderTransaction"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.InsiderTransaction'
           type: array
       type: object
     gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.MarketSessionAlert:
@@ -4889,7 +4848,7 @@ components:
           type: integer
         session_date:
           description: Date of the session
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         session_high:
           description: Highest price of the session
@@ -4948,7 +4907,7 @@ components:
           type: number
         milestone_date:
           description: Date of the milestone
-          example: 2024-01-19
+          example: '2024-01-19'
           type: string
         milestone_day:
           description: Milestone day number (e.g., Day 10, Day 20)
@@ -4979,11 +4938,11 @@ components:
           type: string
         date:
           description: Date of the offering
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         dollar_shares:
           description: Total dollar value of shares offered
-          example: "5000000000"
+          example: '5000000000'
           type: string
         exchange:
           description: Stock exchange where the security is traded
@@ -5015,11 +4974,11 @@ components:
           type: string
         price:
           description: Offering price per share
-          example: "242.84"
+          example: '242.84'
           type: string
         proceeds:
           description: Expected proceeds from offering
-          example: "5000000000"
+          example: '5000000000'
           type: string
         shelf:
           description: Whether this is a shelf offering
@@ -5046,27 +5005,27 @@ components:
       properties:
         aggressor_ind:
           description: Aggressor indicator (1=buyer, 2=seller)
-          example: "1"
+          example: '1'
           type: string
         ask:
           description: Ask price
-          example: "4.35"
+          example: '4.35'
           type: string
         bid:
           description: Bid price
-          example: "4.25"
+          example: '4.25'
           type: string
         cost_basis:
           description: Total cost basis of the trade
-          example: "2156000"
+          example: '2156000'
           type: string
         date:
           description: Date of the option activity
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         date_expiration:
           description: Expiration date of the option
-          example: 2024-01-19
+          example: '2024-01-19'
           type: string
         description:
           description: Brief description of the activity
@@ -5090,11 +5049,11 @@ components:
           type: string
         midpoint:
           description: Midpoint between bid and ask
-          example: "4.30"
+          example: '4.30'
           type: string
         open_interest:
           description: Open interest for this option
-          example: "1523"
+          example: '1523'
           type: string
         option_activity_type:
           description: Type of option activity (Sweep, Block, Large, Unusual)
@@ -5106,7 +5065,7 @@ components:
           type: string
         price:
           description: Price per option contract
-          example: "4.31"
+          example: '4.31'
           type: string
         put_call:
           description: Option type (Call, Put)
@@ -5118,11 +5077,11 @@ components:
           type: string
         size:
           description: Number of contracts traded
-          example: "500"
+          example: '500'
           type: string
         strike_price:
           description: Strike price of the option
-          example: "195.00"
+          example: '195.00'
           type: string
         ticker:
           description: Stock ticker symbol
@@ -5130,7 +5089,7 @@ components:
           type: string
         time:
           description: Time of the option activity (EST)
-          example: 14:35:22
+          example: '14:35:22'
           type: string
         trade_count:
           description: Number of trades in this activity
@@ -5138,7 +5097,7 @@ components:
           type: integer
         underlying_price:
           description: Price of the underlying security at time of trade
-          example: "185.92"
+          example: '185.92'
           type: string
         underlying_type:
           description: Type of underlying security
@@ -5150,14 +5109,14 @@ components:
           type: integer
         volume:
           description: Total volume for this option
-          example: "2845"
+          example: '2845'
           type: string
       type: object
     gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Owner:
       properties:
         insider_cik:
           description: Central Index Key (CIK) of the insider
-          example: "0001234567"
+          example: '0001234567'
           type: string
         insider_name:
           description: Full name of the insider
@@ -5243,11 +5202,11 @@ components:
           type: string
         adjusted_pt_current:
           description: Current price target adjusted for splits
-          example: "200.00"
+          example: '200.00'
           type: string
         adjusted_pt_prior:
           description: Prior price target adjusted for splits
-          example: "185.00"
+          example: '185.00'
           type: string
         analyst:
           description: Name of the analyst firm
@@ -5267,11 +5226,11 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: "037833100"
+          example: 037833100
           type: string
         date:
           description: Date of the analyst rating
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         exchange:
           description: Stock exchange where the security is traded
@@ -5303,14 +5262,15 @@ components:
           type: string
         pt_current:
           description: Current price target
-          example: "200.00"
+          example: '200.00'
           type: string
         pt_prior:
           description: Prior price target
-          example: "185.00"
+          example: '185.00'
           type: string
         rating_current:
-          description: Current analyst rating (Strong Buy, Buy, Hold, Sell, Strong Sell)
+          description: Current analyst rating (Strong Buy, Buy, Hold, Sell, Strong
+            Sell)
           example: Buy
           type: string
         rating_prior:
@@ -5346,7 +5306,7 @@ components:
       properties:
         1m_average_return:
           description: Average return percentage for 1-month period
-          example: "3.5"
+          example: '3.5'
           type: string
         1m_gain_count:
           description: Number of ratings with gains in 1-month period
@@ -5358,19 +5318,19 @@ components:
           type: integer
         1m_smart_score:
           description: Smart score for 1-month performance
-          example: "82.5"
+          example: '82.5'
           type: string
         1m_stdev:
           description: Standard deviation of returns for 1-month period
-          example: "2.5"
+          example: '2.5'
           type: string
         1m_success_rate:
           description: Success rate percentage for 1-month period
-          example: "65.0"
+          example: '65.0'
           type: string
         1y_average_return:
           description: Average return percentage for 1-year period
-          example: "18.5"
+          example: '18.5'
           type: string
         1y_gain_count:
           description: Number of ratings with gains in 1-year period
@@ -5382,19 +5342,19 @@ components:
           type: integer
         1y_smart_score:
           description: Smart score for 1-year performance
-          example: "87.0"
+          example: '87.0'
           type: string
         1y_stdev:
           description: Standard deviation of returns for 1-year period
-          example: "9.5"
+          example: '9.5'
           type: string
         1y_success_rate:
           description: Success rate percentage for 1-year period
-          example: "71.5"
+          example: '71.5'
           type: string
         2y_average_return:
           description: Average return percentage for 2-year period
-          example: "22.5"
+          example: '22.5'
           type: string
         2y_gain_count:
           description: Number of ratings with gains in 2-year period
@@ -5406,19 +5366,19 @@ components:
           type: integer
         2y_smart_score:
           description: Smart score for 2-year performance
-          example: "85.5"
+          example: '85.5'
           type: string
         2y_stdev:
           description: Standard deviation of returns for 2-year period
-          example: "11.5"
+          example: '11.5'
           type: string
         2y_success_rate:
           description: Success rate percentage for 2-year period
-          example: "69.0"
+          example: '69.0'
           type: string
         3m_average_return:
           description: Average return percentage for 3-month period
-          example: "7.5"
+          example: '7.5'
           type: string
         3m_gain_count:
           description: Number of ratings with gains in 3-month period
@@ -5430,19 +5390,19 @@ components:
           type: integer
         3m_smart_score:
           description: Smart score for 3-month performance
-          example: "84.0"
+          example: '84.0'
           type: string
         3m_stdev:
           description: Standard deviation of returns for 3-month period
-          example: "4.5"
+          example: '4.5'
           type: string
         3m_success_rate:
           description: Success rate percentage for 3-month period
-          example: "67.5"
+          example: '67.5'
           type: string
         3y_average_return:
           description: Average return percentage for 3-year period
-          example: "25.5"
+          example: '25.5'
           type: string
         3y_gain_count:
           description: Number of ratings with gains in 3-year period
@@ -5454,19 +5414,19 @@ components:
           type: integer
         3y_smart_score:
           description: Smart score for 3-year performance
-          example: "84.0"
+          example: '84.0'
           type: string
         3y_stdev:
           description: Standard deviation of returns for 3-year period
-          example: "13.5"
+          example: '13.5'
           type: string
         3y_success_rate:
           description: Success rate percentage for 3-year period
-          example: "68.5"
+          example: '68.5'
           type: string
         9m_average_return:
           description: Average return percentage for 9-month period
-          example: "15.5"
+          example: '15.5'
           type: string
         9m_gain_count:
           description: Number of ratings with gains in 9-month period
@@ -5478,23 +5438,23 @@ components:
           type: integer
         9m_smart_score:
           description: Smart score for 9-month performance
-          example: "86.5"
+          example: '86.5'
           type: string
         9m_stdev:
           description: Standard deviation of returns for 9-month period
-          example: "7.5"
+          example: '7.5'
           type: string
         9m_success_rate:
           description: Success rate percentage for 9-month period
-          example: "70.0"
+          example: '70.0'
           type: string
         overall_average_return:
           description: Overall average return percentage across all ratings
-          example: "12.5"
+          example: '12.5'
           type: string
         overall_avg_return_percentile:
           description: Percentile ranking of average returns compared to peers
-          example: "72.3"
+          example: '72.3'
           type: string
         overall_gain_count:
           description: Total number of ratings that resulted in gains
@@ -5506,15 +5466,15 @@ components:
           type: integer
         overall_stdev:
           description: Overall standard deviation of returns
-          example: "8.5"
+          example: '8.5'
           type: string
         overall_success_rate:
           description: Overall success rate percentage across all ratings
-          example: "68.5"
+          example: '68.5'
           type: string
         smart_score:
           description: Overall smart score rating for the analyst
-          example: "85.5"
+          example: '85.5'
           type: string
         total_ratings:
           description: Total number of ratings issued by the analyst
@@ -5522,7 +5482,7 @@ components:
           type: integer
         total_ratings_percentile:
           description: Percentile ranking based on total number of ratings
-          example: "85.0"
+          example: '85.0'
           type: string
         updated:
           description: Unix timestamp of last update
@@ -5560,44 +5520,36 @@ components:
           properties:
             1m_smart_score_rank:
               allOf:
-                - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                    r-api.Rank"
+                - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Rank'
               description: Analyst ranking based on 1-month smart score
             1y_smart_score_rank:
               allOf:
-                - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                    r-api.Rank"
+                - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Rank'
               description: Analyst ranking based on 1-year smart score
             2y_smart_score_rank:
               allOf:
-                - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                    r-api.Rank"
+                - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Rank'
               description: Analyst ranking based on 2-year smart score
             3m_smart_score_rank:
               allOf:
-                - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                    r-api.Rank"
+                - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Rank'
               description: Analyst ranking based on 3-month smart score
             3y_smart_score_rank:
               allOf:
-                - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                    r-api.Rank"
+                - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Rank'
               description: Analyst ranking based on 3-year smart score
             9m_smart_score_rank:
               allOf:
-                - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                    r-api.Rank"
+                - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Rank'
               description: Analyst ranking based on 9-month smart score
             overall_smart_score_rank:
               allOf:
-                - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                    r-api.Rank"
+                - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Rank'
               description: Analyst's overall ranking based on smart score
           type: object
         ratings_accuracy:
           allOf:
-            - $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-                r-api.RatingsAccuracy"
+            - $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.RatingsAccuracy'
           description: Detailed accuracy metrics for the analyst's ratings
         updated:
           description: Unix timestamp of last update
@@ -5640,8 +5592,7 @@ components:
       properties:
         removed:
           items:
-            $ref: "#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calenda\
-              r-api.Removed"
+            $ref: '#/components/schemas/gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.Removed'
           type: array
       type: object
     gitlab_benzinga_io_benzinga_bzgo_pkg_models_calendar-api.SECFootnotes:
@@ -5663,7 +5614,7 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: "037833100"
+          example: 037833100
           type: string
         exchange:
           description: Stock exchange where the security is traded
@@ -5697,19 +5648,19 @@ components:
           type: string
         date_announced:
           description: Date when the split was announced
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         date_distribution:
           description: Date when split shares will be distributed
-          example: 2024-02-15
+          example: '2024-02-15'
           type: string
         date_ex:
           description: Ex-split date when stock begins trading at adjusted price
-          example: 2024-02-14
+          example: '2024-02-14'
           type: string
         date_recorded:
           description: Record date for split eligibility
-          example: 2024-02-10
+          example: '2024-02-10'
           type: string
         exchange:
           description: Stock exchange where the security is traded
@@ -5760,23 +5711,23 @@ components:
           type: string
         conversion_exercise_price_derivative:
           description: Conversion or exercise price for derivative securities
-          example: "150.25"
+          example: '150.25'
           type: string
         date_deemed_execution:
           description: Date the transaction was deemed executed
-          example: 2024-01-09T00:00:00Z
+          example: '2024-01-09T00:00:00Z'
           type: string
         date_exercisable:
           description: Date when derivative securities become exercisable
-          example: 2024-01-09T00:00:00Z
+          example: '2024-01-09T00:00:00Z'
           type: string
         date_expiration:
           description: Expiration date for derivative securities
-          example: 2025-01-09T00:00:00Z
+          example: '2025-01-09T00:00:00Z'
           type: string
         date_transaction:
           description: Date the transaction occurred
-          example: 2024-01-09T00:00:00Z
+          example: '2024-01-09T00:00:00Z'
           type: string
         is_derivative:
           description: Indicates if the transaction involves derivative securities
@@ -5788,15 +5739,15 @@ components:
           type: string
         post_transaction_quantity:
           description: Number of securities held after the transaction
-          example: "250000"
+          example: '250000'
           type: string
         price_per_share:
           description: Price per share for the transaction
-          example: "150.25"
+          example: '150.25'
           type: string
         remaining_underlying_shares:
           description: Underlying shares remaining after the transaction
-          example: "50000"
+          example: '50000'
           type: string
         security_title:
           description: Title of the security transacted
@@ -5804,7 +5755,7 @@ components:
           type: string
         shares:
           description: Number of shares involved in the transaction
-          example: "10000"
+          example: '10000'
           type: string
         transaction_code:
           description: SEC transaction code (e.g., P=Purchase, S=Sale, M=Exercise)
@@ -5820,7 +5771,7 @@ components:
           type: string
         underlying_shares:
           description: Number of underlying shares for derivative securities
-          example: "10000"
+          example: '10000'
           type: string
         voluntarily_reported:
           description: Indicates if the transaction was voluntarily reported
@@ -5831,7 +5782,7 @@ components:
       properties:
         alert_date:
           description: Date when the alert was triggered
-          example: 2024-01-09
+          example: '2024-01-09'
           type: string
         alert_id:
           description: Unique identifier for the volume alert
@@ -5870,3 +5821,6 @@ components:
           example: 1.76
           type: number
       type: object
+servers:
+  - url: https://api.benzinga.com
+    description: PROD
