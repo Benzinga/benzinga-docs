@@ -175,6 +175,7 @@
                 "pages": [
                   "api-reference/news-api/overview",
                   "api-reference/news-api/get-news-items",
+                  "api-reference/news-api/get-news-by-node-id",
                   "api-reference/news-api/get-removed-news",
                   "api-reference/news-api/channels/get-available-news-channels"
                 ]
