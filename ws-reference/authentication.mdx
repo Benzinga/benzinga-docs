@@ -19,3 +19,16 @@ Include the token in the `Token` Query param of your request as follows:
 
 ```bash
 Token: <token>
+```
+
+## Connection Limits
+
+<Warning>
+Each API token is limited to **one active WebSocket connection at any given point in time**. Parallel or multiple simultaneous connections using the same token are not allowed.
+</Warning>
+
+Keep the following rules in mind when designing your integration:
+
+- **One connection per token** — Only a single WebSocket connection can be open for a token at a time.
+- **No parallel connections** — You cannot open additional connections with the same token to run streams side by side, whether from the same application, a different process, or another machine.
+- **Close before reconnecting** — Make sure the existing connection is fully closed before opening a new one, and avoid reconnect logic that can leave two connections open at once.
