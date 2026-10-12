@@ -8,8 +8,8 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: Retrieve a list of calls with optional filtering and pagination. By
-        default, only COMPLETED calls are returned. Use status=ALL to return all
+      description: Retrieve a list of calls with optional filtering and pagination.
+        By default, only COMPLETED calls are returned. Use status=ALL to return all
         statuses.
       operationId: get-conference-calls
       parameters:
@@ -25,8 +25,8 @@ paths:
           schema:
             type: integer
             default: 10
-        - description: Filter by call status. Defaults to COMPLETED. Use ALL to return all
-            statuses.
+        - description: Filter by call status. Defaults to COMPLETED. Use ALL to return
+            all statuses.
           in: query
           name: status
           schema:
@@ -49,8 +49,8 @@ paths:
           name: to
           schema:
             type: string
-        - description: "Sort order: asc or desc by the call start (default desc), or
-            updated_at / updated_asc to sort by when the call was last touched"
+        - description: 'Sort order: asc or desc by the call start (default desc),
+            or updated_at / updated_asc to sort by when the call was last touched'
           in: query
           name: sort_by
           schema:
@@ -76,14 +76,14 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -91,7 +91,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -104,7 +104,7 @@ paths:
       summary: Fetch all calls
       tags:
         - calls
-  "/api/v1/transcripts/calls/{call_id}":
+  /api/v1/transcripts/calls/{call_id}:
     delete:
       description: Delete a specific call by its ID
       operationId: delete-conference-call-by-id
@@ -116,7 +116,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -124,7 +124,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -132,7 +132,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -155,8 +155,8 @@ paths:
           required: true
           schema:
             type: string
-        - description: Set to false to exclude audio recordings. Defaults to true; returns
-            pre-signed/CDN URLs when included
+        - description: Set to false to exclude audio recordings. Defaults to true;
+            returns pre-signed/CDN URLs when included
           in: query
           name: audio
           schema:
@@ -166,8 +166,8 @@ paths:
           name: pdf
           schema:
             type: boolean
-        - description: If true, includes pre-signed URLs for external assets (e.g. slide
-            deck PDFs)
+        - description: If true, includes pre-signed URLs for external assets (e.g.
+            slide deck PDFs)
           in: query
           name: assets
           schema:
@@ -177,19 +177,19 @@ paths:
           name: clean
           schema:
             type: boolean
-        - description: "Response format: 'json' (default) or 'html'"
+        - description: 'Response format: ''json'' (default) or ''html'''
           in: query
           name: format
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/domain.Calls"
-        "400":
+                $ref: '#/components/schemas/domain.Calls'
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -197,7 +197,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "404":
+        '404':
           description: Not Found
           content:
             application/json:
@@ -205,7 +205,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -232,11 +232,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/domain.UpdateCallReq"
+              $ref: '#/components/schemas/domain.UpdateCallReq'
         description: Call update details
         required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -244,7 +244,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -252,7 +252,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -265,7 +265,7 @@ paths:
       summary: Update call by ID
       tags:
         - calls
-  "/api/v1/transcripts/participants/{participant_id}":
+  /api/v1/transcripts/participants/{participant_id}:
     delete:
       description: Delete a specific participant by their ID
       operationId: delete-participant-by-id
@@ -277,7 +277,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -285,7 +285,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -293,7 +293,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -320,11 +320,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/domain.UpdateParticipantReq"
+              $ref: '#/components/schemas/domain.UpdateParticipantReq'
         description: Participant update details
         required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -332,7 +332,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -340,7 +340,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -385,16 +385,16 @@ paths:
           schema:
             type: integer
       requestBody:
-        $ref: "#/components/requestBodies/api.QueryRequest"
+        $ref: '#/components/requestBodies/api.QueryRequest'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -402,7 +402,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -446,16 +446,16 @@ paths:
           schema:
             type: integer
       requestBody:
-        $ref: "#/components/requestBodies/api.QueryRequest"
+        $ref: '#/components/requestBodies/api.QueryRequest'
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -463,7 +463,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -521,14 +521,14 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -536,7 +536,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -549,7 +549,7 @@ paths:
       summary: Fetch summaries
       tags:
         - summaries
-  "/api/v1/transcripts/summaries/{call_id}":
+  /api/v1/transcripts/summaries/{call_id}:
     get:
       description: Retrieve summary details for a specific call ID
       operationId: get-summary-by-call-id
@@ -561,13 +561,13 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/domain.Summaries"
-        "404":
+                $ref: '#/components/schemas/domain.Summaries'
+        '404':
           description: Not Found
           content:
             application/json:
@@ -575,7 +575,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -602,11 +602,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/domain.UpdateSummaryReq"
+              $ref: '#/components/schemas/domain.UpdateSummaryReq'
         description: Summary update details
         required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -614,7 +614,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -622,7 +622,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -635,7 +635,7 @@ paths:
       summary: Update summary by Call ID
       tags:
         - summaries
-  "/api/v1/transcripts/transcripts/{transcript_id}/segment/{segment_id}":
+  /api/v1/transcripts/transcripts/{transcript_id}/segment/{segment_id}:
     delete:
       description: Delete a specific transcript segment
       operationId: delete-transcript-segments-by-id
@@ -653,7 +653,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -661,7 +661,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -669,7 +669,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -702,11 +702,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/domain.UpdateTranscriptSegmentsReq"
+              $ref: '#/components/schemas/domain.UpdateTranscriptSegmentsReq'
         description: Segment update details
         required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -714,7 +714,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -722,7 +722,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -735,13 +735,12 @@ paths:
       summary: Update transcript segment by ID
       tags:
         - transcripts
-  "/api/v1/transcripts/transcripts/{transcript_id}/speaker":
+  /api/v1/transcripts/transcripts/{transcript_id}/speaker:
     put:
-      description: Rename a speaker (and optionally set its role) everywhere it
-        appears in a transcript. Locates segments + participant by the speaker's
-        current name, relabels every matching segment, and upserts the
-        participant entry. Renaming into an existing name merges the two
-        speakers.
+      description: Rename a speaker (and optionally set its role) everywhere it appears
+        in a transcript. Locates segments + participant by the speaker's current name,
+        relabels every matching segment, and upserts the participant entry. Renaming
+        into an existing name merges the two speakers.
       operationId: update-transcript-speaker
       parameters:
         - description: The unique identifier of the transcript
@@ -754,18 +753,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/domain.UpdateTranscriptSpeakerReq"
+              $ref: '#/components/schemas/domain.UpdateTranscriptSpeakerReq'
         description: Speaker update details
         required: true
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        "400":
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -773,7 +772,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        "500":
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -792,7 +791,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/api.QueryRequest"
+            $ref: '#/components/schemas/api.QueryRequest'
       description: Query details (for POST)
   securitySchemes:
     ApiKeyAuth:
@@ -821,7 +820,7 @@ components:
           example: 60
           type: integer
         end_time:
-          example: 2023-10-25T15:00:00Z
+          example: '2023-10-25T15:00:00Z'
           type: string
         exchange:
           example: NASDAQ
@@ -840,31 +839,31 @@ components:
           type: string
         participants:
           items:
-            $ref: "#/components/schemas/domain.Participants"
+            $ref: '#/components/schemas/domain.Participants'
           type: array
         period:
           example: Q3
           type: string
         recordings:
           items:
-            $ref: "#/components/schemas/domain.Recordings"
+            $ref: '#/components/schemas/domain.Recordings'
           type: array
         securities:
-          $ref: "#/components/schemas/pgtype.JSONB"
+          $ref: '#/components/schemas/pgtype.JSONB'
         start_time:
-          example: 2023-10-25T14:00:00Z
+          example: '2023-10-25T14:00:00Z'
           type: string
         status:
           example: completed
           type: string
         summary:
-          $ref: "#/components/schemas/domain.Summaries"
+          $ref: '#/components/schemas/domain.Summaries'
         symbol:
           example: AAPL
           type: string
         transcripts:
           items:
-            $ref: "#/components/schemas/domain.Transcripts"
+            $ref: '#/components/schemas/domain.Transcripts'
           type: array
         updated_at:
           type: string
@@ -903,7 +902,7 @@ components:
         duration:
           type: integer
         formats:
-          $ref: "#/components/schemas/pgtype.JSONB"
+          $ref: '#/components/schemas/pgtype.JSONB'
         language:
           type: string
         location:
@@ -972,14 +971,14 @@ components:
           type: string
         segments:
           items:
-            $ref: "#/components/schemas/domain.TranscriptSegments"
+            $ref: '#/components/schemas/domain.TranscriptSegments'
           type: array
         text:
           type: string
         transcript_id:
           type: string
         type:
-          $ref: "#/components/schemas/domain.TranscriptsType"
+          $ref: '#/components/schemas/domain.TranscriptsType'
       type: object
     domain.TranscriptsType:
       enum:
@@ -995,13 +994,13 @@ components:
           example: Q3 2023 Earnings Call
           type: string
         cusip:
-          example: "037833100"
+          example: 037833100
           type: string
         duration:
           example: 60
           type: integer
         end_time:
-          example: 2023-10-25T15:00:00Z
+          example: '2023-10-25T15:00:00Z'
           type: string
         exchange:
           example: NASDAQ
@@ -1016,7 +1015,7 @@ components:
           example: Apple Inc.
           type: string
         start_time:
-          example: 2023-10-25T14:00:00Z
+          example: '2023-10-25T14:00:00Z'
           type: string
         status:
           example: completed
@@ -1089,7 +1088,7 @@ components:
             type: integer
           type: array
         status:
-          $ref: "#/components/schemas/pgtype.Status"
+          $ref: '#/components/schemas/pgtype.Status'
       type: object
     pgtype.Status:
       enum:
@@ -1099,5 +1098,8 @@ components:
       type: integer
       x-enum-varnames:
         - Undefined
-        - "Null"
+        - 'Null'
         - Present
+servers:
+  - url: https://api.benzinga.com
+    description: PROD
