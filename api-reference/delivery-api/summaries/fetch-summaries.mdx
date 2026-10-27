@@ -35,57 +35,9 @@ openapi: /openapi/delivery_api.spec.yml GET /api/v1/transcripts/summaries
   "pagination": {
     "hits": 16110,
     "page": 1,
-    "page_count": 1611,
+    "page_count": 8055,
     "page_size": 2
   }
-}
-```
-```json Response (400 Bad Request)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "bad_request",
-      "id": "invalid_parameter",
-      "value": "Invalid search_keys_type parameter"
-    }
-  ]
-}
-```
-```json Response (401 Unauthorized)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "auth_failed",
-      "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
-    }
-  ]
-}
-```
-```json Response (404 Not Found)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "no_data_found",
-      "id": "not_found",
-      "value": "No logos found for the specified search key"
-    }
-  ]
-}
-```
-```json Response (500 Internal Server Error)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "internal_server_error",
-      "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
-    }
-  ]
 }
 ```
 </ResponseExample>

@@ -60,4 +60,33 @@ openapi: /openapi/data-api-proxy.spec.yml GET /api/v2/quoteDelayed
   }
 }
 ```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "sTYeYfL2eT2kbiubeAWaiE",
+      "code": "bad_request",
+      "value": "missing symbols in the request query param"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "PFCv2ZJyWqaWx8mcY2rfDu",
+      "code": "auth_failed",
+      "value": "authentication failed"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+[
+  "Received unexpected response 500 from external service"
+]
+```
 </ResponseExample>

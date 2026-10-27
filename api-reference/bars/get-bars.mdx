@@ -27,45 +27,33 @@ openapi: /openapi/data-api-proxy.spec.yml GET /api/v2/bars
         "close": 277.33,
         "volume": "6501561",
         "dateTime": "2025-12-08T11:00:00.000-05:00"
-      },
-      {
-        "time": "1765987200000",
-        "open": 274.6,
-        "high": 275.07,
-        "low": 272.28,
-        "close": 273.38,
-        "volume": "7179965",
-        "dateTime": "2025-12-17T11:00:00.000-05:00"
-      },
-      {
-        "time": "1766073600000",
-        "open": 272,
-        "high": 273.164,
-        "low": 269.94,
-        "close": 272.4,
-        "volume": "8374648",
-        "dateTime": "2025-12-18T11:00:00.000-05:00"
-      },
-      {
-        "time": "1766080800000",
-        "open": 272.37,
-        "high": 272.96,
-        "low": 270.5,
-        "close": 270.865,
-        "volume": "6415588",
-        "dateTime": "2025-12-18T13:00:00.000-05:00"
-      },
-      {
-        "time": "1767636000000",
-        "open": 267.57,
-        "high": 267.89,
-        "low": 266.14,
-        "close": 266.61,
-        "volume": "5846734",
-        "dateTime": "2026-01-05T13:00:00.000-05:00"
       }
     ]
   }
 ]
+```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "ModE8jV6zsB7dwArLPpqWK",
+      "code": "bad_request",
+      "value": "Key: 'barsV2RequestParams.From' Error:Field validation for 'From' failed on the 'required' tag"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "GHULzr59StQcmAXDa3CUTY",
+      "code": "auth_failed",
+      "value": "authentication failed"
+    }
+  ]
+}
 ```
 </ResponseExample>
