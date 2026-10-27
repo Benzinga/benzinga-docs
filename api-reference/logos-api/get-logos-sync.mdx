@@ -9,6 +9,7 @@ openapi: /openapi/logo-api.spec.yml GET /api/v2.1/logos/sync
   "ok": true,
   "data": [
     {
+      "id": "952e80ec-74f5-48e3-aa86-bee3ac5a8ed4",
       "fields": {
         "logo_dark": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1225/logo_dark__fe4a5fc01881264700de033abe9fc151.png?x-bz-cred=...",
         "logo_light": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1225/logo_light__3f6f778449138931036ca9c624143ff7.png?x-bz-cred=...",
@@ -34,6 +35,7 @@ openapi: /openapi/logo-api.spec.yml GET /api/v2.1/logos/sync
       ]
     },
     {
+      "id": "b9a7ed14-b014-41d3-a4c9-6fad3d61de54",
       "fields": {
         "logo_dark": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1068/logo_dark__fe4a5fc01881264700de033abe9fc151.png?x-bz-cred=...",
         "logo_light": "https://image-util.benzinga.com/api/v2/logos/file/image/KYG7387B1068/logo_light__3f6f778449138931036ca9c624143ff7.png?x-bz-cred=...",
@@ -66,9 +68,9 @@ openapi: /openapi/logo-api.spec.yml GET /api/v2.1/logos/sync
   "ok": false,
   "errors": [
     {
+      "id": "Ud28mnKtuSnroexSGZM3Bg",
       "code": "bad_request",
-      "id": "invalid_parameter",
-      "value": "Invalid search_keys_type parameter"
+      "value": "unsupported field: logo_small"
     }
   ]
 }
@@ -78,21 +80,9 @@ openapi: /openapi/logo-api.spec.yml GET /api/v2.1/logos/sync
   "ok": false,
   "errors": [
     {
+      "id": "eRFjRmEaWLdnTkBXu2iz76",
       "code": "auth_failed",
-      "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
-    }
-  ]
-}
-```
-```json Response (404 Not Found)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "no_data_found",
-      "id": "not_found",
-      "value": "No logos found for the specified search key"
+      "value": "authentication failed"
     }
   ]
 }
@@ -102,9 +92,9 @@ openapi: /openapi/logo-api.spec.yml GET /api/v2.1/logos/sync
   "ok": false,
   "errors": [
     {
+      "id": "W9nqF6WV9htXQXYT5PdXE4",
       "code": "internal_server_error",
-      "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
+      "value": "query active revisions error: context deadline exceeded"
     }
   ]
 }

@@ -12,8 +12,8 @@ openapi: /openapi/data-api-proxy.spec.yml GET /api/v2.1/fundamentals/alphaBeta
         "primarySymbol": "AAPL",
         "primaryExchange": "NAS",
         "cik": "320193",
-        "isin": "CA03785Y1007",
-        "cusip": "03785Y100",
+        "isin": "US0378331005",
+        "cusip": "037833100",
         "standardName": "Apple",
         "countryId": "USA",
         "isReit": false,
@@ -43,40 +43,33 @@ openapi: /openapi/data-api-proxy.spec.yml GET /api/v2.1/fundamentals/alphaBeta
   ]
 }
 ```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "7dcgpyefu7pF6csad8j4xJ",
+      "code": "bad_request",
+      "value": "param validation failed: Key: 'fundamentalsRequestParams.Symbols' Error:Field validation for 'Symbols' failed on the 'required' tag"
+    }
+  ]
+}
+```
 ```json Response (401 Unauthorized)
 {
   "ok": false,
   "errors": [
     {
+      "id": "7LrVhRDmbMDnkFGG7vaKJD",
       "code": "auth_failed",
-      "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
-    }
-  ]
-}
-```
-```json Response (404 Not Found)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "no_data_found",
-      "id": "not_found",
-      "value": "No data found for the specified parameters"
+      "value": "authentication failed"
     }
   ]
 }
 ```
 ```json Response (500 Internal Server Error)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "internal_server_error",
-      "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
-    }
-  ]
-}
+[
+  "Received unexpected response 500 from external service"
+]
 ```
 </ResponseExample>

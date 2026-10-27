@@ -47,34 +47,6 @@ openapi: /openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
           "confidence": 0.95684206,
           "text": "Thank you Patrick. I will start by commenting on the price environment in the third quarter versus the second quarter. Brent averaged $69 per barrel during the third quarter versus $68 per barrel in the second quarter ..{{truncated}}.. so please open up the line for questions.",
           "sentiment": 0.2
-        },
-        {
-          "segment_id": 2,
-          "speaker": "OPERATOR",
-          "start_time": "00:19:18",
-          "end_time": "00:19:49",
-          "confidence": 0.9713833,
-          "text": "Thank you ladies and gentlemen. We will now begin the question and answer session. As a reminder, if you wish to ask a question, please press star n1 on your telephone and wait for your name to be announced. Please kindly mute any audio sources by asking a question. If you wish to cancel your request, please press the hash key. Once Again, please press N1 if you wish to ask a question. The first question is from Lydia Rainforth, Barclays. Please go ahead.",
-          "sentiment": 0
-        },
-        {
-          "segment_id": 3,
-          "speaker": "Lydia Rainforth",
-          "start_time": "00:19:51",
-          "end_time": "00:20:26",
-          "confidence": 0.9671036,
-          "text": "Thank you and good afternoon to both of you and thank you for the presentation. So when you're thinking about 2026, can you just, can you give us an indication as to how much more cash flow might grow than production for next year? And just remind us of that?",
-          "sentiment": 0.1
-        },
-        {....},
-        {
-          "segment_id": 98,
-          "speaker": "Patrick",
-          "start_time": "01:29:45",
-          "end_time": "01:30:25",
-          "confidence": 0.9567434,
-          "text": "Okay. So thank you to all of you for your attendance. I hope that all the analysis you've done will be reflected in the stock price was not the case this morning. Thank you for your attendance.",
-          "sentiment": 0.5
         }
       ],
       "type": "NON_LIVE"
@@ -88,25 +60,27 @@ openapi: /openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
       "type": "LIVE"
     }
   ],
-  "recording": {
-    "recording_id": "f18c5664-bfb5-4e50-8434-498a1f5f1080",
-    "total_files": 42,
-    "total_size": 7350006,
-    "duration": 239,
-    "location": "assets/68c1684993d1da0001953084",
-    "bucket": "earnings-call-media",
-    "language": "en",
-    "formats": [
-      {
-        "file_link": "assets/mp3/audio.mp3",
-        "size": 5758476,
-        "content_type": "audio/mpeg",
-        "quality": "192kbps"
-      }
-    ],
-    "created_at": "2025-10-30T10:59:17.801739Z",
-    "updated_at": "2025-10-30T10:59:17.801739Z"
-  },
+  "recordings": [
+    {
+      "recording_id": "f18c5664-bfb5-4e50-8434-498a1f5f1080",
+      "total_files": 42,
+      "total_size": 7350006,
+      "duration": 239,
+      "location": "assets/68c1684993d1da0001953084",
+      "bucket": "earnings-call-media",
+      "language": "en",
+      "formats": [
+        {
+          "file_link": "assets/mp3/audio.mp3",
+          "size": 5758476,
+          "content_type": "audio/mpeg",
+          "quality": "192kbps"
+        }
+      ],
+      "created_at": "2025-10-30T10:59:17.801739Z",
+      "updated_at": "2025-10-30T10:59:17.801739Z"
+    }
+  ],
   "summary": {
     "summary_id": "d3a9f050-dcfe-4baf-b5d2-5abf3a4cd0fc",
     "transcript_id": "",
@@ -115,8 +89,8 @@ openapi: /openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
     "symbol": "",
     "sentiment": 0.78,
     "language": "",
-    "created_at": "2025-10-30T01:29:03Z",
-    "updated_at": "2025-10-30T01:29:03Z"
+    "created_at": "2025-10-30T12:47:19Z",
+    "updated_at": "2025-10-30T12:47:19Z"
   },
   "participants": [
     {
@@ -128,7 +102,6 @@ openapi: /openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
       "mentions": 11,
       "human_verified": false
     },
-    {....},
     {
       "participant_id": "8f82b104-01fb-47f6-8554-d15fc282be4e",
       "call_id": "68c1684993d1da0001953084",
@@ -149,54 +122,6 @@ openapi: /openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
       "figi_composite": "BBG000CHZ857",
       "figi_share_class": "BBG001S6WYD9",
       "refinitiv_exch_code": "NYQ"
-    }
-  ]
-}
-```
-```json Response (400 Bad Request)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "bad_request",
-      "id": "invalid_parameter",
-      "value": "Invalid search_keys_type parameter"
-    }
-  ]
-}
-```
-```json Response (401 Unauthorized)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "auth_failed",
-      "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
-    }
-  ]
-}
-```
-```json Response (404 Not Found)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "no_data_found",
-      "id": "not_found",
-      "value": "No logos found for the specified search key"
-    }
-  ]
-}
-```
-```json Response (500 Internal Server Error)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "internal_server_error",
-      "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
     }
   ]
 }

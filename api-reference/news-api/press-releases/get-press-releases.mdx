@@ -7,28 +7,15 @@ openapi: /openapi/press-releases_api.spec.yml GET /api/v2/news
 ```json Response (200 OK)
 [
   {
-    "id": 36444586,
+    "id": 49690927,
     "author": "GlobeNewswire",
-    "created": "Mon, 01 Jan 2024 13:35:14 -0400",
-    "updated": "Mon, 01 Jan 2024 13:35:15 -0400",
-    "title": "Company XYZ Announces Q4 2023 Earnings Results and Strategic Initiatives",
+    "created": "Mon, 05 Jan 2026 10:00:00 -0400",
+    "updated": "Mon, 05 Jan 2026 10:00:02 -0400",
+    "title": "Alpha Tau Submits First Pre-Market Approval Module to the FDA for Alpha DaRT",
     "teaser": "",
     "body": "",
-    "url": "https://www.benzinga.com/pressreleases/24/01/g36444586/company-xyz-announces-q4-2023-earnings-results-and-strategic-initiatives",
-    "image": [
-      {
-        "size": "thumb",
-        "url": "https://cdn.benzinga.com/files/imagecache/250x187xUP/images/story/2023/press_release_image.jpeg"
-      },
-      {
-        "size": "small",
-        "url": "https://cdn.benzinga.com/files/imagecache/1024x768xUP/images/story/2023/press_release_image.jpeg"
-      },
-      {
-        "size": "large",
-        "url": "https://cdn.benzinga.com/files/imagecache/2048x1536xUP/images/story/2023/press_release_image.jpeg"
-      }
-    ],
+    "url": "https://www.benzinga.com/pressreleases/26/01/g49690927/alpha-tau-submits-first-pre-market-approval-module-to-the-fda-for-alpha-dart",
+    "image": [],
     "channels": [
       {
         "name": "Press Releases"
@@ -36,54 +23,29 @@ openapi: /openapi/press-releases_api.spec.yml GET /api/v2/news
     ],
     "stocks": [
       {
-        "name": "AAPL",
-        "cusip": "037833100",
-        "isin": "US0378331005",
+        "name": "DRTS",
         "exchange": "NASDAQ"
       }
     ],
-    "tags": [
-      {
-        "name": "Press Release"
-      }
-    ]
+    "tags": [],
+    "importance_rank": 1
   }
 ]
 ```
+```text Response (400 Bad Request)
+Invalid 'sort' Query Parameters: published:desc, must be in form sort=<field> or sort=<field>:<asc|desc>
+```
 ```json Response (401 Unauthorized)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "auth_failed",
-      "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
-    }
-  ]
-}
+[
+  "Access denied for user 0 \"anonymous\""
+]
 ```
-```json Response (404 Not Found)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "no_data_found",
-      "id": "not_found",
-      "value": "No data found for the specified parameters"
-    }
-  ]
-}
+```json Response (403 Forbidden)
+[
+  "Unauthorized for Route"
+]
 ```
-```json Response (500 Internal Server Error)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "internal_server_error",
-      "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
-    }
-  ]
-}
+```text Response (500 Internal Server Error)
+Internal Error
 ```
 </ResponseExample>
