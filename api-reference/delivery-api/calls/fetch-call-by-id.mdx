@@ -66,12 +66,10 @@ openapi: /openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
       "total_files": 42,
       "total_size": 7350006,
       "duration": 239,
-      "location": "assets/68c1684993d1da0001953084",
-      "bucket": "earnings-call-media",
       "language": "en",
       "formats": [
         {
-          "file_link": "assets/mp3/audio.mp3",
+          "file_link": "https://example-bucket.s3.amazonaws.com/assets/68c1684993d1da0001953084/mp3/audio.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Signature=…",
           "size": 5758476,
           "content_type": "audio/mpeg",
           "quality": "192kbps"
@@ -124,6 +122,46 @@ openapi: /openapi/delivery_api.spec.yml GET /api/v1/transcripts/calls/{call_id}
       "refinitiv_exch_code": "NYQ"
     }
   ]
+}
+```
+```json Response (200 OK, assets=true)
+{
+  "call_id": "68c1684993d1da0001953084",
+  "call_title": "TotalEnergies reports strong Q3 growth, boosts dividends despite market challenges",
+  "symbol": "TTE",
+  "exchange": "NYSE",
+  "status": "COMPLETED",
+  "assets": [
+    {
+      "file_link": "https://example-bucket.s3.amazonaws.com/assets/68c1684993d1da0001953084/slides.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Signature=…",
+      "size": 2483912,
+      "content_type": "application/pdf",
+      "quality": ""
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "DohiCArA5y7FknyXz4ASvh",
+      "code": "auth_failed",
+      "value": "authentication failed"
+    }
+  ]
+}
+```
+```json Response (404 Not Found)
+{
+  "error": "call_not_found",
+  "message": "No call exists with this ID"
+}
+```
+```json Response (500 Internal Server Error)
+{
+  "message": "Internal Server Error"
 }
 ```
 </ResponseExample>
