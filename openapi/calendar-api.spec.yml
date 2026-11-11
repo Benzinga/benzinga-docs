@@ -3363,7 +3363,7 @@ components:
           type: integer
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: 037833100
+          example: '037833100'
           type: string
         date:
           description: Date of the block trade
@@ -3562,7 +3562,7 @@ components:
           type: boolean
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: 037833100
+          example: '037833100'
           type: string
         date:
           description: Date of the conference call
@@ -3709,7 +3709,7 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: 037833100
+          example: '037833100'
           type: string
         date:
           description: Date of dividend announcement
@@ -3822,7 +3822,7 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: 037833100
+          example: '037833100'
           type: string
         date:
           description: Date of the earnings announcement
@@ -4409,7 +4409,7 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: 037833100
+          example: '037833100'
           type: string
         date:
           description: Date of guidance announcement
@@ -4575,7 +4575,7 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: 038744101
+          example: '038744101'
           type: string
         date:
           description: Expected or actual IPO date
@@ -4752,7 +4752,7 @@ components:
           type: string
         company_cik:
           description: Central Index Key (CIK) assigned by the SEC
-          example: 0000320193
+          example: '0000320193'
           type: string
         company_name:
           description: Name of the company
@@ -5226,7 +5226,7 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: 037833100
+          example: '037833100'
           type: string
         date:
           description: Date of the analyst rating
@@ -5614,7 +5614,7 @@ components:
           type: string
         cusip:
           description: Committee on Uniform Securities Identification Procedures number
-          example: 037833100
+          example: '037833100'
           type: string
         exchange:
           description: Stock exchange where the security is traded

@@ -126,7 +126,7 @@ paths:
           schema:
             type: string
         - description: 'Type of identifier being searched. Supported types: symbol
-            (default), cik, cusip, isin'
+            (default), cik, cusip, isin, company_id'
           in: query
           name: search_keys_type
           schema:
@@ -355,13 +355,17 @@ components:
           description: Central Index Key (SEC identifier)
           example: '320193'
           type: string
+        company_id:
+          description: Benzinga company id (BZC...) of the listing's issuer
+          example: BZC0000009117
+          type: string
         country:
           description: ISO 2-letter country code
           example: US
           type: string
         cusip:
           description: CUSIP identifier (9-character alphanumeric code)
-          example: 037833100
+          example: '037833100'
           type: string
         exchange:
           description: Exchange code where the security is traded

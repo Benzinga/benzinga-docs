@@ -548,7 +548,7 @@ components:
       properties:
         cusip:
           description: CUSIP identifier (requires license agreement)
-          example: 037833100
+          example: '037833100'
           type: string
         exchange:
           description: Exchange where the stock is traded
