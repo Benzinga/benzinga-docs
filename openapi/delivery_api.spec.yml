@@ -8,17 +8,15 @@ info:
 paths:
   /api/v1/transcripts/calls:
     get:
-      description: 'Retrieve a list of calls with optional filtering and pagination.
-        By default, only COMPLETED calls are returned. Use status=ALL to return all
-        statuses, or status=SCHEDULED for upcoming calls that have not started yet.
+      description: >-
+        Retrieve a list of calls with optional filtering and pagination. By
+        default, only COMPLETED calls are returned. Use status=ALL to return all
+        statuses, or status=SCHEDULED for upcoming calls that have not started
+        yet.
 
-        Each call in the list carries its metadata and its transcripts'' text only.
-        Segments, summary, recordings (audio/HLS), PDF and asset links, and participants
-        are not included; fetch them per call from GET /api/v1/transcripts/calls/{call_id}.
-        With info_only=true the transcripts are left out as well.
+        Each call in the list carries its metadata and its transcripts' text only. Segments, summary, recordings (audio/HLS), PDF and asset links, and participants are not included; fetch them per call from GET /api/v1/transcripts/calls/{call_id}. With info_only=true the transcripts are left out as well.
 
-        A page with no matching calls is a 200 with "data": [] and the usual pagination.
-        An unknown status, or a from/to that is not a valid date, is a 400.'
+        A page with no matching calls is a 200 with "data": [] and the usual pagination. An unknown status, or a from/to that is not a valid date, is a 400.
       operationId: get-conference-calls
       parameters:
         - description: The page number for pagination (starts at 1)
@@ -33,10 +31,10 @@ paths:
           schema:
             type: integer
             default: 10
-        - description: Filter by call status, case-insensitive. Defaults to COMPLETED.
-            Use ALL to return all statuses. SCHEDULED returns upcoming calls from
-            the schedule, soonest first by default. Any value other than ALL or a
-            known status is a 400 that lists the valid values.
+        - description: Filter by call status, case-insensitive. Defaults to COMPLETED. Use
+            ALL to return all statuses. SCHEDULED returns upcoming calls from
+            the schedule, soonest first by default. Any value other than ALL or
+            a known status is a 400 that lists the valid values.
           in: query
           name: status
           schema:
@@ -47,50 +45,52 @@ paths:
           name: symbol
           schema:
             type: string
-        - description: Filter calls starting on or after this time. RFC3339 with Z
-            or an offset, e.g. 2024-01-01T00:00:00Z or 2024-01-01T00:00:00-04:00.
-            A value without an offset (2024-01-01T00:00:00) is read as UTC.
+        - description: Filter calls starting on or after this time. RFC3339 with Z or an
+            offset, e.g. 2024-01-01T00:00:00Z or 2024-01-01T00:00:00-04:00. A
+            value without an offset (2024-01-01T00:00:00) is read as UTC.
           in: query
           name: from
           schema:
             type: string
-        - description: Filter calls starting on or before this time. RFC3339 with
-            Z or an offset, e.g. 2024-12-31T23:59:59Z. A value without an offset is
-            read as UTC. Must not be before from.
+        - description: Filter calls starting on or before this time. RFC3339 with Z or an
+            offset, e.g. 2024-12-31T23:59:59Z. A value without an offset is read
+            as UTC. Must not be before from.
           in: query
           name: to
           schema:
             type: string
-        - description: 'Sort order: asc or desc by the call start, or updated_at /
-            updated_asc to sort by when the call last changed. Defaults to desc, except
-            for status=SCHEDULED, which defaults to asc (soonest first) and sorts
-            only by the call start. With updated_since the order is always updated_asc'
+        - description: "Sort order: asc or desc by the call start, or updated_at /
+            updated_asc to sort by when the call last changed. Defaults to desc,
+            except for status=SCHEDULED, which defaults to asc (soonest first)
+            and sorts only by the call start. With updated_since the order is
+            always updated_asc"
           in: query
           name: sort_by
           schema:
             type: string
-        - description: 'Return only calls that changed at or after this instant (RFC3339
-            with a zone, e.g. 2026-11-09T14:00:00.123456Z). A call changes when anything
-            this API returns for it changes: its transcript, segments, speakers, summary,
-            participants, recordings, PDF, assets or status. Results are ordered by
-            updated_at then call_id, ascending. Not available with status=SCHEDULED.
-            To sync, request status=ALL&updated_since=<cursor>, then pass the last
-            row''s updated_at and call_id back as updated_since and after_call_id
-            until a page comes back short; keep that last pair as the cursor for the
-            next sync.'
+        - description: "Return only calls that changed at or after this instant (RFC3339
+            with a zone, e.g. 2026-11-09T14:00:00.123456Z). A call changes when
+            anything this API returns for it changes: its transcript, segments,
+            speakers, summary, participants, recordings, PDF, assets or status.
+            Results are ordered by updated_at then call_id, ascending. Not
+            available with status=SCHEDULED. To sync, request
+            status=ALL&updated_since=<cursor>, then pass the last row's
+            updated_at and call_id back as updated_since and after_call_id until
+            a page comes back short; keep that last pair as the cursor for the
+            next sync."
           in: query
           name: updated_since
           schema:
             type: string
-        - description: 'Keyset cursor, used with updated_since: return calls after
-            (updated_since, after_call_id) in updated_at, call_id order. page is ignored
-            when it is set'
+        - description: "Keyset cursor, used with updated_since: return calls after
+            (updated_since, after_call_id) in updated_at, call_id order. page is
+            ignored when it is set"
           in: query
           name: after_call_id
           schema:
             type: string
-        - description: Filter by share class FIGI; comma-separate several (e.g. BBG001S5N8V8
-            for Apple)
+        - description: Filter by share class FIGI; comma-separate several (e.g.
+            BBG001S5N8V8 for Apple)
           in: query
           name: share_class_figi
           schema:
@@ -105,22 +105,22 @@ paths:
           name: info_only
           schema:
             type: boolean
-        - description: Case-insensitive substring match on symbol, exchange, ISIN,
-            name, CUSIP or status. It does not change the status filter; use status=ALL
-            for every status.
+        - description: Case-insensitive substring match on symbol, exchange, ISIN, name,
+            CUSIP or status. It does not change the status filter; use
+            status=ALL for every status.
           in: query
           name: filter
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -128,7 +128,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -141,7 +141,7 @@ paths:
       summary: Fetch all calls
       tags:
         - calls
-  /api/v1/transcripts/calls/{call_id}:
+  "/api/v1/transcripts/calls/{call_id}":
     get:
       description: Retrieve detailed information about a specific call by its ID
       operationId: get-conference-call-by-id
@@ -152,8 +152,8 @@ paths:
           required: true
           schema:
             type: string
-        - description: Set to false to exclude audio recordings. Defaults to true;
-            returns pre-signed/CDN URLs when included
+        - description: Set to false to exclude audio recordings. Defaults to true; returns
+            pre-signed/CDN URLs when included
           in: query
           name: audio
           schema:
@@ -163,8 +163,8 @@ paths:
           name: pdf
           schema:
             type: boolean
-        - description: If true, includes pre-signed URLs for external assets (e.g.
-            slide deck PDFs)
+        - description: If true, includes pre-signed URLs for external assets (e.g. slide
+            deck PDFs)
           in: query
           name: assets
           schema:
@@ -174,19 +174,19 @@ paths:
           name: clean
           schema:
             type: boolean
-        - description: 'Response format: ''json'' (default) or ''html'''
+        - description: "Response format: 'json' (default) or 'html'"
           in: query
           name: format
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/domain.CallDetail'
-        '404':
+                $ref: "#/components/schemas/domain.CallDetail"
+        "404":
           description: Not Found
           content:
             application/json:
@@ -194,7 +194,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -229,16 +229,16 @@ paths:
           name: symbol
           schema:
             type: string
-        - description: Filter summaries for calls starting on or after this time.
-            RFC3339 with Z or an offset, e.g. 2024-01-01T00:00:00Z. A value without
-            an offset is read as UTC.
+        - description: Filter summaries for calls starting on or after this time. RFC3339
+            with Z or an offset, e.g. 2024-01-01T00:00:00Z. A value without an
+            offset is read as UTC.
           in: query
           name: from
           schema:
             type: string
-        - description: Filter summaries for calls starting on or before this time.
-            RFC3339 with Z or an offset, e.g. 2024-12-31T23:59:59Z. A value without
-            an offset is read as UTC.
+        - description: Filter summaries for calls starting on or before this time. RFC3339
+            with Z or an offset, e.g. 2024-12-31T23:59:59Z. A value without an
+            offset is read as UTC.
           in: query
           name: to
           schema:
@@ -254,14 +254,14 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 additionalProperties: true
                 type: object
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
@@ -269,7 +269,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -282,7 +282,7 @@ paths:
       summary: Fetch summaries
       tags:
         - summaries
-  /api/v1/transcripts/summaries/{call_id}:
+  "/api/v1/transcripts/summaries/{call_id}":
     get:
       description: Retrieve summary details for a specific call ID
       operationId: get-summary-by-call-id
@@ -294,13 +294,13 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/domain.Summaries'
-        '404':
+                $ref: "#/components/schemas/domain.Summaries"
+        "404":
           description: Not Found
           content:
             application/json:
@@ -308,7 +308,7 @@ paths:
                 additionalProperties:
                   type: string
                 type: object
-        '500':
+        "500":
           description: Internal Server Error
           content:
             application/json:
@@ -345,7 +345,7 @@ components:
           description: External assets such as slide deck PDFs, with pre-signed links.
             Present only when assets=true; null when the call has none.
           items:
-            $ref: '#/components/schemas/domain.AudioTypeMeta'
+            $ref: "#/components/schemas/domain.AudioTypeMeta"
           type: array
         call_id:
           example: 80753086-444f-4dcf-961d-15509ba09dc7
@@ -362,7 +362,7 @@ components:
           example: 60
           type: integer
         end_time:
-          example: '2023-10-25T15:00:00Z'
+          example: 2023-10-25T15:00:00Z
           type: string
         exchange:
           example: NASDAQ
@@ -381,31 +381,31 @@ components:
           type: string
         participants:
           items:
-            $ref: '#/components/schemas/domain.Participants'
+            $ref: "#/components/schemas/domain.Participants"
           type: array
         period:
           example: Q3
           type: string
         recordings:
           items:
-            $ref: '#/components/schemas/domain.Recordings'
+            $ref: "#/components/schemas/domain.Recordings"
           type: array
         securities:
-          $ref: '#/components/schemas/pgtype.JSONB'
+          $ref: "#/components/schemas/pgtype.JSONB"
         start_time:
-          example: '2023-10-25T14:00:00Z'
+          example: 2023-10-25T14:00:00Z
           type: string
         status:
           example: completed
           type: string
         summary:
-          $ref: '#/components/schemas/domain.Summaries'
+          $ref: "#/components/schemas/domain.Summaries"
         symbol:
           example: AAPL
           type: string
         transcripts:
           items:
-            $ref: '#/components/schemas/domain.Transcripts'
+            $ref: "#/components/schemas/domain.Transcripts"
           type: array
         updated_at:
           type: string
@@ -440,7 +440,7 @@ components:
         duration:
           type: integer
         formats:
-          $ref: '#/components/schemas/pgtype.JSONB'
+          $ref: "#/components/schemas/pgtype.JSONB"
         language:
           type: string
         recording_id:
@@ -505,14 +505,14 @@ components:
           type: string
         segments:
           items:
-            $ref: '#/components/schemas/domain.TranscriptSegments'
+            $ref: "#/components/schemas/domain.TranscriptSegments"
           type: array
         text:
           type: string
         transcript_id:
           type: string
         type:
-          $ref: '#/components/schemas/domain.TranscriptsType'
+          $ref: "#/components/schemas/domain.TranscriptsType"
       type: object
     domain.TranscriptsType:
       enum:
@@ -529,7 +529,7 @@ components:
             type: integer
           type: array
         status:
-          $ref: '#/components/schemas/pgtype.Status'
+          $ref: "#/components/schemas/pgtype.Status"
       type: object
     pgtype.Status:
       enum:
@@ -539,8 +539,5 @@ components:
       type: integer
       x-enum-varnames:
         - Undefined
-        - 'Null'
+        - "Null"
         - Present
-servers:
-  - url: https://api.benzinga.com
-    description: PROD
