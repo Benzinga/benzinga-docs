@@ -33,4 +33,33 @@ openapi: /openapi/data-api-proxy.spec.yml GET /api/v1/shortinterest
   }
 }
 ```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "vHCk4MdjN2KWCBEFvpmi4i",
+      "code": "bad_request",
+      "value": "Key: 'shortInterestRequestParams.Symbols' Error:Field validation for 'Symbols' failed on the 'required' tag"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "bVRLCPmM2U6dYzB4GyKtNY",
+      "code": "auth_failed",
+      "value": "authentication failed"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+[
+  "Received unexpected response 500 from external service"
+]
+```
 </ResponseExample>

@@ -41,24 +41,38 @@ openapi: /openapi/data-api-proxy.spec.yml GET /api/v1/market/movers
         "gicsSectorName": "Industrials",
         "shareFloat": "1412527",
         "isin": "US1311001093"
-      },
-      {
-        "symbol": "MLEC",
-        "price": 7.48,
-        "change": 3.95,
-        "changePercent": 111.89,
-        "volume": "9590059",
-        "close": 7.48,
-        "companyName": "Moolec Science",
-        "averageVolume": 38513,
-        "previousClose": 3.53,
-        "marketCap": "2563193",
-        "gicsSectorName": "Consumer Staples",
-        "shareFloat": "573192",
-        "isin": "KYG6223S1259"
       }
     ]
   }
 }
+```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "crBfCorFz5oJFVaqR2o2Qf",
+      "code": "bad_request",
+      "value": "empty query string"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "HQUK6XnruiPtYXpGmiqH8C",
+      "code": "auth_failed",
+      "value": "authentication failed"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+[
+  "Received unexpected response 500 from external service"
+]
 ```
 </ResponseExample>

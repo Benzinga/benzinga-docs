@@ -2,3 +2,75 @@
 title: "Asset Classification"
 openapi: /openapi/data-api-proxy.spec.yml GET /api/v2.1/fundamentals/assetClassification
 ---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "result": [
+    {
+      "company": {
+        "primarySymbol": "AAPL",
+        "primaryExchange": "NAS",
+        "cik": "320193",
+        "isin": "US0378331005",
+        "cusip": "037833100",
+        "standardName": "Apple",
+        "countryId": "USA",
+        "isReit": false,
+        "industryTemplateCode": "N",
+        "businessCountryId": "USA",
+        "isLimitedPartnership": false,
+        "yearofEstablishment": 1977,
+        "isLimitedLiabilityCompany": false
+      },
+      "assetClassification": {
+        "sic": "3571",
+        "sicName": "Electronic Computers",
+        "naics": "334220",
+        "naicsName": "Radio & Television Broadcasting & Wireless Equip.",
+        "msSuperSectorCode": 3,
+        "msSuperSectorName": "Sensitive",
+        "msSectorCode": 311,
+        "msSectorName": "Technology",
+        "msGroupCode": 31120,
+        "msGroupName": "Hardware",
+        "msIndustryCode": 31120030,
+        "msIndustryName": "Consumer Electronics"
+      },
+      "symbol": "AAPL",
+      "idType": "SYMBOL",
+      "id": "AAPL"
+    }
+  ]
+}
+```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "sWGUtDnrkvqH3UmXGcT2EZ",
+      "code": "bad_request",
+      "value": "param validation failed: Key: 'fundamentalsRequestParams.Symbols' Error:Field validation for 'Symbols' failed on the 'required' tag"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "Ni9oxn3cvfM7io2SpN5nZN",
+      "code": "auth_failed",
+      "value": "authentication failed"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+[
+  "Received unexpected response 500 from external service"
+]
+```
+</ResponseExample>
