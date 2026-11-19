@@ -114,8 +114,8 @@ openapi: /openapi/data-api-proxy.spec.yml GET /api/v2.1/fundamentals/valuationRa
         "primarySymbol": "AAPL",
         "primaryExchange": "NAS",
         "cik": "320193",
-        "isin": "CA03785Y1007",
-        "cusip": "03785Y100",
+        "isin": "US0378331005",
+        "cusip": "037833100",
         "standardName": "Apple",
         "countryId": "USA",
         "isReit": false,
@@ -131,5 +131,34 @@ openapi: /openapi/data-api-proxy.spec.yml GET /api/v2.1/fundamentals/valuationRa
     }
   ]
 }
+```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "3PjqAtDp97Tix2HeebxtoZ",
+      "code": "bad_request",
+      "value": "param validation failed: Key: 'fundamentalsRequestParams.Symbols' Error:Field validation for 'Symbols' failed on the 'required' tag"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "ws4JN4mXptfNdjfEEBveYn",
+      "code": "auth_failed",
+      "value": "authentication failed"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+[
+  "Received unexpected response 500 from external service"
+]
 ```
 </ResponseExample>
