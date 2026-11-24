@@ -291,6 +291,20 @@
             ]
           },
           {
+            "tab": "MCP Reference",
+            "groups": [
+              {
+                "group": "MCP Server",
+                "pages": [
+                  "mcp-reference/overview",
+                  "mcp-reference/connect",
+                  "mcp-reference/tools",
+                  "mcp-reference/usage-and-errors"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Audio",
             "groups": [
               {

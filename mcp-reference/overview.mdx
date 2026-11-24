@@ -1,0 +1,62 @@
+---
+title: "Overview"
+description: "Connect AI assistants such as Claude, ChatGPT and Cursor to Benzinga market data through the Model Context Protocol (MCP)."
+---
+
+Benzinga MCP is a remote [Model Context Protocol](https://modelcontextprotocol.io) server. Add it to an MCP-compatible AI assistant, and the assistant can answer market questions with Benzinga data: what is moving right now and why, recent context for a ticker, and what members of Congress, insiders and institutions are doing.
+
+## Server URL
+
+```
+https://mcp.benzinga.com/mcp
+```
+
+The server uses the Streamable HTTP transport and OAuth sign-in. See [Connect a client](/mcp-reference/connect) for client-specific steps.
+
+## Requirements
+
+| Requirement | Description |
+|-------------|-------------|
+| **Benzinga account with MCP access** | You sign in with your Benzinga account. Tool calls require an MCP entitlement on that account. [Get access](https://www.benzinga.com/premium?utm_source=mcp&utm_medium=referral&utm_campaign=upgrade). |
+| **MCP client** | A client that supports remote MCP servers over Streamable HTTP with OAuth, such as Claude, Claude Code, ChatGPT, Cursor or Grok. |
+
+You don't need an API key: the assistant never sees your Benzinga credentials.
+
+## How sign-in works
+
+<Steps>
+  <Step title="Add the server">
+    Add `https://mcp.benzinga.com/mcp` to your MCP client.
+  </Step>
+  <Step title="Sign in with Benzinga">
+    The client opens the Benzinga sign-in page at `accounts.benzinga.com`. Sign in with your Benzinga account and approve the connection.
+  </Step>
+  <Step title="Ask questions">
+    The client receives a read-only access token (scope `benzinga:read`) and can call the Benzinga tools on your behalf.
+  </Step>
+</Steps>
+
+## Tools
+
+The server exposes four tools. Each one answers a question directly and combines several Benzinga datasets in a single call.
+
+<CardGroup cols={2}>
+  <Card title="get_market_movers" icon="arrow-trend-up" href="/mcp-reference/tools#get_market_movers">
+    What is moving right now, and why.
+  </Card>
+  <Card title="get_ticker_briefing" icon="file-lines" href="/mcp-reference/tools#get_ticker_briefing">
+    Recent news, events, ratings, insider activity and fundamentals for one ticker.
+  </Card>
+  <Card title="get_smart_money_activity" icon="landmark" href="/mcp-reference/tools#get_smart_money_activity">
+    Congressional trades, insider transactions, 13F ownership and unusual options activity.
+  </Card>
+  <Card title="get_entitlement_status" icon="gauge" href="/mcp-reference/tools#get_entitlement_status">
+    Your access, remaining monthly allowance and reset date.
+  </Card>
+</CardGroup>
+
+All tools are read-only. They never place trades or change anything in your account.
+
+## Usage
+
+Each account has a monthly allowance of tool calls. See [Usage and errors](/mcp-reference/usage-and-errors) for what counts toward it and how errors are reported.

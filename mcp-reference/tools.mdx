@@ -1,0 +1,108 @@
+---
+title: "Tools"
+description: "Reference for the tools the Benzinga MCP server exposes: parameters, sections and response formats."
+---
+
+Your assistant picks a tool and fills in its arguments from your question, so you rarely set these parameters yourself. This page describes what each tool can do, so you know what to ask for.
+
+## Common parameters
+
+Several tools share these parameters, and they behave the same way in every tool.
+
+| Parameter | Description |
+|-----------|-------------|
+| `start`, `end` | ISO-8601 bounds of the window, such as `2026-09-30T13:30:00Z`, or a date. A date means that market day in New York time. `end` defaults to now. |
+| `lookback_minutes`, `lookback_days` | How far back from `end` the window reaches. Ignored when `start` is passed. |
+| `limit` | The most records to return per section. Lower it when a response is truncated. |
+| `sections` | Which sections to return. Omit for all of them. Sections you don't request are left out of the response. |
+| `response_format` | `concise` (default) returns the high-signal fields. `detailed` returns every field. `summary` returns no records, only per-section counts, the span they cover and the top few records; use it for counting or distribution questions. |
+
+Every response includes a `meta` block. `meta.applied` reports the limits and filters in effect and how many records they removed. If a dataset is temporarily unavailable, the tool returns the rest of the result with a note instead of failing the whole call.
+
+## get_market_movers
+
+What is moving right now, and why. Returns the session's movers, ranked by significance, joined with the newsroom-attributed cause (`why`) and any unusual options activity. `why` is `null` when no cause has been attributed to a move; that is a normal result, not an error.
+
+Covers the current session or the last trading day. For positioning over a longer period, use [`get_smart_money_activity`](#get_smart_money_activity).
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `lookback_minutes` | integer | `30` | Window length, 1–1440 minutes, clamped to the current session. |
+| `start`, `end` | string | | Explicit window bounds. After a close, `end` snaps to that close. |
+| `limit` | integer | `25` | 1–200. Gainers and losers are each asked for half. |
+| `has_cause` | boolean | `false` | Keep only movers with an attributed cause. |
+| `min_window_volume` | integer | `1000` | Keep only movers that traded at least this many shares in the window. `0` removes the floor. |
+| `exclude_instrument_types` | list | | Any of `right`, `unit`, `closed_end_fund`, `etf`, `etn`. |
+| `session` | string | current session | `pre_market`, `regular` or `after_market`. Omit it to use the session running now. |
+| `response_format` | string | `concise` | `concise`, `detailed` or `summary`. |
+
+<Note>
+  `change_percent` measures the requested window, not the day: a stock can be down over the last 30 minutes and still up on the day. The `detailed` format adds `change_percent_from_previous_close`.
+</Note>
+
+## get_ticker_briefing
+
+Recent context for one ticker in a single call:
+
+- latest quote;
+- news and Why Is It Moving (WIIM) items;
+- calendar events across nine types: earnings, guidance, M&A, offerings, dividends, splits, FDA, conference calls and corporate events;
+- analyst ratings and price-target changes;
+- insider transactions;
+- short interest;
+- fundamentals.
+
+The response also includes a `narrative` built from the returned fields. The narrative doesn't say why the price moved; for a newsroom-attributed cause, use [`get_market_movers`](#get_market_movers).
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `ticker` | string | required | Ticker symbol, such as `AAPL`. US-listed equities and OTC securities. |
+| `lookback_days` | integer | `30` | Window length, 1–730 days. |
+| `start`, `end` | string | | Explicit window bounds. |
+| `limit` | integer | 10 news, 20 calendar, 10 ratings | 1–100 per section. |
+| `sections` | list | all | Any of `price`, `news`, `calendar`, `ratings`, `insider`, `short_interest`, `fundamentals`. |
+| `response_format` | string | `concise` | `concise`, `detailed` or `summary`. |
+
+The `coverage` field separates three cases that look alike:
+- an unknown ticker;
+- a recently listed ticker whose sections are legitimately empty;
+- a covered ticker that was simply quiet in the window.
+
+Check it before treating an empty section as an absence of activity. Fundamentals are reported-period figures, not live values: `fundamentals.as_of` gives the quarter they cover.
+
+## get_smart_money_activity
+
+What informed participants are doing over a positioning window:
+- congressional trades;
+- insider transactions;
+- institutional 13F ownership;
+- unusual options activity.
+
+Omit `ticker` for a market-wide view, such as *"notable activity this quarter"*. Pass one for a ticker view, such as *"who has been trading AAPL"*. For today's moves, use [`get_market_movers`](#get_market_movers).
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `ticker` | string | | Scope to one ticker. Omit for a market-wide view. |
+| `lookback_days` | integer | `90` | Window length, 1–365 days. |
+| `start`, `end` | string | | Explicit window bounds. |
+| `limit` | integer | every record | 1–500 per section, up to the response size limit. |
+| `sections` | list | all | Any of `congressional_activity`, `insider_transactions`, `options_positioning`, `institutional`. |
+| `min_amount` | integer | | Keep only congressional trades whose disclosed amount band starts at or above this many US dollars. `1001` keeps a $1,001–$15,000 trade; `15001` drops it. |
+| `transaction_type` | string | | `purchase`, `sale`, `partial_sale`, `exchange` or `other`. `sale` doesn't include `partial_sale`. `partial_sale` and `exchange` apply only to congressional trades. |
+| `response_format` | string | `concise` | `concise`, `detailed` or `summary`. |
+
+Things to know about this data:
+- **Congressional trades name the filer:** member, party, state, district and chamber. Each trade also carries its disclosure lag, the gap between the trade and its public filing.
+- **The window selects filing dates, not trade dates.** A trade made before the window can appear if its report was filed inside the window.
+- **Institutional ownership requires a `ticker`.** It is a point-in-time 13F snapshot, and the window doesn't filter it.
+- **Links to the source filings**, the House or Senate disclosure and the SEC Form 4, are included in the `detailed` format.
+
+## get_entitlement_status
+
+Whether your account can use Benzinga MCP, how much of the monthly allowance is left, when the counter resets, and where to raise the allowance.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `response_format` | string | `concise` | `concise` or `detailed`. |
+
+This tool never counts toward your allowance, and it still answers when your account lacks access or the allowance is used up. It is limited to 60 calls per minute.
