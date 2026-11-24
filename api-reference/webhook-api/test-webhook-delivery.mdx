@@ -57,58 +57,31 @@ Verify that all required parameters are provided and correctly formatted:
 <ResponseExample>
 ```json Response (200 OK)
 {
-  "status": "success"
+  "ok": true
 }
 ```
-
 ```json Response (400 Bad Request)
 {
-  "error": "Invalid destination URL"
+  "id": "qencwkWrQUpYnahy4aPk4k",
+  "code": "bad_request",
+  "value": "failed to get partner config: store: partner config not found"
 }
 ```
-
 ```json Response (424 Failed Dependency)
 {
-  "error": "Failed to deliver test payload to destination"
+  "id": "9XYTCNWuWnUJzsYMXzrdwZ",
+  "code": "failed_dependency",
+  "value": "invalid response: 404"
 }
 ```
-
-```json Response (401 Unauthorized)
+```json Response (429 Too Many Requests)
 {
-  "ok": false,
-  "errors": [
-    {
-      "code": "auth_failed",
-      "id": "unauthorized",
-      "value": "Invalid or missing authentication token"
-    }
-  ]
+  "message": "rate limit exceeded"
 }
 ```
-
-```json Response (404 Not Found)
-{
-  "ok": false,
-  "errors": [
-    {
-      "code": "no_data_found",
-      "id": "not_found",
-      "value": "No data found for the specified parameters"
-    }
-  ]
-}
-```
-
 ```json Response (500 Internal Server Error)
 {
-  "ok": false,
-  "errors": [
-    {
-      "code": "internal_server_error",
-      "id": "server_error",
-      "value": "An unexpected error occurred while processing your request"
-    }
-  ]
+  "message": "Internal Server Error"
 }
 ```
 </ResponseExample>

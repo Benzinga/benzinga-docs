@@ -2,3 +2,89 @@
 title: "Earnings Reports"
 openapi: /openapi/data-api-proxy.spec.yml GET /api/v2.1/fundamentals/earningReports
 ---
+
+<ResponseExample>
+```json Response (200 OK)
+{
+  "result": [
+    {
+      "company": {
+        "primarySymbol": "AAPL",
+        "primaryExchange": "NAS",
+        "cik": "320193",
+        "isin": "US0378331005",
+        "cusip": "037833100",
+        "standardName": "Apple",
+        "countryId": "USA",
+        "isReit": false,
+        "industryTemplateCode": "N",
+        "businessCountryId": "USA",
+        "isLimitedPartnership": false,
+        "yearofEstablishment": 1977,
+        "isLimitedLiabilityCompany": false
+      },
+      "earningReports": [
+        {
+          "id": {
+            "shareClassId": "0P000000GY",
+            "asOf": "2025-09-30",
+            "reportType": "R",
+            "period": "3M",
+            "aorOrRestate": "RESTATE"
+          },
+          "fiscalYearEnd": 9,
+          "currencyId": "USD",
+          "periodEndingDate": "2025-09-27",
+          "basicContinuousOperations": 1.85,
+          "basicEps": 1.85,
+          "dilutedContinuousOperations": 1.85,
+          "dilutedEps": 1.85,
+          "basicAverageShares": 14815306000.0,
+          "dilutedAverageShares": 14863610000.0,
+          "dividendPerShare": 0.26,
+          "continuingAndDiscontinuedBasicEps": 1.85,
+          "continuingAndDiscontinuedDilutedEps": 1.85,
+          "normalizedBasicEps": 1.85,
+          "normalizedDilutedEps": 1.85,
+          "totalDividendPerShare": 0.26,
+          "dividendCoverageRatio": 7.115385,
+          "fiscalYearEndChange": false
+        }
+      ],
+      "symbol": "AAPL",
+      "idType": "SYMBOL",
+      "id": "AAPL"
+    }
+  ]
+}
+```
+```json Response (400 Bad Request)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "STrSz5bHZrgjbXGgF8VRYk",
+      "code": "bad_request",
+      "value": "param validation failed: Key: 'fundamentalsRequestParams.Symbols' Error:Field validation for 'Symbols' failed on the 'required' tag"
+    }
+  ]
+}
+```
+```json Response (401 Unauthorized)
+{
+  "ok": false,
+  "errors": [
+    {
+      "id": "zX9mvuep9bC2XW5rGDWerV",
+      "code": "auth_failed",
+      "value": "authentication failed"
+    }
+  ]
+}
+```
+```json Response (500 Internal Server Error)
+[
+  "Received unexpected response 500 from external service"
+]
+```
+</ResponseExample>
