@@ -291,6 +291,18 @@
             ]
           },
           {
+            "tab": "Squawk Reference",
+            "groups": [
+              {
+                "group": "Squawk",
+                "pages": [
+                  "squawk-reference/squawk-v4",
+                  "squawk-reference/squawk-v3"
+                ]
+              }
+            ]
+          },
+          {
             "tab": "Widgets",
             "groups": [
               {
@@ -1686,5 +1698,15 @@
       "chatgpt",
       "claude"
     ]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/benzinga-apis/squawk-v4",
+      "destination": "/squawk-reference/squawk-v4"
+    },
+    {
+      "source": "/benzinga-apis/squawk-v3",
+      "destination": "/squawk-reference/squawk-v3"
+    }
+  ]
 }
