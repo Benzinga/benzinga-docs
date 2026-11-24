@@ -1,0 +1,70 @@
+---
+title: "Connect a client"
+description: "Add the Benzinga MCP server to Claude, Claude Code, ChatGPT, Cursor and other MCP clients."
+---
+
+Every client connects to the same server URL and signs in through the same Benzinga OAuth flow:
+
+```
+https://mcp.benzinga.com/mcp
+```
+
+The first time a client connects, it opens the Benzinga sign-in page. Sign in with your Benzinga account and approve the connection. You don't need an API key.
+
+<Note>
+  Sign-in works with the clients listed below, and with any client that runs on your machine and receives the sign-in callback on `localhost`. If your client isn't listed and can't complete sign-in, contact [licensing@benzinga.com](mailto:licensing@benzinga.com).
+</Note>
+
+## Claude
+
+Works in Claude on the web and in Claude Desktop.
+
+<Steps>
+  <Step title="Add a custom connector">
+    Open **Settings → Connectors** and choose **Add custom connector**. On Team and Enterprise plans, an owner may need to add the connector for the organization first.
+  </Step>
+  <Step title="Enter the server URL">
+    Name the connector `Benzinga` and enter `https://mcp.benzinga.com/mcp` as the URL.
+  </Step>
+  <Step title="Connect and sign in">
+    Choose **Connect** and sign in with your Benzinga account.
+  </Step>
+</Steps>
+
+## Claude Code
+
+Add the server from your terminal:
+
+```bash
+claude mcp add --transport http benzinga https://mcp.benzinga.com/mcp
+```
+
+Then run `/mcp` inside Claude Code, select `benzinga` and follow the sign-in prompt.
+
+## ChatGPT
+
+Create a custom connector that uses `https://mcp.benzinga.com/mcp` as the server URL and OAuth for authentication, then sign in with your Benzinga account when prompted. Whether you can add custom connectors, and where the setting lives, depends on your ChatGPT plan and workspace settings.
+
+## Cursor
+
+Add the server to `~/.cursor/mcp.json` (all projects) or `.cursor/mcp.json` (one project):
+
+```json
+{
+  "mcpServers": {
+    "benzinga": {
+      "url": "https://mcp.benzinga.com/mcp"
+    }
+  }
+}
+```
+
+Cursor shows a sign-in prompt for the server. Complete it with your Benzinga account.
+
+## Other clients
+
+Any MCP client that supports remote servers over Streamable HTTP with OAuth 2.1 can connect, including Grok and local tools such as the MCP Inspector. The server supports Dynamic Client Registration and PKCE, so the client registers itself. Point it at the server URL above and it discovers the rest from the server's OAuth metadata.
+
+## Check the connection
+
+Ask your assistant something like *"What's my Benzinga MCP entitlement status?"* It calls [`get_entitlement_status`](/mcp-reference/tools#get_entitlement_status), which reports whether your account has access and how much of your monthly allowance is left. This call never counts toward the allowance.

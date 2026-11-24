@@ -1,0 +1,47 @@
+---
+title: "Usage and errors"
+description: "How the Benzinga MCP monthly allowance is counted, the limits that apply, and how errors are reported."
+---
+
+## Monthly allowance
+
+Each Benzinga account with MCP access gets a monthly allowance of tool calls, set by its plan. The counter resets at 00:00 UTC on the first day of each calendar month.
+
+To see where you stand, ask your assistant for your entitlement status. It calls [`get_entitlement_status`](/mcp-reference/tools#get_entitlement_status), which reports:
+- calls used;
+- your limit and the calls remaining;
+- when the counter resets;
+- where to raise the allowance.
+
+### What counts
+
+- **One tool call counts once,** however many Benzinga datasets it combines.
+- **A call counts only when it returns data.** Calls that fail, and calls whose sections all come back empty, are not counted.
+- **The format doesn't matter.** A call counts the same whether it returns `concise`, `detailed` or `summary`.
+- **`get_entitlement_status` never counts.**
+
+When the allowance is used up, tool calls return an error with a link to raise your plan's limit. Retrying doesn't help until the counter resets. [Raise your allowance](https://www.benzinga.com/premium?utm_source=mcp&utm_medium=referral&utm_campaign=upgrade).
+
+## Limits
+
+| Limit | Value |
+|-------|-------|
+| Concurrent tool calls per account | 4 |
+| `get_entitlement_status` calls | 60 per minute per account |
+
+## Errors
+
+Errors come back as MCP tool errors. Each message tells the assistant what went wrong and what to do next, so most assistants recover or explain the problem without help.
+
+| Error | Meaning | What to do |
+|-------|---------|------------|
+| Credential rejected | The sign-in token has expired or been revoked. | Reconnect the server in your client and sign in again. |
+| Not entitled | Your account isn't entitled to one of the datasets a tool reads. The tool still returns what it can from the others. | [Upgrade your plan](https://www.benzinga.com/premium?utm_source=mcp&utm_medium=referral&utm_campaign=upgrade) to include that dataset. |
+| Quota exhausted | The monthly allowance is used up. An account without MCP access gets this error too, reported as an allowance of 0 calls. | Wait for the monthly reset, or raise your allowance. `get_entitlement_status` shows which case applies. |
+| Rate limit exceeded | Too many calls in a short period. | Wait the number of seconds stated in the message, then retry. |
+| Invalid argument | An argument was malformed, such as a ticker with spaces. The message states the accepted format with an example. | The assistant usually corrects the call and retries on its own. |
+| Dataset unavailable | A Benzinga dataset couldn't be reached. | Retry once. If it fails again, the other datasets still answer. |
+| No coverage | A dataset holds no data for this symbol. Coverage varies by dataset, so the ticker may still be valid. | Use the datasets that did return. |
+| Server busy | Benzinga's upstream capacity was briefly saturated. This doesn't count against your limits. | Retry shortly, or ask a narrower question. |
+
+If a dataset fails partway through a call, the tool returns the rest of the result with a note explaining what is missing, and doesn't fail the whole call.
