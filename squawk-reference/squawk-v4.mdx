@@ -33,13 +33,13 @@ Squawk is built on top of WebRTC. So one can connect to it through WebRTC suppor
 - [Create a socket connection](#create-a-socket-connection)
 - [Authenticate](#authenticate)
 - [Join Room](#join-room)
-- [Get Available Streams/Channels](#get-available-streamschannels)
+- [Get Available Streams/Channels](#get-available-streams/channels)
 - [Subscribe to Stream](#subscribe-to-stream)
 - [Start Stream](#start-stream)
 - [Send ICE Candidate](#send-ice-candidate)
 - [Stop Stream](#stop-stream)
 - [Notifications from server](#notifications-from-server)
-- [Ping/Pong mechanism to keep alive the Web Socket](#ping-pong-mechanism-to-keep-alive-the-web-socket)
+- [Ping/Pong mechanism to keep alive the Web Socket](#ping/pong-mechanism-to-keep-alive-the-web-socket)
 - [Logout](#logout)
 
 ### Create a socket connection
@@ -292,7 +292,7 @@ Squawk also supports RTP streaming, which can be useful if you are looking to re
 - [SDP negotiation](#sdp-negotiation)
 - [Logout](#logout-2)
 - [Notifications](#notifications)
-- [Ping/Pong mechanism](#ping-pong-mechanism-)
+- [Ping/Pong mechanism](#ping/pong-mechanism)
 
 For RTP receiver sample implementation, you can refer https://github.com/Benzinga/benzinga-squawk-client. There are chances that more than one broadcaster active at the same time. In such a case, there will be multiple streams from each broadcaster. So keep around 5 ports open for incoming RTP streams and configure them as shown in `rtp-receiver` example. 5 open ports are more than enough.
 
