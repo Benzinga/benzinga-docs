@@ -23,12 +23,6 @@
                   "introduction/architecture",
                   "introduction/faq"
                 ]
-              },
-              {
-                "group": "Services",
-                "pages": [
-                  "services/overview"
-                ]
               }
             ]
           },
@@ -343,12 +337,6 @@
                   "ar/introduction/architecture",
                   "ar/introduction/faq"
                 ]
-              },
-              {
-                "group": "الخدمات",
-                "pages": [
-                  "ar/services/overview"
-                ]
               }
             ]
           },
@@ -661,12 +649,6 @@
                   "es/introduction/introduction",
                   "es/introduction/architecture",
                   "es/introduction/faq"
-                ]
-              },
-              {
-                "group": "Servicios",
-                "pages": [
-                  "es/services/overview"
                 ]
               }
             ]
@@ -981,12 +963,6 @@
                   "ja/introduction/architecture",
                   "ja/introduction/faq"
                 ]
-              },
-              {
-                "group": "サービス",
-                "pages": [
-                  "ja/services/overview"
-                ]
               }
             ]
           },
@@ -1299,12 +1275,6 @@
                   "ko/introduction/introduction",
                   "ko/introduction/architecture",
                   "ko/introduction/faq"
-                ]
-              },
-              {
-                "group": "서비스",
-                "pages": [
-                  "ko/services/overview"
                 ]
               }
             ]
