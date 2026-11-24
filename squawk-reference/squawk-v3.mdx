@@ -1,11 +1,13 @@
 ---
 title: "Squawk v3"
-description: Squawk is a realtime broadcast which includes important headlines, price movement and rumors as stories develop to give traders and investors news in the fastest and most convenient form."
+description: "Squawk is a realtime broadcast which includes important headlines, price movement and rumors as stories develop to give traders and investors news in the fastest and most convenient form."
 ---
-**Notes:** The squawk v3 version will be deprecated in near future. So it is suggested you use the v4 version if you are working on a new integration. Also, migrate your existing v3 integration to v4. Refer to [Squawk v4](/benzinga-apis/squawk-v4) API documentation for more details.
+<Warning>
+Squawk v3 will be deprecated. Use [Squawk v4](/squawk-reference/squawk-v4) for new integrations, and migrate existing v3 integrations to v4.
+</Warning>
 
 ## Connecting to Squawk
-There are two ways you can connect to Sqauwk:
+There are two ways you can connect to Squawk:
 - [Using WebRTC](#using-webrtc)
 - [Using RTP](#using-rtp)
 
@@ -20,7 +22,7 @@ There are two ways you can connect to Sqauwk:
 ```JSON
 {
     "error": "Cannot join room PRO",
-    "id": "4158f900-d652-483a-8147-866d99ed9f8a"
+    "id": "4158f900-d652-483a-8147-866d99ed9f8a",
     "type": "joinRoomResponse"
 }
 ```
@@ -34,7 +36,7 @@ Squawk is built on top of WebRTC. So one can connect to it through WebRTC suppor
 - [Join Room](#join-room)
 - [Create peer connections](#create-peer-connections)
 - [Send ICE Candidate to peers](#send-ice-candidate-to-peers)
-- [Message Types](#message-types)
+- [Notifications from server](#notifications-from-server)
 - [Ping/Pong mechanism to keep alive the Web Socket](#ping-pong-mechanism-to-keep-alive-the-web-socket)
 - [Logout](#logout)
 
@@ -56,7 +58,7 @@ Using API key
 Once the socket connection is created, authenticate with your `apikey`.
 ```JSON
 {
-    "apikey": "f5kec5x6gplwdv8o5dcn5aydtyx132u8",    
+    "apikey": "YOUR_API_KEY",    
     "role": "viewer",
     "type": "auth",
     "id": "4158f900-d652-483a-8147-866d99ed9f8a"
@@ -68,7 +70,7 @@ Once the socket connection is created, authenticate with your `apikey`.
 Benzinga APIs support asymmetric JWT (JSON Web Token) for authentication.
 
 To authenticate using JWT, send the token in query parameter when you open the WebSocket connection. Pseudo-code for connecting (and authenticating) would be as below:
-```JSON
+```
 socket.connect("wss://squawk.benzinga.com/webrtc?jwt=<jwt_token>")
 ```
 
@@ -165,7 +167,7 @@ Response:
 }
 ```
 
-**Notifications from server**
+### Notifications from server
 
 Add a handler for the following message/notification types, which will be sent by squawk server.
 
@@ -227,7 +229,7 @@ In response, you should just get the same `id`:
 ```JSON
 {
     "id": "e4809b6b-319a-4fa9-94e0-94ae86a33f13",
-    "type": "pingResponse",
+    "type": "pingResponse"
 }
 ```
 
@@ -248,7 +250,7 @@ Squawk also supports RTP streaming, which can be useful if you are looking to re
 - [Authenticate](#authenticate-2)
 - [SDP negotiation](#sdp-negotiation)
 - [Logout](#logout-2)
-- [Media Override Notification](#media-override-notification)
+- [Notifications](#notifications)
 - [Ping/Pong mechanism](#pingpong-mechanism)
 
 For RTP receiver sample implementation, you can refer https://github.com/Benzinga/benzinga-squawk-client. There are chances that more than one broadcaster active at the same time. In such a case, there will be multiple streams from each broadcaster. So keep around 5 ports open for incoming RTP streams and configure them as shown in `rtp-receiver` example. 5 open ports are more than enough.
@@ -270,7 +272,7 @@ Once the socket connection is created, authenticate with your `apikey`.
     "id": "70572814-8ebb-11ea-b9d9-8bb3db575e99",
     "role": "rtpreceiver",
     "type": "auth",
-    "apikey": "f5kec5x6gplwdv8o5dcn5aydtyx132u8"
+    "apikey": "YOUR_API_KEY"
 }
 ```
 Response: 

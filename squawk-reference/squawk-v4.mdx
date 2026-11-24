@@ -4,7 +4,7 @@ description: "Squawk is a realtime broadcast which includes important headlines,
 ---
 
 ## Connecting to Squawk
-There are two ways you can connect to Sqauwk:
+There are two ways you can connect to Squawk:
 - [Using WebRTC](#using-webrtc)
 - [Using RTP](#using-rtp)
 
@@ -20,7 +20,7 @@ There are two ways you can connect to Sqauwk:
 ```JSON
 {
     "error": "Cannot join room PRO",
-    "id": "4158f900-d652-483a-8147-866d99ed9f8a"
+    "id": "4158f900-d652-483a-8147-866d99ed9f8a",
     "type": "joinRoomResponse"
 }
 ```
@@ -34,9 +34,11 @@ Squawk is built on top of WebRTC. So one can connect to it through WebRTC suppor
 - [Authenticate](#authenticate)
 - [Join Room](#join-room)
 - [Get Available Streams/Channels](#get-available-streamschannels)
-- [Create peer connections](#create-peer-connections)
-- [Send ICE Candidate to peers](#send-ice-candidate-to-peers)
-- [Message Types](#message-types)
+- [Subscribe to Stream](#subscribe-to-stream)
+- [Start Stream](#start-stream)
+- [Send ICE Candidate](#send-ice-candidate)
+- [Stop Stream](#stop-stream)
+- [Notifications from server](#notifications-from-server)
 - [Ping/Pong mechanism to keep alive the Web Socket](#ping-pong-mechanism-to-keep-alive-the-web-socket)
 - [Logout](#logout)
 
@@ -56,7 +58,7 @@ wss://squawk.benzinga.com/ws/v4/webrtc
 **Using API key**
 ```JSON
 {
-    "apikey": "f5kec5x6gplwdv8o5dcn5aydtyx132u8",    
+    "apikey": "YOUR_API_KEY",    
     "role": "viewer",
     "type": "auth",
     "id": "4158f900-d652-483a-8147-866d99ed9f8a"
@@ -165,7 +167,7 @@ Note that `restart` flag is used to indicate if there needs a peer re-negotiatio
 
 ### Start Stream
 
-Now you have an SDP offer of the subscribed stream. So at this point, process the received SDP offer and send back SDP answer with `startStrea` request to start receiving and listening.
+Now you have an SDP offer of the subscribed stream. So at this point, process the received SDP offer and send back SDP answer with `startStream` request to start receiving and listening.
 ```
 {
     "id": "87d4945b-ec7f-4451-8281-cd3d20da7a47",
@@ -269,7 +271,7 @@ In response, you should just get the same `id`:
 ```JSON 
 {
     "id": "e4809b6b-319a-4fa9-94e0-94ae86a33f13",
-    "type": "pingResponse",
+    "type": "pingResponse"
 }
 ```
 
@@ -289,7 +291,7 @@ Squawk also supports RTP streaming, which can be useful if you are looking to re
 - [Authenticate](#authenticate-2)
 - [SDP negotiation](#sdp-negotiation)
 - [Logout](#logout-2)
-- [Media Override Notification](#media-override-notification)
+- [Notifications](#notifications)
 - [Ping/Pong mechanism](#ping-pong-mechanism-)
 
 For RTP receiver sample implementation, you can refer https://github.com/Benzinga/benzinga-squawk-client. There are chances that more than one broadcaster active at the same time. In such a case, there will be multiple streams from each broadcaster. So keep around 5 ports open for incoming RTP streams and configure them as shown in `rtp-receiver` example. 5 open ports are more than enough.
@@ -309,7 +311,7 @@ Once the socket connection is created, authenticate with your `apikey`.
     "id": "70572814-8ebb-11ea-b9d9-8bb3db575e99",
     "role": "rtpreceiver",
     "type": "auth",
-    "apikey": "f5kec5x6gplwdv8o5dcn5aydtyx132u8"
+    "apikey": "YOUR_API_KEY"
 }
 ```
 Response:
@@ -396,7 +398,7 @@ Send the logout message when you want to stop receiving RTP stream
 ```
 Ideally, you should send a logout message to Squawk before closing/shutting down your application.
 
-**Notifications**
+### Notifications
 Handle the following message/notification types, which will be sent by squawk server.
 
 - **newPresenterArrived**
