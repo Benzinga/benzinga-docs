@@ -84,12 +84,6 @@
       ]
     },
     {
-      "group": "Services",
-      "pages": [
-        "services/overview"
-      ]
-    },
-    {
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction",
